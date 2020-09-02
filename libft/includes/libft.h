@@ -6,7 +6,7 @@
 /*   By: lfallet <lfallet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 15:46:06 by lfallet           #+#    #+#             */
-/*   Updated: 2020/09/02 16:11:36 by lfallet          ###   ########.fr       */
+/*   Updated: 2020/09/02 16:35:19 by bvalette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ size_t				ft_bubblesort_minindex(size_t *tab, size_t size);
 double				ft_lfpow(double nb, int pow);
 void				ft_int_to_char(unsigned char *s, int value);
 int					ft_atoi_base(const char *str, char *base);
+char				*ft_itoa_base(long long int nb, char *base);
 char				*ft_convert_base(char *nbr, char *base_from, char *base_to);
 void				ft_putmem(void *ptr, size_t size);
 
@@ -106,6 +107,12 @@ void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 
+typedef	struct		s_btree
+{
+	struct s_btree	*left;
+	struct s_btree	*right;
+	void			*item;
+}					t_btree;
 
 t_btree				*btree_create_node(void *item);
 void				btree_free_suffix(t_btree *root);

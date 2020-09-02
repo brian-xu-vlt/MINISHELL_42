@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putmem.c                                        :+:      :+:    :+:   */
+/*   ft_put_mem.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvalette <bvalette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/26 22:02:48 by bvalette          #+#    #+#             */
-/*   Updated: 2020/05/29 21:31:24 by bvalette         ###   ########.fr       */
+/*   Updated: 2020/09/02 16:38:13 by bvalette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ void	ft_putmem(void *ptr, size_t n_bytes)
 		if (buffer == NULL || ft_strlen(buffer) == 0)
 			return ;
 		if (buffer[1] == '\0')
-			ft_putchar('0');
+			ft_putchar_fd('0', 1);
 		ft_putstr(buffer);
 		if (i != n_bytes - 1)
-			ft_putchar(' ');
+			ft_putchar_fd(' ', 1);
 		buffer += 2;
 		i++;
 	}

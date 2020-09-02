@@ -111,6 +111,7 @@ SRCS += ft_bubblesort_minindex.c
 SRCS += ft_lfpow.c
 SRCS += ft_int_to_char.c
 SRCS += ft_atoi_base.c
+SRCS += ft_itoa_base.c
 SRCS += ft_convert_base.c
 SRCS += ft_put_mem.c
 

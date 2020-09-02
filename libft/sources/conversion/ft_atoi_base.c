@@ -6,7 +6,7 @@
 /*   By: bvalette <bvalette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 15:51:43 by bvalette          #+#    #+#             */
-/*   Updated: 2020/08/28 14:20:13 by bvalette         ###   ########.fr       */
+/*   Updated: 2020/09/02 16:31:47 by bvalette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int		ft_convert(const char *str, char *base, size_t b_size)
 		rank = ft_locate_inbase(str[i], base);
 		if (rank == -1)
 			return (-1);
-		ret = (rank * ft_pow(b_size, y)) + ret;
+		ret = (rank * ft_lfpow(b_size, y)) + ret;
 		i--;
 		y++;
 	}
