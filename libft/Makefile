@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+/*   Makefile                                           :+:      :+:    :+:   */
 #                                                     +:+ +:+         +:+      #
 #    By: lfallet <lfallet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/11 15:19:15 by lfallet           #+#    #+#              #
-#    Updated: 2020/09/02 16:17:25 by lfallet          ###   ########.fr        #
+/*   Updated: 2020/09/02 16:24:57 by bvalette         ###   ########.fr       */
 #                                                                              #
 # **************************************************************************** #
 
@@ -111,6 +111,9 @@ SRCS += ft_iscomma.c
 SRCS += ft_bubblesort_minindex.c
 SRCS += ft_lfpow.c
 SRCS += ft_int_to_char.c
+SRCS += ft_atoi_base.c
+SRCS += ft_convert_base.c
+SRCS += ft_put_mem.c
 
 SRCS += ft_lstadd_back.c
 SRCS += ft_lstadd_front.c
@@ -188,13 +191,13 @@ SRCS += utils_number.c
 SRCS += btree_apply_by_level.c
 SRCS += btree_apply_infix.c
 SRCS += btree_apply_prefix.c
-SRCS += $(SRCS_DIR)/binary_tree/btree_apply_suffix.c
-SRCS += $(SRCS_DIR)/binary_tree/btree_create_node.c
-SRCS += $(SRCS_DIR)/binary_tree/btree_free_suffix.c
-SRCS += $(SRCS_DIR)/binary_tree/btree_insert_data.c
-SRCS += $(SRCS_DIR)/binary_tree/btree_level_count.c
-SRCS += $(SRCS_DIR)/binary_tree/btree_nodes_count.c
-SRCS += $(SRCS_DIR)/binary_tree/btree_search_item.c
+SRCS += btree_apply_suffix.c
+SRCS += btree_create_node.c
+SRCS += btree_free_suffix.c
+SRCS += btree_insert_data.c
+SRCS += btree_level_count.c
+SRCS += btree_nodes_count.c
+SRCS += btree_search_item.c
 
 vpath %.c sources/
 vpath %.c sources/conversion/
@@ -211,6 +214,7 @@ vpath %.c sources/printf/parser/
 vpath %.c sources/string/
 vpath %.c sources/vector/
 vpath %.c sources/maths/
+vpath %.c sources/binary_tree/
 
 OBJS = $(patsubst %.c, $(OBJS_DIR)%.o, $(SRCS))
 OBJS_DIR = ./objs/
