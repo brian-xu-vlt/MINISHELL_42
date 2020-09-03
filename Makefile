@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: lfallet <lfallet@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/08/30 19:54:25 by lfallet           #+#    #+#              #
-#    Updated: 2020/09/03 12:57:52 by lfallet          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = Minishell
 LIBDIR = ./libft
 LIB = $(LIBDIR)libft.a
@@ -52,9 +40,9 @@ INCLUDES_LIB = ./libft/includes/
 
 HEADER = $(INCLUDES)minishell_bonus.h
 
-SRCS += main.c
-SRCS += lexer.c
-SRCS += exit_routine.c
+SRCS += main_bonus.c
+SRCS += lexer_bonus.c
+SRCS += exit_routine_bonus.c
 
 OBJ_DIR = ./objs/
 
