@@ -6,7 +6,7 @@
 #    By: lfallet <lfallet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/30 19:54:25 by lfallet           #+#    #+#              #
-#    Updated: 2020/09/01 21:18:45 by lfallet          ###   ########.fr        #
+#    Updated: 2020/09/03 12:57:52 by lfallet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ CC = gcc
 INCLUDES = ./includes/
 INCLUDES_LIB = ./libft/includes/
 
-HEADER = $(INCLUDES)minishell.h
+HEADER = $(INCLUDES)minishell_bonus.h
 
 SRCS += main.c
 SRCS += lexer.c

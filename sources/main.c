@@ -6,11 +6,11 @@
 /*   By: lfallet <lfallet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/30 19:59:32 by lfallet           #+#    #+#             */
-/*   Updated: 2020/09/01 21:17:07 by lfallet          ###   ########.fr       */
+/*   Updated: 2020/09/03 12:59:06 by lfallet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell_bonus.h"
 
 void	print_prompt(void)
 {
