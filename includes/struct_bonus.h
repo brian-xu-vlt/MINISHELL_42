@@ -5,6 +5,13 @@
 /*******************************_LEXER_****************************************/
 /******************************************************************************/
 
+typedef struct s_lexer
+{
+	t_list		*token_list;
+	ssize_t		type;
+	t_vector	*word;
+}				t_lexer;
+
 typedef struct s_token
 {
 	char				*data;

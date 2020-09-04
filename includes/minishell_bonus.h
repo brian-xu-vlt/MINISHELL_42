@@ -16,7 +16,7 @@
 /*******************************_FUNCTION_*************************************/
 /******************************************************************************/
 
-t_list	*lexer(t_vector *input);
+void	ft_lexer(t_vector *input, t_lexer *lexer);
 void	exit_routine(t_token *token, t_list *node);
 
 #endif

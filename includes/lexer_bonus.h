@@ -8,6 +8,5 @@
 #define START				-1
 #define END					-2
 
-#define NB_GRAMMAR 11
 
 #endif
