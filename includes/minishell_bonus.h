@@ -18,5 +18,7 @@
 
 int		ft_lexer(t_vector *input, t_lexer *lexer);
 void	exit_routine(t_token *token, t_list *node);
+size_t	get_token(char c);
+ssize_t	get_double_token(t_vector *input);
 
 #endif
