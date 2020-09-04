@@ -19,5 +19,5 @@
 #define GRAMMAR			";|'\"<>="
 
 #define	NB_GRAMMAR		7
-
+#define NO_TYPE			11	
 #endif
