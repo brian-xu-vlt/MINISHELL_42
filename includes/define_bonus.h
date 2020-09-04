@@ -11,13 +11,16 @@
 #define QUOTE			"\""//3
 #define LESS_THAN		"<"//4
 #define GREATER_THAN	">"//5
-#define EQUAL			"="//6
-#define DOUBLE_GREATER	">>"//7
-#define OR				"||"//8
-#define AND				"&&"//9
+#define	SPACE			" "//6
+#define TAB				"\t"//7
+#define DOUBLE_GREATER	">>"//8
+#define OR				"||"//9
+#define AND				"&&"//10
+#define EXP				'$'//11
+#define ASSIGN			'='//12
 
-#define GRAMMAR			";|'\"<>="
+#define GRAMMAR			";|'\"<> \t"
 
-#define	NB_GRAMMAR		7
-#define NO_TYPE			11	
+#define	NB_GRAMMAR		8
+#define NO_TYPE			14	
 #endif

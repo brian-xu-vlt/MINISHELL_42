@@ -3,20 +3,11 @@
 static ssize_t	get_double_token(t_vector *input)
 {
 	if (vct_chrnstr(input, DOUBLE_GREATER) == FALSE)
-	{
-		ft_printf("DOUBLE GREATER\n");//DEBUG
 		return (E_DOUBLE_GREATER);
-	}
 	else if (vct_chrnstr(input, OR) == FALSE)
-	{
-		ft_printf("OR\n");//DEBUG
 		return (E_OR);
-	}
 	else if (vct_chrnstr(input, AND) == FALSE)
-	{
-		ft_printf("AND\n");//DEBUG
 		return (E_AND);
-	}
 	return (NO_TYPE);
 }
 
@@ -45,7 +36,7 @@ static void		extract_token(t_list *token_list, char *str, size_t type)
 	if (token == NULL)
 		exit_routine(token, node);// ERROR
 	token->data = NULL;//in the case when it's not a word
-	if (type == E_WORD)
+	if (type >= E_WORD)
 		token->data = ft_strdup(str);//in the case it's a word
 	token->type = type;
 	ft_printf("token->data = %s\n", token->data); //DEBUG
@@ -58,7 +49,12 @@ static void		extract_token(t_list *token_list, char *str, size_t type)
 
 static void		extract_token_word(t_list *token_list, t_vector *vct)
 {
-	extract_token(token_list, vct_getstr(vct), E_WORD);
+	if (vct_chr(vct, EXP) != FAILURE && vct_chr(vct, ASSIGN) == FAILURE)
+		extract_token(token_list, vct_getstr(vct), E_EXP);
+	else if (vct_chr(vct, ASSIGN) != FAILURE && vct_chr(vct, ASSIGN) != 0)
+		extract_token(token_list, vct_getstr(vct), E_ASSIGN);
+	else
+		extract_token(token_list, vct_getstr(vct), E_WORD);
 	vct_clear(vct);
 }
 
@@ -66,20 +62,9 @@ static void		no_word(t_list *token_list, t_vector *word, size_t type)
 {
 	if (vct_getlen(word) != 0)//if char not word but the c/s before was a word
 		extract_token_word(token_list, word);//we extract the word token
-	extract_token(token_list, NULL, type);
+	if (type != E_SPACE && type != E_TAB)
+		extract_token(token_list, NULL, type);
 }
-
-/*void		print_list_debug(t_list *list)
-{
-	t_token	*token;
-	while (list != NULL)
-	{
-		token = (t_token *)list->content;
-		ft_printf("[%d - '%s']%s", token->type, token->data,
-				list->next == NULL ? "\n" : " -> ");
-		list = list->next;
-	}
-}*/
 
 int		ft_lexer(t_vector *input, t_lexer *lexer)
 {
@@ -97,11 +82,10 @@ int		ft_lexer(t_vector *input, t_lexer *lexer)
 		else//if it's a word
 			vct_add(lexer->word, vct_getcharat(input, 0));//add char to buffer word
 		vct_pop(input);
-		if (lexer->type > 6 && lexer->type < 10)
+		if (lexer->type > 7 && lexer->type < 11)
 			vct_pop(input);
 	}
 	if (vct_getlen(lexer->word) != 0)//if the buffer word is not empty
 		extract_token_word(lexer->token_list, lexer->word);
-//	print_list_debug(token_list);
 	return (SUCCESS);
 }
