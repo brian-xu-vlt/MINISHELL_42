@@ -5,19 +5,21 @@
 /*******************************_LEXER_****************************************/
 /******************************************************************************/
 
-#define DOUBLE_GREATER	">>"//0
-#define OR				"||"//1
-#define AND				"&&"//9
-#define SEPARATOR		";"//2
-#define PIPE			"|"//3
-#define SIMPLE_QUOTE	"'"//4
-#define QUOTE			"\""//5
-#define LESS_THAN		"<"//6
-#define GREATER_THAN	">"//7
-#define EQUAL			"="//8
-#define SPACE			" "//10
-#define TAB				"	"//11
+#define SEPARATOR		";"//0
+#define PIPE			"|"//1
+#define SIMPLE_QUOTE	"'"//2
+#define QUOTE			"\""//3
+#define LESS_THAN		"<"//4
+#define GREATER_THAN	">"//5
+#define EQUAL			"="//6
+#define SPACE			" "//7
+#define TAB				"	"//8
+#define DOUBLE_GREATER	">>"//9
+#define OR				"||"//10
+#define AND				"&&"//11
 
-#define	NB_GRAMMAR		12
+#define GRAMMAR			";|'\"<>= 	"
+
+#define	NB_GRAMMAR		9
 
 #endif

@@ -30,12 +30,14 @@ static ssize_t	get_double_token(t_vector *input)
 
 static size_t	what_token(char c)
 {
+	const char	*grammar = GRAMMAR;
 	size_t		i;
 	
 	i = 0;
-	(void)c;
 	while (i < NB_GRAMMAR)
 	{
+		if (c == grammar[i])
+			return (i);
 		i++;
 	}
 	return (E_WORD);
@@ -54,8 +56,8 @@ static void		extract_token(t_list *token_list, char *str, size_t type)
 	if (type == E_WORD)
 		token->data = ft_strdup(str);//in the case it's a word
 	token->type = type;
-	//ft_printf("token->data = %s\n", token->data); //DEBUG
-	//printf("token.type = %u\n\n", token->type); //DEBUG
+	ft_printf("token->data = %s\n", token->data); //DEBUG
+	printf("token.type = %u\n\n", token->type); //DEBUG
 	node = ft_lstnew(token);//creation of the list de token (structure)
 	if (node == NULL)
 		exit_routine(token, node);// ERROR
@@ -101,7 +103,7 @@ void	ft_lexer(t_vector *input, t_lexer *lexer)
 		else//if it's a word
 			vct_add(lexer->word, vct_getcharat(input, 0));//add char to buffer word
 		vct_pop(input);
-		if (lexer->type <= 2)
+		if (lexer->type > 8 && lexer->type < 11)
 			vct_pop(input);
 	}
 	if (vct_getlen(lexer->word) != 0)//if the buffer word is not empty
