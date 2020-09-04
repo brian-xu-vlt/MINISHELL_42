@@ -103,7 +103,7 @@ void	ft_lexer(t_vector *input, t_lexer *lexer)
 		else//if it's a word
 			vct_add(lexer->word, vct_getcharat(input, 0));//add char to buffer word
 		vct_pop(input);
-		if (lexer->type > 8 && lexer->type < 11)
+		if (lexer->type > 6 && lexer->type < 10)
 			vct_pop(input);
 	}
 	if (vct_getlen(lexer->word) != 0)//if the buffer word is not empty

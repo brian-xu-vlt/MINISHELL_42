@@ -14,12 +14,10 @@ enum e_token_type
 	E_LESS_THAN,//4
 	E_GREATER_THAN,//5
 	E_EQUAL,//6
-	E_SPACE,//7
-	E_TAB,//8
-	E_DOUBLE_GREATER,//9
-	E_OR,//10
-	E_AND,//11
-	E_WORD//12
+	E_DOUBLE_GREATER,//7
+	E_OR,//8
+	E_AND,//9
+	E_WORD//10
 };
 
 #endif
