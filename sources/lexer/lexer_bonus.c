@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static void	debug(int type)
+/*static void	debug(int type)
 {
 	if (type == 0)
 		ft_printf("token->type = %s\n", SEPARATOR);
@@ -30,7 +30,7 @@ static void	debug(int type)
 		ft_printf("token->type = %c\n", EXP);
 	if (type == 13)
 		ft_printf("token->type = %c\n", ASSIGN);
-}
+}*/
 
 static void	extract_token(t_list **token_list, char *str, size_t type)
 {
@@ -45,9 +45,9 @@ static void	extract_token(t_list **token_list, char *str, size_t type)
 	if (type >= E_WORD)
 		token->data = ft_strdup(str);
 	token->type = type;
-	ft_printf("token->data = %s\n", token->data); //DEBUG
-	debug(token->type);//DEBUG
-	ft_printf("\n");//DEBUG
+	//ft_printf("token->data = %s\n", token->data); //DEBUG
+	//debug(token->type);//DEBUG
+	//ft_printf("\n");//DEBUG
 	node = ft_lstnew(token);
 	if (node == NULL)
 		exit_routine(token, node);// ERROR
@@ -58,7 +58,8 @@ static void	extract_token_word(t_list **token_list, t_vector *vct)
 {
 	if (vct_chr(vct, EXP) != FAILURE && vct_chr(vct, ASSIGN) == FAILURE)
 		extract_token(token_list, vct_getstr(vct), E_EXP);
-	else if (vct_chr(vct, ASSIGN) != FAILURE && vct_chr(vct, ASSIGN) != 0)
+	else if (vct_chr(vct, ASSIGN) != FAILURE && vct_chr(vct, ASSIGN) != 0
+			&& vct_chr(vct, ASSIGN) != (ssize_t)vct_getlen(vct) - 1)
 		extract_token(token_list, vct_getstr(vct), E_ASSIGN);
 	else
 		extract_token(token_list, vct_getstr(vct), E_WORD);
