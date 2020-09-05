@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   vct_nbchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfallet <lfallet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/11 15:41:19 by lfallet           #+#    #+#             */
-/*   Updated: 2020/09/05 21:40:56 by lfallet          ###   ########.fr       */
+/*   Created: 2020/09/05 21:46:47 by lfallet           #+#    #+#             */
+/*   Updated: 2020/09/05 21:47:07 by lfallet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "libft.h"
+#include "vector.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+ssize_t	vct_nbchar(t_vector *vct, char *str)
 {
-	size_t	i;
+	size_t	count;
 
-	i = 0;
-	while ((s1[i] != '\0' || s2[i] != '\0') && i < n)
+	count = 0;
+	if (vct == NULL)
+		return (FAILURE);
+	while (vct_getlen(vct) > 0)
 	{
-		if ((unsigned char)s1[i] != (unsigned char)s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i] < 0 ? -1 : 1);
-		i++;
+		if (ft_strncmp(vct_getstr(vct), str, 1) == SUCCESS)
+			count++;
+		vct_pop(vct);
 	}
-	return (0);
+	return (count);
 }

@@ -49,7 +49,7 @@ static void	extract_token(t_list **token_list, char *str, size_t type)
 	//debug(token->type);//DEBUG
 	//ft_printf("\n");//DEBUG
 	node = ft_lstnew(token);
-	/*if (node == NULL)
+	/*if (node == NULL
 		exit_routine(token, node);//EXIT_ROUTINE*/
 	ft_lstadd_back(token_list, node);
 }
@@ -86,7 +86,10 @@ t_list			*lexer(t_vector *input)
 	{
 		type = get_double_token(input);
 		if (type == FAILURE)
+		{
+			printf("HELLO\n");//DEBUG
 			return (NULL);
+		}
 		if (type == NO_TYPE)
 			type = get_token(vct_getcharat(input, FIRST_CHAR));
 		if (type < E_WORD)
