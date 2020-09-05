@@ -1,14 +1,5 @@
 #include "minishell_bonus.h"
 
-t_lexer			*get_lexer(t_lexer *lexer)
-{
-	static t_lexer	*gen_lexer = NULL;
-
-	if (gen_lexer == NULL)
-		gen_lexer = lexer;
-	return (gen_lexer);
-}
-
 void	print_prompt(void)
 {
 	ft_printf("SHELL > ");
@@ -17,10 +8,6 @@ void	print_prompt(void)
 int	main(void)
 {
 	t_vector	*vct_input;
-	t_lexer		lexer;
-
-	get_lexer(&lexer);
-	ft_bzero(&lexer, sizeof(lexer));
 	vct_input = vct_new();
 	while (1)
 	{
@@ -34,7 +21,7 @@ int	main(void)
 			return (EXIT_FAILURE);
 		}
 		ft_printf("-- La ligne est [%s] --\n", vct_getstr(vct_input)); // DEBUG
-		ft_lexer(vct_input, &lexer); //fonction qui transforme chaque element en token
+		lexer(vct_input); //fonction qui transforme chaque element en token
 		// -> in : vecteur que tu me renvoies
 		// -> out : list de token
 		//ast = parser(token_list); fonction qui permet de voir si token fonctionne ensemble

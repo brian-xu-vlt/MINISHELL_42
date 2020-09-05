@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vct_chrstr.c                                       :+:      :+:    :+:   */
+/*   btree_nodes_count.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfallet <lfallet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bvalette <bvalette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/04 19:32:24 by lfallet           #+#    #+#             */
-/*   Updated: 2020/09/04 15:29:22 by lfallet          ###   ########.fr       */
+/*   Created: 2020/08/26 07:51:04 by bvalette          #+#    #+#             */
+/*   Updated: 2020/08/27 08:16:32 by bvalette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector.h"
-#include "stdio.h"
+#include "libft.h"
 
-int	vct_chrstr(t_vector *vct, size_t index, char *search)
+size_t	btree_nodes_count(t_btree *root)
 {
-	if (vct == NULL)
-		return (FAILURE);
-	if (index >= vct->len || ft_strchr(search, vct->str[index]) == NULL)
-		return (FALSE);
-	return (TRUE);
+	static size_t	node_count;
+
+	if (root == NULL)
+		return (0);
+	node_count++;
+	btree_nodes_count(root->left);
+	btree_nodes_count(root->right);
+	return (node_count);
 }

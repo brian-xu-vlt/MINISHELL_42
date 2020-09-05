@@ -167,7 +167,7 @@ typedef struct	s_vector
 FUNCTION NAME | DESCRIPTION |
 :-----------: | :-----------:
 vct_add			|Adds a character at the end of the vector
-vct_addchararat		|Replaces a character to the given index
+vct_addcharat		|Replaces a character to the given index
 vct_addmem		|Copies len bytes from the memory zone src to the memory zone dest
 vct_addstr		|Adds a string at the end of the vector
 vct_addstrat		|Adds a string to the given index

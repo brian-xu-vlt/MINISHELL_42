@@ -5,19 +5,28 @@ void	initialize_grammar()
 // HERE ADD GRAMMAR WORDS (add DATA TYPE at the end of the array)
 	static char *grammar[] = {
 	
-	PLUS,
-	MIN,
-	TIME,
-	DIV,
-	MOD,
-	STR_WORD
-
+	SEPARATOR,
+	PIPE,
+	SIMPLE_QUOTE,
+	QUOTE,
+	LESS_THAN,
+	GREATER_THAN,
+	SPACE,
+	TAB,
+	DOUBLE_GREATER,
+	OR,
+	AND,
+	STR_WORD,
+	EXP,
+	ASSIGN
 	};
 
-// HERE ADD GRAMMAR TYPE WITHOUT DATA
+// HERE ADD GRAMMAR TYPE WITH DATA
 	static enum e_token_type data_type[] = {
 
-	E_WORD
+	E_WORD,//11
+	E_EXP,//12
+	E_ASSIGN//13
 
 	};
 

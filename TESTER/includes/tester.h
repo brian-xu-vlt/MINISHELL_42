@@ -3,21 +3,37 @@
 
 ///////////////////////////// HERE DEFINE WORDS /////////////////////////
 
-#define PLUS "+"
-#define MIN "-"
-#define TIME "*"
-#define DIV "/"
-#define MOD "%"
-#define STR_WORD "WORD"
+#define SEPARATOR		";"//0
+#define PIPE			"|"//1
+#define SIMPLE_QUOTE	"'"//2
+#define QUOTE			"\""//3
+#define LESS_THAN		"<"//4
+#define GREATER_THAN	">"//5
+#define	SPACE			" "//6
+#define TAB				"\t"//7
+#define DOUBLE_GREATER	">>"//8
+#define OR				"||"//9
+#define AND				"&&"//10
+#define STR_WORD		"WORD"//11
+#define EXP				"$"//12
+#define ASSIGN			"="//13
 
 enum e_token_type
 {
-	E_PLUS,
-	E_MIN,
-	E_TIME,
-	E_DIV,
-	E_MOD,
-	E_WORD
+	E_SEPARATOR,//0
+	E_PIPE,//1
+	E_SIMPLE_QUOTE,//2
+	E_QUOTE,//3
+	E_LESS_THAN,//4
+	E_GREATER_THAN,//5
+	E_SPACE,//6
+	E_TAB,//7
+	E_DOUBLE_GREATER,//8
+	E_OR,//9
+	E_AND,//10
+	E_WORD,//11
+	E_EXP,//12
+	E_ASSIGN//13
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -27,7 +43,7 @@ enum e_token_type
 # include "assert.h"
 # include "stdbool.h"
 # include <unistd.h>
-# define TYPE_DELIMITER ";="
+# define TYPE_DELIMITER ":-"
 
 typedef t_list	*(*t_lex)(t_vector *);
 

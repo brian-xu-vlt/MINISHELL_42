@@ -48,6 +48,7 @@ SRCS += token_bonus.c
 OBJ_DIR = ./objs/
 
 vpath %.c sources/
+vpath %.c sources/lexer
 
 OBJS = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 

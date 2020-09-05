@@ -42,17 +42,17 @@ t_list *get_expected_list(char *expected)
 	t_vector			*split = NULL;
 	t_list				*expected_list = NULL;
 	enum e_token_type	i;
-	bool				expected_word = false;
+	int				expected_word = 0;
 	
 	expected_vct = vct_new();
 	vct_addstr(expected_vct, expected);
 	assert(expected != NULL && expected_vct != NULL);
 	while ((split = vct_split(expected_vct, TYPE_DELIMITER, NO_SEP)) != NULL)
 	{
-		if (expected_word == true)
+		if (expected_word != 0)
 		{
-			add_to_list(&expected_list, E_WORD, vct_getstr(split));
-			expected_word = false;
+			add_to_list(&expected_list, expected_word, vct_getstr(split));
+			expected_word = 0;
 		}
 		else
 		{
@@ -61,8 +61,15 @@ t_list *get_expected_list(char *expected)
 				if (ft_strequ(g_grammar[i], vct_getstr(split)) == true)
 					break ;
 			}
-			if (i == E_WORD)
-				expected_word = true;
+			if (i >= g_nb_grammar_true_type)
+			{
+				if (ft_strequ("$", vct_getstr(split)) == true)
+					expected_word = E_EXP;
+				else if (ft_strequ("=", vct_getstr(split)) == true)
+					expected_word = E_ASSIGN;
+				else
+					expected_word = E_WORD;
+			}
 			else
 				add_to_list(&expected_list, i, vct_getstr(split));
 		}

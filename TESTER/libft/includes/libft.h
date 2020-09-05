@@ -6,7 +6,7 @@
 /*   By: lfallet <lfallet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 15:46:06 by lfallet           #+#    #+#             */
-/*   Updated: 2020/08/30 18:17:31 by lfallet          ###   ########.fr       */
+/*   Updated: 2020/09/02 16:35:19 by bvalette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,10 @@ int					ft_iscomma(int c);
 size_t				ft_bubblesort_minindex(size_t *tab, size_t size);
 double				ft_lfpow(double nb, int pow);
 void				ft_int_to_char(unsigned char *s, int value);
+int					ft_atoi_base(const char *str, char *base);
+char				*ft_itoa_base(long long int nb, char *base);
+char				*ft_convert_base(char *nbr, char *base_from, char *base_to);
+void				ft_putmem(void *ptr, size_t size);
 
 typedef struct		s_list
 {
@@ -102,6 +106,39 @@ void				ft_lstdel(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
+
+typedef	struct		s_btree
+{
+	struct s_btree	*left;
+	struct s_btree	*right;
+	void			*item;
+}					t_btree;
+
+t_btree				*btree_create_node(void *item);
+void				btree_free_suffix(t_btree *root);
+size_t				btree_level_count(t_btree *root);
+size_t				btree_nodes_count(t_btree *root);
+
+void				btree_apply_item_prefix(t_btree *root,
+														void (*applyf)(void *));
+void				btree_apply_item_infix(t_btree *root,
+														void (*applyf)(void *));
+void				btree_apply_item_suffix(t_btree *root,
+														void (*applyf)(void *));
+
+void				btree_apply_node_prefix(t_btree *root,
+													void (*applyf)(t_btree *));
+void				btree_apply_node_infix(t_btree *root,
+													void (*applyf)(t_btree *));
+void				btree_apply_node_suffix(t_btree *root,
+													void (*applyf)(t_btree *));
+
+void				btree_insert_data(t_btree **root,
+									void *item, int (*cmpf)(void *, void *));
+void				*btree_search_item(t_btree *root,
+								void *data_ref, int (*cmpf)(void *, void *));
+void				btree_apply_by_level(t_btree *root,
+			void (*applyf)(void *item, int current_level, int is_first_elem));
 
 /*
 **** PRINTF
