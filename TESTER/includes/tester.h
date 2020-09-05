@@ -43,7 +43,7 @@ enum e_token_type
 # include "assert.h"
 # include "stdbool.h"
 # include <unistd.h>
-# define TYPE_DELIMITER ":-"
+# define TYPE_DELIMITER "#@"
 
 typedef t_list	*(*t_lex)(t_vector *);
 

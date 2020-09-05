@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-/*static void	debug(int type)
+static void	debug(int type)
 {
 	if (type == 0)
 		ft_printf("token->type = %s\n", SEPARATOR);
@@ -30,7 +30,7 @@
 		ft_printf("token->type = %c\n", EXP);
 	if (type == 13)
 		ft_printf("token->type = %c\n", ASSIGN);
-}*/
+}
 
 static void	extract_token(t_list **token_list, char *str, size_t type)
 {
@@ -45,9 +45,9 @@ static void	extract_token(t_list **token_list, char *str, size_t type)
 	if (type >= E_WORD)
 		token->data = ft_strdup(str);
 	token->type = type;
-	//ft_printf("token->data = %s\n", token->data); //DEBUG
-	//debug(token->type);//DEBUG
-	//ft_printf("\n");//DEBUG
+	ft_printf("token->data = %s\n", token->data); //DEBUG
+	debug(token->type);//DEBUG
+	ft_printf("\n");//DEBUG
 	node = ft_lstnew(token);
 	if (node == NULL)
 		exit_routine(token, node);// ERROR
