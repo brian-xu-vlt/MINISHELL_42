@@ -25,6 +25,6 @@
 #define NO_TYPE			14
 #define DOUBLE_TOKEN	7
 #define EXP_ASSIGN		11
-#define FIRST_CHAR		0 
+#define FIRST_CHAR		0
 	
 #endif

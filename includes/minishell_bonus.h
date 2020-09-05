@@ -19,5 +19,6 @@
 t_list	*lexer(t_vector *input);
 size_t	get_token(char c);
 ssize_t	get_double_token(t_vector *input);
+ssize_t	check_quote(t_vector *vct);
 
 #endif

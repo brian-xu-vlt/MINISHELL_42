@@ -21,6 +21,12 @@ int	main(void)
 			return (EXIT_FAILURE);
 		}
 		ft_printf("-- La ligne est [%s] --\n", vct_getstr(vct_input)); // DEBUG
+		if (check_quote(vct_input) == FAILURE)
+		{
+			ft_printf("FAILURE\n");//DEBUG
+			vct_del(&vct_input);
+			return (EXIT_FAILURE);
+		}
 		lexer(vct_input); //fonction qui transforme chaque element en token
 		// -> in : vecteur que tu me renvoies
 		// -> out : list de token

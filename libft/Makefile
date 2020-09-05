@@ -167,6 +167,7 @@ SRCS += vct_addmem.c
 SRCS += vct_getcharat.c
 SRCS += vct_clear.c
 SRCS += vct_chrnstr.c
+SRCS += vct_nbchar.c
 
 SRCS += get_next_line.c
 SRCS += get_next_line_multifd.c
