@@ -1,15 +1,6 @@
 #include "minishell_bonus.h"
 
-t_lexer			*get_lexer(t_lexer *lexer)
-{
-	static t_lexer	*gen_lexer = NULL;
-
-	if (gen_lexer == NULL)
-		gen_lexer = lexer;
-	return (gen_lexer);
-}
-
-static void	debug(int type)
+/*static void	debug(int type)
 {
 	if (type == 0)
 		ft_printf("token->type = %s\n", SEPARATOR);
@@ -39,7 +30,7 @@ static void	debug(int type)
 		ft_printf("token->type = %c\n", EXP);
 	if (type == 13)
 		ft_printf("token->type = %c\n", ASSIGN);
-}
+}*/
 
 static void	extract_token(t_list **token_list, char *str, size_t type)
 {
@@ -54,9 +45,9 @@ static void	extract_token(t_list **token_list, char *str, size_t type)
 	if (type >= E_WORD)
 		token->data = ft_strdup(str);
 	token->type = type;
-	ft_printf("token->data = %s\n", token->data); //DEBUG
-	debug(token->type);//DEBUG
-	ft_printf("\n");//DEBUG
+	//ft_printf("token->data = %s\n", token->data); //DEBUG
+	//debug(token->type);//DEBUG
+	//ft_printf("\n");//DEBUG
 	node = ft_lstnew(token);
 	if (node == NULL)
 		exit_routine(token, node);// ERROR
@@ -84,30 +75,28 @@ static void	no_word(t_list **token_list, t_vector *word, size_t type)
 
 t_list			*lexer(t_vector *input)
 {
-	t_lexer		struct_lexer;
-	t_lexer		*lex = &struct_lexer;
+	t_list		*token_list;
+	t_vector	*word;
+	ssize_t		type;
 
-//	get_lexer(&lexer);
-	ft_bzero(lex, sizeof(*lex));
-	lex->word = vct_new();
-	lex->token_list = NULL;
-	ft_printf("input = %s\n", vct_getstr(input));
+	word = vct_new();
+	token_list = NULL;
 	while (vct_getlen(input) > 0)
 	{
-		lex->type = get_double_token(input);
-		if (lex->type == FAILURE)
+		type = get_double_token(input);
+		if (type == FAILURE)
 			return (NULL);
-		if (lex->type == NO_TYPE)
-			lex->type = get_token(vct_getcharat(input, FIRST_CHAR));
-		if (lex->type < E_WORD)
-			no_word(&lex->token_list, lex->word, lex->type);
+		if (type == NO_TYPE)
+			type = get_token(vct_getcharat(input, FIRST_CHAR));
+		if (type < E_WORD)
+			no_word(&token_list, word, type);
 		else
-			vct_add(lex->word, vct_getcharat(input, FIRST_CHAR));
+			vct_add(word, vct_getcharat(input, FIRST_CHAR));
 		vct_pop(input);
-		if (lex->type > DOUBLE_TOKEN && lex->type < EXP_ASSIGN)
+		if (type > DOUBLE_TOKEN && type < EXP_ASSIGN)
 			vct_pop(input);
 	}
-	if (vct_getlen(lex->word) != 0)
-		extract_token_word(&lex->token_list, lex->word);
-	return (lex->token_list);
+	if (vct_getlen(word) != 0)
+		extract_token_word(&token_list, word);
+	return (token_list);
 }
