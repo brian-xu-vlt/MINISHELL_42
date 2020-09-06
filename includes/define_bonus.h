@@ -19,6 +19,9 @@
 #define EXP				'$'//11
 #define ASSIGN			'='//12
 
+#define C_SIMPLE_QUOTE	'\''
+#define C_QUOTE			'"'
+
 #define GRAMMAR			";|'\"<> \t"
 
 #define	NB_GRAMMAR		8
@@ -26,5 +29,8 @@
 #define DOUBLE_TOKEN	7
 #define EXP_ASSIGN		11
 #define FIRST_CHAR		0
+
+#define N_SIMPLE_QUOTE	1
+#define N_QUOTE			2
 	
 #endif

@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-/*static void	debug(int type)
+static void	debug(int type)
 {
 	if (type == 0)
 		ft_printf("token->type = %s\n", SEPARATOR);
@@ -30,7 +30,7 @@
 		ft_printf("token->type = %c\n", EXP);
 	if (type == 13)
 		ft_printf("token->type = %c\n", ASSIGN);
-}*/
+}
 
 static void	extract_token(t_list **token_list, char *str, size_t type)
 {
@@ -42,12 +42,12 @@ static void	extract_token(t_list **token_list, char *str, size_t type)
 	/*if (token == NULL)
 		exit_routine(token, node);//EXIT_ROUTINE*/
 	token->data = NULL;
-	if (type >= E_WORD)
+	if (type >= E_WORD || type == E_SIMPLE_QUOTE || type == E_QUOTE)
 		token->data = ft_strdup(str);
 	token->type = type;
-	//ft_printf("token->data = %s\n", token->data); //DEBUG
-	//debug(token->type);//DEBUG
-	//ft_printf("\n");//DEBUG
+	ft_printf("token->data = %s\n", token->data); //DEBUG
+	debug(token->type);//DEBUG
+	ft_printf("\n");//DEBUG
 	node = ft_lstnew(token);
 	/*if (node == NULL
 		exit_routine(token, node);//EXIT_ROUTINE*/
@@ -66,12 +66,17 @@ static void	extract_token_word(t_list **token_list, t_vector *vct)
 	vct_clear(vct);
 }
 
-static void	no_word(t_list **token_list, t_vector *word, size_t type)
+static int	no_word(t_list **token_list, t_vector *word, size_t type)
 {
 	if (vct_getlen(word) != 0)
 		extract_token_word(token_list, word);
+	if (type == E_SIMPLE_QUOTE)
+		return (N_SIMPLE_QUOTE);
+	if (type == E_QUOTE)
+		return (N_QUOTE);
 	if (type != E_SPACE && type != E_TAB)
 		extract_token(token_list, NULL, type);
+	return (FALSE);
 }
 
 t_list			*lexer(t_vector *input)
@@ -79,6 +84,8 @@ t_list			*lexer(t_vector *input)
 	t_list		*token_list;
 	t_vector	*word;
 	ssize_t		type;
+	int			ret;
+	size_t		len;
 
 	word = vct_new();
 	token_list = NULL;
@@ -86,19 +93,32 @@ t_list			*lexer(t_vector *input)
 	{
 		type = get_double_token(input);
 		if (type == FAILURE)
-		{
-			printf("HELLO\n");//DEBUG
 			return (NULL);
-		}
 		if (type == NO_TYPE)
 			type = get_token(vct_getcharat(input, FIRST_CHAR));
 		if (type < E_WORD)
-			no_word(&token_list, word, type);
+			ret = no_word(&token_list, word, type);
 		else
 			vct_add(word, vct_getcharat(input, FIRST_CHAR));
-		vct_pop(input);
+		if (ret == N_SIMPLE_QUOTE || ret == N_QUOTE)
+		{
+			vct_pop(input);
+			word = vct_cdup(input, ret == N_SIMPLE_QUOTE ? C_SIMPLE_QUOTE
+								: C_QUOTE);
+			vct_add(word, ret == N_SIMPLE_QUOTE ? C_SIMPLE_QUOTE : C_QUOTE);
+			vct_addcharat(word, FIRST_CHAR, ret == N_SIMPLE_QUOTE
+							? C_SIMPLE_QUOTE : C_QUOTE);
+			extract_token(&token_list, vct_getstr(word), ret == N_SIMPLE_QUOTE
+							? E_SIMPLE_QUOTE : E_QUOTE);
+			len = vct_getlen(word);
+			vct_clear(word);
+			vct_popfrom(input, len - 1);
+		}
+		if (ret == FALSE)
+			vct_pop(input);
 		if (type > DOUBLE_TOKEN && type < EXP_ASSIGN)
 			vct_pop(input);
+		ret = FALSE;
 	}
 	if (vct_getlen(word) != 0)
 		extract_token_word(&token_list, word);
