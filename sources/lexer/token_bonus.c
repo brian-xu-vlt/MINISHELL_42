@@ -9,6 +9,10 @@ ssize_t	check_quote(t_vector *vct)
 	cpy = vct_dup(vct);
 	count_simple_quote = vct_nbchar(vct, SIMPLE_QUOTE);
 	count_quote = vct_nbchar(cpy, QUOTE);
+	/*if (count_simple_quote % 2 == 0 && count_simple_quote % 2 != 0)
+	{
+		
+	}*/
 	vct_del(&cpy);
 	return (count_simple_quote % 2 == 0 && count_quote % 2 == 0 ?
 				SUCCESS : FAILURE);

@@ -103,8 +103,13 @@ t_list			*lexer(t_vector *input)
 		if (ret == N_SIMPLE_QUOTE || ret == N_QUOTE)
 		{
 			vct_pop(input);
+			ft_printf("input = %s\n", vct_getstr(input));//DEBUG
 			word = vct_cdup(input, ret == N_SIMPLE_QUOTE ? C_SIMPLE_QUOTE
 								: C_QUOTE);
+			ft_printf("word = %s\n", vct_getstr(word));//DEBUG
+			printf("len word = %zu\n", vct_getlen(word));//DEBUG
+			if (vct_equ(input, word) == TRUE)
+				return (NULL);
 			vct_add(word, ret == N_SIMPLE_QUOTE ? C_SIMPLE_QUOTE : C_QUOTE);
 			vct_addcharat(word, FIRST_CHAR, ret == N_SIMPLE_QUOTE
 							? C_SIMPLE_QUOTE : C_QUOTE);

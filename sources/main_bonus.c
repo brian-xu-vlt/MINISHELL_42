@@ -9,6 +9,7 @@ int	main(void)
 {
 	t_vector	*vct_input;
 	t_vector	*cpy_input;
+	t_list		*lexer_list;
 	
 	vct_input = vct_new();
 	while (1)
@@ -31,7 +32,9 @@ int	main(void)
 			return (EXIT_FAILURE);
 		}
 		vct_printendl(vct_input);
-		lexer(vct_input); //fonction qui transforme chaque element en token
+		lexer_list = lexer(vct_input); //fonction qui transforme chaque element en token
+		if (lexer_list == NULL)
+			return (EXIT_FAILURE);
 		// -> in : vecteur que tu me renvoies
 		// -> out : list de token
 		//ast = parser(token_list); fonction qui permet de voir si token fonctionne ensemble
