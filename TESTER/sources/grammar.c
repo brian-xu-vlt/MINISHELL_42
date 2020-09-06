@@ -26,6 +26,8 @@ void	initialize_grammar()
 
 	E_WORD,//11
 	E_EXP,//12
+//	E_SIMPLE_QUOTE,
+//	E_QUOTE,
 	E_ASSIGN//13
 
 	};

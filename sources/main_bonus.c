@@ -25,12 +25,12 @@ int	main(void)
 		}
 		ft_printf("-- La ligne est [%s] --\n", vct_getstr(vct_input)); // DEBUG
 		cpy_input = vct_dup(vct_input);
-		if (check_quote(cpy_input) == FAILURE)
+		/*if (check_quote(cpy_input) == FAILURE)
 		{
 			ft_printf("FAILURE\n");//DEBUG
 			vct_del(&vct_input);
 			return (EXIT_FAILURE);
-		}
+		}*/
 		vct_printendl(vct_input);
 		lexer_list = lexer(vct_input); //fonction qui transforme chaque element en token
 		if (lexer_list == NULL)
