@@ -8,7 +8,6 @@ void	print_prompt(void)
 int	main(void)
 {
 	t_vector	*vct_input;
-	t_vector	*cpy_input;
 	t_list		*lexer_list;
 	
 	vct_input = vct_new();
@@ -24,16 +23,14 @@ int	main(void)
 			return (EXIT_FAILURE);
 		}
 		ft_printf("-- La ligne est [%s] --\n", vct_getstr(vct_input)); // DEBUG
-		cpy_input = vct_dup(vct_input);
-		/*if (check_quote(cpy_input) == FAILURE)
-		{
-			ft_printf("FAILURE\n");//DEBUG
-			vct_del(&vct_input);
-			return (EXIT_FAILURE);
-		}*/
 		lexer_list = lexer(vct_input); //fonction qui transforme chaque element en token
-		if (lexer_list == NULL)
+		if (lexer_list == NULL /*&& vct_getlen(vct_input) != 0*/)
+		{
+			vct_del(&vct_input);
+			vct_input = NULL;
+			free_list(&lexer_list);
 			return (EXIT_FAILURE);
+		}
 		// -> in : vecteur que tu me renvoies
 		// -> out : list de token
 		//ast = parser(token_list); fonction qui permet de voir si token fonctionne ensemble

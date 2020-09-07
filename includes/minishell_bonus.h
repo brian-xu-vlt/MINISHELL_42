@@ -20,5 +20,8 @@ t_list	*lexer(t_vector *input);
 size_t	get_token(char c);
 ssize_t	get_double_token(t_vector *input);
 ssize_t	check_quote(t_vector *vct);
+void	free_list(t_list **token);
+int		handle_quote(t_vector *input, t_list **token_list, int ret);
+int 	extract_token(t_list **token_list, char *str, size_t type);
 
 #endif
