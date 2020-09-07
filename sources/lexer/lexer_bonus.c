@@ -85,11 +85,14 @@ t_list			*lexer(t_vector *input)
 	t_vector	*word;
 	ssize_t		type;
 	int			ret;
-	size_t		len;
+	size_t		len_word;
+	t_vector	*tmp;
+	size_t		len_tmp;
 
 	word = vct_new();
 	token_list = NULL;
 	ret = 0;
+	tmp = vct_new();
 	while (vct_getlen(input) > 0)
 	{
 		type = get_double_token(input);
@@ -104,21 +107,29 @@ t_list			*lexer(t_vector *input)
 		if (ret == N_SIMPLE_QUOTE || ret == N_QUOTE)
 		{
 			vct_pop(input);
-			//ft_printf("input = %s\n", vct_getstr(input));//DEBUG
 			word = vct_cdup(input, ret == N_SIMPLE_QUOTE ? C_SIMPLE_QUOTE
 								: C_QUOTE);
-		//	ft_printf("word = %s\n", vct_getstr(word));//DEBUG
-			//printf("len word = %zu\n", vct_getlen(word));//DEBUG
 			if (vct_equ(input, word) == TRUE)
 				return (NULL);
 			vct_add(word, ret == N_SIMPLE_QUOTE ? C_SIMPLE_QUOTE : C_QUOTE);
 			vct_addcharat(word, FIRST_CHAR, ret == N_SIMPLE_QUOTE
 							? C_SIMPLE_QUOTE : C_QUOTE);
-			extract_token(&token_list, vct_getstr(word), ret == N_SIMPLE_QUOTE
-							? E_SIMPLE_QUOTE : E_QUOTE);
-			len = vct_getlen(word);
+			len_word = vct_getlen(word);
+			vct_popfrom(input, len_word - 1);
+			if (vct_getcharat(input, FIRST_CHAR) == '=')
+			{
+				tmp = vct_cdup(input, ' ');
+				len_tmp = vct_getlen(tmp);
+				word = vct_join(word, tmp);
+				extract_token(&token_list, vct_getstr(word), E_ASSIGN);
+				vct_popfrom(input, len_tmp);
+			}
+			else
+			{
+				extract_token(&token_list, vct_getstr(word), ret == N_SIMPLE_QUOTE
+								? E_SIMPLE_QUOTE : E_QUOTE);
+			}
 			vct_clear(word);
-			vct_popfrom(input, len - 1);
 		}
 		if (ret == FALSE)
 			vct_pop(input);
@@ -129,5 +140,6 @@ t_list			*lexer(t_vector *input)
 	if (vct_getlen(word) != 0)
 		extract_token_word(&token_list, word);
 	vct_del(&word);
+	vct_del(&tmp);
 	return (token_list);
 }

@@ -31,7 +31,6 @@ int	main(void)
 			vct_del(&vct_input);
 			return (EXIT_FAILURE);
 		}*/
-		vct_printendl(vct_input);
 		lexer_list = lexer(vct_input); //fonction qui transforme chaque element en token
 		if (lexer_list == NULL)
 			return (EXIT_FAILURE);
