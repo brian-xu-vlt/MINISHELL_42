@@ -11,12 +11,13 @@ int	handle_quote(t_vector *input, t_list **token_list, int ret)
 	ret_extract = SUCCESS;
 	vct = vct_cdup(input, ret == N_SIMPLE_QUOTE ? C_SIMPLE_QUOTE
 			: C_QUOTE);
+	ft_printf("vct = %s\n", vct_getstr(vct));//DEBUG
 	if (vct_equ(input, vct) == TRUE)
 	{
 		vct_del(&vct);
 		vct = NULL;
-		free_list(token_list);
-		return (FAILURE);
+		//free_list(token_list);
+		return (FALSE);
 	}
 	vct_add(vct, ret == N_SIMPLE_QUOTE ? C_SIMPLE_QUOTE : C_QUOTE);
 	vct_addcharat(vct, FIRST_CHAR, ret == N_SIMPLE_QUOTE
@@ -36,8 +37,8 @@ int	handle_quote(t_vector *input, t_list **token_list, int ret)
 			vct = NULL;
 			vct_del(&tmp);
 			tmp = NULL;
-			free_list(token_list);
-			return (FAILURE);
+			//free_list(token_list);
+			return (FALSE);
 		}
 		vct_popfrom(input, len_tmp);
 	}
@@ -52,10 +53,10 @@ int	handle_quote(t_vector *input, t_list **token_list, int ret)
 			vct_del(&tmp);
 			tmp = NULL;
 			free_list(token_list);
-			return (FAILURE);
+			return (FALSE);
 		}
 	}
 	vct_del(&vct);
 	vct = NULL;
-	return (SUCCESS);
+	return (TRUE);
 }

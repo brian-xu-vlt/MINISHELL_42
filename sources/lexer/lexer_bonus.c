@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-/*static void	debug(int type)
+static void	debug(int type)
 {
 	if (type == 0)
 		ft_printf("token->type = %s\n", SEPARATOR);
@@ -30,7 +30,7 @@
 		ft_printf("token->type = %c\n", EXP);
 	if (type == 13)
 		ft_printf("token->type = %c\n", ASSIGN);
-}*/
+}
 
 int extract_token(t_list **token_list, char *str, size_t type)
 {
@@ -45,15 +45,17 @@ int extract_token(t_list **token_list, char *str, size_t type)
 	if (type >= E_WORD || type == E_SIMPLE_QUOTE || type == E_QUOTE)
 		token->data = ft_strdup(str);
 	token->type = type;
-	//ft_printf("token->data = %s\n", token->data); //DEBUG
-	//debug(token->type);//DEBUG
-	//ft_printf("\n");//DEBUG
+	ft_printf("token->data = %s\n", token->data); //DEBUG
+	debug(token->type);//DEBUG
+	ft_printf("\n");//DEBUG
 	node = ft_lstnew(token);
 	if (node == NULL)
 	{
 		free(token->data);
 		token->type = 0;
 		ft_lstdelone(node, NULL);
+		free(node);
+		node = NULL;
 		return (FAILURE);
 	}
 	ft_lstadd_back(token_list, node);
@@ -78,12 +80,12 @@ static int	extract_token_word(t_list **token_list, t_vector *vct)
 
 static int	no_word(t_list **token_list, t_vector *word, size_t type)
 {
-	if (vct_getlen(word) != 0)
-		return (extract_token_word(token_list, word));
 	if (type == E_SIMPLE_QUOTE)
 		return (N_SIMPLE_QUOTE);
 	if (type == E_QUOTE)
 		return (N_QUOTE);
+	if (vct_getlen(word) != 0)
+		extract_token_word(token_list, word);
 	if (type != E_SPACE && type != E_TAB)
 		extract_token(token_list, NULL, type);
 	return (FALSE);
@@ -116,7 +118,7 @@ t_list			*lexer(t_vector *input)
 		{
 			vct_pop(input);
 			ret = handle_quote(input, &token_list, ret);
-			if (ret == FAILURE)
+			if (ret == FALSE)
 			{
 				vct_del(&word);
 				word = NULL;
