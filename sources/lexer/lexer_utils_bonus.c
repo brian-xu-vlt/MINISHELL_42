@@ -14,9 +14,10 @@ int	handle_quote(t_vector *input, t_list **token_list, int ret)
 	ft_printf("vct = %s\n", vct_getstr(vct));//DEBUG
 	if (vct_equ(input, vct) == TRUE)
 	{
+		ft_printf("la ?\n");//DEBUG
 		vct_del(&vct);
 		vct = NULL;
-		//free_list(token_list);
+		free_list(token_list);
 		return (FALSE);
 	}
 	vct_add(vct, ret == N_SIMPLE_QUOTE ? C_SIMPLE_QUOTE : C_QUOTE);

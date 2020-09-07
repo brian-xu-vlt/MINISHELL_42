@@ -6,7 +6,7 @@ static void	del_token(void *token)
 
 	tmp = token;
 	ft_strdel(&tmp->data);
-	free(&tmp);
+	free(tmp);
 }
 
 void	free_list(t_list **token)
