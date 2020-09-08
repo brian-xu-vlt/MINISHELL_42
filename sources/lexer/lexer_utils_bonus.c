@@ -22,7 +22,6 @@ static int	handle_assign(t_vector *vct, t_vector *input, t_list **token_list)
 	int			ret_extract;
 	size_t		len_tmp;
 
-	tmp = vct_new();
 	tmp = vct_cdup(input, ' ');
 	len_tmp = vct_getlen(tmp);
 	vct = vct_join(vct, tmp);
@@ -34,6 +33,8 @@ static int	handle_assign(t_vector *vct, t_vector *input, t_list **token_list)
 		return (FALSE);
 	}
 	vct_popfrom(input, len_tmp);
+	vct_del(&tmp);
+	vct_del(&vct);
 	return (TRUE);
 }
 

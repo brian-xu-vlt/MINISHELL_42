@@ -77,14 +77,21 @@ static int	extract_token_word(t_list **token_list, t_vector *vct)
 
 static int	no_word(t_list **token_list, t_vector *word, size_t type)
 {
+	//ft_printf("word = %s\n", vct_getstr(word));//DEBUG
+	if (vct_getlen(word) != 0)
+	{
+		//ft_printf("WHAT ICI ?\n");//DEBUG
+		extract_token_word(token_list, word);
+	}
+	if (type != E_SPACE && type != E_TAB && type != E_SIMPLE_QUOTE && type != E_QUOTE)
+	{
+		//ft_printf("LA :)\n");//DEBUG
+		extract_token(token_list, NULL, type);
+	}
 	if (type == E_SIMPLE_QUOTE)
 		return (N_SIMPLE_QUOTE);
 	if (type == E_QUOTE)
 		return (N_QUOTE);
-	if (vct_getlen(word) != 0)
-		extract_token_word(token_list, word);
-	if (type != E_SPACE && type != E_TAB)
-		extract_token(token_list, NULL, type);
 	return (FALSE);
 }
 
@@ -95,10 +102,14 @@ static int	process_lexer(t_vector *input, t_list **token_list, t_vector *word)
 
 	ret = 0;
 	type = get_double_token(input);
+	//ft_printf("input = %s\n", vct_getstr(input));//DEBUG
 	if (type == NO_TYPE)
 		type = get_token(vct_getcharat(input, FIRST_CHAR));
 	if (type < E_WORD)
+	{
+		//ft_printf("HERE\n");//DEBUG
 		ret = no_word(token_list, word, type);
+	}
 	else
 		vct_add(word, vct_getcharat(input, FIRST_CHAR));
 	if (ret == N_SIMPLE_QUOTE || ret == N_QUOTE)
@@ -127,6 +138,7 @@ t_list		*lexer(t_vector *input)
 		if (process_lexer(input, &token_list, word) == FAILURE)
 		{
 			exit_routine_lexer(word, NULL, NULL, NULL);
+			free_list(&token_list);
 			return (NULL);
 		}
 	}
