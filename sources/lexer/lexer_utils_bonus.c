@@ -46,8 +46,8 @@ int	no_assign(t_list **token_list, t_vector *vct, int ret)
 {
 	int	ret_extract;
 
-	ret_extract = extract_token(token_list, vct_getstr(vct), ret == N_SIMPLE_QUOTE
-			? E_SIMPLE_QUOTE : E_QUOTE);
+	ret_extract = extract_token(token_list, vct_getstr(vct),
+					ret == N_SIMPLE_QUOTE ? E_SIMPLE_QUOTE : E_QUOTE);
 	if (ret_extract == FAILURE)
 	{
 		exit_routine_lexer(NULL, vct, NULL, NULL, NULL);

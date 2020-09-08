@@ -87,19 +87,36 @@ static int	no_word(t_list **token_list, t_vector *word, size_t type)
 	return (FALSE);
 }
 
+int	process_exception(int *ret, t_vector *input, t_list **token_list,
+						t_vector *word, ssize_t type)
+{
+	if (*ret == N_SIMPLE_QUOTE || *ret == N_QUOTE)
+	{
+		vct_pop(input);
+		*ret = handle_quote(input, token_list, *ret);
+		if (*ret == FALSE)
+		{
+			exit_routine_lexer(word, NULL, NULL, NULL, NULL);
+			return (FAILURE);
+		}
+	}
+	if (*ret == FALSE)
+		vct_pop(input);
+	if (type > DOUBLE_TOKEN && type < EXP_ASSIGN)
+		vct_pop(input);
+	*ret = FALSE;
+	return (SUCCESS);
+}
+
 t_list			*lexer(t_vector *input)
 {
 	t_list		*token_list;
 	t_vector	*word;
 	ssize_t		type;
 	int			ret;
-	int			ret_extract;
 
 	word = vct_new();
 	token_list = NULL;
-	ret = 0;
-	ret_extract = SUCCESS;
-
 	while (vct_getlen(input) > 0)
 	{
 		type = get_double_token(input);
@@ -111,21 +128,8 @@ t_list			*lexer(t_vector *input)
 			ret = no_word(&token_list, word, type);
 		else
 			vct_add(word, vct_getcharat(input, FIRST_CHAR));
-		if (ret == N_SIMPLE_QUOTE || ret == N_QUOTE)
-		{
-			vct_pop(input);
-			ret = handle_quote(input, &token_list, ret);
-			if (ret == FALSE)
-			{
-				exit_routine_lexer(word, NULL, NULL, NULL, NULL);
-				return (NULL);
-			}
-		}
-		if (ret == FALSE)
-			vct_pop(input);
-		if (type > DOUBLE_TOKEN && type < EXP_ASSIGN)
-			vct_pop(input);
-		ret = FALSE;
+		if (process_exception(&ret, input, &token_list, word, type) == FAILURE)
+			return (NULL);
 	}
 	if (vct_getlen(word) != 0)
 		extract_token_word(&token_list, word);	
