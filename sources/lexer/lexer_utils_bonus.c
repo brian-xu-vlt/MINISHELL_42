@@ -1,7 +1,7 @@
 #include "minishell_bonus.h"
 
-void	exit_routine_lexer(t_vector *word, t_vector *vct, t_vector *tmp,
-		t_token *token, t_list *node)
+void		exit_routine_lexer(t_vector *word, t_vector *vct, t_vector *tmp,
+								t_token *token)
 {
 	if (word != NULL)
 		vct_del(&word);
@@ -14,14 +14,9 @@ void	exit_routine_lexer(t_vector *word, t_vector *vct, t_vector *tmp,
 		free(token->data);
 		token->type = 0;
 	}
-	if (node != NULL)
-	{
-		ft_lstdelone(node, NULL);
-		free(node);
-	}
 }
 
-int	handle_assign(t_vector *vct, t_vector *input, t_list **token_list)
+static int	handle_assign(t_vector *vct, t_vector *input, t_list **token_list)
 {
 	t_vector	*tmp;
 	int			ret_extract;
@@ -34,7 +29,7 @@ int	handle_assign(t_vector *vct, t_vector *input, t_list **token_list)
 	ret_extract = extract_token(token_list, vct_getstr(vct), E_ASSIGN);
 	if (ret_extract == FAILURE)
 	{
-		exit_routine_lexer(NULL, vct, tmp, NULL, NULL);
+		exit_routine_lexer(NULL, vct, tmp, NULL);
 		free_list(token_list);
 		return (FALSE);
 	}
@@ -42,7 +37,7 @@ int	handle_assign(t_vector *vct, t_vector *input, t_list **token_list)
 	return (TRUE);
 }
 
-int	no_assign(t_list **token_list, t_vector *vct, int ret)
+static int	no_assign(t_list **token_list, t_vector *vct, int ret)
 {
 	int	ret_extract;
 
@@ -50,14 +45,14 @@ int	no_assign(t_list **token_list, t_vector *vct, int ret)
 					ret == N_SIMPLE_QUOTE ? E_SIMPLE_QUOTE : E_QUOTE);
 	if (ret_extract == FAILURE)
 	{
-		exit_routine_lexer(NULL, vct, NULL, NULL, NULL);
+		exit_routine_lexer(NULL, vct, NULL, NULL);
 		free_list(token_list);
 		return (FALSE);
 	}
 	return (TRUE);
 }
 
-int	handle_quote(t_vector *input, t_list **token_list, int ret)
+int			handle_quote(t_vector *input, t_list **token_list, int ret)
 {
 	t_vector	*vct;
 	size_t		len;

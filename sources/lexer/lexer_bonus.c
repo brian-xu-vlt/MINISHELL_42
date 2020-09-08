@@ -32,7 +32,7 @@ static void	debug(int type)
 		ft_printf("token->type = %c\n", ASSIGN);
 }
 
-int extract_token(t_list **token_list, char *str, size_t type)
+int			extract_token(t_list **token_list, char *str, size_t type)
 {
 	t_token	*token;
 	t_list	*node;
@@ -51,7 +51,8 @@ int extract_token(t_list **token_list, char *str, size_t type)
 	node = ft_lstnew(token);
 	if (node == NULL)
 	{
-		exit_routine_lexer(NULL, NULL, NULL, token, node);
+		ft_lstdelone(node, NULL);
+		free(node);
 		return (FAILURE);
 	}
 	ft_lstadd_back(token_list, node);
@@ -87,52 +88,50 @@ static int	no_word(t_list **token_list, t_vector *word, size_t type)
 	return (FALSE);
 }
 
-int	process_exception(int *ret, t_vector *input, t_list **token_list,
-						t_vector *word, ssize_t type)
+static int	process_lexer(t_vector *input, t_list **token_list, t_vector *word)
 {
-	if (*ret == N_SIMPLE_QUOTE || *ret == N_QUOTE)
+	ssize_t	type;
+	int		ret;
+
+	ret = 0;
+	type = get_double_token(input);
+	if (type == NO_TYPE)
+		type = get_token(vct_getcharat(input, FIRST_CHAR));
+	if (type < E_WORD)
+		ret = no_word(token_list, word, type);
+	else
+		vct_add(word, vct_getcharat(input, FIRST_CHAR));
+	if (ret == N_SIMPLE_QUOTE || ret == N_QUOTE)
 	{
 		vct_pop(input);
-		*ret = handle_quote(input, token_list, *ret);
-		if (*ret == FALSE)
-		{
-			exit_routine_lexer(word, NULL, NULL, NULL, NULL);
+		if (handle_quote(input, token_list, ret) == FALSE)
 			return (FAILURE);
-		}
 	}
-	if (*ret == FALSE)
+	if (ret == FALSE)
 		vct_pop(input);
 	if (type > DOUBLE_TOKEN && type < EXP_ASSIGN)
 		vct_pop(input);
-	*ret = FALSE;
+	ret = FALSE;
 	return (SUCCESS);
 }
 
-t_list			*lexer(t_vector *input)
+t_list		*lexer(t_vector *input)
 {
 	t_list		*token_list;
 	t_vector	*word;
-	ssize_t		type;
-	int			ret;
 
 	word = vct_new();
 	token_list = NULL;
 	while (vct_getlen(input) > 0)
 	{
-		type = get_double_token(input);
-		if (type == FAILURE)
+		if (process_lexer(input, &token_list, word) == FAILURE)
+		{
+			exit_routine_lexer(word, NULL, NULL, NULL);
 			return (NULL);
-		if (type == NO_TYPE)
-			type = get_token(vct_getcharat(input, FIRST_CHAR));
-		if (type < E_WORD)
-			ret = no_word(&token_list, word, type);
-		else
-			vct_add(word, vct_getcharat(input, FIRST_CHAR));
-		if (process_exception(&ret, input, &token_list, word, type) == FAILURE)
-			return (NULL);
+		}
 	}
 	if (vct_getlen(word) != 0)
-		extract_token_word(&token_list, word);	
+		extract_token_word(&token_list, word);
 	vct_del(&word);
 	return (token_list);
 }
