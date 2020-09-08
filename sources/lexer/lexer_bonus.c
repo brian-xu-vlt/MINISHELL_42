@@ -40,10 +40,7 @@ int extract_token(t_list **token_list, char *str, size_t type)
 	token = (t_token *)malloc(sizeof(t_token));
 	node = NULL;
 	if (token == NULL)
-	{
-		ft_printf("ICIIIIIIIIIIIIIIIIII\n");//DEBUG
 		return (FAILURE);
-	}
 	token->data = NULL;
 	if (type >= E_WORD || type == E_SIMPLE_QUOTE || type == E_QUOTE)
 		token->data = ft_strdup(str);
@@ -54,12 +51,7 @@ int extract_token(t_list **token_list, char *str, size_t type)
 	node = ft_lstnew(token);
 	if (node == NULL)
 	{
-		ft_printf("ICI\n\n\n");//DEBUG
-		free(token->data);
-		token->type = 0;
-		ft_lstdelone(node, NULL);
-		free(node);
-		node = NULL;
+		exit_routine_lexer(NULL, NULL, NULL, token, node);
 		return (FAILURE);
 	}
 	ft_lstadd_back(token_list, node);
@@ -125,7 +117,7 @@ t_list			*lexer(t_vector *input)
 			ret = handle_quote(input, &token_list, ret);
 			if (ret == FALSE)
 			{
-				vct_del(&word);
+				exit_routine_lexer(word, NULL, NULL, NULL, NULL);
 				return (NULL);
 			}
 		}

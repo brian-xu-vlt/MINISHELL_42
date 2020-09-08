@@ -23,5 +23,6 @@ ssize_t	check_quote(t_vector *vct);
 void	free_list(t_list **token);
 int		handle_quote(t_vector *input, t_list **token_list, int ret);
 int 	extract_token(t_list **token_list, char *str, size_t type);
+void	exit_routine_lexer(t_vector *word, t_vector *vct, t_vector *tmp, t_token *token, t_list *node);
 
 #endif

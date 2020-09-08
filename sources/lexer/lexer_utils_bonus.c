@@ -1,5 +1,26 @@
 #include "minishell_bonus.h"
 
+void	exit_routine_lexer(t_vector *word, t_vector *vct, t_vector *tmp,
+							t_token *token, t_list *node)
+{
+	if (word != NULL)
+		vct_del(&word);
+	if (vct != NULL)
+		vct_del(&vct);
+	if (tmp != NULL)
+		vct_del(&tmp);
+	if (token != NULL)
+	{
+		free(token->data);
+		token->type = 0;
+	}
+	if (node != NULL)
+	{
+		ft_lstdelone(node, NULL);
+		free(node);
+	}
+}
+
 int	handle_quote(t_vector *input, t_list **token_list, int ret)
 {
 	t_vector	*vct;
@@ -11,12 +32,9 @@ int	handle_quote(t_vector *input, t_list **token_list, int ret)
 	ret_extract = SUCCESS;
 	vct = vct_cdup(input, ret == N_SIMPLE_QUOTE ? C_SIMPLE_QUOTE
 			: C_QUOTE);
-	ft_printf("vct = %s\n", vct_getstr(vct));//DEBUG
 	if (vct_equ(input, vct) == TRUE)
 	{
-		ft_printf("la ?\n");//DEBUG
 		vct_del(&vct);
-		vct = NULL;
 		free_list(token_list);
 		return (FALSE);
 	}
@@ -34,11 +52,8 @@ int	handle_quote(t_vector *input, t_list **token_list, int ret)
 		ret_extract = extract_token(token_list, vct_getstr(vct), E_ASSIGN);
 		if (ret_extract == FAILURE)
 		{
-			vct_del(&vct);
-			vct = NULL;
-			vct_del(&tmp);
-			tmp = NULL;
-			//free_list(token_list);
+			exit_routine_lexer(NULL, vct, tmp, NULL, NULL);
+			free_list(token_list);
 			return (FALSE);
 		}
 		vct_popfrom(input, len_tmp);
@@ -49,15 +64,11 @@ int	handle_quote(t_vector *input, t_list **token_list, int ret)
 						? E_SIMPLE_QUOTE : E_QUOTE);
 		if (ret_extract == FAILURE)
 		{
-			vct_del(&vct);
-			vct = NULL;
-			vct_del(&tmp);
-			tmp = NULL;
+			exit_routine_lexer(NULL, vct, NULL, NULL, NULL);
 			free_list(token_list);
 			return (FALSE);
 		}
 	}
 	vct_del(&vct);
-	vct = NULL;
 	return (TRUE);
 }
