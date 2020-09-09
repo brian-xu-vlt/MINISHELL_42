@@ -8,12 +8,9 @@ int 	main(void)
 {
 	t_vector	*test_command;
 
-	init_termcaps();
-	init_term_mode();
-	update_window_size();
+	init_minishell();
 
 	test_command = vct_new();
-
 	while (ft_strncmp(vct_getstr(test_command), "quit", 5) != 0)
 	{
 		vct_clear(test_command);

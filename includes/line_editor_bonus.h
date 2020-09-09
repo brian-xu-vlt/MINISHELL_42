@@ -42,6 +42,7 @@
 # define	ERR_SCREEN_SIZE	"Screen size too small"
 # define	ERR_TERM_NAME	"Term environement variable can't be located"
 # define	ERR_TERMCAP		"Termcap could not be loaded by termcap library"
+# define	ERR_MALLOC		"Malloc could not allocate memory"
 
 # define	K_UP			0x415b1b
 # define	K_DOWN			0x425b1b
@@ -65,19 +66,24 @@
 
 # define	PROMPT			"~$>"
 
-# define	NB_TERMCAP		9
+# define	NB_TERMCAP		14
 
 enum	e_termcap
 {
+	SAVE_CURSOR_POS,
+	RESTORE_CURSOR_POS,
+	CLEAR_CURRENT_LINE,
+	ONE_COL_LEFT,
+	ONE_COL_RIGHT,
+	ONE_ROW_DOWN,
+	ONE_ROW_UP,
+	DELETE_ONE_CHAR,
 	HIDE_CURSOR,
 	VISIBLE_CURSOR,
-	INSERT_MODE,
-	NORMAL_MODE,
+	IN_INSERT_MODE,
+	OUT_INSERT_MODE,
 	SELECT,
-	UNSELECT,
-	CLEAR_AFTER_CURSOR,
-	SAVE_CURSOR_POS,
-	RESTORE_CURSOR_POS
+	UNSELECT
 };
 
 /*************************************************
@@ -144,7 +150,7 @@ int			move_cursor_left(void);
 ************************************************/
 void		init_prompt(void);
 void		init_term_mode(void);
-void		init_termcaps(void);
+void		init_minishell(void);
 
 void		update_window_size(void);
 

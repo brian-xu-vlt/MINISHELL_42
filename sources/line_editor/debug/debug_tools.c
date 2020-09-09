@@ -13,12 +13,15 @@ void	debug_print_infos(t_vector *command_line)
 	tputs(tgetstr("md", NULL), 2, ms_putchar); // double bright
 	tputs(tgetstr("ce", NULL), 2, ms_putchar); // clear current line
 
-	ft_printf("cursor col [%d/%d] line [%d] vct_index [%d] char_in_vct [%c]", le->cx, le->scols, le->cy, convert_cur_pos_vctindex(le->cx, le->cy), vct_getcharat(command_line, vct_index));
+	ft_printf("cursor col [%d/%d] line [%d] vct_index [%d] char_in_vct [%c]",
+		le->cx, le->scols, le->cy, convert_cur_pos_vctindex(le->cx, le->cy),
+		vct_getcharat(command_line, vct_index));
 	buff = tparm(tgetstr("ch", NULL), 0); //set param termcap for col argument at 0
 	tputs(buff, 2, ms_putchar); // cursor @ col 0 of same line
 	tputs(tgetstr("do", NULL), 2, ms_putchar); // cursor 1 row down
 	tputs(tgetstr("ce", NULL), 2, ms_putchar); // clear current line
-	ft_printf("select_min/max [%d/%d]\nvct_content [%s]", le->select_min, le->select_max, vct_getstr(command_line));
+	ft_printf("select_min/max [%d/%d]\nvct_content [%s]", le->select_min,
+		le->select_max, vct_getstr(command_line));
 	tputs(tgetstr("me", NULL), 2, ms_putchar); // restore appearance
 	tputs(tgetstr("rc", NULL), 2, ms_putchar); // restore location
 }
