@@ -27,7 +27,7 @@ int	get_ctrlkey(int c)
 
 t_le				*get_env(t_le *env)
 {
-	static t_env *env_backup = NULL;
+	static t_le	*env_backup = NULL;
 
 	if (env != NULL)
 		env_backup = env;

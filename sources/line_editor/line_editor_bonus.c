@@ -3,23 +3,28 @@
 void	update_select()
 {
 	int		vct_index;
+	t_le	*le;
 
-	vct_index = convert_cur_pos_vctindex(g_le.cx, g_le.cy);
-	if (g_le.select_min == -1)
+	le = get_env(GET);
+	vct_index = convert_cur_pos_vctindex(le->cx, le->cy);
+	if (le->select_min == -1)
 	{
-		g_le.select_min = vct_index;
-		g_le.select_max = vct_index;
+		le->select_min = vct_index;
+		le->select_max = vct_index;
 	}
-	else if (vct_index < g_le.select_min)
-		g_le.select_min = vct_index;
-	else if (vct_index > g_le.select_max)
-		g_le.select_max = vct_index;
+	else if (vct_index < le->select_min)
+		le->select_min = vct_index;
+	else if (vct_index > le->select_max)
+		le->select_max = vct_index;
 }
 
 void	init_selection()
 {
-	g_le.select_min = -1;
-	g_le.select_max = -1;
+	t_le *le;
+
+	le = get_env(GET);
+	le->select_min = -1;
+	le->select_max = -1;
 }
 
 void		unselect_all(t_vector *command_line)
@@ -42,7 +47,7 @@ void		line_editor(t_vector *command_line)
 	while((ret = read(STDIN_FILENO, buff, L_ED_BUFF_SIZE - 1)) >= 0)
 	{
 		update_window_size();
-		if (is_shift_on(*(long *)buff) == FALSE && g_le.select_min != -1)
+		if (is_shift_on(*(long *)buff) == FALSE && get_env(GET)->select_min != -1)
 			unselect_all(command_line);
 		if (ft_isprint(*buff) == TRUE)
 			handle_print_char(buff, command_line);

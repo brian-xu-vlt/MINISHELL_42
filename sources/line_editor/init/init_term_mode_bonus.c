@@ -3,10 +3,12 @@
 void	init_term_mode(void)
 {
 	struct termios	termios_new;
+	t_le	*le;
 
+	le = get_env(GET);
 	ft_bzero(&termios_new, sizeof(struct termios));
-	tcgetattr(STDIN_FILENO, &g_le.termios_backup);
-	termios_new = g_le.termios_backup;
+	tcgetattr(STDIN_FILENO, &le->termios_backup);
+	termios_new = le->termios_backup;
 
 	termios_new.c_lflag &= ~(ICANON);
 	termios_new.c_lflag &= ~(ECHO);

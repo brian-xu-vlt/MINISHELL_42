@@ -2,7 +2,7 @@
 
 void	exit_routine_le(char *err_code)
 {
-	tcsetattr(STDIN_FILENO, TCSADRAIN, &g_le.termios_backup);
+	tcsetattr(STDIN_FILENO, TCSADRAIN, &(get_env(GET)->termios_backup));
 	if (err_code != NULL)
 	{
 		ft_putstr_fd(err_code, STDERR_FILENO);

@@ -19,6 +19,8 @@
 				DEFINES
 ************************************************/
 
+# define	GET				NULL
+
 #ifndef L_ED_BUFF_SIZE
 # define	L_ED_BUFF_SIZE	16
 #endif
@@ -63,7 +65,7 @@
 
 # define	PROMPT			"~$>"
 
-# define	NB_TERMCAP		9	
+# define	NB_TERMCAP		9
 
 enum	e_termcap
 {
@@ -94,7 +96,7 @@ typedef struct	s_line_editor
 	int				vct_index;	
 	int				select_min;	
 	int				select_max;				
-}				t_env;
+}				t_le;
 
 
 //t_le	g_le;
@@ -117,6 +119,7 @@ void		handle_esc_seq(char *buff, t_vector *command_line);
 void		handle_print_char(char *buff, t_vector *command_line);
 void		refresh_command_line(t_vector *command_line);
 int			get_ctrlkey(int c);
+t_le		*get_env(t_le *env);
 
 /*************************************************
 				UTILS SELECTION
