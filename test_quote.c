@@ -25,3 +25,21 @@ test "$var" -eq "1"
 test "1" = "1"
 
 test -e /etc/passwd && echo "Le fichier existe" || echo "Le fichier n'existe pas"
+
+echo $@ ";exit" | ./minishell 2>&
+
+echo "$TEST$TEST=lol$TEST"
+
+echo $TEST$TEST=lol$TEST""lol
+
+echo $TEST$TEST=lol$TEST"lol
+
+export TES=T="" ;
+
+export TES=T=" ;
+
+export TEST="ls       -l     - a" ; echo $TEST ; $LS ; 
+
+bonjour""
+
+&& || | ||||| &&&&&& ";' haha" "$prout=hello"=$HEY

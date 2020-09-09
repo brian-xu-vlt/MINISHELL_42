@@ -16,8 +16,8 @@
 #define DOUBLE_GREATER	">>"//8
 #define OR				"||"//9
 #define AND				"&&"//10
-#define EXP				'$'//11
-#define ASSIGN			'='//12
+#define EXP				'$'//12
+#define ASSIGN			'='//13
 
 #define C_SIMPLE_QUOTE	'\''
 #define C_QUOTE			'"'
@@ -25,7 +25,7 @@
 #define GRAMMAR			";|'\"<> \t"
 
 #define	NB_GRAMMAR		8
-#define NO_TYPE			14
+#define NO_TYPE			16
 #define DOUBLE_TOKEN	7
 #define EXP_ASSIGN		11
 #define FIRST_CHAR		0

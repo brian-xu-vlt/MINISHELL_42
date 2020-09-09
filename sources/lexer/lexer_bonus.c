@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static void	debug(int type)
+/*static void	debug(int type)
 {
 	if (type == 0)
 		ft_printf("token->type = %s\n", SEPARATOR);
@@ -30,7 +30,11 @@ static void	debug(int type)
 		ft_printf("token->type = %c\n", EXP);
 	if (type == 13)
 		ft_printf("token->type = %c\n", ASSIGN);
-}
+	if (type == 14)
+		ft_printf("token->type = E_START\n");
+	if (type == 15)
+		ft_printf("token->type = E_END\n");
+}*/
 
 int			extract_token(t_list **token_list, char *str, size_t type)
 {
@@ -42,12 +46,12 @@ int			extract_token(t_list **token_list, char *str, size_t type)
 	if (token == NULL)
 		return (FAILURE);
 	token->data = NULL;
-	if (type >= E_WORD || type == E_SIMPLE_QUOTE || type == E_QUOTE)
+	if ((type >= E_WORD && type < E_START) || type == E_SIMPLE_QUOTE || type == E_QUOTE)
 		token->data = ft_strdup(str);
 	token->type = type;
-	ft_printf("token->data = %s\n", token->data); //DEBUG
-	debug(token->type);//DEBUG
-	ft_printf("\n");//DEBUG
+	//ft_printf("token->data = %s\n", token->data); //DEBUG
+	//debug(token->type);//DEBUG
+	//ft_printf("\n");//DEBUG
 	node = ft_lstnew(token);
 	if (node == NULL)
 	{
@@ -77,17 +81,10 @@ static int	extract_token_word(t_list **token_list, t_vector *vct)
 
 static int	no_word(t_list **token_list, t_vector *word, size_t type)
 {
-	//ft_printf("word = %s\n", vct_getstr(word));//DEBUG
 	if (vct_getlen(word) != 0)
-	{
-		//ft_printf("WHAT ICI ?\n");//DEBUG
 		extract_token_word(token_list, word);
-	}
 	if (type != E_SPACE && type != E_TAB && type != E_SIMPLE_QUOTE && type != E_QUOTE)
-	{
-		//ft_printf("LA :)\n");//DEBUG
 		extract_token(token_list, NULL, type);
-	}
 	if (type == E_SIMPLE_QUOTE)
 		return (N_SIMPLE_QUOTE);
 	if (type == E_QUOTE)
@@ -102,14 +99,10 @@ static int	process_lexer(t_vector *input, t_list **token_list, t_vector *word)
 
 	ret = 0;
 	type = get_double_token(input);
-	//ft_printf("input = %s\n", vct_getstr(input));//DEBUG
 	if (type == NO_TYPE)
 		type = get_token(vct_getcharat(input, FIRST_CHAR));
 	if (type < E_WORD)
-	{
-		//ft_printf("HERE\n");//DEBUG
 		ret = no_word(token_list, word, type);
-	}
 	else
 		vct_add(word, vct_getcharat(input, FIRST_CHAR));
 	if (ret == N_SIMPLE_QUOTE || ret == N_QUOTE)
@@ -126,6 +119,7 @@ static int	process_lexer(t_vector *input, t_list **token_list, t_vector *word)
 	return (SUCCESS);
 }
 
+
 t_list		*lexer(t_vector *input)
 {
 	t_list		*token_list;
@@ -133,6 +127,7 @@ t_list		*lexer(t_vector *input)
 
 	word = vct_new();
 	token_list = NULL;
+	extract_token(&token_list, NULL, E_START);
 	while (vct_getlen(input) > 0)
 	{
 		if (process_lexer(input, &token_list, word) == FAILURE)
@@ -145,5 +140,6 @@ t_list		*lexer(t_vector *input)
 	if (vct_getlen(word) != 0)
 		extract_token_word(&token_list, word);
 	vct_del(&word);
+	extract_token(&token_list, NULL, E_END);
 	return (token_list);
 }

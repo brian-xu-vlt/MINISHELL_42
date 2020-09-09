@@ -20,7 +20,9 @@ enum e_token_type
 	E_AND,//10
 	E_WORD,//11
 	E_EXP,//12
-	E_ASSIGN//13
+	E_ASSIGN,//13
+	E_START,//14
+	E_END//15
 };
 
 #endif
