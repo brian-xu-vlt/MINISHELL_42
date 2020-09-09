@@ -5,6 +5,11 @@ int		ft_iscntrl(char c)
 	return ((c <= 27) || (c == 127));
 }
 
+int			is_shift_on(long buff)
+{
+	return ((buff & ((long)0xffffff << 16)) >> 16 == K_SHIFT);
+}
+
 int		ms_putchar(int c)
 {
 	return (write(1, &c, 1));
@@ -20,13 +25,11 @@ int	get_ctrlkey(int c)
 }
 */
 
-size_t	convert_cur_pos_vctindex(int cx, int cy)
+t_le				*get_env(t_le *env)
 {
-	return ((cy * g_le.scols) + cx - g_le.prompt_len);
-}
+	static t_env *env_backup = NULL;
 
-void	convert_vctindex_cur_pos(int vct_index)
-{
-	g_le.cy = (vct_index + g_le.prompt_len - 1) / g_le.scols;
-	g_le.cx = vct_index + g_le.prompt_len -  1 - (g_le.cy * g_le.scols);
+	if (env != NULL)
+		env_backup = env;
+	return (env_backup);
 }

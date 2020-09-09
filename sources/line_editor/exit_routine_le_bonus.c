@@ -6,7 +6,7 @@ void	exit_routine_le(char *err_code)
 	if (err_code != NULL)
 	{
 		ft_putstr_fd(err_code, STDERR_FILENO);
-		exit (FAIL);
+		exit (FAILURE);
 	}
 	exit (0);
 }

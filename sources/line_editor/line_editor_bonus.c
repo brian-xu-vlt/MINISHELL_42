@@ -1,10 +1,5 @@
 #include "line_editor_bonus.h"
 
-int			is_shift_on(long buff)
-{
-	return ((buff & ((long)0xffffff << 16)) >> 16 == K_SHIFT);
-}
-
 void	update_select()
 {
 	int		vct_index;

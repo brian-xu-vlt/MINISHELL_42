@@ -35,8 +35,6 @@
 # define	DEBUG_SIGNAL	FALSE
 #endif
 
-# define	FAIL			-1
-
 # define	ERR_NEW_VCT		"Could not malloc vector"
 # define	ERR_VCT			"Vector function failed"
 # define	ERR_SCREEN_SIZE	"Screen size too small"
@@ -96,10 +94,10 @@ typedef struct	s_line_editor
 	int				vct_index;	
 	int				select_min;	
 	int				select_max;				
-}		t_line_editor;
+}				t_env;
 
 
-t_line_editor	g_le;
+//t_le	g_le;
 
 /*************************************************
 				DEBUG
