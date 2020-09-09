@@ -6,7 +6,7 @@
 /*   By: lfallet <lfallet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/29 17:34:35 by lfallet           #+#    #+#             */
-/*   Updated: 2020/03/29 17:34:37 by lfallet          ###   ########.fr       */
+/*   Updated: 2020/09/07 15:44:35 by lfallet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	vct_del(t_vector **vct)
 {
-	if (vct != NULL && *vct != NULL)
+	if (*vct != NULL)
 	{
-		free((*vct)->str);
+		ft_strdel(&((*vct)->str));
 		free(*vct);
 		*vct = NULL;
 	}
