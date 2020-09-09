@@ -6,7 +6,7 @@
 /*   By: lfallet <lfallet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 15:46:06 by lfallet           #+#    #+#             */
-/*   Updated: 2020/09/02 16:35:19 by bvalette         ###   ########.fr       */
+/*   Updated: 2020/09/07 07:48:41 by bvalette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int					ft_iswhitespace(int c);
 int					ft_iswhitespacecomma(int c);
 int					ft_iswhitespacedigit(int c);
 int					ft_iscomma(int c);
-size_t				ft_bubblesort_minindex(size_t *tab, size_t size);
+//size_t				ft_bubblesort_minindex(size_t *tab, size_t size);
 double				ft_lfpow(double nb, int pow);
 void				ft_int_to_char(unsigned char *s, int value);
 int					ft_atoi_base(const char *str, char *base);

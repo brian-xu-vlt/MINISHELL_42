@@ -6,7 +6,7 @@
 /*   By: lfallet <lfallet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/27 19:00:06 by lfallet           #+#    #+#             */
-/*   Updated: 2020/09/05 21:49:36 by lfallet          ###   ########.fr       */
+/*   Updated: 2020/09/08 15:58:58 by bvalette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # endif
 
 # define CLEANUP					-42
-# define DEFAULT_VECTOR_SIZE		64
+# define DEFAULT_VECTOR_SIZE		1024
 # define DEFAULT_VECTOR_RESIZE		16
 
 # define NB_CONVERSION 2
@@ -97,6 +97,7 @@ ssize_t			vct_printendl_fd(t_vector *vct, int fd);
 int				vct_pop(t_vector *vct);
 int				vct_cut(t_vector *vct);
 int				vct_push(t_vector *vct, char c);
+int				vct_popcharat(t_vector *vct, size_t index);
 int				vct_popfrom(t_vector *vct, size_t nb_of_char);
 int				vct_cutfrom(t_vector *vct, size_t nb_of_char);
 int				vct_pushstr(t_vector *vct, char *str);

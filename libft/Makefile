@@ -140,6 +140,7 @@ SRCS += vct_print_fd.c
 SRCS += vct_printendl.c
 SRCS += vct_printendl_fd.c
 SRCS += vct_pop.c
+SRCS += vct_popcharat.c
 SRCS += vct_cut.c
 SRCS += vct_push.c
 SRCS += vct_popfrom.c
