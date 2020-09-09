@@ -22,7 +22,8 @@ enum e_token_type
 	E_EXP,//12
 	E_ASSIGN,//13
 	E_START,//14
-	E_END//15
+	E_END,//15
+	NO_TYPE//16
 };
 
 #endif
