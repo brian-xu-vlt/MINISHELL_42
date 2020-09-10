@@ -52,17 +52,14 @@ static void	tab_start_separator(t_valid_token *token)
 	token[E_START].next_token = tab_valid;
 }
 
-t_btree 	*parser_token(t_list *token_list)
+int 	parser_token(t_list *token_list)
 {
-	t_btree	*ast;
 	static t_valid_token valid_token[NB_TOKEN];
 
-	ast = NULL;
 	ft_bzero(&valid_token, sizeof(valid_token));
 	tab_start_separator(valid_token);
 	tab_pipe_or_and(valid_token);
 	tab_word_exp_assign(valid_token);
 	tab_redirect(valid_token);
-	process_parser(token_list, valid_token);
-	return (NULL);	
+	return (process_parser(token_list, valid_token));
 }

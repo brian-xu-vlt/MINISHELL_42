@@ -24,10 +24,8 @@ int	main(void)
 {
 	t_vector	*vct_input;
 	t_list		*lexer_list;
-	t_btree		*ast;
 	
 	vct_input = vct_new();
-	ast = NULL;
 	while (1)
 	{
 		print_prompt();
@@ -51,11 +49,12 @@ int	main(void)
 		}
 		// -> in : vecteur que tu me renvoies
 		// -> out : list de token
-		ast = parser_token(lexer_list); //fonction qui permet de voir si token fonctionne ensemble
-		//______exemple : SUJET VERBE COMPLEMENT == FONCTIONNE
-		//______exemple : SUJET COMPLEMENT VERBRE == FONCTIONNE PAS
-		// -> in : list de token
-		// -> out : ast (arbre binaire)
+		if (parser_token(lexer_list) == FALSE) //fonction qui permet de voir si token fonctionne
+		{
+			free_list(&lexer_list);
+			vct_del(&vct_input);
+			return (EXIT_FAILURE);
+		}
 		//ast = exp_var(ast); fonction qui permet d'expandre les variables $
 		// -> in : ast
 		// -> out : ast

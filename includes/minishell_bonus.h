@@ -24,7 +24,7 @@ void	free_list(t_list **token);
 int		handle_quote(t_vector *input, t_list **token_list, int ret);
 int 	extract_token(t_list **token_list, char *str, size_t type);
 void	exit_routine_lexer(t_vector *word, t_vector *vct, t_vector *tmp, t_token *token);
-t_btree *parser_token(t_list *token_list);
-void	process_parser(t_list *list, t_valid_token *valid_token);
+int		parser_token(t_list *token_list);
+int		process_parser(t_list *list, t_valid_token *valid_token);
 
 #endif
