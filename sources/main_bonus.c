@@ -39,7 +39,7 @@ int	main(void)
 			free_list(&lexer_list);
 			return (EXIT_FAILURE);
 		}
-		ft_printf("-- La ligne est [%s] --\n", vct_getstr(vct_input)); // DEBUG
+		//ft_printf("-- La ligne est [%s] --\n", vct_getstr(vct_input)); // DEBUG
 		lexer_list = lexer(vct_input); //fonction qui transforme chaque element en token
 		if (lexer_list == NULL /*&& vct_getlen(vct_input) != 0*/)
 		{
@@ -49,11 +49,12 @@ int	main(void)
 		}
 		// -> in : vecteur que tu me renvoies
 		// -> out : list de token
-		//ast = parser(token_list); fonction qui permet de voir si token fonctionne ensemble
-		//______exemple : SUJET VERBE COMPLEMENT == FONCTIONNE
-		//______exemple : SUJET COMPLEMENT VERBRE == FONCTIONNE PAS
-		// -> in : list de token
-		// -> out : ast (arbre binaire)
+		if (parser_token(lexer_list) == FALSE) //fonction qui permet de voir si token fonctionne
+		{
+			free_list(&lexer_list);
+			vct_del(&vct_input);
+			return (EXIT_FAILURE);
+		}
 		//ast = exp_var(ast); fonction qui permet d'expandre les variables $
 		// -> in : ast
 		// -> out : ast
