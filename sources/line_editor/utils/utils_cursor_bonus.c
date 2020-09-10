@@ -62,11 +62,40 @@ size_t	convert_cur_pos_vctindex(int cx, int cy)
 	return ((cy * le->scols) + cx - le->prompt_len);
 }
 
-void	convert_vctindex_cur_pos(int vct_index)
+void	update_cursor_pos_with_new_index(int vct_index)
 {
 	t_le	*le;
 
 	le = get_env(GET);
 	le->cy = (vct_index + le->prompt_len - 1) / le->scols;
 	le->cx = vct_index + le->prompt_len -  1 - (le->cy * le->scols);
+}
+
+void		move_cursor_at_startingpoint(void)
+{
+	char	*buff;
+	t_le	*le;
+
+	le = get_env(GET);
+	buff = tparm(tgetstr("ch", NULL), 0); //set cursor after prompt
+	tputs(buff, 1, ms_putchar);
+	if (le->cy > 0)
+	{
+		buff = tparm(tgetstr("UP", NULL), le->cy); //set cursor at line 0 of line editor
+		tputs(buff, le->cy, ms_putchar); 
+	}
+	init_prompt();
+}
+
+void		move_cursor_at_index(t_vector *command_line, int target_index)
+{
+	int		i;
+
+	move_cursor_at_startingpoint();
+	i = 0;
+	while (i < target_index)
+	{
+		move_cursor_right(command_line);
+		i++;
+	}
 }

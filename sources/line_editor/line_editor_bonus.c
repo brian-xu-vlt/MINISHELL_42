@@ -19,7 +19,10 @@ void		line_editor(t_vector *command_line)
 		if (ft_isprint(*buff) == TRUE)
 			handle_print_char(buff[0], command_line);
 		else if (*buff == K_ENTER)
+		{
+			move_cursor_at_index(command_line, vct_getlen(command_line));
 			return ;
+		}
 		else if (ft_isprint(*buff) == FALSE)
 			handle_esc_seq(*(long *)buff, command_line);
 		ft_bzero(buff, L_ED_BUFF_SIZE);

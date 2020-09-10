@@ -39,7 +39,7 @@
 
 # define	ERR_NEW_VCT		"Could not malloc vector"
 # define	ERR_VCT			"Vector function failed"
-# define	ERR_SCREEN_SIZE	"Screen size too small"
+# define	ERR_SCREEN_SIZE	"Screen size is too small"
 # define	ERR_TERM_NAME	"Term environement variable can't be located"
 # define	ERR_TERMCAP		"Termcap could not be loaded by termcap library"
 # define	ERR_MALLOC		"Malloc could not allocate memory"
@@ -72,7 +72,7 @@ enum	e_termcap
 {
 	SAVE_CURSOR_POS,
 	RESTORE_CURSOR_POS,
-	CLEAR_CURRENT_LINE,
+	CLEAR_ALL_AFTER_CURS,
 	ONE_COL_LEFT,
 	ONE_COL_RIGHT,
 	ONE_ROW_DOWN,
@@ -107,9 +107,6 @@ typedef struct	s_line_editor
 	int				select_max;				
 }				t_le;
 
-
-//t_le	g_le;
-
 /*************************************************
 				DEBUG
 ************************************************/
@@ -128,6 +125,7 @@ void		exit_routine_le(char *err_code);
 void		refresh_command_line(t_vector *command_line);
 int			get_ctrlkey(int c);
 t_le		*get_env(t_le *env);
+void		insert_char_in_vct(t_vector *command_line, char c);
 
 /*************************************************
 				HANDLERS
@@ -148,11 +146,16 @@ void		update_select(t_vector *command_line, long buff);
 				CURSOR
 ************************************************/
 
-void		convert_vctindex_cur_pos(int vct_index);
+void		print_command_line(t_vector *command_line);
+void		update_cursor_pos_with_new_index(int vct_index);
 size_t		convert_cur_pos_vctindex(int cx, int cy);
+
 int			move_cursor_right(t_vector *command_line);
 int			move_cursor_left(void);
-void	apply_home(void);
+void		move_cursor_at_startingpoint(void);
+void		move_cursor_at_index(t_vector *command_line, int target_index);
+
+void		apply_home(void);
 
 /*************************************************
 				INIT FUNCTIONS

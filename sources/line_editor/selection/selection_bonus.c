@@ -3,10 +3,14 @@
 void	update_select(t_vector *command_line, long buff)
 {
 	int		vct_index;
+	int		vct_len;
 	t_le	*le;
 
 	le = get_env(GET);
 	vct_index = convert_cur_pos_vctindex(le->cx, le->cy);
+	vct_len = (int)vct_getlen(command_line);
+	if (vct_index >= vct_len)
+		vct_index = vct_len - 1;
 	if (le->select_min == -1)
 	{
 		le->select_min = vct_index - ((buff == K_RIGHT) ? 1 : 0);
@@ -17,9 +21,9 @@ void	update_select(t_vector *command_line, long buff)
 		le->select_min = vct_index;
 		return ;
 	}
-	else if (vct_index >= (int)vct_getlen(command_line))
+	else if (vct_index >= vct_len)
 	{
-		le->select_max = (int)vct_getlen(command_line);
+		le->select_max = vct_len;
 		return ;
 	}
 	else if (vct_index < le->select_min && vct_index < le->select_max)
@@ -43,6 +47,12 @@ void	init_selection()
 
 void		unselect_all(t_vector *command_line)
 {
-	init_selection();
-	refresh_command_line(command_line);
+	t_le *le;
+
+	le = get_env(GET);
+	if (le->select_min != -1)
+	{
+		init_selection();
+		refresh_command_line(command_line);
+	}
 }

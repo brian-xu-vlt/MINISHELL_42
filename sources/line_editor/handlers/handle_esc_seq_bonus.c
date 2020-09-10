@@ -6,6 +6,7 @@ void	apply_del_backward(t_vector *command_line)
 	size_t	vct_index;
 
 	le = get_env(GET);
+	tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
 	vct_index = convert_cur_pos_vctindex(le->cx, le->cy);	
 	if (vct_index > 0)
 	{
@@ -21,6 +22,7 @@ void	apply_del_foreward(t_vector *command_line)
 	size_t	vct_index;
 
 	le = get_env(GET);
+	tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
 	vct_index = convert_cur_pos_vctindex(le->cx, le->cy);	
 	tputs(tgetstr("dc", NULL), 2, ms_putchar); // delete 1 char
 	vct_popcharat(command_line, vct_index);
@@ -92,7 +94,6 @@ void	apply_ctrl_left(t_vector *command_line)
 void	past_clipboard(t_vector *command_line)
 {
 	int		i;
-	int		vct_index;
 	int		clipboard_len;
 	char	char_to_paste;
 	t_le	*le;
@@ -103,9 +104,9 @@ void	past_clipboard(t_vector *command_line)
 	i = 0;
 	while (i < clipboard_len)
 	{
-		vct_index = convert_cur_pos_vctindex(le->cx, le->cy);	
 		char_to_paste = vct_getcharat(le->clipboard, i);
-		handle_print_char(char_to_paste, command_line);
+		insert_char_in_vct(command_line, char_to_paste);
+		move_cursor_right(command_line);
 		i++;
 	}
 }

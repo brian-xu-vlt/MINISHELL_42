@@ -19,7 +19,7 @@ static int		fill_termcaps(t_le* le)
 
 	le->termcap[SAVE_CURSOR_POS] = tgetstr("sc", NULL);
 	le->termcap[RESTORE_CURSOR_POS] = tgetstr("rc", NULL);
-	le->termcap[CLEAR_CURRENT_LINE] = tgetstr("cd", NULL);
+	le->termcap[CLEAR_ALL_AFTER_CURS] = tgetstr("cd", NULL);
 	le->termcap[ONE_COL_LEFT] = tgetstr("le", NULL);
 	le->termcap[ONE_COL_RIGHT] = tgetstr("nd", NULL);
 	le->termcap[ONE_ROW_DOWN] = tgetstr("do", NULL);
