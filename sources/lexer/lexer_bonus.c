@@ -109,7 +109,7 @@ static int	process_lexer(t_vector *input, t_list **token_list, t_vector *word)
 	{
 		vct_pop(input);
 		if (handle_quote(input, token_list, ret) == FALSE)
-			return (FAILURE);
+			return (FAILURE); //MESSAGE D'ERREUR (QUOTE NON FERME)
 	}
 	if (ret == FALSE)
 		vct_pop(input);
