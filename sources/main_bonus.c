@@ -39,7 +39,7 @@ int	main(void)
 			free_list(&lexer_list);
 			return (EXIT_FAILURE);
 		}
-		ft_printf("-- La ligne est [%s] --\n", vct_getstr(vct_input)); // DEBUG
+		//ft_printf("-- La ligne est [%s] --\n", vct_getstr(vct_input)); // DEBUG
 		lexer_list = lexer(vct_input); //fonction qui transforme chaque element en token
 		if (lexer_list == NULL /*&& vct_getlen(vct_input) != 0*/)
 		{
