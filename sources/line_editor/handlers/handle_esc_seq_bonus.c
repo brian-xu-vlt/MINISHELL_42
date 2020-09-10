@@ -89,37 +89,41 @@ void	apply_ctrl_left(t_vector *command_line)
 	}
 }
 
-void	strip_shift_bits(char **buff)
+static long	strip_off_extra_bits(long buff)
 {
-	(void)buff;
-	return; 	
-
+	return ((buff & 0xff0000000000) >> 24 | (buff & 0xffff)); 
 }
 
-void	handle_esc_seq(char *buff, t_vector *command_line)
+void	handle_esc_seq(long buff, t_vector *command_line)
 {
 	int	shift_flag;
+	int	ctrl_flag;
+	int	ctrl_shift_flag;
 
-	if ((shift_flag = is_shift_on(*(long *)buff)) == TRUE)
-		strip_shift_bits(&buff);
+	if ((ctrl_shift_flag = is_ctrl_shift_on(buff)) == TRUE)
+		buff = strip_off_extra_bits(buff);
+	if ((shift_flag = is_shift_on(buff)) == TRUE)
+		buff = strip_off_extra_bits(buff);
+	if ((ctrl_flag = is_ctrl_on(buff)) == TRUE)
+		buff = strip_off_extra_bits(buff);
 	
-	if ((*((unsigned int *)buff)) == K_LEFT)
-		move_cursor_left();
-	else if ((*((unsigned int *)buff)) == K_RIGHT)
-		move_cursor_right(command_line);
-	else if ((*((unsigned int *)buff)) == K_HOME)
-		apply_end(command_line);
-	else if ((*((unsigned int *)buff)) == K_END)
-		apply_home();
-	else if ((*((long *)buff)) == K_CTRL_RIGHT)
+	if (ctrl_flag == TRUE && buff == K_RIGHT)
 		apply_ctrl_right(command_line);
-	else if ((*((long *)buff)) == K_CTRL_LEFT)
+	else if (ctrl_flag == TRUE && buff == K_LEFT)
 		apply_ctrl_left(command_line);
-	else if ((*((unsigned int *)buff)) == K_DEL_BACKWARD)
+	else if (buff == K_LEFT)
+		move_cursor_left();
+	else if (buff == K_RIGHT)
+		move_cursor_right(command_line);
+	else if (buff == K_HOME)
+		apply_end(command_line);
+	else if (buff == K_END)
+		apply_home();
+	else if (buff == K_DEL_BACKWARD)
 		apply_del_backward(command_line);
-	else if ((*((unsigned int *)buff)) == K_DEL_FOREWARD)
+	else if (buff == K_DEL_FOREWARD)
 		apply_del_foreward(command_line);
 	if (shift_flag == TRUE)
-		update_select();
+		update_select(command_line, buff);
 	refresh_command_line(command_line);
 }

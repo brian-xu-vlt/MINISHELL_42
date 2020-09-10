@@ -49,9 +49,6 @@
 # define	K_RIGHT			0x435b1b
 # define	K_LEFT			0x445b1b
 
-# define	K_SHIFT			0x323b31
-# define	K_CTRL			0x323b31
-
 # define	K_CTRL_RIGHT	0x43353b315b1b
 # define	K_CTRL_LEFT		0x44353b315b1b
 
@@ -63,6 +60,9 @@
 
 # define	K_ENTER			0xa
 # define	K_ESCAPE		0x1b
+# define	K_SHIFT			0x323b31
+# define	K_CTRL			0x353b31
+# define	K_CTRL_SHIFT	0x363b31
 
 # define	PROMPT			"~$>"
 
@@ -121,23 +121,30 @@ void	debug_print_flag(char *flag);
 int			ft_iscntrl(char c);
 int         ms_putchar(int c);
 void		exit_routine_le(char *err_code);
-void		handle_esc_seq(char *buff, t_vector *command_line);
-void		handle_print_char(char *buff, t_vector *command_line);
 void		refresh_command_line(t_vector *command_line);
 int			get_ctrlkey(int c);
 t_le		*get_env(t_le *env);
 
 /*************************************************
-				UTILS SELECTION
+				HANDLERS
+************************************************/
+
+void		handle_esc_seq(long buff, t_vector *command_line);
+void		handle_print_char(char *buff, t_vector *command_line);
+
+/*************************************************
+				SELECTION
 ************************************************/
 
 void		init_selection(void);
 void		unselect_all(t_vector *command_line);
-void		update_select(void);
+void		update_select(t_vector *command_line, long buff);
 int			is_shift_on(long buff);
+int			is_ctrl_on(long buff);
+int			is_ctrl_shift_on(long buff);
 
 /*************************************************
-				UTILS CURSOR
+				CURSOR
 ************************************************/
 
 void		convert_vctindex_cur_pos(int vct_index);
