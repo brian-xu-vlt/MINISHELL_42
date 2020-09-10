@@ -94,6 +94,9 @@ typedef struct	s_line_editor
 {
 	struct termios	termios_backup;
 	char			*termcap[NB_TERMCAP];
+	t_vector		*cmd_line;
+	t_vector		*clipboard;
+	t_vector		*history;
 	int				srows;
 	int				scols;
 	int				prompt_len;
@@ -117,8 +120,9 @@ void	debug_print_flag(char *flag);
 /*************************************************
 				UTILS
 ************************************************/
-//int	get_ctrlkey(char c);
-int			ft_iscntrl(char c);
+int			is_shift_on(long buff);
+int			is_ctrl_on(long buff);
+int			is_ctrl_shift_on(long buff);
 int         ms_putchar(int c);
 void		exit_routine_le(char *err_code);
 void		refresh_command_line(t_vector *command_line);
@@ -130,7 +134,7 @@ t_le		*get_env(t_le *env);
 ************************************************/
 
 void		handle_esc_seq(long buff, t_vector *command_line);
-void		handle_print_char(char *buff, t_vector *command_line);
+void		handle_print_char(char buff, t_vector *command_line);
 
 /*************************************************
 				SELECTION
@@ -139,9 +143,6 @@ void		handle_print_char(char *buff, t_vector *command_line);
 void		init_selection(void);
 void		unselect_all(t_vector *command_line);
 void		update_select(t_vector *command_line, long buff);
-int			is_shift_on(long buff);
-int			is_ctrl_on(long buff);
-int			is_ctrl_shift_on(long buff);
 
 /*************************************************
 				CURSOR
@@ -151,6 +152,7 @@ void		convert_vctindex_cur_pos(int vct_index);
 size_t		convert_cur_pos_vctindex(int cx, int cy);
 int			move_cursor_right(t_vector *command_line);
 int			move_cursor_left(void);
+void	apply_home(void);
 
 /*************************************************
 				INIT FUNCTIONS

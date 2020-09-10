@@ -35,7 +35,7 @@ void	apply_end(t_vector *command_line)
 		ret = move_cursor_right(command_line);
 }
 
-void	apply_home()
+void	apply_home(void)
 {
 	int		ret;
 
@@ -89,9 +89,51 @@ void	apply_ctrl_left(t_vector *command_line)
 	}
 }
 
+void	past_clipboard(t_vector *command_line)
+{
+	int		i;
+	int		vct_index;
+	int		clipboard_len;
+	char	char_to_paste;
+	t_le	*le;
+
+	le = get_env(GET);
+	unselect_all(command_line);	
+	clipboard_len = (int)vct_getlen(le->clipboard);
+	i = 0;
+	while (i < clipboard_len)
+	{
+		vct_index = convert_cur_pos_vctindex(le->cx, le->cy);	
+		char_to_paste = vct_getcharat(le->clipboard, i);
+		handle_print_char(char_to_paste, command_line);
+		i++;
+	}
+}
+
+void	copy_selection(t_vector *command_line)
+{
+	t_le	*le;
+	int		copy_start;
+	int		copy_end;
+	int		vct_index;
+	int		i;
+	
+	le = get_env(GET);
+	vct_index = convert_cur_pos_vctindex(le->cx, le->cy);
+	copy_start = (le->select_min == -1) ? vct_index : le->select_min;
+	copy_end = (le->select_max == -1) ? vct_index : le->select_max;
+	vct_clear(le->clipboard);
+	i = copy_start;
+	while (i <= copy_end)
+	{
+		vct_add(le->clipboard, vct_getcharat(command_line, i));
+		i++;
+	}
+}
+
 static long	strip_off_extra_bits(long buff)
 {
-	return ((buff & 0xff0000000000) >> 24 | (buff & 0xffff)); 
+	return ((buff & ((long)0xff << 40)) >> 24 | (buff & 0xffff)); 
 }
 
 void	handle_esc_seq(long buff, t_vector *command_line)
@@ -111,6 +153,10 @@ void	handle_esc_seq(long buff, t_vector *command_line)
 		apply_ctrl_right(command_line);
 	else if (ctrl_flag == TRUE && buff == K_LEFT)
 		apply_ctrl_left(command_line);
+	else if (shift_flag == TRUE && buff == K_UP)
+		copy_selection(command_line);
+	else if (shift_flag == TRUE && buff == K_DOWN)
+		past_clipboard(command_line);
 	else if (buff == K_LEFT)
 		move_cursor_left();
 	else if (buff == K_RIGHT)

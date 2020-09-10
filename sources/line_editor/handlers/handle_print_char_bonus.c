@@ -65,14 +65,14 @@ void		refresh_command_line(t_vector *command_line)
 
 
 // doesn't handle pasted text longer than one byte !
-void		handle_print_char(char *buff, t_vector *command_line)
+void		handle_print_char(char buff, t_vector *command_line)
 {
 	size_t	vct_index;
 	t_le	*le;
 
 	le = get_env(GET);
 	vct_index = convert_cur_pos_vctindex(le->cx, le->cy);	
-	if (vct_addcharat(command_line, vct_index, buff[0]) != SUCCESS)
+	if (vct_addcharat(command_line, vct_index, buff) != SUCCESS)
 		exit_routine_le(ERR_VCT);
 	move_cursor_right(command_line);
 	refresh_command_line(command_line);
