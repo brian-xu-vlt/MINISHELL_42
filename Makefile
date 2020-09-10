@@ -42,10 +42,11 @@ HEADER = $(INCLUDES)minishell_bonus.h
 
 SRCS += main_bonus.c
 SRCS += lexer_bonus.c
-SRCS += parser_bonus.c
 SRCS += token_bonus.c
 SRCS += free_list_bonus.c
 SRCS += lexer_utils_bonus.c
+SRCS += parser_bonus.c
+SRCS += parser_process_bonus.c
 
 OBJ_DIR = ./objs/
 

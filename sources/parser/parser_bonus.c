@@ -63,11 +63,6 @@ t_btree 	*parser_token(t_list *token_list)
 	tab_pipe_or_and(valid_token);
 	tab_word_exp_assign(valid_token);
 	tab_redirect(valid_token);
-
-//if ((state_is_ok(token->type, &state, graph[state].good_type)) == FALSE)
-//static uint8_t	state_is_ok(enum e_type to_find, enum e_type *current,
-//							enum e_type possible_state[])
-
-while (possible_state[i] != E_CONCLUSION) //RAJOUTER E_CONCLUSION PARTOUT
-	return (ast);
+	process_parser(valid_token);
+	return (NULL);	
 }
