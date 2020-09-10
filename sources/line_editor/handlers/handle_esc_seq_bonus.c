@@ -91,12 +91,34 @@ void	apply_ctrl_left(t_vector *command_line)
 	}
 }
 
+
+void	past_clipboard(t_vector *command_line)
+{
+	int		i;
+	t_le	*le;
+	char	*clipboard_content;
+
+	le = get_env(GET);
+	unselect_all(command_line);
+	clipboard_content = vct_getstr(le->clipboard);	
+	i = 0;
+	while (clipboard_content[i] != '\0')
+	{
+		insert_char_in_vct(command_line, clipboard_content[i]);
+		move_cursor_right(command_line);
+		i++;
+	}
+}
+
+
+/*
 void	past_clipboard(t_vector *command_line)
 {
 	int		i;
 	int		clipboard_len;
 	char	char_to_paste;
 	t_le	*le;
+
 
 	le = get_env(GET);
 	unselect_all(command_line);	
@@ -110,6 +132,7 @@ void	past_clipboard(t_vector *command_line)
 		i++;
 	}
 }
+*/
 
 void	copy_selection(t_vector *command_line)
 {
@@ -120,10 +143,12 @@ void	copy_selection(t_vector *command_line)
 	int		i;
 	
 	le = get_env(GET);
+	vct_clear(le->clipboard);
 	vct_index = convert_cur_pos_vctindex(le->cx, le->cy);
+	if (vct_index > (int)vct_getlen(command_line))
+		return ;
 	copy_start = (le->select_min == -1) ? vct_index : le->select_min;
 	copy_end = (le->select_max == -1) ? vct_index : le->select_max;
-	vct_clear(le->clipboard);
 	i = copy_start;
 	while (i <= copy_end)
 	{

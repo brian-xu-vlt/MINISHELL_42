@@ -21,9 +21,9 @@ void	debug_print_infos(t_vector *command_line)
 	tputs(tgetstr("ho", NULL), 2, ms_putchar); // go home 0,0
 	tputs(tgetstr("md", NULL), 2, ms_putchar); // double bright
 	tputs(tgetstr("ce", NULL), 2, ms_putchar); // clear current line
-	ft_printf("cursor col [%d/%d] line [%d] vct_index [%d] char_in_vct [%c]",
+	ft_printf("cursor col [%d/%d] line [%d] vct_index [%d] vct_len[%d] char_in_vct [%c]",
 		le->cx, le->scols, le->cy, convert_cur_pos_vctindex(le->cx, le->cy),
-		vct_getcharat(command_line, vct_index));
+		vct_getlen(command_line),vct_getcharat(command_line, vct_index));
 	debug_cursor_newline();
 	ft_printf("select_min/max [%d/%d]vct_content [%s]", le->select_min,
 		le->select_max, vct_getstr(command_line));

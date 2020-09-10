@@ -48,6 +48,7 @@ void			init_minishell(void)
 	le = (t_le *)malloc(sizeof(t_le));
 	get_env(le);
 	le->clipboard = vct_new();
+	vct_clear(le->clipboard);
 	init_library_db();
 	init_term_mode();
 	fill_termcaps(le);

@@ -6,7 +6,7 @@
 /*   By: lfallet <lfallet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/27 19:00:06 by lfallet           #+#    #+#             */
-/*   Updated: 2020/09/08 15:58:58 by bvalette         ###   ########.fr       */
+/*   Updated: 2020/09/10 18:39:48 by bvalette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # endif
 
 # define CLEANUP					-42
-# define DEFAULT_VECTOR_SIZE		1024
+# define DEFAULT_VECTOR_SIZE		2048
 # define DEFAULT_VECTOR_RESIZE		16
 
 # define NB_CONVERSION 2
