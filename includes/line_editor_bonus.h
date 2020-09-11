@@ -113,8 +113,8 @@ typedef struct	s_line_editor
 				DEBUG
 ************************************************/
 
-void	debug_print_infos(t_vector *command_line);
-void	debug_print_flag(char *flag);
+void		debug_print_infos(t_vector *command_line);
+void		debug_print_flag(char *flag);
 
 /*************************************************
 				UTILS
@@ -136,16 +136,15 @@ void		insert_char_in_vct(t_vector *command_line, char c);
 void		handle_esc_seq(long buff, t_vector *command_line);
 void		handle_print_char(char buff, t_vector *command_line);
 
-void		delete_foreward(t_vector *command_line);
-void		delete_backward(t_vector *command_line);
 void		move_end_of_line(t_vector *command_line);
 void		move_start_of_line(void);
 void		move_one_word_right(t_vector *command_line);
 void		move_one_word_left(t_vector *command_line);
+
+void		delete_selection(t_vector *command_line, long key);
 void		copy_selection(t_vector *command_line);
 void		past_clipboard(t_vector *command_line);
-//void		cut_selection(t_vector *command_line);
-
+void		cut_selection(t_vector *command_line);
 
 /*************************************************
 				SELECTION
@@ -153,7 +152,7 @@ void		past_clipboard(t_vector *command_line);
 
 void		init_selection(void);
 void		unselect_all();
-void		update_select(t_vector *command_line, long buff);
+void		update_selection(t_vector *command_line, long buff);
 
 /*************************************************
 				CURSOR

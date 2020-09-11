@@ -1,29 +1,24 @@
 #include "line_editor_bonus.h"
 
-void	delete_backward(t_vector *command_line)
+void	delete_selection(t_vector *command_line, long key)
 {
 	t_le	*le;
+	int		i;
 	size_t	vct_index;
 
 	le = get_env(GET);
-	tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
 	vct_index = convert_cur_pos_vctindex(le->cx, le->cy);	
-	if (vct_index > 0)
+	if (le->select_min == -1)
 	{
-		move_cursor_left();
-		tputs(le->termcap[DELETE_ONE_CHAR], 1, ms_putchar);
-		vct_popcharat(command_line, vct_index - 1);
+		vct_popcharat(command_line, vct_index);
+		if (key == K_DEL_BACKWARD)
+			move_cursor_left();
 	}
-}
-
-void	delete_foreward(t_vector *command_line)
-{
-	t_le	*le;
-	size_t	vct_index;
-
-	le = get_env(GET);
-	tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
-	vct_index = convert_cur_pos_vctindex(le->cx, le->cy);	
-	tputs(le->termcap[DELETE_ONE_CHAR], 1, ms_putchar);
-	vct_popcharat(command_line, vct_index);
+	else
+	{
+		i = le->select_max;
+		while(i >= 0 && i >= le->select_min)
+			vct_popcharat(command_line, i--);
+		unselect_all(command_line);
+	}
 }

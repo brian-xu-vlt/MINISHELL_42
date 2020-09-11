@@ -7,6 +7,7 @@ void		print_command_line(t_vector *command_line)
 	t_le	*le;
 
 	le = get_env(GET);
+	tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
 	if (le->select_min == -1)
 		vct_print_fd(command_line, STDERR_FILENO);
 	else

@@ -22,11 +22,13 @@ void	handle_esc_seq(long buff, t_vector *command_line)
 		buff = strip_off_extra_bits(buff);
 	else if ((ctrl_flag = is_ctrl_on(buff)) == TRUE)
 		buff = strip_off_extra_bits(buff);
-	
+
 	if (ctrl_flag == TRUE && buff == K_RIGHT)
 		move_one_word_right(command_line);
 	else if (ctrl_flag == TRUE && buff == K_LEFT)
 		move_one_word_left(command_line);
+	else if (ctrl_flag == TRUE && buff == K_UP)
+		cut_selection(command_line);
 	else if (shift_flag == TRUE && buff == K_UP)
 		copy_selection(command_line);
 	else if (shift_flag == TRUE && buff == K_DOWN)
@@ -40,10 +42,12 @@ void	handle_esc_seq(long buff, t_vector *command_line)
 	else if (buff == K_END)
 		move_end_of_line(command_line);
 	else if (buff == K_DEL_BACKWARD)
-		delete_backward(command_line);
+		delete_selection(command_line, buff);
 	else if (buff == K_DEL_FOREWARD)
-		delete_foreward(command_line);
-	if (shift_flag == TRUE && buff !=  K_DOWN)
-		update_select(command_line, buff);
+		delete_selection(command_line, buff);
+	if (shift_flag == FALSE)
+		unselect_all(command_line);	
+	else if (shift_flag == TRUE && buff != K_DOWN)
+		update_selection(command_line, buff);
 	refresh_command_line(command_line);
 }
