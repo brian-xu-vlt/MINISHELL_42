@@ -24,39 +24,52 @@ void		debug_test_command_2(void)
 
 void		debug_test_command_1(void)
 {
-	t_le	*le;
-	char 	*buff_1;
-
+	char *buff;
+	t_le *le;
 	le = get_env(GET);
-	buff_1 = tparm(le->termcap[MOVE_AT_COL_X], 0);
-	tputs(buff_1, 1, ms_putchar);
-	buff_1 = tparm(le->termcap[MOVE_X_ROWS_UP], (le->cy > le->srows - 1) ? le->cy : le->srows);
-	tputs(buff_1, le->srows, ms_putchar); 
+	if (le->cx >= le->scols - 1)
+	{
+		buff = tparm(le->termcap[MOVE_AT_COL_X], 0);
+		tputs(buff, 2, ms_putchar);
+		tputs(le->termcap[ONE_ROW_DOWN], 1, ms_putchar);
+		le->cx = 0;
+		le->cy++;
+	}
+	else
+	{
+		tputs(le->termcap[ONE_COL_RIGHT], 1, ms_putchar);
+		le->cx++;
+	}
+	le->vct_index++;
 }
 
 void		line_editor(t_vector *command_line)
 {
 	char	buff[L_ED_BUFF_SIZE];
 	int		ret;
+	t_le	*le;
 
 	if (command_line == NULL)
 		exit_routine_le(ERR_NEW_VCT);
+	le = get_env(GET);
 	update_window_size();
 	init_prompt();
 	init_selection();
 	ft_bzero(buff, L_ED_BUFF_SIZE);
 	while((ret = read(STDIN_FILENO, buff, L_ED_BUFF_SIZE - 1)) >= 0)
 	{
-/*		if (*buff == '1')
+		tputs(le->termcap[HIDE_CURSOR], 1, ms_putchar);
+		if (*buff == '1')
 			debug_test_command_1();
-		else if (*buff == '2')
+/*		else if (*buff == '2')
 			debug_test_command_2();
 		else if (*buff == '3')
 			debug_test_command_3();
-*/		if (*buff == K_ENTER)
+*/		else if (*buff == K_ENTER)
 		{
 			unselect_all(command_line);
 			move_cursor_at_index(command_line, vct_getlen(command_line));
+			tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
 			return ;
 		}
 		else if (ft_isprint(*buff) == FALSE)
@@ -66,5 +79,6 @@ void		line_editor(t_vector *command_line)
 		ft_bzero(buff, L_ED_BUFF_SIZE);
 		if (DEBUG == TRUE)
 			debug_print_infos(command_line);
+		tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
 	}
 }

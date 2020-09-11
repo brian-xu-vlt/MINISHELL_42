@@ -8,9 +8,9 @@ void	delete_selection(t_vector *command_line, long key)
 	le = get_env(GET);
 	if (le->select_min == -1)
 	{
-		vct_popcharat(command_line, le->vct_index);
 		if (key == K_DEL_BACKWARD)
 			move_cursor_left();
+		vct_popcharat(command_line, le->vct_index);
 	}
 	else
 	{

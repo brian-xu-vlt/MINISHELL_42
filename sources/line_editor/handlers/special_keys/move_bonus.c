@@ -29,13 +29,11 @@ void	move_one_word_right(t_vector *command_line)
 	{
 		move_cursor_right(command_line);
 		update_selection(command_line, K_RIGHT);
-		le->vct_index = convert_cur_pos_vctindex(le->cx, le->cy);
 	}
 	while (le->vct_index < (int)vct_len && vct_getcharat(command_line, le->vct_index) != ' ')
 	{
 		move_cursor_right(command_line);
 		update_selection(command_line, K_RIGHT);
-		le->vct_index = convert_cur_pos_vctindex(le->cx, le->cy);
 	}
 	update_selection(command_line, K_RIGHT);
 }
@@ -49,13 +47,11 @@ void	move_one_word_left(t_vector *command_line)
 	{
 		move_cursor_left();
 		update_selection(command_line, K_LEFT);
-		le->vct_index = convert_cur_pos_vctindex(le->cx, le->cy);
 	}
 	while (le->vct_index > 0 && vct_getcharat(command_line, le->vct_index - 1) != ' ')
 	{
 		move_cursor_left();
 		update_selection(command_line, K_LEFT);
-		le->vct_index = convert_cur_pos_vctindex(le->cx, le->cy);
 	}
 	update_selection(command_line, K_LEFT);
 }

@@ -1,5 +1,14 @@
 #include "line_editor_bonus.h"
 
+static void    update_cy_cx_at_vct_index()
+{
+	t_le    *le;
+
+	le = get_env(GET);
+	le->cy = (le->vct_index + le->prompt_len - 1) / le->scols;
+	le->cx = le->vct_index + le->prompt_len -  1 - (le->cy * le->scols);
+}
+
 void		print_command_line(t_vector *command_line)
 {
 	int		i;
@@ -24,25 +33,38 @@ void		print_command_line(t_vector *command_line)
 			i++;
 		}
 	}
-	le->vct_index = vct_len + 1;
+	le->vct_index = vct_len;
+	update_cy_cx_at_vct_index();
 }
 
 void		refresh_command_line(t_vector *command_line)
 {
 	int		vct_index_backup;
-//	int		vct_index_at_head_of_line;
 	t_le	*le;
 
 	le = get_env(GET);
-	tputs(le->termcap[HIDE_CURSOR], 1, ms_putchar);
 	vct_index_backup = le->vct_index;
 	move_cursor_at_startingpoint();
+	tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
+	print_command_line(command_line);
+	move_cursor_at_index(command_line, vct_index_backup);	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//	int		vct_index_at_head_of_line;
 /*	vct_index_at_head_of_line = le->vct-index; 
 	ft_putstr_fd(vct_getstr(command_line) + vct_index_at_head_of_line, STDERR_FILENO );
 */
-	print_command_line(command_line);
-	move_cursor_at_index(command_line, vct_index_backup);	
-	tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
-}
-
 

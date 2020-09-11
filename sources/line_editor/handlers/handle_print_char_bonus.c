@@ -7,7 +7,6 @@ void	insert_char_in_vct(t_vector *command_line, char c)
 
 	le = get_env(GET);
 	vct_addcharat(command_line, le->vct_index, c);
-	le->vct_index++;
 }
 
 void	handle_print_char(char buff, t_vector *command_line)

@@ -13,7 +13,7 @@ void	update_selection(t_vector *command_line, long buff)
 		le->select_min = le->vct_index - ((buff == K_RIGHT) ? 1 : 0);
 		le->select_max = le->vct_index + ((buff == K_LEFT) ? 1 : 0);
 	}
-	else if (le->vct_index <= le->select_min && le->vct_index < le->select_max)
+	else if (le->vct_index < le->select_min && le->vct_index < le->select_max)
 		le->select_min = le->vct_index;
 	else if (le->vct_index > le->select_min && le->vct_index > le->select_max)
 		le->select_max = le->vct_index;
