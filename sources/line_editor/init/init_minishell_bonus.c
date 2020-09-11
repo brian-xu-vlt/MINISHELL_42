@@ -49,7 +49,11 @@ void			init_minishell(void)
 
 	le = (t_le *)malloc(sizeof(t_le));
 	get_env(le);
+	if (le == NULL)
+		exit_routine_le(ERR_MALLOC);
 	le->clipboard = vct_new();
+	if (le->clipboard == NULL)
+		exit_routine_le(ERR_MALLOC);
 	vct_clear(le->clipboard);
 	init_library_db();
 	init_term_mode();

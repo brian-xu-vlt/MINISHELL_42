@@ -159,7 +159,6 @@ void		update_selection(t_vector *command_line, long buff);
 ************************************************/
 
 void		print_command_line(t_vector *command_line);
-void		update_cursor_pos_with_new_index(int vct_index);
 size_t		convert_cur_pos_vctindex(int cx, int cy);
 
 int			move_cursor_right(t_vector *command_line);

@@ -7,7 +7,7 @@ int		move_cursor_left(void)
 	t_le	*le;
 
 	le = get_env(GET);
-//	vct_index = convert_cur_pos_vctindex(le->cx, le->cy);
+//	vct_index = le->vct-index;
 	if (le->vct_index <= 0)
 		return (FAILURE);
 	if (le->cx == 0 && le->cy > 0)
@@ -34,7 +34,7 @@ int		move_cursor_right(t_vector *command_line)
 	t_le	*le;
 
 	le = get_env(GET);
-//	vct_index = convert_cur_pos_vctindex(le->cx, le->cy);
+//	vct_index = le->vct-index;
 /*	if (le->cy >= le->srows)
 		exit_routine_le(ERR_SCREEN_SIZE);
 */
@@ -64,15 +64,6 @@ size_t	convert_cur_pos_vctindex(int cx, int cy)
 	le = get_env(GET);
 	return (le->vct_index);
 	return ((cy * le->scols) + cx - le->prompt_len);
-}
-
-void	update_cursor_pos_with_new_index(int vct_index)
-{
-	t_le	*le;
-
-	le = get_env(GET);
-	le->cy = (vct_index + le->prompt_len - 1) / le->scols;
-	le->cx = vct_index + le->prompt_len -  1 - (le->cy * le->scols);
 }
 
 void            move_cursor_at_startingpoint(void)
