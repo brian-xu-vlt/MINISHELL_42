@@ -16,9 +16,10 @@ void		print_command_line(t_vector *command_line)
 		while (i <= vct_len)
 		{
 			if (i >= le->select_min && i <= le->select_max)
-				tputs(le->termcap[SELECT], 1, ms_putchar);
+			tputs(le->termcap[SELECT], 1, ms_putchar);
 			ms_putchar(vct_getcharat(command_line, i));
-			tputs(le->termcap[UNSELECT], 1, ms_putchar);
+			if (i >= le->select_min && i <= le->select_max)
+				tputs(le->termcap[UNSELECT], 1, ms_putchar);
 			i++;
 		}
 	}
@@ -29,7 +30,6 @@ void		refresh_command_line(t_vector *command_line)
 	int		vct_index_backup;
 	t_le	*le;
 
-//	return ;
 	le = get_env(GET);
 	tputs(le->termcap[HIDE_CURSOR], 1, ms_putchar);
 	vct_index_backup = convert_cur_pos_vctindex(le->cx, le->cy);

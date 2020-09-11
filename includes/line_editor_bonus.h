@@ -52,8 +52,8 @@
 # define	K_CTRL_RIGHT	0x43353b315b1b
 # define	K_CTRL_LEFT		0x44353b315b1b
 
-# define	K_END			0x485b1b
-# define	K_HOME			0x465b1b
+# define	K_END			0x465b1b
+# define	K_HOME			0x485b1b
 
 # define	K_DEL_BACKWARD	0x7f
 # define	K_DEL_FOREWARD	0x7e335b1b
@@ -66,7 +66,7 @@
 
 # define	PROMPT			"~$>"
 
-# define	NB_TERMCAP		14
+# define	NB_TERMCAP		16
 
 enum	e_termcap
 {
@@ -83,7 +83,9 @@ enum	e_termcap
 	IN_INSERT_MODE,
 	OUT_INSERT_MODE,
 	SELECT,
-	UNSELECT
+	UNSELECT,
+	MOVE_AT_COL_X,
+	MOVE_X_ROWS_UP
 };
 
 /*************************************************
@@ -134,12 +136,23 @@ void		insert_char_in_vct(t_vector *command_line, char c);
 void		handle_esc_seq(long buff, t_vector *command_line);
 void		handle_print_char(char buff, t_vector *command_line);
 
+void		delete_foreward(t_vector *command_line);
+void		delete_backward(t_vector *command_line);
+void		move_end_of_line(t_vector *command_line);
+void		move_start_of_line(void);
+void		move_one_word_right(t_vector *command_line);
+void		move_one_word_left(t_vector *command_line);
+void		copy_selection(t_vector *command_line);
+void		past_clipboard(t_vector *command_line);
+//void		cut_selection(t_vector *command_line);
+
+
 /*************************************************
 				SELECTION
 ************************************************/
 
 void		init_selection(void);
-void		unselect_all(t_vector *command_line);
+void		unselect_all();
 void		update_select(t_vector *command_line, long buff);
 
 /*************************************************
@@ -154,8 +167,6 @@ int			move_cursor_right(t_vector *command_line);
 int			move_cursor_left(void);
 void		move_cursor_at_startingpoint(void);
 void		move_cursor_at_index(t_vector *command_line, int target_index);
-
-void		apply_home(void);
 
 /*************************************************
 				INIT FUNCTIONS

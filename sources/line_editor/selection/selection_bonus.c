@@ -44,6 +44,7 @@ void		unselect_all(t_vector *command_line)
 	if (le->select_min != -1)
 	{
 		init_selection();
+(void)command_line;
 		refresh_command_line(command_line);
 	}
 }

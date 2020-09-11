@@ -12,21 +12,19 @@ int		move_cursor_left(void)
 		return (FAILURE);
 	if (le->cx == 0 && le->cy > 0)
 	{
-		tputs(tgetstr("up", NULL), 2, ms_putchar); // cursor 1 row down
-		buff = tparm(tgetstr("ch", NULL), le->scols); //param termcap for col argument
-		tputs(buff, 2, ms_putchar); //
+		tputs(le->termcap[ONE_ROW_UP], 1, ms_putchar);
+		buff = tparm(le->termcap[MOVE_AT_COL_X], le->scols);
+		tputs(buff, 2, ms_putchar);
 		le->cx = le->scols - 1;
 		le->cy--;
 	}
 	else
 	{
-		tputs(tgetstr("le", NULL), 1, ms_putchar); // cursor 1 col left 
+		tputs(le->termcap[ONE_COL_LEFT], 1, ms_putchar);
 		le->cx--;
 	}
 	return (SUCCESS);
 }
-
-//void	move_cursor_to_index(t_vector *command_line)
 
 int		move_cursor_right(t_vector *command_line)
 {
@@ -40,15 +38,15 @@ int		move_cursor_right(t_vector *command_line)
 		return (FAILURE);
 	if (le->cx >= le->scols - 1)
 	{
-		buff = tparm(tgetstr("ch", NULL), 0); //set param termcap for col argument at 0
-		tputs(buff, 2, ms_putchar); // cursor @ col 0 of same line
-		tputs(tgetstr("do", NULL), 2, ms_putchar); // cursor 1 row down
+		buff = tparm(le->termcap[MOVE_AT_COL_X], 0);
+		tputs(buff, 2, ms_putchar);
+		tputs(le->termcap[ONE_ROW_DOWN], 1, ms_putchar);
 		le->cx = 0;
 		le->cy++;
 	}
 	else
 	{
-		tputs(tgetstr("nd", NULL), 1, ms_putchar); // cursor 1 col right 
+		tputs(le->termcap[ONE_COL_RIGHT], 1, ms_putchar);
 		le->cx++;
 	}
 	return (SUCCESS);
@@ -77,11 +75,11 @@ void		move_cursor_at_startingpoint(void)
 	t_le	*le;
 
 	le = get_env(GET);
-	buff = tparm(tgetstr("ch", NULL), 0); //set cursor after prompt
-	tputs(buff, 1, ms_putchar);
+	buff = tparm(le->termcap[MOVE_AT_COL_X], 0);
+    tputs(buff, 1, ms_putchar);
 	if (le->cy > 0)
 	{
-		buff = tparm(tgetstr("UP", NULL), le->cy); //set cursor at line 0 of line editor
+		buff = tparm(le->termcap[MOVE_X_ROWS_UP], le->cy);
 		tputs(buff, le->cy, ms_putchar); 
 	}
 	init_prompt();
