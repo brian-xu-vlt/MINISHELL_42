@@ -2,13 +2,13 @@
 
 int		move_cursor_left(void)
 {
-	size_t		vct_index;
+	//size_t		vct_index;
 	char		*buff;
 	t_le	*le;
 
 	le = get_env(GET);
-	vct_index = convert_cur_pos_vctindex(le->cx, le->cy);
-	if (vct_index <= 0)
+//	vct_index = convert_cur_pos_vctindex(le->cx, le->cy);
+	if (le->vct_index <= 0)
 		return (FAILURE);
 	if (le->cx == 0 && le->cy > 0)
 	{
@@ -23,18 +23,22 @@ int		move_cursor_left(void)
 		tputs(le->termcap[ONE_COL_LEFT], 1, ms_putchar);
 		le->cx--;
 	}
+	le->vct_index--;
 	return (SUCCESS);
 }
 
 int		move_cursor_right(t_vector *command_line)
 {
-	size_t		vct_index;
+//	size_t		vct_index;
 	char		*buff;
 	t_le	*le;
 
 	le = get_env(GET);
-	vct_index = convert_cur_pos_vctindex(le->cx, le->cy);
-	if (vct_index >= vct_getlen(command_line))
+//	vct_index = convert_cur_pos_vctindex(le->cx, le->cy);
+/*	if (le->cy >= le->srows)
+		exit_routine_le(ERR_SCREEN_SIZE);
+*/
+	if (le->vct_index >= (int)vct_getlen(command_line))
 		return (FAILURE);
 	if (le->cx >= le->scols - 1)
 	{
@@ -49,6 +53,7 @@ int		move_cursor_right(t_vector *command_line)
 		tputs(le->termcap[ONE_COL_RIGHT], 1, ms_putchar);
 		le->cx++;
 	}
+	le->vct_index++;
 	return (SUCCESS);
 }
 
@@ -57,6 +62,7 @@ size_t	convert_cur_pos_vctindex(int cx, int cy)
 	t_le	*le;
 
 	le = get_env(GET);
+	return (le->vct_index);
 	return ((cy * le->scols) + cx - le->prompt_len);
 }
 
@@ -69,18 +75,20 @@ void	update_cursor_pos_with_new_index(int vct_index)
 	le->cx = vct_index + le->prompt_len -  1 - (le->cy * le->scols);
 }
 
-void		move_cursor_at_startingpoint(void)
+void            move_cursor_at_startingpoint(void)
 {
-	char	*buff;
-	t_le	*le;
+	char    *buff;
+	t_le    *le;
 
+	//	move_start_of_line();
+	//	return ;
 	le = get_env(GET);
 	buff = tparm(le->termcap[MOVE_AT_COL_X], 0);
-    tputs(buff, 1, ms_putchar);
+	tputs(buff, 1, ms_putchar);
 	if (le->cy > 0)
 	{
 		buff = tparm(le->termcap[MOVE_X_ROWS_UP], le->cy);
-		tputs(buff, le->cy, ms_putchar); 
+		tputs(buff, le->cy, ms_putchar);
 	}
 	init_prompt();
 }
