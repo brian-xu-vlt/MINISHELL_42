@@ -2,17 +2,19 @@
 
 void	past_clipboard(t_vector *command_line)
 {
+	int		clipboard_len;
 	int		i;
+	char	clipboard_content;
 	t_le	*le;
-	char	*clipboard_content;
 
 	le = get_env(GET);
 	unselect_all(command_line);
-	clipboard_content = vct_getstr(le->clipboard);	
+	clipboard_len = vct_getlen(le->clipboard);
 	i = 0;
-	while (clipboard_content[i] != '\0')
+	while (i < clipboard_len)
 	{
-		insert_char_in_vct(command_line, clipboard_content[i]);
+		clipboard_content = vct_getcharat(le->clipboard, i);
+		insert_char_in_vct(command_line, clipboard_content);
 		move_cursor_right(command_line);
 		i++;
 	}

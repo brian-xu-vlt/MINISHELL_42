@@ -4,7 +4,6 @@
 void	insert_char_in_vct(t_vector *command_line, char c)
 {
 	t_le	*le;
-
 	le = get_env(GET);
 	vct_addcharat(command_line, le->vct_index, c);
 }

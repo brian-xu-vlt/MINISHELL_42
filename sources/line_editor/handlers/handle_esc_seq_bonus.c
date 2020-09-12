@@ -29,10 +29,14 @@ void	handle_esc_seq(long buff, t_vector *command_line)
 		move_one_word_left(command_line);
 	else if (ctrl_flag == TRUE && buff == K_UP)
 		cut_selection(command_line);
+
 	else if (shift_flag == TRUE && buff == K_UP)
 		copy_selection(command_line);
 	else if (shift_flag == TRUE && buff == K_DOWN)
 		past_clipboard(command_line);
+
+	else if (buff == K_UP || buff == K_DOWN)
+		call_history(buff);
 	else if (buff == K_LEFT)
 		move_cursor_left();
 	else if (buff == K_RIGHT)
@@ -45,9 +49,11 @@ void	handle_esc_seq(long buff, t_vector *command_line)
 		delete_selection(command_line, buff);
 	else if (buff == K_DEL_FOREWARD)
 		delete_selection(command_line, buff);
+
 	if (shift_flag == FALSE)
 		unselect_all(command_line);	
 	else if (shift_flag == TRUE && buff != K_DOWN)
 		update_selection(command_line, buff);
+
 	refresh_command_line(command_line);
 }

@@ -1,5 +1,5 @@
 #include "line_editor_bonus.h"
-
+/*
 void		debug_test_command_3(void)
 {
 	int		i;
@@ -42,6 +42,7 @@ void		debug_test_command_1(void)
 	}
 	le->vct_index++;
 }
+*/
 
 void		line_editor(t_vector *command_line)
 {
@@ -58,14 +59,9 @@ void		line_editor(t_vector *command_line)
 	ft_bzero(buff, L_ED_BUFF_SIZE);
 	while((ret = read(STDIN_FILENO, buff, L_ED_BUFF_SIZE - 1)) >= 0)
 	{
+		le->vct_index_backup = le->vct_index;
 		tputs(le->termcap[HIDE_CURSOR], 1, ms_putchar);
-		if (*buff == '1')
-			debug_test_command_1();
-/*		else if (*buff == '2')
-			debug_test_command_2();
-		else if (*buff == '3')
-			debug_test_command_3();
-*/		else if (*buff == K_ENTER)
+		if (*buff == K_ENTER)
 		{
 			unselect_all(command_line);
 			move_cursor_at_index(command_line, vct_getlen(command_line));

@@ -94,17 +94,18 @@ enum	e_termcap
 
 typedef struct	s_line_editor
 {
+	t_vector		*clipboard;
 	struct termios	termios_backup;
 	char			*termcap[NB_TERMCAP];
 	t_vector		*cmd_line;
-	t_vector		*clipboard;
 	t_vector		*history;
 	int				srows;
 	int				scols;
 	int				prompt_len;
 	int				cx;
 	int				cy;	
-	int				vct_index;	
+	int				vct_index;
+	int				vct_index_backup;
 	int				select_min;	
 	int				select_max;				
 }				t_le;
@@ -145,6 +146,8 @@ void		delete_selection(t_vector *command_line, long key);
 void		copy_selection(t_vector *command_line);
 void		past_clipboard(t_vector *command_line);
 void		cut_selection(t_vector *command_line);
+
+void		call_history(lonf buff);
 
 /*************************************************
 				SELECTION

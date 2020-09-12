@@ -49,22 +49,3 @@ void		refresh_command_line(t_vector *command_line)
 	print_command_line(command_line);
 	move_cursor_at_index(command_line, vct_index_backup);	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//	int		vct_index_at_head_of_line;
-/*	vct_index_at_head_of_line = le->vct-index; 
-	ft_putstr_fd(vct_getstr(command_line) + vct_index_at_head_of_line, STDERR_FILENO );
-*/
-
