@@ -10,7 +10,7 @@ static void    update_cursor_infos(int new_index)
 	le->cx = new_index + le->prompt_len -  1 - (le->cy * le->scols);
 }
 
-static void		print_command_line(t_vector *command_line, int offset)
+static void		print_command_line(t_vector *command_line, int vct_offset)
 {
 	int		i;
 	int		vct_len;
@@ -20,10 +20,10 @@ static void		print_command_line(t_vector *command_line, int offset)
 	vct_len = vct_getlen(command_line);
 	//tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
 	if (le->select_min == -1)
-		ft_putstr_fd(vct_getstr(command_line) + offset, STDERR_FILENO);
+		ft_putstr_fd(vct_getstr(command_line) + vct_offset, STDERR_FILENO);
 	else
 	{
-		i = offset;
+		i = vct_offset;
 		while (i <= vct_len)
 		{
 			if (i >= le->select_min && i <= le->select_max)
@@ -35,18 +35,20 @@ static void		print_command_line(t_vector *command_line, int offset)
 		}
 	}
 	update_cursor_infos(vct_len);
+	if (vct_offset > 0)
+		move_cursor_right(command_line);
 }
 
 void		refresh_command_line(t_vector *command_line)
 {
-	int		offset;
+	int		vct_offset;
 	int		vct_index_backup;
 	t_le	*le;
 
 	le = get_env(GET);
 	vct_index_backup = le->vct_index;
-	offset = move_cursor_at_startingpoint(command_line);
+	vct_offset = move_cursor_at_startingpoint();
 	tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
-	print_command_line(command_line, offset);
+	print_command_line(command_line, vct_offset);
 	move_cursor_at_index(command_line, vct_index_backup);
 }

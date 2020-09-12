@@ -52,43 +52,47 @@ int		move_cursor_right(t_vector *command_line)
 	return (SUCCESS);
 }
 
-int            move_cursor_at_startingpoint(t_vector *command_line)
+static void	screen_overflow_startingpoint(int vct_offset)
 {
-	int		offset;
-	char    *buff;
 	t_le    *le;
 
 	le = get_env(GET);
-	offset = 0;
-	buff = tparm(le->termcap[MOVE_AT_COL_X], 0);
-	tputs(buff, 1, ms_putchar);
+	tputs(le->termcap[MOVE_CURSOR_HOME], le->cy, ms_putchar); 
+	le->cy = le->cy + 1 - le->srows;
+	le->cx = 0;
+	le->vct_index = vct_offset;
+}
+
+int            move_cursor_at_startingpoint(void)
+{
+	int		vct_offset;
+	t_le    *le;
+
+	le = get_env(GET);
+	vct_offset = 0;
+	tputs(tparm(le->termcap[MOVE_AT_COL_X], 0), 1, ms_putchar);
 	if (le->cy >= le->srows)
-		offset = (le->cy + 1 - le->srows) * le->scols - le->prompt_len; 
+		vct_offset = (le->cy + 1 - le->srows) * le->scols - le->prompt_len; 
+	if (vct_offset > 0)
+	{
+		screen_overflow_startingpoint(vct_offset);
+		return (vct_offset);
+	}
 	if (le->cy > 0)
-	{
-		buff = tparm(le->termcap[MOVE_X_ROWS_UP], (offset == 0) ? le->cy : ((vct_getlen(command_line) - offset) / le->scols) + 1);
-		tputs(buff, le->cy, ms_putchar);
-	}
-	if (offset == 0)
-		init_prompt();
-	else
-	{
-		le->cy = le->cy + 1 - le->srows;
-		le->cx = 0;
-		le->vct_index = offset;
-	}
-	return (offset);
+		tputs(tparm(le->termcap[MOVE_X_ROWS_UP], le->cy), le->cy, ms_putchar);
+	init_prompt();
+	return (0);
 }
 
 void		move_cursor_at_index(t_vector *command_line, int target_index)
 {
 	int		i;
-	int		offset;
+	int		vct_offset;
 	t_le	*le;
 
 	le = get_env(GET);
-	offset = move_cursor_at_startingpoint(command_line);
-	i = 0 + offset;
+	vct_offset = move_cursor_at_startingpoint();
+	i = vct_offset;
 	while (i < target_index)
 	{
 		move_cursor_right(command_line);

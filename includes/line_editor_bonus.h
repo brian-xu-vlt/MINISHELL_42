@@ -66,13 +66,14 @@
 
 # define	PROMPT			"~$>"
 
-# define	NB_TERMCAP		16
+# define	NB_TERMCAP		17
 
 enum	e_termcap
 {
 	SAVE_CURSOR_POS,
 	RESTORE_CURSOR_POS,
 	CLEAR_ALL_AFTER_CURS,
+	MOVE_CURSOR_HOME,
 	ONE_COL_LEFT,
 	ONE_COL_RIGHT,
 	ONE_ROW_DOWN,
@@ -165,7 +166,7 @@ size_t		convert_cur_pos_vctindex(int cx, int cy);
 
 int			move_cursor_right(t_vector *command_line);
 int			move_cursor_left(void);
-int			move_cursor_at_startingpoint(t_vector *command_line);
+int			move_cursor_at_startingpoint();
 void		move_cursor_at_index(t_vector *command_line, int target_index);
 
 /*************************************************
