@@ -26,7 +26,6 @@ void		line_editor(t_vector *command_line)
 			ret = handle_esc_seq(buff, command_line);
 		tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
 		buff = '\0';
-		fflush(STDIN_FILENO);
 		if (DEBUG == TRUE)
 			debug_print_infos(command_line);
 	}

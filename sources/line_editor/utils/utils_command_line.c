@@ -20,7 +20,7 @@ static void		print_command_line(t_vector *command_line, int vct_offset)
 	vct_len = vct_getlen(command_line);
 	//tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
 	if (le->select_min == -1)
-		ft_putstr_fd(vct_getstr(command_line) + vct_offset, STDERR_FILENO);
+		ft_putstr_fd(vct_getstr(command_line) + vct_offset, STDOUT_FILENO);
 	else
 	{
 		i = vct_offset;

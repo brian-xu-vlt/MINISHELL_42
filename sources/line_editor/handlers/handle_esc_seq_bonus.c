@@ -84,5 +84,6 @@ int			handle_esc_seq(char buff, t_vector *command_line)
 	else
 		long_buff = (long)buff;
 	dispatch_esc_sequence(long_buff, command_line);	
+	tcflush(STDOUT_FILENO, TCIFLUSH);
 	return (CONTINUE);
 }

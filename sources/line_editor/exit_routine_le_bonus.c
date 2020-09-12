@@ -9,7 +9,7 @@ void	exit_routine_le(char *err_code)
 	tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
 	if (err_code != NULL)
 	{
-		ft_putstr_fd(err_code, STDERR_FILENO);
+		ft_putstr_fd(err_code, STDOUT_FILENO);
 		exit (FAILURE);
 	}
 	exit (0);

@@ -37,8 +37,8 @@ void	debug_print_flag(char *flag)
 	tputs(tgetstr("up", NULL), 2, ms_putchar); // go up 1 line
 	tputs(tgetstr("md", NULL), 2, ms_putchar); // double bright
 	tputs(tgetstr("ce", NULL), 2, ms_putchar); // clear current line
-	ft_putstr_fd("debug ", STDERR_FILENO);
-	ft_putstr_fd(flag, STDERR_FILENO);
+	ft_putstr_fd("debug ", STDOUT_FILENO);
+	ft_putstr_fd(flag, STDOUT_FILENO);
 	tputs(tgetstr("me", NULL), 2, ms_putchar); // restore appearance
 	tputs(tgetstr("rc", NULL), 2, ms_putchar); // restore location
 }
