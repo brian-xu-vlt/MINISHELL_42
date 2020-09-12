@@ -61,7 +61,15 @@ void		line_editor(t_vector *command_line)
 	{
 		le->vct_index_backup = le->vct_index;
 		tputs(le->termcap[HIDE_CURSOR], 1, ms_putchar);
-		if (*buff == K_ENTER)
+		if (*buff == '1')
+			tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
+		else if (*buff == '2')
+			tputs(tparm(tgetstr("DL", NULL), le->srows), le->srows, ms_putchar);
+		else if (*buff == '5')
+			tputs(le->termcap[ONE_ROW_DOWN], 1, ms_putchar);
+		else if (*buff == '8')
+			tputs(le->termcap[ONE_ROW_UP], 1, ms_putchar);
+		else if (*buff == K_ENTER)
 		{
 			unselect_all(command_line);
 			move_cursor_at_index(command_line, vct_getlen(command_line));

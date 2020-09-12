@@ -52,28 +52,43 @@ int		move_cursor_right(t_vector *command_line)
 	return (SUCCESS);
 }
 
-void            move_cursor_at_startingpoint(void)
+int            move_cursor_at_startingpoint(t_vector *command_line)
 {
+	int		offset;
 	char    *buff;
 	t_le    *le;
 
 	le = get_env(GET);
+	offset = 0;
 	buff = tparm(le->termcap[MOVE_AT_COL_X], 0);
 	tputs(buff, 1, ms_putchar);
+	if (le->cy >= le->srows)
+		offset = (le->cy + 1 - le->srows) * le->scols - le->prompt_len; 
 	if (le->cy > 0)
 	{
-		buff = tparm(le->termcap[MOVE_X_ROWS_UP], le->cy);
+		buff = tparm(le->termcap[MOVE_X_ROWS_UP], (offset == 0) ? le->cy : ((vct_getlen(command_line) - offset) / le->scols) + 1);
 		tputs(buff, le->cy, ms_putchar);
 	}
-	init_prompt();
+	if (offset == 0)
+		init_prompt();
+	else
+	{
+		le->cy = le->cy + 1 - le->srows;
+		le->cx = 0;
+		le->vct_index = offset;
+	}
+	return (offset);
 }
 
 void		move_cursor_at_index(t_vector *command_line, int target_index)
 {
 	int		i;
+	int		offset;
+	t_le	*le;
 
-	move_cursor_at_startingpoint();
-	i = 0;
+	le = get_env(GET);
+	offset = move_cursor_at_startingpoint(command_line);
+	i = 0 + offset;
 	while (i < target_index)
 	{
 		move_cursor_right(command_line);
