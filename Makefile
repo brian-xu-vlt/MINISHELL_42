@@ -40,8 +40,11 @@ INCLUDES_LIB = ./libft/includes/
 
 HEADER = $(INCLUDES)minishell_bonus.h
 
-SRCS += main_bonus.c
-#SRCS += main_tester_parser.c #TO DELETE
+ifeq ($(test), 1)
+	SRCS += main_tester_parser.c #TO DELETE
+else
+	SRCS += main_bonus.c
+endif
 SRCS += lexer_bonus.c
 SRCS += token_bonus.c
 SRCS += free_list_bonus.c
