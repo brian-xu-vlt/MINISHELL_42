@@ -37,12 +37,40 @@
 # define	DEBUG_SIGNAL	FALSE
 #endif
 
+# define	EXECUTE			1
+# define	CONTINUE		0
+
+
 # define	ERR_NEW_VCT		"Could not malloc vector"
 # define	ERR_VCT			"Vector function failed"
 # define	ERR_SCREEN_SIZE	"Screen size is too small"
 # define	ERR_TERM_NAME	"Term environement variable can't be located"
 # define	ERR_TERMCAP		"Termcap could not be loaded by termcap library"
 # define	ERR_MALLOC		"Malloc could not allocate memory"
+/*
+
+# define	K_UP			0x1b5b41
+# define	K_DOWN			0x1b5b42
+# define	K_RIGHT			0x1b5b43
+# define	K_LEFT			0x1b5b44
+
+# define	K_END			0x465b1b
+# define	K_HOME			0x485b1b
+
+# define	K_SHIFT			0x313b32
+# define	K_CTRL			0x313b35
+# define	K_CTRL_SHIFT	0x313b36
+
+# define	K_DEL_BACKWARD	0x7f
+# define	K_DEL_FOREWARD	0x1b5b337e
+
+# define	K_ENTER			0xa
+# define	K_ESCAPE		0x1b
+
+//# define	K_CTRL_RIGHT	0x1b5b313b5343
+//# define	K_CTRL_LEFT		0x1b5b313b5344
+*/
+
 
 # define	K_UP			0x415b1b
 # define	K_DOWN			0x425b1b
@@ -63,6 +91,7 @@
 # define	K_SHIFT			0x323b31
 # define	K_CTRL			0x353b31
 # define	K_CTRL_SHIFT	0x363b31
+
 
 # define	PROMPT			"~$>"
 
@@ -135,7 +164,7 @@ void		insert_char_in_vct(t_vector *command_line, char c);
 				HANDLERS
 ************************************************/
 
-void		handle_esc_seq(long buff, t_vector *command_line);
+int			handle_esc_seq(char buff, t_vector *command_line);
 void		handle_print_char(char buff, t_vector *command_line);
 
 void		move_end_of_line(t_vector *command_line);

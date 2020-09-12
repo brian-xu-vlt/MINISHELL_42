@@ -5,13 +5,17 @@ static long	strip_off_extra_bits(long buff)
 	return ((buff & ((long)0xff << 40)) >> 24 | (buff & 0xffff)); 
 }
 
-void	handle_esc_seq(long buff, t_vector *command_line)
+static void	dispatch_esc_sequence(long buff, t_vector *command_line)
 {
+	int	keys_mask;
+
+	keys_mask = 0;
 	int	shift_flag;
 	int	ctrl_flag;
 
 	shift_flag = FALSE;
 	ctrl_flag = FALSE;
+
 	if (is_ctrl_shift_on(buff) == TRUE)
 	{
 		buff = strip_off_extra_bits(buff);
@@ -56,4 +60,29 @@ void	handle_esc_seq(long buff, t_vector *command_line)
 		update_selection(command_line, buff);
 
 	refresh_command_line(command_line);
+}
+
+static long	expand_escape_sequence(char buff)
+{
+	long	long_buff;
+
+	long_buff = 0;
+	if (read(STDIN_FILENO, &long_buff, sizeof(long) - 1) != FAILURE)
+	{
+		long_buff = (long_buff << 8) | buff;	
+		return (long_buff);
+	}
+	return (0);
+}
+
+int			handle_esc_seq(char buff, t_vector *command_line)
+{
+	long	long_buff;
+
+	if (buff != K_DEL_BACKWARD)
+		long_buff = expand_escape_sequence(buff);
+	else
+		long_buff = (long)buff;
+	dispatch_esc_sequence(long_buff, command_line);	
+	return (CONTINUE);
 }

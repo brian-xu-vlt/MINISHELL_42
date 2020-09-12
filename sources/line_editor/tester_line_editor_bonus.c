@@ -15,7 +15,7 @@ int 	main(void)
 	{
 		vct_clear(test_command);
 		line_editor(test_command);
-		printf("\n==|%s|\n", vct_getstr(test_command));
+		printf("\n%s|%s|\n", PROMPT, vct_getstr(test_command));
 	}
 	vct_del(&test_command);
 	return (0);	
