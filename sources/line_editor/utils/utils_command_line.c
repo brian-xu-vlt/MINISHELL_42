@@ -1,12 +1,13 @@
 #include "line_editor_bonus.h"
 
-static void    update_cy_cx_at_vct_index()
+static void    update_cursor_infos(int new_index)
 {
 	t_le    *le;
 
 	le = get_env(GET);
-	le->cy = (le->vct_index + le->prompt_len - 1) / le->scols;
-	le->cx = le->vct_index + le->prompt_len -  1 - (le->cy * le->scols);
+	le->vct_index = new_index;
+	le->cy = (new_index + le->prompt_len - 1) / le->scols;
+	le->cx = new_index + le->prompt_len -  1 - (le->cy * le->scols);
 }
 
 void		print_command_line(t_vector *command_line)
@@ -33,8 +34,7 @@ void		print_command_line(t_vector *command_line)
 			i++;
 		}
 	}
-	le->vct_index = vct_len;
-	update_cy_cx_at_vct_index();
+	update_cursor_infos(vct_len);
 }
 
 void		refresh_command_line(t_vector *command_line)

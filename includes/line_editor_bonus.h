@@ -147,7 +147,7 @@ void		copy_selection(t_vector *command_line);
 void		past_clipboard(t_vector *command_line);
 void		cut_selection(t_vector *command_line);
 
-void		call_history(lonf buff);
+void		call_history(long buff);
 
 /*************************************************
 				SELECTION

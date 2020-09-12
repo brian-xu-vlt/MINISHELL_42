@@ -10,6 +10,7 @@ void	insert_char_in_vct(t_vector *command_line, char c)
 
 void	handle_print_char(char buff, t_vector *command_line)
 {
+	unselect_all(command_line);	
 	insert_char_in_vct(command_line, buff);	
 	move_cursor_right(command_line);
 	refresh_command_line(command_line);
