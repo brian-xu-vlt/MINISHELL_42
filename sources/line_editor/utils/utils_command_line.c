@@ -36,7 +36,7 @@ static void		print_command_line(t_vector *command_line, int vct_offset)
 	}
 	update_cursor_infos(vct_len);
 	if (vct_offset > 0)
-		move_cursor_right(command_line);
+		move_cursor_left();
 }
 
 void		refresh_command_line(t_vector *command_line)

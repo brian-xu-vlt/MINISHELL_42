@@ -31,8 +31,6 @@ int		move_cursor_right(t_vector *command_line)
 	t_le	*le;
 
 	le = get_env(GET);
-//	if (le->cy >= le->srows)
-//		exit_routine_le(ERR_SCREEN_SIZE);
 	if (le->vct_index >= (int)vct_getlen(command_line))
 		return (FAILURE);
 	if (le->cx >= le->scols - 1)
@@ -70,7 +68,6 @@ int            move_cursor_at_startingpoint(void)
 
 	le = get_env(GET);
 	vct_offset = 0;
-	tputs(tparm(le->termcap[MOVE_AT_COL_X], 0), 1, ms_putchar);
 	if (le->cy >= le->srows)
 		vct_offset = (le->cy + 1 - le->srows) * le->scols - le->prompt_len; 
 	if (vct_offset > 0)
@@ -78,6 +75,7 @@ int            move_cursor_at_startingpoint(void)
 		screen_overflow_startingpoint(vct_offset);
 		return (vct_offset);
 	}
+	tputs(tparm(le->termcap[MOVE_AT_COL_X], 0), 1, ms_putchar);
 	if (le->cy > 0)
 		tputs(tparm(le->termcap[MOVE_X_ROWS_UP], le->cy), le->cy, ms_putchar);
 	init_prompt();
