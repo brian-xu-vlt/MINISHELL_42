@@ -23,10 +23,10 @@ void	debug_print_infos(t_vector *command_line)
 		le->cx, le->scols, le->cy, le->vct_index,
 		vct_getlen(command_line),vct_getcharat(command_line, le->vct_index));
 	debug_cursor_newline();
-	ft_printf("select_min/max [%d/%d]vct_content [%s]", le->select_min,
+	ft_printf("select_min/max [%d/%d]vct_content : \n___%s\n", le->select_min,
 		le->select_max, vct_getstr(command_line));
 	debug_cursor_newline();
-	ft_printf("Clipboard [%s]", vct_getstr(le->clipboard));
+//	ft_printf("Clipboard [%s]", vct_getstr(le->clipboard));
 	tputs(tgetstr("me", NULL), 2, ms_putchar); // restore appearance
 	tputs(tgetstr("rc", NULL), 2, ms_putchar); // restore location
 }
@@ -34,6 +34,8 @@ void	debug_print_infos(t_vector *command_line)
 void	debug_print_flag(char *flag)
 {
 	tputs(tgetstr("sc", NULL), 2, ms_putchar); // save location
+	tputs(tgetstr("up", NULL), 2, ms_putchar); // go up 1 line
+	tputs(tgetstr("up", NULL), 2, ms_putchar); // go up 1 line
 	tputs(tgetstr("up", NULL), 2, ms_putchar); // go up 1 line
 	tputs(tgetstr("md", NULL), 2, ms_putchar); // double bright
 	tputs(tgetstr("ce", NULL), 2, ms_putchar); // clear current line

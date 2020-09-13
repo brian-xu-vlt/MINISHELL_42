@@ -1,5 +1,34 @@
 #include "line_editor_bonus.h"
 
+
+/*
+
+static void	apply_key(long buff)
+{
+	static t_key_process		key_process[NB_KEY] = {up_key, down_key,
+									left_key, right_key, space_key, escape_key,
+									backspace_key, del_key, return_key,
+									right_key};
+	static const long			key_code[NB_KEY] = {KEY_UP, KEY_DOWN, KEY_LEFT,
+									KEY_RIGHT, KEY_SPACE, KEY_ESCAPE,
+									KEY_BACKSPACE, KEY_DEL, KEY_RETURN,
+									KEY_TAB};
+	size_t						i;
+
+	i = 0;
+	while (i < NB_KEY)
+	{
+		if (mask == key_code[i])
+		{
+			key_process[i]();
+			break ;
+		}
+		i++;
+	}
+}
+
+*/
+
 static long	strip_off_extra_bits(long buff)
 {
 	return ((buff & ((long)0xff << 40)) >> 24 | (buff & 0xffff)); 
@@ -7,38 +36,29 @@ static long	strip_off_extra_bits(long buff)
 
 static void	dispatch_esc_sequence(long buff, t_vector *command_line)
 {
-	int	keys_mask;
+	int	k_mask;
 
-	keys_mask = 0;
-	int	shift_flag;
-	int	ctrl_flag;
-
-	shift_flag = FALSE;
-	ctrl_flag = FALSE;
-
-	if (is_ctrl_shift_on(buff) == TRUE)
-	{
-		buff = strip_off_extra_bits(buff);
-		shift_flag = TRUE;
-		ctrl_flag = TRUE;
-	}
-	else if ((shift_flag = is_shift_on(buff)) == TRUE)
-		buff = strip_off_extra_bits(buff);
-	else if ((ctrl_flag = is_ctrl_on(buff)) == TRUE)
+	k_mask = 0;
+	k_mask |= (is_ctrl_shift_on(buff) == TRUE) ? (CTRL_MASK | SHIFT_MASK) : 0;
+	k_mask |= (is_ctrl_on(buff) == TRUE) ? CTRL_MASK : 0;
+	k_mask |= (is_shift_on(buff) == TRUE) ? SHIFT_MASK : 0;
+	if (k_mask != 0)
 		buff = strip_off_extra_bits(buff);
 
-	if (ctrl_flag == TRUE && buff == K_RIGHT)
+	if ((k_mask & CTRL_MASK) && buff == K_RIGHT)
 		move_one_word_right(command_line);
-	else if (ctrl_flag == TRUE && buff == K_LEFT)
+	else if ((k_mask & CTRL_MASK) && buff == K_LEFT)
 		move_one_word_left(command_line);
-	else if (ctrl_flag == TRUE && buff == K_UP)
+	else if ((k_mask & CTRL_MASK) && buff == K_UP)
 		cut_selection(command_line);
 
-	else if (shift_flag == TRUE && buff == K_UP)
+	else if ((k_mask & SHIFT_MASK) && buff == K_UP)
 		copy_selection(command_line);
-	else if (shift_flag == TRUE && buff == K_DOWN)
+	else if ((k_mask & SHIFT_MASK) && buff == K_DOWN)
 		past_clipboard(command_line);
 
+	else if (buff == K_DEL_BACKWARD || buff == K_DEL_FOREWARD)
+		delete_selection(command_line, buff);
 	else if (buff == K_UP || buff == K_DOWN)
 		call_history(buff);
 	else if (buff == K_LEFT)
@@ -49,14 +69,10 @@ static void	dispatch_esc_sequence(long buff, t_vector *command_line)
 		move_start_of_line();
 	else if (buff == K_END)
 		move_end_of_line(command_line);
-	else if (buff == K_DEL_BACKWARD)
-		delete_selection(command_line, buff);
-	else if (buff == K_DEL_FOREWARD)
-		delete_selection(command_line, buff);
 
-	if (shift_flag == FALSE)
+	if ((k_mask & SHIFT_MASK) == FALSE)
 		unselect_all(command_line);	
-	else if (shift_flag == TRUE && buff != K_DOWN)
+	else if ((k_mask & SHIFT_MASK) && buff != K_DOWN)
 		update_selection(command_line, buff);
 
 	refresh_command_line(command_line);

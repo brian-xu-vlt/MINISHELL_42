@@ -54,6 +54,8 @@ void			init_minishell(void)
 		exit_routine_le(ERR_MALLOC);
 	le->prompt_len = ft_strlen(PROMPT);
 	le->clipboard = vct_new();
+	le->vct_history = NULL;
+	le->vct_command_line_backup = NULL;
 	if (le->clipboard == NULL)
 		exit_routine_le(ERR_MALLOC);
 	vct_clear(le->clipboard);

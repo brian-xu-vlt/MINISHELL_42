@@ -45,10 +45,16 @@ void		refresh_command_line(t_vector *command_line)
 	int		vct_index_backup;
 	t_le	*le;
 
+	refresh(command_line);
+	return ;
+
 	le = get_env(GET);
 	vct_index_backup = le->vct_index;
 	vct_offset = move_cursor_at_startingpoint();
 	tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
-	print_command_line(command_line, vct_offset);
+	if (le->vct_history == NULL)
+		print_command_line(command_line, vct_offset);
+	else
+		print_command_line(le->vct_history, vct_offset);
 	move_cursor_at_index(command_line, vct_index_backup);
 }
