@@ -31,9 +31,10 @@ int		move_cursor_right(t_vector *command_line)
 	t_le	*le;
 
 	le = get_env(GET);
-	if (le->vct_index >= (int)vct_getlen(command_line))
-		return (FAILURE);
-	if (le->cx >= le->scols - 1)
+(void)command_line;
+//	if (le->vct_index >= (int)vct_getlen(command_line))
+//		return (FAILURE);
+	if (le->cx >= le->scols)
 	{
 		buff = tparm(le->termcap[MOVE_AT_COL_X], 0);
 		tputs(buff, 2, ms_putchar);

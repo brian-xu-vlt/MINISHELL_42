@@ -23,11 +23,9 @@ void		line_editor(t_vector *command_line)
 		else if (buff == '2')
 			print(command_line);
 		else if (buff == '3')
-		{
-			ft_putstr_fd("........................", STDERR_FILENO);
-	//		tputs(tgetstr(("cr"), NULL), 1, ms_putchar);
-	//		tputs(le->termcap[ONE_ROW_DOWN], 1, ms_putchar);
-		}
+			write(STDERR_FILENO, ".....................", 21);
+		else if (buff == '4')
+		tputs(le->termcap[ONE_ROW_UP], 1, ms_putchar);
 		else if (buff == K_ENTER)
 			break ;
 		else if (ft_isprint(buff) == TRUE)

@@ -39,6 +39,8 @@ static void		print_command_line(t_vector *command_line, int vct_offset)
 		move_cursor_left();
 }
 
+//* do refresh + move right, but refresh only up to len -1 !!!!!!
+
 void		refresh_command_line(t_vector *command_line)
 {
 	int		vct_offset;

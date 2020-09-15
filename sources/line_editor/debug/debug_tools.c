@@ -33,10 +33,13 @@ void	debug_print_infos(t_vector *command_line)
 
 void	debug_print_flag(char *flag)
 {
+	char	*buff;
+
 	tputs(tgetstr("sc", NULL), 2, ms_putchar); // save location
-	tputs(tgetstr("up", NULL), 2, ms_putchar); // go up 1 line
-	tputs(tgetstr("up", NULL), 2, ms_putchar); // go up 1 line
-	tputs(tgetstr("up", NULL), 2, ms_putchar); // go up 1 line
+	buff = tparm(tgetstr("UP", NULL), 6); //set param termcap for col argument at 0
+	tputs(buff, 6, ms_putchar); // cursor @ col 0 of same line
+	buff = tparm(tgetstr("ch", NULL), 0); //set param termcap for col argument at 0
+	tputs(buff, 2, ms_putchar); // cursor @ col 0 of same line
 	tputs(tgetstr("md", NULL), 2, ms_putchar); // double bright
 	tputs(tgetstr("ce", NULL), 2, ms_putchar); // clear current line
 	ft_putstr_fd("debug ", STDOUT_FILENO);
