@@ -160,6 +160,12 @@ void		cut_selection(t_vector *command_line);
 void		call_history(long buff);
 
 /*************************************************
+**				COMMAND_LINE PRINT
+************************************************/
+
+void		print(t_vector *command_line);
+
+/*************************************************
 **				SELECTION
 ************************************************/
 
@@ -175,8 +181,9 @@ size_t		convert_cur_pos_vctindex(int cx, int cy);
 
 int			move_cursor_right(t_vector *command_line);
 int			move_cursor_left(void);
-int			move_cursor_at_startingpoint();
-void		move_cursor_at_index(t_vector *command_line, int target_index);
+void		move_previous_line_head();
+void		move_cursor_at_index(int index_to);
+void		position_cursor_at_index(int index_to);
 
 /*************************************************
 **				INIT FUNCTIONS
@@ -199,9 +206,7 @@ void		line_editor(t_vector *command_line);
 
 
 
-void            move_previous_line_startingpoint(void);
 
-void		print(t_vector *command_line);
 
 
 

@@ -1,5 +1,87 @@
 #include "line_editor_bonus.h"
 
+char		*vct_getstrat(t_vector *vct, size_t index)
+{
+	if (vct == NULL || vct->str == NULL || index > vct_getlen(vct))
+		return (NULL);
+	return (vct->str + index);
+}
+
+void            move_previous_line_head(void)
+{
+	t_le    *le;
+	int		offset;
+
+	le = get_env(GET);
+
+	if (le->cy > 0)
+	{
+		tputs(le->termcap[ONE_ROW_UP], 1, ms_putchar);
+		le->cy--;
+	}
+	offset = (le->cy == 0) ? le->prompt_len : 0;
+	tputs(tparm(le->termcap[MOVE_AT_COL_X], offset), 1, ms_putchar);
+	le->cx = offset;
+	if (le->cy == 0)
+		le->vct_index = 0;
+	else
+		le->vct_index = (le->scols * (le->cy - 1)) + le->scols - le->prompt_len;
+}
+
+void		put_carriage_return(void)
+{
+	t_le	*le;
+
+	le = get_env(GET);
+	tputs(tparm(le->termcap[MOVE_AT_COL_X], 0), 2, ms_putchar);
+	tputs(le->termcap[ONE_ROW_DOWN], 1, ms_putchar);
+}
+
+
+void		print(t_vector *command_line)
+{
+	int		index_from;
+	int		index_delta;
+	int		offset;
+	char	*vct_str;
+	t_le	*le;
+
+	le = get_env(GET);
+	index_from = le->vct_index;
+	index_delta = vct_getlen(command_line) - index_from;
+
+	vct_str = vct_getstrat(command_line, index_from);
+	if (vct_str == NULL)
+		exit_routine_le(ERR_VCT);
+	write(STDERR_FILENO, vct_getstrat(command_line, index_from), index_delta);
+
+	offset = (le->cy == 0) ? le->prompt_len : 0;
+	if ((index_delta + offset) % le->scols == 0) 
+		put_carriage_return();
+	move_cursor_at_index(vct_getlen(command_line));
+}
+
+void		refresh(t_vector *command_line)
+{
+	int		index_backup;
+	t_le	*le;
+
+	le = get_env(GET);
+	index_backup = le->vct_index;
+	move_previous_line_head();
+	print(command_line);
+}
+
+
+
+
+
+
+
+
+
+
+/*
 static void    update_cursor_infos(int new_index)
 {
 	t_le    *le;
@@ -39,7 +121,6 @@ static void		print_command_line(t_vector *command_line, int vct_offset)
 		move_cursor_left();
 }
 
-//* do refresh + move right, but refresh only up to len -1 !!!!!!
 
 void		refresh_command_line(t_vector *command_line)
 {
@@ -60,3 +141,4 @@ void		refresh_command_line(t_vector *command_line)
 		print_command_line(le->vct_history, vct_offset);
 	move_cursor_at_index(command_line, vct_index_backup);
 }
+*/

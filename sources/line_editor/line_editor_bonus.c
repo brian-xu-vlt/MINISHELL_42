@@ -19,7 +19,7 @@ void		line_editor(t_vector *command_line)
 		le->vct_index_backup = le->vct_index;
 		tputs(le->termcap[HIDE_CURSOR], 1, ms_putchar);
 		if (buff == '1')
-			move_previous_line_startingpoint();
+			move_previous_line_head();
 		else if (buff == '2')
 			print(command_line);
 		else if (buff == '3')
@@ -39,5 +39,5 @@ void		line_editor(t_vector *command_line)
 	}
 	tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
 	unselect_all(command_line);
-	move_cursor_at_index(command_line, vct_getlen(command_line));
+	move_cursor_at_index(vct_getlen(command_line));
 }

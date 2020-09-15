@@ -75,7 +75,7 @@ static void	dispatch_esc_sequence(long buff, t_vector *command_line)
 	else if ((k_mask & SHIFT_MASK) && buff != K_DOWN)
 		update_selection(command_line, buff);
 
-	refresh_command_line(command_line);
+	refresh(command_line);
 }
 
 static long	expand_escape_sequence(char buff)
@@ -100,6 +100,6 @@ int			handle_esc_seq(char buff, t_vector *command_line)
 	else
 		long_buff = (long)buff;
 	dispatch_esc_sequence(long_buff, command_line);	
-	tcflush(STDOUT_FILENO, TCIFLUSH);
+	//tcflush(STDOUT_FILENO, TCIFLUSH);
 	return (CONTINUE);
 }

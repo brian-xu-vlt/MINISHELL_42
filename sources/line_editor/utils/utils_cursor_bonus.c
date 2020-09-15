@@ -51,6 +51,68 @@ int		move_cursor_right(t_vector *command_line)
 	return (SUCCESS);
 }
 
+void		move_cursor_at_index(int index_to)
+{
+	int		index_from;
+	int		index_delta;
+	int		offset;
+	t_le	*le;
+
+	le = get_env(GET);
+	offset = (le->cy == 0) ? le->prompt_len : 0;
+	index_from = le->vct_index;
+	index_delta = index_to - index_from;
+	if (index_delta <= 0)
+		return	;
+	le->cy += (index_delta + offset) / le->scols;
+	le->cx = (index_delta + offset) % le->scols;
+	le->vct_index = index_to;
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
 static void	screen_overflow_startingpoint(int vct_offset)
 {
 	t_le    *le;
@@ -61,6 +123,10 @@ static void	screen_overflow_startingpoint(int vct_offset)
 	le->cx = 0;
 	le->vct_index = vct_offset;
 }
+
+
+
+
 
 int            move_cursor_at_startingpoint(void)
 {
@@ -98,3 +164,4 @@ void		move_cursor_at_index(t_vector *command_line, int target_index)
 		i++;
 	}
 }
+*/
