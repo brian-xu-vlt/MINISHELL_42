@@ -104,11 +104,11 @@ enum	e_termcap
 
 typedef struct	s_line_editor
 {
-	t_vector		*clipboard;
 	struct termios	termios_backup;
 	char			*termcap[NB_TERMCAP];
-	t_vector		*vct_history;
 	t_vector		*vct_command_line_backup;
+	t_vector		*vct_history;
+	t_vector		*clipboard;
 	int				srows;
 	int				scols;
 	int				prompt_len;

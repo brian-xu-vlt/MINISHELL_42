@@ -28,3 +28,14 @@ t_le	*get_env(t_le *env)
 		env_backup = env;
 	return (env_backup);
 }
+
+/*
+**	Not used but stored here to integrate libft
+*/
+
+char		*vct_getstrat(t_vector *vct, size_t index)
+{
+	if (vct == NULL || vct->str == NULL || index > vct_getlen(vct))
+		return (NULL);
+	return (vct->str + index);
+}
