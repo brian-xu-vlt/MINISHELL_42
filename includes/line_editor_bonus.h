@@ -36,6 +36,8 @@
 # define	EXECUTE			1
 # define	CONTINUE		0
 
+# define	UNSET			-1
+
 
 # define	ERR_NEW_VCT		"Could not malloc vector"
 # define	ERR_VCT			"Vector function failed"
@@ -72,18 +74,13 @@
 
 # define	PROMPT			"~$>"
 
-# define	NB_TERMCAP		17
+# define	NB_TERMCAP		18
 
 enum	e_termcap
 {
 	SAVE_CURSOR_POS,
 	RESTORE_CURSOR_POS,
 	CLEAR_ALL_AFTER_CURS,
-	MOVE_CURSOR_HOME,
-	ONE_COL_LEFT,
-	ONE_COL_RIGHT,
-	ONE_ROW_DOWN,
-	ONE_ROW_UP,
 	DELETE_ONE_CHAR,
 	HIDE_CURSOR,
 	VISIBLE_CURSOR,
@@ -91,8 +88,14 @@ enum	e_termcap
 	OUT_INSERT_MODE,
 	SELECT,
 	UNSELECT,
+	MOVE_CURSOR_HOME,
+	ONE_COL_LEFT,
+	ONE_COL_RIGHT,
+	ONE_ROW_DOWN,
+	ONE_ROW_UP,
 	MOVE_AT_COL_X,
-	MOVE_X_ROWS_UP
+	MOVE_X_ROWS_UP,
+	MOVE_X_ROWS_DOWN
 };
 
 /*************************************************

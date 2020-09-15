@@ -18,15 +18,7 @@ void		line_editor(t_vector *command_line)
 	{
 		le->vct_index_backup = le->vct_index;
 		tputs(le->termcap[HIDE_CURSOR], 1, ms_putchar);
-		if (buff == '1')
-			move_previous_line_head();
-		else if (buff == '2')
-			print(command_line);
-		else if (buff == '3')
-			write(STDERR_FILENO, ".....................", 21);
-		else if (buff == '4')
-		tputs(le->termcap[ONE_ROW_UP], 1, ms_putchar);
-		else if (buff == K_ENTER)
+		if (buff == K_ENTER)
 			break ;
 		else if (ft_isprint(buff) == TRUE)
 			handle_print_char(buff, command_line);
@@ -39,5 +31,5 @@ void		line_editor(t_vector *command_line)
 	}
 	tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
 	unselect_all(command_line);
-	move_cursor_at_index(vct_getlen(command_line));
+//	move_cursor_at_index(vct_getlen(command_line));
 }

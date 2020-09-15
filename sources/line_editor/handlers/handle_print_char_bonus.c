@@ -16,5 +16,6 @@ void	handle_print_char(char buff, t_vector *command_line)
 	if (le->select_min != -1)
 		delete_selection(command_line, 0);
 	insert_char_in_vct(command_line, buff);	
+	move_cursor_right(command_line);
 	refresh(command_line);
 }

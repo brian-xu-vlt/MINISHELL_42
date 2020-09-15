@@ -4,8 +4,8 @@ int		move_cursor_left(void)
 {
 	char		*buff;
 	t_le	*le;
-
 	le = get_env(GET);
+
 	if (le->vct_index <= 0)
 		return (FAILURE);
 	if (le->cx == 0 && le->cy > 0)
@@ -31,10 +31,9 @@ int		move_cursor_right(t_vector *command_line)
 	t_le	*le;
 
 	le = get_env(GET);
-(void)command_line;
-//	if (le->vct_index >= (int)vct_getlen(command_line))
-//		return (FAILURE);
-	if (le->cx >= le->scols)
+	if (le->vct_index >= (int)vct_getlen(command_line))
+		return (FAILURE);
+	if (le->cx >= le->scols - 1)
 	{
 		buff = tparm(le->termcap[MOVE_AT_COL_X], 0);
 		tputs(buff, 2, ms_putchar);
@@ -53,21 +52,18 @@ int		move_cursor_right(t_vector *command_line)
 
 void		move_cursor_at_index(int index_to)
 {
-	int		index_from;
 	int		index_delta;
 	int		offset;
 	t_le	*le;
 
 	le = get_env(GET);
 	offset = (le->cy == 0) ? le->prompt_len : 0;
-	index_from = le->vct_index;
-	index_delta = index_to - index_from;
-	if (index_delta <= 0)
+	index_delta = index_to - le->vct_index;
+	if (index_delta < 0)
 		return	;
 	le->cy += (index_delta + offset) / le->scols;
 	le->cx = (index_delta + offset) % le->scols;
 	le->vct_index = index_to;
-	
 }
 
 
@@ -76,6 +72,7 @@ void		move_cursor_at_index(int index_to)
 
 
 
+//debug_print_flag("|||||||||||||");
 
 
 
@@ -102,7 +99,8 @@ void		move_cursor_at_index(int index_to)
 
 
 
-
+//debug_print_flag("|||||||||||||");
+//debug_print_flag("____________");
 
 
 

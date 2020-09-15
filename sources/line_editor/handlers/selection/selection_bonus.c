@@ -9,7 +9,7 @@ void	update_selection(t_vector *command_line, long buff)
 
 	if (le->vct_index_backup == le->vct_index)
 		return; 
-	if (le->select_min == -1)
+	if (le->select_min == UNSET)
 	{
 		le->select_min = (le->vct_index < le->vct_index_backup) ? le->vct_index : le->vct_index_backup;
 		le->select_max = (le->vct_index < le->vct_index_backup) ? le->vct_index_backup : le->vct_index;
@@ -32,8 +32,8 @@ void	init_selection()
 	t_le *le;
 
 	le = get_env(GET);
-	le->select_min = -1;
-	le->select_max = -1;
+	le->select_min = UNSET;
+	le->select_max = UNSET;
 }
 
 void	unselect_all(t_vector *command_line)
@@ -41,7 +41,7 @@ void	unselect_all(t_vector *command_line)
 	t_le *le;
 
 	le = get_env(GET);
-	if (le->select_min != -1)
+	if (le->select_min != UNSET)
 	{
 		init_selection();
 		refresh(command_line);

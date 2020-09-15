@@ -33,43 +33,107 @@ void		put_carriage_return(void)
 	t_le	*le;
 
 	le = get_env(GET);
-	tputs(tparm(le->termcap[MOVE_AT_COL_X], 0), 2, ms_putchar);
 	tputs(le->termcap[ONE_ROW_DOWN], 1, ms_putchar);
+	tputs(tparm(le->termcap[MOVE_AT_COL_X], 0), 2, ms_putchar);
 }
 
+void		move_terminal_cursor_at_index(int index_to)
+{
+	int		index_delta;
+	int		offset;
+	int		cx_backup;
+	int		cy_backup;
+	t_le	*le;
+
+	le = get_env(GET);
+	cx_backup = le->cx;
+	cy_backup = le->cy;
+	offset = (le->cy == 0) ? le->prompt_len : 0;
+	index_delta = index_to - le->vct_index;
+	
+	if (index_delta <= 0)
+		return	;
+	le->cy += (index_delta + offset) / le->scols;
+	le->cx = (index_delta + offset) % le->scols;
+	le->vct_index = index_to;
+	if (le->cx != cx_backup)
+		tputs(tparm(le->termcap[MOVE_AT_COL_X], le->cx), 1, ms_putchar);
+	if (le->cy - cy_backup > 0)
+		tputs(tparm(le->termcap[MOVE_X_ROWS_DOWN], cy_backup - le->cy), 1, ms_putchar);
+
+}
+
+void		write_with_selection(t_vector *command_line, int index_from)
+{
+	int		vct_len;
+	char	*v_str;
+	int		fd;
+	t_le	*le;
+
+	le = get_env(GET);
+	v_str = vct_getstr(command_line);
+	vct_len = vct_getlen(command_line);
+	fd = STDERR_FILENO;
+	if (le->select_min < index_from)
+	{
+		tputs(le->termcap[SELECT], 1, ms_putchar);
+		write(fd, v_str + index_from, le->select_max - index_from + 1);
+		tputs(le->termcap[UNSELECT], 1, ms_putchar);
+		write(fd, v_str + le->select_max + 1, vct_len - le->select_max);
+	}
+	else
+	{
+		write(fd, v_str + index_from, le->select_min - index_from);
+		tputs(le->termcap[SELECT], 1, ms_putchar);
+		write(fd, v_str + le->select_min, le->select_max - le->select_min + 1);
+		tputs(le->termcap[UNSELECT], 1, ms_putchar);
+		write(fd, v_str + le->select_max + 1, vct_len - le->select_max);
+	}	
+}
 
 void		print(t_vector *command_line)
 {
 	int		index_from;
 	int		index_delta;
 	int		offset;
-	char	*vct_str;
 	t_le	*le;
 
 	le = get_env(GET);
 	index_from = le->vct_index;
 	index_delta = vct_getlen(command_line) - index_from;
-
-	vct_str = vct_getstrat(command_line, index_from);
-	if (vct_str == NULL)
-		exit_routine_le(ERR_VCT);
-	write(STDERR_FILENO, vct_getstrat(command_line, index_from), index_delta);
-
+	if (le->select_min == UNSET)
+		write(STDERR_FILENO, vct_getstr(command_line) + index_from, index_delta);
+	else
+		write_with_selection(command_line, index_from);
 	offset = (le->cy == 0) ? le->prompt_len : 0;
 	if ((index_delta + offset) % le->scols == 0) 
 		put_carriage_return();
-	move_cursor_at_index(vct_getlen(command_line));
 }
 
 void		refresh(t_vector *command_line)
 {
 	int		index_backup;
+	int		vct_len;
 	t_le	*le;
 
 	le = get_env(GET);
-	index_backup = le->vct_index;
-	move_previous_line_head();
+	vct_len = vct_getlen(command_line);
+	index_backup = (le->vct_index < vct_len) ? le->vct_index : UNSET;
+	while (le->vct_index > 0)
+		move_previous_line_head();
+	tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
 	print(command_line);
+	move_cursor_at_index(vct_len);
+	if (index_backup != UNSET && index_backup < (vct_len - le->vct_index) / 2)
+	{
+		while (le->vct_index > index_backup)
+			move_previous_line_head();
+		while (le->vct_index <= index_backup)
+			move_cursor_right(command_line);
+	}
+	else if (index_backup != UNSET)
+		while (le->vct_index > index_backup)
+			move_cursor_left();
 }
 
 
@@ -101,7 +165,7 @@ static void		print_command_line(t_vector *command_line, int vct_offset)
 	le = get_env(GET);
 	vct_len = vct_getlen(command_line);
 	//tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
-	if (le->select_min == -1)
+	if (le->select_min == UNSET)
 		ft_putstr_fd(vct_getstr(command_line) + vct_offset, STDOUT_FILENO);
 	else
 	{

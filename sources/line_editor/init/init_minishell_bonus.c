@@ -34,6 +34,7 @@ static int		fill_termcaps(t_le* le)
 	le->termcap[UNSELECT] = tgetstr("se", NULL);
 	le->termcap[MOVE_AT_COL_X] = tgetstr("ch", NULL);
 	le->termcap[MOVE_X_ROWS_UP] = tgetstr("UP", NULL);
+	le->termcap[MOVE_X_ROWS_DOWN] = tgetstr("DO", NULL);
 	i = 0;
 	while (i < NB_TERMCAP)
 	{
