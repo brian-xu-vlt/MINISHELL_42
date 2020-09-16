@@ -38,6 +38,9 @@
 
 # define	UNSET			-1
 
+# define	HISTORY_REFRESH	(1 << 0)
+# define	OVER_FLOW		(1 << 1)
+
 
 # define	ERR_NEW_VCT		"Could not malloc vector"
 # define	ERR_VCT			"Vector function failed"
@@ -109,6 +112,7 @@ typedef struct	s_line_editor
 	t_vector		*vct_command_line_backup;
 	t_vector		*vct_history;
 	t_vector		*clipboard;
+	int				screen_flag;
 	int				srows;
 	int				scols;
 	int				prompt_len;
@@ -160,7 +164,7 @@ void		copy_selection(t_vector *command_line);
 void		past_clipboard(t_vector *command_line);
 void		cut_selection(t_vector *command_line);
 
-void		call_history(long buff);
+void		call_history(t_vector *command_line, long buff);
 
 /*************************************************
 **				COMMAND_LINE PRINT

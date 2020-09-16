@@ -20,7 +20,4 @@ void	update_window_size(void)
 		le->srows = 42;	
 		le->scols = 42;
 	}
-/*	if (le->cy >= le->srows)
-		exit_routine_le(ERR_SCREEN_SIZE);
-*/
 }

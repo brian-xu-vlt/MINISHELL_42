@@ -60,7 +60,7 @@ static void	dispatch_esc_sequence(long buff, t_vector *command_line)
 	else if (buff == K_DEL_BACKWARD || buff == K_DEL_FOREWARD)
 		delete_selection(command_line, buff);
 	else if (buff == K_UP || buff == K_DOWN)
-		call_history(buff);
+		call_history(command_line, buff);
 	else if (buff == K_LEFT)
 		move_cursor_left();
 	else if (buff == K_RIGHT)

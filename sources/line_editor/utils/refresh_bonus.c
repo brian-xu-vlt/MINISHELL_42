@@ -98,7 +98,21 @@ static void		move_refresh_startingpoint(t_vector *command_line)
 */
 }
 
-void		refresh(t_vector *command_line)
+void		refresh_history(t_vector *command_line)
+{
+	int		vct_len;
+	t_le	*le;
+
+	le = get_env(GET);
+	vct_len = vct_getlen(command_line);
+	while (le->vct_index > 0)
+		move_previous_line_head();
+	tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
+	print(command_line);
+	move_cursor_at_index(vct_len);
+}
+
+void		refresh_command_line(t_vector *command_line)
 {
 	int		index_backup;
 	int		vct_len;
@@ -121,4 +135,18 @@ void		refresh(t_vector *command_line)
 	else if (index_backup != UNSET)
 		while (le->vct_index > index_backup)
 			move_cursor_left();
+}
+
+void	refresh(t_vector *command_line)
+{
+	t_le	*le;
+
+	le = get_env(GET);
+	if (le->screen_flag & HISTORY_REFRESH)
+	{
+		refresh_history(command_line);
+		le->screen_flag ^= HISTORY_REFRESH;
+	}
+	else
+		refresh_command_line(command_line);
 }

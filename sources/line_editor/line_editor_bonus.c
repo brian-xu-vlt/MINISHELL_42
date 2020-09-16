@@ -17,7 +17,7 @@ void		line_editor(t_vector *command_line)
 	while(ret == CONTINUE && read(STDIN_FILENO, &buff, 1) >= 0)
 	{
 		le->vct_index_backup = le->vct_index;
-		tputs(le->termcap[HIDE_CURSOR], 1, ms_putchar);
+//		tputs(le->termcap[HIDE_CURSOR], 1, ms_putchar);
 		if (buff == K_ENTER)
 			break ;
 		else if (ft_isprint(buff) == TRUE)
@@ -27,9 +27,9 @@ void		line_editor(t_vector *command_line)
 		buff = '\0';
 		if (DEBUG == TRUE)
 			debug_print_infos(command_line);
-		tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
+//		tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
 	}
-	tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
+//	tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
 	unselect_all(command_line);
 //	move_cursor_at_index(vct_getlen(command_line));
 }
