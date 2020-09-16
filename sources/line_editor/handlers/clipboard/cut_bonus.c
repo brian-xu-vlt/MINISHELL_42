@@ -1,7 +1,7 @@
 #include "line_editor_bonus.h"
 
-void	cut_selection(t_vector *command_line)
+void	cut_selection(void)
 {
-	copy_selection(command_line);
-	delete_selection(command_line, 0);
+	copy_selection();
+	delete_selection(0);
 }

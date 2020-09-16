@@ -25,13 +25,13 @@ int		move_cursor_left(void)
 	return (SUCCESS);
 }
 
-int		move_cursor_right(t_vector *command_line)
+int		move_cursor_right(void)
 {
 	char		*buff;
 	t_le	*le;
 
 	le = get_env(GET);
-	if (le->vct_index >= (int)vct_getlen(command_line))
+	if (le->vct_index >= (int)vct_getlen(le->cmd_line))
 		return (FAILURE);
 	if (le->cx >= le->scols - 1)
 	{

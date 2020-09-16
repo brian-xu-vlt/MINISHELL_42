@@ -26,16 +26,21 @@ static t_vector	*history(long flag)
 	return (history_stock[i]);
 }
 
-void			call_history(t_vector *command_line, long buff)
+void			call_history(long key)
 {
-	t_le *le;
+	t_vector	*vct_history;
+	t_le		*le;
 
 	le = get_env(GET);
-	le->vct_command_line_backup = command_line;
-	le->vct_history = history(buff);	
-	if (le->vct_history == NULL)
-		command_line = le->vct_command_line_backup;
+	if (le->cmd_line_backup == NULL)
+		le->cmd_line_backup = le->cmd_line;
+	vct_history = history(key);	
+	if (vct_history == NULL)
+	{
+		le->cmd_line = le->cmd_line_backup;
+		le->cmd_line_backup = NULL;
+	}
 	else
-		command_line = le->vct_history;
+		le->cmd_line = vct_history;
 	le->screen_flag |= HISTORY_REFRESH;
 }

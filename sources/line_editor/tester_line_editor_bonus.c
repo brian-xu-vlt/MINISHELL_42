@@ -6,17 +6,17 @@
 
 int 	main(void)
 {
-	t_vector	*test_command;
+	t_le	*le;
 
 	init_minishell();
-
-	test_command = vct_new();
-	while (ft_strncmp(vct_getstr(test_command), "quit", 5) != 0)
+	le = get_env(GET);
+	le->cmd_line = vct_new();
+	while (ft_strncmp(vct_getstr(le->cmd_line), "quit", 5) != 0)
 	{
-		vct_clear(test_command);
-		line_editor(test_command);
-		printf("\n%s|%s|\n", PROMPT, vct_getstr(test_command));
+		vct_clear(le->cmd_line);
+		line_editor();
+		ft_printf("\n%s|%s|\n", PROMPT, vct_getstr(le->cmd_line));
 	}
-	vct_del(&test_command);
+	vct_del(&le->cmd_line);
 	return (0);	
 }

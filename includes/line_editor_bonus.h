@@ -109,8 +109,8 @@ typedef struct	s_line_editor
 {
 	struct termios	termios_backup;
 	char			*termcap[NB_TERMCAP];
-	t_vector		*vct_command_line_backup;
-	t_vector		*vct_history;
+	t_vector		*cmd_line;
+	t_vector		*cmd_line_backup;
 	t_vector		*clipboard;
 	int				screen_flag;
 	int				srows;
@@ -128,7 +128,7 @@ typedef struct	s_line_editor
 **				DEBUG
 ************************************************/
 
-void		debug_print_infos(t_vector *command_line);
+void		debug_print_infos(void);
 void		debug_print_flag(char *flag);
 
 /*************************************************
@@ -140,37 +140,37 @@ int			is_ctrl_shift_on(long buff);
 int         ms_putchar(int c);
 void		exit_routine_le(char *err_code);
 
-void		refresh_command_line(t_vector *command_line);
-void		refresh(t_vector *command_line);
+void		refresh_command_line(void);
+void		refresh(void);
 
 int			get_ctrlkey(int c);
 t_le		*get_env(t_le *env);
-void		insert_char_in_vct(t_vector *command_line, char c);
+void		insert_char_in_vct(char c);
 
 /*************************************************
 **				HANDLERS
 ************************************************/
 
-int			handle_esc_seq(char buff, t_vector *command_line);
-void		handle_print_char(char buff, t_vector *command_line);
+int			handle_esc_seq(char buff);
+void		handle_print_char(char buff);
 
-void		move_end_of_line(t_vector *command_line);
+void		move_end_of_line(void);
 void		move_start_of_line(void);
-void		move_one_word_right(t_vector *command_line);
-void		move_one_word_left(t_vector *command_line);
+void		move_one_word_right(void);
+void		move_one_word_left(void);
 
-void		delete_selection(t_vector *command_line, long key);
-void		copy_selection(t_vector *command_line);
-void		past_clipboard(t_vector *command_line);
-void		cut_selection(t_vector *command_line);
+void		delete_selection(long key);
+void		copy_selection(void);
+void		past_clipboard(void);
+void		cut_selection(void);
 
-void		call_history(t_vector *command_line, long buff);
+void		call_history(long buff);
 
 /*************************************************
 **				COMMAND_LINE PRINT
 ************************************************/
 
-void		print(t_vector *command_line);
+void		print(void);
 
 /*************************************************
 **				SELECTION
@@ -178,7 +178,7 @@ void		print(t_vector *command_line);
 
 void		init_selection(void);
 void		unselect_all();
-void		update_selection(t_vector *command_line, long buff);
+void		update_selection(long buff);
 
 /*************************************************
 **				CURSOR
@@ -186,7 +186,7 @@ void		update_selection(t_vector *command_line, long buff);
 
 size_t		convert_cur_pos_vctindex(int cx, int cy);
 
-int			move_cursor_right(t_vector *command_line);
+int			move_cursor_right(void);
 int			move_cursor_left(void);
 void		move_previous_line_head();
 void		move_cursor_at_index(int index_to);
@@ -204,14 +204,7 @@ void		update_window_size(void);
 /*************************************************
 **				MAIN FUNCTIONS
 ************************************************/
-void		line_editor(t_vector *command_line);
-
-
-
-
-
-
-
+void		line_editor(void);
 
 
 

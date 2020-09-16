@@ -1,11 +1,11 @@
 #include "line_editor_bonus.h"
 
-void	update_selection(t_vector *command_line, long buff)
+void	update_selection(long buff)
 {
 	int		vct_len;
 	t_le	*le;
 	le = get_env(GET);
-	vct_len = (int)vct_getlen(command_line);
+	vct_len = (int)vct_getlen(le->cmd_line);
 
 	if (le->vct_index_backup == le->vct_index)
 		return; 
@@ -36,7 +36,7 @@ void	init_selection()
 	le->select_max = UNSET;
 }
 
-void	unselect_all(t_vector *command_line)
+void	unselect_all(void)
 {
 	t_le *le;
 
@@ -44,6 +44,6 @@ void	unselect_all(t_vector *command_line)
 	if (le->select_min != UNSET)
 	{
 		init_selection();
-		refresh(command_line);
+		refresh();
 	}
 }

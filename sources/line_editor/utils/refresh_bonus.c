@@ -31,7 +31,7 @@ void		put_carriage_return(void)
 	tputs(tparm(le->termcap[MOVE_AT_COL_X], 0), 2, ms_putchar);
 }
 
-void		write_with_selection(t_vector *command_line, int index_from)
+void		write_with_selection(int index_from)
 {
 	int		vct_len;
 	char	*v_str;
@@ -39,8 +39,8 @@ void		write_with_selection(t_vector *command_line, int index_from)
 	t_le	*le;
 
 	le = get_env(GET);
-	v_str = vct_getstr(command_line);
-	vct_len = vct_getlen(command_line);
+	v_str = vct_getstr(le->cmd_line);
+	vct_len = vct_getlen(le->cmd_line);
 	fd = STDERR_FILENO;
 	if (le->select_min < index_from)
 	{
@@ -59,7 +59,7 @@ void		write_with_selection(t_vector *command_line, int index_from)
 	}	
 }
 
-void		print(t_vector *command_line)
+void		print(void)
 {
 	int		index_from;
 	int		index_delta;
@@ -68,17 +68,17 @@ void		print(t_vector *command_line)
 
 	le = get_env(GET);
 	index_from = le->vct_index;
-	index_delta = vct_getlen(command_line) - index_from;
+	index_delta = vct_getlen(le->cmd_line) - index_from;
 	if (le->select_min == UNSET)
-		write(STDERR_FILENO, vct_getstr(command_line) + index_from, index_delta);
+		write(STDERR_FILENO, vct_getstr(le->cmd_line) + index_from, index_delta);
 	else
-		write_with_selection(command_line, index_from);
+		write_with_selection(index_from);
 	offset = (le->cy == 0) ? le->prompt_len : 0;
 	if ((index_delta + offset) % le->scols == 0) 
 		put_carriage_return();
 }
 
-static void		move_refresh_startingpoint(t_vector *command_line)
+static void		move_refresh_startingpoint(void)
 {
 	int		head_of_block;
 	t_le	*le;
@@ -86,7 +86,7 @@ static void		move_refresh_startingpoint(t_vector *command_line)
 	le = get_env(GET);
 	if (le->vct_index == 0)
 		return ;
-	if (le->vct_index == (int)vct_getlen(command_line))
+	if (le->vct_index == (int)vct_getlen(le->cmd_line))
 		head_of_block = le->vct_index - 1;
 	else
 		head_of_block = 0;
@@ -98,55 +98,55 @@ static void		move_refresh_startingpoint(t_vector *command_line)
 */
 }
 
-void		refresh_history(t_vector *command_line)
+void		refresh_history(void)
 {
 	int		vct_len;
 	t_le	*le;
 
 	le = get_env(GET);
-	vct_len = vct_getlen(command_line);
+	vct_len = vct_getlen(le->cmd_line);
 	while (le->vct_index > 0)
 		move_previous_line_head();
 	tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
-	print(command_line);
+	print();
 	move_cursor_at_index(vct_len);
 }
 
-void		refresh_command_line(t_vector *command_line)
+void		refresh_command_line(void)
 {
 	int		index_backup;
 	int		vct_len;
 	t_le	*le;
 
 	le = get_env(GET);
-	vct_len = vct_getlen(command_line);
+	vct_len = vct_getlen(le->cmd_line);
 	index_backup = (le->vct_index < vct_len) ? le->vct_index : UNSET;
-	move_refresh_startingpoint(command_line);
+	move_refresh_startingpoint();
 	tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
-	print(command_line);
+	print();
 	move_cursor_at_index(vct_len);
 	if (index_backup != UNSET && index_backup < (vct_len - le->vct_index) / 2)
 	{
 		while (le->vct_index > index_backup)
 			move_previous_line_head();
 		while (le->vct_index <= index_backup)
-			move_cursor_right(command_line);
+			move_cursor_right();
 	}
 	else if (index_backup != UNSET)
 		while (le->vct_index > index_backup)
 			move_cursor_left();
 }
 
-void	refresh(t_vector *command_line)
+void	refresh(void)
 {
 	t_le	*le;
 
 	le = get_env(GET);
 	if (le->screen_flag & HISTORY_REFRESH)
 	{
-		refresh_history(command_line);
+		refresh_history();
 		le->screen_flag ^= HISTORY_REFRESH;
 	}
 	else
-		refresh_command_line(command_line);
+		refresh_command_line();
 }

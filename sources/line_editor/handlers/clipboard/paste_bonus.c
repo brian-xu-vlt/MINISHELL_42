@@ -1,6 +1,6 @@
 #include "line_editor_bonus.h"
 
-void	past_clipboard(t_vector *command_line)
+void	past_clipboard(void)
 {
 	int		clipboard_len;
 	int		i;
@@ -8,14 +8,14 @@ void	past_clipboard(t_vector *command_line)
 	t_le	*le;
 
 	le = get_env(GET);
-	unselect_all(command_line);
+	unselect_all();
 	clipboard_len = vct_getlen(le->clipboard);
 	i = 0;
 	while (i < clipboard_len)
 	{
 		clipboard_content = vct_getcharat(le->clipboard, i);
-		insert_char_in_vct(command_line, clipboard_content);
-		move_cursor_right(command_line);
+		insert_char_in_vct(clipboard_content);
+		move_cursor_right();
 		i++;
 	}
 }

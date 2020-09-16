@@ -1,6 +1,6 @@
 #include "line_editor_bonus.h"
 
-void	delete_selection(t_vector *command_line, long key)
+void	delete_selection(long key)
 {
 	t_le	*le;
 	int		i;
@@ -10,13 +10,13 @@ void	delete_selection(t_vector *command_line, long key)
 	{
 		if (key == K_DEL_BACKWARD)
 			move_cursor_left();
-		vct_popcharat(command_line, le->vct_index);
+		vct_popcharat(le->cmd_line, le->vct_index);
 	}
 	else
 	{
 		i = le->select_max;
 		while(i >= 0 && i >= le->select_min)
-			vct_popcharat(command_line, i--);
-		unselect_all(command_line);
+			vct_popcharat(le->cmd_line, i--);
+		unselect_all();
 	}
 }

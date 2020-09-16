@@ -1,14 +1,14 @@
 #include "line_editor_bonus.h"
 
-void		line_editor(t_vector *command_line)
+void		line_editor(void)
 {
 	char	buff;
 	int		ret;
 	t_le	*le;
 
-	if (command_line == NULL)
-		exit_routine_le(ERR_NEW_VCT);
 	le = get_env(GET);
+	if (le->cmd_line == NULL)
+		exit_routine_le(ERR_NEW_VCT);
 	update_window_size();
 	init_prompt();
 	init_selection();
@@ -21,15 +21,15 @@ void		line_editor(t_vector *command_line)
 		if (buff == K_ENTER)
 			break ;
 		else if (ft_isprint(buff) == TRUE)
-			handle_print_char(buff, command_line);
+			handle_print_char(buff);
 		else
-			ret = handle_esc_seq(buff, command_line);
+			ret = handle_esc_seq(buff);
 		buff = '\0';
 		if (DEBUG == TRUE)
-			debug_print_infos(command_line);
+			debug_print_infos();
 //		tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
 	}
 //	tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
-	unselect_all(command_line);
-//	move_cursor_at_index(vct_getlen(command_line));
+	unselect_all();
+//	move_cursor_at_index(vct_getlen(le->cmd_line));
 }

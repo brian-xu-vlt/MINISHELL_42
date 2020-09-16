@@ -10,7 +10,7 @@ static void	debug_cursor_newline(void)
 	tputs(tgetstr("ce", NULL), 2, ms_putchar); // clear current line
 }
 
-void	debug_print_infos(t_vector *command_line)
+void	debug_print_infos(void)
 {
 	t_le	*le;
 
@@ -21,10 +21,10 @@ void	debug_print_infos(t_vector *command_line)
 	tputs(tgetstr("ce", NULL), 2, ms_putchar); // clear current line
 	ft_printf("cursor col [%d/%d] line [%d] vct_index [%d] vct_len[%d] char_in_vct [%c]",
 		le->cx, le->scols, le->cy, le->vct_index,
-		vct_getlen(command_line),vct_getcharat(command_line, le->vct_index));
+		vct_getlen(le->cmd_line),vct_getcharat(le->cmd_line, le->vct_index));
 	debug_cursor_newline();
 	ft_printf("select_min/max [%d/%d]vct_content : \n___%s\n", le->select_min,
-		le->select_max, vct_getstr(command_line));
+		le->select_max, vct_getstr(le->cmd_line));
 	debug_cursor_newline();
 //	ft_printf("Clipboard [%s]", vct_getstr(le->clipboard));
 	tputs(tgetstr("me", NULL), 2, ms_putchar); // restore appearance

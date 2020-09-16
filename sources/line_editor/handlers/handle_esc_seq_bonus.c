@@ -34,7 +34,7 @@ static long	strip_off_extra_bits(long buff)
 	return ((buff & ((long)0xff << 40)) >> 24 | (buff & 0xffff)); 
 }
 
-static void	dispatch_esc_sequence(long buff, t_vector *command_line)
+static void	dispatch_esc_sequence(long buff)
 {
 	int	k_mask;
 
@@ -46,36 +46,36 @@ static void	dispatch_esc_sequence(long buff, t_vector *command_line)
 		buff = strip_off_extra_bits(buff);
 
 	if ((k_mask & CTRL_MASK) && buff == K_RIGHT)
-		move_one_word_right(command_line);
+		move_one_word_right();
 	else if ((k_mask & CTRL_MASK) && buff == K_LEFT)
-		move_one_word_left(command_line);
+		move_one_word_left();
 	else if ((k_mask & CTRL_MASK) && buff == K_UP)
-		cut_selection(command_line);
+		cut_selection();
 
 	else if ((k_mask & SHIFT_MASK) && buff == K_UP)
-		copy_selection(command_line);
+		copy_selection();
 	else if ((k_mask & SHIFT_MASK) && buff == K_DOWN)
-		past_clipboard(command_line);
+		past_clipboard();
 
 	else if (buff == K_DEL_BACKWARD || buff == K_DEL_FOREWARD)
-		delete_selection(command_line, buff);
+		delete_selection(buff);
 	else if (buff == K_UP || buff == K_DOWN)
-		call_history(command_line, buff);
+		call_history(buff);
 	else if (buff == K_LEFT)
 		move_cursor_left();
 	else if (buff == K_RIGHT)
-		move_cursor_right(command_line);
+		move_cursor_right();
 	else if (buff == K_HOME)
 		move_start_of_line();
 	else if (buff == K_END)
-		move_end_of_line(command_line);
+		move_end_of_line();
 
 	if ((k_mask & SHIFT_MASK) == FALSE)
-		unselect_all(command_line);	
+		unselect_all();	
 	else if ((k_mask & SHIFT_MASK) && buff != K_DOWN)
-		update_selection(command_line, buff);
+		update_selection(buff);
 
-	refresh(command_line);
+	refresh();
 }
 
 static long	expand_escape_sequence(char buff)
@@ -91,7 +91,7 @@ static long	expand_escape_sequence(char buff)
 	return (0);
 }
 
-int			handle_esc_seq(char buff, t_vector *command_line)
+int			handle_esc_seq(char buff)
 {
 	long	long_buff;
 
@@ -99,7 +99,6 @@ int			handle_esc_seq(char buff, t_vector *command_line)
 		long_buff = expand_escape_sequence(buff);
 	else
 		long_buff = (long)buff;
-	dispatch_esc_sequence(long_buff, command_line);	
-	//tcflush(STDOUT_FILENO, TCIFLUSH);
+	dispatch_esc_sequence(long_buff);	
 	return (CONTINUE);
 }
