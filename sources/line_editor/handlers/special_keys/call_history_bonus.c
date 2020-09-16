@@ -1,46 +1,81 @@
 #include "line_editor_bonus.h"
 
-static t_vector	*history(long flag)
+t_vector	*browse_history(long key)
 {
-	static int	i;
-	static 		t_vector *history_stock[9];
+	static int	next_call_elem;
+	t_list	 	*return_element;
+	t_le		*le;
+	int			i;
 
-	if (history_stock[0] == NULL)
+	le = get_env(GET);
+	if (key == RESET)
 	{
-		while (i <= 9)
-		{
-			history_stock[i] = vct_new();
-			vct_add(history_stock[i], i + '0');
-			i++;
-		}	
-		i = 0;
-	}
-	if (i == 0 && flag == K_DOWN)
+		if (le->cmd_line_backup != NULL)
+			le->cmd_line = le->cmd_line_backup;
+		next_call_elem = 0;
 		return (NULL);
-	else if (i == 9 && flag == K_UP)
-		i = 9;
-	else if (flag == K_UP) 
-		i++;
-	else if (flag == K_DOWN) 
-		i--;
-	return (history_stock[i]);
+	}
+	i = 0;
+	return_element = le->history_cache;
+	if (key == K_UP)
+	{
+		while (return_element->next != NULL &&  i < next_call_elem)
+		{
+			return_element = return_element->next;
+			i++;
+		}
+		if (return_element->next != NULL)
+			next_call_elem++;
+	}
+	else if (key == K_DOWN && next_call_elem > 0)
+	{
+		while (return_element->next != NULL &&  i < next_call_elem - 1)
+		{
+			return_element = return_element->next;
+			i++;
+		}
+		next_call_elem--;
+	}
+	else
+		return (NULL);
+	return ((t_vector *)return_element->content);
 }
 
-void			call_history(long key)
+void		call_history(long key)
 {
-	t_vector	*vct_history;
+	t_vector	*vct_history_element;
 	t_le		*le;
 
 	le = get_env(GET);
+	if (le->history_cache == NULL)
+		return ;
 	if (le->cmd_line_backup == NULL)
 		le->cmd_line_backup = le->cmd_line;
-	vct_history = history(key);	
-	if (vct_history == NULL)
+	vct_history_element = browse_history(key);	
+	if (vct_history_element == NULL)
 	{
 		le->cmd_line = le->cmd_line_backup;
 		le->cmd_line_backup = NULL;
 	}
 	else
-		le->cmd_line = vct_history;
+		le->cmd_line = vct_history_element;
 	le->screen_flag |= HISTORY_REFRESH;
+}
+
+void		save_history(void)
+{
+	t_list		*new_history_element;
+	t_le		*le;
+
+	le = get_env(GET);
+	if (vct_getlen(le->cmd_line) > 0)
+	{
+	debug_print_flag(vct_getstr(le->cmd_line));
+		new_history_element = ft_lstnew(vct_dup(le->cmd_line));
+		if (le->history_cache == NULL)
+			le->history_cache = new_history_element;
+		else
+			ft_lstadd_front(&le->history_cache, new_history_element);
+	}
+	browse_history(RESET);
 }

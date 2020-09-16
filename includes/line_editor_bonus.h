@@ -38,10 +38,6 @@
 
 # define	UNSET			-1
 
-# define	HISTORY_REFRESH	(1 << 0)
-# define	OVER_FLOW		(1 << 1)
-
-
 # define	ERR_NEW_VCT		"Could not malloc vector"
 # define	ERR_VCT			"Vector function failed"
 # define	ERR_SCREEN_SIZE	"Screen size is too small"
@@ -50,10 +46,21 @@
 # define	ERR_MALLOC		"Malloc could not allocate memory"
 
 /**********************************
-*********  USER KEYS  *************
+*********  SCREEN  FLAG ***********
 **********************************/
 
-# define NB_KEYS			10
+# define	HISTORY_REFRESH	(1 << 0)
+# define	OVER_FLOW		(1 << 1)
+
+/**********************************
+*********   HISTORY   *************
+**********************************/
+
+# define	RESET			-1
+
+/**********************************
+*********  USER KEYS  *************
+**********************************/
 
 # define	K_UP			0x415b1b
 # define	K_DOWN			0x425b1b
@@ -112,6 +119,7 @@ typedef struct	s_line_editor
 	t_vector		*cmd_line;
 	t_vector		*cmd_line_backup;
 	t_vector		*clipboard;
+	t_list			*history_cache;
 	int				screen_flag;
 	int				srows;
 	int				scols;
@@ -164,7 +172,13 @@ void		copy_selection(void);
 void		past_clipboard(void);
 void		cut_selection(void);
 
-void		call_history(long buff);
+/*************************************************
+**				HISTORY
+************************************************/
+
+t_vector	*browse_history(long key);
+void		save_history(void);
+void		call_history(long key);
 
 /*************************************************
 **				COMMAND_LINE PRINT

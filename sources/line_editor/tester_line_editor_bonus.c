@@ -1,7 +1,7 @@
 #include "line_editor_bonus.h"
 
 /***********************************************
-**********TEST UNITAIRE FOR LINE EDITOR.c*******
+********** MAIN TEST  FOR LINE EDITOR.c  *******
 ***********************************************/
 
 int 	main(void)
@@ -16,7 +16,10 @@ int 	main(void)
 		vct_clear(le->cmd_line);
 		line_editor();
 		ft_printf("\n%s|%s|\n", PROMPT, vct_getstr(le->cmd_line));
+		save_history();
 	}
 	vct_del(&le->cmd_line);
+	if (le->cmd_line_backup != NULL)
+		vct_del(&le->cmd_line_backup);
 	return (0);	
 }
