@@ -6,7 +6,8 @@ void            move_previous_line_head(void)
 	int		offset;
 
 	le = get_env(GET);
-
+	if (le->vct_index == 0)
+		return ;
 	if (le->cy > 0)
 	{
 		tputs(le->termcap[ONE_ROW_UP], 1, ms_putchar);
@@ -77,18 +78,19 @@ void		print(t_vector *command_line)
 		put_carriage_return();
 }
 
-void		move_head_of_refreshed_block(t_vector *command_line)
+static void		move_refresh_startingpoint(t_vector *command_line)
 {
 	int		head_of_block;
 	t_le	*le;
 
 	le = get_env(GET);
-	if (le->select_min != UNSET)
-		head_of_block = le->select_min;
-	else if (le->vct_index == (int)vct_getlen(command_line))
+	if (le->vct_index == 0)
+		return ;
+	if (le->vct_index == (int)vct_getlen(command_line))
 		head_of_block = le->vct_index - 1;
 	else
 		head_of_block = 0;
+
 	while (le->vct_index > head_of_block)
 		move_previous_line_head();
 /*	if (le->overflowing_flag == TRUE)
@@ -105,9 +107,7 @@ void		refresh(t_vector *command_line)
 	le = get_env(GET);
 	vct_len = vct_getlen(command_line);
 	index_backup = (le->vct_index < vct_len) ? le->vct_index : UNSET;
-	if (index_backup != UNSET)
-		debug_print_flag(ft_itoa(index_backup));
-	move_head_of_refreshed_block(command_line);
+	move_refresh_startingpoint(command_line);
 	tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
 	print(command_line);
 	move_cursor_at_index(vct_len);
