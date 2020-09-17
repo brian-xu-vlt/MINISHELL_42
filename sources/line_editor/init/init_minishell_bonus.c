@@ -21,6 +21,7 @@ static int		fill_termcaps(t_le* le)
 	le->termcap[SAVE_CURSOR_POS] = tgetstr("sc", NULL);
 	le->termcap[RESTORE_CURSOR_POS] = tgetstr("rc", NULL);
 	le->termcap[CLEAR_ALL_AFTER_CURS] = tgetstr("cd", NULL);
+	le->termcap[CLEAR_LINE] = tgetstr("ce", NULL);
 	le->termcap[ONE_COL_LEFT] = tgetstr("le", NULL);
 	le->termcap[ONE_COL_RIGHT] = tgetstr("nd", NULL);
 	le->termcap[ONE_ROW_DOWN] = tgetstr("do", NULL);
@@ -39,7 +40,8 @@ static int		fill_termcaps(t_le* le)
 	while (i < NB_TERMCAP)
 	{
 		if (le->termcap[i] == NULL)
-			exit_routine_le(ERR_TERMCAP);
+			exit_routine_le(ft_itoa(i));
+			//exit_routine_le(ERR_TERMCAP);
 		i++;
 	}
 	return (SUCCESS);
@@ -57,9 +59,9 @@ void			init_minishell(void)
 	le->history_cache = NULL;
 	le->cmd_line_backup = NULL;
 	le->clipboard = vct_new();
-	if (le->clipboard == NULL)
+	le->cmd_line = vct_new();
+	if (le->cmd_line == NULL || le->clipboard == NULL)
 		exit_routine_le(ERR_MALLOC);
-	vct_clear(le->clipboard);
 	init_library_db();
 	init_term_mode();
 	fill_termcaps(le);

@@ -1,8 +1,11 @@
 #include "line_editor_bonus.h"
 
-static void	del_history(void *elem_content)
+void	del_history(void *elem_content)
 {
-	vct_del(&(*elem_content));
+	t_vector *vct;
+
+	vct = (t_vector *)elem_content;
+	vct_del(&vct);
 }
 
 void		free_history(void)
@@ -10,11 +13,12 @@ void		free_history(void)
 	t_le		*le;
 
 	le = get_env(GET);
-	if (le->history_cache == NULL)
-		return ;
-	ft_lstclear(&le->history_cache, del_history);	
+	if (le->history_cache != NULL)
+		ft_lstclear(&le->history_cache, del_history);
+	le->history_cache = NULL;
 }
 
+// peut devenir une sorte de builtin... ?
 void		print_history(void)
 {
 	int			i;
@@ -45,44 +49,33 @@ void		print_history(void)
 	}
 }
 
-t_vector	*browse_history(long key)
+static t_vector	*browse_history(long key)
 {
-	static int	next_call_elem;
-	t_list	 	*cursor;
-	t_le		*le;
-	int			i;
+	static t_list	*next_call_elem;
+	t_list	 		*cursor;
+	t_le			*le;
 
 	le = get_env(GET);
+	cursor = le->history_cache;
 	if (key == RESET)
 	{
-		if (le->cmd_line_backup != NULL)
-			le->cmd_line = le->cmd_line_backup;
-		next_call_elem = 0;
+		next_call_elem = le->history_cache;
 		return (NULL);
 	}
-	i = 0;
-	cursor = le->history_cache;
+	else if (key == K_DOWN && next_call_elem == le->history_cache)
+		return (NULL);
 	if (key == K_UP)
 	{
-		while (cursor->next != NULL &&  i < next_call_elem)
-		{
+		while (cursor != NULL && cursor != next_call_elem)
 			cursor = cursor->next;
-			i++;
-		}
-		if (cursor->next != NULL)
-			next_call_elem++;
+		next_call_elem = (cursor->next != NULL) ? cursor->next : cursor;
 	}
-	else if (key == K_DOWN && next_call_elem > 0)
+	else if (key == K_DOWN)
 	{
-		while (cursor->next != NULL &&  i < next_call_elem - 1)
-		{
+		while (cursor != NULL && cursor->next != next_call_elem)
 			cursor = cursor->next;
-			i++;
-		}
-		next_call_elem--;
+		next_call_elem = cursor;
 	}
-	else
-		return (NULL);
 	return ((t_vector *)cursor->content);
 }
 
@@ -92,19 +85,23 @@ void		call_history(long key)
 	t_le		*le;
 
 	le = get_env(GET);
-	if (le->history_cache == NULL)
-		return ;
-	if (le->cmd_line_backup == NULL)
-		le->cmd_line_backup = le->cmd_line;
-	vct_history_element = browse_history(key);
-	if (vct_history_element == NULL)
+	if (le->history_cache != NULL)
 	{
-		le->cmd_line = le->cmd_line_backup;
-		le->cmd_line_backup = NULL;
+		if (le->cmd_line_backup == NULL)
+			if ((le->cmd_line_backup = vct_strdup(le->cmd_line)) == NULL)
+				exit_routine_le(ERR_MALLOC);
+		vct_history_element = browse_history(key);
+		if (vct_history_element != NULL)
+			vct_cpy(le->cmd_line, vct_history_element);
+		else
+		{
+			vct_clear(le->cmd_line);
+			vct_pushstr(le->cmd_line, le->cmd_line_backup);
+			free(le->cmd_line_backup);
+			le->cmd_line_backup = NULL;
+		}
+		le->screen_flag |= FULL_REFRESH;
 	}
-	else
-		le->cmd_line = vct_history_element;
-	le->screen_flag |= HISTORY_REFRESH;
 }
 
 void		save_history(void)
@@ -116,6 +113,8 @@ void		save_history(void)
 	if (vct_getlen(le->cmd_line) > 0)
 	{
 		new_history_element = ft_lstnew(vct_dup(le->cmd_line));
+		if (new_history_element == NULL)
+			exit_routine_le(ERR_MALLOC);
 		if (le->history_cache == NULL)
 			le->history_cache = new_history_element;
 		else

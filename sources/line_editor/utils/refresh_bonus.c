@@ -97,7 +97,7 @@ static void		move_refresh_startingpoint(void)
 */
 }
 
-void		refresh_history(void)
+void		refresh_full_screen(void)
 {
 	int		vct_len;
 	t_le	*le;
@@ -141,10 +141,10 @@ void	refresh(void)
 	t_le	*le;
 
 	le = get_env(GET);
-	if (le->screen_flag & HISTORY_REFRESH)
+	if (le->screen_flag & FULL_REFRESH)
 	{
-		refresh_history();
-		le->screen_flag= HISTORY_REFRESH;
+		refresh_full_screen();
+		le->screen_flag ^= FULL_REFRESH;
 	}
 	else
 		refresh_command_line();

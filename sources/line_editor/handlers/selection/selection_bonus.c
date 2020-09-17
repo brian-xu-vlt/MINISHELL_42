@@ -44,6 +44,7 @@ void	unselect_all(void)
 	if (le->select_min != UNSET)
 	{
 		init_selection();
+//		le->screen_flag |= FULL_REFRESH;
 		refresh();
 	}
 }

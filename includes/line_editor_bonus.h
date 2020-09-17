@@ -49,7 +49,7 @@
 *********  SCREEN  FLAG ***********
 **********************************/
 
-# define	HISTORY_REFRESH	(1 << 0)
+# define	FULL_REFRESH	(1 << 0)
 # define	OVER_FLOW		(1 << 1)
 
 /**********************************
@@ -84,20 +84,21 @@
 
 # define	PROMPT			"~$>"
 
-# define	NB_TERMCAP		18
+# define	NB_TERMCAP		19
 
 enum	e_termcap
 {
 	SAVE_CURSOR_POS,
 	RESTORE_CURSOR_POS,
+	CLEAR_LINE,
 	CLEAR_ALL_AFTER_CURS,
-	DELETE_ONE_CHAR,
+	SELECT,
+	UNSELECT,
 	HIDE_CURSOR,
+	DELETE_ONE_CHAR,
 	VISIBLE_CURSOR,
 	IN_INSERT_MODE,
 	OUT_INSERT_MODE,
-	SELECT,
-	UNSELECT,
 	MOVE_CURSOR_HOME,
 	ONE_COL_LEFT,
 	ONE_COL_RIGHT,
@@ -116,8 +117,8 @@ typedef struct	s_line_editor
 {
 	struct termios	termios_backup;
 	char			*termcap[NB_TERMCAP];
+	char			*cmd_line_backup;
 	t_vector		*cmd_line;
-	t_vector		*cmd_line_backup;
 	t_vector		*clipboard;
 	t_list			*history_cache;
 	int				screen_flag;
@@ -159,7 +160,7 @@ void		insert_char_in_vct(char c);
 **				HANDLERS
 ************************************************/
 
-int			handle_esc_seq(char buff);
+void		handle_esc_seq(char buff);
 void		handle_print_char(char buff);
 
 void		move_end_of_line(void);
@@ -176,7 +177,6 @@ void		cut_selection(void);
 **				HISTORY
 ************************************************/
 
-t_vector	*browse_history(long key);
 void		save_history(void);
 void		call_history(long key);
 void		print_history(void);
