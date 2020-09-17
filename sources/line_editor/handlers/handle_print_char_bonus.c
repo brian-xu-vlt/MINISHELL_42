@@ -15,7 +15,7 @@ void	handle_print_char(char buff)
 	le = get_env(GET);
 	if (le->select_min != -1)
 		delete_selection(0);
-	insert_char_in_vct(buff);	
+	insert_char_in_vct(buff);
 	move_cursor_right();
 	refresh();
 }

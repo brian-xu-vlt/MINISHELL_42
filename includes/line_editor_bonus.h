@@ -179,6 +179,8 @@ void		cut_selection(void);
 t_vector	*browse_history(long key);
 void		save_history(void);
 void		call_history(long key);
+void		print_history(void);
+void		free_history(void);
 
 /*************************************************
 **				COMMAND_LINE PRINT

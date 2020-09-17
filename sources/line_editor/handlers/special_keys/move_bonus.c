@@ -5,7 +5,7 @@ void	move_end_of_line(void)
 	int		ret;
 
 	ret = SUCCESS;
-	while (ret == SUCCESS)	
+	while (ret == SUCCESS)
 		ret = move_cursor_right();
 }
 
@@ -14,7 +14,7 @@ void	move_start_of_line(void)
 	int		ret;
 
 	ret = SUCCESS;
-	while (ret == SUCCESS)	
+	while (ret == SUCCESS)
 		ret = move_cursor_left();
 }
 

@@ -12,12 +12,12 @@ void	update_window_size(void)
 		ret = ioctl(STDIN_FILENO, TIOCGWINSZ, &w_size);
 		if (ret == FAILURE || w_size.ws_col == 0)
 			exit_routine_le("IOCTL failed");
-		le->srows = w_size.ws_row;	
-		le->scols = w_size.ws_col;	
+		le->srows = w_size.ws_row;
+		le->scols = w_size.ws_col;
 	}
 	else
 	{
-		le->srows = 42;	
+		le->srows = 42;
 		le->scols = 42;
 	}
 }

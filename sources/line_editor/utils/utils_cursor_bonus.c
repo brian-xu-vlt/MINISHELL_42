@@ -116,7 +116,7 @@ static void	screen_overflow_startingpoint(int vct_offset)
 	t_le    *le;
 
 	le = get_env(GET);
-	tputs(le->termcap[MOVE_CURSOR_HOME], le->cy, ms_putchar); 
+	tputs(le->termcap[MOVE_CURSOR_HOME], le->cy, ms_putchar);
 	le->cy = le->cy + 1 - le->srows;
 	le->cx = 0;
 	le->vct_index = vct_offset;
@@ -134,7 +134,7 @@ int            move_cursor_at_startingpoint(void)
 	le = get_env(GET);
 	vct_offset = 0;
 	if (le->cy >= le->srows)
-		vct_offset = (le->cy + 1 - le->srows) * le->scols - le->prompt_len; 
+		vct_offset = (le->cy + 1 - le->srows) * le->scols - le->prompt_len;
 	if (vct_offset > 0)
 	{
 		screen_overflow_startingpoint(vct_offset);

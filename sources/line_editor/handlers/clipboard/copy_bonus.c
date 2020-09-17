@@ -6,7 +6,7 @@ void	copy_selection(void)
 	int		copy_start;
 	int		copy_end;
 	int		i;
-	
+
 	le = get_env(GET);
 	vct_clear(le->clipboard);
 	if (le->vct_index > (int)vct_getlen(le->cmd_line))

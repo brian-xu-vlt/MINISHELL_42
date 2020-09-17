@@ -31,7 +31,7 @@ static void	apply_key(long buff)
 
 static long	strip_off_extra_bits(long buff)
 {
-	return ((buff & ((long)0xff << 40)) >> 24 | (buff & 0xffff)); 
+	return ((buff & ((long)0xff << 40)) >> 24 | (buff & 0xffff));
 }
 
 static void	dispatch_esc_sequence(long buff)
@@ -71,7 +71,7 @@ static void	dispatch_esc_sequence(long buff)
 		move_end_of_line();
 
 	if ((k_mask & SHIFT_MASK) == FALSE)
-		unselect_all();	
+		unselect_all();
 	else if ((k_mask & SHIFT_MASK) && buff != K_DOWN)
 		update_selection(buff);
 
@@ -85,7 +85,7 @@ static long	expand_escape_sequence(char buff)
 	long_buff = 0;
 	if (read(STDIN_FILENO, &long_buff, sizeof(long) - 1) != FAILURE)
 	{
-		long_buff = (long_buff << 8) | buff;	
+		long_buff = (long_buff << 8) | buff;
 		return (long_buff);
 	}
 	return (0);
@@ -99,6 +99,6 @@ int			handle_esc_seq(char buff)
 		long_buff = expand_escape_sequence(buff);
 	else
 		long_buff = (long)buff;
-	dispatch_esc_sequence(long_buff);	
+	dispatch_esc_sequence(long_buff);
 	return (CONTINUE);
 }

@@ -8,7 +8,7 @@ void	update_selection(long buff)
 	vct_len = (int)vct_getlen(le->cmd_line);
 
 	if (le->vct_index_backup == le->vct_index)
-		return; 
+		return;
 	if (le->select_min == UNSET)
 	{
 		le->select_min = (le->vct_index < le->vct_index_backup) ? le->vct_index : le->vct_index_backup;

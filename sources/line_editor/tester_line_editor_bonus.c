@@ -17,9 +17,15 @@ int 	main(void)
 		line_editor();
 		ft_printf("\n%s|%s|\n", PROMPT, vct_getstr(le->cmd_line));
 		save_history();
+		if (ft_strncmp(vct_getstr(le->cmd_line), "history", 8) == 0)
+			print_history();
 	}
-	vct_del(&le->cmd_line);
+	if (le->cmd_line != NULL)
+		vct_del(&le->cmd_line);
 	if (le->cmd_line_backup != NULL)
 		vct_del(&le->cmd_line_backup);
-	return (0);	
+	if (le->clipboard != NULL)
+		vct_del(&le->clipboard);
+	free_history();
+	return (0);
 }

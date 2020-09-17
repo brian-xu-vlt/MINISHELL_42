@@ -1,6 +1,6 @@
 #include "line_editor_bonus.h"
 
-void            move_previous_line_head(void)
+void		move_previous_line_head(void)
 {
 	t_le    *le;
 	int		offset;
@@ -56,7 +56,7 @@ void		write_with_selection(int index_from)
 		write(fd, v_str + le->select_min, le->select_max - le->select_min + 1);
 		tputs(le->termcap[UNSELECT], 1, ms_putchar);
 		write(fd, v_str + le->select_max + 1, vct_len - le->select_max);
-	}	
+	}
 }
 
 void		print(void)
@@ -74,7 +74,7 @@ void		print(void)
 	else
 		write_with_selection(index_from);
 	offset = (le->cy == 0) ? le->prompt_len : 0;
-	if ((index_delta + offset) % le->scols == 0) 
+	if ((index_delta + offset) % le->scols == 0)
 		put_carriage_return();
 }
 
@@ -90,11 +90,10 @@ static void		move_refresh_startingpoint(void)
 		head_of_block = le->vct_index - 1;
 	else
 		head_of_block = 0;
-
 	while (le->vct_index > head_of_block)
 		move_previous_line_head();
 /*	if (le->overflowing_flag == TRUE)
-		le->cy = 
+**		le->cy =
 */
 }
 
@@ -145,7 +144,7 @@ void	refresh(void)
 	if (le->screen_flag & HISTORY_REFRESH)
 	{
 		refresh_history();
-		le->screen_flag ^= HISTORY_REFRESH;
+		le->screen_flag= HISTORY_REFRESH;
 	}
 	else
 		refresh_command_line();
