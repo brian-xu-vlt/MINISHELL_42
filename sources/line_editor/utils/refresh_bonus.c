@@ -2,8 +2,8 @@
 
 void		move_previous_line_head(void)
 {
-	t_le    *le;
 	int		offset;
+	t_le	*le;
 
 	le = get_env(GET);
 	if (le->vct_index == 0)
@@ -14,7 +14,7 @@ void		move_previous_line_head(void)
 		le->cy--;
 	}
 	offset = (le->cy == 0) ? le->prompt_len : 0;
-	tputs(tparm(le->termcap[MOVE_AT_COL_X], offset), 1, ms_putchar);
+	move_at_col_x(offset);
 	le->cx = offset;
 	if (le->cy == 0)
 		le->vct_index = 0;
@@ -22,13 +22,13 @@ void		move_previous_line_head(void)
 		le->vct_index = (le->scols * (le->cy - 1)) + le->scols - le->prompt_len;
 }
 
-void		put_carriage_return(void)
+void		put_newline(void)
 {
 	t_le	*le;
 
 	le = get_env(GET);
-	tputs(le->termcap[ONE_ROW_DOWN], 1, ms_putchar);
-	tputs(tparm(le->termcap[MOVE_AT_COL_X], 0), 2, ms_putchar);
+	tputs(le->termcap[ONE_ROW_DOWN], 2, ms_putchar);
+	tputs(le->termcap[RETURN_CARRIAGE], 2, ms_putchar);
 }
 
 void		write_with_selection(int index_from)
@@ -62,20 +62,20 @@ void		write_with_selection(int index_from)
 void		print(void)
 {
 	int		index_from;
-	int		index_delta;
+	int		i_delta;
 	int		offset;
 	t_le	*le;
 
 	le = get_env(GET);
 	index_from = le->vct_index;
-	index_delta = vct_getlen(le->cmd_line) - index_from;
+	i_delta = vct_getlen(le->cmd_line) - index_from;
 	if (le->select_min == UNSET)
-		write(STDERR_FILENO, vct_getstr(le->cmd_line) + index_from, index_delta);
+		write(STDERR_FILENO, vct_getstr(le->cmd_line) + index_from, i_delta);
 	else
 		write_with_selection(index_from);
 	offset = (le->cy == 0) ? le->prompt_len : 0;
-	if ((index_delta + offset) % le->scols == 0)
-		put_carriage_return();
+	if ((i_delta + offset) % le->scols == 0)
+		put_newline();
 }
 
 static void		move_refresh_startingpoint(void)

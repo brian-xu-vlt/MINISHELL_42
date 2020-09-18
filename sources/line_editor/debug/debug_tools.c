@@ -2,12 +2,12 @@
 
 static void	debug_cursor_newline(void)
 {
-	char 	*buff;
+	t_le	*le;
 
-	buff = tparm(tgetstr("ch", NULL), 0); //set param termcap for col argument at 0
-	tputs(buff, 2, ms_putchar); // cursor @ col 0 of same line
-	tputs(tgetstr("do", NULL), 2, ms_putchar); // cursor 1 row down
-	tputs(tgetstr("ce", NULL), 2, ms_putchar); // clear current line
+	le = get_env(GET);
+	tputs(tparm(le->termcap[MOVE_AT_COL_X], 0), 2, ms_putchar);
+	tputs(le->termcap[ONE_ROW_DOWN], 2, ms_putchar);
+	tputs(tgetstr(CLEAR_LINE, NULL), le->cy, ms_putchar);
 }
 
 void	debug_print_infos(void)
@@ -15,38 +15,36 @@ void	debug_print_infos(void)
 	t_le	*le;
 
 	le = get_env(GET);
-	tputs(tgetstr("sc", NULL), 2, ms_putchar); // save location
-	tputs(tgetstr("ho", NULL), 2, ms_putchar); // go home 0,0
-	tputs(tgetstr("md", NULL), 2, ms_putchar); // double bright
-	tputs(tgetstr("ce", NULL), 2, ms_putchar); // clear current line
-	ft_printf("cursor col [%d/%d] line [%d] vct_index [%d] vct_len[%d] char_in_vct [%c]",
-		le->cx, le->scols, le->cy, le->vct_index,
-		vct_getlen(le->cmd_line),vct_getcharat(le->cmd_line, le->vct_index));
+	tputs(tgetstr(SAVE_CURSOR_POS, NULL), 2, ms_putchar);
+	tputs(le->termcap[MOVE_CURSOR_HOME], le->cy, ms_putchar);
+	tputs(tgetstr(HIGHLIGHT, NULL), 1, ms_putchar);
+	tputs(tgetstr(CLEAR_LINE, NULL), le->cy, ms_putchar);
+	ft_printf("cursor col [%d/%d] ",	le->cx, le->scols);
+	ft_printf("line [%d] vct_index [%d] ",le->cy, le->vct_index);
+	ft_printf("vct_len[%d] char_in_vct [%c]", vct_getlen(le->cmd_line),
+									vct_getcharat(le->cmd_line, le->vct_index));
 	debug_cursor_newline();
 	ft_printf("select_min/max [%d/%d] vct_content : \n___%s\n", le->select_min,
 		le->select_max, vct_getstr(le->cmd_line));
 	debug_cursor_newline();
-	tputs(tgetstr("ce", NULL), 2, ms_putchar); // clear current line
-	if (le->cmd_line_backup != NULL)
-		ft_printf("cmd_line backup : \n___%s\n", le->cmd_line_backup);
-//	ft_printf("Clipboard [%s]", vct_getstr(le->clipboard));
-	tputs(tgetstr("me", NULL), 2, ms_putchar); // restore appearance
-	tputs(tgetstr("rc", NULL), 2, ms_putchar); // restore location
+	tputs(tgetstr(CLEAR_LINE, NULL), le->cy, ms_putchar);
+	ft_printf("Clipboard [%s]", vct_getstr(le->clipboard));
+	tputs(tgetstr(NO_HIGHLIGHT, NULL), 1, ms_putchar);
+	tputs(tgetstr(RESTORE_CURSOR_POS, NULL), 2, ms_putchar);
 }
 
 void	debug_print_flag(char *flag)
 {
-	char	*buff;
+	t_le	*le;
 
-	tputs(tgetstr("sc", NULL), 2, ms_putchar); // save location
-	buff = tparm(tgetstr("UP", NULL), 6); //set param termcap for col argument at 0
-	tputs(buff, 6, ms_putchar); // cursor @ col 0 of same line
-	buff = tparm(tgetstr("ch", NULL), 0); //set param termcap for col argument at 0
-	tputs(buff, 2, ms_putchar); // cursor @ col 0 of same line
-	tputs(tgetstr("md", NULL), 2, ms_putchar); // double bright
-	tputs(tgetstr("ce", NULL), 2, ms_putchar); // clear current line
-	ft_putstr_fd("debug ", STDOUT_FILENO);
+	le = get_env(GET);
+	tputs(tgetstr(SAVE_CURSOR_POS, NULL), 2, ms_putchar);
+	tputs(tparm(le->termcap[MOVE_X_ROWS_UP], 6), 2, ms_putchar);
+	tputs(tparm(le->termcap[MOVE_AT_COL_X], 0), 2, ms_putchar);
+	tputs(tgetstr(HIGHLIGHT, NULL), 1, ms_putchar);
+	tputs(tgetstr(CLEAR_LINE, NULL), le->cy, ms_putchar);
+	ft_putstr_fd("debug ", STDERR_FILENO);
 	ft_putstr_fd(flag, STDOUT_FILENO);
-	tputs(tgetstr("me", NULL), 2, ms_putchar); // restore appearance
-	tputs(tgetstr("rc", NULL), 2, ms_putchar); // restore location
+	tputs(tgetstr(NO_HIGHLIGHT, NULL), 1, ms_putchar);
+	tputs(tgetstr(RESTORE_CURSOR_POS, NULL), 2, ms_putchar);
 }

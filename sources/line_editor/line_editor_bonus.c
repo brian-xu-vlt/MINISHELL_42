@@ -13,7 +13,7 @@ void		line_editor(void)
 	init_selection();
 	while(read(STDIN_FILENO, &buff, 1) != FAILURE && buff != K_ENTER)
 	{
-//		tputs(le->termcap[HIDE_CURSOR], 1, ms_putchar);
+		tputs(le->termcap[HIDE_CURSOR], 1, ms_putchar);
 		le->vct_index_backup = le->vct_index;
 		if (ft_isprint(buff) == TRUE)
 			handle_print_char(buff);
@@ -22,7 +22,7 @@ void		line_editor(void)
 		if (DEBUG == TRUE)
 			debug_print_infos();
 
-//		tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
+		tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
 	}
 	if (le->cmd_line_backup != NULL)
 	{
@@ -30,5 +30,5 @@ void		line_editor(void)
 		le->cmd_line_backup = NULL;
 	}
 	unselect_all();
-//	move_cursor_at_index(vct_getlen(le->cmd_line));
+	move_cursor_at_index(vct_getlen(le->cmd_line));
 }

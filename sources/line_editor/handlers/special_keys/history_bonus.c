@@ -32,10 +32,10 @@ void		print_history(void)
 	if (cursor == NULL)
 		return ;
 	lst_size = ft_lstsize(cursor);
-	i = 0;
 	end_cursor = lst_size - 1;
 	while (end_cursor >= 0)
 	{
+		i = 0;
 		while (i < end_cursor)
 		{
 			cursor = cursor->next;
@@ -45,24 +45,21 @@ void		print_history(void)
 									vct_getstr((t_vector *)cursor->content)); 
 		cursor = le->history_cache;
 		end_cursor--;
-		i = 0;
 	}
 }
 
 static t_vector	*browse_history(long key)
 {
 	static t_list	*next_call_elem;
-	t_list	 		*cursor;
-	t_le			*le;
+	t_list			*cursor;
 
-	le = get_env(GET);
-	cursor = le->history_cache;
+	cursor = get_env(GET)->history_cache;
 	if (key == RESET)
 	{
-		next_call_elem = le->history_cache;
+		next_call_elem = get_env(GET)->history_cache;
 		return (NULL);
 	}
-	else if (key == K_DOWN && next_call_elem == le->history_cache)
+	else if (key == K_DOWN && next_call_elem == get_env(GET)->history_cache)
 		return (NULL);
 	if (key == K_UP)
 	{

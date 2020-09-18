@@ -6,7 +6,7 @@ void	init_prompt()
 
 	le = get_env(GET);
 	ft_putstr_fd(PROMPT, STDOUT_FILENO);
-	if (le->scols <= le->prompt_len)
+	if (le->prompt_len >= le->scols)
 		exit_routine_le(ERR_SCREEN_SIZE);
 	le->cx = (int)le->prompt_len;
 	le->cy = 0;

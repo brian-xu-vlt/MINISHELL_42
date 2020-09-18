@@ -20,4 +20,3 @@ void	copy_selection(void)
 		i++;
 	}
 }
-

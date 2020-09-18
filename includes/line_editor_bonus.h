@@ -42,7 +42,7 @@
 # define	ERR_VCT			"Vector function failed"
 # define	ERR_SCREEN_SIZE	"Screen size is too small"
 # define	ERR_TERM_NAME	"Term environement variable can't be located"
-# define	ERR_TERMCAP		"Termcap could not be loaded by termcap library"
+# define	ERR_TERMCAP		"Minishell is not (yet) compatible to this Term"
 # define	ERR_MALLOC		"Malloc could not allocate memory"
 
 /**********************************
@@ -84,29 +84,42 @@
 
 # define	PROMPT			"~$>"
 
-# define	NB_TERMCAP		19
+/**********************************
+*********  DEBUG TERMCAPS *********
+**********************************/
 
-enum	e_termcap
+# define	HIGHLIGHT			"md"
+# define	NO_HIGHLIGHT		"me"
+# define	SAVE_CURSOR_POS		"sc"
+# define	RESTORE_CURSOR_POS	"rc"
+# define	CLEAR_LINE			"ce"
+
+/**********************************
+*****  LINE EDITOR TERNCAPS ******
+**********************************/
+
+# define	NB_ESSENTIAL_TERMCAP	10
+# define	NB_OPTIONAL_TERMCAP		3
+
+enum	e_essential_termcap
 {
-	SAVE_CURSOR_POS,
-	RESTORE_CURSOR_POS,
-	CLEAR_LINE,
 	CLEAR_ALL_AFTER_CURS,
 	SELECT,
 	UNSELECT,
-	HIDE_CURSOR,
-	DELETE_ONE_CHAR,
-	VISIBLE_CURSOR,
-	IN_INSERT_MODE,
-	OUT_INSERT_MODE,
 	MOVE_CURSOR_HOME,
 	ONE_COL_LEFT,
 	ONE_COL_RIGHT,
 	ONE_ROW_DOWN,
 	ONE_ROW_UP,
-	MOVE_AT_COL_X,
 	MOVE_X_ROWS_UP,
-	MOVE_X_ROWS_DOWN
+	RETURN_CARRIAGE
+};
+
+enum	e_optional_termcap
+{
+	MOVE_AT_COL_X = NB_ESSENTIAL_TERMCAP,
+	VISIBLE_CURSOR,
+	HIDE_CURSOR
 };
 
 /*************************************************
@@ -116,7 +129,7 @@ enum	e_termcap
 typedef struct	s_line_editor
 {
 	struct termios	termios_backup;
-	char			*termcap[NB_TERMCAP];
+	char			*termcap[NB_ESSENTIAL_TERMCAP + NB_OPTIONAL_TERMCAP];
 	char			*cmd_line_backup;
 	t_vector		*cmd_line;
 	t_vector		*clipboard;
@@ -200,6 +213,8 @@ void		update_selection(long buff);
 **				CURSOR
 ************************************************/
 
+void		put_newline(void);
+void		move_at_col_x(int target_col);
 size_t		convert_cur_pos_vctindex(int cx, int cy);
 
 int			move_cursor_right(void);

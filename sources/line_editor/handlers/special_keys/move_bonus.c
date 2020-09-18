@@ -20,15 +20,23 @@ void	move_start_of_line(void)
 
 void	move_one_word_right(void)
 {
-	size_t	vct_len;
+	int		vct_len;
 	t_le	*le;
 
 	le = get_env(GET);
-	vct_len = vct_getlen(le->cmd_line);
-	while (le->vct_index < (int)vct_len && vct_getcharat(le->cmd_line, le->vct_index) == ' ')
+	vct_len = (int)vct_getlen(le->cmd_line);
+	while (le->vct_index < vct_len)
+	{
+		if (vct_getcharat(le->cmd_line, le->vct_index) != ' ')
+			break ;
 		move_cursor_right();
-	while (le->vct_index < (int)vct_len && vct_getcharat(le->cmd_line, le->vct_index) != ' ')
+	}
+	while (le->vct_index < vct_len)
+	{
+		if (vct_getcharat(le->cmd_line, le->vct_index) == ' ')
+			break ;
 		move_cursor_right();
+	}
 }
 
 void	move_one_word_left(void)
@@ -36,10 +44,16 @@ void	move_one_word_left(void)
 	t_le	*le;
 
 	le = get_env(GET);
-	while (le->vct_index > 0 && vct_getcharat(le->cmd_line, le->vct_index - 1) == ' ')
+	while (le->vct_index > 0)
+	{
+		if (vct_getcharat(le->cmd_line, le->vct_index - 1) != ' ')
+			break ;
 		move_cursor_left();
-	while (le->vct_index > 0 && vct_getcharat(le->cmd_line, le->vct_index - 1) != ' ')
+	}
+	while (le->vct_index > 0)
+	{
+		if (vct_getcharat(le->cmd_line, le->vct_index - 1) == ' ')
+			break ;
 		move_cursor_left();
+	}
 }
-
-
