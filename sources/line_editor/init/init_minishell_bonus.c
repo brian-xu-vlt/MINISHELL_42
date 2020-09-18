@@ -2,8 +2,8 @@
 
 static void	init_library_db(void)
 {
-	int				ret;
-	char			*term_name;
+	int		ret;
+	char	*term_name;
 
 	term_name = getenv("TERM"); // to be changed to use main char *env[]
 	if (term_name == NULL)
@@ -13,7 +13,7 @@ static void	init_library_db(void)
 		exit_routine_le(ERR_TERMCAP);
 }
 
-static void		fill_termcaps(t_le* le)
+static void	fill_termcaps(t_le *le)
 {
 	int		i;
 
@@ -39,7 +39,7 @@ static void		fill_termcaps(t_le* le)
 	}
 }
 
-void			init_minishell(void)
+void		init_minishell(void)
 {
 	t_le	*le;
 

@@ -1,17 +1,12 @@
 #include "line_editor_bonus.h"
 
-void		line_editor(void)
+static void		line_editor_loop(void)
 {
 	char	buff;
 	t_le	*le;
 
 	le = get_env(GET);
-	if (le->cmd_line == NULL)
-		exit_routine_le(ERR_NEW_VCT);
-	update_window_size();
-	init_prompt();
-	init_selection();
-	while(read(STDIN_FILENO, &buff, 1) != FAILURE && buff != K_ENTER)
+	while (read(STDIN_FILENO, &buff, 1) != FAILURE && buff != K_ENTER)
 	{
 		tputs(le->termcap[HIDE_CURSOR], 1, ms_putchar);
 		le->vct_index_backup = le->vct_index;
@@ -21,9 +16,21 @@ void		line_editor(void)
 			handle_esc_seq(buff);
 		if (DEBUG == TRUE)
 			debug_print_infos();
-
 		tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
 	}
+}
+
+void			line_editor(void)
+{
+	t_le	*le;
+
+	le = get_env(GET);
+	if (le->cmd_line == NULL)
+		exit_routine_le(ERR_NEW_VCT);
+	update_window_size();
+	init_prompt();
+	init_selection();
+	line_editor_loop();
 	if (le->cmd_line_backup != NULL)
 	{
 		free(le->cmd_line_backup);

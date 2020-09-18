@@ -4,7 +4,7 @@ void	update_window_size(void)
 {
 	int				ret;
 	struct winsize	w_size;
-	t_le *le;
+	t_le			*le;
 
 	le = get_env(GET);
 	if (DEBUG_LLDB == FALSE)

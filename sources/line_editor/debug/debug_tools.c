@@ -10,7 +10,7 @@ static void	debug_cursor_newline(void)
 	tputs(tgetstr(CLEAR_LINE, NULL), le->cy, ms_putchar);
 }
 
-void	debug_print_infos(void)
+void		debug_print_infos(void)
 {
 	t_le	*le;
 
@@ -19,8 +19,8 @@ void	debug_print_infos(void)
 	tputs(le->termcap[MOVE_CURSOR_HOME], le->cy, ms_putchar);
 	tputs(tgetstr(HIGHLIGHT, NULL), 1, ms_putchar);
 	tputs(tgetstr(CLEAR_LINE, NULL), le->cy, ms_putchar);
-	ft_printf("cursor col [%d/%d] ",	le->cx, le->scols);
-	ft_printf("line [%d] vct_index [%d] ",le->cy, le->vct_index);
+	ft_printf("cursor col [%d/%d] ", le->cx, le->scols);
+	ft_printf("line [%d] vct_index [%d] ", le->cy, le->vct_index);
 	ft_printf("vct_len[%d] char_in_vct [%c]", vct_getlen(le->cmd_line),
 									vct_getcharat(le->cmd_line, le->vct_index));
 	debug_cursor_newline();
@@ -33,7 +33,7 @@ void	debug_print_infos(void)
 	tputs(tgetstr(RESTORE_CURSOR_POS, NULL), 2, ms_putchar);
 }
 
-void	debug_print_flag(char *flag)
+void		debug_print_flag(char *flag)
 {
 	t_le	*le;
 

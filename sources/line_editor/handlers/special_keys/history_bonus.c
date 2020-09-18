@@ -1,31 +1,14 @@
 #include "line_editor_bonus.h"
 
-void	del_history(void *elem_content)
-{
-	t_vector *vct;
-
-	vct = (t_vector *)elem_content;
-	vct_del(&vct);
-}
-
-void		free_history(void)
-{
-	t_le		*le;
-
-	le = get_env(GET);
-	if (le->history_cache != NULL)
-		ft_lstclear(&le->history_cache, del_history);
-	le->history_cache = NULL;
-}
-
 // peut devenir une sorte de builtin... ?
-void		print_history(void)
+
+void			print_history(void)
 {
-	int			i;
-	int			lst_size;
-	int			end_cursor;
-	t_list		*cursor;
-	t_le		*le;
+	int				i;
+	int				lst_size;
+	int				end_cursor;
+	t_list			*cursor;
+	t_le			*le;
 
 	le = get_env(GET);
 	cursor = le->history_cache;
@@ -42,7 +25,7 @@ void		print_history(void)
 			i++;
 		}
 		ft_printf("%5d %s\n", lst_size - end_cursor,
-									vct_getstr((t_vector *)cursor->content)); 
+									vct_getstr((t_vector *)cursor->content));
 		cursor = le->history_cache;
 		end_cursor--;
 	}
@@ -76,10 +59,10 @@ static t_vector	*browse_history(long key)
 	return ((t_vector *)cursor->content);
 }
 
-void		call_history(long key)
+void			call_history(long key)
 {
-	t_vector	*vct_history_element;
-	t_le		*le;
+	t_vector		*vct_history_element;
+	t_le			*le;
 
 	le = get_env(GET);
 	if (le->history_cache != NULL)
@@ -101,10 +84,10 @@ void		call_history(long key)
 	}
 }
 
-void		save_history(void)
+void			save_history(void)
 {
-	t_list		*new_history_element;
-	t_le		*le;
+	t_list			*new_history_element;
+	t_le			*le;
 
 	le = get_env(GET);
 	if (vct_getlen(le->cmd_line) > 0)

@@ -14,15 +14,15 @@ static void	set_selection(void)
 										le->vct_index_backup : le->vct_index;
 }
 
-void	update_selection(long buff)
+void		update_selection(long buff)
 {
 	int		vct_len;
 	t_le	*le;
-(void)buff;
+
 	le = get_env(GET);
 	vct_len = (int)vct_getlen(le->cmd_line);
 	if (le->vct_index_backup == le->vct_index)
-		return;
+		return ;
 	if (le->select_min == UNSET)
 		set_selection();
 	else if (le->vct_index < le->select_min && le->vct_index < le->select_max)
@@ -31,22 +31,22 @@ void	update_selection(long buff)
 		le->select_max = le->vct_index;
 	else if (buff == K_LEFT)
 		le->select_max = le->vct_index;
-	else if (buff == K_RIGHT) 
+	else if (buff == K_RIGHT)
 		le->select_min = le->vct_index;
 }
 
-void	init_selection()
+void		init_selection(void)
 {
-	t_le *le;
+	t_le	*le;
 
 	le = get_env(GET);
 	le->select_min = UNSET;
 	le->select_max = UNSET;
 }
 
-void	unselect_all(void)
+void		unselect_all(void)
 {
-	t_le *le;
+	t_le	*le;
 
 	le = get_env(GET);
 	if (le->select_min != UNSET)

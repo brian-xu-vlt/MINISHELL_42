@@ -1,84 +1,6 @@
 #include "line_editor_bonus.h"
 
-void		move_previous_line_head(void)
-{
-	int		offset;
-	t_le	*le;
-
-	le = get_env(GET);
-	if (le->vct_index == 0)
-		return ;
-	if (le->cy > 0)
-	{
-		tputs(le->termcap[ONE_ROW_UP], 1, ms_putchar);
-		le->cy--;
-	}
-	offset = (le->cy == 0) ? le->prompt_len : 0;
-	move_at_col_x(offset);
-	le->cx = offset;
-	if (le->cy == 0)
-		le->vct_index = 0;
-	else
-		le->vct_index = (le->scols * (le->cy - 1)) + le->scols - le->prompt_len;
-}
-
-void		put_newline(void)
-{
-	t_le	*le;
-
-	le = get_env(GET);
-	tputs(le->termcap[ONE_ROW_DOWN], 2, ms_putchar);
-	tputs(le->termcap[RETURN_CARRIAGE], 2, ms_putchar);
-}
-
-void		write_with_selection(int index_from)
-{
-	int		vct_len;
-	char	*v_str;
-	int		fd;
-	t_le	*le;
-
-	le = get_env(GET);
-	v_str = vct_getstr(le->cmd_line);
-	vct_len = vct_getlen(le->cmd_line);
-	fd = STDERR_FILENO;
-	if (le->select_min < index_from)
-	{
-		tputs(le->termcap[SELECT], 1, ms_putchar);
-		write(fd, v_str + index_from, le->select_max - index_from + 1);
-		tputs(le->termcap[UNSELECT], 1, ms_putchar);
-		write(fd, v_str + le->select_max + 1, vct_len - le->select_max);
-	}
-	else
-	{
-		write(fd, v_str + index_from, le->select_min - index_from);
-		tputs(le->termcap[SELECT], 1, ms_putchar);
-		write(fd, v_str + le->select_min, le->select_max - le->select_min + 1);
-		tputs(le->termcap[UNSELECT], 1, ms_putchar);
-		write(fd, v_str + le->select_max + 1, vct_len - le->select_max);
-	}
-}
-
-void		print(void)
-{
-	int		index_from;
-	int		i_delta;
-	int		offset;
-	t_le	*le;
-
-	le = get_env(GET);
-	index_from = le->vct_index;
-	i_delta = vct_getlen(le->cmd_line) - index_from;
-	if (le->select_min == UNSET)
-		write(STDERR_FILENO, vct_getstr(le->cmd_line) + index_from, i_delta);
-	else
-		write_with_selection(index_from);
-	offset = (le->cy == 0) ? le->prompt_len : 0;
-	if ((i_delta + offset) % le->scols == 0)
-		put_newline();
-}
-
-static void		move_refresh_startingpoint(void)
+static void	move_refresh_startingpoint(void)
 {
 	int		head_of_block;
 	t_le	*le;
@@ -136,7 +58,7 @@ void		refresh_command_line(void)
 			move_cursor_left();
 }
 
-void	refresh(void)
+void		refresh(void)
 {
 	t_le	*le;
 

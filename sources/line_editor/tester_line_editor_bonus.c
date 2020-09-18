@@ -4,7 +4,7 @@
 ********** MAIN TEST  FOR LINE EDITOR.c  *******
 ***********************************************/
 
-int 	main(void)
+int	main(void)
 {
 	t_le	*le;
 

@@ -1,6 +1,6 @@
 #include "line_editor_bonus.h"
 
-void		move_at_col_x(int target_col)
+void	move_at_col_x(int target_col)
 {
 	int		i;
 	t_le	*le;
@@ -66,7 +66,7 @@ int		move_cursor_right(void)
 	return (SUCCESS);
 }
 
-void		move_cursor_at_index(int index_to)
+void	move_cursor_at_index(int index_to)
 {
 	int		index_delta;
 	int		offset;
@@ -80,4 +80,26 @@ void		move_cursor_at_index(int index_to)
 	le->cy += (index_delta + offset) / le->scols;
 	le->cx = (index_delta + offset) % le->scols;
 	le->vct_index = index_to;
+}
+
+void	move_previous_line_head(void)
+{
+	int		offset;
+	t_le	*le;
+
+	le = get_env(GET);
+	if (le->vct_index == 0)
+		return ;
+	if (le->cy > 0)
+	{
+		tputs(le->termcap[ONE_ROW_UP], 1, ms_putchar);
+		le->cy--;
+	}
+	offset = (le->cy == 0) ? le->prompt_len : 0;
+	move_at_col_x(offset);
+	le->cx = offset;
+	if (le->cy == 0)
+		le->vct_index = 0;
+	else
+		le->vct_index = (le->scols * (le->cy - 1)) + le->scols - le->prompt_len;
 }

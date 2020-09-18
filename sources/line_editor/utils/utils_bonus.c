@@ -33,7 +33,7 @@ t_le	*get_env(t_le *env)
 **	Not used but stored here to integrate libft
 */
 
-char		*vct_getstrat(t_vector *vct, size_t index)
+char	*vct_getstrat(t_vector *vct, size_t index)
 {
 	if (vct == NULL || vct->str == NULL || index > vct_getlen(vct))
 		return (NULL);

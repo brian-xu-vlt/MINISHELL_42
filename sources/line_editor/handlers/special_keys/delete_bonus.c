@@ -15,7 +15,7 @@ void	delete_selection(long key)
 	else
 	{
 		i = le->select_max;
-		while(i >= 0 && i >= le->select_min)
+		while (i >= 0 && i >= le->select_min)
 			vct_popcharat(le->cmd_line, i--);
 		unselect_all();
 	}

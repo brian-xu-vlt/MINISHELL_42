@@ -1,6 +1,6 @@
 #include "line_editor_bonus.h"
 
-void	init_prompt()
+void	init_prompt(void)
 {
 	t_le	*le;
 
