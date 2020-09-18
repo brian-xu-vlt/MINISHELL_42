@@ -17,8 +17,6 @@ static void	move_cursor_at_refresh_startingpoint(void)
 		move_previous_line_head();
 }
 
-
-
 void		move_cursor_at_backup(int index_backup, int vct_len)
 {
 	t_le	*le;
@@ -34,7 +32,7 @@ void		move_cursor_at_backup(int index_backup, int vct_len)
 	else if (index_backup != UNSET)
 		while (le->vct_index > index_backup)
 			move_cursor_left();
-	}
+}
 
 void		refresh_command_line(void)
 {

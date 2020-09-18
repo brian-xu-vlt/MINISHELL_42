@@ -2,18 +2,18 @@
 
 static void		line_editor_loop(void)
 {
-	char	buff;
+	char	key;
 	t_le	*le;
 
 	le = get_env(GET);
-	while (read(STDIN_FILENO, &buff, 1) != FAILURE && buff != K_ENTER)
+	while (read(STDIN_FILENO, &key, 1) != FAILURE && key != K_ENTER)
 	{
 		tputs(le->termcap[HIDE_CURSOR], 1, ms_putchar);
 		le->vct_index_backup = le->vct_index;
-		if (ft_isprint(buff) == TRUE)
-			handle_print_char(buff);
+		if (ft_isprint(key) == TRUE)
+			handle_print_char(key);
 		else
-			handle_esc_seq(buff);
+			handle_esc_seq(key);
 		if (DEBUG == TRUE)
 			debug_print_infos();
 		tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);

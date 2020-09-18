@@ -15,12 +15,6 @@
 #ifndef LINE_EDITOR_BONUS_H
 # define LINE_EDITOR_BONUS_H
 
-# define	GET				NULL
-
-#ifndef L_ED_BUFF_SIZE
-# define	L_ED_BUFF_SIZE	16
-#endif
-
 #ifndef DEBUG
 # define	DEBUG			FALSE
 #endif
@@ -33,10 +27,10 @@
 # define	DEBUG_SIGNAL	FALSE
 #endif
 
-# define	EXECUTE			1
-# define	CONTINUE		0
 
-# define	UNSET			-1
+/**********************************
+*********  ERRORS FLAGS ***********
+**********************************/
 
 # define	ERR_NEW_VCT		"Could not malloc vector"
 # define	ERR_VCT			"Vector function failed"
@@ -46,17 +40,18 @@
 # define	ERR_MALLOC		"Malloc could not allocate memory"
 
 /**********************************
+*********     UTILS     ***********
+**********************************/
+
+# define	GET				NULL
+# define	UNSET			-1
+# define	RESET			-1
+
+/**********************************
 *********  SCREEN  FLAG ***********
 **********************************/
 
 # define	FULL_REFRESH	(1 << 0)
-# define	OVER_FLOW		(1 << 1)
-
-/**********************************
-*********   HISTORY   *************
-**********************************/
-
-# define	RESET			-1
 
 /**********************************
 *********  USER KEYS  *************
@@ -156,9 +151,9 @@ void		debug_print_flag(char *flag);
 /*************************************************
 **				UTILS
 ************************************************/
-int			is_shift_on(long buff);
-int			is_ctrl_on(long buff);
-int			is_ctrl_shift_on(long buff);
+int			is_shift_on(long key);
+int			is_ctrl_on(long key);
+int			is_ctrl_shift_on(long key);
 int         ms_putchar(int c);
 void		exit_routine_le(char *err_code);
 
@@ -172,8 +167,8 @@ void		insert_char_in_vct(char c);
 **				HANDLERS
 ************************************************/
 
-void		handle_esc_seq(char buff);
-void		handle_print_char(char buff);
+void		handle_esc_seq(char key);
+void		handle_print_char(char key);
 
 void		move_end_of_line(void);
 void		move_start_of_line(void);
@@ -206,7 +201,7 @@ void		print_cmd_line(void);
 
 void		init_selection(void);
 void		unselect_all();
-void		update_selection(long buff);
+void		update_selection(long key);
 
 /*************************************************
 **				CURSOR
@@ -234,12 +229,5 @@ void		update_window_size(void);
 **				MAIN FUNCTIONS
 ************************************************/
 void		line_editor(void);
-
-
-
-
-
-
-
 
 #endif
