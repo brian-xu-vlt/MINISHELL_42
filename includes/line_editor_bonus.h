@@ -163,7 +163,6 @@ int         ms_putchar(int c);
 void		exit_routine_le(char *err_code);
 
 void		refresh_command_line(void);
-void		refresh(void);
 
 int			get_ctrlkey(int c);
 t_le		*get_env(t_le *env);
@@ -199,7 +198,7 @@ void		free_history(void);
 **				COMMAND_LINE PRINT
 ************************************************/
 
-void		print(void);
+void		print_cmd_line(void);
 
 /*************************************************
 **				SELECTION
@@ -213,7 +212,6 @@ void		update_selection(long buff);
 **				CURSOR
 ************************************************/
 
-void		put_newline(void);
 void		move_at_col_x(int target_col);
 size_t		convert_cur_pos_vctindex(int cx, int cy);
 

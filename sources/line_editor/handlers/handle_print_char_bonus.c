@@ -17,5 +17,5 @@ void	handle_print_char(char buff)
 		delete_selection(0);
 	insert_char_in_vct(buff);
 	move_cursor_right();
-	refresh();
+	refresh_command_line();
 }

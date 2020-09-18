@@ -33,6 +33,8 @@ void		update_selection(long buff)
 		le->select_max = le->vct_index;
 	else if (buff == K_RIGHT)
 		le->select_min = le->vct_index;
+	if (le->select_max - le->select_min >= le->scols + le->prompt_len)
+		le->screen_flag |= FULL_REFRESH;
 }
 
 void		init_selection(void)
@@ -52,6 +54,6 @@ void		unselect_all(void)
 	if (le->select_min != UNSET)
 	{
 		init_selection();
-		refresh();
+		le->screen_flag |= FULL_REFRESH;
 	}
 }

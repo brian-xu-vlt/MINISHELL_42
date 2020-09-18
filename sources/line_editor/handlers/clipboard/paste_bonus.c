@@ -10,6 +10,8 @@ void	past_clipboard(void)
 	le = get_env(GET);
 	unselect_all();
 	clipboard_len = vct_getlen(le->clipboard);
+	if (clipboard_len >= le->scols + le->prompt_len)
+		le->screen_flag |= FULL_REFRESH;
 	i = 0;
 	while (i < clipboard_len)
 	{

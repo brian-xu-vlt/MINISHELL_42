@@ -45,8 +45,7 @@ static void	dispatch_esc_sequence(long buff)
 		unselect_all();
 	else if ((k_mask & SHIFT_MASK) && buff != K_DOWN)
 		update_selection(buff);
-
-	refresh();
+	refresh_command_line();
 }
 
 static long	expand_escape_sequence(char buff)

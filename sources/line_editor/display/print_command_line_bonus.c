@@ -1,6 +1,6 @@
 #include "line_editor_bonus.h"
 
-void	put_newline(void)
+static void	put_newline(void)
 {
 	t_le	*le;
 
@@ -9,7 +9,7 @@ void	put_newline(void)
 	tputs(le->termcap[RETURN_CARRIAGE], 2, ms_putchar);
 }
 
-void	write_with_selection(int index_from)
+static void	write_with_selection(int index_from)
 {
 	int		vct_len;
 	char	*v_str;
@@ -37,7 +37,7 @@ void	write_with_selection(int index_from)
 	}
 }
 
-void	print(void)
+void		print_cmd_line(void)
 {
 	int		index_from;
 	int		i_delta;
