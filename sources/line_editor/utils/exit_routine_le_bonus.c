@@ -30,5 +30,12 @@ void	exit_routine_le(char *err_code)
 		ft_putstr_fd(err_code, STDOUT_FILENO);
 		exit(FAILURE);
 	}
+	if (le->cmd_line != NULL)
+		vct_del(&le->cmd_line);
+	if (le->clipboard != NULL)
+		vct_del(&le->clipboard);
+	if (le->cmd_line_backup != NULL)
+		free(le->cmd_line_backup);
+	free_history();
 	exit(0);
 }

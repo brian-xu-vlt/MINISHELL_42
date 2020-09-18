@@ -43,58 +43,58 @@
 *********     UTILS     ***********
 **********************************/
 
-# define	GET				NULL
-# define	UNSET			-1
-# define	RESET			-1
+# define	GET						NULL
+# define	UNSET					-1
+# define	RESET					-1
 
 /**********************************
 *********  SCREEN  FLAG ***********
 **********************************/
 
-# define	FULL_REFRESH	(1 << 0)
+# define	FULL_REFRESH			(1 << 0)
 
 /**********************************
 *********  USER KEYS  *************
 **********************************/
 
-# define	K_UP			0x415b1b
-# define	K_DOWN			0x425b1b
-# define	K_RIGHT			0x435b1b
-# define	K_LEFT			0x445b1b
-# define	K_CTRL_RIGHT	0x43353b315b1b
-# define	K_CTRL_LEFT		0x44353b315b1b
-# define	K_END			0x465b1b
-# define	K_HOME			0x485b1b
-# define	K_DEL_BACKWARD	0x7f
-# define	K_DEL_FOREWARD	0x7e335b1b
-# define	K_ENTER			0xa
+# define	K_UP					0x415b1b
+# define	K_DOWN					0x425b1b
+# define	K_RIGHT					0x435b1b
+# define	K_LEFT					0x445b1b
+# define	K_CTRL_RIGHT			0x43353b315b1b
+# define	K_CTRL_LEFT				0x44353b315b1b
+# define	K_END					0x465b1b
+# define	K_HOME					0x485b1b
+# define	K_DEL_BACKWARD			0x7f
+# define	K_DEL_FOREWARD			0x7e335b1b
+# define	K_ENTER					0xa
 
-# define	K_ESCAPE		0x1b
-# define	K_SHIFT			0x323b31
-# define	K_CTRL			0x353b31
-# define	K_CTRL_SHIFT	0x363b31
+# define	K_ESCAPE				0x1b
+# define	K_SHIFT					0x323b31
+# define	K_CTRL					0x353b31
+# define	K_CTRL_SHIFT			0x363b31
 
-# define	CTRL_MASK		(1 << 0)
-# define	SHIFT_MASK		(1 << 1)
+# define	CTRL_MASK				(1 << 0)
+# define	SHIFT_MASK				(1 << 1)
 
-# define	PROMPT			"~$>"
+# define	PROMPT					"~$>"
 
 /**********************************
 *********  DEBUG TERMCAPS *********
 **********************************/
 
-# define	HIGHLIGHT			"md"
-# define	NO_HIGHLIGHT		"me"
-# define	SAVE_CURSOR_POS		"sc"
-# define	RESTORE_CURSOR_POS	"rc"
-# define	CLEAR_LINE			"ce"
+# define	HIGHLIGHT				"md"
+# define	NO_HIGHLIGHT			"me"
+# define	SAVE_CURSOR_POS			"sc"
+# define	RESTORE_CURSOR_POS		"rc"
+# define	CLEAR_LINE				"ce"
 
 /**********************************
 *****  LINE EDITOR TERNCAPS ******
 **********************************/
 
 # define	NB_ESSENTIAL_TERMCAP	10
-# define	NB_OPTIONAL_TERMCAP		3
+# define	NB_OPTIONAL_TERMCAP		4
 
 enum	e_essential_termcap
 {
@@ -114,7 +114,8 @@ enum	e_optional_termcap
 {
 	MOVE_AT_COL_X = NB_ESSENTIAL_TERMCAP,
 	VISIBLE_CURSOR,
-	HIDE_CURSOR
+	HIDE_CURSOR,
+	SCROLLING_CAPABILITY
 };
 
 /*************************************************
@@ -151,17 +152,15 @@ void		debug_print_flag(char *flag);
 /*************************************************
 **				UTILS
 ************************************************/
+
+t_le		*get_env(t_le *env);
+int         ms_putchar(int c);
+
 int			is_shift_on(long key);
 int			is_ctrl_on(long key);
 int			is_ctrl_shift_on(long key);
-int         ms_putchar(int c);
+
 void		exit_routine_le(char *err_code);
-
-void		refresh_command_line(void);
-
-int			get_ctrlkey(int c);
-t_le		*get_env(t_le *env);
-void		insert_char_in_vct(char c);
 
 /*************************************************
 **				HANDLERS
@@ -169,6 +168,8 @@ void		insert_char_in_vct(char c);
 
 void		handle_esc_seq(char key);
 void		handle_print_char(char key);
+
+void		insert_char_in_vct(char c);
 
 void		move_end_of_line(void);
 void		move_start_of_line(void);
@@ -190,12 +191,6 @@ void		print_history(void);
 void		free_history(void);
 
 /*************************************************
-**				COMMAND_LINE PRINT
-************************************************/
-
-void		print_cmd_line(void);
-
-/*************************************************
 **				SELECTION
 ************************************************/
 
@@ -204,25 +199,29 @@ void		unselect_all();
 void		update_selection(long key);
 
 /*************************************************
-**				CURSOR
+**				COMMAND_LINE PRINT
 ************************************************/
 
-void		move_at_col_x(int target_col);
-size_t		convert_cur_pos_vctindex(int cx, int cy);
+void		refresh_command_line(void);
+void		print_cmd_line(void);
+
+/*************************************************
+**				CURSOR
+************************************************/
 
 int			move_cursor_right(void);
 int			move_cursor_left(void);
 void		move_previous_line_head();
+void		move_at_col_x(int target_col);
 void		move_cursor_at_index(int index_to);
-void		position_cursor_at_index(int index_to);
 
 /*************************************************
 **				INIT FUNCTIONS
 ************************************************/
+
 void		init_prompt(void);
 void		init_term_mode(void);
 void		init_minishell(void);
-
 void		update_window_size(void);
 
 /*************************************************

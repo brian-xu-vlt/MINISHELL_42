@@ -8,6 +8,8 @@ static void	init_library_db(void)
 	term_name = getenv("TERM"); // to be changed to use main char *env[]
 	if (term_name == NULL)
 		exit_routine_le(ERR_TERM_NAME);
+	if (ft_strncmp(term_name, "ansi", 5) == 0)
+		exit_routine_le(ERR_TERMCAP);
 	ret = tgetent(NULL, term_name);
 	if (ret != TRUE)
 		exit_routine_le(ERR_TERMCAP);
@@ -30,6 +32,7 @@ static void	fill_termcaps(t_le *le)
 	le->termcap[MOVE_AT_COL_X] = tgetstr("ch", NULL);
 	le->termcap[VISIBLE_CURSOR] = tgetstr("ve", NULL);
 	le->termcap[HIDE_CURSOR] = tgetstr("vi", NULL);
+	le->termcap[SCROLLING_CAPABILITY] = tgetstr("sf", NULL);
 	i = 0;
 	while (i < NB_ESSENTIAL_TERMCAP)
 	{

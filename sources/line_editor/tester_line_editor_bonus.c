@@ -19,10 +19,6 @@ int	main(void)
 		if (ft_strncmp(vct_getstr(le->cmd_line), "history", 8) == 0)
 			print_history();
 	}
-	if (le->cmd_line != NULL)
-		vct_del(&le->cmd_line);
-	if (le->clipboard != NULL)
-		vct_del(&le->clipboard);
-	free_history();
+	exit_routine_le(NULL);
 	return (0);
 }

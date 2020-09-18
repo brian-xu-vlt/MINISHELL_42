@@ -7,7 +7,7 @@ void	move_at_col_x(int target_col)
 
 	le = get_env(GET);
 	if (le->termcap[MOVE_AT_COL_X] != NULL)
-		tputs(tparm(le->termcap[MOVE_AT_COL_X], target_col), 2, ms_putchar);
+		tputs(tparm(le->termcap[MOVE_AT_COL_X], target_col), 1, ms_putchar);
 	else
 	{
 		tputs(le->termcap[RETURN_CARRIAGE], 1, ms_putchar);
