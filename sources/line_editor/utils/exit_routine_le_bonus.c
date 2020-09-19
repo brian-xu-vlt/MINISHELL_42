@@ -1,6 +1,6 @@
 #include "line_editor_bonus.h"
 
-void	del_history(void *elem_content)
+static void	del_vct_content(void *elem_content)
 {
 	t_vector	*vct;
 
@@ -8,17 +8,27 @@ void	del_history(void *elem_content)
 	vct_del(&vct);
 }
 
-void	free_history(void)
+static void	free_history_list(void)
 {
 	t_le		*le;
 
 	le = get_struct(GET);
 	if (le->history_cache != NULL)
-		ft_lstclear(&le->history_cache, del_history);
+		ft_lstclear(&le->history_cache, del_vct_content);
 	le->history_cache = NULL;
 }
 
-void	exit_routine_le(char *err_code)
+static void	free_env_list(void)
+{
+	t_le		*le;
+
+	le = get_struct(GET);
+	if (le->env != NULL)
+		ft_lstclear(&le->env, del_vct_content);
+	le->env = NULL;
+}
+
+void		exit_routine_le(char *err_code)
 {
 	t_le		*le;
 
@@ -30,12 +40,11 @@ void	exit_routine_le(char *err_code)
 		ft_putstr_fd(err_code, STDOUT_FILENO);
 		exit(FAILURE);
 	}
-	if (le->cmd_line != NULL)
-		vct_del(&le->cmd_line);
-	if (le->clipboard != NULL)
-		vct_del(&le->clipboard);
 	if (le->cmd_line_backup != NULL)
 		free(le->cmd_line_backup);
-	free_history();
+	vct_del(&le->cmd_line);
+	vct_del(&le->clipboard);
+	free_env_list();
+	free_history_list();
 	exit(0);
 }
