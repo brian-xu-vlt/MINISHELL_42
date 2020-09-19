@@ -1,11 +1,9 @@
 #include "line_editor_bonus.h"
 
-static void	move_cursor_at_refresh_startingpoint(void)
+static void	move_cursor_at_refresh_startingpoint(t_le *le)
 {
 	int		head_of_block;
-	t_le	*le;
 
-	le = get_env(GET);
 	if (le->vct_index == 0)
 		return ;
 	if (le->vct_index == (int)vct_getlen(le->cmd_line)
@@ -17,11 +15,8 @@ static void	move_cursor_at_refresh_startingpoint(void)
 		move_previous_line_head();
 }
 
-void		move_cursor_at_backup(int index_backup, int vct_len)
+static void		move_cursor_at_backup(t_le *le, int index_backup, int vct_len)
 {
-	t_le	*le;
-
-	le = get_env(GET);
 	if (index_backup != UNSET && index_backup < (vct_len - le->vct_index) / 2)
 	{
 		while (le->vct_index > index_backup)
@@ -40,14 +35,14 @@ void		refresh_command_line(void)
 	int		vct_len;
 	t_le	*le;
 
-	le = get_env(GET);
+	le = get_struct(GET);
 	vct_len = vct_getlen(le->cmd_line);
 	index_backup = (le->vct_index < vct_len) ? le->vct_index : UNSET;
-	move_cursor_at_refresh_startingpoint();
+	move_cursor_at_refresh_startingpoint(le);
 	tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
 	print_cmd_line();
 	move_cursor_at_index(vct_len);
-	move_cursor_at_backup(index_backup, vct_len);
+	move_cursor_at_backup(le, index_backup, vct_len);
 	if (le->screen_flag & FULL_REFRESH)
 		le->screen_flag ^= FULL_REFRESH;
 }

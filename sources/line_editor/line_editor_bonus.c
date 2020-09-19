@@ -1,11 +1,9 @@
 #include "line_editor_bonus.h"
 
-static void		line_editor_loop(void)
+static void		line_editor_loop(t_le *le)
 {
 	char	key;
-	t_le	*le;
 
-	le = get_env(GET);
 	while (read(STDIN_FILENO, &key, 1) != FAILURE && key != K_ENTER)
 	{
 		tputs(le->termcap[HIDE_CURSOR], 1, ms_putchar);
@@ -24,13 +22,13 @@ void			line_editor(void)
 {
 	t_le	*le;
 
-	le = get_env(GET);
+	le = get_struct(GET);
 	if (le->cmd_line == NULL)
 		exit_routine_le(ERR_NEW_VCT);
 	update_window_size();
 	init_prompt();
 	init_selection();
-	line_editor_loop();
+	line_editor_loop(le);
 	if (le->cmd_line_backup != NULL)
 	{
 		free(le->cmd_line_backup);

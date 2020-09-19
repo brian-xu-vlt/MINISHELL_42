@@ -1,22 +1,17 @@
 #include "line_editor_bonus.h"
 
-static void	put_newline(void)
+static void	put_newline(t_le *le)
 {
-	t_le	*le;
-
-	le = get_env(GET);
 	tputs(le->termcap[ONE_ROW_DOWN], 2, ms_putchar);
 	tputs(le->termcap[RETURN_CARRIAGE], 2, ms_putchar);
 }
 
-static void	write_with_selection(int index_from)
+static void	write_with_selection(t_le *le, int index_from)
 {
 	int		vct_len;
 	char	*v_str;
 	int		fd;
-	t_le	*le;
 
-	le = get_env(GET);
 	v_str = vct_getstr(le->cmd_line);
 	vct_len = vct_getlen(le->cmd_line);
 	fd = STDERR_FILENO;
@@ -44,14 +39,14 @@ void		print_cmd_line(void)
 	int		offset;
 	t_le	*le;
 
-	le = get_env(GET);
+	le = get_struct(GET);
 	index_from = le->vct_index;
 	i_delta = vct_getlen(le->cmd_line) - index_from;
 	if (le->select_min == UNSET)
 		write(STDERR_FILENO, vct_getstr(le->cmd_line) + index_from, i_delta);
 	else
-		write_with_selection(index_from);
+		write_with_selection(le, index_from);
 	offset = (le->cy == 0) ? le->prompt_len : 0;
 	if ((i_delta + offset) % le->scols == 0)
-		put_newline();
+		put_newline(le);
 }

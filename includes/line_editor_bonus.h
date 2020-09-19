@@ -153,7 +153,7 @@ void		debug_print_flag(char *flag);
 **				UTILS
 ************************************************/
 
-t_le		*get_env(t_le *env);
+t_le		*get_struct(t_le *env);
 int         ms_putchar(int c);
 
 int			is_shift_on(long key);

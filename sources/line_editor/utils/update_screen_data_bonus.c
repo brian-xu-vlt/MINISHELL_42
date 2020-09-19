@@ -6,7 +6,7 @@ void	update_window_size(void)
 	struct winsize	w_size;
 	t_le			*le;
 
-	le = get_env(GET);
+	le = get_struct(GET);
 	if (DEBUG_LLDB == FALSE)
 	{
 		ret = ioctl(STDIN_FILENO, TIOCGWINSZ, &w_size);
@@ -17,7 +17,7 @@ void	update_window_size(void)
 	}
 	else
 	{
-		le->srows = 42;
+		le->srows = 1042;
 		le->scols = 42;
 	}
 }

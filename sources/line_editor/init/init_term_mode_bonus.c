@@ -5,7 +5,7 @@ void	init_term_mode(void)
 	struct termios	termios_new;
 	t_le			*le;
 
-	le = get_env(GET);
+	le = get_struct(GET);
 	tcgetattr(STDIN_FILENO, &(le->termios_backup));
 	termios_new = le->termios_backup;
 	termios_new.c_lflag &= ~(ICANON);

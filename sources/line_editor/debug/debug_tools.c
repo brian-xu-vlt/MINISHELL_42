@@ -4,7 +4,7 @@ static void	debug_cursor_newline(void)
 {
 	t_le	*le;
 
-	le = get_env(GET);
+	le = get_struct(GET);
 	tputs(tparm(le->termcap[MOVE_AT_COL_X], 0), 2, ms_putchar);
 	tputs(le->termcap[ONE_ROW_DOWN], 2, ms_putchar);
 	tputs(tgetstr(CLEAR_LINE, NULL), le->cy, ms_putchar);
@@ -14,7 +14,7 @@ void		debug_print_infos(void)
 {
 	t_le	*le;
 
-	le = get_env(GET);
+	le = get_struct(GET);
 	tputs(tgetstr(SAVE_CURSOR_POS, NULL), 2, ms_putchar);
 	tputs(le->termcap[MOVE_CURSOR_HOME], le->cy, ms_putchar);
 	tputs(tgetstr(HIGHLIGHT, NULL), 1, ms_putchar);
@@ -37,7 +37,7 @@ void		debug_print_flag(char *flag)
 {
 	t_le	*le;
 
-	le = get_env(GET);
+	le = get_struct(GET);
 	tputs(tgetstr(SAVE_CURSOR_POS, NULL), 2, ms_putchar);
 	tputs(tparm(le->termcap[MOVE_X_ROWS_UP], 6), 2, ms_putchar);
 	tputs(tparm(le->termcap[MOVE_AT_COL_X], 0), 2, ms_putchar);

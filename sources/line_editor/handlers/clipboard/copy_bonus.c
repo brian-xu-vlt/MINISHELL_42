@@ -7,7 +7,7 @@ void	copy_selection(void)
 	int		copy_end;
 	int		i;
 
-	le = get_env(GET);
+	le = get_struct(GET);
 	vct_clear(le->clipboard);
 	if (le->vct_index > (int)vct_getlen(le->cmd_line))
 		return ;

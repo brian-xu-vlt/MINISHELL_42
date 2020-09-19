@@ -10,7 +10,7 @@ void			print_history(void)
 	t_list			*cursor;
 	t_le			*le;
 
-	le = get_env(GET);
+	le = get_struct(GET);
 	cursor = le->history_cache;
 	if (cursor == NULL)
 		return ;
@@ -36,13 +36,13 @@ static t_vector	*browse_history(long key)
 	static t_list	*next_call_elem;
 	t_list			*cursor;
 
-	cursor = get_env(GET)->history_cache;
+	cursor = get_struct(GET)->history_cache;
 	if (key == RESET)
 	{
-		next_call_elem = get_env(GET)->history_cache;
+		next_call_elem = get_struct(GET)->history_cache;
 		return (NULL);
 	}
-	else if (key == K_DOWN && next_call_elem == get_env(GET)->history_cache)
+	else if (key == K_DOWN && next_call_elem == get_struct(GET)->history_cache)
 		return (NULL);
 	if (key == K_UP)
 	{
@@ -64,7 +64,7 @@ void			call_history(long key)
 	t_vector		*vct_history_element;
 	t_le			*le;
 
-	le = get_env(GET);
+	le = get_struct(GET);
 	if (le->history_cache != NULL)
 	{
 		if (le->cmd_line_backup == NULL)
@@ -89,7 +89,7 @@ void			save_history(void)
 	t_list			*new_history_element;
 	t_le			*le;
 
-	le = get_env(GET);
+	le = get_struct(GET);
 	if (vct_getlen(le->cmd_line) > 0)
 	{
 		new_history_element = ft_lstnew(vct_dup(le->cmd_line));

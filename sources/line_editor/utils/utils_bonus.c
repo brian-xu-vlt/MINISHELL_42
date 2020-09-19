@@ -20,7 +20,7 @@ int		ms_putchar(int c)
 	return (write(1, &c, 1));
 }
 
-t_le	*get_env(t_le *env)
+t_le	*get_struct(t_le *env)
 {
 	static t_le	*env_backup = NULL;
 

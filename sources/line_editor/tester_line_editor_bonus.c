@@ -9,7 +9,7 @@ int	main(void)
 	t_le	*le;
 
 	init_minishell();
-	le = get_env(GET);
+	le = get_struct(GET);
 	while (ft_strncmp(vct_getstr(le->cmd_line), "quit", 5) != 0)
 	{
 		vct_clear(le->cmd_line);

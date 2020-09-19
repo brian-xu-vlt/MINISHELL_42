@@ -47,7 +47,7 @@ void		init_minishell(void)
 	t_le	*le;
 
 	le = (t_le *)malloc(sizeof(t_le));
-	get_env(le);
+	get_struct(le);
 	if (le == NULL)
 		exit_routine_le(ERR_MALLOC);
 	le->prompt_len = ft_strlen(PROMPT);

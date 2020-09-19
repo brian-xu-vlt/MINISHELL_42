@@ -7,7 +7,7 @@ void	past_clipboard(void)
 	char	clipboard_content;
 	t_le	*le;
 
-	le = get_env(GET);
+	le = get_struct(GET);
 	unselect_all();
 	clipboard_len = vct_getlen(le->clipboard);
 	if (clipboard_len >= le->scols + le->prompt_len)

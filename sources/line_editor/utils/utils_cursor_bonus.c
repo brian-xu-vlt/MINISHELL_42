@@ -5,7 +5,7 @@ void	move_at_col_x(int target_col)
 	int		i;
 	t_le	*le;
 
-	le = get_env(GET);
+	le = get_struct(GET);
 	if (le->termcap[MOVE_AT_COL_X] != NULL)
 		tputs(tparm(le->termcap[MOVE_AT_COL_X], target_col), 1, ms_putchar);
 	else
@@ -24,7 +24,7 @@ int		move_cursor_left(void)
 {
 	t_le	*le;
 
-	le = get_env(GET);
+	le = get_struct(GET);
 	if (le->vct_index <= 0)
 		return (FAILURE);
 	if (le->cx == 0 && le->cy > 0)
@@ -47,7 +47,7 @@ int		move_cursor_right(void)
 {
 	t_le	*le;
 
-	le = get_env(GET);
+	le = get_struct(GET);
 	if (le->vct_index >= (int)vct_getlen(le->cmd_line))
 		return (FAILURE);
 	if (le->cx >= le->scols - 1)
@@ -72,7 +72,7 @@ void	move_cursor_at_index(int index_to)
 	int		offset;
 	t_le	*le;
 
-	le = get_env(GET);
+	le = get_struct(GET);
 	offset = (le->cy == 0) ? le->prompt_len : 0;
 	index_delta = index_to - le->vct_index;
 	if (index_delta < 0)
@@ -87,7 +87,7 @@ void	move_previous_line_head(void)
 	int		offset;
 	t_le	*le;
 
-	le = get_env(GET);
+	le = get_struct(GET);
 	if (le->vct_index == 0)
 		return ;
 	if (le->cy > 0)

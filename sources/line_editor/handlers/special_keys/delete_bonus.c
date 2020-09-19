@@ -5,7 +5,7 @@ void	delete_selection(long key)
 	t_le	*le;
 	int		i;
 
-	le = get_env(GET);
+	le = get_struct(GET);
 	if (le->select_min == -1)
 	{
 		if (key == K_DEL_BACKWARD)

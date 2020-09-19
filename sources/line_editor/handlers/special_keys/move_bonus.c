@@ -23,7 +23,7 @@ void	move_one_word_right(void)
 	int		vct_len;
 	t_le	*le;
 
-	le = get_env(GET);
+	le = get_struct(GET);
 	vct_len = (int)vct_getlen(le->cmd_line);
 	while (le->vct_index < vct_len)
 	{
@@ -43,7 +43,7 @@ void	move_one_word_left(void)
 {
 	t_le	*le;
 
-	le = get_env(GET);
+	le = get_struct(GET);
 	while (le->vct_index > 0)
 	{
 		if (vct_getcharat(le->cmd_line, le->vct_index - 1) != ' ')
