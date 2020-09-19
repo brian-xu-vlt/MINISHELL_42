@@ -13,5 +13,7 @@
 `end`		|Move cursor at the command line's end
 `ctrl + →`	|Move one word right
 `ctrl + ←`	|Move one word left
-`shift + ctrl +  →/←`	|Select one word at the time
 `shift + home/end`	|Select up to the beginning/end of the command line
+`shift + ctrl +  →/←`	|Select one word at the time
+
+`history` command return list of commands in history for the current session.

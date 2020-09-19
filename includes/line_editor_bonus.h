@@ -32,6 +32,7 @@
 *********  ERRORS FLAGS ***********
 **********************************/
 
+# define	ERR_ENV			"Coule not load environement variables"
 # define	ERR_NEW_VCT		"Could not malloc vector"
 # define	ERR_VCT			"Vector function failed"
 # define	ERR_SCREEN_SIZE	"Screen size is too small"
@@ -124,6 +125,7 @@ enum	e_optional_termcap
 
 typedef struct	s_line_editor
 {
+	t_list			*env;
 	struct termios	termios_backup;
 	char			*termcap[NB_ESSENTIAL_TERMCAP + NB_OPTIONAL_TERMCAP];
 	char			*cmd_line_backup;
@@ -228,5 +230,13 @@ void		update_window_size(void);
 **				MAIN FUNCTIONS
 ************************************************/
 void		line_editor(void);
+
+
+# define	ALL		NULL
+
+void		store_env(char *env_name, char *env_value);
+void		print_env(char *env_name);
+void		init_env(char **env);
+char		*get_env(char *env);
 
 #endif
