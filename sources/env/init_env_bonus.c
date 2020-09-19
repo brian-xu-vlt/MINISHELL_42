@@ -15,7 +15,8 @@ void		init_env(char **env)
 		new_elem = ft_lstnew(vct_new());
 		if (new_elem == NULL || new_elem->content == NULL)
 			exit_routine_le(ERR_MALLOC);
-		vct_addstr(new_elem->content, env[index]);
+		if (vct_addstr(new_elem->content, env[index]) != SUCCESS)
+			exit_routine_le(ERR_MALLOC);
 		if (env_lst != NULL)
 			ft_lstadd_back(&env_lst, new_elem);
 		else

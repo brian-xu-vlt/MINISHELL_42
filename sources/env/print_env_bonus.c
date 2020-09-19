@@ -16,7 +16,7 @@ void	print_env(char *env_name)
 	}
 	else
 	{
-		str = get_env(env_name);
+		str = vct_getstr(get_env(env_name));
 		if (str != NULL)
 			ft_printf("%s\n", str);
 	}

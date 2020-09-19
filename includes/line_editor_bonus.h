@@ -232,11 +232,12 @@ void		update_window_size(void);
 void		line_editor(void);
 
 
-# define	ALL		NULL
+# define	ALL				NULL
+# define	NOT_FOUND		NULL
 
 void		store_env(char *env_name, char *env_value);
 void		print_env(char *env_name);
 void		init_env(char **env);
-char		*get_env(char *env);
+t_vector	*get_env(char *env);
 
 #endif

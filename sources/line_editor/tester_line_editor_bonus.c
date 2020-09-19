@@ -25,8 +25,18 @@ int		main(int ac, char **av, char **env)
 		ft_printf("\n%s|%s|\n", PROMPT, vct_getstr(le->cmd_line));
 		if (ft_strncmp(vct_getstr(le->cmd_line), "history", 8) == 0)
 			print_history();
-		if (ft_strncmp(vct_getstr(le->cmd_line), "env", 8) == 0)
+		if (ft_strncmp(vct_getstr(le->cmd_line), "env", 4) == 0)
 			print_env(ALL);
+		if (ft_strncmp(vct_getstr(le->cmd_line), "e", 2) == 0)
+			print_env("test");
+		if (ft_strncmp(vct_getstr(le->cmd_line), "1", 2) == 0)
+			store_env("test", "42");
+		if (ft_strncmp(vct_getstr(le->cmd_line), "2", 2) == 0)
+			store_env("test", "21");
+		if (ft_strncmp(vct_getstr(le->cmd_line), "3", 2) == 0)
+			store_env("test_2", "1337");
+		if (ft_strncmp(vct_getstr(le->cmd_line), "4", 2) == 0)
+			store_env("t", "1337");
 	}
 	exit_routine_le(NULL);
 	return (0);
