@@ -34,7 +34,7 @@ int		main(int ac, char **av, char **env)
 		if (ft_strncmp(vct_getstr(le->cmd_line), "2", 2) == 0)
 			store_env("test", "21");
 		if (ft_strncmp(vct_getstr(le->cmd_line), "3", 2) == 0)
-			store_env("test_2", "1337");
+			store_env("test2", "1337");
 		if (ft_strncmp(vct_getstr(le->cmd_line), "4", 2) == 0)
 			store_env("t", "1337");
 	}

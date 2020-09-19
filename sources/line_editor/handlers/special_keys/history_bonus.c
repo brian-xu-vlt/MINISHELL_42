@@ -80,7 +80,7 @@ void			call_history(long key)
 			free(le->cmd_line_backup);
 			le->cmd_line_backup = NULL;
 		}
-		le->screen_flag |= FULL_REFRESH;
+		le->screen_flag |= FULL_REFRESH | HISTORY_REFRESH;
 	}
 }
 

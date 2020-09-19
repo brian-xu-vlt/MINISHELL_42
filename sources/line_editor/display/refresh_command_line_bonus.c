@@ -42,7 +42,7 @@ void		refresh_command_line(void)
 	tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
 	print_cmd_line();
 	move_cursor_at_index(vct_len);
-	move_cursor_at_backup(le, index_backup, vct_len);
-	if (le->screen_flag & FULL_REFRESH)
-		le->screen_flag ^= FULL_REFRESH;
+	if ((le->screen_flag & HISTORY_REFRESH) == FALSE)
+		move_cursor_at_backup(le, index_backup, vct_len);
+	le->screen_flag = 0;
 }

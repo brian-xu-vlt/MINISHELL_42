@@ -50,6 +50,7 @@ void		init_minishell(void)
 	get_struct(le);
 	if (le == NULL)
 		exit_routine_le(ERR_MALLOC);
+	le->screen_flag = 0;
 	le->prompt_len = ft_strlen(PROMPT);
 	le->history_cache = NULL;
 	le->cmd_line_backup = NULL;
