@@ -236,9 +236,12 @@ void		line_editor(void);
 # define	ALL				NULL
 # define	NOT_FOUND		NULL
 
+void		del_vct_content(void *elem_content);
+void		delete_env(char *env_name);
 void		store_env(char *env_name, char *env_value);
 void		print_env(char *env_name);
 void		init_env(char **env);
-t_vector	*get_env(char *env);
+t_vector	*get_env_vct(char *env_name);
+t_list		*get_env_node(char *env_name);
 
 #endif
