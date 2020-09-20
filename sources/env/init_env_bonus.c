@@ -21,7 +21,7 @@ void		init_env(char **env)
 			ft_lstadd_back(&env_lst, new_elem);
 		else
 			env_lst = new_elem;
-		index++; 
+		index++;
 	}
 	get_struct(GET)->env = env_lst;
 }

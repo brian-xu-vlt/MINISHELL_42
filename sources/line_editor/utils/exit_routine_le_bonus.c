@@ -1,6 +1,6 @@
 #include "line_editor_bonus.h"
 
-void	del_vct_content(void *elem_content)
+void		del_vct_content(void *elem_content)
 {
 	t_vector	*vct;
 

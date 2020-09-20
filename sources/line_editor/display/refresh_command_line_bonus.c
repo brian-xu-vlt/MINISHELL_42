@@ -15,7 +15,7 @@ static void	move_cursor_at_refresh_startingpoint(t_le *le)
 		move_previous_line_head();
 }
 
-static void		move_cursor_at_backup(t_le *le, int index_backup, int vct_len)
+static void	move_cursor_at_backup(t_le *le, int index_backup, int vct_len)
 {
 	if (index_backup != UNSET && index_backup < (vct_len - le->vct_index) / 2)
 	{
