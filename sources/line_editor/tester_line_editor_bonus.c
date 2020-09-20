@@ -42,7 +42,7 @@ int		main(int ac, char **av, char **env)
 		if (ft_strncmp(vct_getstr(le->cmd_line), "6", 2) == 0)
 			store_env("test", "");
 		if (ft_strncmp(vct_getstr(le->cmd_line), "7", 2) == 0)
-			store_env("test_empty", "");
+			store_env("LC_TERMINAL_VERSION", "");
 	}
 	exit_routine_le(NULL);
 	return (0);
