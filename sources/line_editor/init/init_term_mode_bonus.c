@@ -14,5 +14,6 @@ void	init_term_mode(void)
 		termios_new.c_lflag |= ~(ISIG);
 	termios_new.c_cc[VMIN] = 1;
 	termios_new.c_cc[VTIME] = 0;
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &termios_new);
+	if (BONUS_FLAG == TRUE)
+		tcsetattr(STDIN_FILENO, TCSAFLUSH, &termios_new);
 }

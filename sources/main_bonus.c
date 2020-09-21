@@ -24,17 +24,19 @@ int		main(int ac, char **av, char **env)
 	init_minishell();
 	init_env(env);
 	le = get_struct(GET);
-	while (ft_strncmp(vct_getstr(le->cmd_line), "exit", 5) != 0)
+	while (1)
 	{
-		vct_clear(le->cmd_line);
-		if (BONUS_FLAG == FALSE)
+		if (BONUS_FLAG == TRUE)
 		{
 			line_editor();
 			save_history();
 		}
 		else
 			read_loop();
-	//	test(le->cmd_line);
+		if (ft_strncmp(vct_getstr(le->cmd_line), "exit", 5) == 0)
+			break ;
+		test(le->cmd_line);
+		vct_clear(le->cmd_line);
 	}
 	exit_routine_le(NULL);
 	return (EXIT_SUCCESS);

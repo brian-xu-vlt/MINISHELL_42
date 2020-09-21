@@ -103,8 +103,8 @@ all : $(LIB)
 	$(MAKE) $(NAME)
 
 $(OBJS): $(OBJ_DIR)%.o: %.c $(HEADER)
-	$(CC) $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
-
+	$(CC) -D BONUS_FLAG=1 $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
+ 
 $(NAME): $(OBJ_DIR) $(OBJS)
 	$(CC) -D BONUS_FLAG=1 $(LIB_TERMCAP) $(CFLAGS) $(OBJS) -I$(INCLUDES) -I$(INCLUDES_LIB) -L./libft -lft -o $@
 	echo "\033[32m$@ is ready !\033[0m"

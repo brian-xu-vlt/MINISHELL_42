@@ -22,7 +22,7 @@
 /*******************************_FUNCTION_*************************************/
 /******************************************************************************/
 
-int		test(t_vector *cmd_line);
+int		test(t_vector *input);
 
 t_list	*lexer(t_vector *input);
 size_t	get_token(char c);
