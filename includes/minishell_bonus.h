@@ -11,6 +11,7 @@
 # include "lexer_bonus.h"
 # include "struct_bonus.h"
 # include "parser_bonus.h"
+# include "line_editor_bonus.h"
 # include <stdio.h> //A ENLEVER POUR PRINTF
 
 /******************************************************************************/

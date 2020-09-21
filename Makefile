@@ -51,12 +51,40 @@ SRCS += free_list_bonus.c
 SRCS += lexer_utils_bonus.c
 SRCS += parser_bonus.c
 SRCS += parser_process_bonus.c
+#SRCS += debug_tools.c
+SRCS += print_command_line_bonus.c
+SRCS += refresh_command_line_bonus.c
+SRCS += handle_esc_seq_bonus.c
+SRCS += handle_print_char_bonus.c
+SRCS += copy_bonus.c
+SRCS += cut_bonus.c
+SRCS += paste_bonus.c
+SRCS += selection_bonus.c
+SRCS += delete_bonus.c
+SRCS += history_bonus.c
+SRCS += move_bonus.c
+SRCS += init_minishell_bonus.c
+SRCS += init_prompt_bonus.c
+SRCS += init_term_mode_bonus.c
+SRCS += exit_routine_le_bonus.c
+SRCS += update_screen_data_bonus.c
+SRCS += utils_bonus.c
+SRCS += utils_cursor_bonus.c
 
 OBJ_DIR = ./objs/
 
 vpath %.c sources/
 vpath %.c sources/lexer
 vpath %.c sources/parser
+vpath %.c sources/line_editor
+#vpath %.c sources/line_editor/debug
+vpath %.c sources/line_editor/display
+vpath %.c sources/line_editor/handlers
+vpath %.c sources/line_editor/init
+vpath %.c sources/line_editor/utils
+vpath %.c sources/line_editor/handlers/clipboard
+vpath %.c sources/line_editor/handlers/selection
+vpath %.c sources/line_editor/handlers/special_keys
 
 OBJS = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 
