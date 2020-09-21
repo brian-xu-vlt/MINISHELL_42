@@ -20,6 +20,45 @@ void	print_list(t_list *lst)
 	}
 }
 
+void	read_loop(void)
+{
+	print_prompt();
+	if (vct_readline(vct_input, 0) <= 0)
+	{
+		vct_del(&vct_input);
+		free_list(&lexer_list);
+	}
+}
+
+int		main(int ac, char **av, char **env)
+{
+	t_le	*le;
+
+	init_minishell();
+	le = get_struct(GET);
+	init_env(env);
+	(void)ac;
+	(void)av;
+	while (ft_strncmp(vct_getstr(le->cmd_line), "quit", 5) != 0)
+	{
+		vct_clear(le->cmd_line);
+		if (BONUS_FLAG == TRUE)
+		{
+			line_editor();
+			save_history();
+		}
+		else
+			read_loop();
+		test(le->cmp_line);
+	
+
+		if (ft_strncmp(vct_getstr(le->cmd_line), "history", 8) == 0)
+			print_history();
+		}
+	exit_routine_le(NULL);
+	return (0);
+}
+
 int	main(void)
 {
 	t_vector	*vct_input;
@@ -28,19 +67,6 @@ int	main(void)
 	
 	vct_input = vct_new();
 	ast = NULL;
-	while (1)
-	{
-		print_prompt();
-		if (vct_readline(vct_input, 0) <= 0)
-		{
-			/*ici j'utilise vct readline (comme GNL mais avec des vecteurs) car
-			il n y a pas encore d'edition de ligne, mais a la place de vct readline
-			il faut mettre ta fonction d'edition de ligne (qui utilisera read)
-			qui mettra la ligne courante dans vct_input que moi j'utiliserais dans mon lexer*/
-			vct_del(&vct_input);
-			free_list(&lexer_list);
-			return (EXIT_FAILURE);
-		}
 		ft_printf("-- La ligne est [%s] --\n", vct_getstr(vct_input)); // DEBUG
 		lexer_list = lexer(vct_input); //fonction qui transforme chaque element en token
 		if (lexer_list == NULL /*&& vct_getlen(vct_input) != 0*/)
