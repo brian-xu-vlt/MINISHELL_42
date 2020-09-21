@@ -35,6 +35,8 @@ endif
 
 CC = gcc
 
+LIB_TERMCAP = -lncurses -ltermcap
+
 INCLUDES = ./includes/
 INCLUDES_LIB = ./libft/includes/
 
@@ -45,6 +47,8 @@ ifeq ($(test), 1)
 else
 	SRCS += main_bonus.c
 endif
+
+SRCS += test_bonus.c
 SRCS += lexer_bonus.c
 SRCS += token_bonus.c
 SRCS += free_list_bonus.c
@@ -70,11 +74,18 @@ SRCS += exit_routine_le_bonus.c
 SRCS += update_screen_data_bonus.c
 SRCS += utils_bonus.c
 SRCS += utils_cursor_bonus.c
+SRCS += delete_env_bonus.c
+SRCS += get_env_bonus.c
+SRCS += init_env_bonus.c
+SRCS += print_env_bonus.c
+SRCS += store_env_bonus.c
+SRCS += line_editor_bonus.c
 
 OBJ_DIR = ./objs/
 
 vpath %.c sources/
 vpath %.c sources/lexer
+vpath %.c sources/env
 vpath %.c sources/parser
 vpath %.c sources/line_editor
 #vpath %.c sources/line_editor/debug
@@ -94,12 +105,8 @@ all : $(LIB)
 $(OBJS): $(OBJ_DIR)%.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
 
-$(NAME_BONUS): $(OBJ_DIR) $(OBJS)
-	$(CC) -D BONUS=1 $(CFLAGS) $(OBJS) -I$(INCLUDES) -I$(INCLUDES_LIB) -L./libft -lft -o $@
-	echo "\033[32m$@ is ready !\033[0m"
-
 $(NAME): $(OBJ_DIR) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -I$(INCLUDES) -I$(INCLUDES_LIB) -L./libft -lft -o $@
+	$(CC) -D BONUS_FLAG=1 $(LIB_TERMCAP) $(CFLAGS) $(OBJS) -I$(INCLUDES) -I$(INCLUDES_LIB) -L./libft -lft -o $@
 	echo "\033[32m$@ is ready !\033[0m"
 
 $(OBJ_DIR):
@@ -109,10 +116,6 @@ $(LIB) : FORCE
 	$(MAKE) -C $(LIBDIR)
 
 FORCE :
-
-bonus : $(LIB)
-	$(MAKE) $(NAME_BONUS)
-	
 
 clean :
 	$(MAKE) clean -C $(LIBDIR)

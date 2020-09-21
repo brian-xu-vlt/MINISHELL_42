@@ -59,7 +59,7 @@ void		init_minishell(void)
 	if (le->cmd_line == NULL || le->clipboard == NULL)
 		exit_routine_le(ERR_MALLOC);
 	init_library_db();
-	init_term_mode();
+	//init_term_mode();
 	fill_termcaps(le);
 	update_window_size();
 }

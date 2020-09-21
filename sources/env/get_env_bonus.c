@@ -21,12 +21,13 @@ t_list		*get_env_node(char *env_name)
 	return (NOT_FOUND);
 }
 
-char*/t_vector *get_env_value(char *env_name)
+/*
+char/t_vector *get_env_value(char *env_name)
 {
 str = "toto=42"; >> "42"
 
 }
-
+*/
 t_vector	*get_env_vct(char *env_name)
 {
 	t_list	*env_node;

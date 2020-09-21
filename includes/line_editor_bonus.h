@@ -126,7 +126,7 @@ enum	e_optional_termcap
 
 typedef struct	s_line_editor
 {
-	t_list			*env;
+	t_list			*env;  // move to somewhere else
 	struct termios	termios_backup;
 	char			*termcap[NB_ESSENTIAL_TERMCAP + NB_OPTIONAL_TERMCAP];
 	char			*cmd_line_backup;

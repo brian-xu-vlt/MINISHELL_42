@@ -24,7 +24,6 @@ int		main(int ac, char **av, char **env)
 		vct_clear(le->cmd_line);
 		line_editor();
 		save_history();
-		test(le->cmp_line);
 	
 
 		if (ft_strncmp(vct_getstr(le->cmd_line), "history", 8) == 0)
