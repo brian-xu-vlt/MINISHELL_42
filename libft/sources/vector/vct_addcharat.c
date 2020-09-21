@@ -6,7 +6,7 @@
 /*   By: lfallet <lfallet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/31 10:54:59 by lfallet           #+#    #+#             */
-/*   Updated: 2020/09/08 15:58:40 by bvalette         ###   ########.fr       */
+/*   Updated: 2020/09/10 17:31:07 by bvalette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	vct_addcharat(t_vector *vct, size_t index, char c)
 {
-	if (vct == NULL || index > vct->len)
+	if (vct == NULL || c == '\0' || index > vct->len)
 		return (FAILURE);
 	if (vct->len + 2 >= vct->size)
 	{
