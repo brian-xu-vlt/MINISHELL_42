@@ -50,7 +50,7 @@ int		main(int ac, char **av, char **env)
 	while (ft_strncmp(vct_getstr(le->cmd_line), "quit", 5) != 0)
 	{
 		vct_clear(le->cmd_line);
-		/*if (BONUS_FLAG == TRUE)
+		if (BONUS_FLAG == TRUE)
 		{
 			line_editor();
 			save_history();
@@ -60,13 +60,13 @@ int		main(int ac, char **av, char **env)
 				vct_del(&input);
 				return (EXIT_FAILURE);
 			} 
-		}*/
-		//else
-	//	{
+		}
+		else
+		{
 			input = read_loop();
 			if (input == NULL)
 			{
-				vct_del(&input);
+		vct_del(&input);
 				free_list(&lexer_list);
 			}
 			if (test(input, lexer_list) == FAILURE)
@@ -75,7 +75,7 @@ int		main(int ac, char **av, char **env)
 				vct_del(&input);
 				return (EXIT_FAILURE);
 			}
-	//	}
+		}
 		if (ft_strncmp(vct_getstr(le->cmd_line), "history", 8) == 0)
 			print_history();
 	}

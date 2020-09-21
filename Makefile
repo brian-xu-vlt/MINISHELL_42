@@ -88,11 +88,15 @@ vpath %.c sources/line_editor/handlers/special_keys
 
 OBJS = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 
-all : $(MLX) $(LIB)
+all : $(LIB)
 	$(MAKE) $(NAME)
 
 $(OBJS): $(OBJ_DIR)%.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
+
+$(NAME_BONUS): $(OBJ_DIR) $(OBJS)
+	$(CC) -D BONUS=1 $(CFLAGS) $(OBJS) -I$(INCLUDES) -I$(INCLUDES_LIB) -L./libft -lft -o $@
+	echo "\033[32m$@ is ready !\033[0m"
 
 $(NAME): $(OBJ_DIR) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -I$(INCLUDES) -I$(INCLUDES_LIB) -L./libft -lft -o $@
@@ -105,6 +109,10 @@ $(LIB) : FORCE
 	$(MAKE) -C $(LIBDIR)
 
 FORCE :
+
+bonus : $(LIB)
+	$(MAKE) $(NAME_BONUS)
+	
 
 clean :
 	$(MAKE) clean -C $(LIBDIR)
