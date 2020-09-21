@@ -55,7 +55,7 @@ SRCS += free_list_bonus.c
 SRCS += lexer_utils_bonus.c
 SRCS += parser_bonus.c
 SRCS += parser_process_bonus.c
-#SRCS += debug_tools.c
+SRCS += debug_tools.c
 SRCS += print_command_line_bonus.c
 SRCS += refresh_command_line_bonus.c
 SRCS += handle_esc_seq_bonus.c
@@ -88,7 +88,7 @@ vpath %.c sources/lexer
 vpath %.c sources/env
 vpath %.c sources/parser
 vpath %.c sources/line_editor
-#vpath %.c sources/line_editor/debug
+vpath %.c sources/line_editor/debug
 vpath %.c sources/line_editor/display
 vpath %.c sources/line_editor/handlers
 vpath %.c sources/line_editor/init
@@ -106,7 +106,7 @@ $(OBJS): $(OBJ_DIR)%.o: %.c $(HEADER)
 	$(CC) -D BONUS_FLAG=1 $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
  
 $(NAME): $(OBJ_DIR) $(OBJS)
-	$(CC) -D BONUS_FLAG=1 $(LIB_TERMCAP) $(CFLAGS) $(OBJS) -I$(INCLUDES) -I$(INCLUDES_LIB) -L./libft -lft -o $@
+	$(CC) $(LIB_TERMCAP) $(CFLAGS) $(OBJS) -I$(INCLUDES) -I$(INCLUDES_LIB) -L./libft -lft -o $@
 	echo "\033[32m$@ is ready !\033[0m"
 
 $(OBJ_DIR):
