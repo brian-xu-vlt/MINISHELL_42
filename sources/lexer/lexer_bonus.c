@@ -76,7 +76,7 @@ static int	extract_token_word(t_list **token_list, t_vector *vct)
 	else
 		ret = extract_token(token_list, vct_getstr(vct), E_WORD);
 	vct_clear(vct);
-	return (SUCCESS);
+	return (ret);
 }
 
 static int	no_word(t_list **token_list, t_vector *word, size_t type)
@@ -127,7 +127,8 @@ t_list		*lexer(t_vector *input)
 
 	word = vct_new();
 	token_list = NULL;
-	extract_token(&token_list, NULL, E_START);
+	if (extract_token(&token_list, NULL, E_START) == FAILURE)
+		return (NULL);
 	while (vct_getlen(input) > 0)
 	{
 		if (process_lexer(input, &token_list, word) == FAILURE)
@@ -138,7 +139,10 @@ t_list		*lexer(t_vector *input)
 		}
 	}
 	if (vct_getlen(word) != 0)
-		extract_token_word(&token_list, word);
+	{
+		if (extract_token_word(&token_list, word) == FAILURE)
+			return (NULL);
+	}
 	vct_del(&word);
 	extract_token(&token_list, NULL, E_END);
 	return (token_list);
