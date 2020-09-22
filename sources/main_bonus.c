@@ -35,7 +35,11 @@ int		main(int ac, char **av, char **env)
 			read_loop();
 		if (ft_strncmp(vct_getstr(le->cmd_line), "exit", 5) == 0)
 			break ;
-		test(le->cmd_line);
+		if (test(le->cmd_line) == FAILURE)
+		{
+			exit_routine_le(NULL);
+			return (EXIT_FAILURE);//ERREUR
+		}
 		vct_clear(le->cmd_line);
 	}
 	exit_routine_le(NULL);

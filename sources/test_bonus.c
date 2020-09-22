@@ -10,13 +10,13 @@ int	test(t_vector *input)
 	if (lexer_list == NULL)
 	{
 		free_list(&lexer_list);
-		vct_del(&input);
+		//vct_del(&input);
 		return (FAILURE);
 	}
 	if (parser_token(lexer_list) == FALSE)
 	{
 		free_list(&lexer_list);
-		vct_del(&input);
+		//vct_del(&input);
 		return (FAILURE);
 	}
 	free_list(&lexer_list);

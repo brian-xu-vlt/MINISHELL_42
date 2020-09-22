@@ -13,6 +13,7 @@ NAME = libft.a
 
 CFLAGS += -Wall
 CFLAGS += -Wextra
+CFLAGS += -fPIC
 ifeq ($(debug), 0)
 	CFLAGS += -g3
 else ifeq ($(debug), 1)
