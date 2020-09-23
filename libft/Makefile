@@ -1,18 +1,10 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#                                                     +:+ +:+         +:+      #
-#    By: lfallet <lfallet@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/11/11 15:19:15 by lfallet           #+#    #+#              #
-#    Updated: 2020/09/02 16:24:57 by bvalette         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-NAME = libft.a
+NAME = Minishell
+LIBDIR = ./libft
+LIB = $(LIBDIR)libft.a
 
 CFLAGS += -Wall
 CFLAGS += -Wextra
+CFLAGS += -fPIC
 ifeq ($(debug), 0)
 	CFLAGS += -g3
 else ifeq ($(debug), 1)
@@ -38,209 +30,104 @@ ifeq ($(err), 0)
 else
 	CFLAGS += -Werror
 endif
+ifneq ($(opti), 0)
+	CFLAGS += -O3
+endif
 
 CC = gcc
 
-INCLUDES = includes/
+LIB_TERMCAP = -lncurses -ltermcap
 
-HEADER += $(INCLUDES)libft.h
-HEADER += $(INCLUDES)get_next_line.h
-HEADER += $(INCLUDES)vector.h
+INCLUDES = ./includes/
+INCLUDES_LIB = ./libft/includes/
 
-SRCS += ft_atoi.c
-SRCS += ft_atoul.c
-SRCS += ft_bzero.c
-SRCS += ft_calloc.c
-SRCS += ft_free_tab.c
-SRCS += ft_isalnum.c
-SRCS += ft_isalpha.c
-SRCS += ft_isascii.c
-SRCS += ft_isdigit.c
-SRCS += ft_is_len_zero.c
-SRCS += ft_isprint.c
-SRCS += ft_itoa.c
-SRCS += ft_ltoa_base.c
-SRCS += ft_memccpy.c
-SRCS += ft_memchr.c
-SRCS += ft_memcmp.c
-SRCS += ft_memcpy.c
-SRCS += ft_memdup.c
-SRCS += ft_memjoin_free.c
-SRCS += ft_memmove.c
-SRCS += ft_memset.c
-SRCS += ft_putchar_fd.c
-SRCS += ft_putendl_fd.c
-SRCS += ft_putnbr_fd.c
-SRCS += ft_putstr_fd.c
-SRCS += ft_split.c
-SRCS += ft_strchr.c
-SRCS += ft_strdel.c
-SRCS += ft_strdup.c
-SRCS += ft_strndup.c
-SRCS += ft_strjoin.c
-SRCS += ft_strlcat.c
-SRCS += ft_strlcpy.c
-SRCS += ft_strlen.c
-SRCS += ft_strclen.c
-SRCS += ft_strmapi.c
-SRCS += ft_strncmp.c
-SRCS += ft_strnstr.c
-SRCS += ft_strrchr.c
-SRCS += ft_strtrim.c
-SRCS += ft_striter.c
-SRCS += ft_strcheck.c
-SRCS += ft_substr.c
-SRCS += ft_tolower.c
-SRCS += ft_toupper.c
-SRCS += ft_ultoa_base.c
-SRCS += ft_putstr.c
-SRCS += ft_putendl.c
-SRCS += ft_putnbr.c
-SRCS += ft_strcat.c
-SRCS += ft_abs.c
-SRCS += ft_strncpy.c
-SRCS += ft_strcdup.c
-SRCS += ft_get_size_of_nb.c
-SRCS += ft_strequ.c
-SRCS += ft_strnequ.c
-SRCS += ft_iswhitespace.c
-SRCS += ft_iswhitespacedigit.c
-SRCS += ft_iswhitespacecomma.c
-SRCS += ft_iscomma.c
-SRCS += ft_bubblesort_minindex.c
-SRCS += ft_lfpow.c
-SRCS += ft_int_to_char.c
-SRCS += ft_atoi_base.c
-SRCS += ft_itoa_base.c
-SRCS += ft_convert_base.c
-SRCS += ft_put_mem.c
+HEADER = $(INCLUDES)minishell_bonus.h
 
-SRCS += ft_lstadd_back.c
-SRCS += ft_lstadd_front.c
-SRCS += ft_lstclear.c
-SRCS += ft_lstdelone.c
-SRCS += ft_lstdel.c
-SRCS += ft_lstiter.c
-SRCS += ft_lstlast.c
-SRCS += ft_lstmap.c
-SRCS += ft_lstnew.c
-SRCS += ft_lstsize.c
+ifeq ($(test), 1)
+	SRCS += main_tester_parser.c #TO DELETE
+else
+	SRCS += main_bonus.c
+endif
 
-SRCS += vct_add.c
-SRCS += vct_addstr.c
-SRCS += vct_del.c
-SRCS += vct_getlen.c
-SRCS += vct_getstr.c
-SRCS += vct_new.c
-SRCS += vct_resize.c
-SRCS += vct_nlen.c
-SRCS += vct_clen.c
-SRCS += vct_print.c
-SRCS += vct_print_fd.c
-SRCS += vct_printendl.c
-SRCS += vct_printendl_fd.c
-SRCS += vct_pop.c
-SRCS += vct_popcharat.c
-SRCS += vct_cut.c
-SRCS += vct_push.c
-SRCS += vct_popfrom.c
-SRCS += vct_cutfrom.c
-SRCS += vct_pushstr.c
-SRCS += vct_addstrat.c
-SRCS += vct_addcharat.c
-SRCS += vct_apply.c
-SRCS += vct_cat.c
-SRCS += vct_cdup.c
-SRCS += vct_dup.c
-SRCS += vct_chr.c
-SRCS += vct_cpy.c
-SRCS += vct_strdup.c
-SRCS += vct_equ.c
-SRCS += vct_getfirstchar.c
-SRCS += vct_join.c
-SRCS += vct_joinfree.c
-SRCS += vct_split.c
-SRCS += vct_chrstr.c
-SRCS += vct_popcut.c
-SRCS += vct_splitchr.c
-SRCS += vct_readline.c
-SRCS += vct_addmem.c
-SRCS += vct_getcharat.c
-SRCS += vct_clear.c
-SRCS += vct_chrnstr.c
-SRCS += vct_nbchar.c
+SRCS += test_bonus.c
+SRCS += lexer_bonus.c
+SRCS += token_bonus.c
+SRCS += free_list_bonus.c
+SRCS += lexer_utils_bonus.c
+SRCS += parser_bonus.c
+SRCS += parser_process_bonus.c
+SRCS += debug_tools.c
+SRCS += print_command_line_bonus.c
+SRCS += refresh_command_line_bonus.c
+SRCS += handle_esc_seq_bonus.c
+SRCS += handle_print_char_bonus.c
+SRCS += copy_bonus.c
+SRCS += cut_bonus.c
+SRCS += paste_bonus.c
+SRCS += selection_bonus.c
+SRCS += delete_bonus.c
+SRCS += history_bonus.c
+SRCS += move_bonus.c
+SRCS += init_minishell_bonus.c
+SRCS += init_prompt_bonus.c
+SRCS += init_term_mode_bonus.c
+SRCS += exit_routine_le_bonus.c
+SRCS += update_screen_data_bonus.c
+SRCS += utils_bonus.c
+SRCS += utils_cursor_bonus.c
+SRCS += delete_env_bonus.c
+SRCS += get_env_bonus.c
+SRCS += init_env_bonus.c
+SRCS += print_env_bonus.c
+SRCS += store_env_bonus.c
+SRCS += line_editor_bonus.c
 
-SRCS += get_next_line.c
-SRCS += get_next_line_multifd.c
-SRCS += get_next_line_utils.c
-
-SRCS += libftprintf.c
-SRCS += printf_misc.c
-SRCS += state_machine.c
-SRCS += atoul.c
-SRCS += utils_precision_width.c
-SRCS += utils_string.c
-SRCS += conversion_disc.c
-SRCS += conversion_pux.c
-SRCS += join_p_conversion.c
-SRCS += join_x_conversion.c
-SRCS += process_conversion.c
-SRCS += utils_di_conversion.c
-SRCS += utils_p_conversion.c
-SRCS += utils_x_conversion.c
-SRCS += ft_ltoa_base_post.c
-SRCS += utils_number.c
-
-SRCS += btree_apply_by_level.c
-SRCS += btree_apply_infix.c
-SRCS += btree_apply_prefix.c
-SRCS += btree_apply_suffix.c
-SRCS += btree_create_node.c
-SRCS += btree_free_suffix.c
-SRCS += btree_insert_data.c
-SRCS += btree_level_count.c
-SRCS += btree_nodes_count.c
-SRCS += btree_search_item.c
+OBJ_DIR = ./objs/
 
 vpath %.c sources/
-vpath %.c sources/conversion/
-vpath %.c sources/initialisation/
-vpath %.c sources/is_something/
-vpath %.c sources/list/
-vpath %.c sources/mem/
-vpath %.c sources/output/
-vpath %.c sources/gnl/
-vpath %.c sources/printf/
-vpath %.c sources/printf/conversion/
-vpath %.c sources/printf/utils/
-vpath %.c sources/printf/parser/
-vpath %.c sources/string/
-vpath %.c sources/vector/
-vpath %.c sources/maths/
-vpath %.c sources/binary_tree/
+vpath %.c sources/lexer
+vpath %.c sources/env
+vpath %.c sources/parser
+vpath %.c sources/line_editor
+vpath %.c sources/line_editor/debug
+vpath %.c sources/line_editor/display
+vpath %.c sources/line_editor/handlers
+vpath %.c sources/line_editor/init
+vpath %.c sources/line_editor/utils
+vpath %.c sources/line_editor/handlers/clipboard
+vpath %.c sources/line_editor/handlers/selection
+vpath %.c sources/line_editor/handlers/special_keys
 
-OBJS = $(patsubst %.c, $(OBJS_DIR)%.o, $(SRCS))
-OBJS_DIR = ./objs/
+OBJS = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 
-all : $(OBJS_DIR) $(NAME)
+all : $(LIB)
+	$(MAKE) $(NAME)
 
-$(OBJS_DIR):
+$(OBJS): $(OBJ_DIR)%.o: %.c $(HEADER)
+	$(CC) -D BONUS_FLAG=1 $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
+ 
+$(NAME): $(OBJ_DIR) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -I$(INCLUDES) -I$(INCLUDES_LIB) $(LIB_TERMCAP) -L./libft -lft -o $@
+	echo "\033[32m$@ is ready !\033[0m"
+
+$(OBJ_DIR):
 	mkdir $@
 
-$(NAME): $(OBJS)
-	ar rcs $@ $^
+$(LIB) : FORCE
+	$(MAKE) -C $(LIBDIR)
 
-$(OBJS) : $(OBJS_DIR)%.o: %.c $(HEADER) Makefile
-	$(CC) $(CFLAGS) -I$(INCLUDES) -c $< -o $@
+FORCE :
 
 clean :
-	$(RM) -R $(OBJS_DIR)
+	$(MAKE) clean -C $(LIBDIR)
+	$(RM) -R $(OBJ_DIR)
 
 fclean : clean
+	$(MAKE) fclean -C $(LIBDIR)
 	$(RM) $(NAME)
 
 re : fclean
 	$(MAKE)
 
-.PHONY: all bonus clean fclean re
+.PHONY: all clean fclean re FORCE
 #.SILENT:
