@@ -3,6 +3,7 @@
 int	test(t_vector *input)
 {
 	t_list		*lexer_list;
+	t_list		*jobs;
 
 	lexer_list = NULL;
 	ft_printf("\n%s\n", vct_getstr(input));
@@ -19,6 +20,11 @@ int	test(t_vector *input)
 		//vct_del(&input);
 		return (FAILURE);
 	}
+	if (get_jobs(lexer_list, input) == NULL)
+	{
+		free_list(&lexer_list);
+		return (FAILURE);
+	}	
 	free_list(&lexer_list);
 	return (SUCCESS);
 }

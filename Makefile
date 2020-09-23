@@ -81,6 +81,7 @@ SRCS += init_env_bonus.c
 SRCS += print_env_bonus.c
 SRCS += store_env_bonus.c
 SRCS += line_editor_bonus.c
+SRCS += job_command_bonus.c
 
 OBJ_DIR = ./objs/
 
@@ -97,6 +98,7 @@ vpath %.c sources/line_editor/utils
 vpath %.c sources/line_editor/handlers/clipboard
 vpath %.c sources/line_editor/handlers/selection
 vpath %.c sources/line_editor/handlers/special_keys
+vpath %.c sources/command_job
 
 OBJS = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 

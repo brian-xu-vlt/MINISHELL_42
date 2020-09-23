@@ -46,5 +46,5 @@ void		exit_routine_le(char *err_code)
 	vct_del(&le->clipboard);
 	free_env_list();
 	free_history_list();
-	exit(0);
+	//exit(0);
 }
