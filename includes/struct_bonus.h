@@ -52,6 +52,3 @@ typedef struct					s_job
 }								t_job;
 
 #endif
-
-
-#endif

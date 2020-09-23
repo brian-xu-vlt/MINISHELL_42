@@ -1,5 +1,11 @@
 #include "minishell_bonus.h"
 
+static int	get_tablen(char **av)
+{
+	(void)av;
+	return (0);
+}
+
 t_cmd	*create_cmd(t_cmd *cmd_model)
 {
 	t_cmd	*cmd;
@@ -31,12 +37,13 @@ void add_cmd_to_job(t_job *job, t_cmd *cmd_model)
 
 	cmd = create_cmd(cmd_model);
 	cmd_node = ft_lstnew(cmd);
-	ft_lst_addback(&job->cmd_list, cmd_node);
+	ft_lstadd_back(&job->cmd_lst, cmd_node);
 }
 
 
 bool	is_job_sep(t_token *token)
 {
+	return (false);//
 }
 
 void	init_cmd_var(t_cmd *cmd)
@@ -53,7 +60,8 @@ void	init_cmd_var(t_cmd *cmd)
 
 void	fill_cmd_model(t_cmd *cmd, t_token *token)
 {
-	
+	(void)cmd;
+	(void)token;	
 }
 
 bool	is_cmd_sep(t_token *token)
@@ -61,7 +69,7 @@ bool	is_cmd_sep(t_token *token)
 	return (is_job_sep(token) || token->type == E_PIPE);
 }
 
-void	add_job_list(t_list **head, t_list **jobs)
+void	add_job_to_list(t_list **head, t_list **jobs)
 {
 	t_list *token_list = *head;
 	t_list	*node_job = NULL;
@@ -86,7 +94,7 @@ void	add_job_list(t_list **head, t_list **jobs)
 			fill_cmd_model(&cmd, token_list->content);	
 		token_list = token_list->next;
 	}
-	node_job = ft_listnew(job);
+	node_job = ft_lstnew(job);
 	ft_lstadd_back(jobs, node_job);
 	*head = token_list;
 }
