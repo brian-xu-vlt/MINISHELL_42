@@ -8,7 +8,10 @@ void		init_env(char **env)
 		return ;
 	index = 0;
 	while (env[index] != NULL)
-		store_env(env[index++]);
+	{
+		store_env(env[index]);
+		index++;
+	}
 }
 
 
