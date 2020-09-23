@@ -1,9 +1,12 @@
 #include "minishell_bonus.h"
 
-static void	debug_jobs(t_list *jobs)
+/*static void	debug_jobs(t_list *jobs)
 {
-	ft_printf("HELLO\n");//DEBUG
-}
+	while (jobs != NULL)
+	{
+		ft_printf("JOBS\n");//DEBUG
+	}
+}*/
 
 int	test(t_vector *input)
 {
@@ -31,7 +34,7 @@ int	test(t_vector *input)
 		free_list_token(&lexer_list);
 		return (FAILURE);
 	}	
-	debug_jobs(jobs);
+	//debug_jobs(jobs);
 	free_list_token(&lexer_list);
 	return (SUCCESS);
 }

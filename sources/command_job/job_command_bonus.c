@@ -43,7 +43,8 @@ void add_cmd_to_job(t_job *job, t_cmd *cmd_model)
 
 bool	is_job_sep(t_token *token)
 {
-	return (false);//
+	return (token->type == E_OR || token->type == E_AND
+				|| token->type == E_SEPARATOR ? true : false);
 }
 
 void	init_cmd_var(t_cmd *cmd)
@@ -60,6 +61,7 @@ void	init_cmd_var(t_cmd *cmd)
 
 void	fill_cmd_model(t_cmd *cmd, t_token *token)
 {
+	ft_printf("FILL COMMAND_MODEL\n");//DEBUG
 	(void)cmd;
 	(void)token;	
 }
@@ -85,6 +87,7 @@ void	add_job_to_list(t_list **head, t_list **jobs)
 	init_cmd_var(&cmd);
 	while (token_list != NULL && is_job_sep(token_list->content) == false)
 	{
+		ft_printf("HELLO\n");//DEBUG
 		if (is_cmd_sep(token_list->content) == true)
 		{
 			add_cmd_to_job(job, &cmd);
