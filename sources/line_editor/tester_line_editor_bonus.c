@@ -8,15 +8,13 @@
 **	HERE : the no-bonus reading loop
 */
 
-
-
-int		main(int ac, char **av, char **env)
+int		main(int ac, char **av, char **envp)
 {
 	t_le	*le;
 
 	init_minishell();
 	le = get_struct(GET);
-	init_env(env);
+	init_env(envp);
 	(void)ac;
 	(void)av;
 	while (ft_strncmp(vct_getstr(le->cmd_line), "quit", 5) != 0)

@@ -1,6 +1,24 @@
 #include "line_editor_bonus.h"
 
-void		del_vct_content(void *elem_content)
+static void		del_history_elem(void *elem_content)
+{
+	t_vector	*vct;
+
+	vct = (t_vector *)elem_content;
+	vct_del(&vct);
+}
+
+static void	free_history_list(void)
+{
+	t_le		*le;
+
+	le = get_struct(GET);
+	if (le->history_cache != NULL)
+		ft_lstclear(&le->history_cache, del_history_elem);
+	le->history_cache = NULL;
+}
+
+void		del_env_elem(void *elem_content)
 {
 	char		*env_name;
 	t_vector	*env_value;
@@ -10,16 +28,7 @@ void		del_vct_content(void *elem_content)
 		vct_del(&env_value);
 	env_name = ((t_env *)elem_content)->env_name;
 	free(env_name);
-}
-
-static void	free_history_list(void)
-{
-	t_le		*le;
-
-	le = get_struct(GET);
-	if (le->history_cache != NULL)
-		ft_lstclear(&le->history_cache, del_vct_content);
-	le->history_cache = NULL;
+	free(elem_content);
 }
 
 static void	free_env_list(void)
@@ -29,7 +38,7 @@ static void	free_env_list(void)
 	le = get_struct(GET);
 	if (le->env != NULL)
 	{
-		ft_lstclear(&le->env, del_vct_content);
+		ft_lstclear(&le->env, del_env_elem);
 		le->env = NULL;
 	}
 }

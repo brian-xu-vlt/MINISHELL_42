@@ -18,16 +18,19 @@ void	print_env(char *env_name)
 	{
 		while (cursor != NULL)
 		{
-			env_name = ((t_env*)cursor->content)->env_name;
-			env_value = ((t_env*)cursor->content)->env_value;
+			env_name = ((t_env *)cursor->content)->env_name;
+			env_value = ((t_env *)cursor->content)->env_value;
 			put_env(env_name, env_value);
 			cursor = cursor->next;
 		}
 	}
 	else
 	{
-		cursor = get_env_node(env_name);	
-		env_value = ((t_env*)cursor->content)->env_value;
-		put_env(env_name, env_value);
+		cursor = get_env_node(env_name);
+		if (cursor != NOT_FOUND)	
+		{
+			env_value = ((t_env*)cursor->content)->env_value;
+			put_env(env_name, env_value);
+		}
 	}
 }

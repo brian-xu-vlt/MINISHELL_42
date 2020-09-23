@@ -14,7 +14,7 @@ static void	read_loop()
 	vct_readline(le->cmd_line, 0);
 }
 
-int		main(int ac, char **av, char **env)
+int		main(int ac, char **av, char **envp)
 {
 	t_le		*le;
 	
@@ -22,7 +22,7 @@ int		main(int ac, char **av, char **env)
 	(void)av;
 
 	init_minishell();
-	init_env(env);
+	init_env(envp);
 	le = get_struct(GET);
 	while (1)
 	{

@@ -45,28 +45,6 @@ static void	update_existing_env(t_list *env_node, t_vector *new_env_value, int a
 	vct_cat(env_value_vct, new_env_value);
 }
 
-/*
-void		remove_quotes(char **env)
-{
-	int			i;
-	int			env_len;
-	char		c;
-	t_vector	tmp_env;
-
-	tmp_env = vct_new();
-	vct_add(tmp_env, env);
-	env_len = vct_getlen(tmp_env);
-	i = 0;
-	while (i <= env_len)
-	{
-		c = vct_getcharat(tmp_vct, i);
-		if (c == '\"' || c == '\'')
-			vct_popcharat(tmp_vct, i);
-		i++;
-	}
-
-}
-*/
 void		parse_env(char *env, char **env_name, t_vector **env_value, int *append_flag)
 {
 	int			env_name_len;
@@ -92,6 +70,8 @@ void		parse_env(char *env, char **env_name, t_vector **env_value, int *append_fl
 	}
 	else
 		*env_value = NULL;
+
+	//free envmane unused
 }
 
 void		store_env(char *env)

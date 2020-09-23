@@ -40,3 +40,27 @@ toto'0'
 
 */
 
+/*
+void		remove_quotes(char **env)
+{
+	int			i;
+	int			env_len;
+	char		c;
+	t_vector	tmp_env;
+
+	tmp_env = vct_new();
+	vct_add(tmp_env, env);
+	env_len = vct_getlen(tmp_env);
+	i = 0;
+	while (i <= env_len)
+	{
+		c = vct_getcharat(tmp_vct, i);
+		if (c == '\"' || c == '\'')
+			vct_popcharat(tmp_vct, i);
+		i++;
+	}
+
+}
+*/
+
+

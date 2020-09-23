@@ -1,20 +1,19 @@
 #include "minishell_bonus.h"
 
-t_list		*get_env_node(char *env_name)
+t_list		*get_env_node(char *target_env_name)
 {
-	size_t	name_len;
-	char	*str;
+	size_t	target_name_len;
+	char	*env_name;
 	t_list	*cursor;
 
-	if (env_name == NULL)
+	if (target_env_name == NULL)
 		return (NOT_FOUND);
 	cursor = get_struct(GET)->env;
-	name_len = ft_strlen(env_name);
+	target_name_len = ft_strlen(target_env_name);
 	while (cursor != NULL)
 	{
-		str = vct_getstr(cursor->content);
-		if (ft_strncmp(str, env_name, name_len) == 0
-						&& vct_getcharat(cursor->content, name_len) == '=')
+		env_name = ((t_env *)cursor->content)->env_name;
+		if (ft_strncmp(env_name, target_env_name, target_name_len + 1) == 0)
 			return (cursor);
 		cursor = cursor->next;
 	}

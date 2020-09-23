@@ -236,7 +236,7 @@ void		line_editor(void);
 # define	ALL				NULL
 # define	NOT_FOUND		NULL
 
-void		del_vct_content(void *elem_content);
+void		del_env_elem(void *elem_content);
 void		delete_env(char *env_name);
 void		store_env(char *env);
 void		print_env(char *env_name);

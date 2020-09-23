@@ -33,5 +33,5 @@ void		delete_env(char *env_name)
 		return ;
 	env_node = get_env_node(env_name);
 	if (env_node != NOT_FOUND)
-		ft_lstdel_node(&get_struct(GET)->env, env_node, del_vct_content);
+		ft_lstdel_node(&get_struct(GET)->env, env_node, del_env_elem);
 }
