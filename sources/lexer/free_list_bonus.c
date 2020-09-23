@@ -9,7 +9,7 @@ static void	del_token(void *token)
 	free(tmp);
 }
 
-void		free_list(t_list **token)
+void		free_list_token(t_list **token)
 {
 	ft_lstdel(token, del_token);
 }

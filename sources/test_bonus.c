@@ -1,5 +1,10 @@
 #include "minishell_bonus.h"
 
+static void	debug_jobs(t_list *jobs)
+{
+	ft_printf("HELLO\n");//DEBUG
+}
+
 int	test(t_vector *input)
 {
 	t_list		*lexer_list;
@@ -10,22 +15,23 @@ int	test(t_vector *input)
 	lexer_list = lexer(input);
 	if (lexer_list == NULL)
 	{
-		free_list(&lexer_list);
+		free_list_token(&lexer_list);
 		//vct_del(&input);
 		return (FAILURE);
 	}
 	if (parser_token(lexer_list) == FALSE)
 	{
-		free_list(&lexer_list);
+		free_list_token(&lexer_list);
 		//vct_del(&input);
 		return (FAILURE);
 	}
-	if (get_jobs(lexer_list, input) == NULL)
+	jobs = get_jobs(lexer_list);
+	if (jobs == NULL)
 	{
-		free_list(&lexer_list);
+		free_list_token(&lexer_list);
 		return (FAILURE);
 	}	
-	free_list(&lexer_list);
+	debug_jobs(jobs);
+	free_list_token(&lexer_list);
 	return (SUCCESS);
 }
-

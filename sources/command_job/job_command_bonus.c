@@ -100,7 +100,7 @@ void	add_job_to_list(t_list **head, t_list **jobs)
 }
 
 
-t_list	*get_jobs(t_list *token_list, t_vector *input)
+t_list	*get_jobs(t_list *token_list)
 {
 	t_list	*jobs = NULL;
 

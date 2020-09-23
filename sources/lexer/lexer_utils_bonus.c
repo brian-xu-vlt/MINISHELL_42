@@ -29,7 +29,7 @@ static int	handle_assign(t_vector *vct, t_vector *input, t_list **token_list)
 	if (ret_extract == FAILURE)
 	{
 		exit_routine_lexer(NULL, vct, tmp, NULL);
-		free_list(token_list);
+		free_list_token(token_list);
 		return (FALSE);
 	}
 	vct_popfrom(input, len_tmp);
@@ -47,7 +47,7 @@ static int	no_assign(t_list **token_list, t_vector *vct, int ret)
 	if (ret_extract == FAILURE)
 	{
 		exit_routine_lexer(NULL, vct, NULL, NULL);
-		free_list(token_list);
+		free_list_token(token_list);
 		return (FALSE);
 	}
 	return (TRUE);
@@ -63,7 +63,7 @@ int			handle_quote(t_vector *input, t_list **token_list, int ret)
 	if (vct_equ(input, vct) == TRUE)
 	{
 		vct_del(&vct);
-		free_list(token_list);
+		free_list_token(token_list);
 		return (FALSE);
 	}
 	vct_add(vct, ret == N_SIMPLE_QUOTE ? C_SIMPLE_QUOTE : C_QUOTE);

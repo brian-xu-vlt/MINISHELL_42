@@ -28,11 +28,13 @@ int		test(t_vector *input);
 t_list	*lexer(t_vector *input);
 size_t	get_token(char c);
 ssize_t	get_double_token(t_vector *input);
-void	free_list(t_list **token);
+void	free_list_token(t_list **token);
 int		handle_quote(t_vector *input, t_list **token_list, int ret);
 int 	extract_token(t_list **token_list, char *str, size_t type);
 void	exit_routine_lexer(t_vector *word, t_vector *vct, t_vector *tmp, t_token *token);
 int		parser_token(t_list *token_list);
 int		process_parser(t_list *list, t_valid_token *valid_token);
+t_list	*get_jobs(t_list *token_list);
+void	free_list_jobs(t_list **jobs);
 
 #endif

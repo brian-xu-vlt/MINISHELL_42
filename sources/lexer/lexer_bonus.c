@@ -134,7 +134,7 @@ t_list		*lexer(t_vector *input)
 		if (process_lexer(input, &token_list, word) == FAILURE)
 		{
 			exit_routine_lexer(word, NULL, NULL, NULL);
-			free_list(&token_list);
+			free_list_token(&token_list);
 			return (NULL);
 		}
 	}
