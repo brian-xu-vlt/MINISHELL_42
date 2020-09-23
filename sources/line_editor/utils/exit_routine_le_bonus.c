@@ -2,8 +2,8 @@
 
 void		del_vct_content(void *elem_content)
 {
-	vct_del(&(t_vector *)elem_content)->env_value;
-	free(*(t_char *)elem_content)->env_name;
+	vct_del(*(t_env *)elem_content)->env_value;
+	free(*(t_env *)elem_content)->env_name;
 }
 
 static void	free_history_list(void)
