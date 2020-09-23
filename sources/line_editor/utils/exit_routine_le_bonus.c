@@ -2,10 +2,8 @@
 
 void		del_vct_content(void *elem_content)
 {
-	t_vector	*vct;
-
-	vct = (t_vector *)elem_content;
-	vct_del(&vct);
+	vct_del(&(t_vector *)elem_content)->env_value;
+	free(*(t_char *)elem_content)->env_name;
 }
 
 static void	free_history_list(void)
@@ -24,8 +22,10 @@ static void	free_env_list(void)
 
 	le = get_struct(GET);
 	if (le->env != NULL)
+	{
 		ft_lstclear(&le->env, del_vct_content);
-	le->env = NULL;
+		le->env = NULL;
+	}
 }
 
 void		exit_routine_le(char *err_code)

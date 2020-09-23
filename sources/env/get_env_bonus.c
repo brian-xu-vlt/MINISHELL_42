@@ -1,4 +1,4 @@
-#include "line_editor_bonus.h"
+#include "minishell_bonus.h"
 
 t_list		*get_env_node(char *env_name)
 {
@@ -6,9 +6,9 @@ t_list		*get_env_node(char *env_name)
 	char	*str;
 	t_list	*cursor;
 
-	cursor = get_struct(GET)->env;
 	if (env_name == NULL)
 		return (NOT_FOUND);
+	cursor = get_struct(GET)->env;
 	name_len = ft_strlen(env_name);
 	while (cursor != NULL)
 	{
@@ -21,23 +21,17 @@ t_list		*get_env_node(char *env_name)
 	return (NOT_FOUND);
 }
 
-/*
-char/t_vector *get_env_value(char *env_name)
-{
-str = "toto=42"; >> "42"
-
-}
-*/
-t_vector	*get_env_vct(char *env_name)
+t_env		*get_env_struct(char *env_name)
 {
 	t_list	*env_node;
 
 	env_node = get_env_node(env_name);
-	if (env_name == NULL || env_node == NOT_FOUND)
-		return (NOT_FOUND);
-	else
+	if (env_node != NOT_FOUND)
 		return (env_node->content);
+	return (NOT_FOUND);
 }
 
-
-
+t_vector	*get_env_value_vct(char *env_name)
+{
+	return (get_env_struct(env_name)->env_value);
+}
