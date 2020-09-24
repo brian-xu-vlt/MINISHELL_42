@@ -45,33 +45,35 @@ static void	update_existing_env(t_list *env_node, t_vector *new_env_value, int a
 	vct_cat(env_value_vct, new_env_value);
 }
 
-void		parse_env(char *env, char **env_name, t_vector **env_value, int *append_flag)
+static int		get_env_name_len(char *env)
 {
-	int			env_name_len;
+	int			i;
 
-	env_name_len = 0;
-	while (env[env_name_len] != '\0'
-						&& env[env_name_len] != '=' && env[env_name_len] != '+')
-		env_name_len++;
-	*env_name = (char *)ft_calloc(sizeof(char), env_name_len + 1);
+	i = 0;
+	while (env[i] != '\0' && env[i] != '=' && env[i] != '+')
+		i++;
+	return (i);
+}
+
+static void		parse_env(char *env, char **env_name, t_vector **env_value, int *append_flag)
+{
+	int			name_len;
+
+	name_len = get_env_name_len(env);
+	*env_name = (char *)ft_calloc(sizeof(char), name_len + 1);
 	if (*env_name == NULL)
 		exit_routine_le(ERR_MALLOC);
-	ft_memmove(*env_name, env, env_name_len);
-	if (env[env_name_len] != '\0')
+	ft_memmove(*env_name, env, name_len);
+	if (env[name_len] != '\0')
 	{
-		if (env[env_name_len] == '+')
-			*append_flag = TRUE;
-		else
-			*append_flag = FALSE;
+		*append_flag = (env[name_len] == '+') ? TRUE : FALSE;
 		*env_value = vct_new();
 		if (*env_value == NULL)
 			exit_routine_le(ERR_MALLOC);
-		vct_addstr(*env_value, env + env_name_len + (*(int*)append_flag) + 1); 
+		vct_addstr(*env_value, env + name_len + (*(int*)append_flag) + 1);
 	}
 	else
 		*env_value = NULL;
-
-	//free envmane unused
 }
 
 void		store_env(char *env)
@@ -87,5 +89,9 @@ void		store_env(char *env)
 	if ((env_node = get_env_node(env_name)) == NOT_FOUND)
 		store_new_env(env_name, env_value);
 	else
+	{
 		update_existing_env(env_node, env_value, append_flag);
+		free(env_name);
+		vct_del(&env_value);
+	}
 }
