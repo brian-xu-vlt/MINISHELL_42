@@ -19,8 +19,14 @@
 #define EXP				'$'//12
 #define ASSIGN			'='//13
 
-#define C_SIMPLE_QUOTE	'\''
-#define C_QUOTE			'"'
+#define C_SEPARATOR			';'//0
+#define C_PIPE				'|'//1
+#define C_SIMPLE_QUOTE		'\''//2
+#define C_QUOTE				'\"'//3
+#define C_LESS_THAN			'<'//4
+#define C_GREATER_THAN		'>'//5
+#define	C_SPACE				' '//6
+#define C_TAB				'\t'//7
 
 #define GRAMMAR			";|'\"<> \t"
 

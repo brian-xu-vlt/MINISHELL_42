@@ -17,12 +17,12 @@ size_t	get_token(char c)
 	size_t		i;
 
 	i = 0;
-	ft_printf("C = %c\n", c);//DEBUG
+	//ft_printf("C = %c\n", c);//DEBUG
 	while (i < NB_GRAMMAR)
 	{
 		if (c == '=')
 		{
-			ft_printf("RENTRE LA\n");//DEBUG
+			//ft_printf("RENTRE LA\n");//DEBUG
 			return (E_ASSIGN);
 		}
 		if (c == grammar[i])
