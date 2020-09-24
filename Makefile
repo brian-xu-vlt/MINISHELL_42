@@ -82,6 +82,7 @@ SRCS += print_env_bonus.c
 SRCS += store_env_bonus.c
 SRCS += line_editor_bonus.c
 SRCS += job_command_bonus.c
+SRCS += lexer_assign_quote_bonus.c
 
 OBJ_DIR = ./objs/
 
