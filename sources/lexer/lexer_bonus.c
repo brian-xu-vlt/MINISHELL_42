@@ -47,7 +47,14 @@ int			extract_token(t_list **token_list, char *str, size_t type)
 		return (FAILURE);
 	token->data = NULL;
 	if ((type >= E_WORD && type < E_START) || type == E_SIMPLE_QUOTE || type == E_QUOTE)
+	{
+		if (quote_checker(str) == FAILURE)
+		{
+			free(token);
+			return (FAILURE);
+		}	
 		token->data = ft_strdup(str);
+	}
 	token->type = type;
 	ft_printf("token->data = %s\n", token->data); //DEBUG
 	debug(token->type);//DEBUG
@@ -114,7 +121,7 @@ static int	process_lexer(t_vector *input, t_list **token_list, t_vector *word)
 				|| vct_getcharat(input, 1) == '\''))
 		{
 			//ft_printf("E_ASSIGN\n");//DEBUG
-			if (handle_assign_quote(&input, &word) == FAILURE) //MESSAGE ERREUR (QUOTE NON FERME)
+			if (handle_assign_quote(input, word) == FAILURE) //MESSAGE ERREUR (QUOTE NON FERME)
 				return (FAILURE); 
 		}
 		else

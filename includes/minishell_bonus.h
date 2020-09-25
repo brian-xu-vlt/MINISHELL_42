@@ -36,6 +36,9 @@ int		parser_token(t_list *token_list);
 int		process_parser(t_list *list, t_valid_token *valid_token);
 t_list	*get_jobs(t_list *token_list);
 void	free_list_jobs(t_list **jobs);
-int		handle_assign_quote(t_vector **input, t_vector **word);
+int		handle_assign_quote(t_vector *input, t_vector *word);
+int		quote_checker(char *str);
+
+typedef	enum e_state	(*t_state)(t_vector *);
 
 #endif
