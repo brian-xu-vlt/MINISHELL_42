@@ -6,8 +6,11 @@ void	init_term_mode(void)
 	t_le			*le;
 
 	le = get_struct(GET);
-	tcgetattr(STDIN_FILENO, &(le->termios_backup));
-	termios_new = le->termios_backup;
+	le->termios_backup = (struct termios *)ft_calloc(sizeof(struct termios), 1);
+	if (le->termios_backup == NULL)
+		exit_routine_le(ERR_MALLOC);
+	tcgetattr(STDIN_FILENO, le->termios_backup);
+	ft_memmove(&termios_new, le->termios_backup, sizeof(struct termios));
 	termios_new.c_lflag &= ~(ICANON);
 	termios_new.c_lflag &= ~(ECHO);
 	if (DEBUG_SIGNAL != FALSE)

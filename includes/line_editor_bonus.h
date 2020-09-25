@@ -32,12 +32,12 @@
 *********  ERRORS FLAGS ***********
 **********************************/
 
-# define	ERR_ENV			"Coule not load environement variables"
+# define	ERR_ENV			"Could not load environement variables"
 # define	ERR_NEW_VCT		"Could not malloc vector"
 # define	ERR_VCT			"Vector function failed"
 # define	ERR_SCREEN_SIZE	"Screen size is too small"
-# define	ERR_TERM_NAME	"Term environement variable can't be located"
-# define	ERR_TERMCAP		"Minishell is not (yet) compatible to this Term"
+# define	ERR_TERM_NAME	"Terminal type variable could not be located"
+# define	ERR_TERMCAP		"Minishell is not (yet) compatible to this Terminal"
 # define	ERR_MALLOC		"Malloc could not allocate memory"
 
 /**********************************
@@ -127,7 +127,7 @@ enum	e_optional_termcap
 typedef struct	s_line_editor
 {
 	t_list			*env;  // move to somewhere else
-	struct termios	termios_backup;
+	struct termios	*termios_backup;
 	char			*termcap[NB_ESSENTIAL_TERMCAP + NB_OPTIONAL_TERMCAP];
 	char			*cmd_line_backup;
 	t_vector		*cmd_line;
@@ -138,11 +138,11 @@ typedef struct	s_line_editor
 	int				scols;
 	int				prompt_len;
 	int				cx;
-	int				cy;	
+	int				cy;
 	int				vct_index;
 	int				vct_index_backup;
-	int				select_min;	
-	int				select_max;				
+	int				select_min;
+	int				select_max;
 }				t_le;
 
 /*************************************************
@@ -238,10 +238,12 @@ void		line_editor(void);
 
 void		del_env_elem(void *elem_content);
 void		delete_env(char *env_name);
-void		store_env(char *env);
+void		store_internal_var(char *env);
+void		export_env(char *env);
 void		print_env(char *env_name);
 void		init_env(char **env);
 t_env		*get_env_struct(char *env_name);
 t_list		*get_env_node(char *env_name);
+char 		**get_envp(void);
 
 #endif

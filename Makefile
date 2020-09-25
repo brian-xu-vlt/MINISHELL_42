@@ -76,6 +76,7 @@ SRCS += utils_bonus.c
 SRCS += utils_cursor_bonus.c
 SRCS += delete_env_bonus.c
 SRCS += get_env_bonus.c
+SRCS += get_envp_bonus.c
 SRCS += init_env_bonus.c
 SRCS += print_env_bonus.c
 SRCS += store_env_bonus.c

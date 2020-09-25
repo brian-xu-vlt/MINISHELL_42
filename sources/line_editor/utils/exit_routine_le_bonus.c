@@ -48,8 +48,10 @@ void		exit_routine_le(char *err_code)
 	t_le		*le;
 
 	le = get_struct(GET);
-	tcsetattr(STDIN_FILENO, TCSADRAIN, &(get_struct(GET)->termios_backup));
-	tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
+	if (le->termios_backup != NULL)
+	tcsetattr(STDIN_FILENO, TCSADRAIN, le->termios_backup);
+	if (le->termcap[VISIBLE_CURSOR] != NULL)
+		tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
 	if (err_code != NULL)
 	{
 		ft_putstr_fd(err_code, STDOUT_FILENO);
@@ -61,5 +63,5 @@ void		exit_routine_le(char *err_code)
 	vct_del(&le->clipboard);
 	free_env_list();
 	free_history_list();
-//	exit(0);
+	exit(0);
 }

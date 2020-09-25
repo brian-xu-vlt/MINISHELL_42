@@ -2,8 +2,8 @@
 
 static void	init_library_db(void)
 {
-	int		ret;
-	char	*term_name;
+	int			ret;
+	const char	*term_name;
 
 	term_name = getenv("TERM"); // to be changed to use main char *env[]
 	if (term_name == NULL)
@@ -15,6 +15,18 @@ static void	init_library_db(void)
 		exit_routine_le(ERR_TERMCAP);
 }
 
+static void	init_termcaps(t_le *le)
+{
+	int		i;
+
+	i = 0;
+	while (i < NB_ESSENTIAL_TERMCAP + NB_OPTIONAL_TERMCAP)
+	{
+		le->termcap[i] = NULL;
+		i++;
+	}
+
+}
 static void	fill_termcaps(t_le *le)
 {
 	int		i;
@@ -50,7 +62,9 @@ void		init_minishell(void)
 	get_struct(le);
 	if (le == NULL)
 		exit_routine_le(ERR_MALLOC);
+	init_termcaps(le);
 	le->env = NULL;
+	le->termios_backup = NULL;
 	le->screen_flag = 0;
 	le->prompt_len = ft_strlen(PROMPT);
 	le->history_cache = NULL;

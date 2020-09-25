@@ -20,13 +20,15 @@ int		ms_putchar(int c)
 	return (write(1, &c, 1));
 }
 
-t_le	*get_struct(t_le *env)
+t_le	*get_struct(t_le *mem)
 {
-	static t_le	*env_backup = NULL;
+	static t_le	*mem_backup = NULL;
 
-	if (env != NULL)
-		env_backup = env;
-	return (env_backup);
+	if (mem != NULL)
+		mem_backup = mem;
+	else if (mem == NULL && mem_backup == NULL)
+		exit_routine_le(ERR_MALLOC);
+	return (mem_backup);
 }
 
 /*
