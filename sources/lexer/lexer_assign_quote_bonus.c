@@ -42,12 +42,49 @@ int	handle_assign_quote(t_vector **input, t_vector **word)
 	{
 		cpy_input = vct_dup(*input);
 		if (count_loop != 0 && (stop_assign_char(vct_getcharat(*input, 1)) == true
-				|| stop_assign_str(cpy_input) == true) && quote_close == FALSE
-				&& simple_quote_close == FALSE)
+				|| stop_assign_str(cpy_input) == true))
 		{
-			vct_add(*word, vct_getfirstchar(*input));	
-			no_error = TRUE;
-			break ;
+			ft_printf("input = %s\n", vct_getstr(*input));//DEBUG
+			ft_printf("quote_close = %d\n", quote_close);//DEBUG
+			ft_printf("simple_quote_close = %d\n", simple_quote_close);//DEBUG
+			ft_printf("quote_open = %d\n", quote_open);//DEBUG
+			ft_printf("simple_quote_open = %d\n", simple_quote_open);//DEBUG
+			vct_add(*word, vct_getfirstchar(*input));
+			ft_printf("first_char = %c\n", vct_getfirstchar(*input));//DEBUG
+			if (quote_open == FALSE && vct_getfirstchar(*input) == C_QUOTE)
+			{
+				ft_printf("MODIF QUOTE_OPEN\n");//DEBUG
+				quote_open = TRUE;	
+			}
+			else if (quote_open == TRUE && vct_getfirstchar(*input) == C_QUOTE)
+			{
+				ft_printf("MODIF QUOTE_OPEN\n");//DEBUG
+				quote_open = FALSE;	
+			}
+			if (simple_quote_open == FALSE && vct_getfirstchar(*input) == C_SIMPLE_QUOTE)
+			{
+				ft_printf("MODIF QUOTE_OPEN\n");//DEBUG
+				simple_quote_open = TRUE;	
+			}
+			else if (simple_quote_open == TRUE && vct_getfirstchar(*input) == C_SIMPLE_QUOTE)
+			{
+				ft_printf("MODIF QUOTE_OPEN\n");//DEBUG
+				simple_quote_open = FALSE;	
+			}
+			ft_printf("quote_close AFTER = %d\n", quote_close);//DEBUG
+			ft_printf("simple_quote_close AFTER = %d\n", simple_quote_close);//DEBUG
+			ft_printf("quote_open AFTER = %d\n", quote_open);//DEBUG
+			ft_printf("simple_quote_open AFTER = %d\n", simple_quote_open);//DEBUG
+			if (quote_open == FALSE || simple_quote_open == FALSE)
+			{	
+				no_error = TRUE;
+				break ;
+			}
+			else
+			{
+				ft_printf("ERROR WHILEEE\n");//DEBUG
+				return (EXIT_FAILURE);
+			}
 		}	
 		if (quote_open == FALSE && vct_getfirstchar(*input) == C_QUOTE)
 		{
@@ -59,6 +96,7 @@ int	handle_assign_quote(t_vector **input, t_vector **word)
 		}
 		if (quote_close == TRUE && quote_open == TRUE)
 		{
+			ft_printf("PASSE ICI ?\n");//debug
 			quote_close = FALSE;
 			quote_open = FALSE;
 		}
@@ -79,9 +117,16 @@ int	handle_assign_quote(t_vector **input, t_vector **word)
 		vct_add(*word, vct_getfirstchar(*input));	
 		vct_pop(*input);
 	}
-	if ((quote_open == TRUE || simple_quote_open == TRUE) && no_error != TRUE)
+	ft_printf("quote_close END = %d\n", quote_close);//DEBUG
+	ft_printf("simple_quote_close END = %d\n", simple_quote_close);//DEBUG
+	ft_printf("quote_open END = %d\n", quote_open);//DEBUG
+	ft_printf("simple_quote_open END = %d\n", simple_quote_open);//DEBUG
+	ft_printf("NO ERROR = %d\n", no_error);//DEBUG
+	if ((no_error == FALSE && (quote_open == TRUE || simple_quote_open == TRUE)) 
+			|| (no_error == TRUE && quote_open == TRUE)
+			|| (no_error == TRUE && simple_quote_open == TRUE))
 	{
-		ft_printf("ERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRROR\n");//DEBUG
+		ft_printf("ERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRROR END\n");//DEBUG
 		return (FAILURE);
 	}
 	return (SUCCESS);
