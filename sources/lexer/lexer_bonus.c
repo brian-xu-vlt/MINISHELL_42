@@ -123,7 +123,7 @@ static int	process_lexer(t_vector *input, t_list **token_list, t_vector *word)
 	}
 	else
 	{
-		ft_printf("LA \n");//DEBUG
+		//ft_printf("LA \n");//DEBUG
 		if (type == E_ASSIGN && (vct_getcharat(input, 1) == '\"'
 				|| vct_getcharat(input, 1) == '\''))
 		{
