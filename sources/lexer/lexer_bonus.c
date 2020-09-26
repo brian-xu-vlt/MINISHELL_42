@@ -48,8 +48,10 @@ int			extract_token(t_list **token_list, char *str, size_t type)
 	token->data = NULL;
 	if ((type >= E_WORD && type < E_START) || type == E_SIMPLE_QUOTE || type == E_QUOTE)
 	{
+		//ft_printf("HELLO\n");//DEBUG
 		if (quote_checker(str) == FAILURE)
 		{
+			//ft_printf("HEY\n");//DEBUG
 			free(token);
 			return (FAILURE);
 		}	
@@ -83,20 +85,21 @@ static int	extract_token_word(t_list **token_list, t_vector *vct)
 	else
 		ret = extract_token(token_list, vct_getstr(vct), E_WORD);
 	vct_clear(vct);
+	ft_printf("REEEEEEEEEEEEEEEEEEEEEEEEEEEEET TOKEN WORD = %d\n", ret);//DEBUG
 	return (ret);
 }
 
 static int	no_word(t_list **token_list, t_vector *word, size_t type)
 {
+	int	ret;
+
+	ret = SUCCESS;
 	if (vct_getlen(word) != 0)
-		extract_token_word(token_list, word);
-	if (type != E_SPACE && type != E_TAB && type != E_SIMPLE_QUOTE && type != E_QUOTE)
-		extract_token(token_list, NULL, type);
-	if (type == E_SIMPLE_QUOTE)
-		return (N_SIMPLE_QUOTE);
-	if (type == E_QUOTE)
-		return (N_QUOTE);
-	return (FALSE);
+		ret = extract_token_word(token_list, word);
+	else if (type != E_SPACE && type != E_TAB && type != E_SIMPLE_QUOTE && type != E_QUOTE)
+		ret = extract_token(token_list, NULL, type);
+	ft_printf("REEEEEEEEEEEEEEEEEEEEEEEEEEEEET NO WORD = %d\n", ret);//DEBUG
+	return (ret);
 }
 
 static int	process_lexer(t_vector *input, t_list **token_list, t_vector *word)
@@ -106,35 +109,34 @@ static int	process_lexer(t_vector *input, t_list **token_list, t_vector *word)
 
 	ret = 0;
 	type = get_double_token(input);
+	ft_printf("INPUT = %s\n", vct_getstr(input));//DEBUG
+	//ft_printf("WORD = %s\n", vct_getstr(word));//DEBUG
 	if (type == NO_TYPE)
 		type = get_token(vct_getcharat(input, FIRST_CHAR));
-	if (type < E_WORD)
+	ft_printf("TYPE = %d\n", type);//DEBUG
+	if (type < E_WORD && type != E_SIMPLE_QUOTE && type != E_QUOTE)
 	{
-		//ft_printf("HERE\n");//DEBUG
-		//ft_printf("TYPE = %d\n", type);//DEBUG
+		ft_printf("HERE\n");//DEBUG
 		ret = no_word(token_list, word, type);
+		if (ret == FAILURE)
+			return (FAILURE);
 	}
 	else
 	{
-		//ft_printf("LA \n");//DEBUG
+		ft_printf("LA \n");//DEBUG
 		if (type == E_ASSIGN && (vct_getcharat(input, 1) == '\"'
 				|| vct_getcharat(input, 1) == '\''))
 		{
-			//ft_printf("E_ASSIGN\n");//DEBUG
-			if (handle_assign_quote(input, word) == FAILURE) //MESSAGE ERREUR (QUOTE NON FERME)
-				return (FAILURE); 
+			handle_assign_quote(input, word);
+			ret = extract_token(token_list, vct_getstr(word), type);
+			vct_clear(word);
+			return (ret == FAILURE ? FAILURE : SUCCESS);
 		}
 		else
 			vct_add(word, vct_getcharat(input, FIRST_CHAR));
 	}
-	if (ret == N_SIMPLE_QUOTE || ret == N_QUOTE)
-	{
-		//ft_printf("ICI\n");//DEBUG
-		vct_pop(input);
-		if (handle_quote(input, token_list, ret) == FALSE)
-			return (FAILURE); //MESSAGE D'ERREUR (QUOTE NON FERME)
-	}
-	if (ret == FALSE)
+	ft_printf("REEEEEEEEEEEEEEEEEEEEEEEEEEEEET MAIN = %d\n", ret);//DEBUG
+	if (ret != FAILURE)
 		vct_pop(input);
 	if (type > DOUBLE_TOKEN && type < EXP_ASSIGN)
 		vct_pop(input);

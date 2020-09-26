@@ -18,7 +18,9 @@ void	initialize_grammar()
 	AND,
 	STR_WORD,
 	EXP,
-	ASSIGN
+	ASSIGN,
+	START,
+	END
 	};
 
 // HERE ADD GRAMMAR TYPE WITH DATA

@@ -9,8 +9,8 @@ static bool	stop_assign_str(t_vector *input)
 	cpy_input = vct_new();
 	vct_cpy(cpy_input, input);
 	vct_cutfrom(cpy_input, vct_getlen(cpy_input) - 2);
-	return (vct_getlen(input) == 1
-				|| ft_strequ(vct_getstr(cpy_input), OR) == TRUE
+	return (
+				ft_strequ(vct_getstr(cpy_input), OR) == TRUE
 				|| ft_strequ(vct_getstr(cpy_input), AND) == TRUE
 				|| ft_strequ(vct_getstr(cpy_input), DOUBLE_GREATER) == TRUE ?
 				true : false);
@@ -79,29 +79,28 @@ int	quote_checker(char *str)
 {
 	t_state	function_state[] = {string_state, squote_state, dquote_state};
 	enum e_state state = E_STATE_STRING;
-	enum e_state past_state = E_STATE_STRING;
-	const char	*debug_error[] = {"STRING", "SQUOTE", "DQUOTE", "END", "ERROR"};
+	//enum e_state past_state = E_STATE_STRING;
+	//const char	*debug_error[] = {"STRING", "SQUOTE", "DQUOTE", "END", "ERROR"};
 	t_vector	*input = vct_new();
 	
 	vct_addstr(input, str);
-	while (vct_getlen(input) > 0)
+	while (state != E_STATE_END)
 	{
-		past_state = state;
-		ft_printf("%c", vct_getfirstchar(input));
-		ft_printf(" ->%s \n", debug_error[state]);
+		//past_state = state;
+		//ft_printf("%c", vct_getfirstchar(input));
+		//ft_printf(" ->%s \n", debug_error[state]);
 		state = function_state[state](input);
-		if (state == E_STATE_END)
+		if (state == E_STATE_ERROR)
 			break ;
-		else if (state == E_STATE_ERROR)
-		{
-			ft_printf("Error on -> %s\n", debug_error[past_state]);
-			vct_del(&input);
-			return (FAILURE);
-		}
 		vct_pop(input);
 	}
-	ft_printf("END ->%s \n", debug_error[state]);
 	vct_del(&input);
+	//ft_printf("END ->%s \n", debug_error[state]);
+	if (state != E_STATE_END)
+	{
+		//ft_printf("\033[31mError on -> %s\n\033[0m", debug_error[past_state]);
+		return (FAILURE);
+	}
 	return (SUCCESS);
 }
 
