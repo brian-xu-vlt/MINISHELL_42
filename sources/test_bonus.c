@@ -15,7 +15,10 @@ static void	debug_export_env(t_vector *input)
 
 	str = vct_getstr(input);
 	str += ft_strlen("export") + 1;
-	export_env(str);
+	if (*str == '\0')
+		get_export_output();
+	else
+		export_env(str);
 }
 
 static void	debug_store_env(t_vector *input)

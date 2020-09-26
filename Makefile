@@ -80,6 +80,7 @@ SRCS += get_envp_bonus.c
 SRCS += init_env_bonus.c
 SRCS += print_env_bonus.c
 SRCS += store_env_bonus.c
+SRCS += get_export_output_bonus.c
 SRCS += line_editor_bonus.c
 
 OBJ_DIR = ./objs/

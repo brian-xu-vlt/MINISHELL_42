@@ -244,6 +244,8 @@ void		print_env(char *env_name);
 void		init_env(char **env);
 t_env		*get_env_struct(char *env_name);
 t_list		*get_env_node(char *env_name);
-char 		**get_envp(void);
+t_vector	*get_env_value_vct(char *env_name);
+char 		**get_envp(void); //free the char ** returned!
+void		get_export_output(void);
 
 #endif

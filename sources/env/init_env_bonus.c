@@ -1,15 +1,38 @@
 #include "minishell_bonus.h"
 
+static void	increment_shlevel(void)
+{
+	t_vector	*shlvl;
+	char		*new_lvl;
+	int			shlvl_int;
+
+	shlvl = get_env_value_vct("SHLVL");
+	if (shlvl != NULL)
+	{
+		shlvl_int = ft_atoi(vct_getstr(shlvl));
+		shlvl_int++;
+		new_lvl = ft_itoa(shlvl_int);
+		vct_clear(shlvl);
+		vct_addstr(shlvl, new_lvl);
+		free(new_lvl);
+	}
+}
+
 void		init_env(char **env)
 {
-	int		index;
+	int			index;
 
 	if (env == NULL)
 		return ;
 	index = 0;
 	while (env[index] != NULL)
 	{
-		export_env(env[index]);
+		if (ft_isalpha(env[index][0]) == TRUE)
+		{
+			export_env(env[index]);
+			if (ft_strncmp(env[index], "SHLVL=", 6) == 0)
+				increment_shlevel();
+		}
 		index++;
 	}
 }
