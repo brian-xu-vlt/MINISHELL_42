@@ -67,7 +67,7 @@ int	test_env(t_vector *input)
 		debug_export_env(input);	
 	if (ft_strncmp(vct_getstr(input), "print", 5) == 0)
 		debug_print_env(input);	
-	if (ft_strncmp(vct_getstr(input), "envp", 5) == 0)
+	if (ft_strncmp(vct_getstr(input), "env", 4) == 0)
 	{
 		envp = get_envp();
 		print_envp(envp);
