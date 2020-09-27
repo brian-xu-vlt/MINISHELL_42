@@ -23,6 +23,7 @@
 /******************************************************************************/
 
 int		test(t_vector *input);
+int		test_env(t_vector *input);
 
 t_list	*lexer(t_vector *input);
 size_t	get_token(char c);

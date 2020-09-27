@@ -27,7 +27,7 @@ void	print_env(char *env_name)
 	else //for debug, will remove once 'env | grep ...' works
 	{
 		cursor = get_env_node(env_name);
-		if (cursor != NOT_FOUND)	
+		if (cursor != NOT_FOUND)
 		{
 			env_value = ((t_env*)cursor->content)->env_value;
 			put_env(env_name, env_value);

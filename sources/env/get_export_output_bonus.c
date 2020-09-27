@@ -1,10 +1,5 @@
 #include "minishell_bonus.h"
 
-static void	free_btree_node(t_btree *node)
-{
-	free((void*)node);
-}
-
 static void	print_disambiguate_value(t_vector *env_value)
 {
 	int			i;
@@ -40,7 +35,7 @@ static void	print_btree_node(t_btree *node)
 	ft_putstr_fd("\n", STDERR_FILENO);
 }
 
-static int	cmp_function(void * env_1, void *env_2)
+static int	cmp_function(void *env_1, void *env_2)
 {
 	char		*env_name_1;
 	char		*env_name_2;

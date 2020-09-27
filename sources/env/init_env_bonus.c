@@ -16,6 +16,8 @@ static void	increment_shlevel(void)
 		vct_addstr(shlvl, new_lvl);
 		free(new_lvl);
 	}
+	else
+		export_env("SHLVL=1");
 }
 
 void		init_env(char **env)
@@ -28,21 +30,11 @@ void		init_env(char **env)
 	while (env[index] != NULL)
 	{
 		if (ft_isalpha(env[index][0]) == TRUE)
-		{
 			export_env(env[index]);
-			if (ft_strncmp(env[index], "SHLVL=", 6) == 0)
-				increment_shlevel();
-		}
 		index++;
 	}
+	increment_shlevel();
 }
-
-
-
-
-
-
-
 
 /*
 
@@ -62,4 +54,3 @@ toto'0'
 
 
 */
-

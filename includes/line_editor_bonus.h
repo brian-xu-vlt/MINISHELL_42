@@ -238,14 +238,22 @@ void		line_editor(void);
 
 void		del_env_elem(void *elem_content);
 void		delete_env(char *env_name);
+
 void		store_internal_var(char *env);
 void		export_env(char *env);
-void		print_env(char *env_name);
 void		init_env(char **env);
+
+void		print_env(char *env_name);
+void		get_export_output(void);
+char 		**get_envp(void); //free the char ** returned!
+
 t_env		*get_env_struct(char *env_name);
 t_list		*get_env_node(char *env_name);
 t_vector	*get_env_value_vct(char *env_name);
-char 		**get_envp(void); //free the char ** returned!
-void		get_export_output(void);
 
+void		free_btree_node(t_btree *node);
+int			get_env_name_len(char *env);
+void		parse_env(char *env, char **env_name, t_vector **env_value,
+															int *append_flag);
+t_env		*init_env_struct();
 #endif

@@ -49,6 +49,7 @@ else
 endif
 
 SRCS += test_bonus.c
+SRCS += test_env_bonus.c
 SRCS += lexer_bonus.c
 SRCS += token_bonus.c
 SRCS += free_list_bonus.c
@@ -80,6 +81,7 @@ SRCS += get_envp_bonus.c
 SRCS += init_env_bonus.c
 SRCS += print_env_bonus.c
 SRCS += store_env_bonus.c
+SRCS += utils_env_bonus.c
 SRCS += get_export_output_bonus.c
 SRCS += line_editor_bonus.c
 
