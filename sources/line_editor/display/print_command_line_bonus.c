@@ -8,13 +8,12 @@ static void	put_newline(t_le *le)
 
 static void	write_with_selection(t_le *le, int index_from)
 {
-	int		vct_len;
-	char	*v_str;
-	int		fd;
+	int			vct_len;
+	char		*v_str;
+	const int	fd = STDERR_FILENO;
 
 	v_str = vct_getstr(le->cmd_line);
 	vct_len = vct_getlen(le->cmd_line);
-	fd = STDERR_FILENO;
 	if (le->select_min < index_from)
 	{
 		tputs(le->termcap[SELECT], 1, ms_putchar);
@@ -34,10 +33,10 @@ static void	write_with_selection(t_le *le, int index_from)
 
 void		print_cmd_line(void)
 {
-	int		index_from;
-	int		i_delta;
-	int		offset;
-	t_le	*le;
+	int			index_from;
+	int			i_delta;
+	int			offset;
+	t_le		*le;
 
 	le = get_struct(GET);
 	index_from = le->vct_index;

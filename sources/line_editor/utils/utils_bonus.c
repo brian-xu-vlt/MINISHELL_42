@@ -17,7 +17,7 @@ int		is_ctrl_shift_on(long buff)
 
 int		ms_putchar(int c)
 {
-	return (write(1, &c, 1));
+	return (write(STDERR_FILENO, &c, 1));
 }
 
 t_le	*get_struct(t_le *mem)

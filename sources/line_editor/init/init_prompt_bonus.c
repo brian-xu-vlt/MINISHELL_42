@@ -5,7 +5,7 @@ void	init_prompt(void)
 	t_le	*le;
 
 	le = get_struct(GET);
-	ft_putstr_fd(PROMPT, STDOUT_FILENO);
+	ft_putstr_fd(PROMPT, STDERR_FILENO);
 	if (le->prompt_len >= le->scols)
 		exit_routine_le(ERR_SCREEN_SIZE);
 	le->cx = (int)le->prompt_len;

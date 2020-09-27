@@ -6,13 +6,14 @@ static void		line_editor_loop(t_le *le)
 
 	while (read(STDIN_FILENO, &key, 1) != FAILURE && key != K_ENTER)
 	{
+		update_window_size();
 		tputs(le->termcap[HIDE_CURSOR], 1, ms_putchar);
 		le->vct_index_backup = le->vct_index;
 		if (ft_isprint(key) == TRUE)
 			handle_print_char(key);
 		else
 			handle_esc_seq(key);
-		if (DEBUG == TRUE)
+		if (DEBUG_MODE == TRUE)
 			debug_print_infos();
 		tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
 	}

@@ -7,6 +7,7 @@ void	move_end_of_line(void)
 	ret = SUCCESS;
 	while (ret == SUCCESS)
 		ret = move_cursor_right();
+	get_struct(GET)->screen_flag |= FULL_REFRESH;
 }
 
 void	move_start_of_line(void)
@@ -16,6 +17,7 @@ void	move_start_of_line(void)
 	ret = SUCCESS;
 	while (ret == SUCCESS)
 		ret = move_cursor_left();
+	get_struct(GET)->screen_flag |= FULL_REFRESH;
 }
 
 void	move_one_word_right(void)

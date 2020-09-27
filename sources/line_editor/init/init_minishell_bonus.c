@@ -71,6 +71,8 @@ void		init_minishell(void)
 	le->cmd_line_backup = NULL;
 	le->clipboard = vct_new();
 	le->cmd_line = vct_new();
+	le->srows = 0;
+	le->scols = 0;
 	if (le->cmd_line == NULL || le->clipboard == NULL)
 		exit_routine_le(ERR_MALLOC);
 	init_library_db();

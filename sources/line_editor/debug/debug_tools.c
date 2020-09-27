@@ -44,7 +44,7 @@ void		debug_print_flag(char *flag)
 	tputs(tgetstr(HIGHLIGHT, NULL), 1, ms_putchar);
 	tputs(tgetstr(CLEAR_LINE, NULL), le->cy, ms_putchar);
 	ft_putstr_fd("debug ", STDERR_FILENO);
-	ft_putstr_fd(flag, STDOUT_FILENO);
+	ft_putstr_fd(flag, STDERR_FILENO);
 	tputs(tgetstr(NO_HIGHLIGHT, NULL), 1, ms_putchar);
 	tputs(tgetstr(RESTORE_CURSOR_POS, NULL), 2, ms_putchar);
 }

@@ -15,8 +15,8 @@
 #ifndef LINE_EDITOR_BONUS_H
 # define LINE_EDITOR_BONUS_H
 
-#ifndef DEBUG
-# define	DEBUG			FALSE
+#ifndef DEBUG_MODE
+# define	DEBUG_MODE		FALSE
 #endif
 
 #ifndef DEBUG_LLDB
@@ -32,6 +32,7 @@
 *********  ERRORS FLAGS ***********
 **********************************/
 
+# define	ERR_NO_MESSAGE	NULL
 # define	ERR_ENV			"Could not load environement variables"
 # define	ERR_NEW_VCT		"Could not malloc vector"
 # define	ERR_VCT			"Vector function failed"
@@ -54,6 +55,7 @@
 
 # define	FULL_REFRESH			(1 << 0)
 # define	HISTORY_REFRESH			(1 << 1)
+# define	RESIZE_REFRESH			(1 << 2)
 
 /**********************************
 *********  USER KEYS  *************

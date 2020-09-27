@@ -33,6 +33,10 @@ ifneq ($(opti), 0)
 	CFLAGS += -O3
 endif
 
+ifneq ($(debug_mode), 0)
+	DEBUG_MODE = 0 
+endif
+
 CC = gcc
 
 LIB_TERMCAP = -lncurses -ltermcap
@@ -107,7 +111,7 @@ all : $(LIB)
 	$(MAKE) $(NAME)
 
 $(OBJS): $(OBJ_DIR)%.o: %.c $(HEADER)
-	$(CC) -D BONUS_FLAG=1 $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
+	$(CC) -D DEBUG_MODE=$(DEBUG_MODE) -D BONUS_FLAG=1 $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
  
 $(NAME): $(OBJ_DIR) $(OBJS)
 	$(CC) $(LIB_TERMCAP) $(CFLAGS) $(OBJS) -I$(INCLUDES) -I$(INCLUDES_LIB) -L./libft -lft -o $@

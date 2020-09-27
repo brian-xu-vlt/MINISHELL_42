@@ -39,16 +39,16 @@ void		exit_routine_le(char *err_code)
 	tcsetattr(STDIN_FILENO, TCSADRAIN, le->termios_backup);
 	if (le->termcap[VISIBLE_CURSOR] != NULL)
 		tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
-	if (err_code != NULL)
-	{
-		ft_putstr_fd(err_code, STDOUT_FILENO);
-		exit(FAILURE);
-	}
 	if (le->cmd_line_backup != NULL)
 		free(le->cmd_line_backup);
 	vct_del(&le->cmd_line);
 	vct_del(&le->clipboard);
 	free_env_list();
 	free_history_list();
+	if (err_code != NULL)
+	{
+		ft_printf("%s\n", err_code);
+		exit(FAILURE);
+	}
 	exit(0);
 }

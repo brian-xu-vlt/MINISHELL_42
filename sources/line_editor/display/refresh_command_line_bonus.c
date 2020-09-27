@@ -1,9 +1,19 @@
 #include "line_editor_bonus.h"
 
+static void	refresh_whole_window(t_le *le)
+{
+	tputs(le->termcap[MOVE_CURSOR_HOME], le->cy, ms_putchar);
+	tputs(le->termcap[CLEAR_ALL_AFTER_CURS], le->cy, ms_putchar);
+	init_prompt();
+	le->screen_flag |= FULL_REFRESH;
+}
+
 static void	move_cursor_at_refresh_startingpoint(t_le *le)
 {
 	int		head_of_block;
 
+	if (le->screen_flag & RESIZE_REFRESH)
+		refresh_whole_window(le);
 	if (le->vct_index == 0)
 		return ;
 	if (le->vct_index == (int)vct_getlen(le->cmd_line)
