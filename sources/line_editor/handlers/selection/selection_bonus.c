@@ -55,5 +55,6 @@ void		unselect_all(void)
 	{
 		init_selection();
 		le->screen_flag |= FULL_REFRESH;
+		refresh_command_line();
 	}
 }
