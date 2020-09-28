@@ -51,19 +51,19 @@ static bool	is_doublequote(t_vector *input)
 
 static enum e_state	squote_state(t_vector *input)
 {
-	if (is_end(input) == true)
-		return (E_STATE_ERROR);
-	else if (is_simplequote(input) == true)
+	if (is_simplequote(input) == true)
 		return (E_STATE_STRING);
+	else if (vct_getfirstchar(input) == '\0')
+		return (E_STATE_ERROR);
 	return (E_STATE_SQUOTE);
 }
 
 static enum e_state	dquote_state(t_vector *input)
 {
-	if (is_end(input) == true)
-		return (E_STATE_ERROR);
-	else if (is_doublequote(input) == true)
+	if (is_doublequote(input) == true)
 		return (E_STATE_STRING);
+	else if (vct_getfirstchar(input) == '\0')
+		return (E_STATE_ERROR);
 	return (E_STATE_DQUOTE);
 }
 
@@ -111,11 +111,25 @@ int	quote_checker(char *str)
 
 int	handle_assign_quote(t_vector *input, t_vector *word)
 {
+	char 	c;
+	bool	quote_state = false;
+	bool	dquote_state = false;
+
 //	ft_printf("INPUT HANDLE ASSIGN= %s\n", vct_getstr(input));//DEBUG
-	while (vct_getlen(input) > 0 && is_end(input) == false)
-	{
+	//vct_add(word, vct_getfirstchar(input));
+	//vct_pop(input);
 	//	ft_printf("input[0] = %c\n", vct_getfirstchar(input));//DEBUG
-		vct_add(word, vct_getfirstchar(input));
+	while (vct_getlen(input) > 0)
+	{
+		c = vct_getfirstchar(input);
+		if (c == '\'')
+			quote_state = !quote_state;
+		else if (c == '\"')
+			dquote_state = dquote_state;
+		if (quote_state == false && dquote_state == false && is_end(input) == true)
+			break ;
+	//	ft_printf("input[0] = %c\n", vct_getfirstchar(input));//DEBUG
+		vct_add(word, c);
 		vct_pop(input);
 	}
 	return (SUCCESS);

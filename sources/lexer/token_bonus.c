@@ -20,11 +20,6 @@ size_t	get_token(char c)
 	//ft_printf("C = %c\n", c);//DEBUG
 	while (i < NB_GRAMMAR)
 	{
-		if (c == '=')
-		{
-			//ft_printf("RENTRE LA\n");//DEBUG
-			return (E_ASSIGN);
-		}
 		if (c == grammar[i])
 			return (i);
 		i++;

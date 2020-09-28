@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-/*static void	debug(int type)
+static void	debug(int type)
 {
 	if (type == 0)
 		ft_printf("token->type = %s\n", SEPARATOR);
@@ -34,7 +34,7 @@
 		ft_printf("token->type = E_START\n");
 	if (type == 15)
 		ft_printf("token->type = E_END\n");
-}*/
+}
 
 int			extract_token(t_list **token_list, char *str, size_t type)
 {
@@ -48,19 +48,18 @@ int			extract_token(t_list **token_list, char *str, size_t type)
 	token->data = NULL;
 	if ((type >= E_WORD && type < E_START) || type == E_SIMPLE_QUOTE || type == E_QUOTE)
 	{
-		//ft_printf("HELLO\n");//DEBUG
 		if (quote_checker(str) == FAILURE)
 		{
-			//ft_printf("HEY\n");//DEBUG
+		//	ft_printf("str = %s\n", str);//DEBUG
 			free(token);
 			return (FAILURE);
 		}	
 		token->data = ft_strdup(str);
 	}
 	token->type = type;
-	//ft_printf("token->data = %s\n", token->data); //DEBUG
-	//debug(token->type);//DEBUG
-	//ft_printf("\n");//DEBUG
+	ft_printf("token->data = %s\n", token->data); //DEBUG
+	debug(token->type);//DEBUG
+	ft_printf("\n");//DEBUG
 	node = ft_lstnew(token);
 	if (node == NULL)
 	{
@@ -107,53 +106,40 @@ static int	no_word(t_list **token_list, t_vector *word, size_t type)
 
 static int	process_lexer(t_vector *input, t_list **token_list, t_vector *word)
 {
-	ssize_t	type;
+	static ssize_t	type;
 	int		ret;
+	char	c;
 
 	ret = 0;
+	while ((c = vct_getfirstchar(input)) == ' ')
+		vct_pop(input);
 	type = get_double_token(input);
 //	ft_printf("INPUT = %s\n", vct_getstr(input));//DEBUG
 //	ft_printf("WORD = %s\n", vct_getstr(word));//DEBUG
 	if (type == NO_TYPE)
-		type = get_token(vct_getcharat(input, FIRST_CHAR));
+		type = get_token(c);
+	if (c == '\'' || c == '\"')
+		type = E_WORD;
 	//ft_printf("TYPE = %d\n", type);//DEBUG
 	if (type < E_WORD)
 	{
-	//	ft_printf("PREMIER IF\n");//DEBUG
 		ret = no_word(token_list, word, type);
-		if (ret == FAILURE)
-			return (FAILURE);
-		/*if (type == E_SIMPLE_QUOTE || type == E_QUOTE)
-		{
-		//	ft_printf("QUOTE OU SIMPLE_QUOTE\n");//DEBUG
-		//	ft_printf("WORD SIMPLE_QUOTE= %s\n", vct_getstr(word));//DEBUG
-			handle_assign_quote(input, word);
-		//	ft_printf("WORD AFTER= %s\n", vct_getstr(word));//DEBUG
-			ret = extract_token(token_list, vct_getstr(word), E_WORD);
-			vct_clear(word);
-			return (ret == FAILURE ? FAILURE : SUCCESS);
-		}*/ //A METTRE QUAND HANDLE_ASSIGN_QUOTE SERA MODIFIE
+		vct_pop(input);
+		if (type > DOUBLE_TOKEN)
+			vct_pop(input);
 	}
 	else
 	{
-		//ft_printf("ELSE\n");//DEBUG
-		if (type == E_ASSIGN && (vct_getcharat(input, 1) == '\"'
-				|| vct_getcharat(input, 1) == '\''))
-		{
-			handle_assign_quote(input, word);
-			ret = extract_token(token_list, vct_getstr(word), type);
-			vct_clear(word);
-			return (ret == FAILURE ? FAILURE : SUCCESS);
-		}
-		else
-			vct_add(word, vct_getcharat(input, FIRST_CHAR));
+		type = E_WORD;
+		handle_assign_quote(input, word);
+		if (vct_chr(word, '=') > 0)
+			type = E_ASSIGN;
+		else if (vct_getfirstchar(word) == '$')
+			type = E_EXP;
+		ret = extract_token(token_list, vct_getstr(word), type);
+		vct_clear(word);
 	}
-	if (ret != FAILURE)
-		vct_pop(input);
-	if (type > DOUBLE_TOKEN && type < EXP_ASSIGN)
-		vct_pop(input);
-	ret = FALSE;
-	return (SUCCESS);
+	return (ret);
 }
 
 
