@@ -43,11 +43,11 @@ int		main()
 	tester("coucou==|& &&>>>", "START#=@coucou==#|#WORD@&#&&#>>#>#END");
 	tester("&&&&&", "START#&&#&&#WORD@&#END");
 	tester("echo $TEST$TEST$TEST", "START#WORD@echo#$@$TEST$TEST$TEST#END");
-	tester("export 1TEST= ;", "START#WORD@export#WORD@1TEST=#;#END");
+	tester("export 1TEST= ;", "START#WORD@export#=@1TEST=#;#END");
 	tester("export TEST=LOL ; echo $TEST ;", "START#WORD@export#=@TEST=LOL#;#WORD@echo#$@$TEST#;#END");
 	tester("export TEST=LOL ; echo $TEST$TEST$TEST=lol$TEST", "START#WORD@export#=@TEST=LOL#;#WORD@echo#=@$TEST$TEST$TEST=lol$TEST#END");
 	tester("echo test > ls >> ls >> ls ; echo test >> ls; cat ls", "START#WORD@echo#WORD@test#>#WORD@ls#>>#WORD@ls#>>#WORD@ls#;#WORD@echo#WORD@test#>>#WORD@ls#;#@WORD@cat#WORD@ls#END");
 	tester("hello;haha", "START#WORD@hello#;#WORD@haha#END");
-	tester("", "");
+	//tester("", "");
 	return (EXIT_SUCCESS);
 }
