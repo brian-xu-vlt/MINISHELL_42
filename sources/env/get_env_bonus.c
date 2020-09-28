@@ -32,5 +32,10 @@ t_env		*get_env_struct(char *env_name)
 
 t_vector	*get_env_value_vct(char *env_name)
 {
-	return (get_env_struct(env_name)->env_value);
+	t_list	*env_node;
+
+	env_node = get_env_node(env_name);
+	if (env_node != NOT_FOUND)
+		return (((t_env *)env_node->content)->env_value);
+	return (NOT_FOUND);
 }
