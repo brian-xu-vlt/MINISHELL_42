@@ -4,16 +4,19 @@
 
 static bool	stop_assign_str(t_vector *input)
 {
-	t_vector *cpy_input;
+	t_vector	*cpy_input;
+	bool		ret;
 
 	cpy_input = vct_new();
 	vct_cpy(cpy_input, input);
 	vct_cutfrom(cpy_input, vct_getlen(cpy_input) - 2);
-	return (
-				ft_strequ(vct_getstr(cpy_input), OR) == TRUE
-				|| ft_strequ(vct_getstr(cpy_input), AND) == TRUE
-				|| ft_strequ(vct_getstr(cpy_input), DOUBLE_GREATER) == TRUE ?
-				true : false);
+	ret = false;
+	if (ft_strequ(vct_getstr(cpy_input), OR) == TRUE
+			|| ft_strequ(vct_getstr(cpy_input), AND) == TRUE
+			|| ft_strequ(vct_getstr(cpy_input), DOUBLE_GREATER) == TRUE)
+		ret = true;
+	vct_del(&cpy_input);
+	return (ret);
 				
 }
 
@@ -98,9 +101,11 @@ int	quote_checker(char *str)
 	//ft_printf("END ->%s \n", debug_error[state]);
 	if (state != E_STATE_END)
 	{
+		vct_del(&input);
 		//ft_printf("\033[31mError on -> %s\n\033[0m", debug_error[past_state]);
 		return (FAILURE);
 	}
+	vct_del(&input);
 	return (SUCCESS);
 }
 

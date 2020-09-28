@@ -28,12 +28,12 @@ int	test(t_vector *input)
 		//vct_del(&input);
 		return (FAILURE);
 	}
-	jobs = get_jobs(lexer_list);
+	/*jobs = get_jobs(lexer_list);
 	if (jobs == NULL)
 	{
 		free_list_token(&lexer_list);
 		return (FAILURE);
-	}	
+	}*/	
 	//debug_jobs(jobs);
 	free_list_token(&lexer_list);
 	return (SUCCESS);
