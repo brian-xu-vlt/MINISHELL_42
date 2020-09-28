@@ -106,8 +106,10 @@ int	quote_checker(char *str)
 
 int	handle_assign_quote(t_vector *input, t_vector *word)
 {
+//	ft_printf("INPUT HANDLE ASSIGN= %s\n", vct_getstr(input));//DEBUG
 	while (vct_getlen(input) > 0 && is_end(input) == false)
 	{
+	//	ft_printf("input[0] = %c\n", vct_getfirstchar(input));//DEBUG
 		vct_add(word, vct_getfirstchar(input));
 		vct_pop(input);
 	}
