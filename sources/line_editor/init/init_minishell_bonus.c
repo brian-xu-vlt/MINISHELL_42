@@ -63,7 +63,6 @@ void		init_minishell(void)
 	if (le == NULL)
 		exit_routine_le(ERR_MALLOC);
 	init_termcaps(le);
-	le->env = NULL;
 	le->termios_backup = NULL;
 	le->screen_flag = 0;
 	le->prompt_len = ft_strlen(PROMPT);

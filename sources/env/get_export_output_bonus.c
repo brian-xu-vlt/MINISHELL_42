@@ -60,7 +60,7 @@ void		get_export_output(void)
 	t_btree		*sorted_tree;
 
 	sorted_tree = NULL;
-	if ((cursor = get_struct(GET)->env) == NULL)
+	if ((cursor = get_env_data(GET)->env_lst) == NULL)
 		return ;
 	while (cursor != NULL)
 	{

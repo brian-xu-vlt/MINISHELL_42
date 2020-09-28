@@ -22,8 +22,11 @@ static void	increment_shlevel(void)
 
 void		init_env(char **env)
 {
+	t_env_data	*env_data;
 	int			index;
 
+	env_data = (t_env_data *)ft_calloc(1, sizeof(t_env_data));
+	get_env_data(env_data);
 	if (env == NULL)
 		return ;
 	index = 0;

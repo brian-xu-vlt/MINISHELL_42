@@ -5,22 +5,6 @@ void	free_btree_node(t_btree *node)
 	free((void *)node);
 }
 
-t_env	*init_env_struct(void)
-{
-	t_env	*new_env_struct;
-
-	new_env_struct = (t_env *)malloc(sizeof(t_env));
-	if (new_env_struct != NULL)
-	{
-		new_env_struct->env_name = NULL;
-		new_env_struct->env_value = NULL;
-		new_env_struct->export_flag = FALSE;
-	}
-	else
-		exit_routine_le(ERR_MALLOC);
-	return (new_env_struct);
-}
-
 int		get_env_name_len(char *env)
 {
 	int		i;

@@ -36,7 +36,7 @@ char		**get_envp(void)
 	char	**envp;
 	t_env	*content;
 
-	if ((cursor = get_struct(GET)->env) == NULL)
+	if ((cursor = get_env_data(GET)->env_lst) == NULL)
 		return (NULL);
 	lst_size = ft_lstsize(cursor);
 	if ((envp = (char **)ft_calloc(sizeof(char *), lst_size + 1)) == NULL)

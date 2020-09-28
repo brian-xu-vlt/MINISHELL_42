@@ -128,7 +128,6 @@ enum	e_optional_termcap
 
 typedef struct	s_line_editor
 {
-	t_list			*env;  // move to somewhere else
 	struct termios	*termios_backup;
 	char			*termcap[NB_ESSENTIAL_TERMCAP + NB_OPTIONAL_TERMCAP];
 	char			*cmd_line_backup;
@@ -256,6 +255,7 @@ void		print_env(char *env_name);
 void		get_export_output(void);
 char 		**get_envp(void); //free the char ** returned!
 
+t_env_data	*get_env_data(t_env_data *mem);
 t_env		*get_env_struct(char *env_name);
 t_list		*get_env_node(char *env_name);
 t_vector	*get_env_value_vct(char *env_name);
@@ -264,5 +264,4 @@ void		free_btree_node(t_btree *node);
 int			get_env_name_len(char *env);
 void		parse_env(char *env, char **env_name, t_vector **env_value,
 															int *append_flag);
-t_env		*init_env_struct();
 #endif

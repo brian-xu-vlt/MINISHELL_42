@@ -2,17 +2,19 @@
 
 static t_env	*store_new_env(char *env_name, t_vector *env_value)
 {
-	t_le		*le;
 	t_env		*new_env;
+	t_env_data	*env_data;
 
-	le = get_struct(GET);
-	new_env = init_env_struct();
+	env_data = get_env_data(GET);
+	new_env = (t_env *)ft_calloc(1, sizeof(t_env));
+	if (new_env == NULL)
+		exit_routine_le(ERR_MALLOC);
 	new_env->env_name = env_name;
 	new_env->env_value = env_value;
-	if (le->env == NULL)
-		le->env = ft_lstnew(new_env);
+	if (env_data->env_lst == NULL)
+		env_data->env_lst = ft_lstnew(new_env);
 	else
-		ft_lstadd_back(&le->env, ft_lstnew(new_env));
+		ft_lstadd_back(&env_data->env_lst, ft_lstnew(new_env));
 	return (new_env);
 }
 

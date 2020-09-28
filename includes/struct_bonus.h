@@ -7,8 +7,8 @@
 
 typedef struct					s_env_data
 {
-	t_list						*env_lst;
 	char						**envp;
+	t_list						*env_lst;
 }								t_env_data;
 
 typedef struct					s_env

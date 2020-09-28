@@ -8,7 +8,7 @@ t_list		*get_env_node(char *target_env_name)
 
 	if (target_env_name == NULL)
 		return (NOT_FOUND);
-	cursor = get_struct(GET)->env;
+	cursor = get_env_data(GET)->env_lst;
 	target_name_len = ft_strlen(target_env_name);
 	while (cursor != NULL)
 	{
@@ -38,4 +38,15 @@ t_vector	*get_env_value_vct(char *env_name)
 	if (env_node != NOT_FOUND)
 		return (((t_env *)env_node->content)->env_value);
 	return (NOT_FOUND);
+}
+
+t_env_data	*get_env_data(t_env_data *mem)
+{
+	static t_env_data	*mem_backup = NULL;
+
+	if (mem != NULL)
+		mem_backup = mem;
+	else if (mem == NULL && mem_backup == NULL)
+		exit_routine_le(ERR_MALLOC);
+	return (mem_backup);
 }
