@@ -36,6 +36,7 @@
 # define	ERR_ENV			"Could not load environement variables"
 # define	ERR_NEW_VCT		"Could not malloc vector"
 # define	ERR_VCT			"Vector function failed"
+# define	ERR_ENVP		"Envp is null"
 # define	ERR_SCREEN_SIZE	"Screen size is too small"
 # define	ERR_TERM_NAME	"Terminal type variable could not be located"
 # define	ERR_TERMCAP		"Minishell is not (yet) compatible to this Terminal"
@@ -253,7 +254,7 @@ void		init_env(char **env);
 
 void		print_env(char *env_name);
 void		get_export_output(void);
-char 		**get_envp(void); //free the char ** returned!
+void		update_envp(void);
 
 t_env_data	*get_env_data(t_env_data *mem);
 t_env		*get_env_struct(char *env_name);

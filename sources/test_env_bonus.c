@@ -30,11 +30,15 @@ static void	debug_store_env(t_vector *input)
 	store_internal_var(str);
 }
 
-void	print_envp(char **envp)
+void	print_envp(void)
 {
+	char	**envp;
 	int		i;
 
 	i = 0;
+	envp = get_env_data(GET)->envp;
+	if (envp == NULL)
+		exit_routine_le(ERR_ENVP);
 	while (envp[i] != NULL)
 	{
 		ft_putstr_fd(envp[i++], STDERR_FILENO);
@@ -42,20 +46,8 @@ void	print_envp(char **envp)
 	}
 }
 
-void	free_envp(char **envp)
-{
-	int		i;
-
-	i = 0;
-	while (envp[i] != NULL)
-		free(envp[i++]);
-	free(envp);
-}
-
 int	test_env(t_vector *input)
 {
-	char	**envp;
-
 	ft_printf("\n%s\n", vct_getstr(input));
 	if (ft_strncmp(vct_getstr(input), "1", 2) == 0)
 		print_env(ALL);	
@@ -68,24 +60,20 @@ int	test_env(t_vector *input)
 	if (ft_strncmp(vct_getstr(input), "print", 5) == 0)
 		debug_print_env(input);	
 	if (ft_strncmp(vct_getstr(input), "env", 4) == 0)
-	{
-		envp = get_envp();
-		print_envp(envp);
-		free_envp(envp);
-		envp = NULL;
-	}
+		print_envp();
 	if (ft_strncmp(vct_getstr(input), "./Minishell", 12) == 0)
 	{
-		envp = get_envp();
+		return (SUCCESS);
+	/*		envp = get_envp();
 		char *argv[2];
 		argv[0] = ft_strdup("./Minishell");
 		argv[1] = NULL;
 		execve("./Minishell", argv, envp);
 		free(argv[0]);
 		free(argv[1]);
-		free_envp(envp);
+		//free_envp(envp);
 		envp = NULL;
-	}
+*/	}
 	return (SUCCESS);
 }
 

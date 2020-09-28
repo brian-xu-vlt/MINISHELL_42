@@ -63,4 +63,5 @@ void			store_internal_var(char *env)
 void			export_env(char *env)
 {
 	store_env(env, TRUE);
+	update_envp();
 }
