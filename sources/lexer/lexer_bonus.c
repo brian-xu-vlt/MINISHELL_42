@@ -79,8 +79,7 @@ static int	extract_token_word(t_list **token_list, t_vector *vct)
 	ret = SUCCESS;
 	if (vct_chr(vct, EXP) != FAILURE && vct_chr(vct, ASSIGN) == FAILURE)
 		ret = extract_token(token_list, vct_getstr(vct), E_EXP);
-	else if (vct_chr(vct, ASSIGN) != FAILURE && vct_chr(vct, ASSIGN) != 0
-			&& vct_chr(vct, ASSIGN) != (ssize_t)vct_getlen(vct) - 1)
+	else if (vct_chr(vct, ASSIGN) != FAILURE && vct_chr(vct, ASSIGN) != 0)
 		ret = extract_token(token_list, vct_getstr(vct), E_ASSIGN);
 	else
 		ret = extract_token(token_list, vct_getstr(vct), E_WORD);

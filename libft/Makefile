@@ -170,6 +170,7 @@ SRCS += vct_getcharat.c
 SRCS += vct_clear.c
 SRCS += vct_chrnstr.c
 SRCS += vct_nbchar.c
+SRCS += vct_getlastchar.c
 
 SRCS += get_next_line.c
 SRCS += get_next_line_multifd.c
