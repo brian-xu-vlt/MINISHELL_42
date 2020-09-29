@@ -36,6 +36,7 @@
 # define	ERR_ENV			"Could not load environement variables"
 # define	ERR_NEW_VCT		"Could not malloc vector"
 # define	ERR_VCT			"Vector function failed"
+# define	ERR_ENVP		"Envp is null"
 # define	ERR_SCREEN_SIZE	"Screen size is too small"
 # define	ERR_TERM_NAME	"Terminal type variable could not be located"
 # define	ERR_TERMCAP		"Minishell is not (yet) compatible to this Terminal"
@@ -128,7 +129,6 @@ enum	e_optional_termcap
 
 typedef struct	s_line_editor
 {
-	t_list			*env;  // move to somewhere else
 	struct termios	*termios_backup;
 	char			*termcap[NB_ESSENTIAL_TERMCAP + NB_OPTIONAL_TERMCAP];
 	char			*cmd_line_backup;
@@ -226,7 +226,7 @@ void		move_cursor_at_index(int index_to);
 
 void		init_prompt(void);
 void		init_term_mode(void);
-void		init_minishell(void);
+void		init_line_editor(t_vector *cmd_line);
 void		update_window_size(void);
 
 /*************************************************
@@ -234,35 +234,4 @@ void		update_window_size(void);
 ************************************************/
 void		line_editor(void);
 
-/*
-**##############################################################################
-**##############################      ENV       ################################
-**##############################    MANAGER     ################################
-**##############################                ################################
-**##############################################################################
-*/
-
-# define	ALL				NULL
-# define	NOT_FOUND		NULL
-
-void		del_env_elem(void *elem_content);
-void		delete_env(char *env_name);
-
-void		store_internal_var(char *env);
-void		export_env(char *env);
-void		init_env(char **env);
-
-void		print_env(char *env_name);
-void		get_export_output(void);
-char 		**get_envp(void); //free the char ** returned!
-
-t_env		*get_env_struct(char *env_name);
-t_list		*get_env_node(char *env_name);
-t_vector	*get_env_value_vct(char *env_name);
-
-void		free_btree_node(t_btree *node);
-int			get_env_name_len(char *env);
-void		parse_env(char *env, char **env_name, t_vector **env_value,
-															int *append_flag);
-t_env		*init_env_struct();
 #endif

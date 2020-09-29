@@ -28,7 +28,22 @@ static char	*create_env(char *env_name, t_vector *env_value)
 	return (ret_str);
 }
 
-char		**get_envp(void)
+void	free_envp(void)
+{
+	char	**envp;
+	int		i;
+
+	i = 0;
+	envp = get_env_data(GET)->envp;
+	if (envp == NULL)
+		return ;	
+	while (envp[i] != NULL)
+		free(envp[i++]);
+	free(envp);
+	envp = NULL;
+}
+
+void		update_envp(void)
 {
 	int		i;
 	int		lst_size;
@@ -36,8 +51,9 @@ char		**get_envp(void)
 	char	**envp;
 	t_env	*content;
 
-	if ((cursor = get_struct(GET)->env) == NULL)
-		return (NULL);
+	if ((cursor = get_env_data(GET)->env_lst) == NULL)
+		return ;
+	free_envp();
 	lst_size = ft_lstsize(cursor);
 	if ((envp = (char **)ft_calloc(sizeof(char *), lst_size + 1)) == NULL)
 		exit_routine_le(ERR_MALLOC);
@@ -54,5 +70,5 @@ char		**get_envp(void)
 		}
 		cursor = cursor->next;
 	}
-	return (envp);
+	get_env_data(GET)->envp = envp;
 }

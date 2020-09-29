@@ -13,7 +13,7 @@ void	print_env(char *env_name)
 	t_vector	*env_value;
 	t_list		*cursor;
 
-	cursor = get_struct(GET)->env;
+	cursor = get_env_data(GET)->env_lst;
 	if (env_name == ALL)
 	{
 		while (cursor != NULL)

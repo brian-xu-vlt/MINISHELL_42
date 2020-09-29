@@ -20,13 +20,13 @@ static void	free_history_list(void)
 
 static void	free_env_list(void)
 {
-	t_le		*le;
+	t_env_data		*env_data;
 
-	le = get_struct(GET);
-	if (le->env != NULL)
+	env_data = get_env_data(GET);
+	if (env_data->env_lst != NULL)
 	{
-		ft_lstclear(&le->env, del_env_elem);
-		le->env = NULL;
+		ft_lstclear(&env_data->env_lst, del_env_elem);
+		env_data->env_lst = NULL;
 	}
 }
 
@@ -36,7 +36,7 @@ void		exit_routine_le(char *err_code)
 
 	le = get_struct(GET);
 	if (le->termios_backup != NULL)
-	tcsetattr(STDIN_FILENO, TCSADRAIN, le->termios_backup);
+		tcsetattr(STDIN_FILENO, TCSADRAIN, le->termios_backup);
 	if (le->termcap[VISIBLE_CURSOR] != NULL)
 		tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
 	if (le->cmd_line_backup != NULL)
@@ -44,6 +44,7 @@ void		exit_routine_le(char *err_code)
 	vct_del(&le->cmd_line);
 	vct_del(&le->clipboard);
 	free_env_list();
+	free_envp();
 	free_history_list();
 	if (err_code != NULL)
 	{
