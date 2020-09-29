@@ -18,7 +18,7 @@ int		main()
 	tester("echo 2 > out1 >> out2 .", "START#WORD@echo#WORD@2#>#WORD@out1#>>#WORD@out2#WORD@.#END");
 	tester(" cat < test .", "START#WORD@cat#<#WORD@test#WORD@.#END");
 	tester("cd ../../../../../.. . pwd . /", "START#WORD@cd#WORD@../../../../../..#WORD@.#WORD@pwd#WORD@.#WORD@/#END");
-	tester("c$var Makefile (avec $var=at) .", "START#$@c$var#WORD@Makefile#WORD@(avec#=@$var=at)#WORD@.#END");
+	tester("c$var Makefile (avec $var=at) .", "START#WORD@c$var#WORD@Makefile#WORD@(avec#=@$var=at)#WORD@.#END");
 	tester("$LESS$VAR .", "START#$@$LESS$VAR#WORD@.#END");
 	tester("echo bonjour > $test w/ t", "START#WORD@echo#WORD@bonjour#>#$@$test#WORD@w/#WORD@t#END");
 	tester("echo $PATH", "START#WORD@echo#$@$PATH#END");
