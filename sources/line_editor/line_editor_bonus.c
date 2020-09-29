@@ -24,8 +24,6 @@ void			line_editor(void)
 	t_le	*le;
 
 	le = get_struct(GET);
-	if (le->cmd_line == NULL)
-		exit_routine_le(ERR_NEW_VCT);
 	update_window_size();
 	init_prompt();
 	init_selection();

@@ -54,7 +54,7 @@ static void	fill_termcaps(t_le *le)
 	}
 }
 
-void		init_minishell(void)
+void		init_line_editor(t_vector *cmd_line)
 {
 	t_le	*le;
 
@@ -67,9 +67,9 @@ void		init_minishell(void)
 	le->screen_flag = 0;
 	le->prompt_len = ft_strlen(PROMPT);
 	le->history_cache = NULL;
-	le->cmd_line_backup = NULL;
 	le->clipboard = vct_new();
-	le->cmd_line = vct_new();
+	le->cmd_line_backup = NULL;
+	le->cmd_line = cmd_line;
 	le->srows = 0;
 	le->scols = 0;
 	if (le->cmd_line == NULL || le->clipboard == NULL)

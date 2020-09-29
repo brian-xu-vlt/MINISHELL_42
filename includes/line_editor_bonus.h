@@ -226,7 +226,7 @@ void		move_cursor_at_index(int index_to);
 
 void		init_prompt(void);
 void		init_term_mode(void);
-void		init_minishell(void);
+void		init_line_editor(t_vector *cmd_line);
 void		update_window_size(void);
 
 /*************************************************
@@ -234,35 +234,4 @@ void		update_window_size(void);
 ************************************************/
 void		line_editor(void);
 
-/*
-**##############################################################################
-**##############################      ENV       ################################
-**##############################    MANAGER     ################################
-**##############################                ################################
-**##############################################################################
-*/
-
-# define	ALL				NULL
-# define	NOT_FOUND		NULL
-
-void		del_env_elem(void *elem_content);
-void		delete_env(char *env_name);
-
-void		store_internal_var(char *env);
-void		export_env(char *env);
-void		init_env(char **env);
-
-void		print_env(char *env_name);
-void		get_export_output(void);
-void		update_envp(void);
-
-t_env_data	*get_env_data(t_env_data *mem);
-t_env		*get_env_struct(char *env_name);
-t_list		*get_env_node(char *env_name);
-t_vector	*get_env_value_vct(char *env_name);
-
-void		free_btree_node(t_btree *node);
-int			get_env_name_len(char *env);
-void		parse_env(char *env, char **env_name, t_vector **env_value,
-															int *append_flag);
 #endif

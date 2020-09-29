@@ -17,7 +17,7 @@ static void	free_history_list(void)
 		ft_lstclear(&le->history_cache, del_history_elem);
 	le->history_cache = NULL;
 }
-/*
+
 static void	free_env_list(void)
 {
 	t_env_data		*env_data;
@@ -29,21 +29,22 @@ static void	free_env_list(void)
 		env_data->env_lst = NULL;
 	}
 }
-*/
+
 void		exit_routine_le(char *err_code)
 {
 	t_le		*le;
 
 	le = get_struct(GET);
 	if (le->termios_backup != NULL)
-	tcsetattr(STDIN_FILENO, TCSADRAIN, le->termios_backup);
+		tcsetattr(STDIN_FILENO, TCSADRAIN, le->termios_backup);
 	if (le->termcap[VISIBLE_CURSOR] != NULL)
 		tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
 	if (le->cmd_line_backup != NULL)
 		free(le->cmd_line_backup);
 	vct_del(&le->cmd_line);
 	vct_del(&le->clipboard);
-//	free_env_list();
+	free_env_list();
+	free_envp();
 	free_history_list();
 	if (err_code != NULL)
 	{

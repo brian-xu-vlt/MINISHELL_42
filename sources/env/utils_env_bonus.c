@@ -1,11 +1,11 @@
 #include "minishell_bonus.h"
 
-void	free_btree_node(t_btree *node)
+void			free_btree_node(t_btree *node)
 {
 	free((void *)node);
 }
 
-int		get_env_name_len(char *env)
+static int		get_env_name_len(char *env)
 {
 	int		i;
 
@@ -15,7 +15,7 @@ int		get_env_name_len(char *env)
 	return (i);
 }
 
-void	parse_env(char *env, char **env_name, t_vector **env_value,
+void			parse_env(char *env, char **env_name, t_vector **env_value,
 															int *append_flag)
 {
 	int		name_len;
