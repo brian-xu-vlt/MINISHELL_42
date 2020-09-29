@@ -24,7 +24,9 @@
 
 int		test(t_vector *input);
 int		test_env(t_vector *input);
+int		test_executor(t_vector *input);
 
+void	executor(t_cmd *command);
 t_list	*lexer(t_vector *input);
 size_t	get_token(char c);
 ssize_t	get_double_token(t_vector *input);

@@ -32,4 +32,6 @@
 #define N_SIMPLE_QUOTE	1
 #define N_QUOTE			2
 	
+#define NB_FD			3
+
 #endif

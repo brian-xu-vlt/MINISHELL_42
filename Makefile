@@ -54,6 +54,8 @@ endif
 
 SRCS += test_bonus.c
 SRCS += test_env_bonus.c
+SRCS += test_executor_bonus.c
+SRCS += executor_bonus.c
 SRCS += lexer_bonus.c
 SRCS += token_bonus.c
 SRCS += free_list_bonus.c
@@ -94,6 +96,7 @@ OBJ_DIR = ./objs/
 vpath %.c sources/
 vpath %.c sources/lexer
 vpath %.c sources/env
+vpath %.c sources/executor
 vpath %.c sources/parser
 vpath %.c sources/line_editor
 vpath %.c sources/line_editor/debug
