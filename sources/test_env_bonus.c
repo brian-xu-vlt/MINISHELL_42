@@ -57,7 +57,8 @@ void	print_envp(void)
 
 int	test_env(t_vector *input)
 {
-	ft_printf("\n%s\n", vct_getstr(input));
+	//REMOVE REMOVE REMOVE
+	dprintf(STDERR_FILENO, "\n%s\n", vct_getstr(input)); //do a printf wrapper OR debug function
 	if (ft_strncmp(vct_getstr(input), "1", 2) == 0)
 		print_env(ALL);	
 	if (ft_strncmp(vct_getstr(input), "2", 2) == 0)
