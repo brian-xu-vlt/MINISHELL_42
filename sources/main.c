@@ -23,7 +23,6 @@ int			main(int ac, char **av, char **envp)
 	cmd_line = vct_new();
 	if (cmd_line == NULL)
 		exit_routine_le(ERR_MALLOC);
-	init_line_editor(cmd_line);
 	while (1)
 	{
 		read_loop(cmd_line);
