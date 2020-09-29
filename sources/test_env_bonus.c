@@ -76,7 +76,7 @@ int	test_env(t_vector *input)
 	if (ft_strncmp(vct_getstr(input), "./Minishell", 12) == 0)
 	{
 		return (SUCCESS);
-		envp = get_envp();
+/*		envp = get_envp();
 		char *argv[2];
 		argv[0] = ft_strdup("./Minishell");
 		argv[1] = NULL;
@@ -84,7 +84,7 @@ int	test_env(t_vector *input)
 		free(argv[0]);
 		free(argv[1]);
 		envp = NULL;
-	}
+*/	}
 	return (SUCCESS);
 }
 
