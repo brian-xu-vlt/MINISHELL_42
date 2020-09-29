@@ -111,10 +111,14 @@ static int	process_lexer(t_vector *input, t_list **token_list, t_vector *word)
 	char	c;
 
 	ret = 0;
+	//ft_printf("INPUT FIRST = %s\n", vct_getstr(input));//DEBUG
 	while ((c = vct_getfirstchar(input)) == ' ')
 		vct_pop(input);
+	if (vct_getlen(input) == 0)
+		return (ret);
 	type = get_double_token(input);
-//	ft_printf("INPUT = %s\n", vct_getstr(input));//DEBUG
+	//ft_printf("INPUT SECOND = %s\n", vct_getstr(input));//DEBUG
+	//printf("len_input = %zu\n", vct_getlen(input));//DEBUG
 //	ft_printf("WORD = %s\n", vct_getstr(word));//DEBUG
 	if (type == NO_TYPE)
 		type = get_token(c);
@@ -123,6 +127,7 @@ static int	process_lexer(t_vector *input, t_list **token_list, t_vector *word)
 	//ft_printf("TYPE = %d\n", type);//DEBUG
 	if (type < E_WORD)
 	{
+		//ft_printf("NOOOON\n");//DEBUG
 		ret = no_word(token_list, word, type);
 		vct_pop(input);
 		if (type > DOUBLE_TOKEN)

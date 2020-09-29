@@ -125,7 +125,7 @@ int	handle_assign_quote(t_vector *input, t_vector *word)
 		if (c == '\'')
 			quote_state = !quote_state;
 		else if (c == '\"')
-			dquote_state = dquote_state;
+			dquote_state = !dquote_state;
 		if (quote_state == false && dquote_state == false && is_end(input) == true)
 			break ;
 	//	ft_printf("input[0] = %c\n", vct_getfirstchar(input));//DEBUG
