@@ -53,7 +53,6 @@ SRCS += test_bonus.c
 SRCS += lexer_bonus.c
 SRCS += token_bonus.c
 SRCS += free_list_bonus.c
-SRCS += lexer_utils_bonus.c
 SRCS += parser_bonus.c
 SRCS += parser_process_bonus.c
 SRCS += debug_tools.c
@@ -82,7 +81,8 @@ SRCS += print_env_bonus.c
 SRCS += store_env_bonus.c
 SRCS += line_editor_bonus.c
 SRCS += job_command_bonus.c
-SRCS += lexer_assign_quote_bonus.c
+SRCS += handle_no_word_bonus.c
+SRCS += handle_no_word_utils_bonus.c
 
 OBJ_DIR = ./objs/
 
