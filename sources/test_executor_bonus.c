@@ -25,6 +25,8 @@ static t_cmd	*fake_cmd_parser(t_vector *input)
 		return (fill_cmd_struct("/bin/ls", "-l"));
 	if (ft_strncmp(vct_getstr(input), "2", 2) == 0)
 		return (fill_cmd_struct("/bin/ls", NULL));
+	if (ft_strncmp(vct_getstr(input), "3", 2) == 0)
+		return (fill_cmd_struct("/bin/cat", "iqioweuqwei"));
 	else
 		return (NULL);
 }
