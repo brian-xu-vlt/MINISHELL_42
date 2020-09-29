@@ -5,7 +5,7 @@ static void	init_library_db(void)
 	int			ret;
 	const char	*term_name;
 
-	term_name = getenv("TERM"); // to be changed to use main char *env[]
+	term_name = getenv("TERM"); // to be changed MINISHELL get env !!!!!!!
 	if (term_name == NULL)
 		exit_routine_le(ERR_TERM_NAME);
 	if (ft_strncmp(term_name, "ansi", 5) == 0)
@@ -15,18 +15,6 @@ static void	init_library_db(void)
 		exit_routine_le(ERR_TERMCAP);
 }
 
-static void	init_termcaps(t_le *le)
-{
-	int		i;
-
-	i = 0;
-	while (i < NB_ESSENTIAL_TERMCAP + NB_OPTIONAL_TERMCAP)
-	{
-		le->termcap[i] = NULL;
-		i++;
-	}
-
-}
 static void	fill_termcaps(t_le *le)
 {
 	int		i;
@@ -58,22 +46,15 @@ void		init_line_editor(t_vector *cmd_line)
 {
 	t_le	*le;
 
-	le = (t_le *)malloc(sizeof(t_le));
+	le = (t_le *)ft_calloc(1, sizeof(t_le));
 	get_struct(le);
 	if (le == NULL)
 		exit_routine_le(ERR_MALLOC);
-	init_termcaps(le);
-	le->termios_backup = NULL;
-	le->screen_flag = 0;
 	le->prompt_len = ft_strlen(PROMPT);
-	le->history_cache = NULL;
 	le->clipboard = vct_new();
-	le->cmd_line_backup = NULL;
-	le->cmd_line = cmd_line;
-	le->srows = 0;
-	le->scols = 0;
-	if (le->cmd_line == NULL || le->clipboard == NULL)
+	if (le->clipboard == NULL)
 		exit_routine_le(ERR_MALLOC);
+	le->cmd_line = cmd_line;
 	init_library_db();
 	init_term_mode();
 	fill_termcaps(le);

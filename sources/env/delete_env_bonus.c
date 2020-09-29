@@ -47,4 +47,5 @@ void		delete_env(char *env_name)
 	env_node = get_env_node(env_name);
 	if (env_node != NOT_FOUND)
 		ft_lstdel_node(&get_env_data(GET)->env_lst, env_node, del_env_elem);
+	update_envp();
 }

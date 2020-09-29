@@ -30,6 +30,15 @@ static void	debug_store_env(t_vector *input)
 	store_internal_var(str);
 }
 
+static void	unset_env(t_vector *input)
+{
+	char	*str;
+
+	str = vct_getstr(input);
+	str += ft_strlen("unset") + 1;
+	delete_env(str);
+}
+
 void	print_envp(void)
 {
 	char	**envp;
@@ -61,6 +70,8 @@ int	test_env(t_vector *input)
 		debug_print_env(input);	
 	if (ft_strncmp(vct_getstr(input), "env", 4) == 0)
 		print_envp();
+	if (ft_strncmp(vct_getstr(input), "unset", 5) == 0)
+		unset_env(input);
 	if (ft_strncmp(vct_getstr(input), "./Minishell", 12) == 0)
 	{
 		return (SUCCESS);
