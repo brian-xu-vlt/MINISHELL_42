@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-/*static void	debug(int type)
+void	debug(int type)
 {
 	if (type == 0)
 		ft_printf("token->type = %s\n", SEPARATOR);
@@ -34,7 +34,7 @@
 		ft_printf("token->type = E_START\n");
 	if (type == 15)
 		ft_printf("token->type = E_END\n");
-}*/
+}
 
 static int	no_word(t_list **token_list, t_vector *word, size_t type)
 {
@@ -113,8 +113,8 @@ t_list		*lexer(t_vector *input)
 	{
 		if (process_lexer(input, &token_list, word) == FAILURE)
 		{
-			exit_routine_lexer(word, NULL, NULL, NULL);
-			free_list_token(&token_list);
+			//exit_routine_lexer(word, NULL, NULL, NULL);
+			//free_list_token(&token_list);
 			return (NULL);
 		}
 	}

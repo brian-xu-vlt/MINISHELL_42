@@ -18,15 +18,17 @@ int	test(t_vector *input)
 	lexer_list = lexer(input);
 	if (lexer_list == NULL)
 	{
+		ft_printf("\033[31;01m[!] ERROR LEXER [!]\033[00m\n");
 		free_list_token(&lexer_list);
 		//vct_del(&input);
-		return (FAILURE);
+		//return (FAILURE);
 	}
 	if (parser_token(lexer_list) == FALSE)
 	{
+		ft_printf("\033[31;01m[!] ERROR PARSER [!]\033[00m\n");
 		free_list_token(&lexer_list);
 		//vct_del(&input);
-		return (FAILURE);
+		//return (FAILURE);
 	}
 	/*jobs = get_jobs(lexer_list);
 	if (jobs == NULL)
