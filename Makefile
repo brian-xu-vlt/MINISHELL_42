@@ -49,7 +49,9 @@ else
 	SRCS += main_bonus.c
 endif
 
-SRCS += test_bonus.c
+SRCS += test_lexer_bonus.c
+SRCS += test_parser_bonus.c
+SRCS += test_jobs_bonus.c
 SRCS += lexer_bonus.c
 SRCS += token_bonus.c
 SRCS += free_list_bonus.c

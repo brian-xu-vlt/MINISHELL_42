@@ -23,7 +23,9 @@
 /*******************************_FUNCTION_*************************************/
 /******************************************************************************/
 
-int		test(t_vector *input);
+t_list	*test_lexer(t_vector *input);
+int		test_jobs(t_list *lexer_list);
+int		test_parser(t_list *lexer_list);
 
 t_list	*lexer(t_vector *input);
 size_t	get_token(char c);
