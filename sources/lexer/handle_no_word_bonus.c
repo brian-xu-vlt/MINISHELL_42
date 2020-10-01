@@ -62,7 +62,7 @@ int			quote_checker(char *str)
 	return (SUCCESS);
 }
 
-int			handle_assign_quote(t_vector *input, t_vector *word)
+int			handle_assign_quote(t_vector *input, t_vector *word, t_list **token_list)
 {
 	char	c;
 	bool	quote_state;
@@ -73,6 +73,20 @@ int			handle_assign_quote(t_vector *input, t_vector *word)
 	while (vct_getlen(input) > 0)
 	{
 		c = vct_getfirstchar(input);
+		while (c == '(' && vct_getlen(input) != 1)
+		{
+			if (extract_token(token_list, "(", E_OPEN_BRACKET) == FAILURE)
+				return (FALSE);
+			vct_pop(input);
+			c = vct_getfirstchar(input);
+		}
+		while (c == ')' && vct_getlen(input) != 1)
+		{
+			if (extract_token(token_list, ")", E_CLOSE_BRACKET) == FAILURE)
+				return (FALSE);
+			vct_pop(input);
+			c = vct_getfirstchar(input);
+		}
 		if (c == '\'')
 			quote_state = !quote_state;
 		else if (c == '\"')

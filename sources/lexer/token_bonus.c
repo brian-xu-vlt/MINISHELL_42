@@ -28,12 +28,17 @@ size_t		get_token(char c)
 
 static int	extract_data(size_t type, char *str, t_token *token)
 {
-	if ((type >= E_WORD && type < E_START) || type == E_SIMPLE_QUOTE
+	ft_printf("STR = %s\n", str);//DEBUG
+	printf("TYPE = %zu\n", type);//DEBUG
+	if ((type >= E_WORD && type < E_OPEN_BRACKET) || type == E_SIMPLE_QUOTE
 			|| type == E_QUOTE)
 	{
 		if (quote_checker(str) == FAILURE)
 			return (FAILURE);
-		token->data = ft_strdup(str);
+		if (ft_strchr(str, '(') == NULL || ft_strchr(str, '(') == NULL)
+			token->data = ft_strdup(str);
+		else
+			ft_printf("ELSE\n");//DEBUG
 	}
 	return (SUCCESS);
 }

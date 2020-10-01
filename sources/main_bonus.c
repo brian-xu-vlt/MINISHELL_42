@@ -41,8 +41,8 @@ int		main(int ac, char **av, char **env)
 		if (ft_strncmp(vct_getstr(le->cmd_line), "exit", 5) == 0)
 			break ;
 		lexer_list = test_lexer(le->cmd_line);
-		if (lexer_list != NULL)
-			ret_parser = test_parser(lexer_list);
+		/*if (lexer_list != NULL)
+			ret_parser = test_parser(lexer_list);*/
 		/*if (ret_parser != FALSE)
 			jobs = test_jobs(lexer_list)*/
 		free_list_token(&lexer_list);
