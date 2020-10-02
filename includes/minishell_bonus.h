@@ -39,7 +39,8 @@ int		parser_token(t_list *token_list);
 int		process_parser(t_list *list, t_valid_token *valid_token);
 t_list	*get_jobs(t_list *token_list);
 void	free_list_jobs(t_list **jobs);
-int		handle_assign_quote(t_vector *input, t_vector *word, t_list **token_list);
+int		handle_assign_quote(t_vector *input, t_vector *word,
+								t_list **token_list, ssize_t type);
 int		quote_checker(char *str);
 bool	is_simplequote(t_vector *input);
 typedef	enum e_state	(*t_state)(t_vector *);
@@ -48,6 +49,7 @@ bool	is_simplequote(t_vector *input);
 bool	is_end(t_vector *input);
 int		extract_token_word(t_list **token_list, t_vector *vct);
 void	debug(int type); //A ENLEVER
-char	*handle_bracket(t_token *token, char *str, t_list **token_list);
+char	*handle_bracket(char *str, t_list **token_list);
+int		get_new_type(t_vector *input);
 
 #endif

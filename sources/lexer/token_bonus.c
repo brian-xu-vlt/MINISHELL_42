@@ -30,6 +30,7 @@ static char *extract_data(size_t type, char *str, t_token *token, t_list **token
 {
 	char	*ret;
 
+	//ft_printf("STR = %s\n", str);//DEBUG
 	if ((type >= E_WORD && type < E_OPEN_BRACKET) || type == E_SIMPLE_QUOTE
 			|| type == E_QUOTE)
 	{
@@ -39,8 +40,24 @@ static char *extract_data(size_t type, char *str, t_token *token, t_list **token
 			token->data = ft_strdup(str);
 		else
 		{
-			ret = handle_bracket(token, str, token_list);
-			ft_printf("RET = %s\n", ret);//DEBUG
+			if (ft_strchr(str, C_QUOTE) != NULL
+					|| ft_strchr(str, C_SIMPLE_QUOTE) != NULL
+					|| ft_strchr(str, ASSIGN) != NULL
+					|| ft_strchr(str, EXP) != NULL)
+			{
+				if (str[ft_strlen(str) - 1] == '(' || str[ft_strlen(str) - 1] == ')')
+				{
+					//ft_printf("ICI ENFAIT\n");
+					ret = handle_bracket(str, token_list);
+					if (ret == NULL)
+						return (NULL);
+					return (ret);
+				}
+				//ft_printf("ICI ?\n");//DEBUG
+				token->data = ft_strdup(str);
+				return (NULL);
+			}
+			ret = handle_bracket(str, token_list);
 			if (ret == NULL)
 				return (NULL);
 			return (ret);

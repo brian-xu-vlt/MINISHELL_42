@@ -32,7 +32,7 @@ static enum e_state	string_state(t_vector *input)
 int			quote_checker(char *str)
 {
 	t_state			function_state[] = {string_state, squote_state,
-											dquote_state};
+		dquote_state};
 	enum e_state	state;
 	//enum e_state past_state = E_STATE_STRING;
 	//const char	*debug_error[] = {"STRING", "SQUOTE", "DQUOTE", "END", "ERROR"};
@@ -41,6 +41,7 @@ int			quote_checker(char *str)
 	input = vct_new();
 	state = E_STATE_STRING;
 	vct_addstr(input, str);
+	//ft_printf("STR QUOTE CHECKER = %s\n", str);//DEBUG
 	while (state != E_STATE_END)
 	{
 		//past_state = state;
@@ -62,7 +63,7 @@ int			quote_checker(char *str)
 	return (SUCCESS);
 }
 
-int			handle_assign_quote(t_vector *input, t_vector *word, t_list **token_list)
+int			handle_assign_quote(t_vector *input, t_vector *word, t_list **token_list, ssize_t type)
 {
 	char	c;
 	bool	quote_state;
@@ -70,34 +71,52 @@ int			handle_assign_quote(t_vector *input, t_vector *word, t_list **token_list)
 
 	quote_state = false;
 	dquote_state = false;
+	//ft_printf("input = %s\n", vct_getstr(input));//DEBUG
+	c = vct_getfirstchar(input);
+	while ((c == '(' || c == ')') && vct_getlen(input) > 0)
+	{
+		if (extract_token(token_list, "(", 
+				c == '(' ? E_OPEN_BRACKET : E_CLOSE_BRACKET) == FAILURE)
+			return (FALSE);
+		vct_pop(input);
+		c = vct_getfirstchar(input);
+	}
 	while (vct_getlen(input) > 0)
 	{
 		c = vct_getfirstchar(input);
-		while (c == '(' && vct_getlen(input) != 1)
+		if (type == E_WORD && (vct_chr(word, C_SIMPLE_QUOTE) == FAILURE
+					&& vct_chr(word, C_QUOTE) == FAILURE))
 		{
-			if (vct_getlen(word) != 0)
+			while (c == '(' && vct_getlen(input) > 0)
 			{
-				if (extract_token(token_list, vct_getstr(word), E_WORD) == FAILURE)
+				if (vct_getlen(word) != 0)
+				{
+					if (extract_token(token_list, vct_getstr(word), E_WORD) == FAILURE)
+						return (FALSE);
+					vct_clear(word);
+				}
+				if (extract_token(token_list, "(", E_OPEN_BRACKET) == FAILURE)
 					return (FALSE);
-				vct_clear(word);
+				vct_pop(input);
+				c = vct_getfirstchar(input);
 			}
-			if (extract_token(token_list, "(", E_OPEN_BRACKET) == FAILURE)
-				return (FALSE);
-			vct_pop(input);
-			c = vct_getfirstchar(input);
 		}
-		while (c == ')' && vct_getlen(input) != 1)
+		if (type == E_WORD && (vct_chr(word, C_SIMPLE_QUOTE) == FAILURE
+					&& vct_chr(word, C_QUOTE) == FAILURE))
 		{
-			if (vct_getlen(word) != 0)
-			{
-				if (extract_token(token_list, vct_getstr(word), E_WORD) == FAILURE)
+			while (c == ')' && vct_getlen(input) > 0)
+			{	
+				if (vct_getlen(word) != 0)
+				{
+					if (extract_token(token_list, vct_getstr(word), E_WORD) == FAILURE)
+						return (FALSE);
+					vct_clear(word);
+				}
+				if (extract_token(token_list, ")", E_CLOSE_BRACKET) == FAILURE)
 					return (FALSE);
-				vct_clear(word);
+				vct_pop(input);
+				c = vct_getfirstchar(input);
 			}
-			if (extract_token(token_list, ")", E_CLOSE_BRACKET) == FAILURE)
-				return (FALSE);
-			vct_pop(input);
-			c = vct_getfirstchar(input);
 		}
 		if (c == '\'')
 			quote_state = !quote_state;

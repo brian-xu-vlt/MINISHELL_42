@@ -62,7 +62,6 @@ static int	process_lexer_no_word(ssize_t type, t_list **token_list,
 	vct_pop(input);
 	if (type > DOUBLE_TOKEN)
 		vct_pop(input);
-	//ft_printf("WORD NO WORD= %s\n", vct_getstr(word));//DEBUG
 	return (ret);
 }
 
@@ -70,20 +69,18 @@ static int	process_lexer_word_assign(ssize_t type, t_list **token_list,
 		t_vector *word, t_vector *input)
 {
 	int	ret;
+	int	new_type;
 
-	type = E_WORD;
 	ret = SUCCESS;
-	handle_assign_quote(input, word, token_list);
+	new_type = get_new_type(input);
+	handle_assign_quote(input, word, token_list, new_type);
+	type = E_WORD;
 	if (vct_getlen(word) != 0)
 	{
 		if (vct_chr(word, '=') > 0)
 			type = E_ASSIGN;
 		else if (vct_getfirstchar(word) == '$')
 			type = E_EXP;
-		//ft_printf("WORD WORD = %s\n", vct_getstr(word));//DEBUG
-		//if (vct_chr(word, '(') != FAILURE || vct_chr(word, ')') != FAILURE)
-		//	handle_bracket(type, token_list, word);
-		//	ft_printf("FIND ( OU )\n");//DEBUG
 		ret = extract_token(token_list, vct_getstr(word), type);
 	}
 	vct_clear(word);
