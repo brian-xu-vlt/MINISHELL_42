@@ -48,5 +48,6 @@ bool	is_simplequote(t_vector *input);
 bool	is_end(t_vector *input);
 int		extract_token_word(t_list **token_list, t_vector *vct);
 void	debug(int type); //A ENLEVER
+char	*handle_bracket(t_token *token, char *str, t_list **token_list);
 
 #endif

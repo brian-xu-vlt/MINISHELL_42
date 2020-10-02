@@ -85,6 +85,7 @@ SRCS += line_editor_bonus.c
 SRCS += job_command_bonus.c
 SRCS += handle_no_word_bonus.c
 SRCS += handle_no_word_utils_bonus.c
+SRCS += handle_bracket_bonus.c
 
 OBJ_DIR = ./objs/
 
