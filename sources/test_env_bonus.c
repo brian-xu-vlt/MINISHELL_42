@@ -78,7 +78,7 @@ int	test_env(t_vector *input)
 		debug_print_env(input);
 	else if (ft_strncmp(vct_getstr(input), "export", 6) == 0)
 		debug_export(input);
-	else if (ft_strncmp(vct_getstr(input), "env", 4) == 0)
+	else if (ft_strncmp(vct_getstr(input), "env", 3) == 0)
 		debug_env(input);
 	else if (ft_strncmp(vct_getstr(input), "unset", 5) == 0)
 		debug_unset(input);
