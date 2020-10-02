@@ -71,7 +71,6 @@ int			handle_assign_quote(t_vector *input, t_vector *word, t_list **token_list, 
 
 	quote_state = false;
 	dquote_state = false;
-	//ft_printf("input = %s\n", vct_getstr(input));//DEBUG
 	c = vct_getfirstchar(input);
 	while ((c == '(' || c == ')') && vct_getlen(input) > 0)
 	{

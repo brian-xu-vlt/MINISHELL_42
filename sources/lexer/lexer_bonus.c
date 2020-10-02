@@ -77,7 +77,7 @@ static int	process_lexer_word_assign(ssize_t type, t_list **token_list,
 	type = E_WORD;
 	if (vct_getlen(word) != 0)
 	{
-		if (vct_chr(word, '=') > 0)
+		if (vct_chr(word, '=') != FAILURE)
 			type = E_ASSIGN;
 		else if (vct_getfirstchar(word) == '$')
 			type = E_EXP;
