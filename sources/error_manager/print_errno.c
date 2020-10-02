@@ -1,7 +1,8 @@
 #include "minishell_bonus.h"
 
-void	print_errno(char *function_name, char *error_source)
+void	print_set_errno(int err_value, char *function_name, char *error_source)
 {
+	errno = err_value;
 	ft_printf("%s: ", function_name);
 	if (error_source != NULL)
 		ft_printf("%s: ", error_source);

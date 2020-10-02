@@ -41,7 +41,7 @@ int		process_parser(t_list *list, t_valid_token *valid_token);
 /*******************************_ERROR MANAGER_********************************/
 /******************************************************************************/
 
-void	print_errno(char *function_name, char *error_source);
+void	print_set_errno(int err_value, char *function_name, char *error_source);
 
 /******************************************************************************/
 /*******************************_BUILTINS_*************************************/

@@ -10,8 +10,7 @@ int	env_builtin(int ac, char **av)
 		print_env(ALL);
 	else
 	{
-		errno = EINVAL;
-		print_errno((char *)builtin, av[1]);
+		print_set_errno(EINVAL, (char *)builtin, av[1]);
 		return (FAILURE);
 	}	
 	return (SUCCESS);
@@ -29,13 +28,13 @@ int	export_builtin(int ac, char **av)
 	else
 	{
 		i = 1;
-		while (i < ac && av[i][0] != '-')
-			export_env(av[i++]);
-		if (av[i] != NULL && av[i][0] == '-')
+		while (i < ac)
 		{
-			errno = EINVAL;
-			print_errno((char *)builtin, av[i]);
-			return (FAILURE);
+			if (ft_isalpha(av[i][0]) == TRUE)
+				export_env(av[i]);
+			else
+				print_set_errno(EINVAL, (char *)builtin, av[i]);
+			i++;
 		}
 	}
 	return (SUCCESS);
@@ -55,7 +54,7 @@ int	unset_builtin(int ac, char **av)
 		{
 			delete_env(av[i++]);
 			if (errno != 0)
-				print_errno((char *)builtin, av[i]);
+				print_set_errno(errno, (char *)builtin, av[i]);
 			errno = 0;
 		}
 	}
