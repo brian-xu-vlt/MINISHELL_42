@@ -1,5 +1,7 @@
 #include "minishell_bonus.h"
 
+// return int mais pas sur, peut etre juste utiliser le errno.
+
 int	env_builtin(int ac, char **av)
 {
 	const char	*builtin = "env";
