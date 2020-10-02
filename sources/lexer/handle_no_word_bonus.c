@@ -75,6 +75,12 @@ int			handle_assign_quote(t_vector *input, t_vector *word, t_list **token_list)
 		c = vct_getfirstchar(input);
 		while (c == '(' && vct_getlen(input) != 1)
 		{
+			if (vct_getlen(word) != 0)
+			{
+				if (extract_token(token_list, vct_getstr(word), E_WORD) == FAILURE)
+					return (FALSE);
+				vct_clear(word);
+			}
 			if (extract_token(token_list, "(", E_OPEN_BRACKET) == FAILURE)
 				return (FALSE);
 			vct_pop(input);
@@ -82,6 +88,12 @@ int			handle_assign_quote(t_vector *input, t_vector *word, t_list **token_list)
 		}
 		while (c == ')' && vct_getlen(input) != 1)
 		{
+			if (vct_getlen(word) != 0)
+			{
+				if (extract_token(token_list, vct_getstr(word), E_WORD) == FAILURE)
+					return (FALSE);
+				vct_clear(word);
+			}
 			if (extract_token(token_list, ")", E_CLOSE_BRACKET) == FAILURE)
 				return (FALSE);
 			vct_pop(input);

@@ -56,7 +56,6 @@ int			extract_token(t_list **token_list, char *str, size_t type)
 	char	*ret;
 	size_t	i;
 
-	ft_printf("str = %s\n", str);//DEBUG
 	i = 0;
 	token = (t_token *)malloc(sizeof(t_token));
 	node = NULL;
