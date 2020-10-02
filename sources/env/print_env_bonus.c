@@ -18,9 +18,12 @@ void	print_env(char *env_name)
 	{
 		while (cursor != NULL)
 		{
-			env_name = ((t_env *)cursor->content)->env_name;
-			env_value = ((t_env *)cursor->content)->env_value;
-			put_env(env_name, env_value);
+			if (((t_env *)cursor->content)->export_flag == TRUE)
+			{
+				env_name = ((t_env *)cursor->content)->env_name;
+				env_value = ((t_env *)cursor->content)->env_value;
+				put_env(env_name, env_value);
+			}
 			cursor = cursor->next;
 		}
 	}

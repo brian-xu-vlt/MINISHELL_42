@@ -27,7 +27,8 @@ static void	print_disambiguate_value(t_vector *env_value)
 		i = vct_getlen(env_value);
 		while (i >= 0)
 		{
-			if (vct_getcharat(tmp_env_value, i) == '\"')
+			if ((vct_getcharat(tmp_env_value, i) == '\"')
+								|| (vct_getcharat(tmp_env_value, i) == '\''))
 				vct_addcharat(tmp_env_value, i, '\\');
 			i--;
 		}

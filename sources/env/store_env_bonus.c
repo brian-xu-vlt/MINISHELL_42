@@ -40,19 +40,20 @@ static void		store_env(char *env, int export_flag)
 	int			append_flag;
 	t_env		*env_node;
 
-	if (env == NULL)
-		return ;
-	parse_env(env, &env_name, &env_value, &append_flag);
-	if ((env_node = get_env_struct(env_name)) == NOT_FOUND)
-		env_node = store_new_env(env_name, env_value);
-	else
+	if (env != NULL)
 	{
-		update_existing_env(env_node, env_value, append_flag);
-		free(env_name);
-		vct_del(&env_value);
+		parse_env(env, &env_name, &env_value, &append_flag);
+		if ((env_node = get_env_struct(env_name)) == NOT_FOUND)
+			env_node = store_new_env(env_name, env_value);
+		else
+		{
+			update_existing_env(env_node, env_value, append_flag);
+			free(env_name);
+			vct_del(&env_value);
+		}
+		if (export_flag == TRUE)
+			env_node->export_flag = TRUE;
 	}
-	if (export_flag == TRUE)
-		env_node->export_flag = TRUE;
 }
 
 void			store_internal_var(char *env)
