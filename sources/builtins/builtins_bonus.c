@@ -54,10 +54,11 @@ int	unset_builtin(int ac, char **av)
 		i = 0;
 		while (i < ac)
 		{
-			delete_env(av[i++]);
-			if (errno != 0)
-				print_set_errno(errno, (char *)builtin, av[i]);
-			errno = 0;
+			if (av[i][0] == '-')
+				print_set_errno(EINVAL, (char *)builtin, av[i]);
+			else
+				delete_env(av[i]);
+			i++;
 		}
 	}
 	return (SUCCESS);
