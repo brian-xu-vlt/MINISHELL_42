@@ -17,6 +17,7 @@
 # include "parser_bonus.h"
 # include "line_editor_bonus.h"
 # include <stdio.h> //A ENLEVER POUR PRINTF
+# include <errno.h>
 
 /******************************************************************************/
 /*******************************_FUNCTION_*************************************/
@@ -34,6 +35,20 @@ int 	extract_token(t_list **token_list, char *str, size_t type);
 void	exit_routine_lexer(t_vector *word, t_vector *vct, t_vector *tmp, t_token *token);
 int		parser_token(t_list *token_list);
 int		process_parser(t_list *list, t_valid_token *valid_token);
+
+/******************************************************************************/
+/*******************************_ERROR MANAGER_********************************/
+/******************************************************************************/
+
+void	print_errno(char *function_name);
+
+/******************************************************************************/
+/*******************************_BUILTINS_*************************************/
+/******************************************************************************/
+
+int		env_builtin(int argc, char **argv);
+int		export_builtin(int argc, char **argv);
+int		unset_builtin(int argc, char **argv);
 
 /******************************************************************************/
 /*******************************_ENV_MANAGER_**********************************/
