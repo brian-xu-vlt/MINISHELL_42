@@ -1,5 +1,11 @@
 #include "minishell_bonus.h"
 
+static void	set_default_env(void)
+{
+	if (vct_getstr(get_env_value_vct("PATH")) == NOT_FOUND)
+		store_internal_var(DEFAULT_PATH_ENV);	
+}
+
 static void	increment_shlevel(void)
 {
 	t_vector	*shlvl;
@@ -37,6 +43,7 @@ void		init_env(char **env)
 		index++;
 	}
 	increment_shlevel();
+	set_default_env();
 }
 
 /*
