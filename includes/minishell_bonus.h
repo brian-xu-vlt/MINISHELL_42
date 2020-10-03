@@ -68,7 +68,7 @@ void		update_envp(void);
 void		export_env(char *env);
 void		init_env(char **env);
 
-void		print_env(char *env_name);
+void		print_env(void);
 void		get_export_output(void);
 
 t_env_data	*get_env_data(t_env_data *mem);
