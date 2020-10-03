@@ -21,7 +21,7 @@ static void	debug_print_env(t_vector *input)
 	char	*str;
 
 	str = vct_getstr(input);
-	str += ft_strlen("store") + 1;
+	str += ft_strlen("print") + 1;
 	ft_putstr_fd(vct_getstr(get_env_value_vct(str)), STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
 }

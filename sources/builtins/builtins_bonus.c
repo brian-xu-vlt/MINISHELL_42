@@ -9,7 +9,7 @@ int	env_builtin(int ac, char **av)
 	if (ft_strncmp(av[0], builtin, ft_strlen(builtin) + 1) != 0)
 		return (0);
 	if (ac == 1)
-		print_env(ALL);
+		print_env();
 	else
 	{
 		print_set_errno(EINVAL, (char *)builtin, av[1]);
