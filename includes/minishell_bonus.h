@@ -17,6 +17,8 @@
 # include "parser_bonus.h"
 # include "line_editor_bonus.h"
 # include <stdio.h> //A ENLEVER POUR PRINTF
+# include <string.h>
+# include <errno.h>
 
 /******************************************************************************/
 /*******************************_FUNCTION_*************************************/
@@ -38,6 +40,20 @@ int		parser_token(t_list *token_list);
 int		process_parser(t_list *list, t_valid_token *valid_token);
 
 /******************************************************************************/
+/*******************************_ERROR MANAGER_********************************/
+/******************************************************************************/
+
+void	print_set_errno(int err_value, char *function_name, char *error_source);
+
+/******************************************************************************/
+/*******************************_BUILTINS_*************************************/
+/******************************************************************************/
+
+int		env_builtin(int argc, char **argv);
+int		export_builtin(int argc, char **argv);
+int		unset_builtin(int argc, char **argv);
+
+/******************************************************************************/
 /*******************************_ENV_MANAGER_**********************************/
 /******************************************************************************/
 
@@ -54,7 +70,7 @@ void		update_envp(void);
 void		export_env(char *env);
 void		init_env(char **env);
 
-void		print_env(char *env_name);
+void		print_env(void);
 void		get_export_output(void);
 
 t_env_data	*get_env_data(t_env_data *mem);

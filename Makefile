@@ -81,6 +81,7 @@ SRCS += exit_routine_le_bonus.c
 SRCS += update_screen_data_bonus.c
 SRCS += utils_bonus.c
 SRCS += utils_cursor_bonus.c
+SRCS += builtins_bonus.c
 SRCS += delete_env_bonus.c
 SRCS += get_env_bonus.c
 SRCS += update_envp_bonus.c
@@ -90,11 +91,14 @@ SRCS += store_env_bonus.c
 SRCS += utils_env_bonus.c
 SRCS += get_export_output_bonus.c
 SRCS += line_editor_bonus.c
+SRCS += print_errno.c
 
 OBJ_DIR = ./objs/
 
 vpath %.c sources/
+vpath %.c sources/error_manager
 vpath %.c sources/lexer
+vpath %.c sources/builtins
 vpath %.c sources/env
 vpath %.c sources/executor
 vpath %.c sources/parser

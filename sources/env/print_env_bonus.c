@@ -8,29 +8,17 @@ void	put_env(char *env_name, t_vector *env_value)
 	ft_putstr_fd("\n", STDERR_FILENO);
 }
 
-void	print_env(char *env_name)
+void	print_env(void)
 {
-	t_vector	*env_value;
-	t_list		*cursor;
+	char	**envp;
+	int		i;
+	i = 0;
 
-	cursor = get_env_data(GET)->env_lst;
-	if (env_name == ALL)
+	envp = get_env_data(GET)->envp;
+	while (envp[i] != NULL)
 	{
-		while (cursor != NULL)
-		{
-			env_name = ((t_env *)cursor->content)->env_name;
-			env_value = ((t_env *)cursor->content)->env_value;
-			put_env(env_name, env_value);
-			cursor = cursor->next;
-		}
-	}
-	else //for debug, will remove once 'env | grep ...' works
-	{
-		cursor = get_env_node(env_name);
-		if (cursor != NOT_FOUND)
-		{
-			env_value = ((t_env*)cursor->content)->env_value;
-			put_env(env_name, env_value);
-		}
+		ft_putstr_fd(envp[i], STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+		i++;
 	}
 }

@@ -1,24 +1,29 @@
 #include "minishell_bonus.h"
 
+static void	debug_export(t_vector *input)
+{
+	char 	**av;
+	int		ac;
+
+	av = ft_split(vct_getstr(input), ' ');
+	ac = 0;
+	while (av[ac] != NULL)
+		ac++;
+	export_builtin(ac, av);
+	ac = 0;
+	while (av[ac] != NULL)
+		free(av[ac++]);
+	free(av);
+}
+
 static void	debug_print_env(t_vector *input)
 {
 	char	*str;
 
 	str = vct_getstr(input);
 	str += ft_strlen("print") + 1;
-	print_env(str);
-}
-
-static void	debug_export_env(t_vector *input)
-{
-	char	*str;
-
-	str = vct_getstr(input);
-	str += ft_strlen("export") + 1;
-	if (*str == '\0')
-		get_export_output();
-	else
-		export_env(str);
+	ft_putstr_fd(vct_getstr(get_env_value_vct(str)), STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 }
 
 static void	debug_store_env(t_vector *input)
@@ -30,61 +35,53 @@ static void	debug_store_env(t_vector *input)
 	store_internal_var(str);
 }
 
-static void	unset_env(t_vector *input)
+static void	debug_unset(t_vector *input)
 {
-	char	*str;
+	char 	**av;
+	int		ac;
 
-	str = vct_getstr(input);
-	str += ft_strlen("unset") + 1;
-	delete_env(str);
+	av = ft_split(vct_getstr(input), ' ');
+	ac = 0;
+	while (av[ac] != NULL)
+		ac++;
+	unset_builtin(ac, av);
+	ac = 0;
+	while (av[ac] != NULL)
+		free(av[ac++]);
+	free(av);
 }
 
-void	print_envp(void)
+static void	debug_env(t_vector *input)
 {
-	char	**envp;
-	int		i;
+	char 	**av;
+	int		ac;
 
-	i = 0;
-	envp = get_env_data(GET)->envp;
-	if (envp == NULL)
-		exit_routine_le(ERR_ENVP);
-	while (envp[i] != NULL)
-	{
-		ft_putstr_fd(envp[i++], STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
-	}
+	av = ft_split(vct_getstr(input), ' ');
+	ac = 0;
+	while (av[ac] != NULL)
+		ac++;
+	env_builtin(ac, av);
+	ac = 0;
+	while (av[ac] != NULL)
+		free(av[ac++]);
+	free(av);
 }
 
 int	test_env(t_vector *input)
 {
 	//REMOVE REMOVE REMOVE
-	dprintf(STDERR_FILENO, "\n%s\n", vct_getstr(input)); //do a printf wrapper OR debug function
-	if (ft_strncmp(vct_getstr(input), "1", 2) == 0)
-		print_env(ALL);	
-	if (ft_strncmp(vct_getstr(input), "2", 2) == 0)
-		print_env("TERM");
+	dprintf(STDERR_FILENO, "\n%s\n", vct_getstr(input)); //do a printf wrapper OR debug function  //REMOVE REMOVE REMOVE
+	
 	if (ft_strncmp(vct_getstr(input), "store", 5) == 0)
-		debug_store_env(input);	
-	if (ft_strncmp(vct_getstr(input), "export", 6) == 0)
-		debug_export_env(input);	
-	if (ft_strncmp(vct_getstr(input), "print", 5) == 0)
-		debug_print_env(input);	
-	if (ft_strncmp(vct_getstr(input), "env", 4) == 0)
-		print_envp();
-	if (ft_strncmp(vct_getstr(input), "unset", 5) == 0)
-		unset_env(input);
-	if (ft_strncmp(vct_getstr(input), "./Minishell", 12) == 0)
-	{
-		return (SUCCESS);
-/*		envp = get_envp();
-		char *argv[2];
-		argv[0] = ft_strdup("./Minishell");
-		argv[1] = NULL;
-		execve("./Minishell", argv, envp);
-		free(argv[0]);
-		free(argv[1]);
-		envp = NULL;
-*/	}
+		debug_store_env(input);
+	else if (ft_strncmp(vct_getstr(input), "print", 5) == 0)
+		debug_print_env(input);
+	else if (ft_strncmp(vct_getstr(input), "export", 6) == 0)
+		debug_export(input);
+	else if (ft_strncmp(vct_getstr(input), "env", 3) == 0)
+		debug_env(input);
+	else if (ft_strncmp(vct_getstr(input), "unset", 5) == 0)
+		debug_unset(input);
 	return (SUCCESS);
 }
 
