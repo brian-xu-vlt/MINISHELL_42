@@ -6,7 +6,7 @@ int	env_builtin(int ac, char **av)
 {
 	const char	*builtin = "env";
 
-	if (ft_strncmp(av[0], builtin, ft_strlen(builtin) + 1) != 0)
+	if (ft_strequ(av[0], (char *)builtin) == FALSE)
 		return (0);
 	if (ac == 1)
 		print_env();
@@ -23,7 +23,7 @@ int	export_builtin(int ac, char **av)
 	const char	*builtin = "export";
 	int			i;
 
-	if (ft_strncmp(av[0], builtin, ft_strlen(builtin) + 1) != 0)
+	if (ft_strequ(av[0], (char *)builtin) == FALSE)
 		return (0);
 	if (ac == 1)
 		get_export_output();
@@ -47,7 +47,7 @@ int	unset_builtin(int ac, char **av)
 	const char	*builtin = "unset";
 	int			i;
 
-	if (ac == 1 || ft_strncmp(av[0], builtin, ft_strlen(builtin) + 1) != 0)
+	if (ac == 1 || ft_strequ(av[0], (char *)builtin) == FALSE)
 		return (0);
 	else
 	{

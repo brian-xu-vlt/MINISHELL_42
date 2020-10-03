@@ -26,7 +26,7 @@ int			main(int ac, char **av, char **envp)
 	while (1)
 	{
 		read_loop(cmd_line);
-		if (ft_strncmp(vct_getstr(cmd_line), "exit", 5) == 0)
+		if (ft_strequ(vct_getstr(cmd_line), "exit") == TRUE)
 			break ;
 		if (test_env(cmd_line) == FAILURE)
 		{

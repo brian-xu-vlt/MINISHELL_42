@@ -57,8 +57,9 @@ static char		*find_binary(char *binary_name)
 		i++;
 	}
 	free_char_ptr_arr(dir_options);
-	find_binary_in_pwd();
-	return (NOT_FOUND);
+/*	if (find_binary_in_pwd() == TRUE)
+		return (ft_strdup(vct_getstr(get_env_value_vct("pwd"))));
+*/	return (NOT_FOUND);
 }
 
 void			executor(t_cmd *command)

@@ -8,7 +8,7 @@ static void	init_library_db(void)
 	term_name = getenv("TERM"); // to be changed MINISHELL get env !!!!!!!
 	if (term_name == NULL)
 		exit_routine_le(ERR_TERM_NAME);
-	if (ft_strncmp(term_name, "ansi", 5) == 0)
+	if (ft_strequ((char *)term_name, "ansi") == TRUE)
 		exit_routine_le(ERR_TERMCAP);
 	ret = tgetent(NULL, term_name);
 	if (ret != TRUE)

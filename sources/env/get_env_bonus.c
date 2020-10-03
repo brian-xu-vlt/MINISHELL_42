@@ -16,7 +16,7 @@ t_list		*get_env_node(char *target_env_name)
 	while (cursor != NULL)
 	{
 		env_name = ((t_env *)cursor->content)->env_name;
-		if (ft_strncmp(env_name, target_env_name, target_name_len + 1) == 0)
+		if (ft_strequ(env_name, target_env_name) == TRUE)
 			return (cursor);
 		cursor = cursor->next;
 	}
