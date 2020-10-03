@@ -55,13 +55,13 @@ endif
 SRCS += test_bonus.c
 SRCS += test_env_bonus.c
 SRCS += test_executor_bonus.c
-SRCS += executor_bonus.c
 SRCS += lexer_bonus.c
 SRCS += token_bonus.c
 SRCS += free_list_bonus.c
 SRCS += lexer_utils_bonus.c
 SRCS += parser_bonus.c
 SRCS += parser_process_bonus.c
+
 SRCS += debug_tools.c
 SRCS += print_command_line_bonus.c
 SRCS += refresh_command_line_bonus.c
@@ -81,7 +81,8 @@ SRCS += exit_routine_le_bonus.c
 SRCS += update_screen_data_bonus.c
 SRCS += utils_bonus.c
 SRCS += utils_cursor_bonus.c
-SRCS += builtins_bonus.c
+
+SRCS += builtins_env_bonus.c
 SRCS += delete_env_bonus.c
 SRCS += get_env_bonus.c
 SRCS += update_envp_bonus.c
@@ -93,6 +94,10 @@ SRCS += get_export_output_bonus.c
 SRCS += line_editor_bonus.c
 SRCS += print_errno.c
 SRCS += general_utils_bonus.c
+
+SRCS += executor_bonus.c
+SRCS += locate_bin_bonus.c
+SRCS += exec_bin_bonus.c
 
 OBJ_DIR = ./objs/
 

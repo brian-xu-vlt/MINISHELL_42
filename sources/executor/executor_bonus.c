@@ -1,82 +1,40 @@
 #include "minishell_bonus.h"
 
-static char		**get_all_path_directories(void)
+static char		*create_full_path(const char *bin_dir, const char *bin_name)
 {
-	char	*path_env;
+	size_t			len_dir;
+	size_t			len_name;
+	char			*full_path;
 
-	path_env = vct_getstr(get_env_value_vct("PATH"));
-	return (ft_split(path_env, ':'));
+	len_dir = ft_strlen(bin_dir);
+	len_name = ft_strlen(bin_name);
+	full_path = (char *)ft_calloc(len_dir + len_name + 3, sizeof(char));
+	if (full_path == NULL)
+		exit_routine_le(ERR_MALLOC);
+	ft_memcpy(full_path, bin_dir, len_dir);
+	ft_memcpy(full_path + len_dir, "/", 1);
+	ft_memcpy(full_path + len_dir + 1, bin_name, len_name);
+	return (full_path);
 }
 
-static int		go_through_single_dir(DIR *dir_stream, char *binary_name)
+void			executor(const t_cmd *command)
 {
-	struct dirent	*cursor_file;
+	char			*bin_dir;
+	char			*binary_full_path;
 
-	cursor_file = readdir(dir_stream);
-	while (cursor_file != NULL)
-	{
-		if (ft_strequ(cursor_file->d_name, binary_name) == TRUE)
-			return (TRUE);
-		cursor_file = readdir(dir_stream);
-	}
-	return (FALSE);
-}
-
-static int		find_binary_in_a_dir(char *directory, char *binary_name)
-{
-	int				ret;
-	DIR				*dir_stream;
-
-	ret = FALSE;
-	dir_stream = opendir(directory);
-	if (dir_stream == NULL)
-		return (FALSE);
-	ret = go_through_single_dir(dir_stream, binary_name);
-	closedir(dir_stream);
-	return (ret);
-}
-
-static char		*find_binary(char *binary_name)
-{
-	char	**dir_options;
-	char	*valid_dir;
-	int		i;
-
-	dir_options = get_all_path_directories();
-	i = 0;
-	while (dir_options[i] != NULL)
-	{
-		if (find_binary_in_a_dir(dir_options[i], binary_name) == TRUE)
-		{
-			valid_dir = ft_strdup(dir_options[i]);
-			if (valid_dir == NULL)
-				exit_routine_le(ERR_MALLOC);
-			free_char_ptr_arr(dir_options);
-			return (valid_dir);
-		}
-		i++;
-	}
-	free_char_ptr_arr(dir_options);
-/*	if (find_binary_in_pwd() == TRUE)
-		return (ft_strdup(vct_getstr(get_env_value_vct("pwd"))));
-*/	return (NOT_FOUND);
-}
-
-void			executor(t_cmd *command)
-{
-	char			*binary_dir;
-
-	write(STDERR_FILENO, "\n", 1);         // DEBUG / DEBUG / DEBUG / DEBUG / DEBUG / DEBUG / DEBUG / DEBUG
-	binary_dir = NULL;
+	write(STDERR_FILENO, "\n", 1);         // DEBUG / DEBUG / DEBUG / DEBUG / DEBUG / DEBUG / DEBUG
+	bin_dir = NULL;
 	if (command->name != NULL)
 	{
-		binary_dir = find_binary(command->name);
-		if (binary_dir != NULL)
-		{
-			execve(command->name, command->av, get_env_data(GET)->envp);
-			free(binary_dir);
-		}
-		else
+		bin_dir = find_binary(command->name);
+		if (bin_dir == NOT_FOUND)
 			ft_printf("%s: not a valid command\n", command->name);
+		else
+		{
+			binary_full_path = create_full_path(bin_dir, command->name);
+			exec_bin(binary_full_path, command);
+			free(bin_dir);
+			free(binary_full_path);
+		}
 	}
 }
