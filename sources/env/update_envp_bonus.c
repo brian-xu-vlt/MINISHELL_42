@@ -20,7 +20,7 @@ static char	*create_env(char *env_name, t_vector *env_value)
 	if (ret_str == NULL)
 		exit_routine_le(ERR_MALLOC);
 	ft_memmove(ret_str, env_name, env_name_len);
-	if (env_value != NULL && vct_getlen(env_value) > 0)
+	if (env_value != NULL)
 	{
 		ft_strcat(ret_str, "=");
 		ft_strcat(ret_str, vct_getstr(env_value));

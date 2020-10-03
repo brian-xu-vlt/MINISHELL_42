@@ -10,6 +10,22 @@ void	put_env(char *env_name, t_vector *env_value)
 
 void	print_env(char *env_name)
 {
+	char	**envp;
+	int		i;
+(void)env_name;
+	i = 0;
+	envp = get_env_data(GET)->envp;
+	while (envp[i] != NULL)
+	{
+		ft_putstr_fd(envp[i], STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+		i++;
+	}
+}
+
+/*
+void	print_env(char *env_name)
+{
 	t_vector	*env_value;
 	t_list		*cursor;
 
@@ -37,3 +53,4 @@ void	print_env(char *env_name)
 		}
 	}
 }
+*/
