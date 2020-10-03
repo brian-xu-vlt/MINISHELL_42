@@ -26,85 +26,38 @@ size_t		get_token(char c)
 	return (E_WORD);
 }
 
-static char *extract_data(size_t type, char *str, t_token *token, t_list **token_list)
+static int extract_data(size_t type, char *str, t_token *token)
 {
-	char	*ret;
-
-	if ((type >= E_WORD && type < E_OPEN_BRACKET) || type == E_SIMPLE_QUOTE
+	if ((type >= E_WORD && type < E_START) || type == E_SIMPLE_QUOTE
 			|| type == E_QUOTE)
 	{
 		if (quote_checker(str) == FAILURE)
-			return ("failure");
-		if (ft_strchr(str, '(') == NULL && ft_strchr(str, ')') == NULL)
-			token->data = ft_strdup(str);
-		else
-		{
-			if (ft_strchr(str, C_QUOTE) != NULL
-					|| ft_strchr(str, C_SIMPLE_QUOTE) != NULL)
-			{
-				if (str[ft_strlen(str) - 1] == '(' || str[ft_strlen(str) - 1] == ')')
-				{
-					ret = handle_bracket(str, token_list);
-					if (ret == NULL)
-						return (NULL);
-					return (ret);
-				}
-				token->data = ft_strdup(str);
-				return (NULL);
-			}
-			ret = handle_bracket(str, token_list);
-			if (ret == NULL)
-				return (NULL);
-			return (ret);
-		}
+			return (FAILURE);
+		token->data = ft_strdup(str);
 	}
-	return (NULL);
+	return (SUCCESS);
 }
 
 int			extract_token(t_list **token_list, char *str, size_t type)
 {
 	t_token	*token;
 	t_list	*node;
-	char	*ret;
-	size_t	i;
 
-	i = 0;
 	token = (t_token *)malloc(sizeof(t_token));
 	node = NULL;
 	if (token == NULL)
 		return (FAILURE);
 	token->data = NULL;
-	ret = extract_data(type, str, token, token_list);
-	if (ret != NULL && ft_strequ(ret, "failure") == TRUE)
+	if (extract_data(type, str, token) == FAILURE)
 	{
 		ft_lstdelone(node, NULL);
 		free(node);
 		return (FAILURE);
 	}
-	if (ret != NULL)
-	{
-		while (ret[i] != '\0')
-		{
-			token->data = NULL;
-			token->type = ret[i] == '(' ? E_OPEN_BRACKET : E_CLOSE_BRACKET;
-			ft_printf("token->data = %s\n", token->data); //DEBUG
-			debug(token->type);//DEBUG
-			ft_printf("\n");//DEBUG
-			node = ft_lstnew(token);
-			if (node == NULL)
-			{
-				ft_lstdelone(node, NULL);
-				free(node);
-				return (FAILURE);
-			}
-			i++;
-		}
-		return (SUCCESS);
-	}
 	token->type = type;
-	ft_printf("token->data = %s\n", token->data); //DEBUG
-	debug(token->type);//DEBUG
-	ft_printf("\n");//DEBUG
+	//ft_printf("token->data = %s\n", token->data); //DEBUG
+//	debug(token->type);//DEBUG
+//	ft_printf("\n");//DEBUG
 	node = ft_lstnew(token);
 	if (node == NULL)
 	{

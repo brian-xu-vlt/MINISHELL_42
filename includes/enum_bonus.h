@@ -29,11 +29,9 @@ enum e_token_type
 	E_WORD,//11
 	E_EXP,//12
 	E_ASSIGN,//13
-	E_OPEN_BRACKET,//14
-	E_CLOSE_BRACKET,//15
-	E_START,//16
-	E_END,//17
-	NO_TYPE//18
+	E_START,//14
+	E_END,//15
+	NO_TYPE//16
 };
 
 /******************************************************************************/

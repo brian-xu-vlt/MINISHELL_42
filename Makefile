@@ -43,12 +43,8 @@ INCLUDES_LIB = ./libft/includes/
 
 HEADER = $(INCLUDES)minishell_bonus.h
 
-ifeq ($(test), 1)
-	SRCS += main_tester_parser.c #TO DELETE
-else
-	SRCS += main_bonus.c
-endif
-
+SRCS += main_bonus.c
+#SRCS += main_tester_parser.c #TO DELETE
 SRCS += test_lexer_bonus.c
 SRCS += test_parser_bonus.c
 SRCS += test_jobs_bonus.c
@@ -85,7 +81,6 @@ SRCS += line_editor_bonus.c
 SRCS += job_command_bonus.c
 SRCS += handle_no_word_bonus.c
 SRCS += handle_no_word_utils_bonus.c
-SRCS += handle_bracket_bonus.c
 
 OBJ_DIR = ./objs/
 

@@ -19,7 +19,7 @@ int	tester(char *string, int expected)
 		printf("\033[0;31mKO\t\033[0m");//DEBUG
 	printf("('%-5s' expected)\n\n", expected == TRUE ? "TRUE" : "FALSE");//DEBUG
 	vct_del(&vct_input);
-	free_list(&lexer_list);
+	free_list_token(&lexer_list);
 	return (ret);
 }
 
