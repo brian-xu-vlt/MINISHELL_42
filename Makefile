@@ -92,6 +92,7 @@ SRCS += utils_env_bonus.c
 SRCS += get_export_output_bonus.c
 SRCS += line_editor_bonus.c
 SRCS += print_errno.c
+SRCS += general_utils_bonus.c
 
 OBJ_DIR = ./objs/
 

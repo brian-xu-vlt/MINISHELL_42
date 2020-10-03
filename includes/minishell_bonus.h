@@ -19,6 +19,8 @@
 # include <stdio.h> //A ENLEVER POUR PRINTF
 # include <string.h>
 # include <errno.h>
+# include <sys/types.h>
+# include <dirent.h>
 
 /******************************************************************************/
 /*******************************_FUNCTION_*************************************/
@@ -38,6 +40,12 @@ int 	extract_token(t_list **token_list, char *str, size_t type);
 void	exit_routine_lexer(t_vector *word, t_vector *vct, t_vector *tmp, t_token *token);
 int		parser_token(t_list *token_list);
 int		process_parser(t_list *list, t_valid_token *valid_token);
+
+/******************************************************************************/
+/*******************************_GENERAL_UTILES_*******************************/
+/******************************************************************************/
+
+void	free_char_ptr_arr(char **ptr_arr);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/
