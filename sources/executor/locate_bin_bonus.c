@@ -39,6 +39,7 @@ static int		find_binary_in_a_dir(char *directory, const char *bin_name)
 	return (ret);
 }
 
+/*
 static char		*find_binary_in_pwd(const char *bin_name)
 {
 	char	*pwd;
@@ -48,6 +49,7 @@ static char		*find_binary_in_pwd(const char *bin_name)
 		return (ft_strdup(pwd));
 	return (NOT_FOUND);
 }
+*/
 
 char		*locate_binary_file(const char *bin_name)
 {
@@ -55,9 +57,10 @@ char		*locate_binary_file(const char *bin_name)
 	char	*ret_dir;
 	int		i;
 
+	ret_dir = NOT_FOUND;
 	dir_options = get_all_path_directories();
-	if (dir_options == NOT_FOUND)
-		return (find_binary_in_pwd(bin_name));
+	if (dir_options == NULL || dir_options[0] == NULL)
+		return (NOT_FOUND);
 	i = 0;
 	while (dir_options[i] != NULL)
 	{
@@ -66,11 +69,10 @@ char		*locate_binary_file(const char *bin_name)
 			ret_dir = ft_strdup(dir_options[i]);
 			if (ret_dir == NULL)
 				exit_routine_le(ERR_MALLOC);
-			free_char_ptr_arr(dir_options);
-			return (ret_dir);
+			break ;
 		}
 		i++;
 	}
 	free_char_ptr_arr(dir_options);
-	return (find_binary_in_pwd(bin_name));
+	return (ret_dir);
 }

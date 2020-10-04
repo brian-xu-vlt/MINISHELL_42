@@ -38,6 +38,8 @@
 /*******************************_EXECUTOR_*************************************/
 /******************************************************************************/
 
+#define	ERR_FILE_NOT_FOUND	"No such file or directory"
+
 #define DEFAULT_PATH_ENV	"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 #endif

@@ -33,14 +33,14 @@
 **********************************/
 
 # define	ERR_NO_MESSAGE	NULL
-# define	ERR_ENV			"Could not load environement variables"
-# define	ERR_NEW_VCT		"Could not malloc vector"
-# define	ERR_VCT			"Vector function failed"
-# define	ERR_ENVP		"Envp is null"
-# define	ERR_SCREEN_SIZE	"Screen size is too small"
-# define	ERR_TERM_NAME	"Terminal type variable could not be located"
+# define	ERR_ENV			"Could not load environement variables."
+# define	ERR_NEW_VCT		"Could not malloc vector."
+# define	ERR_VCT			"Vector function failed."
+# define	ERR_ENVP		"Envp is null."
+# define	ERR_SCREEN_SIZE	"Screen size is too small."
+# define	ERR_TERM_NAME	"TERM environment variable not set."
 # define	ERR_TERMCAP		"Minishell is not (yet) compatible to this Terminal"
-# define	ERR_MALLOC		"Malloc could not allocate memory"
+# define	ERR_MALLOC		"Malloc could not allocate memory."
 
 /**********************************
 *********     UTILS     ***********

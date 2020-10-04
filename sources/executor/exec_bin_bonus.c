@@ -3,8 +3,8 @@
 
 static void	child_process(const char *binary_full_path, const t_cmd *command)
 {
-		//execve(binary_full_path, command->av, get_env_data(GET)->envp);
-		execve(binary_full_path, command->av, NULL);
+		execve(binary_full_path, command->av, get_env_data(GET)->envp);
+		//execve(binary_full_path, command->av, NULL);
 }
 
 void		execute_bin(const char *binary_full_path, const t_cmd *command)

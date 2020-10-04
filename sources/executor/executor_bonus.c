@@ -2,9 +2,9 @@
 
 static char		*create_full_path(const char *bin_dir, const char *bin_name)
 {
-	size_t			len_dir;
-	size_t			len_name;
-	char			*full_path;
+	size_t				len_dir;
+	size_t				len_name;
+	char				*full_path;
 
 	len_dir = ft_strlen(bin_dir);
 	len_name = ft_strlen(bin_name);
@@ -39,27 +39,31 @@ static int		is_builtin(const t_cmd *command)
 	return (FALSE);
 }
 
+static int		is_absolute_path(const char* bin_name)
+{
+	return ((ft_strchr((char *)bin_name, '/') == NOT_FOUND) ? FALSE : TRUE);
+}
+
+
 static char		*find_binary(const char* bin_name)
 {
-	if (ft_strchr((char *)bin_name, '/') != NOT_FOUND)
-		return (ft_strdup(bin_name));
-	else
 		return(locate_binary_file(bin_name));
 }
 
 void			executor(const t_cmd *command)
 {
-	char			*bin_dir;
-	char			*binary_full_path;
+	char				*bin_dir;
+	char				*binary_full_path;
 
 	if (is_builtin(command) == TRUE)
 		return ;
-	bin_dir = NULL;
-	if (command->name != NULL)
+	else if (is_absolute_path(command->name) == TRUE)
+		execute_bin(command->name, command);
+	else
 	{
 		bin_dir = find_binary(command->name);
 		if (bin_dir == NOT_FOUND)
-			ft_printf("%s: not a valid command\n", command->name);
+			ft_printf("%s: %s\n", command->name, ERR_FILE_NOT_FOUND);
 		else
 		{
 			binary_full_path = create_full_path(bin_dir, command->name);
