@@ -49,7 +49,7 @@ static char		*find_binary_in_pwd(const char *bin_name)
 	return (NOT_FOUND);
 }
 
-char		*find_binary(const char *bin_name)
+char		*locate_binary_file(const char *bin_name)
 {
 	char	**dir_options;
 	char	*ret_dir;

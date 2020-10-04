@@ -20,6 +20,7 @@
 # include <string.h>
 # include <errno.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <dirent.h>
 # include <unistd.h>
 
@@ -46,8 +47,8 @@ int		process_parser(t_list *list, t_valid_token *valid_token);
 /******************************************************************************/
 
 void	executor(const t_cmd *command);
-char	*find_binary(const char *bin_name);
-void	exec_bin(const char *binary_full_path, const t_cmd *command);
+char	*locate_binary_file(const char *bin_name);
+void	execute_bin(const char *binary_full_path, const t_cmd *command);
 
 /******************************************************************************/
 /*******************************_GENERAL_UTILES_*******************************/

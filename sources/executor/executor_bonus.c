@@ -32,7 +32,7 @@ void			executor(const t_cmd *command)
 		else
 		{
 			binary_full_path = create_full_path(bin_dir, command->name);
-			exec_bin(binary_full_path, command);
+			execute_bin(binary_full_path, command);
 			free(bin_dir);
 			free(binary_full_path);
 		}

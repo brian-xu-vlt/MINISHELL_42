@@ -1,17 +1,25 @@
 #include "minishell_bonus.h"
 
-	
-void	exec_bin(const char *binary_full_path, const t_cmd *command)
-{
-	execve(binary_full_path, command->av, get_env_data(GET)->envp);
-	return ;
-/*
-	pid_t	pid;
-	pid = fork();
 
-	if (pid != FAILURE && pid != 0)
-		execve(binary_full_path, command->av, get_env_data(GET)->envp);
+static void	child_process(const char *binary_full_path, const t_cmd *command)
+{
+		//execve(binary_full_path, command->av, get_env_data(GET)->envp);
+		execve(binary_full_path, command->av, NULL);
+}
+
+void		execute_bin(const char *binary_full_path, const t_cmd *command)
+{
+	pid_t	pid;
+	int		wstatus;
+
+	wstatus = 0;
+	pid = fork();
+	if (pid == 0)
+		child_process(binary_full_path, command);
+	else if (pid == FAILURE)
+		return ;
 	else
-		wait ;
-*/
+		pid = waitpid(pid, &wstatus, 0);
+
+	ft_printf("\nRETURN == %i\n", wstatus);
 }
