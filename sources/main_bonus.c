@@ -38,6 +38,7 @@ int			main(int ac, char **av, char **envp)
 		{
 			line_editor();
 			save_history();
+			ft_putstr_fd("\n", STDOUT_FILENO); //debug ?
 		}
 		else
 			read_loop(cmd_line);

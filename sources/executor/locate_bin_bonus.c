@@ -73,5 +73,4 @@ char		*locate_binary_file(const char *bin_name)
 	}
 	free_char_ptr_arr(dir_options);
 	return (find_binary_in_pwd(bin_name));
-		return (NOT_FOUND);
 }

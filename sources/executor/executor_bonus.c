@@ -17,12 +17,43 @@ static char		*create_full_path(const char *bin_dir, const char *bin_name)
 	return (full_path);
 }
 
+static int		is_builtin(const t_cmd *command)
+{
+	int					i;
+	static const int	builtins_nb = 3;
+	static const char	*builtin_names[builtins_nb] = 
+		{ "env", "export", "unset" };
+	int					(*builtin_functions[builtins_nb])(int, char **) = 
+		{ env_builtin, export_builtin, unset_builtin };
+
+	i = 0;
+	while (i < builtins_nb)
+	{
+		if (ft_strequ((char *)command->name, (char *)builtin_names[i]) == TRUE)
+		{
+			(builtin_functions[i])(command->ac, command->av);
+			return (TRUE);
+		}
+		i++;
+	}
+	return (FALSE);
+}
+
+static char		*find_binary(const char* bin_name)
+{
+	if (ft_strchr((char *)bin_name, '/') != NOT_FOUND)
+		return (ft_strdup(bin_name));
+	else
+		return(locate_binary_file(bin_name));
+}
+
 void			executor(const t_cmd *command)
 {
 	char			*bin_dir;
 	char			*binary_full_path;
 
-	write(STDERR_FILENO, "\n", 1);         // DEBUG / DEBUG / DEBUG / DEBUG / DEBUG / DEBUG / DEBUG
+	if (is_builtin(command) == TRUE)
+		return ;
 	bin_dir = NULL;
 	if (command->name != NULL)
 	{
