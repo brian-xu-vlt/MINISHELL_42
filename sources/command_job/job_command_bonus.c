@@ -14,7 +14,7 @@ t_cmd	*create_cmd(t_cmd *cmd_model)
 	if (cmd != NULL)
 	{
 		ft_bzero(cmd, sizeof(t_cmd));
-		cmd->name = ft_strdup("HELLO");/*cmd_model->av[0]*/
+		//cmd->name = ft_strdup("HELLO");/*cmd_model->av[0]*/
 		cmd->av = cmd_model->av;
 		cmd->ac = get_tablen(cmd_model->av);
 		cmd->fd[0] = STDIN_FILENO;
@@ -52,7 +52,7 @@ void	init_cmd_var(t_cmd *cmd, t_list **list)
 	t_token	*token;
 
 	ft_bzero(cmd, sizeof(t_cmd));
-	ft_printf("YEAH\n");
+	//ft_printf("INIT COMMAND VAR\n");//
 	cmd->av = NULL;
 	cmd->fd_string[0] = NULL;
 	cmd->fd_string[1] = NULL;
@@ -73,7 +73,8 @@ void	init_cmd_var(t_cmd *cmd, t_list **list)
 
 void	fill_cmd_model(t_cmd *cmd, t_token *token)
 {
-	ft_printf("FILL COMMAND_MODEL\n");//DEBUG*/
+	//printf("\nFILL COMMAND_MODEL\n");//DEBUG*/
+	//printf("token->content = %s\n\n", token->data);
 	(void)cmd;
 	(void)token;	
 }
@@ -81,6 +82,36 @@ void	fill_cmd_model(t_cmd *cmd, t_token *token)
 bool	is_cmd_sep(t_token *token)
 {
 	return (is_job_sep(token) || token->type == E_PIPE);
+}
+
+
+void	debug_cmd(t_cmd *cmd)
+{
+	if (cmd == NULL)
+		return ;
+	printf("------------ NEW CMD ----------------\n");
+	printf("name = %s\n", cmd->name);
+	for (int i = 0; i < cmd->ac; i++) 
+		printf("|-> av[%d] = [%s]\n", i, cmd->av[i]);
+	for (int i = 0; cmd->env[i] != NULL; i++) 
+		printf("|-> env[%d] = [%s]\n", i, cmd->env[i]);
+	for (int i = 0; i < 3; i++) 
+		printf("|-> fd_string[%d] = [%s]\n", i, cmd->fd_string[i]);
+	printf("-------------------------------------\n");
+}
+
+
+void	debug_token_list(t_list *list)
+{
+	t_token	*token;
+
+	ft_printf("/////////////////\n");
+	for (; list != NULL; list = list->next)
+	{
+		token = list->content;
+		parser_debug(token);
+	}
+	ft_printf("/////////////////\n");
 }
 
 void	add_job_to_list(t_list **head, t_list **jobs)
@@ -98,27 +129,35 @@ void	add_job_to_list(t_list **head, t_list **jobs)
 		return ;
 	job->ret = FAILURE;
 	job->cmd_lst = NULL;
+	//debug_token_list(token_list);
 	init_cmd_var(&cmd, &token_list);
 	while (token_list != NULL && is_job_sep(token_list->content) == false)
 	{
 		token = token_list->content;
-		ft_printf("HELLO\n");//DEBUG
+		ft_printf("\nDANS LA BOUCLE\n");//DEBUG
+		ft_printf("token->data = %s\n\n", token->data);//DEBUG
 		if (is_cmd_sep(token_list->content) == true)
 		{
+		//	debug_cmd(&cmd);
 			add_cmd_to_job(job, &cmd);
 			init_cmd_var(&cmd, &token_list);
+			continue ;
 		}
-		else if (token->type != E_ASSIGN)
-			fill_cmd_model(&cmd, token);
+		//else if (token->type != E_ASSIGN)
+		//	fill_cmd_model(&cmd, token); ->  la string est un  env
+		//else if (token->type != c'est une redirection)
+		//{
+		//	token_list = token_list->next;
+		//	fill_cmd_model(&cmd, token, REDIR_NB);	// -> la string est un fd_string
+		//}
 		else
-			fill_cmd_model(&cmd, token);	
+			fill_cmd_model(&cmd, token); //AV);	// -> la string est un av
 		token_list = token_list->next;
 	}
 	node_job = ft_lstnew(job);
 	ft_lstadd_back(jobs, node_job);
 	*head = token_list;
 }
-
 
 t_list	*get_jobs(t_list *token_list)
 {

@@ -99,4 +99,5 @@ t_vector	*get_env_value_vct(char *env_name);
 
 void		parse_env(char *env, char **env_name, t_vector **env_value,
 															int *append_flag);
+void	parser_debug(t_token *token);
 #endif

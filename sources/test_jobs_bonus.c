@@ -1,5 +1,10 @@
 #include "minishell_bonus.h"
 
+void	debug_jobs(t_job *jobs)
+{
+
+}
+
 t_job	*test_jobs(t_list *lexer_list)
 {
 	t_job		*jobs;
