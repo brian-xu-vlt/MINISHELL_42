@@ -19,6 +19,13 @@
 #define EXP				'$'//12
 #define ASSIGN			'='//13
 
+#define S_WORD			"WORD"
+#define S_EXP			"$"
+#define S_ASSIGN		"="
+#define S_START			"START"
+#define S_END				"END"
+#define S_NO_TYPE			"NO_TYPE"
+
 #define C_SEPARATOR			';'//0
 #define C_PIPE				'|'//1
 #define C_SIMPLE_QUOTE		'\''//2

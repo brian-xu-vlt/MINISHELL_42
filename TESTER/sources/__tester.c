@@ -54,8 +54,8 @@ int		main()
 	tester("\"hello&&hey\"", "START#WORD@\"hello&&hey\"#END");
 	tester("export \"test=ici\"=coucou", "START#WORD@export#=#\"test=ici\"=coucou#END");
 	tester("export \'\"hellohey\"\'=446", "START#WORD@export#=@\'\"hellohey\"\'=446#END");
-	//tester("", "");
-	//tester("", "");
+	tester("haha		he	y", "START#WORD@haha#WORD@he#WORD@y#END");
+	tester("\"HE	H	\" hello=	hey", "START#WORD@\"HE	H	\"#=@hello=#WORD@hey#END");
 	//tester("", "");
 	//tester("", "");
 	//tester("", "");

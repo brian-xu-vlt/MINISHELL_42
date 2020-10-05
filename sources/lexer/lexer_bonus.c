@@ -4,7 +4,8 @@ const char	*get_token_str(const int type)
 {
 	static const char *tokens[] = {SEPARATOR, PIPE, SIMPLE_QUOTE, QUOTE,
 					LESS_THAN, GREATER_THAN, SPACE, TAB, DOUBLE_GREATER,
-					OR, AND, "WORD", "$", "=", "START", "END", "NO_TYPE"};
+					OR, AND, S_WORD, S_EXP, S_ASSIGN, S_START, S_END
+					, S_NO_TYPE};
 	
 	return (tokens[type]);
 }
@@ -49,9 +50,9 @@ static int	process_lexer_word_assign(ssize_t type, t_list **token_list,
 	type = E_WORD;
 	if (vct_getlen(word) != 0)
 	{
-		if (vct_chr(word, '=') > 0)
+		if (vct_chr(word, ASSIGN) > 0)
 			type = E_ASSIGN;
-		else if (vct_getfirstchar(word) == '$')
+		else if (vct_getfirstchar(word) == EXP)
 			type = E_EXP;
 		ret = extract_token(token_list, vct_getstr(word), type);
 	}
@@ -66,14 +67,16 @@ static int	process_lexer(t_vector *input, t_list **token_list, t_vector *word)
 	char			c;
 
 	ret = 0;
-	while ((c = vct_getfirstchar(input)) == ' ')
+	while (vct_getfirstchar(input) == C_SPACE
+			|| vct_getfirstchar(input) == C_TAB)
 		vct_pop(input);
+	c = vct_getfirstchar(input);
 	if (vct_getlen(input) == 0)
 		return (ret);
 	type = get_double_token(input);
 	if (type == NO_TYPE)
 		type = get_token(c);
-	if (c == '\'' || c == '\"')
+	if (c == C_SIMPLE_QUOTE || c == C_QUOTE)
 		type = E_WORD;
 	if (type < E_WORD)
 		ret = process_lexer_no_word(type, token_list, word, input);

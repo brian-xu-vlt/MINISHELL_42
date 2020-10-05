@@ -75,9 +75,9 @@ int			handle_assign_quote(t_vector *input, t_vector *word)
 	while (vct_getlen(input) > 0)
 	{
 		c = vct_getfirstchar(input);
-		if (c == '\'')
+		if (c == C_SIMPLE_QUOTE)
 			quote_state = !quote_state;
-		else if (c == '\"')
+		else if (c == C_QUOTE)
 			dquote_state = !dquote_state;
 		if (quote_state == false && dquote_state == false
 				&& is_end(input) == true)
