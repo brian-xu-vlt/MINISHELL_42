@@ -3,6 +3,7 @@
 int	test_jobs(t_list *lexer_list)
 {
 	(void)lexer_list;
+	return (0);
 	/*jobs = get_jobs(lexer_list);
 	if (jobs == NULL)
 	{
