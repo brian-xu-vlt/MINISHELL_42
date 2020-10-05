@@ -59,7 +59,7 @@ static void		store_env(char *env, int export_flag)
 void			store_internal_var(char *env)
 {
 	store_env(env, FALSE);
-	update_envp();
+	update_envp();  // USEFULL ?....... check in tests
 }
 
 void			export_env(char *env)

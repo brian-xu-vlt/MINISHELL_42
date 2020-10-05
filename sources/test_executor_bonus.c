@@ -45,11 +45,14 @@ static t_cmd	*fake_cmd_parser(t_vector *cmd_line)
 int		test_executor(t_vector *cmd_line)
 {
 	t_cmd	*command;
-	
+
+	if (vct_getlen(cmd_line) == 0)
+		return (SUCCESS);
 	command = fake_cmd_parser(cmd_line);
 	if (command != NULL)
 	{
 		executor(command);
+		ft_printf("%s\n", vct_getstr(get_env_value_vct("?")));
 		free_command_struct(command);
 		return (SUCCESS);
 	}

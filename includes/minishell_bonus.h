@@ -48,7 +48,7 @@ int		process_parser(t_list *list, t_valid_token *valid_token);
 
 void	executor(const t_cmd *command);
 char	*locate_binary_file(const char *bin_name);
-void	execute_bin(const char *binary_full_path, const t_cmd *command);
+int		execute_bin(const char *binary_full_path, const t_cmd *command);
 
 /******************************************************************************/
 /*******************************_GENERAL_UTILES_*******************************/

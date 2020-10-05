@@ -32,10 +32,10 @@ int	export_builtin(int ac, char **av)
 		i = 1;
 		while (i < ac)
 		{
-			if (ft_isalpha(av[i][0]) == TRUE)
+//			if (ft_isalpha(av[i][0]) == TRUE)
 				export_env(av[i]);
-			else
-				print_set_errno(EINVAL, (char *)builtin, av[i]);
+//			else
+//				print_set_errno(EINVAL, (char *)builtin, av[i]);
 			i++;
 		}
 	}
