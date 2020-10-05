@@ -28,7 +28,6 @@
 int		test(t_vector *input);
 int		test_env(t_vector *input);
 t_list	*test_lexer(t_vector *input);
-int		test_jobs(t_list *lexer_list);
 int		test_parser(t_list *lexer_list);
 t_list	*lexer(t_vector *input);
 size_t	get_token(char c);
@@ -53,6 +52,7 @@ int		extract_token_word(t_list **token_list, t_vector *vct);
 char	*handle_bracket(char *str, t_list **token_list);
 int		get_new_type(t_vector *input);
 void	free_list_token(t_list **token);
+t_job	*test_jobs(t_list *lexer_list);
 
 
 void		debug(const int type);

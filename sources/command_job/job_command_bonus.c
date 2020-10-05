@@ -73,21 +73,7 @@ void	init_cmd_var(t_cmd *cmd, t_list **list)
 
 void	fill_cmd_model(t_cmd *cmd, t_token *token)
 {
-
-	/*char	*new_elem;
-	
-	new_elem = ft_strdup(token->data);
-	if (token->type != E_ASSIGN)
-	{
-		
-		cmd->ac++;
-	}
-	else
-	{
-
-	}
-	
-//	ft_printf("FILL COMMAND_MODEL\n");//DEBUG*/
+	ft_printf("FILL COMMAND_MODEL\n");//DEBUG*/
 	(void)cmd;
 	(void)token;	
 }
@@ -116,7 +102,7 @@ void	add_job_to_list(t_list **head, t_list **jobs)
 	while (token_list != NULL && is_job_sep(token_list->content) == false)
 	{
 		token = token_list->content;
-//		ft_printf("HELLO\n");//DEBUG
+		ft_printf("HELLO\n");//DEBUG
 		if (is_cmd_sep(token_list->content) == true)
 		{
 			add_cmd_to_job(job, &cmd);

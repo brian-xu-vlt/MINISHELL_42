@@ -7,7 +7,6 @@ static void	print_prompt(void)
 
 static void	read_loop(t_vector *cmd_line)
 {
-
 	print_prompt();
 	vct_readline(cmd_line, 0);
 }
@@ -28,6 +27,7 @@ int			main(int ac, char **av, char **envp)
 	t_vector	*cmd_line;
 	t_list		*lexer_list;
 	int			ret_parser;	
+	t_job		*jobs;
 
 	usage(ac, av);
 	init_env(envp);
@@ -57,8 +57,8 @@ int			main(int ac, char **av, char **envp)
 		lexer_list = test_lexer(cmd_line);
 		if (lexer_list != NULL)
 			ret_parser = test_parser(lexer_list);
-		/*if (ret_parser != FALSE)
-			jobs = test_jobs(lexer_list)*/
+		if (ret_parser != FALSE)
+			jobs = test_jobs(lexer_list);
 		free_list_token(&lexer_list);
 		vct_clear(cmd_line);
 	}

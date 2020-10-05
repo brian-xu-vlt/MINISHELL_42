@@ -4,7 +4,6 @@ t_list	*test_lexer(t_vector *input)
 {
 	t_list		*lexer_list;
 	
-	ft_printf("\n%s\n", vct_getstr(input));
 	lexer_list = lexer(input);
 	if (lexer_list == NULL)
 	{
