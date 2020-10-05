@@ -43,7 +43,7 @@ t_list *get_expected_list(char *expected)
 	t_list				*expected_list = NULL;
 	enum e_token_type	i;
 	int				expected_word = 0;
-	
+
 	expected_vct = vct_new();
 	vct_addstr(expected_vct, expected);
 	assert(expected != NULL && expected_vct != NULL);
@@ -56,22 +56,29 @@ t_list *get_expected_list(char *expected)
 		}
 		else
 		{
-			for (i = 0; i < g_nb_grammar_true_type; i++)
-			{
-				if (ft_strequ(g_grammar[i], vct_getstr(split)) == true)
-					break ;
-			}
-			if (i >= g_nb_grammar_true_type)
+			for (i = 0; i < g_nb_grammar_type; i++)
 			{
 				if (ft_strequ("$", vct_getstr(split)) == true)
+				{
 					expected_word = E_EXP;
+					break ;
+				}
 				else if (ft_strequ("=", vct_getstr(split)) == true)
+				{
 					expected_word = E_ASSIGN;
-				else
+					break ;
+				}
+				else if (ft_strequ("WORD", vct_getstr(split)) == true)
+				{
 					expected_word = E_WORD;
+					break ;
+				}
+				else if (ft_strequ(g_grammar[i], vct_getstr(split)) == true)
+				{
+					add_to_list(&expected_list, i, vct_getstr(split));
+					break ;
+				}
 			}
-			else
-				add_to_list(&expected_list, i, vct_getstr(split));
 		}
 		vct_del(&split);
 	}
@@ -98,14 +105,14 @@ bool	are_token_list_equal(t_list *expected, t_list *list)
 		token1 = list->content;
 		token2 = expected->content;
 		if (token1 == NULL || token2 == NULL
-			|| token1->type != token2->type
-			|| (token1->data == NULL && token2->data != NULL)
-			|| (token1->data != NULL && token2->data == NULL)
-			|| (token1->data != NULL && token2->data != NULL
-				&& ft_strequ(token1->data, token2->data) == false))
-{
+				|| token1->type != token2->type
+				|| (token1->data == NULL && token2->data != NULL)
+				|| (token1->data != NULL && token2->data == NULL)
+				|| (token1->data != NULL && token2->data != NULL
+					&& ft_strequ(token1->data, token2->data) == false))
+		{
 			return (false);
-}
+		}
 		expected = expected->next;
 		list = list->next;
 	}

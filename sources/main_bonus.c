@@ -14,6 +14,7 @@ static void	read_loop(t_vector *cmd_line)
 
 static void	usage(int ac, char **av)
 {
+	(void)ac;
 	(void)av;
 	if (ac != 1)
 	{
@@ -24,7 +25,9 @@ static void	usage(int ac, char **av)
 
 int			main(int ac, char **av, char **envp)
 {
-	t_vector	*cmd_line;	
+	t_vector	*cmd_line;
+	t_list		*lexer_list;
+	int			ret_parser;	
 
 	usage(ac, av);
 	init_env(envp);
@@ -32,6 +35,9 @@ int			main(int ac, char **av, char **envp)
 	if (cmd_line == NULL)
 		exit_routine_le(ERR_MALLOC);
 	init_line_editor(cmd_line);
+	//init_minishell();
+	lexer_list = NULL;
+	ret_parser = SUCCESS;
 	while (1)
 	{
 		if (BONUS_FLAG == TRUE)
@@ -48,6 +54,12 @@ int			main(int ac, char **av, char **envp)
 			exit_routine_le(NULL);
 			return (EXIT_FAILURE);//ERREUR
 		}
+		lexer_list = test_lexer(cmd_line);
+		if (lexer_list != NULL)
+			ret_parser = test_parser(lexer_list);
+		/*if (ret_parser != FALSE)
+			jobs = test_jobs(lexer_list)*/
+		free_list_token(&lexer_list);
 		vct_clear(cmd_line);
 	}
 	exit_routine_le(NULL);
