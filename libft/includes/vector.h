@@ -6,7 +6,7 @@
 /*   By: lfallet <lfallet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/27 19:00:06 by lfallet           #+#    #+#             */
-/*   Updated: 2020/09/10 18:39:48 by bvalette         ###   ########.fr       */
+/*   Updated: 2020/09/28 12:44:41 by lfallet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,6 @@ char			vct_getcharat(t_vector *vct, size_t index);
 void			vct_clear(t_vector *vct);
 int				vct_chrnstr(t_vector *vct, char *str);
 ssize_t			vct_nbchar(t_vector *vct, char *str);
+char			vct_getlastchar(t_vector *vct);
 
 #endif

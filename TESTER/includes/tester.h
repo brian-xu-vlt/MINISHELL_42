@@ -17,6 +17,8 @@
 #define STR_WORD		"WORD"//11
 #define EXP				"$"//12
 #define ASSIGN			"="//13
+#define START			"START"//14
+#define END				"END"//15
 
 enum e_token_type
 {

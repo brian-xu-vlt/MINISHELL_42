@@ -4,6 +4,7 @@ LIB = $(LIBDIR)libft.a
 
 CFLAGS += -Wall
 CFLAGS += -Wextra
+CFLAGS += -fPIC
 ifeq ($(debug), 0)
 	CFLAGS += -g3
 else ifeq ($(debug), 1)
@@ -46,19 +47,21 @@ INCLUDES_LIB = ./libft/includes/
 
 HEADER = $(INCLUDES)minishell_bonus.h
 
-ifeq ($(test), 1)
-	SRCS += main_tester_parser.c #TO DELETE
-else
-	SRCS += main_bonus.c
-endif
-
-SRCS += test_bonus.c
+#SRCS += test_bonus.c
 SRCS += test_env_bonus.c
+<<<<<<< HEAD
 SRCS += test_executor_bonus.c
+||||||| merged common ancestors
+=======
+SRCS += main_bonus.c
+#SRCS += main_tester_parser.c #TO DELETE
+SRCS += test_lexer_bonus.c
+SRCS += test_parser_bonus.c
+SRCS += test_jobs_bonus.c
+>>>>>>> develop
 SRCS += lexer_bonus.c
 SRCS += token_bonus.c
 SRCS += free_list_bonus.c
-SRCS += lexer_utils_bonus.c
 SRCS += parser_bonus.c
 SRCS += parser_process_bonus.c
 
@@ -93,11 +96,18 @@ SRCS += utils_env_bonus.c
 SRCS += get_export_output_bonus.c
 SRCS += line_editor_bonus.c
 SRCS += print_errno.c
+<<<<<<< HEAD
 SRCS += general_utils_bonus.c
 
 SRCS += executor_bonus.c
 SRCS += locate_bin_bonus.c
 SRCS += exec_bin_bonus.c
+||||||| merged common ancestors
+=======
+SRCS += job_command_bonus.c
+SRCS += handle_no_word_bonus.c
+SRCS += handle_no_word_utils_bonus.c
+>>>>>>> develop
 
 OBJ_DIR = ./objs/
 
@@ -117,6 +127,7 @@ vpath %.c sources/line_editor/utils
 vpath %.c sources/line_editor/handlers/clipboard
 vpath %.c sources/line_editor/handlers/selection
 vpath %.c sources/line_editor/handlers/special_keys
+vpath %.c sources/command_job
 
 OBJS = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 
@@ -127,7 +138,7 @@ $(OBJS): $(OBJ_DIR)%.o: %.c $(HEADER)
 	$(CC) -D DEBUG_MODE=$(DEBUG_MODE) -D BONUS_FLAG=1 $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
  
 $(NAME): $(OBJ_DIR) $(OBJS)
-	$(CC) $(LIB_TERMCAP) $(CFLAGS) $(OBJS) -I$(INCLUDES) -I$(INCLUDES_LIB) -L./libft -lft -o $@
+	$(CC) $(CFLAGS) $(OBJS) -I$(INCLUDES) -I$(INCLUDES_LIB) $(LIB_TERMCAP) -L./libft -lft -o $@
 	echo "\033[32m$@ is ready !\033[0m"
 
 $(OBJ_DIR):

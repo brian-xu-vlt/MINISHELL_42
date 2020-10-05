@@ -1,33 +1,42 @@
 #include "minishell_bonus.h"
 
-/*void		debug(enum e_token_type to_find, enum e_token_type *current,
-						enum e_token_type valid_token[], size_t i)
+void	parser_debug(t_token *token)
 {
-	char	*tab[17] = {"SEP", "PIPE", "SIMPLE_QUOTE", "QUOTE", "LESS_THAN",
-						"GREATER_THAN", "SPACE", "TAB", "DOUBLE_GREATER",
-						"OR", "AND", "WORD", "EXP", "ASSIGN", "START", "END",
-						"NO_TYPE"};
+	if (token->data != NULL)
+		printf("type = %-*s | data [%s]\n", 8,
+			get_token_str(token->type), token->data);
+	else
+		printf("type = %-*s\n", 8, get_token_str(token->type));
+}
 
-	printf("valid_token[%s] = %u\n", tab[*current], to_find);//DEBUG
-}*/
-
-static int	check_token(enum e_token_type to_find, enum e_token_type *current,
+static int	check_token(t_token *token, enum e_token_type *current,
 						enum e_token_type valid_token[])
 {
-	size_t	i;
+	size_t					i;
+	const enum e_token_type to_find = token->type;
+	int						ret;
 
 	i = 0;
-	while (valid_token[i] != NO_TYPE)
+	ret = FALSE;
+	if (*current == E_END)
+		ret = TRUE;
+	else
 	{
-		if (valid_token[i] == to_find)
+		while (valid_token[i] != NO_TYPE)
 		{
-			//debug(to_find, current, valid_token, i);//DEBUG
-			*current = to_find;
-			return (TRUE);
+			if (valid_token[i] == to_find)
+			{
+				*current = to_find;
+				ret = TRUE;
+				break ;
+			}
+			i++;
 		}
-		i++;
+
 	}
-	return (FALSE);
+	//if (ret == TRUE)
+		//parser_debug(token);
+	return (ret);
 }
 
 int			process_parser(t_list *list, t_valid_token *valid_token)
@@ -39,7 +48,7 @@ int			process_parser(t_list *list, t_valid_token *valid_token)
 	while (list != NULL)
 	{
 		token = (t_token *)list->content;
-		if (check_token(token->type, &current,
+		if (check_token(token, &current,
 							valid_token[current].next_token) == FALSE)
 		{
 			return (FALSE); //MESSAGE D'ERREUR
