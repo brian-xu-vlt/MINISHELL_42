@@ -73,8 +73,7 @@ void	init_cmd_var(t_cmd *cmd, t_list **list)
 
 void	fill_cmd_model(t_cmd *cmd, t_token *token)
 {
-	//printf("\nFILL COMMAND_MODEL\n");//DEBUG*/
-	//printf("token->content = %s\n\n", token->data);
+	//sert a ajouter le contenu au fur et a mesure
 	(void)cmd;
 	(void)token;	
 }
@@ -100,6 +99,18 @@ void	debug_cmd(t_cmd *cmd)
 	printf("-------------------------------------\n");
 }
 
+static int	next_is_end(t_list *token_list)
+{
+	t_list	*tmp_list;
+	t_token	*token;
+
+	tmp_list = token_list;
+	tmp_list = tmp_list->next;
+	if (tmp_list == NULL)
+		return (false);
+	token = tmp_list->content;
+	return (token->type == E_END ? true : false);
+}
 
 void	debug_token_list(t_list *list)
 {
@@ -130,30 +141,36 @@ void	add_job_to_list(t_list **head, t_list **jobs)
 	job->ret = FAILURE;
 	job->cmd_lst = NULL;
 	//debug_token_list(token_list);
+	ft_printf("\n");//DEBUG
 	init_cmd_var(&cmd, &token_list);
 	while (token_list != NULL && is_job_sep(token_list->content) == false)
 	{
 		token = token_list->content;
-		ft_printf("\nDANS LA BOUCLE\n");//DEBUG
-		ft_printf("token->data = %s\n\n", token->data);//DEBUG
-		if (is_cmd_sep(token_list->content) == true)
+		if (token->type == E_END)
 		{
-		//	debug_cmd(&cmd);
+			token_list = token_list->next;
+			break ;
+		}
+		if (is_cmd_sep(token_list->content) == true
+				|| next_is_end(token_list) == true)
+		{
+			if (next_is_end(token_list) == true)
+				fill_cmd_model(&cmd, token);
 			add_cmd_to_job(job, &cmd);
 			init_cmd_var(&cmd, &token_list);
 			continue ;
 		}
-		//else if (token->type != E_ASSIGN)
-		//	fill_cmd_model(&cmd, token); ->  la string est un  env
-		//else if (token->type != c'est une redirection)
-		//{
-		//	token_list = token_list->next;
-		//	fill_cmd_model(&cmd, token, REDIR_NB);	// -> la string est un fd_string
-		//}
+		else if (token->type == E_ASSIGN)
+			fill_cmd_model(&cmd, token); //->  la string est un  env
+		else if (token->type == E_LESS_THAN || token->type == E_GREATER_THAN
+					|| token->type == E_DOUBLE_GREATER)
+			fill_cmd_model(&cmd, token/*, REDIR_NB*/);	// -> la string est un fd_string
 		else
 			fill_cmd_model(&cmd, token); //AV);	// -> la string est un av
 		token_list = token_list->next;
 	}
+	if (token_list != NULL)
+		add_cmd_to_job(job, &cmd);
 	node_job = ft_lstnew(job);
 	ft_lstadd_back(jobs, node_job);
 	*head = token_list;
@@ -163,6 +180,8 @@ t_list	*get_jobs(t_list *token_list)
 {
 	t_list	*jobs = NULL;
 
+	ft_printf("\n");//DEBUG
+	ft_printf("************************************************************\n");//DEBUG
 	while (token_list != NULL)
 		add_job_to_list(&token_list, &jobs);
 	return (jobs);
