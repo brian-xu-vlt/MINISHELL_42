@@ -1,5 +1,42 @@
 #include "minishell_bonus.h"
 
+static bool	is_end_cmd(t_token *token, t_list **token_list, t_cmd *cmd, t_job *job)
+{
+	if (is_cmd_sep(token) == true
+			|| next_is_end(token_list) == true)
+	{
+		if (next_is_end(token_list) == true)
+			fill_cmd_model(cmd, token);
+		add_cmd_to_job(job, cmd);
+		init_cmd_var(cmd, token_list);
+		return (true);
+	}
+	return (false);
+}
+
+static void	is_cmd(t_token *token, t_cmd *cmd)
+{
+	if (token->type == E_ASSIGN)
+		fill_cmd_model(cmd, token); //->  la string est un  env
+	else if (token->type == E_LESS_THAN || token->type == E_GREATER_THAN
+			|| token->type == E_DOUBLE_GREATER)
+		fill_cmd_model(cmd, token/*, REDIR_NB*/);	// -> la string est un fd_string
+	else
+		fill_cmd_model(cmd, token); //AV);	// -> la string est un av
+}
+
+static t_job	*init_job()
+{
+	t_job	*job;
+	
+	job = (t_job *)malloc(sizeof(t_job));
+	if (job == NULL)
+		return (NULL);
+	job->ret = FAILURE;
+	job->cmd_lst = NULL;
+	return (job);
+}
+
 void	process_sep(t_list **head, t_list **jobs)
 {
 	t_list *token_list = *head;
@@ -8,15 +45,9 @@ void	process_sep(t_list **head, t_list **jobs)
 	t_cmd	cmd;
 	t_token	*token;
 
-	if (*head == NULL)
+	job = init_job();
+	if (*head == NULL || job == NULL)
 		return ;
-	job = (t_job *)malloc(sizeof(t_job));
-	if (job == NULL)
-		return ;
-	job->ret = FAILURE;
-	job->cmd_lst = NULL;
-	//debug_token_list(token_list);
-	ft_printf("\n");//DEBUG
 	init_cmd_var(&cmd, &token_list);
 	while (token_list != NULL && is_job_sep(token_list->content) == false)
 	{
@@ -26,22 +57,9 @@ void	process_sep(t_list **head, t_list **jobs)
 			token_list = token_list->next;
 			break ;
 		}
-		if (is_cmd_sep(token_list->content) == true
-				|| next_is_end(token_list) == true)
-		{
-			if (next_is_end(token_list) == true)
-				fill_cmd_model(&cmd, token);
-			add_cmd_to_job(job, &cmd);
-			init_cmd_var(&cmd, &token_list);
+		if (is_end_cmd(token, &token_list, &cmd, job) == true)
 			continue ;
-		}
-		else if (token->type == E_ASSIGN)
-			fill_cmd_model(&cmd, token); //->  la string est un  env
-		else if (token->type == E_LESS_THAN || token->type == E_GREATER_THAN
-					|| token->type == E_DOUBLE_GREATER)
-			fill_cmd_model(&cmd, token/*, REDIR_NB*/);	// -> la string est un fd_string
-		else
-			fill_cmd_model(&cmd, token); //AV);	// -> la string est un av
+		is_cmd(token, &cmd);
 		token_list = token_list->next;
 	}
 	if (token_list != NULL)

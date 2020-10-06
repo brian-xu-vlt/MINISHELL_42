@@ -71,7 +71,7 @@ void		debug(const int type);
 t_list	*get_jobs(t_list *token_list);
 void	free_list_jobs(t_list **jobs);
 void	debug_token_list(t_list *list);
-int		next_is_end(t_list *token_list);
+int		next_is_end(t_list **token_list);
 bool	is_cmd_sep(t_token *token);
 bool	is_job_sep(t_token *token);
 int		get_tablen(char **av);
