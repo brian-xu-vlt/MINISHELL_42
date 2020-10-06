@@ -27,7 +27,7 @@ int			main(int ac, char **av, char **envp)
 	t_vector	*cmd_line;
 	t_list		*lexer_list;
 	int			ret_parser;	
-	t_job		*jobs;
+	t_list		*jobs;
 
 	usage(ac, av);
 	init_env(envp);

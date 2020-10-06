@@ -29,7 +29,7 @@ int		test(t_vector *input);
 int		test_env(t_vector *input);
 t_list	*test_lexer(t_vector *input);
 int		test_parser(t_list *lexer_list);
-t_job	*test_jobs(t_list *lexer_list);
+t_list	*test_jobs(t_list *lexer_list);
 
 /******************************************************************************/
 /*******************************_LEXER_****************************************/

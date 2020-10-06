@@ -29,7 +29,6 @@ void add_cmd_to_job(t_job *job, t_cmd *cmd_model)
 	t_cmd 	*cmd;
 	t_list	*cmd_node;
 
-	ft_printf("ADD COMMAND TO JOB\n");//DEBUG
 	cmd = create_cmd(cmd_model);
 	cmd_node = ft_lstnew(cmd);
 	ft_lstadd_back(&job->cmd_lst, cmd_node);
@@ -60,7 +59,6 @@ void	init_cmd_var(t_cmd *cmd, t_list **list)
 
 void	fill_cmd_model(t_cmd *cmd, t_token *token)
 {
-	ft_printf("FILL COMMAND\n");//DEBUG
 	//sert a ajouter le contenu au fur et a mesure
 	(void)cmd;
 	(void)token;	
