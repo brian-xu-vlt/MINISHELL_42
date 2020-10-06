@@ -49,16 +49,12 @@ HEADER = $(INCLUDES)minishell_bonus.h
 
 #SRCS += test_bonus.c
 SRCS += test_env_bonus.c
-<<<<<<< HEAD
 SRCS += test_executor_bonus.c
-||||||| merged common ancestors
-=======
 SRCS += main_bonus.c
 #SRCS += main_tester_parser.c #TO DELETE
 SRCS += test_lexer_bonus.c
 SRCS += test_parser_bonus.c
 SRCS += test_jobs_bonus.c
->>>>>>> develop
 SRCS += lexer_bonus.c
 SRCS += token_bonus.c
 SRCS += free_list_bonus.c
@@ -96,18 +92,14 @@ SRCS += utils_env_bonus.c
 SRCS += get_export_output_bonus.c
 SRCS += line_editor_bonus.c
 SRCS += print_errno.c
-<<<<<<< HEAD
 SRCS += general_utils_bonus.c
 
 SRCS += executor_bonus.c
 SRCS += locate_bin_bonus.c
 SRCS += exec_bin_bonus.c
-||||||| merged common ancestors
-=======
 SRCS += job_command_bonus.c
 SRCS += handle_no_word_bonus.c
 SRCS += handle_no_word_utils_bonus.c
->>>>>>> develop
 
 OBJ_DIR = ./objs/
 
