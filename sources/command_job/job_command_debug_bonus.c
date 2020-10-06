@@ -8,8 +8,6 @@ void	debug_cmd(t_cmd *cmd)
 	printf("name = %s\n", cmd->name);
 	for (int i = 0; i < cmd->ac; i++) 
 		printf("|-> av[%d] = [%s]\n", i, cmd->av[i]);
-	for (int i = 0; cmd->env[i] != NULL; i++) 
-		printf("|-> env[%d] = [%s]\n", i, cmd->env[i]);
 	for (int i = 0; i < 3; i++) 
 		printf("|-> fd_string[%d] = [%s]\n", i, cmd->fd_string[i]);
 	printf("-------------------------------------\n");

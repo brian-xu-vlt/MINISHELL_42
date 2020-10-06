@@ -55,7 +55,6 @@ typedef struct				s_cmd
 	int						ac;
 	int						fd[NB_FD];
 	char					*fd_string[NB_FD];
-	char					**env;
 	enum e_condition_type	condition;
 	int						ret;
 }

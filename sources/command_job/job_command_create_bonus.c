@@ -17,7 +17,6 @@ t_cmd	*create_cmd(t_cmd *cmd_model)
 		cmd->fd_string[0] = cmd_model->fd_string[0];
 		cmd->fd_string[1] = cmd_model->fd_string[1];
 		cmd->fd_string[2] = cmd_model->fd_string[2];
-		cmd->env = cmd_model->env;
 		cmd->condition = cmd_model->condition;
 		cmd->ret = FAILURE;
 	}
@@ -44,7 +43,6 @@ void	init_cmd_var(t_cmd *cmd, t_list **list)
 	cmd->fd_string[0] = NULL;
 	cmd->fd_string[1] = NULL;
 	cmd->fd_string[2] = NULL;
-	cmd->env = NULL;
 	cmd->condition = E_NONE;
 	if (*list != NULL)
 	{

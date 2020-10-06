@@ -40,9 +40,9 @@ enum e_token_type
 
 enum e_condition_type
 {
+	E_NONE,
 	E_NOT_OR,
-	E_YES_AND,
-	E_NONE
+	E_YES_AND
 };
 
 #endif
