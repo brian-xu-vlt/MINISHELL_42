@@ -29,6 +29,12 @@ int		test(t_vector *input);
 int		test_env(t_vector *input);
 t_list	*test_lexer(t_vector *input);
 int		test_parser(t_list *lexer_list);
+t_job	*test_jobs(t_list *lexer_list);
+
+/******************************************************************************/
+/*******************************_LEXER_****************************************/
+/******************************************************************************/
+
 t_list	*lexer(t_vector *input);
 size_t	get_token(char c);
 ssize_t	get_double_token(t_vector *input);
@@ -37,10 +43,6 @@ int		handle_quote(t_vector *input, t_list **token_list, int ret);
 int 	extract_token(t_list **token_list, char *str, size_t type);
 void	exit_routine_lexer(t_vector *word, t_vector *vct, t_vector *tmp,
 							t_token *token);
-int		parser_token(t_list *token_list);
-int		process_parser(t_list *list, t_valid_token *valid_token);
-t_list	*get_jobs(t_list *token_list);
-void	free_list_jobs(t_list **jobs);
 int		handle_assign_quote(t_vector *input, t_vector *word);
 int		quote_checker(char *str);
 bool	is_simplequote(t_vector *input);
@@ -52,11 +54,31 @@ int		extract_token_word(t_list **token_list, t_vector *vct);
 char	*handle_bracket(char *str, t_list **token_list);
 int		get_new_type(t_vector *input);
 void	free_list_token(t_list **token);
-t_job	*test_jobs(t_list *lexer_list);
-
-
-void		debug(const int type);
 const char	*get_token_str(const int type);
+
+/******************************************************************************/
+/*******************************_PARSER_***************************************/
+/******************************************************************************/
+
+int		parser_token(t_list *token_list);
+int		process_parser(t_list *list, t_valid_token *valid_token);
+void		debug(const int type);
+
+/******************************************************************************/
+/*******************************_JOB/COMMAND_**********************************/
+/******************************************************************************/
+
+t_list	*get_jobs(t_list *token_list);
+void	free_list_jobs(t_list **jobs);
+void	debug_token_list(t_list *list);
+int		next_is_end(t_list *token_list);
+bool	is_cmd_sep(t_token *token);
+bool	is_job_sep(t_token *token);
+int		get_tablen(char **av);
+t_cmd	*create_cmd(t_cmd *cmd_model);
+void 	add_cmd_to_job(t_job *job, t_cmd *cmd_model);
+void	init_cmd_var(t_cmd *cmd, t_list **list);
+void	fill_cmd_model(t_cmd *cmd, t_token *token);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/
