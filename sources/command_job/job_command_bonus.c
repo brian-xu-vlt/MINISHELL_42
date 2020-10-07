@@ -25,7 +25,7 @@ static bool	is_end_cmd(t_token *token, t_list **token_list, t_cmd *cmd, t_job *j
 	return (false);
 }
 
-static void	is_cmd(t_token *token, t_cmd *cmd)
+static int	is_cmd(t_token *token, t_cmd *cmd, int add_command)
 {
 	if (token->type == E_ASSIGN)
 		fill_cmd_model(cmd, token, E_CMD_ASSIGN);
@@ -35,6 +35,11 @@ static void	is_cmd(t_token *token, t_cmd *cmd)
 						E_CMD_DOUBLE_REDIRECTION : E_CMD_SIMPLE_REDIRECTION);
 	else
 		fill_cmd_model(cmd, token, E_CMD_AV);
+	if (add_command == TRUE)
+		return (true);
+	return (token->type == E_ASSIGN || (token->type == E_LESS_THAN
+				|| token->type == E_GREATER_THAN
+				|| token->type == E_DOUBLE_GREATER) ? true : false);
 }
 
 static t_job	*init_job()
@@ -56,7 +61,9 @@ void	process_sep(t_list **head, t_list **jobs)
 	t_job	*job;
 	t_cmd	cmd;
 	t_token	*token;
+	int		add_command;
 
+	add_command = FALSE;
 	job = init_job();
 	if (*head == NULL || job == NULL)
 		return ;
@@ -71,7 +78,18 @@ void	process_sep(t_list **head, t_list **jobs)
 		}
 		if (is_end_cmd(token, &token_list, &cmd, job) == true)
 			continue ;
-		is_cmd(token, &cmd);
+		if (is_cmd(token, &cmd, add_command) == TRUE)
+		{
+			if (add_command == TRUE && next_is_cmd_sep(token_list) == false)
+			{
+				ft_printf("ADD COMMAND TRUE\n");//DEBUG
+				add_cmd_to_job(job, &cmd);
+				add_command = FALSE;
+			}
+			else
+				add_command = TRUE;
+
+		}
 		token_list = token_list->next;
 	}
 	if (token_list != NULL)

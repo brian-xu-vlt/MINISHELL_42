@@ -80,6 +80,7 @@ void 	add_cmd_to_job(t_job *job, t_cmd *cmd_model);
 void	init_cmd_var(t_cmd *cmd, t_list **list);
 void	fill_cmd_model(t_cmd *cmd, t_token *token, int type);
 char	*debug_get_type(int type);
+int		next_is_cmd_sep(t_list *token_list);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/

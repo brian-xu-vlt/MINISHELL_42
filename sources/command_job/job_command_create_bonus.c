@@ -58,9 +58,9 @@ void	init_cmd_var(t_cmd *cmd, t_list **list)
 
 void	fill_cmd_model(t_cmd *cmd, t_token *token, int type)
 {
-	ft_printf("FILL COMMAND MODEL\n");//DEBUG
+	//ft_printf("FILL COMMAND MODEL\n");//DEBUG
 	ft_printf("token->data = %s\n", token->data);//DEBUG
-	ft_printf("type = %s\n", debug_get_type(type));//DEBUG
+	//ft_printf("type = %s\n", debug_get_type(type));//DEBUG
 	//sert a ajouter le contenu au fur et a mesure
 	(void)cmd;
 	(void)token;	
