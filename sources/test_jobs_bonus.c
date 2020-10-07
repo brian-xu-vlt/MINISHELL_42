@@ -28,6 +28,7 @@ void	debug_jobs(t_list *job_list)
 	size_t	i;
 	
 	i = 1;
+	ft_printf("\n");//DEBUG
 	while (job_list != NULL)
 	{
 		job = job_list->content;
@@ -42,7 +43,8 @@ void	debug_jobs(t_list *job_list)
 			ft_printf("fd_string[0] = %s\n", cmd->fd_string[0]);
 			ft_printf("fd_string[1] = %s\n", cmd->fd_string[1]);
 			ft_printf("fd_string[2] = %s\n", cmd->fd_string[2]);
-			ft_printf("condition = %s\n\n", what_conditon(cmd->condition));
+			ft_printf("condition = %s\n", what_conditon(cmd->condition));
+			ft_printf("condition = %d\n\n", cmd->redirection);
 			job->cmd_lst = job->cmd_lst->next;
 		}
 		ft_printf("\n");

@@ -45,4 +45,12 @@ enum e_condition_type
 	E_YES_AND
 };
 
+enum e_cmd_type
+{
+	E_CMD_ASSIGN,
+	E_CMD_SIMPLE_REDIRECTION,
+	E_CMD_DOUBLE_REDIRECTION,
+	E_CMD_AV
+};
+
 #endif

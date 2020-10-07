@@ -78,7 +78,8 @@ int		get_tablen(char **av);
 t_cmd	*create_cmd(t_cmd *cmd_model);
 void 	add_cmd_to_job(t_job *job, t_cmd *cmd_model);
 void	init_cmd_var(t_cmd *cmd, t_list **list);
-void	fill_cmd_model(t_cmd *cmd, t_token *token);
+void	fill_cmd_model(t_cmd *cmd, t_token *token, int type);
+char	*debug_get_type(int type);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/

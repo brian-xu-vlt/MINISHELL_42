@@ -1,5 +1,21 @@
 #include "minishell_bonus.h"
 
+char	*debug_get_type(int type)
+{
+	char	*str_type[] = {"CMD_ASSIGN", "CMD_SIMPLE_REDIRECTION",
+								"CMD_DOUBLE_REDIRECTION", "CMD_AV"};
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		if (i == type)
+			return (str_type[i]);
+		i++;
+	}
+	return (NULL);
+}
+
 void	debug_cmd(t_cmd *cmd)
 {
 	if (cmd == NULL)
