@@ -95,6 +95,7 @@ SRCS += handle_no_word_utils_bonus.c
 SRCS += job_command_debug_bonus.c
 SRCS += job_command_utils_bonus.c
 SRCS += job_command_create_bonus.c
+SRCS += job_command_fill_bonus.c
 
 OBJ_DIR = ./objs/
 

@@ -8,7 +8,7 @@ t_cmd	*create_cmd(t_cmd *cmd_model)
 	if (cmd != NULL)
 	{
 		ft_bzero(cmd, sizeof(t_cmd));
-		//cmd->name = ft_strdup("HELLO");/*cmd_model->av[0]*/
+		cmd->name = ft_strdup(cmd_model->name);
 		cmd->av = cmd_model->av;
 		cmd->ac = get_tablen(cmd_model->av);
 		cmd->fd[0] = STDIN_FILENO;
@@ -28,6 +28,7 @@ void add_cmd_to_job(t_job *job, t_cmd *cmd_model)
 	t_cmd 	*cmd;
 	t_list	*cmd_node;
 
+	ft_printf("#############ADD COMMAND TO JOB\n");//DEBUG
 	cmd = create_cmd(cmd_model);
 	cmd_node = ft_lstnew(cmd);
 	ft_lstadd_back(&job->cmd_lst, cmd_node);
@@ -58,9 +59,16 @@ void	init_cmd_var(t_cmd *cmd, t_list **list)
 
 void	fill_cmd_model(t_cmd *cmd, t_token *token, int type)
 {
-	//ft_printf("FILL COMMAND MODEL\n");//DEBUG
+	ft_printf("FILL COMMAND MODEL\n");//DEBUG
 	ft_printf("token->data = %s\n", token->data);//DEBUG
-	//ft_printf("type = %s\n", debug_get_type(type));//DEBUG
+	ft_printf("type = %s\n\n", debug_get_type(type));//DEBUG
+	if (type == RESIZE)
+	{
+		cmd->name = ft_strdup(fill_name(NULL));
+		ft_printf("RESIZE\n");//DEBUG
+		return ;
+	}
+	fill_name(token->data);
 	//sert a ajouter le contenu au fur et a mesure
 	(void)cmd;
 	(void)token;	

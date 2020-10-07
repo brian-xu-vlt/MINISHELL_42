@@ -48,6 +48,11 @@ typedef struct					s_valid_token
 /*******************************_JOB/COMMAND_**********************************/
 /******************************************************************************/
 
+typedef struct				s_draft
+{
+	t_vector				*name;
+}							t_draft;
+
 typedef struct				s_cmd
 {
 	char					*name;

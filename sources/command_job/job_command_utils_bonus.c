@@ -6,7 +6,6 @@ int	get_tablen(char **av)
 	return (0);
 }
 
-
 int	next_is_end(t_list **token_list)
 {
 	t_list	*tmp_list;

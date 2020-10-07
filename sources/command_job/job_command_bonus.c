@@ -18,6 +18,7 @@ static bool	is_end_cmd(t_token *token, t_list **token_list, t_cmd *cmd, t_job *j
 	{
 		if (next_is_end(token_list) == true)
 			fill_cmd_model(cmd, token, get_command(token->type));
+		fill_cmd_model(cmd, token, RESIZE);
 		add_cmd_to_job(job, cmd);
 		init_cmd_var(cmd, token_list);
 		return (true);
@@ -82,7 +83,7 @@ void	process_sep(t_list **head, t_list **jobs)
 		{
 			if (add_command == TRUE && next_is_cmd_sep(token_list) == false)
 			{
-				ft_printf("ADD COMMAND TRUE\n");//DEBUG
+				fill_cmd_model(&cmd, token, RESIZE);
 				add_cmd_to_job(job, &cmd);
 				add_command = FALSE;
 			}
@@ -93,7 +94,10 @@ void	process_sep(t_list **head, t_list **jobs)
 		token_list = token_list->next;
 	}
 	if (token_list != NULL)
+	{
+		fill_cmd_model(&cmd, token, RESIZE);
 		add_cmd_to_job(job, &cmd);
+	}
 	node_job = ft_lstnew(job);
 	ft_lstadd_back(jobs, node_job);
 	*head = token_list;

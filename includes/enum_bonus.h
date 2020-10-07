@@ -53,4 +53,6 @@ enum e_cmd_type
 	E_CMD_AV
 };
 
+#define RESIZE	4
+
 #endif
