@@ -7,7 +7,7 @@ char	*fill_name(char *str)
 
 	tmp_name = NULL;
 	if (str == NULL)
-	{	
+	{
 		tmp_name = vct_new();
 		vct_addstr(tmp_name, vct_getstr(name));
 		vct_cut(tmp_name);
@@ -19,4 +19,24 @@ char	*fill_name(char *str)
 	vct_addstr(name, str);
 	vct_add(name, C_SPACE);
 	return (NULL);
+}
+
+char	**fill_av(t_cmd *cmd)
+{
+	size_t	ac;
+
+	ac = 0;
+	ft_printf("FILL AV\n");//DEBUG
+	cmd->av = ft_split(cmd->name, C_SPACE);
+	return (cmd->av);
+}
+
+int	fill_ac(char **av)
+{
+	int	ac;
+
+	ac = 0;
+	while (av[ac] != NULL)
+		ac++;
+	return (ac);
 }

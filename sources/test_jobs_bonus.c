@@ -7,7 +7,7 @@ static void	debug_av(char **av, int ac)
 	i = 0;
 	while (i < ac)
 	{
-		ft_printf("av[%d] = %s\n", av[0]);
+		ft_printf("av[%d] = %s\n", i, av[i]);
 		i++;	
 	}
 }

@@ -1,5 +1,14 @@
 #include "minishell_bonus.h"
 
+char	*get_data(int type)
+{
+	if (type == E_GREATER_THAN)
+		return (">");
+	else if (type == E_LESS_THAN)
+		return ("<");
+	return (">>");
+}
+
 int	get_tablen(char **av)
 {
 	(void)av;

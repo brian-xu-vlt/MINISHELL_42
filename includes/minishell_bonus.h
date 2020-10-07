@@ -55,6 +55,7 @@ char	*handle_bracket(char *str, t_list **token_list);
 int		get_new_type(t_vector *input);
 void	free_list_token(t_list **token);
 const char	*get_token_str(const int type);
+char	*get_data(int type);
 
 /******************************************************************************/
 /*******************************_PARSER_***************************************/
@@ -82,6 +83,8 @@ void	fill_cmd_model(t_cmd *cmd, t_token *token, int type);
 char	*debug_get_type(int type);
 int		next_is_cmd_sep(t_list *token_list);
 char	*fill_name(char *str);
+char	**fill_av(t_cmd *cmd);
+int		fill_ac(char **av);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/
