@@ -85,6 +85,13 @@ int		next_is_cmd_sep(t_list *token_list);
 char	*fill_name(char *str);
 char	**fill_av(t_cmd *cmd);
 int		fill_ac(char **av);
+void	hub_test(int nb_job, int nb_command, t_cmd *cmd, int nb_test);
+void	verif_name(char *good, char *name);
+void	verif_ac(int good, int ac);
+void	verif_av(char **good, char **av);
+void	verif_fd_string(char **good, char **fd_string);
+void	verif_condition(int good, int condition);
+void	verif_redirection(int good, int redirection);
 
 
 
