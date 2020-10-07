@@ -18,6 +18,7 @@ t_cmd	*create_cmd(t_cmd *cmd_model)
 		cmd->fd_string[1] = cmd_model->fd_string[1];
 		cmd->fd_string[2] = cmd_model->fd_string[2];
 		cmd->condition = cmd_model->condition;
+		cmd->redirection = cmd_model->redirection;
 		cmd->ret = FAILURE;
 	}
 	return (cmd);
@@ -59,9 +60,12 @@ void	init_cmd_var(t_cmd *cmd, t_list **list)
 
 void	fill_cmd_model(t_cmd *cmd, t_token *token, int type)
 {
+	static int	redirection;
+
 	//ft_printf("FILL COMMAND MODEL\n");//DEBUG
 	//ft_printf("token->data = %s\n", token->data);//DEBUG
-	//ft_printf("type = %s\n\n", debug_get_type(type));//DEBUG
+	//ft_printf("type = %s\n", debug_get_type(type));//DEBUG
+	//ft_printf("REDIRECTION = %d\n", redirection);//DEBUG
 	if (type == RESIZE)
 	{
 		cmd->name = ft_strdup(fill_name(NULL));
@@ -70,11 +74,19 @@ void	fill_cmd_model(t_cmd *cmd, t_token *token, int type)
 		cmd->name = cmd->av[0];
 		return ;
 	}
+	if (redirection != false)
+	{
+		if (redirection == E_GREATER_THAN || redirection == E_DOUBLE_GREATER)
+			cmd->fd_string[1] = ft_strdup(token->data);
+		else
+			cmd->fd_string[0] = ft_strdup(token->data);
+		cmd->redirection = redirection == E_DOUBLE_GREATER ? true : false;
+		redirection = false;
+	}
+	else if (type == E_CMD_SIMPLE_REDIRECTION || type == E_CMD_DOUBLE_REDIRECTION)
+		redirection = token->type;
 	if (token->data == NULL)
 		fill_name(get_data(token->type));
 	else
 		fill_name(token->data);
-	//sert a ajouter le contenu au fur et a mesure
-	(void)cmd;
-	(void)token;	
 }

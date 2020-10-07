@@ -26,7 +26,6 @@ char	**fill_av(t_cmd *cmd)
 	size_t	ac;
 
 	ac = 0;
-	ft_printf("FILL AV\n");//DEBUG
 	cmd->av = ft_split(cmd->name, C_SPACE);
 	return (cmd->av);
 }

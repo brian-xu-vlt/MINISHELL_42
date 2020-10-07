@@ -44,7 +44,7 @@ void	debug_jobs(t_list *job_list)
 			ft_printf("fd_string[1] = %s\n", cmd->fd_string[1]);
 			ft_printf("fd_string[2] = %s\n", cmd->fd_string[2]);
 			ft_printf("condition = %s\n", what_conditon(cmd->condition));
-			ft_printf("condition = %d\n\n", cmd->redirection);
+			ft_printf("redirection = %d\n\n", cmd->redirection);
 			job->cmd_lst = job->cmd_lst->next;
 		}
 		ft_printf("\n");
