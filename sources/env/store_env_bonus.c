@@ -19,7 +19,7 @@ static t_env	*store_new_env(char *env_name, t_vector *env_value)
 }
 
 static void		update_existing_env(t_env *env_struct, t_vector *new_env_value,
-																int append_flag)
+																int overwrite)
 {
 	if (new_env_value != NULL)
 	{
@@ -27,36 +27,43 @@ static void		update_existing_env(t_env *env_struct, t_vector *new_env_value,
 			env_struct->env_value = vct_new();
 		if (env_struct->env_value == NULL)
 			exit_routine_le(ERR_MALLOC);
-		if (append_flag == FALSE)
+		if (overwrite == FALSE)
 			vct_clear(env_struct->env_value);
 		vct_cat(env_struct->env_value, new_env_value);
 	}
+}
+
+static void		ms_setenv(char *env_name, t_vector *env_value,
+											int overwrite, int export_flag)
+{
+	t_env		*env_node;
+
+	if ((env_node = get_env_struct(env_name)) == NOT_FOUND)
+		env_node = store_new_env(env_name, env_value);
+	else
+	{
+		update_existing_env(env_node, env_value, overwrite);
+		free(env_name);
+		vct_del(&env_value);
+	}
+	if (export_flag == TRUE)
+		env_node->export_flag = TRUE;
 }
 
 static void		store_env(char *env, int export_flag)
 {
 	char		*env_name;
 	t_vector	*env_value;
-	int			append_flag;
-	t_env		*env_node;
+	int			overwrite;
 
 	if (env != NULL)
 	{
-		parse_env(env, &env_name, &env_value, &append_flag);
-		if ((env_node = get_env_struct(env_name)) == NOT_FOUND)
-			env_node = store_new_env(env_name, env_value);
-		else
-		{
-			update_existing_env(env_node, env_value, append_flag);
-			free(env_name);
-			vct_del(&env_value);
-		}
-		if (export_flag == TRUE)
-			env_node->export_flag = TRUE;
+		parse_env(env, &env_name, &env_value, &overwrite);
+		ms_setenv(env_name, env_value, overwrite, export_flag);
 	}
 }
 
-void			store_internal_var(char *env)
+void			ms_putenv(char *env)
 {
 	store_env(env, FALSE);
 	update_envp();  // USEFULL ?....... check in tests

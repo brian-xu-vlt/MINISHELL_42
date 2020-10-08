@@ -19,6 +19,7 @@ static void	manage_exit_status(int wstatus, pid_t pid)
 		ft_printf("\nGot a signal : %i and core file was created == %d\n", WTERMSIG(wstatus), WCOREDUMP(wstatus));
 	else if (WIFSTOPPED(wstatus) == TRUE)
 		ft_printf("\nGot a STOPED by pid %d\n", WSTOPSIG(wstatus));
+	(void)pid;
 }
 
 int			execute_bin(const char *binary_full_path, const t_cmd *command)

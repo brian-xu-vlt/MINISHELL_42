@@ -32,7 +32,7 @@ static void	debug_store_env(t_vector *input)
 
 	str = vct_getstr(input);
 	str += ft_strlen("store") + 1;
-	store_internal_var(str);
+	ms_putenv(str);
 }
 
 static void	debug_unset(t_vector *input)

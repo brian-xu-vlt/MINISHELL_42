@@ -52,7 +52,7 @@ static int		is_builtin(const t_cmd *command)
 	}
 	return (FALSE);
 }
-
+/*
 // TO BE ADDED TO ENV_MANAGER
 static void		set_exit_status(int ret_value)
 {
@@ -67,11 +67,11 @@ static void		set_exit_status(int ret_value)
 	if (ret_value_str == NULL)
 		exit_routine_le(ERR_MALLOC);
 	vct_addstr(env, ret_value_str);
-	store_internal_var(vct_getstr(env));
+	//////////////////////store_internal_var(vct_getstr(env));
 	free(ret_value_str);
 	vct_del(&env);
 }
-
+*/
 static int		is_absolute_path(const char *bin_name)
 {
 	return ((ft_strchr((char *)bin_name, '/') == NOT_FOUND) ? FALSE : TRUE);
@@ -106,5 +106,5 @@ void			executor(const t_cmd *command)
 			free(binary_full_path);
 		}
 	}
-	set_exit_status(WEXITSTATUS(ret_value));
+//	set_exit_status(WEXITSTATUS(ret_value));
 }

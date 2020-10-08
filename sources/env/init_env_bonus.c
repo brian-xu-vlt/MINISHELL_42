@@ -3,7 +3,7 @@
 static void	set_default_env(void)
 {
 	if (vct_getstr(get_env_value_vct("PATH")) == NOT_FOUND)
-		store_internal_var(DEFAULT_PATH_ENV);	
+		ms_putenv(DEFAULT_PATH_ENV);	
 }
 
 static void	increment_shlevel(void)
