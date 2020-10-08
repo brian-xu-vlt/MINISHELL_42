@@ -107,8 +107,6 @@ t_list	*get_jobs(t_list *token_list)
 {
 	t_list	*jobs = NULL;
 
-	ft_printf("\n");//DEBUG
-	ft_printf("************************************************************\n");//DEBUG
 	while (token_list != NULL)
 		process_sep(&token_list, &jobs);
 	return (jobs);
