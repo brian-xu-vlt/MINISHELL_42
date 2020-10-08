@@ -95,10 +95,16 @@ void	process_sep(t_list **head, t_list **jobs)
 	}
 	if (token_list != NULL)
 	{
-		fill_cmd_model(&cmd, token, RESIZE);
+		fill_cmd_model(&cmd, NULL, RESIZE);
 		add_cmd_to_job(job, &cmd);
 	}
 	node_job = ft_lstnew(job);
+	if (node_job == NULL)
+	{
+		ft_lstdelone(node_job, NULL);
+		free(node_job);
+		return ;
+	}
 	ft_lstadd_back(jobs, node_job);
 	*head = token_list;
 }

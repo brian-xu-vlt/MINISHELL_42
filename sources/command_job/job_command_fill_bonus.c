@@ -12,6 +12,7 @@ char	*fill_name(char *str)
 		vct_addstr(tmp_name, vct_getstr(name));
 		vct_cut(tmp_name);
 		name = NULL;
+		vct_del(&name);
 		return (vct_getstr(tmp_name));
 	}
 	if (name == NULL)
@@ -23,9 +24,6 @@ char	*fill_name(char *str)
 
 char	**fill_av(t_cmd *cmd)
 {
-	size_t	ac;
-
-	ac = 0;
 	cmd->av = ft_split(cmd->name, C_SPACE);
 	return (cmd->av);
 }

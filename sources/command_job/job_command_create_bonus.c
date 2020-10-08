@@ -8,7 +8,7 @@ t_cmd	*create_cmd(t_cmd *cmd_model)
 	if (cmd != NULL)
 	{
 		ft_bzero(cmd, sizeof(t_cmd));
-		cmd->name = ft_strdup(cmd_model->name);
+		cmd->name = cmd_model->name;
 		cmd->av = cmd_model->av;
 		cmd->ac = cmd_model->ac;
 		cmd->fd[0] = STDIN_FILENO;
@@ -30,8 +30,21 @@ void add_cmd_to_job(t_job *job, t_cmd *cmd_model)
 	t_list	*cmd_node;
 
 	//ft_printf("#############ADD COMMAND TO JOB\n");//DEBUG
+	cmd_node = NULL;
 	cmd = create_cmd(cmd_model);
+	if (cmd == NULL)
+	{
+		free(cmd);
+		return ;
+	}
 	cmd_node = ft_lstnew(cmd);
+	if (cmd_node == NULL)
+	{
+		ft_lstdelone(cmd_node, NULL);
+		free(cmd_node);
+		free(cmd);
+		return ;
+	}
 	ft_lstadd_back(&job->cmd_lst, cmd_node);
 }
 
@@ -77,9 +90,9 @@ void	fill_cmd_model(t_cmd *cmd, t_token *token, int type)
 	if (redirection != false)
 	{
 		if (redirection == E_GREATER_THAN || redirection == E_DOUBLE_GREATER)
-			cmd->fd_string[1] = ft_strdup(token->data);
+			cmd->fd_string[1] = token->data;
 		else
-			cmd->fd_string[0] = ft_strdup(token->data);
+			cmd->fd_string[0] = token->data;
 		cmd->redirection = redirection == E_DOUBLE_GREATER ? true : false;
 		redirection = false;
 	}

@@ -58,6 +58,7 @@ int			main(int ac, char **av, char **envp)
 		test_uni_jobs(jobs, i);
 		if (jobs == NULL)
 		{
+			vct_clear(cmd_line);
 			free_list_token(&lexer_list);
 			return (EXIT_FAILURE);
 		}
@@ -65,5 +66,6 @@ int			main(int ac, char **av, char **envp)
 		vct_clear(cmd_line);
 		i++;
 	}
+	vct_clear(cmd_line);
 	return (EXIT_SUCCESS);
 }
