@@ -110,7 +110,7 @@ void		ms_setenv(char *env_name, char *env_value,
 void		ms_putenv(char *env);
 void		update_envp(void);
 void		export_env(char *env);
-void		init_env(char **env);
+void		init_env(void);
 
 void		print_env(void);
 void		get_export_output(void);

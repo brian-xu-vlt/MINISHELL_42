@@ -53,12 +53,6 @@ static int		is_builtin(const t_cmd *command)
 	return (FALSE);
 }
 
-/*static void		set_exit_status(int exit_value)
-{
-	ms_	
-}
-*/
-
 static int		is_absolute_path(const char *bin_name)
 {
 	return ((ft_strchr((char *)bin_name, '/') == NOT_FOUND) ? FALSE : TRUE);
@@ -92,6 +86,6 @@ void			executor(const t_cmd *command)
 			free(bin_dir);
 			free(binary_full_path);
 		}
+		ms_setenv(ft_strdup("?"), ft_itoa(WIFEXITED(ret_value)), TRUE, TRUE);
 	}
-//	set_exit_status(WEXITSTATUS(ret_value));
 }

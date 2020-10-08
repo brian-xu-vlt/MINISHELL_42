@@ -33,7 +33,7 @@ static void		update_existing_env(t_env *env_struct, char *new_env_value,
 			env_struct->env_value = vct_new();
 		if (env_struct->env_value == NULL)
 			exit_routine_le(ERR_MALLOC);
-		if (overwrite == FALSE)
+		if (overwrite == TRUE)
 			vct_clear(env_struct->env_value);
 		vct_addstr(env_struct->env_value, new_env_value);
 	}

@@ -26,20 +26,22 @@ static void	increment_shlevel(void)
 		export_env("SHLVL=1");
 }
 
-void		init_env(char **env)
+extern char **environ;
+
+void		init_env(void)
 {
 	t_env_data	*env_data;
 	int			index;
 
 	env_data = (t_env_data *)ft_calloc(1, sizeof(t_env_data));
 	get_env_data(env_data);
-	if (env == NULL)
+	if (environ == NULL)
 		return ;
 	index = 0;
-	while (env[index] != NULL)
+	while (environ[index] != NULL)
 	{
-		if (ft_isalpha(env[index][0]) == TRUE)
-			export_env(env[index]);
+		if (ft_isalpha(environ[index][0]) == TRUE)
+			export_env(environ[index]);
 		index++;
 	}
 	increment_shlevel();

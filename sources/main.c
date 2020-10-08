@@ -19,7 +19,7 @@ int			main(int ac, char **av, char **envp)
 	t_vector	*cmd_line;	
 
 	usage(ac, av);
-	init_env(envp);
+	init_env();
 	cmd_line = vct_new();
 	if (cmd_line == NULL)
 		exit_routine_le(ERR_MALLOC);

@@ -23,14 +23,14 @@ static void	usage(int ac, char **av)
 	}
 }
 
-int			main(int ac, char **av, char **envp)
+int			main(int ac, char **av)
 {
 	t_vector	*cmd_line;
 	t_list		*lexer_list;
 	int			ret_parser;	
 
 	usage(ac, av);
-	init_env(envp);
+	init_env();
 	cmd_line = vct_new();
 	if (cmd_line == NULL)
 		exit_routine_le(ERR_MALLOC);
