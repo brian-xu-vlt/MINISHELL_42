@@ -85,15 +85,14 @@ int		next_is_cmd_sep(t_list *token_list);
 char	*fill_name(char *str);
 char	**fill_av(t_cmd *cmd);
 int		fill_ac(char **av);
-void	hub_test(int nb_job, int nb_command, t_cmd *cmd, int nb_test);
 int		verif_name(char *good, char *name);
 int		verif_ac(int good, int ac);
 int		verif_av(char **good, char **av, int ac);
 int		verif_fd_string(char **good, char **fd_string);
 int		verif_condition(int good, int condition);
 int		verif_redirection(int good, int redirection);
-
-
+void	free_list_job(t_list **job);
+int		hub_test(int nb_job, int nb_command, t_cmd *cmd, int nb_test);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/

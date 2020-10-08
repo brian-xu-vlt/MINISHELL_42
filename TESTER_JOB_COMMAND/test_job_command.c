@@ -98,7 +98,7 @@ static int	test1(int nb_job, int nb_command, t_cmd *cmd)
 	return (true);
 }
 
-void	hub_test(int nb_job, int nb_command, t_cmd *cmd, int nb_test)
+int	hub_test(int nb_job, int nb_command, t_cmd *cmd, int nb_test)
 {
 	int	ret;
 
@@ -110,7 +110,9 @@ void	hub_test(int nb_job, int nb_command, t_cmd *cmd, int nb_test)
 		{
 			ft_printf("NB_TEST = %d	NB_JOB = %d	NB_COMMAND = %d\n", nb_test,
 						nb_job, nb_command);
-			exit(0);
+			return (FAILURE);
 		}
+		return (SUCCESS);
 	}
+	return (SUCCESS);
 }

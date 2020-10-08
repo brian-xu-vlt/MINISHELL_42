@@ -99,6 +99,7 @@ SRCS += job_command_create_bonus.c
 SRCS += job_command_fill_bonus.c
 SRCS += test_job_command.c
 SRCS += verif.c
+SRCS += command_job_free.c
 
 OBJ_DIR = ./objs/
 

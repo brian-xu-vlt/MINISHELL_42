@@ -55,7 +55,7 @@ static t_job	*init_job()
 	return (job);
 }
 
-void	process_sep(t_list **head, t_list **jobs)
+static int	process_sep(t_list **head, t_list **jobs)
 {
 	t_list *token_list = *head;
 	t_list	*node_job = NULL;
@@ -67,7 +67,7 @@ void	process_sep(t_list **head, t_list **jobs)
 	add_command = FALSE;
 	job = init_job();
 	if (*head == NULL || job == NULL)
-		return ;
+		return (FAILURE);
 	init_cmd_var(&cmd, &token_list);
 	while (token_list != NULL && is_job_sep(token_list->content) == false)
 	{
@@ -103,17 +103,24 @@ void	process_sep(t_list **head, t_list **jobs)
 	{
 		ft_lstdelone(node_job, NULL);
 		free(node_job);
-		return ;
+		return (FAILURE);
 	}
 	ft_lstadd_back(jobs, node_job);
 	*head = token_list;
+	return (SUCCESS);
 }
 
 t_list	*get_jobs(t_list *token_list)
 {
 	t_list	*jobs = NULL;
+	int		ret;
 
+	ret = SUCCESS;
 	while (token_list != NULL)
-		process_sep(&token_list, &jobs);
+	{
+		ret = process_sep(&token_list, &jobs);
+		if (ret == FAILURE)
+			return (NULL);
+	}
 	return (jobs);
 }
