@@ -52,26 +52,13 @@ static int		is_builtin(const t_cmd *command)
 	}
 	return (FALSE);
 }
-/*
-// TO BE ADDED TO ENV_MANAGER
-static void		set_exit_status(int ret_value)
-{
-	t_vector			*env;
-	char				*ret_value_str;
 
-	env = vct_new();
-	if (env == NULL)
-		exit_routine_le(ERR_MALLOC);
-	vct_addstr(env, "?=");
-	ret_value_str = ft_itoa(ret_value);
-	if (ret_value_str == NULL)
-		exit_routine_le(ERR_MALLOC);
-	vct_addstr(env, ret_value_str);
-	//////////////////////store_internal_var(vct_getstr(env));
-	free(ret_value_str);
-	vct_del(&env);
+/*static void		set_exit_status(int exit_value)
+{
+	ms_	
 }
 */
+
 static int		is_absolute_path(const char *bin_name)
 {
 	return ((ft_strchr((char *)bin_name, '/') == NOT_FOUND) ? FALSE : TRUE);

@@ -105,6 +105,8 @@ void		del_env_elem(void *elem_content);
 void		free_btree_node(t_btree *node);
 void		delete_env(char *env_name);
 
+void		ms_setenv(char *env_name, char *env_value,
+												int overwrite, int export_flag);
 void		ms_putenv(char *env);
 void		update_envp(void);
 void		export_env(char *env);
@@ -118,6 +120,6 @@ t_env		*get_env_struct(char *env_name);
 t_list		*get_env_node(char *env_name);
 t_vector	*get_env_value_vct(char *env_name);
 
-void		parse_env(char *env, char **env_name, t_vector **env_value,
-															int *overwrite);
+void		parse_env(char *env, char **env_name, char **env_value,
+																int *overwrite);
 #endif

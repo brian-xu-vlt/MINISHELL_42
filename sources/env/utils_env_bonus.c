@@ -15,10 +15,11 @@ static int		get_env_name_len(char *env)
 	return (i);
 }
 
-void			parse_env(char *env, char **env_name, t_vector **env_value,
+void			parse_env(char *env, char **env_name, char **env_value,
 															int *append_flag)
 {
 	int		name_len;
+	int		value_len;
 
 	name_len = get_env_name_len(env);
 	*env_name = (char *)ft_calloc(sizeof(char), name_len + 1);
@@ -28,10 +29,11 @@ void			parse_env(char *env, char **env_name, t_vector **env_value,
 	if (env[name_len] != '\0')
 	{
 		*append_flag = (env[name_len] == '+') ? TRUE : FALSE;
-		*env_value = vct_new();
+		value_len = ft_strlen(env) - name_len - 1 - (*(int*)append_flag);
+		*env_value = (char *)ft_calloc(sizeof(char), value_len + 1);
 		if (*env_value == NULL)
 			exit_routine_le(ERR_MALLOC);
-		vct_addstr(*env_value, env + name_len + (*(int*)append_flag) + 1);
+		ft_memmove(*env_value, env + name_len + 1 + (*(int*)append_flag), value_len);
 	}
 	else
 		*env_value = NULL;
