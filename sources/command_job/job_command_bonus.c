@@ -11,7 +11,7 @@ static int	get_command(int type)
 	return (E_CMD_AV);
 }
 
-static bool	is_end_cmd(t_token *token, t_list **token_list, t_cmd *cmd, t_job *job)
+static int	is_end_cmd(t_token *token, t_list **token_list, t_cmd *cmd, t_job *job)
 {
 	if (is_cmd_sep(token) == true
 			|| next_is_end(token_list) == true)
@@ -19,7 +19,8 @@ static bool	is_end_cmd(t_token *token, t_list **token_list, t_cmd *cmd, t_job *j
 		if (next_is_end(token_list) == true)
 			fill_cmd_model(cmd, token, get_command(token->type));
 		fill_cmd_model(cmd, token, RESIZE);
-		add_cmd_to_job(job, cmd);
+		if (add_cmd_to_job(job, cmd) == FAILURE)
+			return (FAILURE);
 		init_cmd_var(cmd, token_list);
 		return (true);
 	}
@@ -63,6 +64,7 @@ static int	process_sep(t_list **head, t_list **jobs)
 	t_cmd	cmd;
 	t_token	*token;
 	int		add_command;
+	int		ret;
 
 	add_command = FALSE;
 	job = init_job();
@@ -77,14 +79,18 @@ static int	process_sep(t_list **head, t_list **jobs)
 			token_list = token_list->next;
 			break ;
 		}
-		if (is_end_cmd(token, &token_list, &cmd, job) == true)
+		ret = is_end_cmd(token, &token_list, &cmd, job);
+		if (ret == true)
 			continue ;
+		else if (ret == FAILURE)
+			return (FAILURE);
 		if (is_cmd(token, &cmd, add_command) == TRUE)
 		{
 			if (add_command == TRUE && next_is_cmd_sep(token_list) == false)
 			{
 				fill_cmd_model(&cmd, token, RESIZE);
-				add_cmd_to_job(job, &cmd);
+				if (add_cmd_to_job(job, &cmd) == FAILURE)
+					return (FAILURE);
 				add_command = FALSE;
 			}
 			else
@@ -96,7 +102,8 @@ static int	process_sep(t_list **head, t_list **jobs)
 	if (token_list != NULL)
 	{
 		fill_cmd_model(&cmd, NULL, RESIZE);
-		add_cmd_to_job(job, &cmd);
+		if (add_cmd_to_job(job, &cmd) == FAILURE)
+			return (FAILURE);
 	}
 	node_job = ft_lstnew(job);
 	if (node_job == NULL)

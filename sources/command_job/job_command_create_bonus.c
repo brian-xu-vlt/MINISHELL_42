@@ -14,9 +14,12 @@ t_cmd	*create_cmd(t_cmd *cmd_model)
 		cmd->fd[0] = STDIN_FILENO;
 		cmd->fd[1] = STDOUT_FILENO;
 		cmd->fd[2] = STDERR_FILENO;
-		cmd->fd_string[0] = cmd_model->fd_string[0];
-		cmd->fd_string[1] = cmd_model->fd_string[1];
-		cmd->fd_string[2] = cmd_model->fd_string[2];
+		if (cmd_model->fd_string[0] != NULL)
+			cmd->fd_string[0] = ft_strdup(cmd_model->fd_string[0]);
+		if (cmd_model->fd_string[1] != NULL)
+			cmd->fd_string[1] = ft_strdup(cmd_model->fd_string[1]);
+		if (cmd_model->fd_string[2] != NULL)
+			cmd->fd_string[2] = ft_strdup(cmd_model->fd_string[2]);
 		cmd->condition = cmd_model->condition;
 		cmd->redirection = cmd_model->redirection;
 		cmd->ret = FAILURE;
@@ -24,7 +27,7 @@ t_cmd	*create_cmd(t_cmd *cmd_model)
 	return (cmd);
 }
 
-void add_cmd_to_job(t_job *job, t_cmd *cmd_model)
+int add_cmd_to_job(t_job *job, t_cmd *cmd_model)
 {
 	t_cmd 	*cmd;
 	t_list	*cmd_node;
@@ -35,7 +38,7 @@ void add_cmd_to_job(t_job *job, t_cmd *cmd_model)
 	if (cmd == NULL)
 	{
 		free(cmd);
-		return ;
+		return (FAILURE);
 	}
 	cmd_node = ft_lstnew(cmd);
 	if (cmd_node == NULL)
@@ -43,9 +46,10 @@ void add_cmd_to_job(t_job *job, t_cmd *cmd_model)
 		ft_lstdelone(cmd_node, NULL);
 		free(cmd_node);
 		free(cmd);
-		return ;
+		return (FAILURE);
 	}
 	ft_lstadd_back(&job->cmd_lst, cmd_node);
+	return (SUCCESS);
 }
 
 void	init_cmd_var(t_cmd *cmd, t_list **list)
@@ -54,6 +58,7 @@ void	init_cmd_var(t_cmd *cmd, t_list **list)
 
 	ft_bzero(cmd, sizeof(t_cmd));
 	//ft_printf("INIT COMMAND VAR\n");//
+	cmd->name = NULL;
 	cmd->av = NULL;
 	cmd->fd_string[0] = NULL;
 	cmd->fd_string[1] = NULL;
@@ -81,9 +86,9 @@ void	fill_cmd_model(t_cmd *cmd, t_token *token, int type)
 	//ft_printf("REDIRECTION = %d\n", redirection);//DEBUG
 	if (type == RESIZE)
 	{
-		cmd->name = ft_strdup(fill_name(NULL));
-		cmd->av = fill_av(cmd);
+		cmd->av = ft_split(cmd->name, C_SPACE);
 		cmd->ac = fill_ac(cmd->av);
+		free(cmd->name);
 		cmd->name = cmd->av[0];
 		return ;
 	}
@@ -99,7 +104,7 @@ void	fill_cmd_model(t_cmd *cmd, t_token *token, int type)
 	else if (type == E_CMD_SIMPLE_REDIRECTION || type == E_CMD_DOUBLE_REDIRECTION)
 		redirection = token->type;
 	if (token->data == NULL)
-		fill_name(get_data(token->type));
+		fill_name(get_data(token->type), cmd);
 	else
-		fill_name(token->data);
+		fill_name(token->data, cmd);
 }

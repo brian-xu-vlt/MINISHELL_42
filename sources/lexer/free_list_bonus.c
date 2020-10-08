@@ -5,7 +5,8 @@ static void	del_token(void *token)
 	t_token *tmp;
 
 	tmp = token;
-	ft_strdel(&tmp->data);
+	if (tmp->data != NULL)
+		free(tmp->data);
 	free(tmp);
 }
 
@@ -26,6 +27,7 @@ void		exit_routine_lexer(t_vector *word, t_vector *vct, t_vector *tmp,
 	if (token != NULL)
 	{
 		free(token->data);
+		token->data = NULL;
 		token->type = 0;
 	}
 }

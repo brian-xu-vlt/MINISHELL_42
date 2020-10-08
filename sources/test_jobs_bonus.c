@@ -27,6 +27,7 @@ void	debug_jobs(t_list *job_list)
 	t_cmd	*cmd;
 	size_t	cjob;
 	size_t	command;
+	t_list	*tmp_cmd_lst;
 	
 	cjob = 1;
 	command = 1;
@@ -35,10 +36,11 @@ void	debug_jobs(t_list *job_list)
 	{
 		job = job_list->content;
 		ft_printf("\033[32;01mJOBS %d\033[00m\n", cjob);
-		while (job->cmd_lst != NULL)
+		tmp_cmd_lst = job->cmd_lst;
+		while (tmp_cmd_lst != NULL)
 		{
 			ft_printf("\033[31;01mCOMMAND %d\033[00m\n", command);
-			cmd = job->cmd_lst->content;
+			cmd = tmp_cmd_lst->content;
 			ft_printf("name = %s\n", cmd->name);
 			debug_av(cmd->av, cmd->ac);
 			ft_printf("ac = %d\n", cmd->ac);
@@ -47,7 +49,7 @@ void	debug_jobs(t_list *job_list)
 			ft_printf("fd_string[2] = %s\n", cmd->fd_string[2]);
 			ft_printf("condition = %s\n", what_conditon(cmd->condition));
 			ft_printf("redirection = %d\n\n", cmd->redirection);
-			job->cmd_lst = job->cmd_lst->next;
+			tmp_cmd_lst = tmp_cmd_lst->next;
 			command++;
 		}
 		command = 1;
@@ -63,10 +65,7 @@ t_list	*test_jobs(t_list *lexer_list)
 	
 	jobs = get_jobs(lexer_list);
 	if (jobs == NULL)
-	{
-		free_list_token(&lexer_list);
 		return (NULL);
-	}
 	debug_jobs(jobs);
 	return (jobs);
 }

@@ -110,9 +110,7 @@ int	hub_test(int nb_job, int nb_command, t_cmd *cmd, int nb_test)
 		{
 			ft_printf("NB_TEST = %d	NB_JOB = %d	NB_COMMAND = %d\n", nb_test,
 						nb_job, nb_command);
-			return (FAILURE);
 		}
-		return (SUCCESS);
 	}
 	return (SUCCESS);
 }

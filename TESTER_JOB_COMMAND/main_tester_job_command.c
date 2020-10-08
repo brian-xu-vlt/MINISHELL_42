@@ -18,21 +18,19 @@ static int	test_uni_jobs(t_list *job_list, int nb_test)
 	t_cmd	*cmd;
 	size_t	cjob;
 	size_t	command;
-	int		ret;
+	t_list	*tmp_cmd_lst;
 	
 	cjob = 1;
 	command = 1;
-	ret = SUCCESS;
 	while (job_list != NULL)
 	{
 		job = job_list->content;
-		while (job->cmd_lst != NULL)
+		tmp_cmd_lst = job->cmd_lst;
+		while (tmp_cmd_lst != NULL)
 		{
 			cmd = job->cmd_lst->content;
-			ret = hub_test(cjob, command, cmd, nb_test);
-			if (ret == FAILURE)
-				return (FAILURE);
-			job->cmd_lst = job->cmd_lst->next;
+			hub_test(cjob, command, cmd, nb_test);
+			tmp_cmd_lst = tmp_cmd_lst->next;
 			command++;
 		}
 		command = 1;
@@ -48,41 +46,49 @@ int			main(int ac, char **av, char **envp)
 	t_list		*lexer_list;
 	t_list		*jobs;
 	int			i;
-	int			ret;
+	int			ret_jobs;
+	int			ret_lexer;
+	t_list		*cpy_jobs;
 
 	(void)ac;
 	(void)av;
 	(void)envp;
-	cmd_line = vct_new();
+	cmd_line = NULL;
 	lexer_list = NULL;
 	i = 0;
-	ret = SUCCESS;
+	jobs = NULL;
+	cpy_jobs = NULL;
+	ret_jobs = SUCCESS;
+	ret_lexer = SUCCESS;
 	while (i < NB_TEST)
 	{
+		ret_jobs = SUCCESS;
+		ret_lexer = SUCCESS;
 		cmd_line = test_job_command(i);
+		ft_printf("CMD->LINE = %s\n", vct_getstr(cmd_line));//DEBUG
 		lexer_list = test_lexer(cmd_line);
-		jobs = get_jobs(lexer_list);
+		if (lexer_list == NULL)
+		{
+			free_list_token(&lexer_list);
+			vct_del(&cmd_line);
+			return (EXIT_FAILURE);
+		}
+		jobs = NULL;
+		cpy_jobs = NULL;
+		if (ret_lexer == SUCCESS)
+			jobs = get_jobs(lexer_list);
+		cpy_jobs = jobs;
 		if (jobs == NULL)	
 		{
-			vct_clear(cmd_line);
-			free_list_job(&jobs);
-			free_list_token(&lexer_list);
-			return (EXIT_FAILURE);
+			ret_jobs = FAILURE;
 		}
-		ret = test_uni_jobs(jobs, i);
-		if (ret == FAILURE)	
-		{
-			vct_clear(cmd_line);
-			free_list_job(&jobs);
-			free_list_token(&lexer_list);
-			return (EXIT_FAILURE);
-		}
+		if (ret_jobs != FAILURE)
+			test_uni_jobs(cpy_jobs, i);
 		free_list_token(&lexer_list);
+		free_list_job(&jobs);
 		vct_clear(cmd_line);
 		i++;
+		vct_del(&cmd_line);
 	}
-	vct_clear(cmd_line);
-	free_list_job(&jobs);
-	free_list_token(&lexer_list);
 	return (EXIT_SUCCESS);
 }
