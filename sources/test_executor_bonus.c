@@ -52,7 +52,6 @@ int		test_executor(t_vector *cmd_line)
 	if (command != NULL)
 	{
 		executor(command);
-		//ft_printf("%s\n", vct_getstr(get_env_value_vct("?")));
 		free_command_struct(command);
 		return (SUCCESS);
 	}
