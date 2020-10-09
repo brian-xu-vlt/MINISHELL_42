@@ -86,7 +86,7 @@ static int	test8(int nb_job, int nb_command, t_cmd *cmd)
 		char	*av[4];
 		av[0] = "export";
 		av[1] = "var";
-		av[2] = "cat=";
+		av[2] = "=cat";
 		av[3] = "Makefile";
 		fd_string[0] = NULL;
 		fd_string[1] = NULL;
@@ -464,7 +464,7 @@ static int	test3(int nb_job, int nb_command, t_cmd *cmd)
 		if (ret == true)
 			ret = verif_fd_string(fd_string, cmd->fd_string);
 		if (ret == true)
-			ret = verif_condition(E_YES_AND, cmd->condition);
+			ret = verif_condition(E_NONE, cmd->condition);
 		if (ret == true)
 			ret = verif_redirection(false, cmd->redirection);
 		return (ret);
@@ -601,6 +601,7 @@ static int	test2(int nb_job, int nb_command, t_cmd *cmd)
 		fd_string[0] = NULL;
 		fd_string[1] = NULL;
 		fd_string[2] = NULL;
+		ft_printf("CMD->AC == %d\n", cmd->ac);//DEBUG
 		ret = verif_name(av[0], cmd->name);
 		if (ret == true)
 			ret = verif_ac(ac, cmd->ac);
@@ -725,7 +726,7 @@ int	hub_test(int nb_job, int nb_command, t_cmd *cmd, int nb_test)
 		ret = test1(nb_job, nb_command, cmd);
 		if (ret == false)
 		{
-			ft_printf("NB_TEST = %d	NB_JOB = %d	NB_COMMAND = %d\n", nb_test,
+			ft_printf("NB_TEST = %d	NB_JOB = %d	NB_COMMAND = %d\n", nb_test + 1,
 						nb_job, nb_command);
 		}
 	}
@@ -734,7 +735,7 @@ int	hub_test(int nb_job, int nb_command, t_cmd *cmd, int nb_test)
 		ret = test2(nb_job, nb_command, cmd);
 		if (ret == false)
 		{
-			ft_printf("NB_TEST = %d	NB_JOB = %d	NB_COMMAND = %d\n", nb_test,
+			ft_printf("NB_TEST = %d	NB_JOB = %d	NB_COMMAND = %d\n", nb_test + 1,
 						nb_job, nb_command);
 		}
 	}
@@ -743,7 +744,7 @@ int	hub_test(int nb_job, int nb_command, t_cmd *cmd, int nb_test)
 		ret = test3(nb_job, nb_command, cmd);
 		if (ret == false)
 		{
-			ft_printf("NB_TEST = %d	NB_JOB = %d	NB_COMMAND = %d\n", nb_test,
+			ft_printf("NB_TEST = %d	NB_JOB = %d	NB_COMMAND = %d\n", nb_test + 1,
 						nb_job, nb_command);
 		}
 	}
@@ -752,7 +753,7 @@ int	hub_test(int nb_job, int nb_command, t_cmd *cmd, int nb_test)
 		ret = test4(nb_job, nb_command, cmd);
 		if (ret == false)
 		{
-			ft_printf("NB_TEST = %d	NB_JOB = %d	NB_COMMAND = %d\n", nb_test,
+			ft_printf("NB_TEST = %d	NB_JOB = %d	NB_COMMAND = %d\n", nb_test + 1,
 						nb_job, nb_command);
 		}
 	}
@@ -761,7 +762,7 @@ int	hub_test(int nb_job, int nb_command, t_cmd *cmd, int nb_test)
 		ret = test5(nb_job, nb_command, cmd);
 		if (ret == false)
 		{
-			ft_printf("NB_TEST = %d	NB_JOB = %d	NB_COMMAND = %d\n", nb_test,
+			ft_printf("NB_TEST = %d	NB_JOB = %d	NB_COMMAND = %d\n", nb_test + 1,
 						nb_job, nb_command);
 		}
 	}
@@ -770,7 +771,7 @@ int	hub_test(int nb_job, int nb_command, t_cmd *cmd, int nb_test)
 		ret = test6(nb_job, nb_command, cmd);
 		if (ret == false)
 		{
-			ft_printf("NB_TEST = %d	NB_JOB = %d	NB_COMMAND = %d\n", nb_test,
+			ft_printf("NB_TEST = %d	NB_JOB = %d	NB_COMMAND = %d\n", nb_test + 1,
 						nb_job, nb_command);
 		}
 	}
@@ -779,7 +780,7 @@ int	hub_test(int nb_job, int nb_command, t_cmd *cmd, int nb_test)
 		ret = test7(nb_job, nb_command, cmd);
 		if (ret == false)
 		{
-			ft_printf("NB_TEST = %d	NB_JOB = %d	NB_COMMAND = %d\n", nb_test,
+			ft_printf("NB_TEST = %d	NB_JOB = %d	NB_COMMAND = %d\n", nb_test + 1,
 						nb_job, nb_command);
 		}
 	}
@@ -788,7 +789,7 @@ int	hub_test(int nb_job, int nb_command, t_cmd *cmd, int nb_test)
 		ret = test8(nb_job, nb_command, cmd);
 		if (ret == false)
 		{
-			ft_printf("NB_TEST = %d	NB_JOB = %d	NB_COMMAND = %d\n", nb_test,
+			ft_printf("NB_TEST = %d	NB_JOB = %d	NB_COMMAND = %d\n", nb_test + 1,
 						nb_job, nb_command);
 		}
 	}
@@ -797,7 +798,7 @@ int	hub_test(int nb_job, int nb_command, t_cmd *cmd, int nb_test)
 		ret = test9(nb_job, nb_command, cmd);
 		if (ret == false)
 		{
-			ft_printf("NB_TEST = %d	NB_JOB = %d	NB_COMMAND = %d\n", nb_test,
+			ft_printf("NB_TEST = %d	NB_JOB = %d	NB_COMMAND = %d\n", nb_test + 1,
 						nb_job, nb_command);
 		}
 	}

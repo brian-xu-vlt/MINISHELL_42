@@ -2,9 +2,7 @@
 
 static int	get_command(int type)
 {
-	if (type == E_ASSIGN)
-		return (E_CMD_ASSIGN);
-	else if (type == E_LESS_THAN || type == E_GREATER_THAN)
+	if (type == E_LESS_THAN || type == E_GREATER_THAN)
 		return (E_CMD_SIMPLE_REDIRECTION);
 	else if (type == E_DOUBLE_GREATER)
 		return (E_CMD_DOUBLE_REDIRECTION);
@@ -29,9 +27,7 @@ static int	is_end_cmd(t_token *token, t_list **token_list, t_cmd *cmd, t_job *jo
 
 static int	is_cmd(t_token *token, t_cmd *cmd, int add_command)
 {
-	if (token->type == E_ASSIGN)
-		fill_cmd_model(cmd, token, E_CMD_ASSIGN);
-	else if (token->type == E_LESS_THAN || token->type == E_GREATER_THAN
+	if (token->type == E_LESS_THAN || token->type == E_GREATER_THAN
 			|| token->type == E_DOUBLE_GREATER)
 		fill_cmd_model(cmd, token, token->type == E_DOUBLE_GREATER ? 
 						E_CMD_DOUBLE_REDIRECTION : E_CMD_SIMPLE_REDIRECTION);
@@ -39,8 +35,7 @@ static int	is_cmd(t_token *token, t_cmd *cmd, int add_command)
 		fill_cmd_model(cmd, token, E_CMD_AV);
 	if (add_command == TRUE)
 		return (true);
-	return (token->type == E_ASSIGN || (token->type == E_LESS_THAN
-				|| token->type == E_GREATER_THAN
+	return ((token->type == E_LESS_THAN || token->type == E_GREATER_THAN
 				|| token->type == E_DOUBLE_GREATER) ? true : false);
 }
 

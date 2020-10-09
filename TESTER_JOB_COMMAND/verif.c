@@ -16,7 +16,7 @@ int	verif_ac(int good, int ac)
 	if (good != ac)
 	{
 		ft_printf("\033[31;01mERROR ON AC\033[00m\n");
-		ft_printf("good = %d	name = %d\n", good, ac);//DEBUG
+		ft_printf("good = %d	ac = %d\n", good, ac);//DEBUG
 		return (false);
 	}
 	return (true);
@@ -32,7 +32,7 @@ int	verif_av(char **good, char **av, int ac)
 		if (strcmp(good[i], av[i]) != 0)
 		{
 			ft_printf("\033[31;01mERROR ON AV[%d]\033[00m\n", i);
-			ft_printf("good[%d] = %s	av[%d] = %s\n", i, good, i, av);//DEBUG
+			ft_printf("good[%d] = %s	av[%d] = %s\n", i, good[i], i, av[i]);//DEBUG
 			return (false);
 		}
 		i++;
