@@ -28,7 +28,7 @@ static int	test_uni_jobs(t_list *job_list, int nb_test)
 		tmp_cmd_lst = job->cmd_lst;
 		while (tmp_cmd_lst != NULL)
 		{
-			cmd = job->cmd_lst->content;
+			cmd = tmp_cmd_lst->content;
 			hub_test(cjob, command, cmd, nb_test);
 			tmp_cmd_lst = tmp_cmd_lst->next;
 			command++;
@@ -65,7 +65,6 @@ int			main(int ac, char **av, char **envp)
 		ret_jobs = SUCCESS;
 		ret_lexer = SUCCESS;
 		cmd_line = test_job_command(i);
-		ft_printf("CMD->LINE = %s\n", vct_getstr(cmd_line));//DEBUG
 		lexer_list = test_lexer(cmd_line);
 		if (lexer_list == NULL)
 		{
