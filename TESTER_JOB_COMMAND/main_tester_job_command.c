@@ -19,7 +19,7 @@ static int	test_uni_jobs(t_list *job_list, int nb_test)
 	size_t	cjob;
 	size_t	command;
 	t_list	*tmp_cmd_lst;
-	
+
 	cjob = 1;
 	command = 1;
 	while (job_list != NULL)
@@ -40,54 +40,43 @@ static int	test_uni_jobs(t_list *job_list, int nb_test)
 	return (SUCCESS);
 }
 
-int			main(int ac, char **av, char **envp)
+static int	process_test(t_list *lexer_list, t_list *jobs, int nb_test)
 {
+	int			ret_jobs;
+	t_list		*cpy_jobs;
+	cpy_jobs = NULL;
 	t_vector	*cmd_line;
+	
+	ret_jobs = SUCCESS;
+	cmd_line = test_job_command(nb_test);
+	lexer_list = test_lexer(cmd_line);
+	cpy_jobs = NULL;
+	jobs = get_jobs(lexer_list);
+	cpy_jobs = jobs;
+	if (jobs == NULL)	
+		ret_jobs = FAILURE;
+	if (ret_jobs != FAILURE)
+		test_uni_jobs(cpy_jobs, nb_test);
+	vct_clear(cmd_line);
+	vct_del(&cmd_line);
+	free_list_job(&cpy_jobs);
+	free_list_token(&lexer_list);
+	return (SUCCESS);
+}
+
+int			main(void)
+{
 	t_list		*lexer_list;
 	t_list		*jobs;
 	int			i;
-	int			ret_jobs;
-	int			ret_lexer;
-	t_list		*cpy_jobs;
 
-	(void)ac;
-	(void)av;
-	(void)envp;
-	cmd_line = NULL;
 	lexer_list = NULL;
 	i = 0;
 	jobs = NULL;
-	cpy_jobs = NULL;
-	ret_jobs = SUCCESS;
-	ret_lexer = SUCCESS;
 	while (i < NB_TEST)
 	{
-		ret_jobs = SUCCESS;
-		ret_lexer = SUCCESS;
-		cmd_line = test_job_command(i);
-		lexer_list = test_lexer(cmd_line);
-		if (lexer_list == NULL)
-		{
-			free_list_token(&lexer_list);
-			vct_del(&cmd_line);
-			return (EXIT_FAILURE);
-		}
-		jobs = NULL;
-		cpy_jobs = NULL;
-		if (ret_lexer == SUCCESS)
-			jobs = get_jobs(lexer_list);
-		cpy_jobs = jobs;
-		if (jobs == NULL)	
-		{
-			ret_jobs = FAILURE;
-		}
-		if (ret_jobs != FAILURE)
-			test_uni_jobs(cpy_jobs, i);
-		free_list_token(&lexer_list);
-		free_list_job(&jobs);
-		vct_clear(cmd_line);
+		process_test(lexer_list, jobs, i);
 		i++;
-		vct_del(&cmd_line);
 	}
 	return (EXIT_SUCCESS);
 }
