@@ -1,10 +1,18 @@
 #include "minishell_bonus.h"
 
-#define NB_TEST	1
+#define NB_TEST	9
 
 static t_vector	*test_job_command(int nb_test)
 {
-	char	*test[NB_TEST] = {"ls | cat -e && echo ; cat -e hey > prout"};
+	char	*test[NB_TEST] = {"ls | cat -e && echo ; cat -e hey > prout", //1
+	"echo \"prout\" && cat hey < prout=hello | cat $prout", //2
+	"ls prout > lol && ls < prout ; echo \"hey=pipi\" || prout >> lol", //3
+	"cat /dev/random | head -n 1 | cat -e .", //4
+	"echo 2 >> out1 > out2 .", //5
+	"export TEST=LOL ; echo $TEST$TEST$TEST=lol$TEST", //6
+	"echo test > ls >> ls >> ls ; echo test >> ls; cat ls", //7
+	"export var =cat Makefile | grep > .", //8
+	"export TEST=\"ls -l - a\" ; echo $TEST ; $LS ; "}; //9
 	t_vector	*vct_test;
 
 	vct_test = vct_new();
@@ -22,6 +30,7 @@ static int	test_uni_jobs(t_list *job_list, int nb_test)
 
 	cjob = 1;
 	command = 1;
+	cmd = NULL;
 	while (job_list != NULL)
 	{
 		job = job_list->content;
@@ -44,7 +53,6 @@ static int	process_test(t_list *lexer_list, t_list *jobs, int nb_test)
 {
 	int			ret_jobs;
 	t_list		*cpy_jobs;
-	cpy_jobs = NULL;
 	t_vector	*cmd_line;
 	
 	ret_jobs = SUCCESS;
@@ -57,10 +65,10 @@ static int	process_test(t_list *lexer_list, t_list *jobs, int nb_test)
 		ret_jobs = FAILURE;
 	if (ret_jobs != FAILURE)
 		test_uni_jobs(cpy_jobs, nb_test);
+	free_list_job(&jobs);
+	free_list_token(&lexer_list);
 	vct_clear(cmd_line);
 	vct_del(&cmd_line);
-	free_list_job(&cpy_jobs);
-	free_list_token(&lexer_list);
 	return (SUCCESS);
 }
 
@@ -75,6 +83,8 @@ int			main(void)
 	jobs = NULL;
 	while (i < NB_TEST)
 	{
+		lexer_list = NULL;
+		jobs = NULL;
 		process_test(lexer_list, jobs, i);
 		i++;
 	}

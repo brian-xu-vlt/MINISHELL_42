@@ -66,32 +66,27 @@ int			main(int ac, char **av, char **envp)
 		}
 		lexer_list = test_lexer(cmd_line);
 		if (lexer_list != NULL)
+		{
 			ret_parser = test_parser(lexer_list);
-		if (lexer_list == NULL)
-		{
-			ft_printf("LEXER NULL\n");//DEBU
-			free_list_token(&lexer_list);
-			ret_lexer = FAILURE;
+			if (ret_parser != FALSE)
+				jobs = test_jobs(lexer_list);
+			if (jobs == NULL)
+			{
+				ft_printf("JOBS NULL\n");//DEBUG
+				free_list_job(&jobs);
+				ret_jobs = FAILURE;
+			}
+			if (ret_jobs == SUCCESS)
+			{
+				ft_printf("PAS ICI NON\n");//DEBUG	
+				free_list_job(&jobs);
+			}
+			if (ret_lexer == SUCCESS)
+			{
+				ft_printf("PAS ICI OUI\n");//DEBUG	
+			}
 		}
-		jobs = NULL;
-		if (ret_parser != FALSE)
-			jobs = test_jobs(lexer_list);
-		if (jobs == NULL)
-		{
-			ft_printf("JOBS NULL\n");//DEBUG
-			free_list_job(&jobs);
-			ret_jobs = FAILURE;
-		}
-		if (ret_jobs == SUCCESS)
-		{
-			ft_printf("PAS ICI NON\n");//DEBUG	
-			free_list_job(&jobs);
-		}
-		if (ret_lexer == SUCCESS)
-		{
-			ft_printf("PAS ICI OUI\n");//DEBUG	
-			free_list_token(&lexer_list);
-		}
+		free_list_token(&lexer_list);
 		vct_clear(cmd_line);
 	}
 	exit_routine_le(NULL);

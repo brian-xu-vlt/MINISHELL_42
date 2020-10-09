@@ -7,6 +7,7 @@ t_list	*test_lexer(t_vector *input)
 	lexer_list = lexer(input);
 	if (lexer_list == NULL)
 	{
+		free_list_token(&lexer_list);
 		ft_printf("\033[31;01m[!] ERROR LEXER [!]\033[00m\n\n");
 		return (NULL);
 	}

@@ -5,7 +5,6 @@ void	fill_name(char *str, t_cmd *cmd)
 	char	*cpy_name;
 
 	cpy_name = ft_strjoin(cmd->name, str);
-	free(cmd->name);
 	cmd->name = ft_strjoin(cpy_name, " ");	
 	free(cpy_name);
 }
