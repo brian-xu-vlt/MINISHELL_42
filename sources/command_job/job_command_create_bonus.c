@@ -32,7 +32,6 @@ int add_cmd_to_job(t_job *job, t_cmd *cmd_model)
 	t_cmd 	*cmd;
 	t_list	*cmd_node;
 
-	//ft_printf("#############ADD COMMAND TO JOB\n");//DEBUG
 	cmd_node = NULL;
 	cmd = create_cmd(cmd_model);
 	if (cmd == NULL)

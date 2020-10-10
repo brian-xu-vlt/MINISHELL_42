@@ -17,7 +17,6 @@ static void	del_cmd(void *data)
 		free(cmd->av[i]);
 		i++;
 	}
-	//free(cmd->name);
 	free(cmd->av);
 	free(cmd);
 }

@@ -30,7 +30,7 @@ static int	is_cmd(t_token *token, t_cmd *cmd, int add_command)
 	if (token->type == E_LESS_THAN || token->type == E_GREATER_THAN
 			|| token->type == E_DOUBLE_GREATER)
 		fill_cmd_model(cmd, token, token->type == E_DOUBLE_GREATER ? 
-						E_CMD_DOUBLE_REDIRECTION : E_CMD_SIMPLE_REDIRECTION);
+				E_CMD_DOUBLE_REDIRECTION : E_CMD_SIMPLE_REDIRECTION);
 	else
 		fill_cmd_model(cmd, token, E_CMD_AV);
 	if (add_command == TRUE)
@@ -42,7 +42,7 @@ static int	is_cmd(t_token *token, t_cmd *cmd, int add_command)
 static t_job	*init_job()
 {
 	t_job	*job;
-	
+
 	job = (t_job *)malloc(sizeof(t_job));
 	if (job == NULL)
 		return (NULL);
@@ -51,17 +51,63 @@ static t_job	*init_job()
 	return (job);
 }
 
+static int	process_add_command(t_token *token, t_cmd *cmd, t_list *token_list,
+		t_job *job)
+{
+	int	add_command;
+
+	add_command = FALSE;
+	if (is_cmd(token, cmd, add_command) == TRUE)
+	{
+		if (add_command == TRUE && next_is_cmd_sep(token_list) == false)
+		{
+			fill_cmd_model(cmd, token, RESIZE);
+			if (add_cmd_to_job(job, cmd) == FAILURE)
+				return (FAILURE);
+			add_command = FALSE;
+		}
+		else
+			add_command = TRUE;
+	}
+	return (SUCCESS);
+}
+
+static int	add_job_to_list(t_job *job, t_list **jobs, t_list *token_list,
+								t_list **head)
+{
+	t_list	*node_job = NULL;
+	
+	node_job = ft_lstnew(job);
+	if (node_job == NULL)
+	{
+		ft_lstdelone(node_job, NULL);
+		free(node_job);
+		return (FAILURE);
+	}
+	ft_lstadd_back(jobs, node_job);
+	*head = token_list;
+	return (SUCCESS);
+}
+
+static int	process_end_cmd(t_list *token_list, t_cmd *cmd, t_job *job)
+{
+	if (token_list != NULL)
+	{
+		fill_cmd_model(cmd, NULL, RESIZE);
+		if (add_cmd_to_job(job, cmd) == FAILURE)
+			return (FAILURE);
+	}
+	return (SUCCESS);
+}
+
 static int	process_sep(t_list **head, t_list **jobs)
 {
 	t_list *token_list = *head;
-	t_list	*node_job = NULL;
 	t_job	*job;
 	t_cmd	cmd;
 	t_token	*token;
-	int		add_command;
 	int		ret;
 
-	add_command = FALSE;
 	job = init_job();
 	if (*head == NULL || job == NULL)
 		return (FAILURE);
@@ -79,39 +125,17 @@ static int	process_sep(t_list **head, t_list **jobs)
 			continue ;
 		else if (ret == FAILURE)
 			return (FAILURE);
-		if (is_cmd(token, &cmd, add_command) == TRUE)
-		{
-			if (add_command == TRUE && next_is_cmd_sep(token_list) == false)
-			{
-				fill_cmd_model(&cmd, token, RESIZE);
-				if (add_cmd_to_job(job, &cmd) == FAILURE)
-					return (FAILURE);
-				add_command = FALSE;
-			}
-			else
-				add_command = TRUE;
-
-		}
-		add_command = FALSE;
+		if (process_add_command(token, &cmd, token_list, job) == FAILURE)
+			return (FAILURE);
 		token_list = token_list->next;
 	}
-	if (token_list != NULL)
-	{
-		fill_cmd_model(&cmd, NULL, RESIZE);
-		if (add_cmd_to_job(job, &cmd) == FAILURE)
-			return (FAILURE);
-	}
-	node_job = ft_lstnew(job);
-	if (node_job == NULL)
-	{
-		ft_lstdelone(node_job, NULL);
-		free(node_job);
+	if (process_end_cmd(token_list, &cmd, job) == FAILURE)
 		return (FAILURE);
-	}
-	ft_lstadd_back(jobs, node_job);
-	*head = token_list;
+	if (add_job_to_list(job, jobs, token_list, head) == FAILURE)
+		return (FAILURE);
 	return (SUCCESS);
 }
+
 
 t_list	*get_jobs(t_list *token_list)
 {
