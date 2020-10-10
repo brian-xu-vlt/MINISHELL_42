@@ -601,7 +601,6 @@ static int	test2(int nb_job, int nb_command, t_cmd *cmd)
 		fd_string[0] = NULL;
 		fd_string[1] = NULL;
 		fd_string[2] = NULL;
-		ft_printf("CMD->AC == %d\n", cmd->ac);//DEBUG
 		ret = verif_name(av[0], cmd->name);
 		if (ret == true)
 			ret = verif_ac(ac, cmd->ac);
@@ -610,7 +609,7 @@ static int	test2(int nb_job, int nb_command, t_cmd *cmd)
 		if (ret == true)
 			ret = verif_fd_string(fd_string, cmd->fd_string);
 		if (ret == true)
-			ret = verif_condition(E_YES_AND, cmd->condition);
+			ret = verif_condition(E_NONE, cmd->condition);
 		if (ret == true)
 			ret = verif_redirection(false, cmd->redirection);
 		return (ret);

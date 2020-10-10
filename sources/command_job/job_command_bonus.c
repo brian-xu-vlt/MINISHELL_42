@@ -92,6 +92,7 @@ static int	process_sep(t_list **head, t_list **jobs)
 				add_command = TRUE;
 
 		}
+		add_command = FALSE;
 		token_list = token_list->next;
 	}
 	if (token_list != NULL)

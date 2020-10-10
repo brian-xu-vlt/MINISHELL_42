@@ -4,10 +4,8 @@ void	fill_name(char *str, t_cmd *cmd)
 {
 	char	*cpy_name;
 
-	ft_printf("CMD->NAME FIRST = %s\n", cmd->name);//DEBUG
 	cpy_name = ft_strjoin(cmd->name, str);
-	cmd->name = ft_strjoin(cpy_name, " ");	
-	ft_printf("CMD->NAME END = %s\n", cmd->name);//DEBUG
+	cmd->name = ft_strjoin(cpy_name, " ");
 	free(cpy_name);
 }
 
