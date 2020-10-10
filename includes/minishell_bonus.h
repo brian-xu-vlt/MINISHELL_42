@@ -92,6 +92,7 @@ int		verif_condition(int good, int condition);
 int		verif_redirection(int good, int redirection);
 void	free_list_job(t_list **job);
 int		hub_test(int nb_job, int nb_command, t_cmd *cmd, int nb_test);
+int		count_ac(t_list **list);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/

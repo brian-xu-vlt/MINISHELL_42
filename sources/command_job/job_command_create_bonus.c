@@ -57,7 +57,6 @@ void	init_cmd_var(t_cmd *cmd, t_list **list)
 	t_token	*token;
 
 	ft_bzero(cmd, sizeof(t_cmd));
-	//ft_printf("INIT COMMAND VAR\n");//
 	cmd->name = NULL;
 	cmd->av = NULL;
 	cmd->fd_string[0] = NULL;
@@ -68,6 +67,7 @@ void	init_cmd_var(t_cmd *cmd, t_list **list)
 	if (*list != NULL)
 	{
 		token = (*list)->content;
+		cmd->ac = count_ac(list);
 		if (token->type == E_AND)
 			cmd->condition = E_YES_AND;
 		else if (token->type == E_OR)
@@ -80,15 +80,9 @@ void	fill_cmd_model(t_cmd *cmd, t_token *token, int type)
 {
 	static int	redirection;
 
-	//ft_printf("FILL COMMAND MODEL\n");//DEBUG
-	//ft_printf("token->data = %s\n", token->data);//DEBUG
-	//ft_printf("type = %s\n", debug_get_type(type));//DEBUG
-	//ft_printf("REDIRECTION = %d\n", redirection);//DEBUG
 	if (type == RESIZE)
 	{
-		cmd->av = ft_split(cmd->name, C_SPACE);
-		cmd->ac = fill_ac(cmd->av);
-		free(cmd->name);
+		fill_name(NULL, cmd);
 		cmd->name = cmd->av[0];
 		return ;
 	}

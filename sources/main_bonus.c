@@ -77,14 +77,7 @@ int			main(int ac, char **av, char **envp)
 				ret_jobs = FAILURE;
 			}
 			if (ret_jobs == SUCCESS)
-			{
-				ft_printf("PAS ICI NON\n");//DEBUG	
 				free_list_job(&jobs);
-			}
-			if (ret_lexer == SUCCESS)
-			{
-				ft_printf("PAS ICI OUI\n");//DEBUG	
-			}
 		}
 		free_list_token(&lexer_list);
 		vct_clear(cmd_line);
