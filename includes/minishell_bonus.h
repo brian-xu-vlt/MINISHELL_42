@@ -93,6 +93,17 @@ int		verif_redirection(int good, int redirection);
 void	free_list_job(t_list **job);
 int		hub_test(int nb_job, int nb_command, t_cmd *cmd, int nb_test);
 int		count_ac(t_list **list);
+int		get_command(int type);
+int		process_end_cmd(t_list *token_list, t_cmd *cmd, t_job *job);
+int		process_add_command(t_token *token, t_cmd *cmd, t_list *token_list,
+			t_job *job);
+int		is_cmd(t_token *token, t_cmd *cmd, int add_command);
+int		is_end_cmd(t_token *token, t_list **token_list, t_cmd *cmd, t_job *job);
+int		is_add_cmd(t_token *token, t_list *token_list, t_cmd *cmd,
+			t_job *job);
+t_job	*init_job();
+int		add_job_to_list(t_job *job, t_list **jobs, t_list *token_list,
+			t_list **head);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/
