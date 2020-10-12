@@ -42,15 +42,18 @@ int			main(int ac, char **av)
 	{
 		if (BONUS_FLAG == TRUE)
 		{
+			signal_manager(SIG_MODE_LINE_EDITOR);
 			line_editor();
 			save_history();
 			ft_putstr_fd("\n", STDOUT_FILENO); //debug ?
+			signal_manager(SIG_MODE_NORMAL);
 		}
 		else
 			read_loop(cmd_line);
 		if (ft_strncmp(vct_getstr(cmd_line), "exit", 5) == 0)
 			break ;
 	//	if (test_env(cmd_line) == FAILURE || test_executor(cmd_line) == FAILURE)
+		signal_manager(SIG_MODE_EXEC);
 		if (test_executor(cmd_line) == FAILURE)
 		{
 			exit_routine_le(NULL);

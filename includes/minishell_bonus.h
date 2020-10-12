@@ -24,6 +24,7 @@
 # include <dirent.h>
 # include <unistd.h>
 # include <stdbool.h>
+# include <signal.h>
 
 /******************************************************************************/
 /*******************************_FUNCTION_*************************************/
@@ -69,6 +70,7 @@ const char	*get_token_str(const int type);
 /*******************************_EXECUTION_************************************/
 /******************************************************************************/
 
+void	signal_manager(int mode);
 void	executor(const t_cmd *command);
 char	*locate_binary_file(const char *bin_name);
 int		execute_bin(const char *binary_full_path, const t_cmd *command);

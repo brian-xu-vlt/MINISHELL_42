@@ -53,6 +53,11 @@
 /*******************************_EXECUTOR_*************************************/
 /******************************************************************************/
 
+#define SIG_MODE_NORMAL			0
+#define SIG_MODE_LINE_EDITOR	1
+#define SIG_MODE_EXEC			2
+
+
 #define	ERR_NO_COMMAND		"command not found"
 #define	ERR_NO_FILE			"No such file or directory"
 
