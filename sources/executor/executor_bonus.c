@@ -27,6 +27,8 @@ static int		exec_minishell_builtin(const t_cmd *command)
 		{ env_builtin, export_builtin, unset_builtin };
 
 	i = 0;
+	if (ft_strequ((char *)command->name, "exit") == TRUE)
+		exit_routine_le("exit");
 	while (i < builtins_nb)
 	{
 		if (ft_strequ((char *)command->name, (char *)builtin_names[i]) == TRUE)
@@ -39,9 +41,9 @@ static int		exec_minishell_builtin(const t_cmd *command)
 static int		is_builtin(const t_cmd *command)
 {
 	int					i;
-	static const int	builtins_nb = 3;
+	static const int	builtins_nb = 4;
 	static const char	*builtin_names[builtins_nb] = 
-		{ "env", "export", "unset" };
+		{ "exit", "env", "export", "unset" };
 
 	i = 0;
 	while (i < builtins_nb)

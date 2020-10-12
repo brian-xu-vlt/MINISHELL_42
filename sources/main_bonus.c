@@ -50,8 +50,6 @@ int			main(int ac, char **av)
 		}
 		else
 			read_loop(cmd_line);
-		if (ft_strncmp(vct_getstr(cmd_line), "exit", 5) == 0)
-			break ;
 	//	if (test_env(cmd_line) == FAILURE || test_executor(cmd_line) == FAILURE)
 		signal_manager(SIG_MODE_EXEC);
 		if (test_executor(cmd_line) == FAILURE)
