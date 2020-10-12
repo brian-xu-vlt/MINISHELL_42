@@ -73,10 +73,10 @@ static int	process_add_command(t_token *token, t_cmd *cmd, t_list *token_list,
 }
 
 static int	add_job_to_list(t_job *job, t_list **jobs, t_list *token_list,
-								t_list **head)
+		t_list **head)
 {
 	t_list	*node_job = NULL;
-	
+
 	node_job = ft_lstnew(job);
 	if (node_job == NULL)
 	{
@@ -100,13 +100,28 @@ static int	process_end_cmd(t_list *token_list, t_cmd *cmd, t_job *job)
 	return (SUCCESS);
 }
 
+static int	is_add_cmd(t_token *token, t_list *token_list, t_cmd *cmd,
+		t_job *job)
+{
+	int	ret;
+
+	ret = is_end_cmd(token, &token_list, cmd, job);
+	if (ret != true)
+	{
+		if (ret == FAILURE)
+			return (FAILURE);
+		if (process_add_command(token, cmd, token_list, job) == FAILURE)
+			return (FAILURE);
+	}
+	return (SUCCESS);
+}
+
 static int	process_sep(t_list **head, t_list **jobs)
 {
 	t_list *token_list = *head;
 	t_job	*job;
 	t_cmd	cmd;
 	t_token	*token;
-	int		ret;
 
 	job = init_job();
 	if (*head == NULL || job == NULL)
@@ -115,19 +130,12 @@ static int	process_sep(t_list **head, t_list **jobs)
 	while (token_list != NULL && is_job_sep(token_list->content) == false)
 	{
 		token = token_list->content;
-		if (token->type == E_END)
-		{
-			token_list = token_list->next;
-			break ;
-		}
-		ret = is_end_cmd(token, &token_list, &cmd, job);
-		if (ret == true)
-			continue ;
-		else if (ret == FAILURE)
-			return (FAILURE);
-		if (process_add_command(token, &cmd, token_list, job) == FAILURE)
-			return (FAILURE);
+		if (token->type != E_END)
+			if (is_add_cmd(token, token_list, &cmd, job) == FAILURE)
+				return (FAILURE);
 		token_list = token_list->next;
+		if (token->type == E_END)
+			break ;
 	}
 	if (process_end_cmd(token_list, &cmd, job) == FAILURE)
 		return (FAILURE);
