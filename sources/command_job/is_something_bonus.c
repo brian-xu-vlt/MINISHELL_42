@@ -1,5 +1,16 @@
 #include "minishell_bonus.h"
 
+bool	is_job_sep(t_token *token)
+{
+	return (token->type == E_OR || token->type == E_AND
+				|| token->type == E_SEPARATOR ? true : false);
+}
+
+bool	is_cmd_sep(t_token *token)
+{
+	return (is_job_sep(token) || token->type == E_PIPE);
+}
+
 int	is_add_cmd(t_token *token, t_list *token_list, t_cmd *cmd,
 		t_job *job)
 {

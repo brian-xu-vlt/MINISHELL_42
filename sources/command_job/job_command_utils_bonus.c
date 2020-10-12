@@ -28,17 +28,6 @@ int	next_is_end(t_list **token_list)
 	return (token->type == E_END ? true : false);
 }
 
-bool	is_job_sep(t_token *token)
-{
-	return (token->type == E_OR || token->type == E_AND
-				|| token->type == E_SEPARATOR ? true : false);
-}
-
-bool	is_cmd_sep(t_token *token)
-{
-	return (is_job_sep(token) || token->type == E_PIPE);
-}
-
 int	next_is_cmd_sep(t_list *token_list)
 {
 	t_list	*tmp_list;
