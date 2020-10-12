@@ -88,6 +88,6 @@ void			executor(const t_cmd *command)
 			free(bin_dir);
 			free(binary_full_path);
 		}
-		ms_setenv(ft_strdup("?"), ft_itoa(WIFEXITED(ret_value)), TRUE, TRUE);
+		ms_setenv_int("?", (int)WIFEXITED(ret_value), TRUE, TRUE); // ATTENTION !! CHANGE TRUE, TRUE to TRUE, FALSE
 	}
 }

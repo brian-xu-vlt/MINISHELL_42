@@ -2,7 +2,12 @@
 
 static void	sig_handler_int(int sig)
 {
-	ft_printf("sig_handler_int with signal %d\n", sig);
+	pid_t		pid;
+	t_vector	*pid_tmp;
+	
+	pid_tmp = get_env_value_vct("!");
+	pid = ft_atoi(vct_getstr(pid_tmp));
+	kill(pid, sig);
 }
 
 void		signal_manager(int mode)
@@ -16,7 +21,7 @@ void		signal_manager(int mode)
 		sig_handler_int, sig_handler_int
 	};
 	static void 	(*handler_mode_line_editor[sig_nb])(int) = {
-		sig_handler_int, sig_handler_int
+		sig_handler_int, SIG_IGN
 	};
 
 	i = 0;

@@ -38,7 +38,7 @@ static void	ft_lstdel_node(t_list **lst, t_list *node, void (*del)(void *))
 	}
 }
 
-void		delete_env(char *env_name)
+void		unset_env(const char *env_name)
 {
 	t_list	*env_node;
 

@@ -14,7 +14,7 @@ static void	child_process(const char *binary_full_path, const t_cmd *command)
 static void	manage_exit_status(int wstatus, pid_t pid)
 {
 	if (WIFEXITED(wstatus) == TRUE)
-		ft_printf("\nEverything is OK : exit status == %i\n", WEXITSTATUS(wstatus));
+		ft_printf("\nExit status == %i\n", WEXITSTATUS(wstatus));
 	else if (WIFSIGNALED(wstatus) == TRUE)
 		ft_printf("\nPID %i Got a signal : %i and core file was created == %d\n", pid, WTERMSIG(wstatus), WCOREDUMP(wstatus));
 	else if (WIFSTOPPED(wstatus) == TRUE)
@@ -27,6 +27,7 @@ static pid_t	fork_process(void)
 
 	return (pid_ret = fork());
 }
+
 int				execute_bin(const char *binary_full_path, const t_cmd *command)
 {
 	pid_t	pid;
@@ -39,7 +40,10 @@ int				execute_bin(const char *binary_full_path, const t_cmd *command)
 	else if (pid == FAILURE)
 		return (FAILURE);
 	else
+	{
+		ms_setenv_int("!", (int)pid, TRUE, TRUE);// ATTENTION // // ATTENTION //// ATTENTION // CHANGE TRUE, TRUE to TRUE, FALSE flags !!
 		pid = waitpid(pid, &wstatus, WUNTRACED);
+	}
 	manage_exit_status(wstatus, pid);
 	return (wstatus);
 }

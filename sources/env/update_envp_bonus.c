@@ -8,7 +8,7 @@ static void	exit_routine_failed_envp(char **envp, int i)
 	exit_routine_le(ERR_MALLOC);
 }
 
-static char	*create_env(char *env_name, t_vector *env_value)
+static char	*create_env(const char *env_name, t_vector *env_value)
 {
 	int		env_name_len;
 	int		env_value_len;

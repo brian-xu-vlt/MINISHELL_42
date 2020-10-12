@@ -57,7 +57,7 @@ int	unset_builtin(int ac, char **av)
 			if (av[i][0] == '-')
 				print_set_errno(EINVAL, (char *)builtin, av[i]);
 			else
-				delete_env(av[i]);
+				unset_env(av[i]);
 			i++;
 		}
 	}

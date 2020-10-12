@@ -5,7 +5,7 @@ void			free_btree_node(t_btree *node)
 	free((void *)node);
 }
 
-static int		get_env_name_len(char *env)
+static int		get_env_name_len(const char *env)
 {
 	int		i;
 
@@ -15,7 +15,7 @@ static int		get_env_name_len(char *env)
 	return (i);
 }
 
-void			parse_env(char *env, char **env_name, char **env_value,
+void			parse_env(const char *env, char **env_name, char **env_value,
 															int *append_flag)
 {
 	int		name_len;
