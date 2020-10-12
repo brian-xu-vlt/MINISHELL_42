@@ -14,11 +14,15 @@ static void	child_process(const char *binary_full_path, const t_cmd *command)
 static void	manage_exit_status(int wstatus, pid_t pid)
 {
 	if (WIFEXITED(wstatus) == TRUE)
-		ft_printf("\nExit status == %i\n", WEXITSTATUS(wstatus));
+		ft_printf("Exit status == %i\n", WEXITSTATUS(wstatus));
 	else if (WIFSIGNALED(wstatus) == TRUE)
-		ft_printf("\nPID %i Got a signal : %i and core file was created == %d\n", pid, WTERMSIG(wstatus), WCOREDUMP(wstatus));
+	{
+		ft_printf("PID %i Got a signal %i ", pid, WTERMSIG(wstatus));
+		if (WCOREDUMP(wstatus) != FALSE)
+			ft_printf("(core dumped)");
+	}
 	else if (WIFSTOPPED(wstatus) == TRUE)
-		ft_printf("\nGot a STOPED by pid %d\n", WSTOPSIG(wstatus));
+		ft_printf("Got a STOPED by pid %d\n", WSTOPSIG(wstatus));
 }
 
 static pid_t	fork_process(void)

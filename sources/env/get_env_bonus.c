@@ -44,6 +44,21 @@ t_vector	*get_env_value_vct(const char *env_name)
 	return (NOT_FOUND);
 }
 
+int			get_env_value_int(const char *env_name)
+{
+	t_vector	*value_vct;
+	
+	errno = 0;
+ 	value_vct = get_env_value_vct(env_name);
+	if (value_vct != NOT_FOUND)
+		return (ft_atoi(vct_getstr(value_vct)));
+	else
+	{
+		errno = FAILURE;
+		return (0);
+	}
+}
+
 t_env_data	*get_env_data(t_env_data *mem)
 {
 	static t_env_data	*mem_backup = NULL;

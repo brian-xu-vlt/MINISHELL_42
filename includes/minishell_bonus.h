@@ -70,7 +70,7 @@ const char	*get_token_str(const int type);
 /*******************************_EXECUTION_************************************/
 /******************************************************************************/
 
-void	signal_manager(int mode);
+void	signal_manager(int set_mode);
 void	executor(const t_cmd *command);
 char	*locate_binary_file(const char *bin_name);
 int		execute_bin(const char *binary_full_path, const t_cmd *command);
@@ -123,6 +123,7 @@ t_env_data	*get_env_data(t_env_data *mem);
 t_env		*get_env_struct(const char *env_name);
 t_list		*get_env_node(const char *env_name);
 t_vector	*get_env_value_vct(const char *env_name);
+int			get_env_value_int(const char *env_name);
 
 void		parse_env(const char *env, char **env_name, char **env_value,
 																int *overwrite);
