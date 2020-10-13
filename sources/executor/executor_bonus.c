@@ -88,6 +88,9 @@ void			executor(const t_cmd *command)
 			free(bin_dir);
 			free(binary_full_path);
 		}
-		ms_setenv_int("?", WIFEXITED(ret_value), TRUE, TRUE); // ATTENTION !! CHANGE TRUE, TRUE to TRUE, FALSE
 	}
+		if (ret_value < 0)
+			ret_value = 128 + ret_value;
+	ms_setenv_int("?", ret_value, TRUE, TRUE); // ATTENTION !! CHANGE TRUE, TRUE to TRUE, FALSE
+	ft_printf("record... %d as ? env\n", ret_value);
 }
