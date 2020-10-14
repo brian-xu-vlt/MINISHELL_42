@@ -70,10 +70,14 @@ const char	*get_token_str(const int type);
 /*******************************_EXECUTION_************************************/
 /******************************************************************************/
 
+#define BUILTIN_FAILURE		1
+
+int		is_builtin(const t_cmd *command);
+int		exec_builtin(const t_cmd *command);
+int		execute_bin(const char *binary_full_path, const t_cmd *command);
 void	signal_manager(int set_mode);
 void	executor(const t_cmd *command);
 char	*locate_binary_file(const char *bin_name);
-int		execute_bin(const char *binary_full_path, const t_cmd *command);
 
 /******************************************************************************/
 /*******************************_GENERAL_UTILES_*******************************/
@@ -91,6 +95,7 @@ void	print_set_errno(int err_value, char *function_name, char *error_source);
 /*******************************_BUILTINS_*************************************/
 /******************************************************************************/
 
+int		exit_builtin(int ac, char **av);
 int		env_builtin(int argc, char **argv);
 int		export_builtin(int argc, char **argv);
 int		unset_builtin(int argc, char **argv);

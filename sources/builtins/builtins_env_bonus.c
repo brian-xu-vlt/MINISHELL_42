@@ -2,6 +2,17 @@
 
 // return int mais pas sur, peut etre juste utiliser le errno.
 
+int	exit_builtin(int ac, char **av)
+{
+	const char	*builtin = "exit";
+
+	if (ft_strequ(av[0], (char *)builtin) == FALSE)
+		return (0);
+	if (ac == 1)
+		exit_routine_le("exit");
+	return (SUCCESS);
+}
+
 int	env_builtin(int ac, char **av)
 {
 	const char	*builtin = "env";
@@ -32,13 +43,15 @@ int	export_builtin(int ac, char **av)
 		i = 1;
 		while (i < ac)
 		{
-//			if (ft_isalpha(av[i][0]) == TRUE)
+			if (ft_isalpha(av[i][0]) == TRUE)
 				export_env(av[i]);
-//			else
-//				print_set_errno(EINVAL, (char *)builtin, av[i]);
+			else
+				print_set_errno(EINVAL, (char *)builtin, av[i]);
 			i++;
 		}
 	}
+	if (errno != 0)
+		return (BUILTIN_FAILURE);
 	return (SUCCESS);
 }
 

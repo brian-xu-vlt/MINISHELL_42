@@ -16,22 +16,24 @@ static int	manage_exit_status(int wstatus, pid_t pid)
 	int		ret;
 
 	ret = 0;
+//	if (errno != 0)
+//		return (errno);
 	if (WIFEXITED(wstatus) == TRUE)
 	{
 		ret = WEXITSTATUS(wstatus);
-		ft_printf("Exit status == %i", ret);
+		ft_printf("\nEXIT_MANAGER : Exit status == %i", ret);
 	}
 	else if (WIFSIGNALED(wstatus) == TRUE)
 	{
 		ret = WTERMSIG(wstatus);
-		ft_printf("PID %i Got a signal %i ", pid, ret);
+		ft_printf("\nEXIT_MANAGER : PID %i Got a signal %i ", pid, ret);
 		if (WCOREDUMP(wstatus) != FALSE)
 			ft_printf("(core dumped)");
 	}
 	else if (WIFSTOPPED(wstatus) == TRUE)
 	{
 		ret = WSTOPSIG(wstatus);
-		ft_printf("Got a STOPED by pid %d", ret);
+		ft_printf("\nEXIT_MANAGER : Got a STOPED by pid %d", ret);
 	}
 	ft_printf("\n");
 	return (ret);

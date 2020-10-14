@@ -97,6 +97,7 @@ SRCS += general_utils_bonus.c
 SRCS += signal_manager_bonus.c
 SRCS += executor_bonus.c
 SRCS += locate_bin_bonus.c
+SRCS += exec_builtin_bonus.c
 SRCS += exec_bin_bonus.c
 SRCS += job_command_bonus.c
 SRCS += handle_no_word_bonus.c
