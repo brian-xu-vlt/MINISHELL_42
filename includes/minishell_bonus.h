@@ -104,6 +104,7 @@ int		is_add_cmd(t_token *token, t_list *token_list, t_cmd *cmd,
 t_job	*init_job();
 int		add_job_to_list(t_job *job, t_list **jobs, t_list *token_list,
 			t_list **head);
+int		count_assign(t_list **list);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/

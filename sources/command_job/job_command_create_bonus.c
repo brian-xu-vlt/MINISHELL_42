@@ -22,6 +22,7 @@ t_cmd	*create_cmd(t_cmd *cmd_model)
 			cmd->fd_string[2] = ft_strdup(cmd_model->fd_string[2]);
 		cmd->condition = cmd_model->condition;
 		cmd->redirection = cmd_model->redirection;
+		cmd->count_assign = cmd_model->count_assign;
 		cmd->ret = FAILURE;
 	}
 	return (cmd);
@@ -67,6 +68,9 @@ void	init_cmd_var(t_cmd *cmd, t_list **list)
 	{
 		token = (*list)->content;
 		cmd->ac = count_ac(list);
+		cmd->count_assign = count_assign(list);
+		ft_printf("count_assign = %d\n", cmd->count_assign);//DEBUG
+		//cmd->count_exp = count_exp(list);	
 		if (token->type == E_AND)
 			cmd->condition = E_YES_AND;
 		else if (token->type == E_OR)

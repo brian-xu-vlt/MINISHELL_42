@@ -63,6 +63,10 @@ typedef struct				s_cmd
 	enum e_condition_type	condition;
 	int						redirection;
 	int						ret;
+	int						count_assign;
+	int						count_exp;
+	size_t					*tab_assign;
+	size_t					*tab_exp;
 }
 							t_cmd;
 
