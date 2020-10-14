@@ -44,7 +44,7 @@ int	assignation_builtin(int ac, char **av)
 		}
 		i++;
 	}
-	i = 1; // change to 1 !!!!!!!!
+	i = 1; // change to 0 !!!!!!!!
 	while (i < ac)
 	{
 		export_env(av[i]);
