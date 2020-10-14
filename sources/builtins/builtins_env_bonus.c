@@ -29,6 +29,30 @@ int	env_builtin(int ac, char **av)
 	return (SUCCESS);
 }
 
+int	assignation_builtin(int ac, char **av)
+{
+	int			i;
+
+	// ADD CHECK BOOLEAN FOR ASSIGNATION
+	i = 0;
+	while (i < ac)
+	{
+		if (ft_isalpha(av[i][0]) == FALSE)
+		{
+			print_set_errno(EINVAL, NULL, av[i]);
+			return (127);
+		}
+		i++;
+	}
+	i = 1; // change to 1 !!!!!!!!
+	while (i < ac)
+	{
+		export_env(av[i]);
+		i++;
+	}
+	return (SUCCESS);
+}
+
 int	export_builtin(int ac, char **av)
 {
 	const char	*builtin = "export";

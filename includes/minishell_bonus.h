@@ -95,6 +95,7 @@ void	print_set_errno(int err_value, char *function_name, char *error_source);
 /*******************************_BUILTINS_*************************************/
 /******************************************************************************/
 
+int		assignation_builtin(int ac, char **av);
 int		exit_builtin(int ac, char **av);
 int		env_builtin(int argc, char **argv);
 int		export_builtin(int argc, char **argv);
