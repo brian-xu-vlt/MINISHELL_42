@@ -21,7 +21,7 @@ static void	del_cmd(void *data)
 	free(cmd);
 }
 
-static void	del_jobs(void *data)
+static void del_jobs(void *data)
 {
 	t_job *job;
 
@@ -32,7 +32,7 @@ static void	del_jobs(void *data)
 	free(job);
 }
 
-void	free_list_job(t_list **jobs)
+void free_list_job(t_list **jobs)
 {
 	ft_lstdel(jobs, del_jobs);
 }
