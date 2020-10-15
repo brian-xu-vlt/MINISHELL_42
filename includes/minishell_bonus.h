@@ -82,7 +82,7 @@ void	init_cmd_var(t_cmd *cmd, t_list **list);
 void	fill_cmd_model(t_cmd *cmd, t_token *token, int type);
 char	*debug_get_type(int type);
 int		next_is_cmd_sep(t_list *token_list);
-void	fill_name(char *str, t_cmd *cmd);
+int		fill_name(char *str, t_cmd *cmd);
 int		fill_ac(char **av);
 int		verif_name(char *good, char *name);
 int		verif_ac(int good, int ac);
@@ -106,6 +106,8 @@ int		add_job_to_list(t_job *job, t_list **jobs, t_list *token_list,
 			t_list **head);
 int		count_assign(t_list **list);
 int		count_exp(t_list **list);
+void	fill_assign(int flag, int count_ac, t_cmd *cmd);
+void	fill_exp(int flag, int count_ac, t_cmd *cmd);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/

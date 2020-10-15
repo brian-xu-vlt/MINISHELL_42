@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-void	fill_name(char *str, t_cmd *cmd)
+int	fill_name(char *str, t_cmd *cmd)
 {
 	static int count;
 
@@ -8,7 +8,7 @@ void	fill_name(char *str, t_cmd *cmd)
 	{
 		cmd->av = (char **)malloc(sizeof(char *) * (cmd->ac + 1));
 		if (cmd->av == NULL)
-			return ; //ERROR
+			return (FAILURE); //ERROR
 		cmd->av[cmd->ac] = NULL;
 	}
 	if (str == NULL)
@@ -16,6 +16,45 @@ void	fill_name(char *str, t_cmd *cmd)
 	else
 	{
 		cmd->av[count] = ft_strdup(str);
+		count++;
+	}
+	return (SUCCESS);
+}
+
+void	fill_assign(int flag, int count_ac, t_cmd *cmd)
+{
+	static int count;
+
+	if (count == 0)
+	{
+		cmd->tab_assign = (size_t *)malloc(sizeof(size_t) * (cmd->count_assign));
+		if (cmd->tab_assign == NULL)
+			return ; //ERROR
+	}
+	if (flag == FAILURE)
+		count = 0;
+	else
+	{
+		cmd->tab_assign[count] = count_ac;
+		count++;
+	}
+}
+
+void	fill_exp(int flag, int count_ac, t_cmd *cmd)
+{
+	static int count;
+
+	if (count == 0)
+	{
+		cmd->tab_exp = (size_t *)malloc(sizeof(size_t) * (cmd->count_exp));
+		if (cmd->tab_exp == NULL)
+			return ; //ERROR
+	}
+	if (flag == FAILURE)
+		count = 0;
+	else
+	{
+		cmd->tab_exp[count] = count_ac;
 		count++;
 	}
 }

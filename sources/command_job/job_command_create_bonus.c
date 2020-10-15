@@ -24,6 +24,8 @@ t_cmd	*create_cmd(t_cmd *cmd_model)
 		cmd->redirection = cmd_model->redirection;
 		cmd->count_assign = cmd_model->count_assign;
 		cmd->count_exp = cmd_model->count_exp;
+		cmd->tab_assign = cmd_model->tab_assign;
+		cmd->tab_exp = cmd_model->tab_exp;
 		cmd->ret = FAILURE;
 	}
 	return (cmd);
@@ -82,10 +84,14 @@ void	init_cmd_var(t_cmd *cmd, t_list **list)
 void	fill_cmd_model(t_cmd *cmd, t_token *token, int type)
 {
 	static int	redirection;
+	int			count;
 
+	count = 0;
 	if (type == RESIZE)
 	{
 		fill_name(NULL, cmd);
+		fill_assign(FAILURE, count, cmd);
+		fill_exp(FAILURE, count, cmd);
 		cmd->name = cmd->av[0];
 		return ;
 	}
@@ -103,5 +109,11 @@ void	fill_cmd_model(t_cmd *cmd, t_token *token, int type)
 	if (token->data == NULL)
 		fill_name(get_data(token->type), cmd);
 	else
-		fill_name(token->data, cmd);
+	{
+		count = fill_name(token->data, cmd);
+		if (token->type == E_ASSIGN)
+			fill_assign(SUCCESS, count, cmd);
+		if (token->type == E_EXP)
+			fill_exp(SUCCESS, count, cmd);
+	}
 }
