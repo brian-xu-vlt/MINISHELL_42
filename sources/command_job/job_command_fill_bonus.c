@@ -18,7 +18,7 @@ int	fill_name(char *str, t_cmd *cmd)
 		cmd->av[count] = ft_strdup(str);
 		count++;
 	}
-	return (SUCCESS);
+	return (count);
 }
 
 void	fill_assign(int flag, int count_ac, t_cmd *cmd)
@@ -35,7 +35,7 @@ void	fill_assign(int flag, int count_ac, t_cmd *cmd)
 		count = 0;
 	else
 	{
-		cmd->tab_assign[count] = count_ac;
+		cmd->tab_assign[count] = count_ac - 1;
 		count++;
 	}
 }
@@ -54,7 +54,7 @@ void	fill_exp(int flag, int count_ac, t_cmd *cmd)
 		count = 0;
 	else
 	{
-		cmd->tab_exp[count] = count_ac;
+		cmd->tab_exp[count] = count_ac - 1;
 		count++;
 	}
 }
