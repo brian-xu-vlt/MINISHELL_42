@@ -108,6 +108,9 @@ int		count_assign(t_list **list);
 int		count_exp(t_list **list);
 int		fill_assign(int flag, int count_ac, t_cmd *cmd);
 int		fill_exp(int flag, int count_ac, t_cmd *cmd);
+void	create_cmd_fd_string(t_cmd *cmd, t_cmd *cmd_model);
+int		resize_cmd(t_cmd *cmd, int count);
+int		fill_data_cmd(t_token *token, t_cmd *cmd, int count);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/

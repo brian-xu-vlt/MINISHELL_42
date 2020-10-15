@@ -14,12 +14,7 @@ t_cmd	*create_cmd(t_cmd *cmd_model)
 		cmd->fd[0] = STDIN_FILENO;
 		cmd->fd[1] = STDOUT_FILENO;
 		cmd->fd[2] = STDERR_FILENO;
-		if (cmd_model->fd_string[0] != NULL)
-			cmd->fd_string[0] = ft_strdup(cmd_model->fd_string[0]);
-		if (cmd_model->fd_string[1] != NULL)
-			cmd->fd_string[1] = ft_strdup(cmd_model->fd_string[1]);
-		if (cmd_model->fd_string[2] != NULL)
-			cmd->fd_string[2] = ft_strdup(cmd_model->fd_string[2]);
+		create_cmd_fd_string(cmd, cmd_model);
 		cmd->condition = cmd_model->condition;
 		cmd->redirection = cmd_model->redirection;
 		cmd->count_assign = cmd_model->count_assign;
@@ -89,14 +84,9 @@ int		fill_cmd_model(t_cmd *cmd, t_token *token, int type)
 	count = 0;
 	if (type == RESIZE)
 	{
-		if (fill_name(NULL, cmd) == FAILURE)
-			return (FAILURE);
-		if (fill_assign(FAILURE, count, cmd) == FAILURE)
-			return (FAILURE);
-		if (fill_exp(FAILURE, count, cmd) == FAILURE)
-			return (FAILURE);
-		cmd->name = cmd->av[0];
-		return (SUCCESS);
+		if (resize_cmd(cmd, count) == SUCCESS)
+			return (SUCCESS);
+		return (FAILURE);
 	}
 	if (redirection != false)
 	{
@@ -109,22 +99,8 @@ int		fill_cmd_model(t_cmd *cmd, t_token *token, int type)
 	}
 	else if (type == E_CMD_SIMPLE_REDIRECTION || type == E_CMD_DOUBLE_REDIRECTION)
 		redirection = token->type;
-	if (token->data == NULL)
-	{
-		if (fill_name(get_data(token->type), cmd) == FAILURE)
-			return (FAILURE);
-	}
-	else
-	{
-		count = fill_name(token->data, cmd);
-		if (count == FAILURE)
-			return (FAILURE);
-		if (token->type == E_ASSIGN)
-			if (fill_assign(SUCCESS, count, cmd) == FAILURE)
-				return (FAILURE);
-		if (token->type == E_EXP)
-			if (fill_exp(SUCCESS, count, cmd) == FAILURE)
-				return (FAILURE);
-	}
+	count = fill_data_cmd(token, cmd, count);
+	if (count == FAILURE)
+		return (FAILURE);	
 	return (SUCCESS);
 }
