@@ -8,7 +8,7 @@ int	fill_name(char *str, t_cmd *cmd)
 	{
 		cmd->av = (char **)malloc(sizeof(char *) * (cmd->ac + 1));
 		if (cmd->av == NULL)
-			return (FAILURE); //ERROR
+			return (FAILURE);
 		cmd->av[cmd->ac] = NULL;
 	}
 	if (str == NULL)
@@ -21,7 +21,7 @@ int	fill_name(char *str, t_cmd *cmd)
 	return (count);
 }
 
-void	fill_assign(int flag, int count_ac, t_cmd *cmd)
+int		fill_assign(int flag, int count_ac, t_cmd *cmd)
 {
 	static int count;
 
@@ -29,7 +29,7 @@ void	fill_assign(int flag, int count_ac, t_cmd *cmd)
 	{
 		cmd->tab_assign = (size_t *)malloc(sizeof(size_t) * (cmd->count_assign));
 		if (cmd->tab_assign == NULL)
-			return ; //ERROR
+			return (FAILURE);
 	}
 	if (flag == FAILURE)
 		count = 0;
@@ -38,9 +38,10 @@ void	fill_assign(int flag, int count_ac, t_cmd *cmd)
 		cmd->tab_assign[count] = count_ac - 1;
 		count++;
 	}
+	return (SUCCESS);
 }
 
-void	fill_exp(int flag, int count_ac, t_cmd *cmd)
+int		fill_exp(int flag, int count_ac, t_cmd *cmd)
 {
 	static int count;
 
@@ -48,7 +49,7 @@ void	fill_exp(int flag, int count_ac, t_cmd *cmd)
 	{
 		cmd->tab_exp = (size_t *)malloc(sizeof(size_t) * (cmd->count_exp));
 		if (cmd->tab_exp == NULL)
-			return ; //ERROR
+			return (FAILURE);
 	}
 	if (flag == FAILURE)
 		count = 0;
@@ -57,6 +58,7 @@ void	fill_exp(int flag, int count_ac, t_cmd *cmd)
 		cmd->tab_exp[count] = count_ac - 1;
 		count++;
 	}
+	return (SUCCESS);
 }
 
 int	fill_ac(char **av)

@@ -81,7 +81,7 @@ void	init_cmd_var(t_cmd *cmd, t_list **list)
 	}
 }
 
-void	fill_cmd_model(t_cmd *cmd, t_token *token, int type)
+int		fill_cmd_model(t_cmd *cmd, t_token *token, int type)
 {
 	static int	redirection;
 	int			count;
@@ -89,11 +89,14 @@ void	fill_cmd_model(t_cmd *cmd, t_token *token, int type)
 	count = 0;
 	if (type == RESIZE)
 	{
-		fill_name(NULL, cmd);
-		fill_assign(FAILURE, count, cmd);
-		fill_exp(FAILURE, count, cmd);
+		if (fill_name(NULL, cmd) == FAILURE)
+			return (FAILURE);
+		if (fill_assign(FAILURE, count, cmd) == FAILURE)
+			return (FAILURE);
+		if (fill_exp(FAILURE, count, cmd) == FAILURE)
+			return (FAILURE);
 		cmd->name = cmd->av[0];
-		return ;
+		return (SUCCESS);
 	}
 	if (redirection != false)
 	{
@@ -107,13 +110,21 @@ void	fill_cmd_model(t_cmd *cmd, t_token *token, int type)
 	else if (type == E_CMD_SIMPLE_REDIRECTION || type == E_CMD_DOUBLE_REDIRECTION)
 		redirection = token->type;
 	if (token->data == NULL)
-		fill_name(get_data(token->type), cmd);
+	{
+		if (fill_name(get_data(token->type), cmd) == FAILURE)
+			return (FAILURE);
+	}
 	else
 	{
 		count = fill_name(token->data, cmd);
+		if (count == FAILURE)
+			return (FAILURE);
 		if (token->type == E_ASSIGN)
-			fill_assign(SUCCESS, count, cmd);
+			if (fill_assign(SUCCESS, count, cmd) == FAILURE)
+				return (FAILURE);
 		if (token->type == E_EXP)
-			fill_exp(SUCCESS, count, cmd);
+			if (fill_exp(SUCCESS, count, cmd) == FAILURE)
+				return (FAILURE);
 	}
+	return (SUCCESS);
 }
