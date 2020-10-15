@@ -49,7 +49,8 @@ void	debug_jobs(t_list *job_list)
 			ft_printf("fd_string[2] = %s\n", cmd->fd_string[2]);
 			ft_printf("condition = %s\n", what_conditon(cmd->condition));
 			ft_printf("redirection = %d\n", cmd->redirection);
-			ft_printf("count_assign = %d\n\n", cmd->count_assign);
+			ft_printf("count_assign = %d\n", cmd->count_assign);
+			ft_printf("count_exp = %d\n\n", cmd->count_exp);
 			tmp_cmd_lst = tmp_cmd_lst->next;
 			command++;
 		}
