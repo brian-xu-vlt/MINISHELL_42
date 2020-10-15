@@ -16,8 +16,6 @@ static int	manage_exit_status(int wstatus, pid_t pid)
 	int		ret;
 
 	ret = 0;
-//	if (errno != 0)
-//		return (errno);
 	if (WIFEXITED(wstatus) == TRUE)
 	{
 		ret = WEXITSTATUS(wstatus);
@@ -61,7 +59,6 @@ int				execute_bin(const char *binary_full_path, const t_cmd *command)
 	pid = fork_process();
 	if (pid != 0 && pid != FAILURE)
 	{
-	//	kill(pid, SIGSTOP);
 		ms_setenv_int("!", (int)pid, TRUE, TRUE);// ATTENTION // // ATTENTION //// ATTENTION // CHANGE TRUE, TRUE to TRUE, FALSE flags !!
 		pid = waitpid(pid, &wstatus, WUNTRACED);
 	}

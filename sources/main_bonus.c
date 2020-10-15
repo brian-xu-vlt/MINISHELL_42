@@ -23,6 +23,23 @@ static void	usage(int ac, char **av)
 	}
 }
 
+static void	init_std_fileno(void)
+{
+	int			test_ret;
+
+	test_ret = read(STDIN_FILENO, "", 0);
+	if (test_ret != 0)
+		exit(FAILURE);
+	test_ret = read(STDOUT_FILENO, "", 0);
+	if (test_ret != 0)
+		ms_setenv_int("stdout", STDERR_FILENO, TRUE, FALSE);
+	test_ret = read(STDERR_FILENO, "", 0);
+	if (test_ret != 0)
+		ms_setenv_int("stdout", STDOUT_FILENO, TRUE, FALSE);
+
+	ft_putstr_fd("TEST\n\n", get_env_value_int("stdout"));
+}
+
 int			main(int ac, char **av)
 {
 	t_vector	*cmd_line;
@@ -31,6 +48,7 @@ int			main(int ac, char **av)
 
 	usage(ac, av);
 	init_env();
+	init_std_fileno();
 	cmd_line = vct_new();
 	if (cmd_line == NULL)
 		exit_routine_le(ERR_MALLOC);

@@ -48,7 +48,9 @@ void		exit_routine_le(char *err_code)
 	free_history_list();
 	if (err_code != NULL)
 	{
-		ft_printf("%s\n", err_code);
+		ft_putstr_fd(err_code, STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+		//ft_printf("%s\n", err_code);
 		exit(FAILURE);
 	}
 	exit(0);
