@@ -28,8 +28,13 @@
 int		test(t_vector *input);
 int		test_env(t_vector *input);
 t_list	*test_lexer(t_vector *input);
-int		test_jobs(t_list *lexer_list);
 int		test_parser(t_list *lexer_list);
+t_list	*test_jobs(t_list *lexer_list);
+
+/******************************************************************************/
+/*******************************_LEXER_****************************************/
+/******************************************************************************/
+
 t_list	*lexer(t_vector *input);
 size_t	get_token(char c);
 ssize_t	get_double_token(t_vector *input);
@@ -38,10 +43,6 @@ int		handle_quote(t_vector *input, t_list **token_list, int ret);
 int 	extract_token(t_list **token_list, char *str, size_t type);
 void	exit_routine_lexer(t_vector *word, t_vector *vct, t_vector *tmp,
 							t_token *token);
-int		parser_token(t_list *token_list);
-int		process_parser(t_list *list, t_valid_token *valid_token);
-t_list	*get_jobs(t_list *token_list);
-void	free_list_jobs(t_list **jobs);
 int		handle_assign_quote(t_vector *input, t_vector *word);
 int		quote_checker(char *str);
 bool	is_simplequote(t_vector *input);
@@ -53,10 +54,56 @@ int		extract_token_word(t_list **token_list, t_vector *vct);
 char	*handle_bracket(char *str, t_list **token_list);
 int		get_new_type(t_vector *input);
 void	free_list_token(t_list **token);
-
-
-void		debug(const int type);
 const char	*get_token_str(const int type);
+char	*get_data(int type);
+
+/******************************************************************************/
+/*******************************_PARSER_***************************************/
+/******************************************************************************/
+
+int		parser_token(t_list *token_list);
+int		process_parser(t_list *list, t_valid_token *valid_token);
+void		debug(const int type);
+
+/******************************************************************************/
+/*******************************_JOB/COMMAND_**********************************/
+/******************************************************************************/
+
+t_list	*get_jobs(t_list *token_list);
+void	free_list_jobs(t_list **jobs);
+void	debug_token_list(t_list *list);
+int		next_is_end(t_list **token_list);
+bool	is_cmd_sep(t_token *token);
+bool	is_job_sep(t_token *token);
+int		get_tablen(char **av);
+t_cmd	*create_cmd(t_cmd *cmd_model);
+int 	add_cmd_to_job(t_job *job, t_cmd *cmd_model);
+void	init_cmd_var(t_cmd *cmd, t_list **list);
+void	fill_cmd_model(t_cmd *cmd, t_token *token, int type);
+char	*debug_get_type(int type);
+int		next_is_cmd_sep(t_list *token_list);
+void	fill_name(char *str, t_cmd *cmd);
+int		fill_ac(char **av);
+int		verif_name(char *good, char *name);
+int		verif_ac(int good, int ac);
+int		verif_av(char **good, char **av, int ac);
+int		verif_fd_string(char **good, char **fd_string);
+int		verif_condition(int good, int condition);
+int		verif_redirection(int good, int redirection);
+void	free_list_job(t_list **job);
+int		hub_test(int nb_job, int nb_command, t_cmd *cmd, int nb_test);
+int		count_ac(t_list **list);
+int		get_command(int type);
+int		process_end_cmd(t_list *token_list, t_cmd *cmd, t_job *job);
+int		process_add_command(t_token *token, t_cmd *cmd, t_list *token_list,
+			t_job *job);
+int		is_cmd(t_token *token, t_cmd *cmd, int add_command);
+int		is_end_cmd(t_token *token, t_list **token_list, t_cmd *cmd, t_job *job);
+int		is_add_cmd(t_token *token, t_list *token_list, t_cmd *cmd,
+			t_job *job);
+t_job	*init_job();
+int		add_job_to_list(t_job *job, t_list **jobs, t_list *token_list,
+			t_list **head);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/
@@ -99,4 +146,5 @@ t_vector	*get_env_value_vct(char *env_name);
 
 void		parse_env(char *env, char **env_name, t_vector **env_value,
 															int *append_flag);
+void	parser_debug(t_token *token);
 #endif

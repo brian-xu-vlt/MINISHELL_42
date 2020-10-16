@@ -1,0 +1,42 @@
+#include "minishell_bonus.h"
+
+int	get_command(int type)
+{
+	if (type == E_LESS_THAN || type == E_GREATER_THAN)
+		return (E_CMD_SIMPLE_REDIRECTION);
+	else if (type == E_DOUBLE_GREATER)
+		return (E_CMD_DOUBLE_REDIRECTION);
+	return (E_CMD_AV);
+}
+
+int	process_end_cmd(t_list *token_list, t_cmd *cmd, t_job *job)
+{
+	if (token_list != NULL)
+	{
+		fill_cmd_model(cmd, NULL, RESIZE);
+		if (add_cmd_to_job(job, cmd) == FAILURE)
+			return (FAILURE);
+	}
+	return (SUCCESS);
+}
+
+int	process_add_command(t_token *token, t_cmd *cmd, t_list *token_list,
+		t_job *job)
+{
+	int	add_command;
+
+	add_command = FALSE;
+	if (is_cmd(token, cmd, add_command) == TRUE)
+	{
+		if (add_command == TRUE && next_is_cmd_sep(token_list) == false)
+		{
+			fill_cmd_model(cmd, token, RESIZE);
+			if (add_cmd_to_job(job, cmd) == FAILURE)
+				return (FAILURE);
+			add_command = FALSE;
+		}
+		else
+			add_command = TRUE;
+	}
+	return (SUCCESS);
+}

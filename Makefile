@@ -51,6 +51,7 @@ HEADER = $(INCLUDES)minishell_bonus.h
 SRCS += test_env_bonus.c
 SRCS += main_bonus.c
 #SRCS += main_tester_parser.c #TO DELETE
+#SRCS += main_tester_job_command.c #TO DELETE
 SRCS += test_lexer_bonus.c
 SRCS += test_parser_bonus.c
 SRCS += test_jobs_bonus.c
@@ -92,6 +93,16 @@ SRCS += print_errno.c
 SRCS += job_command_bonus.c
 SRCS += handle_no_word_bonus.c
 SRCS += handle_no_word_utils_bonus.c
+SRCS += job_command_debug_bonus.c
+SRCS += job_command_utils_bonus.c
+SRCS += job_command_create_bonus.c
+SRCS += job_command_fill_bonus.c
+SRCS += test_job_command.c
+SRCS += verif.c
+SRCS += job_command_free_bonus.c
+SRCS += process_cmd_bonus.c
+SRCS += init_job_bonus.c
+SRCS += is_something_bonus.c
 
 OBJ_DIR = ./objs/
 
@@ -111,6 +122,8 @@ vpath %.c sources/line_editor/handlers/clipboard
 vpath %.c sources/line_editor/handlers/selection
 vpath %.c sources/line_editor/handlers/special_keys
 vpath %.c sources/command_job
+vpath %.c TESTER_PARSER/
+vpath %.c TESTER_JOB_COMMAND/
 
 OBJS = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 
