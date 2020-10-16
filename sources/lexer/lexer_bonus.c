@@ -98,15 +98,20 @@ t_list		*lexer(t_vector *input)
 	{
 		if (process_lexer(input, &token_list, word) == FAILURE)
 		{
-			exit_routine_lexer(word, NULL, NULL, NULL);
+			ft_printf("coucou\n");//DEBUG
 			free_list_token(&token_list);
+			exit_routine_lexer(word, NULL, NULL, NULL);
 			return (NULL);
 		}
 	}
 	if (vct_getlen(word) != 0)
 	{
 		if (extract_token_word(&token_list, word) == FAILURE)
+		{
+			free_list_token(&token_list);
+			exit_routine_lexer(word, NULL, NULL, NULL);
 			return (NULL);
+		}
 	}
 	vct_del(&word);
 	extract_token(&token_list, NULL, E_END);

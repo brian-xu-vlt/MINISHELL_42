@@ -48,6 +48,11 @@ typedef struct					s_valid_token
 /*******************************_JOB/COMMAND_**********************************/
 /******************************************************************************/
 
+typedef struct				s_draft
+{
+	t_vector				*name;
+}							t_draft;
+
 typedef struct				s_cmd
 {
 	char					*name;
@@ -56,8 +61,8 @@ typedef struct				s_cmd
 	int						fd[NB_FD];
 	char					*fd_string[NB_FD];
 	enum e_condition_type	condition;
-	int						ret;
 	int						redirection;
+	int						ret;
 }
 							t_cmd;
 

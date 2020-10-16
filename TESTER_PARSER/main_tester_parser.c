@@ -33,7 +33,7 @@ int	main(void)
 	tester("cat < Makefile | grep gcc > output", TRUE);
 	tester("cat < nofile | grep gcc > output // $? 1", TRUE);
 	tester("var1=1+1", TRUE);
-	tester("export TEST=LOL ; echo $TEST$TEST$TEST=lol$TEST", TRUE);
+	tester("exportyy TEST=LOL ; echo $TEST$TEST$TEST=lol$TEST", TRUE);
 	tester("echo test > ls >> ls >> ls ; echo test >> ls; cat ls", TRUE);
 	tester("echo \"bip | bip ; coyotte > < \" \" . bip | bip ; coyotte >< \"", TRUE);
 	tester("export var =\"cat Makefile | grep >\" .", TRUE);

@@ -7,7 +7,6 @@ static void	print_prompt(void)
 
 static void	read_loop(t_vector *cmd_line)
 {
-
 	print_prompt();
 	vct_readline(cmd_line, 0);
 }
@@ -23,47 +22,64 @@ static void	usage(int ac, char **av)
 	}
 }
 
-int			main(int ac, char **av)
+static t_list	*process_minishell(t_vector *cmd_line)
+{
+	t_list		*lexer_list;
+	t_list		*jobs;
+	int			ret_parser;	
+	int			ret_jobs;
+
+	lexer_list = NULL;
+	jobs = NULL;
+	ret_parser = SUCCESS;
+	ret_jobs = SUCCESS;
+	lexer_list = test_lexer(cmd_line);
+	if (lexer_list != NULL)
+	{
+		ret_parser = test_parser(lexer_list);
+		if (ret_parser != FALSE)
+			jobs = test_jobs(lexer_list);
+		if (jobs == NULL)
+		{
+			free_list_job(&jobs);
+			ret_jobs = FAILURE;
+		}
+		if (ret_jobs == SUCCESS)
+			free_list_job(&jobs);
+	}
+	free_list_token(&lexer_list);
+	return (jobs);
+}
+
+int			main(int ac, char **av, char **envp)
 {
 	t_vector	*cmd_line;
-	t_list		*lexer_list;
-	int			ret_parser;	
+	t_list		*jobs;
 
 	usage(ac, av);
-	init_env();
+	init_env(envp);
 	cmd_line = vct_new();
 	if (cmd_line == NULL)
 		exit_routine_le(ERR_MALLOC);
 	init_line_editor(cmd_line);
-	//init_minishell();
-	lexer_list = NULL;
-	ret_parser = SUCCESS;
+	jobs = NULL;
 	while (1)
 	{
 		if (BONUS_FLAG == TRUE)
 		{
-			signal_manager(SIG_MODE_LINE_EDITOR);
 			line_editor();
 			save_history();
-			ft_putstr_fd("\n", STDOUT_FILENO); //debug ?
-			signal_manager(SIG_MODE_NORMAL);
 		}
 		else
 			read_loop(cmd_line);
-	//	if (test_env(cmd_line) == FAILURE || test_executor(cmd_line) == FAILURE)
-		signal_manager(SIG_MODE_EXEC);
-		if (test_executor(cmd_line) == FAILURE)
+		if (ft_strncmp(vct_getstr(cmd_line), "exit", 5) == 0)
+			break ;
+		if (test_env(cmd_line) == FAILURE)
 		{
 			exit_routine_le(NULL);
 			return (EXIT_FAILURE);//ERREUR
-		}
-		lexer_list = test_lexer(cmd_line);
-		if (lexer_list != NULL)
-			ret_parser = test_parser(lexer_list);
-		/*if (ret_parser != FALSE)
-			jobs = test_jobs(lexer_list)*/
-				
-		free_list_token(&lexer_list);
+	}
+		jobs = process_minishell(cmd_line);
 		vct_clear(cmd_line);
 	}
 	exit_routine_le(NULL);

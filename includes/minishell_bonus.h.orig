@@ -178,7 +178,15 @@ t_list		*get_env_node(const char *env_name);
 t_vector	*get_env_value_vct(const char *env_name);
 int			get_env_value_int(const char *env_name);
 
-void            parse_env(const char *env, char **env_name, char **env_value,
+<<<<<<< HEAD
+void		parse_env(const char *env, char **env_name, char **env_value,
 																int *overwrite);
+||||||| merged common ancestors
+void		parse_env(char *env, char **env_name, t_vector **env_value,
+															int *append_flag);
+=======
+void		parse_env(char *env, char **env_name, t_vector **env_value,
+															int *append_flag);
 void	parser_debug(t_token *token);
+>>>>>>> develop
 #endif
