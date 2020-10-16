@@ -18,6 +18,8 @@ static void	del_cmd(void *data)
 		i++;
 	}
 	free(cmd->av);
+	free(cmd->tab_assign);
+	free(cmd->tab_exp);
 	free(cmd);
 }
 
