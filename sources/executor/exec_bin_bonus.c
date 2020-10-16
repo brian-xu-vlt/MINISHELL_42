@@ -5,6 +5,7 @@ static void	child_process(const char *binary_full_path, const t_cmd *command)
 {
 	int	ret;
 	
+//	signal_manager(SIG_MODE_NORMAL);
 	ret = execve(binary_full_path, command->av, get_env_data(GET)->envp); ////////////////// see p82 for failure!
 	if (ret == FAILURE)
 		print_set_errno(ENOENT, command->name, NULL);
