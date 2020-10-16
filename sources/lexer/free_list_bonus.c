@@ -24,6 +24,7 @@ void		exit_routine_lexer(t_vector *word, t_vector *vct, t_vector *tmp,
 		vct_del(&vct);
 	if (tmp != NULL)
 		vct_del(&tmp);
+	(void)token;
 	/*if (token != NULL)
 	{
 		free(token->data);
