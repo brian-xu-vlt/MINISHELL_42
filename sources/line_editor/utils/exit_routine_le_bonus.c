@@ -44,7 +44,6 @@ void		exit_routine_le(char *err_code)
 	vct_del(&le->cmd_line);
 	vct_del(&le->clipboard);
 	free_env_list();
-	free_envp();
 	free_history_list();
 	if (err_code != NULL)
 	{
