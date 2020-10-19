@@ -27,12 +27,10 @@ static t_list	*process_minishell(t_vector *cmd_line)
 	t_list		*lexer_list;
 	t_list		*jobs;
 	int			ret_parser;	
-	int			ret_jobs;
 
 	lexer_list = NULL;
 	jobs = NULL;
 	ret_parser = SUCCESS;
-	ret_jobs = SUCCESS;
 	lexer_list = test_lexer(cmd_line);
 	if (lexer_list != NULL)
 	{
@@ -40,15 +38,30 @@ static t_list	*process_minishell(t_vector *cmd_line)
 		if (ret_parser != FALSE)
 			jobs = test_jobs(lexer_list);
 		if (jobs == NULL)
-		{
-			free_list_job(&jobs);
-			ret_jobs = FAILURE;
-		}
-		if (ret_jobs == SUCCESS)
 			free_list_job(&jobs);
 	}
 	free_list_token(&lexer_list);
 	return (jobs);
+}
+
+int	waiter(t_list *job_list)
+{
+	t_job	*job;
+	t_list	*tmp_cmd_lst;
+	t_cmd	*cmd;
+	
+	while (job_list != NULL)
+	{
+		job = job_list->content;
+		tmp_cmd_lst = job->cmd_lst;
+		while (tmp_cmd_lst != NULL)
+		{
+			cmd = tmp_cmd_lst->content;
+			test_cleaner(cmd);
+			tmp_cmd_lst = tmp_cmd_lst->next;
+		}
+		job_list = job_list->next;
+	}
 }
 
 int			main(int ac, char **av, char **envp)
@@ -77,11 +90,16 @@ int			main(int ac, char **av, char **envp)
 		if (test_env(cmd_line) == FAILURE)
 		{
 			exit_routine_le(NULL);
+			free_list_job(&jobs);
 			return (EXIT_FAILURE);//ERREUR
 		}
 		jobs = process_minishell(cmd_line);
+		if (jobs != NULL)
+			waiter(jobs);
 		vct_clear(cmd_line);
+		free_list_job(&jobs);
 	}
 	exit_routine_le(NULL);
+	free_list_job(&jobs);
 	return (EXIT_SUCCESS);
 }

@@ -103,6 +103,7 @@ SRCS += job_command_free_bonus.c
 SRCS += process_cmd_bonus.c
 SRCS += init_job_bonus.c
 SRCS += is_something_bonus.c
+SRCS += test_cleaner.c
 
 OBJ_DIR = ./objs/
 
