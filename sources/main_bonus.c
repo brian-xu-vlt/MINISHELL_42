@@ -58,10 +58,12 @@ int	waiter(t_list *job_list)
 		{
 			cmd = tmp_cmd_lst->content;
 			test_cleaner(cmd);
+			debug_waiter_cmd(cmd);
 			tmp_cmd_lst = tmp_cmd_lst->next;
 		}
 		job_list = job_list->next;
 	}
+	return (SUCCESS);
 }
 
 int			main(int ac, char **av, char **envp)

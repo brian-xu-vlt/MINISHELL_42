@@ -111,12 +111,15 @@ int		fill_exp(int flag, int count_ac, t_cmd *cmd);
 void	create_cmd_fd_string(t_cmd *cmd, t_cmd *cmd_model);
 int		resize_cmd(t_cmd *cmd, int count);
 int		fill_data_cmd(t_token *token, t_cmd *cmd, int count);
+void	debug_jobs(t_list *job_list);
 
 /******************************************************************************/
 /*******************************_CLEANER_**************************************/
 /******************************************************************************/
 
-int	test_cleaner(t_cmd *cmd);
+int		test_cleaner(t_cmd *cmd);
+void	clean_quote(t_cmd *cmd);
+void	debug_waiter_cmd(t_cmd *cmd);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/
