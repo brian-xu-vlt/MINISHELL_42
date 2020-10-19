@@ -28,6 +28,26 @@ static int	process_sep(t_list **head, t_list **jobs)
 	return (SUCCESS);
 }
 
+static void	count_nb_command(t_list *job_list)
+{
+	t_job	*job;
+	t_list	*tmp_cmd_lst;
+	size_t	count_nb_cmd;
+	
+	while (job_list != NULL)
+	{
+		job = job_list->content;
+		tmp_cmd_lst = job->cmd_lst;
+		count_nb_cmd = 0;
+		while (tmp_cmd_lst != NULL)
+		{	
+			count_nb_cmd++;
+			tmp_cmd_lst = tmp_cmd_lst->next;
+		}
+		job->nb_cmd = count_nb_cmd;
+		job_list = job_list->next;
+	}
+}
 
 t_list	*get_jobs(t_list *token_list)
 {
@@ -41,5 +61,6 @@ t_list	*get_jobs(t_list *token_list)
 		if (ret == FAILURE)
 			return (NULL);
 	}
+	count_nb_command(jobs);
 	return (jobs);
 }

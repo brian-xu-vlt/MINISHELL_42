@@ -36,6 +36,7 @@ void	debug_jobs(t_list *job_list)
 	{
 		job = job_list->content;
 		ft_printf("\033[32;01mJOBS %d\033[00m\n", cjob);
+		ft_printf("nb_cmd = %d\n", job->nb_cmd);
 		tmp_cmd_lst = job->cmd_lst;
 		while (tmp_cmd_lst != NULL)
 		{
