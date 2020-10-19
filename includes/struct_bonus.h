@@ -69,7 +69,7 @@ typedef struct				s_cmd
 typedef struct					s_job
 {
 	t_list					*cmd_lst;
-	int						ret;
+	size_t					nb_cmd;
 }								t_job;
 
 
