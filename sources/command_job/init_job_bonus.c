@@ -24,7 +24,7 @@ t_job	*init_job()
 	job = (t_job *)malloc(sizeof(t_job));
 	if (job == NULL)
 		return (NULL);
-	job->ret = FAILURE;
+	job->nb_cmd = 0;
 	job->cmd_lst = NULL;
 	return (job);
 }
