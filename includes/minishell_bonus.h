@@ -120,6 +120,7 @@ void	debug_jobs(t_list *job_list);
 int		test_cleaner(t_cmd *cmd);
 void	clean_quote(t_cmd *cmd);
 void	debug_waiter_cmd(t_cmd *cmd);
+void	debug_av(char **av, int ac);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/

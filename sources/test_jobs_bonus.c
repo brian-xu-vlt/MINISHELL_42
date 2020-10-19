@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static void	debug_av(char **av, int ac)
+void	debug_av(char **av, int ac)
 {
 	int	i;
 
