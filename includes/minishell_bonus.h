@@ -126,13 +126,13 @@ int		unset_builtin(int argc, char **argv);
 # define	ALL				NULL
 # define	NOT_FOUND		NULL
 
-void		free_envp(void);
+void		free_envp(char **envp);
 void		del_env_elem(void *elem_content);
 void		free_btree_node(t_btree *node);
 void		delete_env(char *env_name);
 
 void		store_internal_var(char *env);
-void		update_envp(void);
+char		**get_envp(void);
 void		export_env(char *env);
 void		init_env(char **env);
 
@@ -146,5 +146,5 @@ t_vector	*get_env_value_vct(char *env_name);
 
 void		parse_env(char *env, char **env_name, t_vector **env_value,
 															int *append_flag);
-void	parser_debug(t_token *token);
+void		parser_debug(t_token *token);
 #endif

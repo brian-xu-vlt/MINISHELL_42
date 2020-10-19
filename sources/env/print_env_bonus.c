@@ -14,11 +14,12 @@ void	print_env(void)
 	int		i;
 	i = 0;
 
-	envp = get_env_data(GET)->envp;
+	envp = get_envp();
 	while (envp[i] != NULL)
 	{
 		ft_putstr_fd(envp[i], STDERR_FILENO);
 		ft_putstr_fd("\n", STDERR_FILENO);
 		i++;
 	}
+	free_envp(envp);
 }
