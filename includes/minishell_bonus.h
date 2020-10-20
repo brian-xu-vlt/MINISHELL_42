@@ -165,8 +165,8 @@ void		del_env_elem(void *elem_content);
 void		free_btree_node(t_btree *node);
 void		unset_env(t_list *env_lst, const char *env_name);
 
-void		ms_setenv(t_list *env_lst, const char *env_name, const char *env_value,
-												int flags);
+void		ms_setenv(t_list *env_lst, const char *env_name,
+											const char *env_value, int flags);
 void		ms_setenv_int(t_list *env_lst, const char *env_name, int value,
 												int flags);
 void		ms_putenv(t_list *env_lst, const char *env);
@@ -177,6 +177,7 @@ void		init_env(void);
 void		print_env(t_list *env_lst);
 void		print_export_output(t_list *env_lst);
 
+t_list		*duplicate_env_lst(t_list *env_lst);
 t_list		*get_env_list(t_list *mem);
 t_env		*get_env_struct(t_list *env_lst, const char *env_name);
 t_list		*get_env_node(t_list *env_lst, const char *env_name);

@@ -3,12 +3,14 @@
 
 static void	child_process(const char *binary_full_path, const t_cmd *command)
 {
-	int	ret;
-	
+	int		ret;
+	char 	**envp;
+	t_list	*tmp_env_lst;
 //	signal_manager(SIG_MODE_NORMAL);
-	char **envp;
 
-	envp = get_envp(get_env_list(GET));
+	tmp_env_lst = duplicate_env_lst(get_env_list(GET));
+	export_env(tmp_env_lst, "coucou=22");	
+	envp = get_envp(tmp_env_lst);
 	ret = execve(binary_full_path, command->av, envp); ////////////////// see p82 for failure!
 	free_envp(envp);
 	if (ret == FAILURE)

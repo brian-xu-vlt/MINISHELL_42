@@ -82,6 +82,7 @@ SRCS += update_screen_data_bonus.c
 SRCS += utils_bonus.c
 SRCS += utils_cursor_bonus.c
 
+SRCS += duplicate_env_lst_bonus.c
 SRCS += builtins_env_bonus.c
 SRCS += unset_env_bonus.c
 SRCS += get_env_bonus.c
