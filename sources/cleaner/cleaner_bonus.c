@@ -24,3 +24,8 @@ void	clean_quote(t_cmd *cmd)
 		i++;
 	}
 }
+
+int	cleaner(t_cmd *cmd)
+{
+	clean_quote(cmd);
+}

@@ -43,7 +43,7 @@
 #define FIRST_CHAR		0
 
 #define N_SIMPLE_QUOTE	1
-#define N_QUOTE			2
+#define N_QUOTE			
 
 #define NB_FD			3
 	

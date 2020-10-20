@@ -106,7 +106,10 @@ SRCS += job_init_bonus.c
 SRCS += job_command_is_something_bonus.c
 SRCS += job_command_count_bonus.c
 SRCS += job_command_create_utils_bonus.c
-SRCS += clean_quote_bonus.c
+SRCS += cleaner_bonus.c
+SRCS += waiter_bonus.c
+SRCS += debug_cleaner_bonus.c
+
 
 OBJ_DIR = ./objs/
 

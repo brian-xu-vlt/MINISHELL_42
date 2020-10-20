@@ -44,42 +44,6 @@ static t_list	*process_minishell(t_vector *cmd_line)
 	return (jobs);
 }
 
-static bool	executor(t_cmd *cmd)
-{
-	return (true);
-}
-
-int	waiter(t_list *job_list)
-{
-	t_job	*job;
-	t_list	*tmp_cmd_lst;
-	t_cmd	*cmd;
-	bool	ret_exec;
-	
-	while (job_list != NULL)
-	{
-		job = job_list->content;
-		tmp_cmd_lst = job->cmd_lst;
-		while (tmp_cmd_lst != NULL)
-		{
-			cmd = tmp_cmd_lst->content;
-			if (cmd->condition == E_NONE || 
-				(cmd->condition == E_YES_AND && ret_exec == true) ||
-				(cmd->condition == E_NOT_OR && ret_exec == false))
-			{
-				debug_av(cmd->av, cmd->ac);
-				ft_printf("\n");//DEBUG	
-				test_cleaner(cmd);
-				//debug_waiter_cmd(cmd);
-				ret_exec = executor; //UTILISER LE VRAI EXECUTOR
-			}
-			tmp_cmd_lst = tmp_cmd_lst->next;
-		}
-		job_list = job_list->next;
-	}
-	return (SUCCESS);
-}
-
 int			main(int ac, char **av, char **envp)
 {
 	t_vector	*cmd_line;
