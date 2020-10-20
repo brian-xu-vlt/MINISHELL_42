@@ -1,6 +1,7 @@
 #include "minishell_bonus.h"
 
-static t_env	*store_new_env(t_list *env_lst, const char *env_name, const char *env_value)
+static t_env	*store_new_env(t_list *env_lst, const char *env_name,
+														const char *env_value)
 {
 	t_env		*new_env;
 
@@ -24,8 +25,8 @@ static t_env	*store_new_env(t_list *env_lst, const char *env_name, const char *e
 	return (new_env);
 }
 
-static void		update_existing_env(t_env *env_struct, const char *new_env_value,
-																int overwrite)
+static void		update_existing_env(t_env *env_struct,
+										const char *new_env_value, int flags)
 {
 	if (new_env_value != NULL)
 	{
@@ -33,24 +34,14 @@ static void		update_existing_env(t_env *env_struct, const char *new_env_value,
 			env_struct->env_value = vct_new();
 		if (env_struct->env_value == NULL)
 			exit_routine_le(ERR_MALLOC);
-		if (overwrite == FALSE)
+		if (flags &= F_OVERWRITE)
 			vct_clear(env_struct->env_value);
 		vct_addstr(env_struct->env_value, (char *)new_env_value);
 	}
 }
 
-void			ms_setenv_int(t_list *env_lst, const char *env_name, int value,
-												int overwrite, int export_flag)
-{
-	char	*int_str;
-
-	int_str = ft_itoa(value);
-	ms_setenv(env_lst, env_name, int_str, overwrite, export_flag);
-	free(int_str);
-}
-
-void			ms_setenv(t_list *env_lst, const char *env_name, const char *env_value,
-												int overwrite, int export_flag)
+void			ms_setenv(t_list *env_lst, const char *env_name, 
+											const char *env_value, int flags)
 {
 	t_env		*env_node;
 
@@ -59,21 +50,33 @@ void			ms_setenv(t_list *env_lst, const char *env_name, const char *env_value,
 	if ((env_node = get_env_struct(env_lst, env_name)) == NOT_FOUND)
 		env_node = store_new_env(env_lst, env_name, env_value);
 	else
-		update_existing_env(env_node, env_value, overwrite);
-	if (export_flag == TRUE)
+		update_existing_env(env_node, env_value, flags);
+	if (flags &= F_EXPORT)
 		env_node->export_flag = TRUE;
 }
 
-static void		store_env(t_list *env_lst, const char *env, int export_flag)
+void			ms_setenv_int(t_list *env_lst, const char *env_name,
+														int value, int flags)
+{
+	char	*int_str;
+
+	int_str = ft_itoa(value);
+	ms_setenv(env_lst, env_name, int_str, flags);
+	free(int_str);
+}
+
+static void		store_env(t_list *env_lst, const char *env, int flags)
 {
 	char		*env_name;
 	char		*env_value;
 	int			overwrite;
 
+	overwrite = 0;
 	if (env != NULL)
 	{
 		parse_env(env, &env_name, &env_value, &overwrite);
-		ms_setenv(env_lst, env_name, env_value, overwrite, export_flag);
+		flags |= (overwrite == TRUE) ? F_OVERWRITE : F_NOFLAG; 
+		ms_setenv(env_lst, env_name, env_value, flags);
 		if (env_value != NULL)
 			free(env_value);
 		free(env_name);
@@ -82,10 +85,10 @@ static void		store_env(t_list *env_lst, const char *env, int export_flag)
 
 void			ms_putenv(t_list *env_lst, const char *env)
 {
-	store_env(env_lst, env, FALSE);
+	store_env(env_lst, env, F_NOFLAG);
 }
 
 void			export_env(t_list *env_lst, const char *env)
 {
-	store_env(env_lst, env, TRUE);
+	store_env(env_lst, env, F_EXPORT);
 }

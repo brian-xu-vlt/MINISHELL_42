@@ -24,10 +24,11 @@ static int		get_env_name_len(const char *env)
 }
 
 void			parse_env(const char *env, char **env_name, char **env_value,
-															int *append_flag)
+															int *overwrite)
 {
 	int		name_len;
 	int		value_len;
+	int		plus_sign_offset;
 
 	name_len = get_env_name_len(env);
 	*env_name = (char *)ft_calloc(sizeof(char), name_len + 1);
@@ -36,12 +37,13 @@ void			parse_env(const char *env, char **env_name, char **env_value,
 	ft_memmove(*env_name, env, name_len);
 	if (env[name_len] != '\0')
 	{
-		*append_flag = (env[name_len] == '+') ? TRUE : FALSE;
-		value_len = ft_strlen(env) - name_len - 1 - (*(int*)append_flag);
+		*overwrite = (env[name_len] == '+') ? FALSE : TRUE;
+		plus_sign_offset = (*overwrite == FALSE) ? 1 : 0;
+		value_len = ft_strlen(env) - name_len - 1 - plus_sign_offset;
 		*env_value = (char *)ft_calloc(sizeof(char), value_len + 1);
 		if (*env_value == NULL)
 			exit_routine_le(ERR_MALLOC);
-		ft_memmove(*env_value, env + name_len + 1 + (*(int*)append_flag), value_len);
+		ft_memmove(*env_value, env + name_len + 1 + plus_sign_offset, value_len);
 	}
 	else
 		*env_value = NULL;

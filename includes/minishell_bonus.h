@@ -155,6 +155,10 @@ int		unset_builtin(int argc, char **argv);
 # define	ALL				NULL
 # define	NOT_FOUND		NULL
 
+# define	F_NOFLAG		0
+# define	F_EXPORT		(1 << 0)
+# define	F_OVERWRITE		(1 << 1)
+
 void		free_env_list(t_list *env_lst);
 void		free_envp(char **envp);
 void		del_env_elem(void *elem_content);
@@ -162,9 +166,9 @@ void		free_btree_node(t_btree *node);
 void		unset_env(t_list *env_lst, const char *env_name);
 
 void		ms_setenv(t_list *env_lst, const char *env_name, const char *env_value,
-												int overwrite, int export_flag);
+												int flags);
 void		ms_setenv_int(t_list *env_lst, const char *env_name, int value,
-												int overwrite, int export_flag);
+												int flags);
 void		ms_putenv(t_list *env_lst, const char *env);
 char		**get_envp(t_list *env_lst);
 void		export_env(t_list *env_lst, const char *env);

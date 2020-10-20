@@ -61,6 +61,6 @@ void			executor(const t_cmd *command)
 		else
 			ret_value = prepare_and_exec_command(command);
 	}
-	ms_setenv_int(get_env_list(GET), "?", ret_value, TRUE, FALSE);
+	ms_setenv_int(get_env_list(GET), "?", ret_value, F_OVERWRITE | F_EXPORT); //  ATTENTION ///////// remove F_EXPORT flag
 	ft_printf("\n$? == %d\n", get_env_value_int(get_env_list(GET), "?")); // DEBUG
 }

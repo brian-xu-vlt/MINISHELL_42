@@ -64,7 +64,7 @@ int				execute_bin(const char *binary_full_path, const t_cmd *command)
 	pid = fork_process();
 	if (pid != 0 && pid != FAILURE)
 	{
-		ms_setenv_int(get_env_list(GET), "!", (int)pid, TRUE, TRUE);// ATTENTION // // ATTENTION //// ATTENTION // CHANGE TRUE, TRUE to TRUE, FALSE flags !!
+		ms_setenv_int(get_env_list(GET), "!", (int)pid, F_OVERWRITE | F_EXPORT);// ATTENTION // // ATTENTION //// remove F_EXPORT flag !!!!
 		pid = waitpid(pid, &wstatus, WUNTRACED);
 	}
 	else if (pid == 0)
