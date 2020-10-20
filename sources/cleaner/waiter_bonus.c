@@ -24,7 +24,7 @@ int	waiter(t_list *job_list)
 				(cmd->condition == E_NOT_OR && ret_exec == false))
 			{
 				cleaner(cmd);
-				debug_cleaner(cmd);
+				//debug_cleaner(cmd);
 				ret_exec = executor; //UTILISER LE VRAI EXECUTOR
 			}
 			tmp_cmd_lst = tmp_cmd_lst->next;
