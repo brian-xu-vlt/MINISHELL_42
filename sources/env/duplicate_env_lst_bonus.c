@@ -6,7 +6,6 @@ static void	*dup_env_content(void *content)
 	t_env	*new_env_struct;
 
 	env_struct = (t_env *)content;
-	printf("duplicating... %s\n", env_struct->env_name);
 	new_env_struct = (t_env *)ft_calloc(sizeof(t_env), 1);
 	if (new_env_struct == NULL)
 		return (NULL);

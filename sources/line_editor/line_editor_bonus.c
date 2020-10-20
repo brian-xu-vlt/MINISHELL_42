@@ -37,4 +37,5 @@ void			line_editor(void)
 	}
 	unselect_all();
 	move_cursor_at_index(vct_getlen(le->cmd_line));
+	// HERE : set termode back to normal (echo)
 }

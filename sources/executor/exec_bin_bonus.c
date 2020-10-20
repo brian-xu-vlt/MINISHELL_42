@@ -5,17 +5,22 @@ static void	child_process(const char *binary_full_path, const t_cmd *command)
 {
 	int		ret;
 	char 	**envp;
-	t_list	*tmp_env_lst;
-//	signal_manager(SIG_MODE_NORMAL);
 
+	
+	
+	t_list	*tmp_env_lst;
 	tmp_env_lst = duplicate_env_lst(get_env_list(GET));
-	export_env(tmp_env_lst, "coucou=22");	
+	export_env(tmp_env_lst, "coucou+=..22");	
 	envp = get_envp(tmp_env_lst);
+
+
+//	signal_manager(SIG_MODE_NORMAL);
 	ret = execve(binary_full_path, command->av, envp); ////////////////// see p82 for failure!
 	free_envp(envp);
+	free_env_list(tmp_env_lst);
 	if (ret == FAILURE)
 		print_set_errno(ENOENT, command->name, NULL);
-	exit(ret);
+	exit (ret);
 }
 
 static int	manage_exit_status(int wstatus, pid_t pid)
@@ -66,7 +71,7 @@ int				execute_bin(const char *binary_full_path, const t_cmd *command)
 	pid = fork_process();
 	if (pid != 0 && pid != FAILURE)
 	{
-		ms_setenv_int(get_env_list(GET), "!", (int)pid, F_OVERWRITE | F_EXPORT);// ATTENTION // // ATTENTION //// remove F_EXPORT flag !!!!
+		ms_setenv_int(get_env_list(GET), "!", (int)pid, F_OVERWRITE);
 		pid = waitpid(pid, &wstatus, WUNTRACED);
 	}
 	else if (pid == 0)
