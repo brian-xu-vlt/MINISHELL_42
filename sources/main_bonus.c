@@ -52,11 +52,8 @@ int			main(int ac, char **av)
 			read_loop(cmd_line);
 	//	if (test_env(cmd_line) == FAILURE || test_executor(cmd_line) == FAILURE)
 		signal_manager(SIG_MODE_EXEC);
-		if (test_executor(cmd_line) == FAILURE)
-		{
-			exit_routine_le(NULL);
-			return (EXIT_FAILURE);//ERREUR
-		}
+		if (test_env(cmd_line) == FAILURE)
+			test_executor(cmd_line);
 		lexer_list = test_lexer(cmd_line);
 		if (lexer_list != NULL)
 			ret_parser = test_parser(lexer_list);

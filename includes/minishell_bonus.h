@@ -155,30 +155,31 @@ int		unset_builtin(int argc, char **argv);
 # define	ALL				NULL
 # define	NOT_FOUND		NULL
 
-void		free_envp(void);
+void		free_env_list(t_list *env_lst);
+void		free_envp(char **envp);
 void		del_env_elem(void *elem_content);
 void		free_btree_node(t_btree *node);
-void		unset_env(const char *env_name);
+void		unset_env(t_list *env_lst, const char *env_name);
 
-void		ms_setenv(const char *env_name, const char *env_value,
+void		ms_setenv(t_list *env_lst, const char *env_name, const char *env_value,
 												int overwrite, int export_flag);
-void		ms_setenv_int(const char *env_name, int value,
+void		ms_setenv_int(t_list *env_lst, const char *env_name, int value,
 												int overwrite, int export_flag);
-void		ms_putenv(const char *env);
-void		update_envp(void);
-void		export_env(const char *env);
+void		ms_putenv(t_list *env_lst, const char *env);
+char		**get_envp(t_list *env_lst);
+void		export_env(t_list *env_lst, const char *env);
 void		init_env(void);
 
-void		print_env(void);
-void		get_export_output(void);
+void		print_env(t_list *env_lst);
+void		print_export_output(t_list *env_lst);
 
-t_env_data	*get_env_data(t_env_data *mem);
-t_env		*get_env_struct(const char *env_name);
-t_list		*get_env_node(const char *env_name);
-t_vector	*get_env_value_vct(const char *env_name);
-int			get_env_value_int(const char *env_name);
+t_list		*get_env_list(t_list *mem);
+t_env		*get_env_struct(t_list *env_lst, const char *env_name);
+t_list		*get_env_node(t_list *env_lst, const char *env_name);
+t_vector	*get_env_value_vct(t_list *env_lst, const char *env_name);
+int			get_env_value_int(t_list *env_lst, const char *env_name);
 
-void            parse_env(const char *env, char **env_name, char **env_value,
+void		parse_env(const char *env, char **env_name, char **env_value,
 																int *overwrite);
-void	parser_debug(t_token *token);
+void		parser_debug(t_token *token);
 #endif

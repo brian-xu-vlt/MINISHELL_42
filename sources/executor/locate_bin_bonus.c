@@ -4,7 +4,7 @@ static char		**get_all_path_directories(void)
 {
 	char	*path_env;
 
-	path_env = vct_getstr(get_env_value_vct("PATH"));
+	path_env = vct_getstr(get_env_value_vct(get_env_list(GET), "PATH"));
 	if (path_env == NOT_FOUND)
 		return (NULL);
 	else

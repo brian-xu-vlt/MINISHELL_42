@@ -61,6 +61,6 @@ void			executor(const t_cmd *command)
 		else
 			ret_value = prepare_and_exec_command(command);
 	}
-	ms_setenv_int("?", ret_value, TRUE, FALSE);
-	ft_printf("\n$? == %d\n", get_env_value_int("?")); // DEBUG
+	ms_setenv_int(get_env_list(GET), "?", ret_value, TRUE, FALSE);
+	ft_printf("\n$? == %d\n", get_env_value_int(get_env_list(GET), "?")); // DEBUG
 }

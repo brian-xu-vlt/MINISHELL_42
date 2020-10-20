@@ -20,7 +20,7 @@ int	env_builtin(int ac, char **av)
 	if (ft_strequ(av[0], (char *)builtin) == FALSE)
 		return (0);
 	if (ac == 1)
-		print_env();
+		print_env(get_env_list(GET));
 	else
 	{
 		print_set_errno(EINVAL, (char *)builtin, av[1]);
@@ -47,7 +47,7 @@ int	assignation_builtin(int ac, char **av)
 	i = 1; // change to 0 !!!!!!!!
 	while (i < ac)
 	{
-		export_env(av[i]);
+		export_env(get_env_list(GET), av[i]);
 		i++;
 	}
 	return (SUCCESS);
@@ -61,14 +61,14 @@ int	export_builtin(int ac, char **av)
 	if (ft_strequ(av[0], (char *)builtin) == FALSE)
 		return (0);
 	if (ac == 1)
-		get_export_output();
+		print_export_output(get_env_list(GET));
 	else
 	{
 		i = 1;
 		while (i < ac)
 		{
 			if (ft_isalpha(av[i][0]) == TRUE)
-				export_env(av[i]);
+				export_env(get_env_list(GET), av[i]);
 			else
 				print_set_errno(EINVAL, (char *)builtin, av[i]);
 			i++;
@@ -94,7 +94,7 @@ int	unset_builtin(int ac, char **av)
 			if (av[i][0] == '-')
 				print_set_errno(EINVAL, (char *)builtin, av[i]);
 			else
-				unset_env(av[i]);
+				unset_env(get_env_list(GET), av[i]);
 			i++;
 		}
 	}

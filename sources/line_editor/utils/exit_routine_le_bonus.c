@@ -18,18 +18,6 @@ static void	free_history_list(void)
 	le->history_cache = NULL;
 }
 
-static void	free_env_list(void)
-{
-	t_env_data		*env_data;
-
-	env_data = get_env_data(GET);
-	if (env_data->env_lst != NULL)
-	{
-		ft_lstclear(&env_data->env_lst, del_env_elem);
-		env_data->env_lst = NULL;
-	}
-}
-
 void		exit_routine_le(char *err_code)
 {
 	t_le		*le;
@@ -43,8 +31,7 @@ void		exit_routine_le(char *err_code)
 		free(le->cmd_line_backup);
 	vct_del(&le->cmd_line);
 	vct_del(&le->clipboard);
-	free_env_list();
-	free_envp();
+	free_env_list(get_env_list(GET));
 	free_history_list();
 	if (err_code != NULL)
 	{

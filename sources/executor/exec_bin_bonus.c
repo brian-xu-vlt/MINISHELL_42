@@ -6,7 +6,11 @@ static void	child_process(const char *binary_full_path, const t_cmd *command)
 	int	ret;
 	
 //	signal_manager(SIG_MODE_NORMAL);
-	ret = execve(binary_full_path, command->av, get_env_data(GET)->envp); ////////////////// see p82 for failure!
+	char **envp;
+
+	envp = get_envp(get_env_list(GET));
+	ret = execve(binary_full_path, command->av, envp); ////////////////// see p82 for failure!
+	free_envp(envp);
 	if (ret == FAILURE)
 		print_set_errno(ENOENT, command->name, NULL);
 	exit(ret);
@@ -60,7 +64,7 @@ int				execute_bin(const char *binary_full_path, const t_cmd *command)
 	pid = fork_process();
 	if (pid != 0 && pid != FAILURE)
 	{
-		ms_setenv_int("!", (int)pid, TRUE, TRUE);// ATTENTION // // ATTENTION //// ATTENTION // CHANGE TRUE, TRUE to TRUE, FALSE flags !!
+		ms_setenv_int(get_env_list(GET), "!", (int)pid, TRUE, TRUE);// ATTENTION // // ATTENTION //// ATTENTION // CHANGE TRUE, TRUE to TRUE, FALSE flags !!
 		pid = waitpid(pid, &wstatus, WUNTRACED);
 	}
 	else if (pid == 0)

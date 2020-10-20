@@ -1,11 +1,12 @@
 #include "minishell_bonus.h"
 
-static void	set_default_env(void)
+static void	set_default_env(t_list *env_lst)
 {
-	if (vct_getstr(get_env_value_vct("PATH")) == NOT_FOUND)
-		ms_putenv(DEFAULT_PATH_ENV);	
+	if (vct_getstr(get_env_value_vct(env_lst, "PATH")) == NOT_FOUND)
+		ms_putenv(env_lst, DEFAULT_PATH_ENV);
 }
 
+/*
 static void	increment_shlevel(void)
 {
 	t_vector	*shlvl;
@@ -25,44 +26,28 @@ static void	increment_shlevel(void)
 	else
 		export_env("SHLVL=1");
 }
+*/
 
-extern char **environ;
+extern char **environ;      // move to minishell header !!
 
 void		init_env(void)
 {
-	t_env_data	*env_data;
+	t_list		*env_lst;
 	int			index;
 
-	env_data = (t_env_data *)ft_calloc(1, sizeof(t_env_data));
-	get_env_data(env_data);
 	if (environ == NULL)
-		return ;
+		exit_routine_le(ERR_ENV);
+	env_lst = (t_list *)ft_calloc(1, sizeof(t_list));
+	if (env_lst == NULL)
+		exit_routine_le(ERR_MALLOC);
+	get_env_list(env_lst);
 	index = 0;
 	while (environ[index] != NULL)
 	{
 		if (ft_isalpha(environ[index][0]) == TRUE)
-			export_env(environ[index]);
+			export_env(env_lst, environ[index]);
 		index++;
 	}
-	increment_shlevel();
-	set_default_env();
+	//increment_shlevel();
+	set_default_env(env_lst);
 }
-
-/*
-
-invalid names:
-- contain '-'
-- first char is numeric
-
-env: show exported var WITH VALUE
-export: show exported var with AND without value + sorted alphabeticly
-
-
-- export test="42" valid, so need to stripoff quotes
-
-toto=42'0'
-toto='0'
-toto'0'
-
-
-*/

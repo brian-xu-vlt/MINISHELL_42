@@ -38,7 +38,7 @@ static void	sig_handler_int(int sig)
 	pid_t		pid;
 	const char	*sig_str;
 
-	pid = get_env_value_int("!");
+	pid = get_env_value_int(get_env_list(GET), "!");
 	if (pid != 0)
 		kill(pid, sig);
 	if ((sig_str = ms_strsignal(sig)) != NOT_FOUND)

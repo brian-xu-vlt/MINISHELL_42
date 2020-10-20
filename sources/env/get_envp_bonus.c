@@ -1,10 +1,8 @@
 #include "minishell_bonus.h"
 
-static void	exit_routine_failed_envp(char **envp, int i)
+static void	exit_routine_failed_envp(char **envp)
 {
-	while (i >= 0)
-		free(envp[i--]);
-	free(envp);
+	free_envp(envp);
 	exit_routine_le(ERR_MALLOC);
 }
 
@@ -28,47 +26,53 @@ static char	*create_env(const char *env_name, t_vector *env_value)
 	return (ret_str);
 }
 
-void	free_envp(void)
+void		free_envp(char **envp)
 {
-	char	**envp;
 	int		i;
 
 	i = 0;
-	envp = get_env_data(GET)->envp;
 	if (envp == NULL)
-		return ;	
+		return ;
 	while (envp[i] != NULL)
 		free(envp[i++]);
 	free(envp);
-	envp = NULL;
 }
 
-void		update_envp(void)
+static char	**allocate_envp(const t_list *env_lst, int *lst_size)
+{
+	char	**envp;
+
+	*lst_size = ft_lstsize((t_list *)env_lst);
+	envp = (char **)ft_calloc(sizeof(char *), *lst_size + 1);
+	if (envp == NULL)
+		exit_routine_le(ERR_MALLOC);
+	return (envp);
+}
+
+char		**get_envp(t_list *env_lst)
 {
 	int		i;
-	int		lst_size;
 	t_list	*cursor;
+	int		lst_size;
 	char	**envp;
 	t_env	*content;
 
-	if ((cursor = get_env_data(GET)->env_lst) == NULL)
-		return ;
-	free_envp();
-	lst_size = ft_lstsize(cursor);
-	if ((envp = (char **)ft_calloc(sizeof(char *), lst_size + 1)) == NULL)
-		exit_routine_le(ERR_MALLOC);
+	if (env_lst == NULL)
+		return (NULL);
+	envp = allocate_envp(env_lst, &lst_size);
+	cursor = env_lst;
 	i = 0;
-	while (cursor != NULL && i <= lst_size)
+	while (cursor != NULL && cursor->content != NULL && i <= lst_size)
 	{
 		content = ((t_env *)cursor->content);
 		if (content->export_flag == TRUE && content->env_value != NULL)
 		{
 			envp[i] = create_env(content->env_name, content->env_value);
 			if (envp[i] == NULL)
-				exit_routine_failed_envp(envp, i);
+				exit_routine_failed_envp(envp);
 			i++;
 		}
 		cursor = cursor->next;
 	}
-	get_env_data(GET)->envp = envp;
+	return(envp);
 }

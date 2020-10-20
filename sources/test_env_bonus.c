@@ -22,7 +22,7 @@ static void	debug_print_env(t_vector *input)
 
 	str = vct_getstr(input);
 	str += ft_strlen("print") + 1;
-	ft_putstr_fd(vct_getstr(get_env_value_vct(str)), STDERR_FILENO);
+	ft_putstr_fd(vct_getstr(get_env_value_vct(get_env_list(GET), str)), STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
 }
 
@@ -32,7 +32,7 @@ static void	debug_store_env(t_vector *input)
 
 	str = vct_getstr(input);
 	str += ft_strlen("store") + 1;
-	ms_putenv(str);
+	ms_putenv(get_env_list(GET), str);
 }
 
 static void	debug_unset(t_vector *input)
@@ -82,6 +82,8 @@ int	test_env(t_vector *input)
 		debug_env(input);
 	else if (ft_strncmp(vct_getstr(input), "unset", 5) == 0)
 		debug_unset(input);
+	else
+		return (FAILURE);
 	return (SUCCESS);
 }
 

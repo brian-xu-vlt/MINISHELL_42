@@ -66,16 +66,17 @@ static void	add_to_btree(t_btree **tree, t_env *env)
 		btree_insert_data(tree, env, cmp_function);
 }
 
-void		get_export_output(void)
+void		print_export_output(t_list *env_lst)
 {
 	t_list		*cursor;
 	t_env		*content;
 	t_btree		*sorted_tree;
 
-	sorted_tree = NULL;
-	if ((cursor = get_env_data(GET)->env_lst) == NULL)
+	if (env_lst == NULL)
 		return ;
-	while (cursor != NULL)
+	sorted_tree = NULL;
+	cursor = env_lst;
+	while (cursor != NULL && cursor->content != NULL)
 	{
 		content = ((t_env *)cursor->content);
 		if (content->export_flag == TRUE)
