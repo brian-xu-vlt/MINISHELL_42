@@ -1,11 +1,11 @@
 #include "minishell_bonus.h"
 
-static char *clean_quote_exp(char *str)
+char *clean_quote_exp(char *str)
 {
 	return (str);
 }
 
-static char	*clean_quote_no_exp(char *str)
+char	*clean_quote_no_exp(char *str)
 {
 	return (str);
 }

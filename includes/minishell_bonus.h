@@ -122,6 +122,8 @@ void	clean_quote(t_cmd *cmd);
 void	debug_cleaner(t_cmd *cmd);
 void	debug_av(char **av, int ac);
 int		waiter(t_list *job_list);
+char	*clean_quote_no_exp(char *str);
+char 	*clean_quote_exp(char *str);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/
