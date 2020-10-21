@@ -64,6 +64,7 @@ int			main(void)
 		else if (ft_strequ(cmd_line, good_result) == FALSE)
 			ft_printf("mine : %s		good : %s		nb_test : %d\n", cmd_line, good_result, i);//DEBUG
 		ft_printf("\n");//DEBUG
+		free(cmd_line);
 		i++;
 	}
 	return (EXIT_SUCCESS);

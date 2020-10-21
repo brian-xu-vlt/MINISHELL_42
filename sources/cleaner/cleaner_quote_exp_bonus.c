@@ -22,8 +22,7 @@ char	*between_nothing(char *str)
 			vct_add(vct_good, str[i]);
 		i++;
 	}
-	ft_printf("VCT_GOOD END = %s\n", vct_getstr(vct_good));//DEBUG
-	good_str = vct_getstr(vct_good);
+	good_str = ft_strdup(vct_getstr(vct_good));
 	vct_del(&vct_good);
 	vct_del(&vct_exp);
 	vct_del(&vct_value);
