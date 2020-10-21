@@ -9,22 +9,36 @@ int			exp_value()
 
 static char	*get_good_result(int nb_test)
 {
-	char	*cmd_line[NB_TEST] = {"\"hello\"=\"h\"ah\"a\"", //0
-			"'ca'va=ouais && ha'ha'he", //1
-			"export hey='ha'h'e'h't'h", //2
-			"'hey'ca'va=ha\"ha\"tropgen'i'al", //3
-			"\"hello comment ca va\" trop bien ouais"}; //4
+	char	*cmd_line[NB_TEST] = {"toto=haha$tata", //0
+			"toto=hahatata", //1
+			"toto=haha42", //2
+			"toto=haha42", //3
+			"toto=hahatata", //4
+			"toto=haha'42'", //5
+			"toto=haha\"42\"", //6
+			"toto=haha\"     42\"", //7
+			"toto=hahahey-844242", //8
+			"toto=hahahey-8442#hehe42", //9
+			"toto=hahaheyho-844242", //10
+			"toto=hahaha'h-a42pouet", //11
 
 	return (cmd_line[nb_test]);
 }
 
 static char	*get_cmd_line(int nb_test)
 {
-	char	*cmd_line[NB_TEST] = {"'\"he'll'o\"=\"h\"ah\"'a'\"'", //0
-			"\"'ca'\"\"va\"=ouais && \"ha'ha'he\"", //1
-			"export hey=\"'ha'h'e'h't'h\"", //2
-			"\"'hey'ca'\"va\"\"'=''ha\"ha\"'trop''\"\"\"gen'i'al\"", //3
-			"'\"hello 'comment' ca va\"' \"\"'trop bien' \"ouais\"\"\""}; //4
+	char	*cmd_line[NB_TEST] = {"toto=haha'$tata'", //0
+			"toto=haha$'tata'", //1
+			"toto=haha$tata", //2
+			"toto=haha\"$tata\"", //3
+			"toto=haha$\"tata\"", //4
+			"toto=haha\"'$tata'\"", //5
+			"toto=haha'\"'$tata'\"'", //6
+			"toto=haha\"     $tata\"", //7
+			"toto=haha\"hey-84$tata$titi\"", //8
+			"toto=haha\"hey-84$tata#hehe$titi\"", //9
+			"toto=haha\"hey\"ho\"-84$tata$titi\"", //10
+			"toto=haha\"ha'h-a$tata$titi\"", //11
 
 	return (cmd_line[nb_test]);
 }
