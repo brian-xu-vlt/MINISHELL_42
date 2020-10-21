@@ -12,7 +12,7 @@ bool	is_del(char c)
 			ft_printf("DEL IS TRUE\n");//DEBUG
 			return (true);
 		}
-		return (false);
+		i++;
 	}
 	return (false);
 }
