@@ -6,27 +6,18 @@ static void	set_default_env(t_list *env_lst)
 		ms_putenv(env_lst, DEFAULT_PATH_ENV);
 }
 
-/*
 static void	increment_shlevel(void)
 {
-	t_vector	*shlvl;
-	char		*new_lvl;
 	int			shlvl_int;
+	t_list		*env_lst;
 
-	shlvl = get_env_value_vct("SHLVL");
-	if (shlvl != NULL)
-	{
-		shlvl_int = ft_atoi(vct_getstr(shlvl));
-		shlvl_int++;
-		new_lvl = ft_itoa(shlvl_int);
-		vct_clear(shlvl);
-		vct_addstr(shlvl, new_lvl);
-		free(new_lvl);
-	}
+	env_lst = get_env_list(GET);
+	shlvl_int = get_env_value_int(env_lst, "SHLVL");
+	if (errno == FAILURE)
+		export_env(env_lst, "SHLVL=1");
 	else
-		export_env("SHLVL=1");
+		ms_setenv_int(env_lst, "SHLVL", shlvl_int + 1, F_OVERWRITE | F_EXPORT);
 }
-*/
 
 extern char **environ;      // move to minishell header !!
 
@@ -48,6 +39,6 @@ void		init_env(void)
 			export_env(env_lst, environ[index]);
 		index++;
 	}
-	//increment_shlevel();
+	increment_shlevel();
 	set_default_env(env_lst);
 }

@@ -1,5 +1,8 @@
 #include "minishell_bonus.h"
 
+// TO REMOVE ?
+
+
 static void	*dup_env_content(void *content)
 {
 	t_env	*env_struct;

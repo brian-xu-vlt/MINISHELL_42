@@ -10,8 +10,10 @@ static void	child_process(const char *binary_full_path, const t_cmd *command)
 	
 	t_list	*tmp_env_lst;
 	tmp_env_lst = duplicate_env_lst(get_env_list(GET));
-	export_env(tmp_env_lst, "coucou+=..22");	
-	envp = get_envp(tmp_env_lst);
+	export_env(get_env_list(GET), "toto=42");
+	export_env(tmp_env_lst, "coucou=22");	
+	envp = get_envp(get_env_list(GET));
+//	envp = get_envp(tmp_env_lst);
 
 
 //	signal_manager(SIG_MODE_NORMAL);
