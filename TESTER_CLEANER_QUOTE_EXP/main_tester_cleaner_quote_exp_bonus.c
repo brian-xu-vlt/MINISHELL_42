@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-# define NB_TEST 5
+# define NB_TEST 12
 
 int			exp_value()
 {
@@ -20,7 +20,7 @@ static char	*get_good_result(int nb_test)
 			"toto=hahahey-844242", //8
 			"toto=hahahey-8442#hehe42", //9
 			"toto=hahaheyho-844242", //10
-			"toto=hahaha'h-a42pouet", //11
+			"toto=hahaha'h-a42pouet"}; //11
 
 	return (cmd_line[nb_test]);
 }
@@ -38,7 +38,7 @@ static char	*get_cmd_line(int nb_test)
 			"toto=haha\"hey-84$tata$titi\"", //8
 			"toto=haha\"hey-84$tata#hehe$titi\"", //9
 			"toto=haha\"hey\"ho\"-84$tata$titi\"", //10
-			"toto=haha\"ha'h-a$tata$titi\"", //11
+			"toto=haha\"ha'h-a$tata$titi\""}; //11
 
 	return (cmd_line[nb_test]);
 }
@@ -57,7 +57,8 @@ int			main(void)
 		good_result = get_good_result(i);
 		cmd_line = clean_quote_exp(cmd_line);
 		if (ft_strequ(cmd_line, good_result) == FALSE)
-			ft_printf("mine : %s	good : %s		nb_test : %d\n", cmd_line, good_result, i);//DEBUG
+			ft_printf("mine : %s		good : %s		nb_test : %d\n", cmd_line, good_result, i);//DEBUG
+		ft_printf("\n");//DEBUG
 		i++;
 	}
 	return (EXIT_SUCCESS);

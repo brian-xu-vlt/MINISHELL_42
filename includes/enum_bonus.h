@@ -66,4 +66,12 @@ enum e_state_quote_no_exp
 	E_OUT				//2
 };
 
+enum e_between
+{
+	E_NOTHING,//0
+	E_SIMPLE,//1
+	E_DOUBLE,//2
+	E_BOTH //3
+};
+
 #endif
