@@ -20,6 +20,10 @@ char	*between_nothing(char *str)
 	{
 		if (str[i] != EXP)
 			vct_add(vct_good, str[i]);
+		/*if (str[i] == EXP)
+		{
+			
+		}*/
 		i++;
 	}
 	good_str = ft_strdup(vct_getstr(vct_good));
