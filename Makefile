@@ -114,6 +114,7 @@ SRCS += debug_cleaner_bonus.c
 SRCS += cleaner_quote_no_exp_bonus.c
 SRCS += cleaner_quote_exp_bonus.c
 SRCS += hub_cleaner_quote_exp_bonus.c
+SRCS += cleaner_quote_exp_utils_bonus.c
 
 
 OBJ_DIR = ./objs/

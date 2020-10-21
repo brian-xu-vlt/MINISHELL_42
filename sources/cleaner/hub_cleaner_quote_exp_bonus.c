@@ -48,5 +48,5 @@ char	*clean_quote_exp(char *str)
 	between = is_between(str);
 	good_str = hub_between_function(between, str);
 	vct_del(&vct_cmd);
-	return (str);
+	return (good_str);
 }

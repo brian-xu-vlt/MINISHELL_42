@@ -5,7 +5,7 @@
 char		*exp_value(char *str)
 {
 	ft_printf("STR EXP_VALUE = %s\n", str);//DEBUG
-	return (42);
+	return ("42");
 }
 
 static char	*get_good_result(int nb_test)
@@ -59,7 +59,9 @@ int			main(void)
 		//ft_printf("cmd_line = %s\n", cmd_line);//DEBUG
 		good_result = get_good_result(i);
 		cmd_line = clean_quote_exp(cmd_line);
-		if (ft_strequ(cmd_line, good_result) == FALSE)
+		if (cmd_line == NULL && good_result != NULL)
+			ft_printf("mine = NULL		good : %s		nb_test : %d\n", good_result, i);//DEBUG
+		else if (ft_strequ(cmd_line, good_result) == FALSE)
 			ft_printf("mine : %s		good : %s		nb_test : %d\n", cmd_line, good_result, i);//DEBUG
 		ft_printf("\n");//DEBUG
 		i++;

@@ -130,6 +130,7 @@ char	*between_nothing(char *str);
 char	*between_simple(char *str);
 char	*between_double(char *str);
 char	*between_both(char *str);
+bool	is_del(char c);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/
