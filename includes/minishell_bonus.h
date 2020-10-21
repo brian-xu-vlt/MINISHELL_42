@@ -125,6 +125,7 @@ int		waiter(t_list *job_list);
 char	*clean_quote_no_exp(char *str);
 char 	*clean_quote_exp(char *str);
 typedef	enum e_state_quote_no_exp	(*t_state_quote_no_exp)(char);
+int		exp_value();
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/
