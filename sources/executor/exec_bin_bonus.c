@@ -1,25 +1,19 @@
 #include "minishell_bonus.h"
 
-
 static void	child_process(const char *binary_full_path, const t_cmd *command)
 {
 	int		ret;
 	char 	**envp;
+	t_list	*env_lst;
 
-	
-	
-	t_list	*tmp_env_lst;
-	tmp_env_lst = duplicate_env_lst(get_env_list(GET));
-	export_env(get_env_list(GET), "toto=42");
-	export_env(tmp_env_lst, "coucou=22");	
-	envp = get_envp(get_env_list(GET));
-//	envp = get_envp(tmp_env_lst);
-
+	env_lst = get_env_list(GET);
+	export_env(env_lst, "toto=42");
+	envp = get_envp(env_lst);
+	//	envp = get_envp(tmp_env_lst);
 
 //	signal_manager(SIG_MODE_NORMAL);
 	ret = execve(binary_full_path, command->av, envp); ////////////////// see p82 for failure!
 	free_envp(envp);
-	free_env_list(tmp_env_lst);
 	if (ret == FAILURE)
 		print_set_errno(ENOENT, command->name, NULL);
 	exit (ret);
