@@ -4,7 +4,6 @@
 
 char		*exp_value(char *str)
 {
-	ft_printf("STR EXP_VALUE = %s\n", str);//DEBUG
 	return ("42");
 }
 

@@ -8,10 +8,7 @@ bool	is_del(char c)
 	while (i < NB_DEL)
 	{
 		if (c == DEL[i])
-		{
-			ft_printf("DEL IS TRUE\n");//DEBUG
 			return (true);
-		}
 		i++;
 	}
 	return (false);
