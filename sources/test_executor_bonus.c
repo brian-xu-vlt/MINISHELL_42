@@ -26,7 +26,7 @@ static void		free_command_struct(t_cmd *command)
 	int		i;
 
 	i = 0;
-	free_char_ptr_arr(command->av);
+	free_char_arr(command->av);
 	free(command);
 }
 

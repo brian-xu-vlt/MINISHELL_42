@@ -1,14 +1,13 @@
 #include "minishell_bonus.h"
 
-void	free_char_ptr_arr(char **ptr_arr)
+void		free_char_arr(char **arr)
 {
 	int		i;
 
 	i = 0;
-	if (ptr_arr == NULL)
+	if (arr == NULL)
 		return ;
-	while (ptr_arr[i] != NULL)
-		free(ptr_arr[i++]);
-	free(ptr_arr);
+	while (arr[i] != NULL)
+		free(arr[i++]);
+	free(arr);
 }
-

@@ -21,5 +21,5 @@ void	print_env(t_list *env_lst)
 		ft_putstr_fd("\n", STDERR_FILENO);
 		i++;
 	}
-	free_envp(envp);
+	free_char_arr(envp);
 }

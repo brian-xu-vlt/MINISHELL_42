@@ -130,7 +130,7 @@ char	*locate_binary_file(const char *bin_name);
 /*******************************_GENERAL_UTILES_*******************************/
 /******************************************************************************/
 
-void	free_char_ptr_arr(char **ptr_arr);
+void	free_char_arr(char **arr);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/
@@ -160,7 +160,7 @@ int		unset_builtin(int argc, char **argv);
 # define	F_OVERWRITE		(1 << 1)
 
 void		free_env_list(t_list *env_lst);
-void		free_envp(char **envp);
+
 void		del_env_elem(void *elem_content);
 void		free_btree_node(t_btree *node);
 void		unset_env(t_list *env_lst, const char *env_name);

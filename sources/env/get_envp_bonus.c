@@ -2,7 +2,7 @@
 
 static void	exit_routine_failed_envp(char **envp)
 {
-	free_envp(envp);
+	free_char_arr(envp);
 	exit_routine_le(ERR_MALLOC);
 }
 
@@ -24,18 +24,6 @@ static char	*create_env(const char *env_name, t_vector *env_value)
 		ft_strcat(ret_str, vct_getstr(env_value));
 	}
 	return (ret_str);
-}
-
-void		free_envp(char **envp)
-{
-	int		i;
-
-	i = 0;
-	if (envp == NULL)
-		return ;
-	while (envp[i] != NULL)
-		free(envp[i++]);
-	free(envp);
 }
 
 static char	**allocate_envp(const t_list *env_lst, int *lst_size)

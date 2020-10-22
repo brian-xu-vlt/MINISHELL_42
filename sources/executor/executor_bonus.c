@@ -1,34 +1,15 @@
 #include "minishell_bonus.h"
+/*
 
-static char		*create_full_path(const char *bin_dir, const char *bin_name)
-{
-	size_t	len_dir;
-	size_t	len_name;
-	char  	*full_path;
-
-	len_dir = ft_strlen(bin_dir);
-	len_name = ft_strlen(bin_name);
-	full_path = (char *)ft_calloc(len_dir + len_name + 3, sizeof(char));
-	if (full_path == NULL)
-		exit_routine_le(ERR_MALLOC);
-	ft_memcpy(full_path, bin_dir, len_dir);
-	ft_memcpy(full_path + len_dir, "/", 1);
-	ft_memcpy(full_path + len_dir + 1, bin_name, len_name);
-	return (full_path);
-}
-
-static int		is_absolute_path(const char *bin_name)
-{
-	return ((ft_strchr((char *)bin_name, '/') == NOT_FOUND) ? FALSE : TRUE);
-}
-
+*/
 static int		prepare_and_exec_command(const t_cmd *command)
 {
-	char	*bin_dir;
-	char	*bin_full_path;
+//	char	*bin_dir;
+//	char	*bin_full_path;
 	int		ret_value;
 
 	ret_value = -1;
+	/*
 	if (is_absolute_path(command->name) == TRUE)
 		ret_value = execute_bin(command->name, command);
 	else
@@ -44,6 +25,8 @@ static int		prepare_and_exec_command(const t_cmd *command)
 		else
 			ft_printf("%s: %s\n", command->name, ERR_NO_COMMAND);
 	}
+	*/
+	ret_value = execute_bin(command->name, command);
 	if (ret_value != 0 || errno != 0)
 		ret_value = 128 + ret_value;
 	return (ret_value);

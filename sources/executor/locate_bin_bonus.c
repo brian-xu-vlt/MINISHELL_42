@@ -1,16 +1,5 @@
 #include "minishell_bonus.h"
 
-static char		**get_all_path_directories(void)
-{
-	char	*path_env;
-
-	path_env = vct_getstr(get_env_value_vct(get_env_list(GET), "PATH"));
-	if (path_env == NOT_FOUND)
-		return (NULL);
-	else
-		return (ft_split(path_env, ':'));
-}
-
 static int		go_through_single_dir(DIR *dir_stream, const char *bin_name)
 {
 	struct dirent	*cursor_file;
@@ -25,7 +14,7 @@ static int		go_through_single_dir(DIR *dir_stream, const char *bin_name)
 	return (FALSE);
 }
 
-static int		find_binary_in_a_dir(char *directory, const char *bin_name)
+static int		check_dir(char *directory, const char *bin_name)
 {
 	int				ret;
 	DIR				*dir_stream;
@@ -45,9 +34,15 @@ static char		*find_binary_in_pwd(const char *bin_name)
 	char	*pwd;
 
 	pwd = vct_getstr(get_env_value_vct("PWD"));
-	if (pwd != NOT_FOUND && find_binary_in_a_dir(pwd, bin_name) == TRUE)
+	if (pwd != NOT_FOUND && check_dir(pwd, bin_name) == TRUE)
 		return (ft_strdup(pwd));
 	return (NOT_FOUND);
+}
+
+static int		check_dir(char *directory, const char *bin_name)
+{
+	
+
 }
 */
 
@@ -64,7 +59,7 @@ char		*locate_binary_file(const char *bin_name)
 	i = 0;
 	while (dir_options[i] != NULL)
 	{
-		if (find_binary_in_a_dir(dir_options[i], bin_name) == TRUE)
+		if (check_dir(dir_options[i], bin_name) == TRUE)
 		{
 			ret_dir = ft_strdup(dir_options[i]);
 			if (ret_dir == NULL)
