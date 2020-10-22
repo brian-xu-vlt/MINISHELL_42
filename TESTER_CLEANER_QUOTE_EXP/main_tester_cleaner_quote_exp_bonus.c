@@ -4,7 +4,7 @@
 
 char		*exp_value(char *str)
 {
-	if (str == NULL)
+	if (ft_strlen(str) == 0)
 		return (NULL);
 	return ("42");
 }
