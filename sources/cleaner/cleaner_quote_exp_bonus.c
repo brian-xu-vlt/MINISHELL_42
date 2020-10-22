@@ -1,5 +1,14 @@
 #include "minishell_bonus.h"
 
+char		*exp_value(char *str)
+{
+	if (ft_strlen(str) == 0)
+		return (NULL);
+	if (ft_strequ(str, "tata") == TRUE)
+		return ("42");
+	return (NULL);
+}
+
 char	*between_nothing(char *str)
 {
 	char	*good_str;
@@ -12,7 +21,7 @@ char	*between_nothing(char *str)
 	is_exp = false;
 	i = 0;
 	ft_printf("BETWEEN_NOTHING\n");//DEBUG
-	//ft_printf("STR = %s\n", str);//DEBUG
+	ft_printf("STR = %s\n", str);//DEBUG
 	while (str[i] != '\0')
 	{
 		if (str[i] != EXP || (str[i] == EXP && i == ft_strlen(str) - 1))
@@ -35,7 +44,7 @@ char	*between_simple(char *str)
 	t_vector	*vct_good;
 
 	ft_printf("BETWEEN_SIMPLE\n");//DEBUG
-	//ft_printf("STR = %s\n", str);//DEBUG
+	ft_printf("STR = %s\n", str);//DEBUG
 	good_str = NULL;
 	vct_good = vct_new();
 	process_between_simple(str, vct_good);
@@ -50,7 +59,7 @@ char	*between_double(char *str)
 	t_vector	*vct_good;
 
 	ft_printf("BETWEEN_DOUBLE\n");//DEBUG
-	//ft_printf("STR = %s\n", str);//DEBUG
+	ft_printf("STR = %s\n", str);//DEBUG
 	good_str = NULL;
 	vct_good = vct_new();
 	process_between_double(str, vct_good);
@@ -65,7 +74,7 @@ char	*between_both(char *str)
 	t_vector	*vct_good;
 	
 	ft_printf("BETWEEN_BOTH\n");//DEBUG
-	//ft_printf("STR = %s\n", str);//DEBUG
+	ft_printf("STR = %s\n", str);//DEBUG
 	good_str = NULL;
 	vct_good = vct_new();
 	process_between_both(str, vct_good);

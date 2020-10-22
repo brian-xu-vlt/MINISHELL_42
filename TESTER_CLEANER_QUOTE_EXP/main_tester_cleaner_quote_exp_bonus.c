@@ -1,15 +1,6 @@
 #include "minishell_bonus.h"
 
-# define NB_TEST 19
-
-char		*exp_value(char *str)
-{
-	if (ft_strlen(str) == 0)
-		return (NULL);
-	if (ft_strequ(str, "tata") == TRUE)
-		return ("42");
-	return (NULL);
-}
+# define NB_TEST 22
 
 static char	*get_good_result(int nb_test)
 {
@@ -26,11 +17,14 @@ static char	*get_good_result(int nb_test)
 			"toto=hahaheyho-844242", //10
 			"toto=haha42@42", //11
 			"toto=42$", //12
-			"command not found", //13
 			"toto=$tata42", //14
 			"toto=tata42", //15
 			"toto=haha$tata", //16
 			"toto=hahata", //17
+			"toto=haha42", //18
+			"toto=42", //19
+			"toto=$42", //20
+			"toto=42", //21
 			"toto=hahaha'h-a4242"};
 
 	return (cmd_line[nb_test]);
@@ -51,11 +45,14 @@ static char	*get_cmd_line(int nb_test)
 			"toto=haha\"hey\"ho\"-84$tata$tata\"", //10
 			"toto=haha$tata@$tata", //11
 			"toto=$tata$", //12
-			"toto$tata=$tata$", //13
 			"toto='$tata'$tata", //14
 			"toto=$'tata'$tata", //15
 			"toto=haha'''$ta''ta'''", //16
 			"toto=haha\"\"\"$ta\"\"ta\"\"\"", //17
+			"toto='haha'$hello$tata", //18
+			"\"toto=$tata\"", //19
+			"'toto=$tata'", //20
+			"\"\"\"\"toto=$tata\"\"\"\"", //21
 			"toto=haha\"ha'h-a$tata$tata\""};
 
 	return (cmd_line[nb_test]);
@@ -71,9 +68,10 @@ int			main(void)
 	while (i < NB_TEST)
 	{
 		cmd_line = get_cmd_line(i);
-		//ft_printf("cmd_line = %s\n", cmd_line);//DEBUG
 		good_result = get_good_result(i);
 		cmd_line = clean_quote_exp(cmd_line);
+		ft_printf("CMD_LINE = %s\n", cmd_line);//DEBUG
+		ft_printf("GOOD RESULT = %s\n", good_result);//DEBUG
 		if (cmd_line == NULL && good_result != NULL)
 			ft_printf("mine = NULL		good : %s		nb_test : %d\n", good_result, i);//DEBUG
 		else if (ft_strequ(cmd_line, good_result) == FALSE)
