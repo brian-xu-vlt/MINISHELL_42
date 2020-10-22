@@ -31,36 +31,12 @@ char	*between_nothing(char *str)
 char	*between_simple(char *str)
 {
 	char	*good_str;
-	size_t	i;
-	size_t	end_quote;
 	t_vector	*vct_good;
-	char		*str_simple;
 
 	ft_printf("BETWEEN_SIMPLE\n");//DEBUG
 	good_str = NULL;
-	i = 0;
-	end_quote = 0;
-	str_simple = NULL;
 	vct_good = vct_new();
-	while (str[i] != '\0')
-	{
-		if (str[i] == C_SIMPLE_QUOTE)
-		{
-			end_quote = end_simple(str, i);
-			str_simple = handle_simple(str, i, end_quote);
-			i = i + end_quote;
-			vct_addstr(vct_good, str_simple);
-			free(str_simple);
-			continue ;
-		}
-		if (str[i] == EXP)
-		{
-			i = handle_exp(i, vct_good, str);
-			continue ;
-		}
-		vct_add(vct_good, str[i]);
-		i++;
-	}
+	process_between_simple(str, vct_good);
 	good_str = ft_strdup(vct_getstr(vct_good));
 	vct_del(&vct_good);
 	return (good_str);

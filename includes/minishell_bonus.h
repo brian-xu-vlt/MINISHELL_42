@@ -134,7 +134,9 @@ bool	is_del(char c);
 size_t	end_exp(char *str);
 size_t	handle_exp(size_t i, t_vector *vct_good, char *str);
 size_t	end_simple(char *str, size_t i);
-char	*handle_simple(char *str, size_t i, size_t end_simple);
+void	handle_simple(char *str, size_t i, size_t end_simple,
+						t_vector *vct_good);
+void	process_between_simple(char *str, t_vector *vct_good);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/

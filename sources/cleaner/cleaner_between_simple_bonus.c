@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-char	*handle_simple(char *str, size_t i, size_t end_simple)
+void	handle_simple(char *str, size_t i, size_t end_simple, t_vector *vct_good)
 {
 	t_vector	*vct_simple;
 	char		*good_str;
@@ -11,8 +11,9 @@ char	*handle_simple(char *str, size_t i, size_t end_simple)
 	vct_pop(vct_simple);
 	vct_cut(vct_simple);
 	good_str = ft_strdup(vct_getstr(vct_simple));
+	vct_addstr(vct_good, good_str);
 	vct_del(&vct_simple);
-	return (good_str);
+	free(good_str);
 }
 
 size_t	end_simple(char *str, size_t i)
@@ -32,4 +33,30 @@ size_t	end_simple(char *str, size_t i)
 		end_simple++;
 	}
 	return (0);
+}
+
+void	process_between_simple(char *str, t_vector *vct_good)
+{
+	size_t	i;
+	size_t	end_quote;
+	
+	i = 0;
+	end_quote = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == C_SIMPLE_QUOTE)
+		{
+			end_quote = end_simple(str, i);
+			handle_simple(str, i, end_quote, vct_good);
+			i = i + end_quote;
+			continue ;
+		}
+		if (str[i] == EXP)
+		{
+			i = handle_exp(i, vct_good, str);
+			continue ;
+		}
+		vct_add(vct_good, str[i]);
+		i++;
+	}
 }
