@@ -31,17 +31,29 @@ char	*between_simple(char *str)
 {
 	char	*good_str;
 	size_t	i;
+	size_t	end_quote;
+	t_vector	*vct_good;
 
 	ft_printf("################## BETWEEN_SIMPLE #################\n");//DEBUG
 	ft_printf("STR = %s\n", str);//DEBUG
 	good_str = NULL;
 	i = 0;
+	end_quote = 0;
+	vct_good = vct_new();
 	while (str[i] != '\0')
 	{
 		if (str[i] == C_SIMPLE_QUOTE)
-			handle_simple(str, i);
+		{
+			end_quote = end_simple(str, i);
+			handle_simple(str, i, end_quote);
+			i = i + end_quote;
+			continue ;
+		}
+		vct_add(vct_good, str[i]);
 		i++;
 	}
+	good_str = ft_strdup(vct_getstr(vct_good));
+	vct_del(&vct_good);
 	return (good_str);
 }
 
