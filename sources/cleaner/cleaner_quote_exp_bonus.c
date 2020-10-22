@@ -62,9 +62,44 @@ char	*between_double(char *str)
 char	*between_both(char *str)
 {
 	char	*good_str;
-
+	t_vector	*vct_good;
+	size_t		i;
+	size_t		end_double;
+	size_t		end_simple;
+	
 	ft_printf("BETWEEN_BOTH\n");//DEBUG
-	ft_printf("STR = %s\n", str);//DEBUG
+	//ft_printf("STR = %s\n", str);//DEBUG
 	good_str = NULL;
+	vct_good = vct_new();
+	i = 0;
+	end_double = 0;
+	end_simple = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == C_QUOTE)
+		{
+			end_double = end_quote(str, i, E_DOUBLE);
+			handle_double(str, i, end_double, vct_good);
+			i = i + end_double;
+			continue ;
+		}
+		if (str[i] == C_SIMPLE_QUOTE)
+		{
+			end_simple = end_quote(str, i, E_SIMPLE);
+			handle_simple(str, i, end_simple, vct_good);
+			i = i + end_simple;
+			continue ;
+		}
+		if (str[i] == EXP)
+		{
+			i = handle_exp(i, vct_good, str);
+			continue ;
+		}
+		vct_add(vct_good, str[i]);
+		i++;
+		
+	}
+	good_str = ft_strdup(vct_getstr(vct_good));
+	vct_del(&vct_good);
 	return (good_str);
 }
