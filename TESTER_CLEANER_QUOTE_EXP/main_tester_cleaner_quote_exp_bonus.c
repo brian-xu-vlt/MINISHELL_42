@@ -18,7 +18,7 @@ static char	*get_good_result(int nb_test)
 			"toto=hahatata", //4
 			"toto=haha'42'", //5
 			"toto=haha\"42\"", //6
-			"toto=haha\"     42\"", //7
+			"toto=haha     42", //7
 			"toto=hahahey-844242", //8
 			"toto=hahahey-8442#hehe42", //9
 			"toto=hahaheyho-844242", //10

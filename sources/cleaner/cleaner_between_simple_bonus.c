@@ -16,21 +16,22 @@ void	handle_simple(char *str, size_t i, size_t end_simple, t_vector *vct_good)
 	free(good_str);
 }
 
-size_t	end_simple(char *str, size_t i)
+size_t	end_quote(char *str, size_t i, enum e_between quote)
 {
-	size_t		end_simple;
+	size_t		end_quote;
 	char		*new_str;
 
 	new_str = str + i;
-	end_simple = 1;
-	while (new_str[end_simple] != '\0')
+	end_quote = 1;
+	while (new_str[end_quote] != '\0')
 	{
-		if (new_str[end_simple] == C_SIMPLE_QUOTE)
+		if (new_str[end_quote] == (quote == E_SIMPLE ?
+				C_SIMPLE_QUOTE : C_QUOTE))
 		{
-			end_simple++;
-			return (end_simple);
+			end_quote++;
+			return (end_quote);
 		}
-		end_simple++;
+		end_quote++;
 	}
 	return (0);
 }
@@ -38,17 +39,17 @@ size_t	end_simple(char *str, size_t i)
 void	process_between_simple(char *str, t_vector *vct_good)
 {
 	size_t	i;
-	size_t	end_quote;
+	size_t	end_simple;
 	
 	i = 0;
-	end_quote = 0;
+	end_simple = 0;
 	while (str[i] != '\0')
 	{
 		if (str[i] == C_SIMPLE_QUOTE)
 		{
-			end_quote = end_simple(str, i);
-			handle_simple(str, i, end_quote, vct_good);
-			i = i + end_quote;
+			end_simple = end_quote(str, i, E_SIMPLE);
+			handle_simple(str, i, end_simple, vct_good);
+			i = i + end_simple;
 			continue ;
 		}
 		if (str[i] == EXP)

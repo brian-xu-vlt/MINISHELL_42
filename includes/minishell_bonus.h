@@ -133,10 +133,12 @@ char	*between_both(char *str);
 bool	is_del(char c);
 size_t	end_exp(char *str);
 size_t	handle_exp(size_t i, t_vector *vct_good, char *str);
-size_t	end_simple(char *str, size_t i);
+size_t	end_quote(char *str, size_t i, enum e_between quote);
 void	handle_simple(char *str, size_t i, size_t end_simple,
 						t_vector *vct_good);
 void	process_between_simple(char *str, t_vector *vct_good);
+void	process_between_double(char *str, t_vector *vct_good);
+void	handle_double(char *str, size_t i, size_t end_simple, t_vector *vct_good);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/
