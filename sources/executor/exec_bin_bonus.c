@@ -1,61 +1,8 @@
 #include "minishell_bonus.h"
 
-static char		*create_full_path(const char *dir, const char *bin_name)
-{
-	size_t	len_dir;
-	size_t	len_name;
-	char  	*full_path;
-
-	len_dir = ft_strlen(dir);
-	len_name = ft_strlen(bin_name);
-	full_path = (char *)ft_calloc(len_dir + len_name + 3, sizeof(char));
-	if (full_path == NULL)
-		exit_routine_le(ERR_MALLOC);
-	ft_memcpy(full_path, dir, len_dir);
-	ft_memcpy(full_path + len_dir, "/", 1);
-	ft_memcpy(full_path + len_dir + 1, bin_name, len_name);
-	return (full_path);
-}
-
-static char		**get_all_path_directories(void)
-{
-	char	*path_env;
-
-	path_env = vct_getstr(get_env_value_vct(get_env_list(GET), "PATH"));
-	if (path_env == NOT_FOUND)
-		return (NULL);
-	else
-		return (ft_split(path_env, ':'));
-}
-
-static int		is_absolute_path(const char *bin_name)
-{
-	return ((ft_strchr((char *)bin_name, '/') == NOT_FOUND) ? FALSE : TRUE);
-}
-
-static char	*get_full_path(char *dir, const char *name)
-{
-	if (is_absolute_path(name) == TRUE)
-		return (ft_strdup(name));
-	else if (dir != NULL)
-		return (create_full_path(dir, name));
-	else
-		return (NULL);
-}
-
-static void	export_execution_context_env(const t_cmd *command)
-{
-	t_list	*env_lst;
-
-	env_lst = get_env_list(GET);			//insert here : function to assign content of t_cmd->envp
-	(void)command;
-	// if (command->envp != NULL)
-	// 		do export of each envp here
-//	export_env(env_lst, "PATH=/tmp/bin:/bin"); 	// TEST
-}
-
 static void	child_process(const char *name, const t_cmd *command)
 {
+	int		i;
 	int		ret;
 	char 	*full_path;
 	char 	**envp;
@@ -66,20 +13,22 @@ static void	child_process(const char *name, const t_cmd *command)
 	export_execution_context_env(command);
 	path_list = get_all_path_directories();
 	envp = get_envp(get_env_list(GET));
-	while (ret == FAILURE && errno == ENOENT)
+	i = 0;
+	while (path_list[i] != NULL)
 	{
-		full_path = get_full_path(*path_list, name);
+		full_path = get_exec_path(path_list[i], name);
+		ft_printf("trying .... %s\n", full_path);
 		if (full_path != NULL)
 			ret = execve(full_path, command->av, envp); ////////////////// see p82 for failure!
-		else
-			break ;
 		free(full_path);
-		path_list++;
+		i++;
 	}
-	if (path_list != NULL)
-		free_char_arr(path_list);
+	if (path_list[i] == NULL)
+		print_set_errno(0, "command not found", command->name, NULL);
+	else
+		print_set_errno(errno, NULL, command->name, NULL);
+	free_char_arr(path_list);
 	free_char_arr(envp);
-	print_set_errno(errno, command->name, NULL);
 	exit (ret);
 }
 
