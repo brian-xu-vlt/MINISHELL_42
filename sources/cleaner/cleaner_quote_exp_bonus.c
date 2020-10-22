@@ -30,9 +30,18 @@ char	*between_nothing(char *str)
 char	*between_simple(char *str)
 {
 	char	*good_str;
+	size_t	i;
 
-	ft_printf("BETWEEN_SIMPLE\n");//DEBUG
+	ft_printf("################## BETWEEN_SIMPLE #################\n");//DEBUG
+	ft_printf("STR = %s\n", str);//DEBUG
 	good_str = NULL;
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == C_SIMPLE_QUOTE)
+			handle_simple(str, i);
+		i++;
+	}
 	return (good_str);
 }
 

@@ -1,9 +1,11 @@
 #include "minishell_bonus.h"
 
-# define NB_TEST 15
+# define NB_TEST 17
 
 char		*exp_value(char *str)
 {
+	if (str == NULL)
+		return (NULL);
 	return ("42");
 }
 
@@ -23,6 +25,8 @@ static char	*get_good_result(int nb_test)
 			"toto=haha42@42", //11
 			"toto=42$", //12
 			"command not found", //13
+			"toto=$tata42", //14
+			"toto=tata42", //15
 			"toto=hahaha'h-a42pouet"};
 
 	return (cmd_line[nb_test]);
@@ -44,6 +48,8 @@ static char	*get_cmd_line(int nb_test)
 			"toto=haha$tata@$tata", //11
 			"toto=$tata$", //12
 			"toto$tata=$tata$", //13
+			"toto='$tata'$tata", //14
+			"toto=$'tata'$tata", //15
 			"toto=haha\"ha'h-a$tata$titi\""};
 
 	return (cmd_line[nb_test]);

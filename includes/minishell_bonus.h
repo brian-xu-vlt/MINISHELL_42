@@ -133,6 +133,7 @@ char	*between_both(char *str);
 bool	is_del(char c);
 size_t	end_exp(char *str);
 size_t	handle_exp(size_t i, t_vector *vct_good, char *str);
+void	handle_simple(char *str, size_t i);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/
