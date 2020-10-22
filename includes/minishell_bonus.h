@@ -112,6 +112,7 @@ void	create_cmd_fd_string(t_cmd *cmd, t_cmd *cmd_model);
 int		resize_cmd(t_cmd *cmd, int count);
 int		fill_data_cmd(t_token *token, t_cmd *cmd, int count);
 void	debug_jobs(t_list *job_list);
+void	process_between_both(char *str, t_vector *vct_good);
 
 /******************************************************************************/
 /*******************************_CLEANER_**************************************/

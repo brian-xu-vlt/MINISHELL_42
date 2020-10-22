@@ -118,6 +118,7 @@ SRCS += cleaner_quote_exp_utils_bonus.c
 SRCS += cleaner_between_nothing_bonus.c
 SRCS += cleaner_between_simple_bonus.c
 SRCS += cleaner_between_double_bonus.c
+SRCS += cleaner_between_both_bonus.c
 
 OBJ_DIR = ./objs/
 
