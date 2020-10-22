@@ -48,6 +48,7 @@ char	*between_double(char *str)
 	t_vector	*vct_good;
 
 	ft_printf("BETWEEN_DOUBLE\n");//DEBUG
+	good_str = NULL;
 	vct_good = vct_new();
 	process_between_double(str, vct_good);
 	good_str = ft_strdup(vct_getstr(vct_good));

@@ -5,19 +5,18 @@ void	handle_double(char *str, size_t i, size_t end_simple, t_vector *vct_good)
 	t_vector	*vct_simple;
 	char		*good_str;
 	size_t		in;
-	t_vector	*vct_exp;
 	
 	vct_simple = vct_new();
 	vct_addstr(vct_simple, str + i);
 	vct_cutfrom(vct_simple, vct_getlen(vct_simple) - end_simple);
 	vct_pop(vct_simple);
 	vct_cut(vct_simple);
-	vct_exp = vct_new();
 	in = 0;
 	good_str = ft_strdup(vct_getstr(vct_simple));
 	while (good_str[in] != '\0')
 	{
-		if (good_str[in] != EXP || (good_str[in] == EXP && in == ft_strlen(good_str) - 1))
+		if (good_str[in] != EXP || (good_str[in] == EXP 
+				&& in == ft_strlen(good_str) - 1))
 			vct_add(vct_good, good_str[in]);
 		else if (good_str[in] == EXP)
 		{
@@ -27,7 +26,6 @@ void	handle_double(char *str, size_t i, size_t end_simple, t_vector *vct_good)
 		in++;
 	}
 	vct_del(&vct_simple);
-	vct_del(&vct_exp);
 	free(good_str);
 }
 
