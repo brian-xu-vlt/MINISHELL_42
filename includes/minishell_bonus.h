@@ -131,7 +131,8 @@ char	*between_simple(char *str);
 char	*between_double(char *str);
 char	*between_both(char *str);
 bool	is_del(char c);
-size_t	handle_exp(char *str);
+size_t	end_exp(char *str);
+size_t	handle_exp(size_t i, t_vector *vct_good, char *str);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/
