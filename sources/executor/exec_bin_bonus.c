@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static void	child_process(const char *name, const t_cmd *command)
+static void	child_process_binary(const char *name, const t_cmd *command)
 {
 	int		i;
 	int		ret;
@@ -50,6 +50,8 @@ void			execute_bin(const char *name, const t_cmd *command,
 {
 	pid_t	pid;
 
+	if (ft_strequ(command->name, "exit") == TRUE)
+		exit_routine_le(ERR_NO_MESSAGE);
 	pid = fork_process();
 	if (pid == FAILURE)
 		return;
@@ -67,7 +69,10 @@ void			execute_bin(const char *name, const t_cmd *command,
 			close(p_out[R_END]);
 			p_out[R_END] = UNSET;
 		}
-		child_process(name, command);
+		if (is_builtin(command) == TRUE)
+			exec_builtin(command);
+		else	
+			child_process_binary(name, command);
 	}
 	else if (pid != 0 && pid != FAILURE)
 		ms_setenv_int(get_env_list(GET), "!", (int)pid, F_OVERWRITE);

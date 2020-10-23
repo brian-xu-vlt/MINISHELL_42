@@ -73,10 +73,15 @@ void			executor(const t_job *job)
 		ret_value = 0;
 		if (i < job->nb_cmd - 1)
 			pipe(p_out);
-		if (is_builtin(cmd_cursor->content) == TRUE)
+
+		exec_bin(cmd_cursor->content, p_in, p_out);
+/*		if (is_builtin(cmd_cursor->content) == TRUE)
 			ret_value = exec_builtin(cmd_cursor->content, p_in, p_out);
 		else
 			exec_bin(cmd_cursor->content, p_in, p_out);
+*/
+		
+		
 		close_pipe(p_in);
 		if (i < job->nb_cmd - 1)
 			ft_memmove(p_in, p_out, sizeof(int[2]));
