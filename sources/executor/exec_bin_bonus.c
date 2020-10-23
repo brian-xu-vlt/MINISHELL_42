@@ -71,21 +71,35 @@ static pid_t	fork_process(void)
 	return (pid_ret);
 }
 
-int				execute_bin(const char *name, const t_cmd *command)
+int				execute_bin(const char *name, const t_cmd *command,
+													int p_in[2], int p_out[2])
 {
 	pid_t	pid;
 	int		wstatus;
 
 	wstatus = 0;
 	pid = fork_process();
-	if (pid != 0 && pid != FAILURE)
+	if (pid == FAILURE)
+		return (FAILURE);
+	else if (pid == 0)
+	{
+		if (p_in[R_END] != -1 && p_in[W_END] != -1)
+		{
+			dup2(p_in[R_END], STDIN_FILENO);
+			close(p_in[W_END]);
+		}
+		if (p_out[R_END] != -1 && p_out[W_END] != -1)
+		{
+			dup2(p_out[W_END], STDOUT_FILENO);
+			close(p_out[R_END]);
+		}
+
+		child_process(name, command);
+	}
+	else if (pid != 0 && pid != FAILURE)
 	{
 		ms_setenv_int(get_env_list(GET), "!", (int)pid, F_OVERWRITE);
-		pid = waitpid(pid, &wstatus, WUNTRACED);
+//		pid = waitpid(pid, &wstatus, WUNTRACED);
 	}
-	else if (pid == 0)
-		child_process(name, command);
-	else if (pid == FAILURE)
-		return (FAILURE);
 	return (manage_exit_status(wstatus, pid));
 }

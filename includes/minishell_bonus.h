@@ -120,13 +120,16 @@ int		add_job_to_list(t_job *job, t_list **jobs, t_list *token_list,
 /******************************************************************************/
 
 #define BUILTIN_FAILURE		1
+#define R_END				0
+#define W_END				1
 
 char	**get_all_path_directories(void);
 char	*get_exec_path(char *dir, const char *name);
 void	export_execution_context_env(const t_cmd *command);
 int		is_builtin(const t_cmd *command);
 int		exec_builtin(const t_cmd *command);
-int		execute_bin(const char *binary_full_path, const t_cmd *command);
+int		execute_bin(const char *name, const t_cmd *command,
+													int p_in[2], int p_out[2]);
 void	signal_manager(int set_mode);
 void	executor(const t_job *job);
 char	*locate_binary_file(const char *bin_name);
