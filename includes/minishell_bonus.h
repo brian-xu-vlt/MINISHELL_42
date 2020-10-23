@@ -34,6 +34,7 @@
 int		test(t_vector *input);
 int		test_env(t_vector *input);
 int		test_executor(t_vector *input);
+int		test_executor_v2(t_list *jobs);
 
 
 t_list	*test_lexer(t_vector *input);
@@ -127,7 +128,7 @@ int		is_builtin(const t_cmd *command);
 int		exec_builtin(const t_cmd *command);
 int		execute_bin(const char *binary_full_path, const t_cmd *command);
 void	signal_manager(int set_mode);
-void	executor(const t_cmd *command);
+void	executor(const t_job *job);
 char	*locate_binary_file(const char *bin_name);
 
 /******************************************************************************/

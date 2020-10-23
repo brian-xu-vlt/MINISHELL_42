@@ -28,6 +28,7 @@ int			main(int ac, char **av)
 	t_vector	*cmd_line;
 	t_list		*lexer_list;
 	int			ret_parser;	
+	t_list		*jobs;		
 
 	usage(ac, av);
 	init_env();
@@ -35,7 +36,6 @@ int			main(int ac, char **av)
 	if (cmd_line == NULL)
 		exit_routine_le(ERR_MALLOC);
 	init_line_editor(cmd_line);
-	//init_minishell();
 	lexer_list = NULL;
 	ret_parser = SUCCESS;
 	while (1)
@@ -50,15 +50,14 @@ int			main(int ac, char **av)
 		}
 		else
 			read_loop(cmd_line);
-	//	if (test_env(cmd_line) == FAILURE || test_executor(cmd_line) == FAILURE)
 		signal_manager(SIG_MODE_EXEC);
-		if (test_env(cmd_line) == FAILURE)
-			test_executor(cmd_line);
 		lexer_list = test_lexer(cmd_line);
 		if (lexer_list != NULL)
 			ret_parser = test_parser(lexer_list);
-		/*if (ret_parser != FALSE)
-			jobs = test_jobs(lexer_list)*/
+		if (ret_parser != FALSE)
+			jobs = test_jobs(lexer_list);
+		test_executor_v2(jobs);
+		free_list_job(&jobs);
 		free_list_token(&lexer_list);
 		vct_clear(cmd_line);
 	}
