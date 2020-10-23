@@ -98,6 +98,7 @@ SRCS += print_errno.c
 SRCS += general_utils_bonus.c
 
 SRCS += signal_manager_bonus.c
+SRCS += utils_executor_bonus.c
 SRCS += export_exec_context_bonus.c
 SRCS += executor_bonus.c
 SRCS += get_exec_path_bonus.c
