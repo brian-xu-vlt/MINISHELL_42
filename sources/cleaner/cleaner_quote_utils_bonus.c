@@ -1,8 +1,8 @@
 #include "minishell_bonus.h"
 
-bool	is_only_quote(char *str)
+bool is_only_quote(char *str)
 {
-	size_t	i;
+	size_t i;
 
 	i = 0;
 	while (str[i] != '\0')
@@ -14,11 +14,11 @@ bool	is_only_quote(char *str)
 	return (true);
 }
 
-bool	is_clean_command(char *str)
+bool is_clean_command(char *str)
 {
-	char	*clean_cmd[NB_CLEAN_COMMAND] = {"echo", "export", "unset", "env",
-		"exit"};
-	size_t	i;
+	char *clean_cmd[NB_CLEAN_COMMAND] = {"echo", "export", "unset", "env",
+										 "exit"};
+	size_t i;
 
 	i = 0;
 	while (i < NB_CLEAN_COMMAND)
@@ -30,9 +30,9 @@ bool	is_clean_command(char *str)
 	return (false);
 }
 
-void	process_clean_command_quote(t_cmd *cmd, size_t i)
+void process_clean_command_quote(t_cmd *cmd, size_t i)
 {
-	char	*str_av;
+	char *str_av;
 
 	str_av = ft_strdup(cmd->av[i]);
 	if (ft_strchr(cmd->av[i], EXP) == NULL)
@@ -46,16 +46,4 @@ void	process_clean_command_quote(t_cmd *cmd, size_t i)
 		cmd->av[i] = clean_quote_exp(str_av);
 	}
 	free(str_av);
-}
-
-bool	is_clean(size_t i, char *tmp_av0, char *av)
-{
-	if ((i != 0 && is_clean_command(tmp_av0) == true) ||
-		(i == 0 && is_only_quote(av) == false) ||
-		(ft_strchr(av, EXP) == NULL
-			&& is_clean_command(tmp_av0) == true) ||
-		(ft_strchr(av, EXP) != NULL
-			&& is_clean_command(tmp_av0) == true))
-			return (true);
-	return (false);
 }

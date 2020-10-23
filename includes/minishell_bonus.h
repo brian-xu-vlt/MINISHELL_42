@@ -156,24 +156,35 @@ bool								is_clean_command(char *str);
 void								process_clean_command_quote(t_cmd *cmd,
 																	size_t i);
 bool								is_clean(size_t i, char *tmp_av0, char *av);
+enum e_cmd 							export_or_command(t_vector *vct, size_t i,
+														size_t id_equal,
+														size_t ac);
+enum e_cmd 							process_get_cmd_type(t_vector *vct,
+															size_t i, size_t ac);
+size_t 								verif_assign(t_vector *vct_av,
+													size_t id_equal);
+bool 								is_wrong_char(t_vector *vct);
+enum e_cmd 							export_or_command(t_vector *vct, size_t i,
+														size_t id_equal,
+														size_t ac);
 
-/******************************************************************************/
-/*******************************_ERROR MANAGER_********************************/
-/******************************************************************************/
+	/******************************************************************************/
+	/*******************************_ERROR MANAGER_********************************/
+	/******************************************************************************/
 
-void	print_set_errno(int err_value, char *function_name, char *error_source);
+	void print_set_errno(int err_value, char *function_name, char *error_source);
 
-/******************************************************************************/
-/*******************************_BUILTINS_*************************************/
-/******************************************************************************/
+	/******************************************************************************/
+	/*******************************_BUILTINS_*************************************/
+	/******************************************************************************/
 
-int		env_builtin(int argc, char **argv);
-int		export_builtin(int argc, char **argv);
-int		unset_builtin(int argc, char **argv);
+	int env_builtin(int argc, char **argv);
+	int export_builtin(int argc, char **argv);
+	int unset_builtin(int argc, char **argv);
 
-/******************************************************************************/
-/*******************************_ENV_MANAGER_**********************************/
-/******************************************************************************/
+	/******************************************************************************/
+	/*******************************_ENV_MANAGER_**********************************/
+	/******************************************************************************/
 
 # define	ALL				NULL
 # define	NOT_FOUND		NULL
