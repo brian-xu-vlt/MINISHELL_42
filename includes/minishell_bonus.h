@@ -127,8 +127,8 @@ char	**get_all_path_directories(void);
 char	*get_exec_path(char *dir, const char *name);
 void	export_execution_context_env(const t_cmd *command);
 int		is_builtin(const t_cmd *command);
-int		exec_builtin(const t_cmd *command);
-int		execute_bin(const char *name, const t_cmd *command,
+int		exec_builtin(const t_cmd *command, int p_in[2], int p_out[2]);
+void	execute_bin(const char *name, const t_cmd *command,
 													int p_in[2], int p_out[2]);
 void	signal_manager(int set_mode);
 void	executor(const t_job *job);

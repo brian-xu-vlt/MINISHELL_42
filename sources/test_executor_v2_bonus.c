@@ -9,6 +9,7 @@ int		test_executor_v2(t_list *jobs)
 		if (jobs->content != NULL)
 			executor(jobs->content);
 		jobs = jobs->next;
+		
 	}
 	return (SUCCESS);
 }
