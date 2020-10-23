@@ -77,8 +77,9 @@ enum e_between
 enum e_cmd
 {
 	E_ANY,//0
-	E_EXPORT,//1
-	E_COMMAND//2
+	E_EXPORT_EXEC,//1
+	E_EXPORT_NO_EXEC,//2
+	E_COMMAND//3
 };
 
 #endif

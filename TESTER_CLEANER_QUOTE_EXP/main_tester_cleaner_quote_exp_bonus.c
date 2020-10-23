@@ -69,7 +69,7 @@ int			main(void)
 	{
 		cmd_line = get_cmd_line(i);
 		good_result = get_good_result(i);
-		cmd_line = clean_quote_exp(cmd_line);
+		cmd_line = clean_quote(cmd_line);
 		ft_printf("CMD_LINE = %s\n", cmd_line);//DEBUG
 		ft_printf("GOOD RESULT = %s\n", good_result);//DEBUG
 		if (cmd_line == NULL && good_result != NULL)

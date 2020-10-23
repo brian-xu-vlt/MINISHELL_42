@@ -151,6 +151,8 @@ void								handle_double(char *str, size_t i,
 													t_vector *vct_good);
 bool								is_bad_ass_exp(t_cmd *cmd);
 enum e_cmd							get_cmd_type(t_cmd *cmd);
+bool								is_only_quote(char *str);
+bool								is_clean_command(char *str);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/
