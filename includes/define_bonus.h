@@ -51,10 +51,11 @@
 /*******************************_CLEANER_**************************************/
 /******************************************************************************/
 
-#define DEL				"-$:/,@+=#%^*~[]{}.?'\" \t"
+#define STR_EXPORT		"export"
+#define DEL				"`~!@#$%^&*()_-+={}[]:,.?/'\" \t"
 
 
-#define NB_DEL			23
+#define NB_DEL			29
 #define NO_ASSIGN_BUT_EXP	1	
 #define NB_CLEAN_COMMAND		5
 	
