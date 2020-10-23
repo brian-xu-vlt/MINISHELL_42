@@ -1,12 +1,12 @@
 #include "minishell_bonus.h"
 
+
 const char	*get_token_str(const int type)
 {
 	static const char *tokens[] = {SEPARATOR, PIPE, SIMPLE_QUOTE, QUOTE,
 					LESS_THAN, GREATER_THAN, SPACE, TAB, DOUBLE_GREATER,
 					OR, AND, S_WORD, S_EXP, S_ASSIGN, S_START, S_END
 					, S_NO_TYPE};
-	
 	return (tokens[type]);
 }
 
@@ -98,7 +98,6 @@ t_list		*lexer(t_vector *input)
 	{
 		if (process_lexer(input, &token_list, word) == FAILURE)
 		{
-			ft_printf("coucou\n");//DEBUG
 			free_list_token(&token_list);
 			exit_routine_lexer(word, NULL, NULL, NULL);
 			return (NULL);
