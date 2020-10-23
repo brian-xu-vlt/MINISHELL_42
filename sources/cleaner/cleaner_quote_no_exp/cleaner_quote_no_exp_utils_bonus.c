@@ -17,7 +17,7 @@ bool	is_only_quote(char *str)
 bool	is_clean_command(char *str)
 {
 	char	*clean_cmd[NB_CLEAN_COMMAND] = {"echo", "export", "unset", "env",
-											"exit"};
+		"exit"};
 	size_t	i;
 
 	i = 0;
@@ -27,5 +27,35 @@ bool	is_clean_command(char *str)
 			return (true);
 		i++;
 	}
+	return (false);
+}
+
+void	process_clean_command_quote(t_cmd *cmd, size_t i)
+{
+	char	*str_av;
+
+	str_av = ft_strdup(cmd->av[i]);
+	if (ft_strchr(cmd->av[i], EXP) == NULL)
+	{
+		free(cmd->av[i]);
+		cmd->av[i] = clean_quote_no_exp(str_av);
+	}
+	else
+	{
+		free(cmd->av[i]);
+		cmd->av[i] = clean_quote_exp(str_av);
+	}
+	free(str_av);
+}
+
+bool	is_clean(size_t i, char *tmp_av0, char *av)
+{
+	if ((i != 0 && is_clean_command(tmp_av0) == true) ||
+		(i == 0 && is_only_quote(av) == false) ||
+		(ft_strchr(av, EXP) == NULL
+			&& is_clean_command(tmp_av0) == true) ||
+		(ft_strchr(av, EXP) != NULL
+			&& is_clean_command(tmp_av0) == true))
+			return (true);
 	return (false);
 }

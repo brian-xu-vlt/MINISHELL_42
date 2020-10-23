@@ -3,72 +3,14 @@
 void	clean_quote(t_cmd *cmd)
 {
 	size_t	i;
-	char	*str_av;
 	char	*tmp_av0;
 
 	i = 0;
 	tmp_av0 = ft_strdup(cmd->av[0]);
 	while (i < (size_t)cmd->ac)
 	{
-		if (i != 0 && is_clean_command(tmp_av0) == true)
-		{
-			str_av = ft_strdup(cmd->av[i]);
-			if (ft_strchr(cmd->av[i], EXP) == NULL)
-			{
-				free(cmd->av[i]);
-				cmd->av[i] = clean_quote_no_exp(str_av);
-			}
-			else
-			{
-				free(cmd->av[i]);
-				cmd->av[i] = clean_quote_exp(str_av);
-			}
-			ft_printf("cmd->av[%d] CLEAN_COMMAND = %s\n", i, cmd->av[i]);//DEBUG
-			free(str_av);
-			i++;
-			continue ;
-		}
-		if (i == 0 && is_only_quote(cmd->av[i]) == false)
-		{
-			str_av = ft_strdup(cmd->av[i]);
-			if (ft_strchr(cmd->av[i], EXP) == NULL)
-			{
-				free(cmd->av[i]);
-				cmd->av[i] = clean_quote_no_exp(str_av);
-			}
-			else
-			{
-				free(cmd->av[i]);
-				cmd->av[i] = clean_quote_exp(str_av);
-			}
-			ft_printf("cmd->av[%d] ONLY QUOTE FALSE = %s\n", i, cmd->av[i]);//DEBUG
-			free(str_av);
-			i++;
-			continue ;
-		}
-		if (i == 0 && is_only_quote(cmd->av[i]) == true)
-		{
-			ft_printf("cmd->av[%d] ONLY QUOTE TRUE = %s\n", i, cmd->av[i]);//DEBUG
-			i++;
-			continue ;
-		}
-		if (ft_strchr(cmd->av[i], EXP) == NULL && is_clean_command(tmp_av0) == true)
-		{
-			str_av = ft_strdup(cmd->av[i]);
-			free(cmd->av[i]);
-			cmd->av[i] = clean_quote_no_exp(str_av);
-			ft_printf("cmd->av[%d] NO EXP = %s\n", i, cmd->av[i]);//DEBUG
-			free(str_av);
-		}
-		if (ft_strchr(cmd->av[i], EXP) != NULL && is_clean_command(tmp_av0) == true)
-		{
-			str_av = ft_strdup(cmd->av[i]);
-			free(cmd->av[i]);
-			cmd->av[i] = clean_quote_exp(str_av);
-			ft_printf("cmd->av[%d] EXP = %s\n", i, cmd->av[i]);//DEBUG
-			free(str_av);
-		}
-		ft_printf("cmd->av[%d] NO CLEAN_COMMAND = %s\n", i, cmd->av[i]);//DEBUG
+		if (is_clean(i, tmp_av0, cmd->av[i]) == true)
+			process_clean_command_quote(cmd, i);	
 		i++;
 	}
 	free(tmp_av0);

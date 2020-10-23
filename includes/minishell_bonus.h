@@ -153,6 +153,9 @@ bool								is_bad_ass_exp(t_cmd *cmd);
 enum e_cmd							get_cmd_type(t_cmd *cmd);
 bool								is_only_quote(char *str);
 bool								is_clean_command(char *str);
+void								process_clean_command_quote(t_cmd *cmd,
+																	size_t i);
+bool								is_clean(size_t i, char *tmp_av0, char *av);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/
