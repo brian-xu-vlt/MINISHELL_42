@@ -53,6 +53,7 @@
 
 #define DEL				"-$:/,@+=#%^*~[]{}.?'\" \t"
 
-#define NB_DEL			23		
+#define NB_DEL			23
+#define NO_ASSIGN_BUT_EXP	1	
 	
 #endif

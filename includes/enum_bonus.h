@@ -74,4 +74,11 @@ enum e_between
 	E_BOTH //3
 };
 
+enum e_cmd
+{
+	E_ANY,//0
+	E_EXPORT,//1
+	E_COMMAND//2
+};
+
 #endif

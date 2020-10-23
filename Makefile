@@ -119,6 +119,7 @@ SRCS += cleaner_between_nothing_bonus.c
 SRCS += cleaner_between_simple_bonus.c
 SRCS += cleaner_between_double_bonus.c
 SRCS += cleaner_between_both_bonus.c
+SRCS += cleaner_command_bonus.c
 
 OBJ_DIR = ./objs/
 
@@ -139,6 +140,9 @@ vpath %.c sources/line_editor/handlers/selection
 vpath %.c sources/line_editor/handlers/special_keys
 vpath %.c sources/command_job
 vpath %.c sources/cleaner
+vpath %.c sources/cleaner/cleaner_quote_exp
+vpath %.c sources/cleaner/cleaner_quote_no_exp
+vpath %.c sources/cleaner/cleaner_command
 vpath %.c TESTER_PARSER/
 vpath %.c TESTER_JOB_COMMAND/
 vpath %.c TESTER_CLEANER_QUOTE/

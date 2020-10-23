@@ -56,6 +56,7 @@ char	*clean_quote_no_exp(char *str)
 		old_state = state;
 		i++;
 	}
-	str = vct_getstr(vct_good);
+	str = ft_strdup(vct_getstr(vct_good));
+	vct_del(&vct_good);
 	return (str);
 }

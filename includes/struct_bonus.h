@@ -67,7 +67,7 @@ typedef struct				s_cmd
 	int						count_exp;
 	size_t					*tab_assign;
 	size_t					*tab_exp;
-	char					**envp;
+	char					**env;
 }
 							t_cmd;
 

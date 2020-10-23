@@ -35,27 +35,29 @@ t_list	*test_jobs(t_list *lexer_list);
 /*******************************_LEXER_****************************************/
 /******************************************************************************/
 
-t_list	*lexer(t_vector *input);
-size_t	get_token(char c);
-ssize_t	get_double_token(t_vector *input);
-void	free_list_token(t_list **token);
-int		handle_quote(t_vector *input, t_list **token_list, int ret);
-int 	extract_token(t_list **token_list, char *str, size_t type);
-void	exit_routine_lexer(t_vector *word, t_vector *vct, t_vector *tmp,
-							t_token *token);
-int		handle_assign_quote(t_vector *input, t_vector *word);
-int		quote_checker(char *str);
-bool	is_simplequote(t_vector *input);
+t_list					*lexer(t_vector *input);
+size_t					get_token(char c);
+ssize_t					get_double_token(t_vector *input);
+void					free_list_token(t_list **token);
+int						handle_quote(t_vector *input, t_list **token_list,
+										int ret);
+int 					extract_token(t_list **token_list, char *str,
+										size_t type);
+void					exit_routine_lexer(t_vector *word, t_vector *vct,
+											t_vector *tmp, t_token *token);
+int						handle_assign_quote(t_vector *input, t_vector *word);
+int						quote_checker(char *str);
+bool					is_simplequote(t_vector *input);
 typedef	enum e_state	(*t_state)(t_vector *);
-bool	is_doublequote(t_vector *input);
-bool	is_simplequote(t_vector *input);
-bool	is_end(t_vector *input);
-int		extract_token_word(t_list **token_list, t_vector *vct);
-char	*handle_bracket(char *str, t_list **token_list);
-int		get_new_type(t_vector *input);
-void	free_list_token(t_list **token);
-const char	*get_token_str(const int type);
-char	*get_data(int type);
+bool					is_doublequote(t_vector *input);
+bool					is_simplequote(t_vector *input);
+bool					is_end(t_vector *input);
+int						extract_token_word(t_list **token_list, t_vector *vct);
+char					*handle_bracket(char *str, t_list **token_list);
+int						get_new_type(t_vector *input);
+void					free_list_token(t_list **token);
+const char				*get_token_str(const int type);
+char					*get_data(int type);
 
 /******************************************************************************/
 /*******************************_PARSER_***************************************/
@@ -118,28 +120,37 @@ void	process_between_both(char *str, t_vector *vct_good);
 /*******************************_CLEANER_**************************************/
 /******************************************************************************/
 
-int		cleaner(t_cmd *cmd);
-void	clean_quote(t_cmd *cmd);
-void	debug_cleaner(t_cmd *cmd);
-void	debug_av(char **av, int ac);
-int		waiter(t_list *job_list);
-char	*clean_quote_no_exp(char *str);
-char 	*clean_quote_exp(char *str);
+int									cleaner(t_cmd *cmd);
+void								clean_quote(t_cmd *cmd);
+void								debug_cleaner(t_cmd *cmd);
+void								debug_av(char **av, int ac);
+int									waiter(t_list *job_list);
+char								*clean_quote_no_exp(char *str);
+char 								*clean_quote_exp(char *str);
 typedef	enum e_state_quote_no_exp	(*t_state_quote_no_exp)(char);
-char	*exp_value(char *str);
-char	*between_nothing(char *str);
-char	*between_simple(char *str);
-char	*between_double(char *str);
-char	*between_both(char *str);
-bool	is_del(char c);
-size_t	end_exp(char *str);
-size_t	handle_exp(size_t i, t_vector *vct_good, char *str);
-size_t	end_quote(char *str, size_t i, enum e_between quote);
-void	handle_simple(char *str, size_t i, size_t end_simple,
-						t_vector *vct_good);
-void	process_between_simple(char *str, t_vector *vct_good);
-void	process_between_double(char *str, t_vector *vct_good);
-void	handle_double(char *str, size_t i, size_t end_simple, t_vector *vct_good);
+char								*exp_value(char *str);
+char								*between_nothing(char *str);
+char								*between_simple(char *str);
+char								*between_double(char *str);
+char								*between_both(char *str);
+bool								is_del(char c);
+size_t								end_exp(char *str);
+size_t								handle_exp(size_t i, t_vector *vct_good,
+												char *str);
+size_t								end_quote(char *str, size_t i,
+												enum e_between quote);
+void								handle_simple(char *str, size_t i,
+													size_t end_simple,
+													t_vector *vct_good);
+void								process_between_simple(char *str,
+															t_vector *vct_good);
+void								process_between_double(char *str,
+															t_vector *vct_good);
+void								handle_double(char *str, size_t i,
+													size_t end_simple,
+													t_vector *vct_good);
+bool								is_bad_ass_exp(t_cmd *cmd);
+enum e_cmd							get_cmd_type(t_cmd *cmd);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/
