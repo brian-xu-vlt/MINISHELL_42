@@ -28,6 +28,7 @@ void	debug_cmd(t_cmd *cmd)
 		printf("|-> fd_string[%d] = [%s]\n", i, cmd->fd_string[i]);
 	printf("-------------------------------------\n");
 }
+
 void	debug_token_list(t_list *list)
 {
 	t_token	*token;
