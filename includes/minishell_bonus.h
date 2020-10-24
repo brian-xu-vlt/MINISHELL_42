@@ -169,6 +169,7 @@ enum e_cmd 							export_or_command(t_vector *vct, size_t i,
 bool								is_bad_ass(t_cmd *cmd,
 													enum e_cmd cmd_type);
 bool 								is_wrong_char_export(t_vector *vct);
+bool								is_quote_false(t_vector	*vct);
 
 	/******************************************************************************/
 	/*******************************_ERROR MANAGER_********************************/
