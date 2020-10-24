@@ -27,15 +27,9 @@ static bool process_bad_ass_export(t_cmd *cmd)
 				vct_del(&vct_av);
 				return (false);
 			}
-			if (is_wrong_char_export(vct_av) == true)
+			if (is_wrong_char(vct_av) == true)
 			{
 				ft_printf("PROCESS_BAD_ASS_EXPORT WRONG CHAR EXPORT\n");
-				vct_del(&vct_av);
-				return (false);
-			}
-			if (is_quote_false(vct_av) == true)
-			{
-				ft_printf("PROCESS BAD ASS EXPORT QUOTE FALSE\n");
 				vct_del(&vct_av);
 				return (false);
 			}
