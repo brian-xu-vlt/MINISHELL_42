@@ -53,11 +53,9 @@
 
 #define STR_EXPORT		"export"
 #define DEL				"`~!@#$%^&*()_-+={}[]:,.?/'\" \t"
-#define DEL_EXPORT		"`~!@#$%^&*()_-+={}[]:,.?/ \t"
 
 
 #define NB_DEL			29
-#define NB_DEL_EXPORT	27
 #define NO_ASSIGN_BUT_EXP	1	
 #define NB_CLEAN_COMMAND		5
 	

@@ -26,6 +26,7 @@ static int	clean_command(t_cmd *cmd)
 	if (cmd->count_assign != 0 && cmd->count_exp != 0)
 		ass_or_exp = NO_ASSIGN_BUT_EXP;
 	cmd_type = get_cmd_type(cmd);
+	ft_printf("CMD TYPE = %d\n", cmd_type);
 	is_bad = is_bad_ass(cmd, cmd_type);
 }
 

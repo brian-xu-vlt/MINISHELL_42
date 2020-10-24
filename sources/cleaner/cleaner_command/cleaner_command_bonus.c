@@ -23,13 +23,11 @@ static bool process_bad_ass_export(t_cmd *cmd)
 			vct_cutfrom(vct_av, vct_getlen(vct_av) - id_equal);
 			if (ft_isdigit(vct_getfirstchar(vct_av)) == TRUE)
 			{
-				ft_printf("PROCESS_BAD_ASS_EXPORT FIRST DIGIT\n");
 				vct_del(&vct_av);
 				return (false);
 			}
 			if (is_wrong_char(vct_av) == true)
 			{
-				ft_printf("PROCESS_BAD_ASS_EXPORT WRONG CHAR EXPORT\n");
 				vct_del(&vct_av);
 				return (false);
 			}
