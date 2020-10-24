@@ -149,7 +149,6 @@ void								process_between_double(char *str,
 void								handle_double(char *str, size_t i,
 													size_t end_simple,
 													t_vector *vct_good);
-bool								is_bad_ass_exp(t_cmd *cmd);
 enum e_cmd							get_cmd_type(t_cmd *cmd);
 bool								is_only_quote(char *str);
 bool								is_clean_command(char *str);
@@ -167,6 +166,9 @@ bool 								is_wrong_char(t_vector *vct);
 enum e_cmd 							export_or_command(t_vector *vct, size_t i,
 														size_t id_equal,
 														size_t ac);
+bool								is_bad_ass(t_cmd *cmd,
+													enum e_cmd cmd_type);
+bool 								is_wrong_char_export(t_vector *vct);
 
 	/******************************************************************************/
 	/*******************************_ERROR MANAGER_********************************/

@@ -22,13 +22,11 @@ static int	clean_command(t_cmd *cmd)
 	bool		is_bad;
 	enum e_cmd	cmd_type;
 
-	ft_printf("CLEAN COMMAND\n");//
 	ass_or_exp = FALSE;
 	if (cmd->count_assign != 0 && cmd->count_exp != 0)
 		ass_or_exp = NO_ASSIGN_BUT_EXP;
 	cmd_type = get_cmd_type(cmd);
-	ft_printf("CMD_TYPE = %d\n", cmd_type);//DEBUG
-	is_bad = is_bad_ass_exp(cmd);
+	is_bad = is_bad_ass(cmd, cmd_type);
 }
 
 int	cleaner(t_cmd *cmd)

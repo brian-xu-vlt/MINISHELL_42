@@ -1,8 +1,20 @@
 #include "minishell_bonus.h"
 
-bool is_bad_ass_exp(t_cmd *cmd)
+bool is_wrong_char(t_vector *vct)
 {
-	ft_printf("IS_BAD_ASS_EXP\n"); //
+	size_t i;
+
+	while (vct_getlen(vct) > 0)
+	{
+		i = 0;
+		while (i < NB_DEL)
+		{
+			if (vct_getfirstchar(vct) == DEL[i])
+				return (true);
+			i++;
+		}
+		vct_pop(vct);
+	}
 	return (false);
 }
 
@@ -34,7 +46,6 @@ size_t verif_assign(t_vector *vct_av, size_t id_equal)
 	vct = vct_new();
 	vct_cpy(vct, vct_av);
 	vct_cutfrom(vct, vct_getlen(vct) - id_equal);
-	ft_printf("VCT = %s\n", vct_getstr(vct)); //DEBUG
 	if (vct_getlen(vct) == 0)
 	{
 		vct_del(&vct);
@@ -52,22 +63,4 @@ size_t verif_assign(t_vector *vct_av, size_t id_equal)
 	}
 	vct_del(&vct);
 	return (true);
-}
-
-bool is_wrong_char(t_vector *vct)
-{
-	size_t i;
-
-	while (vct_getlen(vct) > 0)
-	{
-		i = 0;
-		while (i < NB_DEL)
-		{
-			if (vct_getfirstchar(vct) == DEL[i])
-				return (true);
-			i++;
-		}
-		vct_pop(vct);
-	}
-	return (false);
 }
