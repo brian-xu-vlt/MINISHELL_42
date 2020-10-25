@@ -154,7 +154,8 @@ bool								is_only_quote(char *str);
 bool								is_clean_command(char *str);
 void								process_clean_command_quote(t_cmd *cmd,
 																	size_t i);
-bool								is_clean(size_t i, char *tmp_av0, char *av);
+bool								is_clean(size_t i, char *tmp_av0, char *av,
+												t_cmd *cmd);
 enum e_cmd 							export_or_command(t_vector *vct, size_t i,
 														size_t id_equal,
 														size_t ac);

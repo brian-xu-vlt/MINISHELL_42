@@ -18,13 +18,31 @@ bool is_wrong_char(t_vector *vct)
 	return (false);
 }
 
-bool is_clean(size_t i, char *tmp_av0, char *av)
+bool is_clean(size_t i, char *tmp_av0, char *av, t_cmd *cmd)
 {
+	size_t id_equal;
+	t_vector	*vct_av;
+
+	vct_av = vct_new();
+	vct_addstr(vct_av, tmp_av0);
+	id_equal = vct_clen(vct_av, ASSIGN);
+	if (id_equal != vct_getlen(vct_av))
+	{
+		if (verif_assign(vct_av, id_equal) == false)
+		{
+			vct_del(&vct_av);
+			return (false);
+		}
+	}
 	if ((i != 0 && is_clean_command(tmp_av0) == true) ||
 		(i == 0 && is_only_quote(av) == false) ||
 		(ft_strchr(av, EXP) == NULL && is_clean_command(tmp_av0) == true) ||
 		(ft_strchr(av, EXP) != NULL && is_clean_command(tmp_av0) == true))
-		return (true);
+		{
+			vct_del(&vct_av);
+			return (true);
+		}
+	vct_del(&vct_av);
 	return (false);
 }
 
