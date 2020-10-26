@@ -13,6 +13,7 @@ static void	clean(t_cmd *command)
 			if (command->av[i + 1] != NULL)
 				ft_strdel(&command->av[i + 1]);
 			command->ac = i;
+			command->redirection = TRUE;
 		}
 		i++;
 	}

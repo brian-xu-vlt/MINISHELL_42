@@ -22,6 +22,9 @@ static void		exec_subshell(const t_cmd *command, int p_in[2], int p_out[2])
 static int		execution_process(const t_cmd *command, const int nb_cmd,
 												int p_in[2], int p_out[2])
 {
+//		if (nb_cmd == 1 && command->name == NULL && command->env != NULL)
+			//DO ASSIGNATIONS export_execution_context_env(command);
+//	else if (ft_strequ(command->name, "exit") == TRUE)
 	if (ft_strequ(command->name, "exit") == TRUE)
 		exec_builtin(command);
 	else if (nb_cmd == 1 && is_builtin(command) == TRUE)
@@ -63,7 +66,7 @@ void			executor(const t_job *job)
 			do_pipe(p_out);
 		else
 			ft_memset(p_out, UNSET, sizeof(int[2]));
-//system("ls -la /proc/$$/fd");
+system("ls -la /proc/$$/fd ; echo \"\n\"");
 		execution_process(cmd_cursor->content, job->nb_cmd, p_in, p_out);
 		close_pipe_end(p_in[R_END]);
 		close_pipe_end(p_in[W_END]);
