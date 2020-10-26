@@ -79,6 +79,7 @@ void		debug(const int type);
 /*******************************_JOB/COMMAND_**********************************/
 /******************************************************************************/
 
+void	debug_jobs(t_list *job_list);
 t_list	*get_jobs(t_list *token_list);
 void	free_list_jobs(t_list **jobs);
 void	debug_token_list(t_list *list);
