@@ -61,6 +61,8 @@ void			executor(const t_job *job)
 		ret_value = 0;
 		if (i < job->nb_cmd - 1)
 			do_pipe(p_out);
+		else
+			ft_memset(p_out, UNSET, sizeof(int[2]));
 //system("ls -la /proc/$$/fd");
 		execution_process(cmd_cursor->content, job->nb_cmd, p_in, p_out);
 		close_pipe_end(p_in[R_END]);

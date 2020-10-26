@@ -54,15 +54,11 @@ void		dup_pipes(int p_in[2], int p_out[2])
 		dup2(p_in[R_END], STDIN_FILENO);
 		close_pipe_end(p_in[W_END]);
 	}
-	else
-		print_set_errno(errno, NULL, "1", NULL);
 	if (p_out[W_END] != UNSET && fstat(p_out[W_END], &statbuf) != FAILURE)
 	{
 		dup2(p_out[W_END], STDOUT_FILENO);
 		close_pipe_end(p_out[R_END]);
 	}
-	else
-		print_set_errno(errno, NULL, "2", NULL);
 }
 
 pid_t	fork_process(void)
