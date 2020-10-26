@@ -167,8 +167,7 @@ bool 								is_wrong_char(t_vector *vct);
 enum e_cmd 							export_or_command(t_vector *vct, size_t i,
 														size_t id_equal,
 														size_t ac);
-bool								is_bad_ass(t_cmd *cmd,
-													enum e_cmd cmd_type);
+bool								is_bad_ass(t_cmd *cmd);
 bool 								is_wrong_char_export(t_vector *vct_av);
 bool 								is_wrong_ass(t_vector *vct);
 bool 								process_wrong_ass(t_cmd *cmd, t_vector *vct,

@@ -1,10 +1,6 @@
 #include "minishell_bonus.h"
 
-static bool process_bad_ass_any(t_cmd *cmd)
-{
-}
-
-static bool process_bad_ass_export(t_cmd *cmd)
+bool is_bad_ass(t_cmd *cmd)
 {
 	size_t		i;
 	t_vector	*vct_av;
@@ -20,7 +16,7 @@ static bool process_bad_ass_export(t_cmd *cmd)
 			if (process_wrong_ass(cmd, vct_av, i_ass) == false)
 			{
 				vct_del(&vct_av);
-				return (false);
+				return (true);
 			}
 			vct_clear(vct_av);
 			if (i_ass + 1 != (size_t)cmd->count_assign)
@@ -29,20 +25,7 @@ static bool process_bad_ass_export(t_cmd *cmd)
 		i++;
 	}
 	vct_del(&vct_av);
-	return (true);
-}
-
-bool 		is_bad_ass(t_cmd *cmd, enum e_cmd cmd_type)
-{
-	if (cmd_type == E_EXPORT_EXEC || cmd_type == E_EXPORT_NO_EXEC)
-	{
-		process_bad_ass_export(cmd);
-	}
-	if (cmd_type == E_ANY)
-	{
-		process_bad_ass_any(cmd);
-	}
-	return (true);
+	return (false);
 }
 
 enum e_cmd process_get_cmd_type(t_vector *vct, size_t i, size_t ac)

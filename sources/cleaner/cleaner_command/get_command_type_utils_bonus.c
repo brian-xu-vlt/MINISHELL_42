@@ -42,6 +42,12 @@ bool		is_clean(size_t i, char *tmp_av0, char *av, t_cmd *cmd)
 			vct_del(&vct_av);
 			return (true);
 		}
+	if (is_only_quote(av) == true)
+	{
+		vct_del(&vct_av);
+		return (true);
+	}
+	ft_printf("IS_CLEAN == FALSE\n");
 	vct_del(&vct_av);
 	return (false);
 }
