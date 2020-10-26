@@ -134,7 +134,7 @@ char	*locate_binary_file(const char *bin_name);
 
 
 int		manage_exit_status(int wstatus, pid_t pid);
-void	close_pipe(int pipe_to_close[2]);
+void	close_pipe_end(int pipe_to_close);
 pid_t	fork_process(void);
 void	dup_pipes(int p_in[2], int p_out[2]);
 int		is_builtin(const t_cmd *command);

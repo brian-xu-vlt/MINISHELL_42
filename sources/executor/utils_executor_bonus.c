@@ -45,18 +45,24 @@ int	is_builtin(const t_cmd *command)
 
 void		dup_pipes(int p_in[2], int p_out[2])
 {
-	if (p_in[R_END] != UNSET || p_in[W_END] != UNSET)
+	int			dup_ret;
+	struct stat	statbuf;
+
+	dup_ret = 0;
+	if (p_in[R_END] != UNSET && fstat(p_in[R_END], &statbuf) != FAILURE)
 	{
 		dup2(p_in[R_END], STDIN_FILENO);
-		close(p_in[W_END]);
-		p_in[W_END] = UNSET;
+		close_pipe_end(p_in[W_END]);
 	}
-	if (p_out[R_END] != UNSET || p_out[W_END] != UNSET)
+	else
+		print_set_errno(errno, NULL, "1", NULL);
+	if (p_out[W_END] != UNSET && fstat(p_out[W_END], &statbuf) != FAILURE)
 	{
 		dup2(p_out[W_END], STDOUT_FILENO);
-		close(p_out[R_END]);
-		p_out[R_END] = UNSET;
+		close_pipe_end(p_out[R_END]);
 	}
+	else
+		print_set_errno(errno, NULL, "2", NULL);
 }
 
 pid_t	fork_process(void)
@@ -72,16 +78,17 @@ pid_t	fork_process(void)
 	return (pid_ret);
 }
 
-void		close_pipe(int pipe_to_close[2])
+void		close_pipe_end(int pipe_to_close)
 {
-	if (pipe_to_close[R_END] != UNSET)
+	int		close_ret;
+
+	close_ret = 0;
+	if (pipe_to_close != UNSET)
 	{
-		close(pipe_to_close[R_END]);
-		pipe_to_close[R_END] = UNSET;
-	}
-	if (pipe_to_close[W_END] != UNSET)
-	{
-		close(pipe_to_close[W_END]);	
-		pipe_to_close[W_END] = UNSET;
+		close_ret = close(pipe_to_close);
+		//if (DEBUG_MODE == TRUE && close_ret == FAILURE) // TO CHANGE BACK 
+		if (close_ret == FAILURE)
+			print_set_errno(errno, NULL, "close pipe: ", NULL);
+		pipe_to_close = UNSET;
 	}
 }

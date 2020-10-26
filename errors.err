@@ -1,0 +1,7 @@
+sources/executor/executor_bonus.c:66:3: error: implicit declaration of function 'close_pipe' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                close_pipe(p_in[R_END]);
+                ^
+1 error generated.
+make[1]: *** [objs/executor_bonus.o] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [all] Error 2
