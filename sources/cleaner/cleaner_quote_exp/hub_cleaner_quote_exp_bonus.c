@@ -4,8 +4,8 @@ static enum e_between	is_between(char *str)
 {
 	t_vector	*vct;
 	t_vector	*vct_cpy;
-	ssize_t	nb_simple;
-	ssize_t	nb_double;
+	ssize_t		nb_simple;
+	ssize_t		nb_double;
 
 	vct = vct_new();
 	vct_cpy = vct_new();
@@ -22,7 +22,7 @@ static enum e_between	is_between(char *str)
 	return (nb_double != 0 && nb_simple != 0 ? E_BOTH : E_NOTHING);
 }
 
-static char	*hub_between_function(enum e_between between, char *str)
+static char				*hub_between_function(enum e_between between, char *str)
 {
 	char	*good_str;
 
@@ -37,7 +37,7 @@ static char	*hub_between_function(enum e_between between, char *str)
 	return (good_str);
 }
 
-char	*clean_quote_exp(char *str)
+char					*clean_quote_exp(char *str)
 {
 	t_vector		*vct_cmd;
 	enum e_between	between;

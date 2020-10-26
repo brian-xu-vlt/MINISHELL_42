@@ -6,10 +6,9 @@ static bool process_bad_ass_any(t_cmd *cmd)
 
 static bool process_bad_ass_export(t_cmd *cmd)
 {
-	size_t i;
-	t_vector *vct_av;
-	size_t id_equal;
-	size_t i_ass;
+	size_t		i;
+	t_vector	*vct_av;
+	size_t		i_ass;
 
 	i = 0;
 	vct_av = vct_new();
@@ -18,15 +17,7 @@ static bool process_bad_ass_export(t_cmd *cmd)
 	{
 		if (i == (size_t)cmd->tab_assign[i_ass])
 		{
-			vct_addstr(vct_av, cmd->av[cmd->tab_assign[i_ass]]);
-			id_equal = vct_clen(vct_av, ASSIGN);
-			vct_cutfrom(vct_av, vct_getlen(vct_av) - id_equal);
-			if (ft_isdigit(vct_getfirstchar(vct_av)) == TRUE)
-			{
-				vct_del(&vct_av);
-				return (false);
-			}
-			if (is_wrong_char(vct_av) == true)
+			if (process_wrong_ass(cmd, vct_av, i_ass) == false)
 			{
 				vct_del(&vct_av);
 				return (false);
@@ -41,7 +32,7 @@ static bool process_bad_ass_export(t_cmd *cmd)
 	return (true);
 }
 
-bool is_bad_ass(t_cmd *cmd, enum e_cmd cmd_type)
+bool 		is_bad_ass(t_cmd *cmd, enum e_cmd cmd_type)
 {
 	if (cmd_type == E_EXPORT_EXEC || cmd_type == E_EXPORT_NO_EXEC)
 	{
@@ -75,9 +66,9 @@ enum e_cmd process_get_cmd_type(t_vector *vct, size_t i, size_t ac)
 
 enum e_cmd get_cmd_type(t_cmd *cmd)
 {
-	size_t i;
-	t_vector *vct_av;
-	enum e_cmd cmd_type;
+	size_t		i;
+	t_vector	*vct_av;
+	enum e_cmd	cmd_type;
 
 	i = 0;
 	vct_av = vct_new();

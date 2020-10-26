@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-void	clean_quote(t_cmd *cmd)
+void		clean_quote(t_cmd *cmd)
 {
 	size_t	i;
 	char	*tmp_av0;
@@ -10,7 +10,7 @@ void	clean_quote(t_cmd *cmd)
 	while (i < (size_t)cmd->ac)
 	{
 		if (is_clean(i, tmp_av0, cmd->av[i], cmd) == true)
-			process_clean_command_quote(cmd, i);	
+			process_clean_command_quote(cmd, i);
 		i++;
 	}
 	free(tmp_av0);

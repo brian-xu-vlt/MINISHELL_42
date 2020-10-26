@@ -1,6 +1,7 @@
 #include "minishell_bonus.h"
 
-void	handle_simple(char *str, size_t i, size_t end_simple, t_vector *vct_good)
+void	handle_simple(char *str, size_t i, size_t end_simple,
+						t_vector *vct_good)
 {
 	t_vector	*vct_simple;
 	char		*good_str;

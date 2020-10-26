@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-char		*exp_value(char *str)
+char	*exp_value(char *str)
 {
 	if (ft_strlen(str) == 0)
 		return (NULL);
@@ -11,7 +11,7 @@ char		*exp_value(char *str)
 
 char	*between_nothing(char *str)
 {
-	char	*good_str;
+	char		*good_str;
 	t_vector	*vct_good;
 	bool		is_exp;
 	size_t		i;
@@ -39,7 +39,7 @@ char	*between_nothing(char *str)
 
 char	*between_simple(char *str)
 {
-	char	*good_str;
+	char		*good_str;
 	t_vector	*vct_good;
 
 	ft_printf("BETWEEN_SIMPLE\n");//DEBUG
@@ -53,7 +53,7 @@ char	*between_simple(char *str)
 
 char	*between_double(char *str)
 {
-	char	*good_str;
+	char		*good_str;
 	t_vector	*vct_good;
 
 	ft_printf("BETWEEN_DOUBLE\n");//DEBUG
@@ -67,7 +67,7 @@ char	*between_double(char *str)
 
 char	*between_both(char *str)
 {
-	char	*good_str;
+	char		*good_str;
 	t_vector	*vct_good;
 	
 	ft_printf("BETWEEN_BOTH\n");//DEBUG

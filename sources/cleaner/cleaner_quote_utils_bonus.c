@@ -16,9 +16,9 @@ bool is_only_quote(char *str)
 
 bool is_clean_command(char *str)
 {
-	char *clean_cmd[NB_CLEAN_COMMAND] = {"echo", "export", "unset", "env",
-										 "exit"};
-	size_t i;
+	char	*clean_cmd[NB_CLEAN_COMMAND] = {"echo", "export", "unset", "env",
+											"exit"};
+	size_t	i;
 
 	i = 0;
 	while (i < NB_CLEAN_COMMAND)

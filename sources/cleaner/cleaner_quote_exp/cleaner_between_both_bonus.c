@@ -20,7 +20,7 @@ static size_t	process_double(char *str, size_t i, t_vector *vct_good)
 	return (end_double);
 }
 
-void	process_between_both(char *str, t_vector *vct_good)
+void			process_between_both(char *str, t_vector *vct_good)
 {
 	size_t		i;
 

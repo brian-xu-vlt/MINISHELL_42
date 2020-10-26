@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-bool is_wrong_char(t_vector *vct)
+bool		is_wrong_char(t_vector *vct)
 {
 	size_t i;
 
@@ -18,9 +18,9 @@ bool is_wrong_char(t_vector *vct)
 	return (false);
 }
 
-bool is_clean(size_t i, char *tmp_av0, char *av, t_cmd *cmd)
+bool		is_clean(size_t i, char *tmp_av0, char *av, t_cmd *cmd)
 {
-	size_t id_equal;
+	size_t		id_equal;
 	t_vector	*vct_av;
 
 	vct_av = vct_new();
@@ -57,7 +57,7 @@ enum e_cmd export_or_command(t_vector *vct, size_t i, size_t id_equal,
 	return (E_ANY);
 }
 
-size_t verif_assign(t_vector *vct_av, size_t id_equal)
+size_t		verif_assign(t_vector *vct_av, size_t id_equal)
 {
 	t_vector *vct;
 

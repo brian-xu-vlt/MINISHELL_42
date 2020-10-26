@@ -23,7 +23,8 @@ static enum e_state_quote_no_exp	in_simple_quote(char c)
 	return (E_IN_SIMPLE_QUOTE);
 }
 
-static bool	is_pop_char(int old_state, enum e_state_quote_no_exp state)
+static bool							is_pop_char(int old_state,
+												enum e_state_quote_no_exp state)
 {
 	if ((old_state == FAILURE && state == E_IN_SIMPLE_QUOTE) ||
 			(old_state == FAILURE && state == E_IN_DOUBLE_QUOTE) ||
@@ -35,7 +36,7 @@ static bool	is_pop_char(int old_state, enum e_state_quote_no_exp state)
 	return (false);
 }
 
-char	*clean_quote_no_exp(char *str)
+char								*clean_quote_no_exp(char *str)
 {
 	t_vector					*vct_good;
 	t_state_quote_no_exp		function_state[] = {in_simple_quote,
