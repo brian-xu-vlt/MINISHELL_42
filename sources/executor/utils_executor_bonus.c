@@ -61,6 +61,7 @@ void		dup_pipes(int p_in[2], int p_out[2])
 	}
 }
 
+
 pid_t	fork_process(void)
 {
 	pid_t	pid_ret;
