@@ -155,10 +155,10 @@ void	print_set_errno(int errno_value, const char *err_str,
 /*******************************_BUILTINS_*************************************/
 /******************************************************************************/
 
-int		exit_builtin(int ac, char **av);
-int		env_builtin(int argc, char **argv);
-int		export_builtin(int argc, char **argv);
-int		unset_builtin(int argc, char **argv);
+int		exit_builtin(int ac, char **av, char **envp);
+int		env_builtin(int argc, char **argv, char **envp);
+int		export_builtin(int argc, char **argv, char **envp);
+int		unset_builtin(int argc, char **argv, char **envp);
 
 /******************************************************************************/
 /*******************************_ENV_MANAGER_**********************************/

@@ -5,7 +5,7 @@ static void		exec_subshell(const t_cmd *command, int p_in[2], int p_out[2])
 	pid_t	pid;
 	
 	pid = fork_process();
-	if (pid == FAILURE) //implement error managment
+	if (pid == FAILURE) 						//implement error managment
 		return ;
 	else if (pid == 0)
 	{
@@ -14,7 +14,7 @@ static void		exec_subshell(const t_cmd *command, int p_in[2], int p_out[2])
 			exec_builtin(command);
 		else	
 			exec_binary(command);
-		exit(42); //to change
+		exit(42);											 //to change
 	}
 	else if (pid != 0 && pid != FAILURE)
 		ms_setenv_int(get_env_list(GET), "!", (int)pid, F_OVERWRITE);
@@ -61,7 +61,7 @@ void			executor(const t_job *job)
 		ret_value = 0;
 		if (i < job->nb_cmd - 1)
 			do_pipe(p_out);
-		system("ls -la /proc/$$/fd");
+//system("ls -la /proc/$$/fd");
 		execution_process(cmd_cursor->content, job->nb_cmd, p_in, p_out);
 		close_pipe_end(p_in[R_END]);
 		close_pipe_end(p_in[W_END]);

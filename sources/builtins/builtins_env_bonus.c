@@ -2,10 +2,10 @@
 
 // return int mais pas sur, peut etre juste utiliser le errno.
 
-int	exit_builtin(int ac, char **av)
+int	exit_builtin(int ac, char **av, char **envp)
 {
 	const char	*builtin = "exit";
-
+(void)envp;
 	if (ft_strequ(av[0], (char *)builtin) == FALSE)
 		return (0);
 	if (ac == 1)
@@ -13,9 +13,10 @@ int	exit_builtin(int ac, char **av)
 	return (SUCCESS);
 }
 
-int	env_builtin(int ac, char **av)
+int	env_builtin(int ac, char **av, char **envp)
 {
 	const char	*builtin = "env";
+(void)envp;
 
 	if (ft_strequ(av[0], (char *)builtin) == FALSE)
 		return (0);
@@ -29,10 +30,11 @@ int	env_builtin(int ac, char **av)
 	return (SUCCESS);
 }
 
-int	export_builtin(int ac, char **av)
+int	export_builtin(int ac, char **av, char **envp)
 {
 	const char	*builtin = "export";
 	int			i;
+(void)envp;
 
 	if (ft_strequ(av[0], (char *)builtin) == FALSE)
 		return (0);
@@ -55,11 +57,12 @@ int	export_builtin(int ac, char **av)
 	return (SUCCESS);
 }
 
-int	unset_builtin(int ac, char **av)
+int	unset_builtin(int ac, char **av, char **envp)
 {
 	const char	*builtin = "unset";
 	int			i;
 
+(void)envp;
 	if (ac == 1 || ft_strequ(av[0], (char *)builtin) == FALSE)
 		return (0);
 	else

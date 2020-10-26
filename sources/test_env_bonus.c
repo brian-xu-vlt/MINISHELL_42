@@ -9,7 +9,7 @@ static void	debug_export(t_vector *input)
 	ac = 0;
 	while (av[ac] != NULL)
 		ac++;
-	export_builtin(ac, av);
+	export_builtin(ac, av, NULL);
 	ac = 0;
 	while (av[ac] != NULL)
 		free(av[ac++]);
@@ -44,7 +44,7 @@ static void	debug_unset(t_vector *input)
 	ac = 0;
 	while (av[ac] != NULL)
 		ac++;
-	unset_builtin(ac, av);
+	unset_builtin(ac, av, NULL);
 	ac = 0;
 	while (av[ac] != NULL)
 		free(av[ac++]);
@@ -60,7 +60,7 @@ static void	debug_env(t_vector *input)
 	ac = 0;
 	while (av[ac] != NULL)
 		ac++;
-	env_builtin(ac, av);
+	env_builtin(ac, av, NULL);
 	ac = 0;
 	while (av[ac] != NULL)
 		free(av[ac++]);
