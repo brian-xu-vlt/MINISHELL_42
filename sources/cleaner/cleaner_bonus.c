@@ -23,25 +23,15 @@ static int	clean_command(t_cmd *cmd)
 	enum e_cmd	cmd_type;
 
 	ass_or_exp = FALSE;
+	is_bad = false;
 	if (cmd->count_assign != 0 && cmd->count_exp != 0)
 		ass_or_exp = NO_ASSIGN_BUT_EXP;
 	cmd_type = get_cmd_type(cmd);
 	ft_printf("CMD TYPE = %d\n", cmd_type);
-	is_bad = is_bad_ass(cmd);
+	if (cmd->count_assign != 0)
+		is_bad = is_bad_ass(cmd);
 	ft_printf("IS BAD = %d\n", is_bad);//DEBUG
-	//TRY/////////////////////////////////////////////
-	if (cmd_type == E_EXPORT_EXEC || cmd_type == E_EXPORT_NO_EXEC)
-	{
-		if (cmd->count_assign != 0 && is_bad == false)
-			//POP ET ENV
-		else if (cmd->count_assign != 0 && is_bad == true)
-			//POP ET PAS ENV
-	
-	
-	}
-
-
-	//TRY////////////////////////////////////////////
+	process_clean_command(cmd, ass_or_exp, is_bad, cmd_type);
 }
 
 int	cleaner(t_cmd *cmd)
