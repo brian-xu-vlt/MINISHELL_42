@@ -71,6 +71,14 @@ typedef struct				s_cmd
 }
 							t_cmd;
 
+typedef struct				s_clean_cmd
+{
+	size_t	count_assign;
+	size_t	ac;
+	size_t	index_export;
+}
+							t_clean_cmd;
+
 typedef struct					s_job
 {
 	t_list					*cmd_lst;
