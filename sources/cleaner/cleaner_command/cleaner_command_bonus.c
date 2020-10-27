@@ -58,7 +58,10 @@ enum e_cmd get_cmd_type(t_cmd *cmd)
 	while (i < (size_t)cmd->ac)
 	{
 		vct_addstr(vct_av, cmd->av[i]);
-		cmd_type = process_get_cmd_type(vct_av, i, cmd->ac);
+		if (vct_getlen(vct_av) == 0)
+			cmd_type = E_ANY;
+		else
+			cmd_type = process_get_cmd_type(vct_av, i, cmd->ac);
 		if (cmd_type != E_ANY)
 		{
 			vct_del(&vct_av);
