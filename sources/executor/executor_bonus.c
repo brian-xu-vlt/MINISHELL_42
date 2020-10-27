@@ -9,7 +9,7 @@ static void		exec_subshell(const t_cmd *command, int p_in[2], int p_out[2])
 		return ;
 	else if (pid == 0)
 	{
-		dup_pipes(p_in, p_out);
+		dup_pipes(command, p_in, p_out);
 		if (is_builtin(command) == TRUE)
 			exec_builtin(command);
 		else	
@@ -27,10 +27,12 @@ static int		execution_process(const t_cmd *command, const int nb_cmd,
 //	else if (ft_strequ(command->name, "exit") == TRUE)
 	if (ft_strequ(command->name, "exit") == TRUE)
 		exec_builtin(command);
-	else if (nb_cmd == 1 && is_builtin(command) == TRUE)
+	else if (nb_cmd == 1 && is_builtin(command) == TRUE && command->redirection == 0)
 		exec_builtin(command);
 	else
 		exec_subshell(command, p_in, p_out);
+	if (command->redirection > 0)
+		close(command->fd[STDOUT_FILENO]);
 	return (21);
 }
 
@@ -39,6 +41,7 @@ static void		do_pipe(int pipe_fd[2])
 	int		pipe_ret;
 
 	pipe_ret = pipe(pipe_fd);
+	ft_printf("Just PIPED : [%d, %d]\n", pipe_fd[0], pipe_fd[1]);
 	if (pipe_ret == FAILURE)
 		print_set_errno(errno, NULL, "do pipe: ", NULL);
 }
@@ -62,7 +65,7 @@ void			executor(const t_job *job)
 	while (i < job->nb_cmd && cmd_cursor->content != NULL)
 	{
 		ret_value = 0;
-		if (i < job->nb_cmd - 1)
+		if (i < job->nb_cmd - 1 || ((t_cmd *)cmd_cursor->content)->redirection == 1)
 			do_pipe(p_out);
 		else
 			ft_memset(p_out, UNSET, sizeof(int[2]));
@@ -72,6 +75,11 @@ system("ls -la /proc/$$/fd ; echo \"\n\"");
 		close_pipe_end(p_in[W_END]);
 		if (i < job->nb_cmd - 1)
 			ft_memmove(p_in, p_out, sizeof(int[2]));
+		else
+		{
+			close_pipe_end(p_out[R_END]);
+			close_pipe_end(p_out[W_END]);
+		}
 		cmd_cursor = cmd_cursor->next;
 		pid = wait(&wstatus);
 		i++;

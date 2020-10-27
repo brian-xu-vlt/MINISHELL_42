@@ -14,26 +14,26 @@ static void	clean(t_cmd *command)
 	{
 		if (ft_strequ(command->av[i], ">") == TRUE || ft_strequ(command->av[i], ">>") == TRUE)
 		{
-			if (command->av[i + 1] == NULL)
-				return ;
 			mode_flags = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
-			open_flags = O_WRONLY | O_CREAT | O_TRUNC;
-			if (ft_strequ(command->av[i], ">") == TRUE)
-					open_flags |= O_APPEND;
+			if (ft_strequ(command->av[i], ">>") == TRUE)
+				open_flags = O_WRONLY | O_CREAT | O_APPEND;
+			else
+				open_flags = O_WRONLY | O_CREAT | O_TRUNC;
 			file_path = vct_new();
 			if (file_path == NULL)
 				exit_routine_le(ERR_MALLOC);
 			vct_addstr(file_path, "/tmp/toto/");
 			vct_addstr(file_path, command->av[i + 1]);
-			ft_printf("path ======== %s\n\n", vct_getstr(file_path));
 			command->fd[STDOUT_FILENO] = open(vct_getstr(file_path), open_flags, mode_flags);
 			vct_del(&file_path);
 			ft_strdel(&command->av[i]);
 			if (command->av[i + 1] != NULL)
 				ft_strdel(&command->av[i + 1]);
 			command->ac = i;
-			if (command->fd[1] < 0)
+			if (command->fd[STDOUT_FILENO] < 0)
 				command->redirection = FAILURE;
+			else
+				command->redirection = 1;
 		}
 		i++;
 	}
