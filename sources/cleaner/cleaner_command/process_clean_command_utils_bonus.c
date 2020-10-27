@@ -1,5 +1,17 @@
 #include "minishell_bonus.h"
 
+void			free_clean_command(t_clean_cmd *clean_cmd)
+{
+	size_t	i;
+
+	i = 0;
+	free(clean_cmd->av);
+	/*while (i < clean_cmd->ac)
+	{
+		free(clean_cmd->av[i]);
+	}*/
+}
+
 static int		fill_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
 {
 	size_t	i;

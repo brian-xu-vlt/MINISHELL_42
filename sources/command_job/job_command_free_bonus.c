@@ -17,6 +17,13 @@ static void	del_cmd(void *data)
 		free(cmd->av[i]);
 		i++;
 	}
+	i = 0;
+	while (i < cmd->count_assign)
+	{
+		free(cmd->envp[i]);
+		i++;
+	}
+	free(cmd->envp);
 	free(cmd->av);
 	free(cmd->tab_assign);
 	free(cmd->tab_exp);

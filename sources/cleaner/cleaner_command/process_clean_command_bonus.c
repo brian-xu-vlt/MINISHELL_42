@@ -69,6 +69,8 @@ static int process_command_export(t_cmd *cmd, int ass_or_exp, bool is_bad,
 	else if (cmd->count_assign != 0 && is_bad == true)
 		ft_printf("EXPORT POP PAS ENV\n");
 	//POP ET PAS ENV*/
+	free_clean_command(clean_cmd);
+	free(clean_cmd);
 	return (SUCCESS);
 }
 
