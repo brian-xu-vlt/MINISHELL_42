@@ -39,11 +39,11 @@ static int process_command_export(t_cmd *cmd, int ass_or_exp, bool is_bad,
 	size_t		i;
 
 	i = 0;
-	/*while (i < (size_t)cmd->ac)
+	while (i < (size_t)cmd->ac)
 	{
 		process_clean_command_quote(cmd, i);
 		i++;
-	}*/
+	}
 	clean_cmd = init_clean_command();
 	if (clean_cmd == NULL)
 	{

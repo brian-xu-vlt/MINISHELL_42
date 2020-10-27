@@ -35,6 +35,7 @@ void		fill_clean_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	i_av = 0;
 	while (i < (size_t)cmd->ac)
 	{
+		ft_printf("I = %d\n", i);//DEBUG
 		if (i < clean_cmd->count_assign)
 		{
 			cmd->envp[i_ass] = ft_strdup(cmd->av[i]);
@@ -55,7 +56,7 @@ int	init_tab_assign_ac(t_clean_cmd *clean_cmd, t_cmd *cmd)
 	clean_cmd->av = (char **)malloc(sizeof(char *) * clean_cmd->ac);
 	if (clean_cmd->av == NULL)
 		return (FAILURE);//ERROR
-	cmd->envp = (char **)malloc(sizeof(char *) * clean_cmd->ac);
+	cmd->envp = (char **)malloc(sizeof(char *) * clean_cmd->count_assign);
 	if (cmd->envp == NULL)
 		return (FAILURE);//ERROR
 }
