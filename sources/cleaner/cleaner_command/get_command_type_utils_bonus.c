@@ -28,25 +28,14 @@ bool		is_clean(size_t i, char *tmp_av0, char *av, t_cmd *cmd)
 	id_equal = vct_clen(vct_av, ASSIGN);
 	if (id_equal != vct_getlen(vct_av))
 	{
-		if (verif_assign(vct_av, id_equal) == false)
+		if ((verif_assign(vct_av, id_equal) == false
+				&& i != 0 && is_clean_command(tmp_av0) == false) ||
+				(i == 0 && is_only_quote(av) == false) || (is_only_quote(av) == true))
 		{
 			vct_del(&vct_av);
 			return (false);
 		}
 	}
-	/*if ((i != 0 && is_clean_command(tmp_av0) == true) ||
-		(i == 0 && is_only_quote(av) == false) ||
-		(ft_strchr(av, EXP) == NULL && is_clean_command(tmp_av0) == true) ||
-		(ft_strchr(av, EXP) != NULL && is_clean_command(tmp_av0) == true))
-		{
-			vct_del(&vct_av);
-			return (true);
-		}
-	if (is_only_quote(av) == true)
-	{
-		vct_del(&vct_av);
-		return (true);
-	}*/
 	vct_del(&vct_av);
 	return (true);
 }
