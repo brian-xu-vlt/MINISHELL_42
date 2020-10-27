@@ -24,7 +24,9 @@ bool		is_clean(size_t i, char *tmp_av0, char *av, t_cmd *cmd)
 	t_vector	*vct_av;
 
 	vct_av = vct_new();
-	vct_addstr(vct_av, tmp_av0);
+	ft_printf("TMP_AV0 = %s\n", tmp_av0);//DEBUG
+	ft_printf("AV = %s\n", av);//DEBUG
+	vct_addstr(vct_av, av);
 	id_equal = vct_clen(vct_av, ASSIGN);
 	if (id_equal != vct_getlen(vct_av))
 	{
@@ -34,7 +36,7 @@ bool		is_clean(size_t i, char *tmp_av0, char *av, t_cmd *cmd)
 			return (false);
 		}
 	}
-	if ((i != 0 && is_clean_command(tmp_av0) == true) ||
+	/*if ((i != 0 && is_clean_command(tmp_av0) == true) ||
 		(i == 0 && is_only_quote(av) == false) ||
 		(ft_strchr(av, EXP) == NULL && is_clean_command(tmp_av0) == true) ||
 		(ft_strchr(av, EXP) != NULL && is_clean_command(tmp_av0) == true))
@@ -46,10 +48,10 @@ bool		is_clean(size_t i, char *tmp_av0, char *av, t_cmd *cmd)
 	{
 		vct_del(&vct_av);
 		return (true);
-	}
+	}*/
 	ft_printf("IS_CLEAN == FALSE\n");
 	vct_del(&vct_av);
-	return (false);
+	return (true);
 }
 
 enum e_cmd export_or_command(t_vector *vct, size_t i, size_t id_equal,
@@ -70,6 +72,7 @@ size_t		verif_assign(t_vector *vct_av, size_t id_equal)
 	vct = vct_new();
 	vct_cpy(vct, vct_av);
 	vct_cutfrom(vct, vct_getlen(vct) - id_equal);
+	ft_printf("VCT = %s\n", vct_getstr(vct));//DEBUG
 	if (vct_getlen(vct) == 0)
 	{
 		vct_del(&vct);
@@ -77,6 +80,7 @@ size_t		verif_assign(t_vector *vct_av, size_t id_equal)
 	}
 	if (ft_isdigit(vct_getfirstchar(vct)) == TRUE)
 	{
+		ft_printf("IS_DIGIT == FALSE\n");//DEBUG
 		vct_del(&vct);
 		return (false);
 	}

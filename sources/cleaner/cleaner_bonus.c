@@ -10,7 +10,10 @@ void		clean_quote(t_cmd *cmd)
 	while (i < (size_t)cmd->ac)
 	{
 		if (is_clean(i, tmp_av0, cmd->av[i], cmd) == true)
+		{
+			ft_printf("IS_CLEAN == TRUE\n");
 			process_clean_command_quote(cmd, i);
+		}
 		i++;
 	}
 	free(tmp_av0);
