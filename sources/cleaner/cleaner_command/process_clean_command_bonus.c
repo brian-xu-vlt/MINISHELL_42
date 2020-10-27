@@ -10,6 +10,7 @@ static t_clean_cmd	*init_clean_command()
 	clean_cmd->count_assign = 0;
 	clean_cmd->ac = 0;
 	clean_cmd->index_export = 0;
+	clean_cmd->av = NULL;
 	return (clean_cmd);
 }
 
@@ -47,6 +48,11 @@ static t_clean_cmd *process_command_export(t_cmd *cmd, int ass_or_exp, bool is_b
 	ft_printf("CLEAN_CMD->COUNT_ASSIGN = %d\n", clean_cmd->count_assign);//DEBUG
 	ft_printf("CLEAN_CMD->AC = %d\n", clean_cmd->ac);//DEBUG
 	ft_printf("CLEAN_CMD->INDEX_EXPORT = %d\n", clean_cmd->index_export);//DEBUG
+	if (init_tab_assign_ac(clean_cmd, cmd) == FAILURE)
+	{
+		ft_printf("PAS DE FAILURE\n");
+		return (NULL);
+	}
 	/*if (cmd->count_assign != 0 && is_bad == false)
 		ft_printf("EXPORT POP ENV\n");
 	else if (cmd->count_assign != 0 && is_bad == true)

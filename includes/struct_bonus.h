@@ -76,6 +76,7 @@ typedef struct				s_clean_cmd
 	size_t	count_assign;
 	size_t	ac;
 	size_t	index_export;
+	char	**av;
 }
 							t_clean_cmd;
 

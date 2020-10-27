@@ -179,6 +179,8 @@ int									process_clean_command(t_cmd *cmd,
 void								count_ac_assign(t_cmd *cmd,
 														t_clean_cmd *clean_cmd,
 														bool is_bad);
+int									init_tab_assign_ac(t_clean_cmd *clean_cmd,
+														t_cmd *cmd);
 
 	/******************************************************************************/
 	/*******************************_ERROR MANAGER_********************************/
