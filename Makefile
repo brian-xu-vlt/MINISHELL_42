@@ -124,6 +124,7 @@ SRCS += cleaner_command_bonus.c
 SRCS += get_command_type_utils_bonus.c
 SRCS += bad_ass_utils_bonus.c
 SRCS += process_clean_command_bonus.c
+SRCS += process_clean_command_utils_bonus.c
 
 OBJ_DIR = ./objs/
 

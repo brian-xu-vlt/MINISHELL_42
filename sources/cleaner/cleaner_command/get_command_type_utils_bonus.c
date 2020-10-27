@@ -24,8 +24,6 @@ bool		is_clean(size_t i, char *tmp_av0, char *av, t_cmd *cmd)
 	t_vector	*vct_av;
 
 	vct_av = vct_new();
-	ft_printf("TMP_AV0 = %s\n", tmp_av0);//DEBUG
-	ft_printf("AV = %s\n", av);//DEBUG
 	vct_addstr(vct_av, av);
 	id_equal = vct_clen(vct_av, ASSIGN);
 	if (id_equal != vct_getlen(vct_av))
@@ -49,7 +47,6 @@ bool		is_clean(size_t i, char *tmp_av0, char *av, t_cmd *cmd)
 		vct_del(&vct_av);
 		return (true);
 	}*/
-	ft_printf("IS_CLEAN == FALSE\n");
 	vct_del(&vct_av);
 	return (true);
 }

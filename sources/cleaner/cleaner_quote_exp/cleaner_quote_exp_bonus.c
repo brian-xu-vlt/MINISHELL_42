@@ -20,7 +20,6 @@ char	*between_nothing(char *str)
 	vct_good = vct_new();
 	is_exp = false;
 	i = 0;
-	ft_printf("BETWEEN_NOTHING\n");//DEBUG
 	while (str[i] != '\0')
 	{
 		if (str[i] != EXP || (str[i] == EXP && i == ft_strlen(str) - 1))
@@ -42,7 +41,6 @@ char	*between_simple(char *str)
 	char		*good_str;
 	t_vector	*vct_good;
 
-	ft_printf("BETWEEN_SIMPLE\n");//DEBUG
 	good_str = NULL;
 	vct_good = vct_new();
 	process_between_simple(str, vct_good);
@@ -56,7 +54,6 @@ char	*between_double(char *str)
 	char		*good_str;
 	t_vector	*vct_good;
 
-	ft_printf("BETWEEN_DOUBLE\n");//DEBUG
 	good_str = NULL;
 	vct_good = vct_new();
 	process_between_double(str, vct_good);
@@ -70,7 +67,6 @@ char	*between_both(char *str)
 	char		*good_str;
 	t_vector	*vct_good;
 	
-	ft_printf("BETWEEN_BOTH\n");//DEBUG
 	good_str = NULL;
 	vct_good = vct_new();
 	process_between_both(str, vct_good);

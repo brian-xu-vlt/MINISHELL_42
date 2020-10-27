@@ -41,6 +41,12 @@ static t_clean_cmd *process_command_export(t_cmd *cmd, int ass_or_exp, bool is_b
 		ft_printf("CLEAN COMMAND == NULL");
 		return (NULL);
 	}
+	count_ac_assign(cmd, clean_cmd, is_bad);
+	clean_cmd->ac = cmd->ac - clean_cmd->count_assign;
+	ft_printf("AC = %d\n", cmd->ac);//DEBUG
+	ft_printf("CLEAN_CMD->COUNT_ASSIGN = %d\n", clean_cmd->count_assign);//DEBUG
+	ft_printf("CLEAN_CMD->AC = %d\n", clean_cmd->ac);//DEBUG
+	ft_printf("CLEAN_CMD->INDEX_EXPORT = %d\n", clean_cmd->index_export);//DEBUG
 	/*if (cmd->count_assign != 0 && is_bad == false)
 		ft_printf("EXPORT POP ENV\n");
 	else if (cmd->count_assign != 0 && is_bad == true)

@@ -176,6 +176,9 @@ int									process_clean_command(t_cmd *cmd,
 															int ass_or_exp,
 															bool is_bad,
 															enum e_cmd cmd_type);
+void								count_ac_assign(t_cmd *cmd,
+														t_clean_cmd *clean_cmd,
+														bool is_bad);
 
 	/******************************************************************************/
 	/*******************************_ERROR MANAGER_********************************/

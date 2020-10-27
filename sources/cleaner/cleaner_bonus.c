@@ -30,10 +30,9 @@ static int	clean_command(t_cmd *cmd)
 	if (cmd->count_assign != 0 && cmd->count_exp != 0)
 		ass_or_exp = NO_ASSIGN_BUT_EXP;
 	cmd_type = get_cmd_type(cmd);
-	ft_printf("CMD TYPE = %d\n", cmd_type);
+	ft_printf("CMD TYPE = %d\n\n", cmd_type);
 	if (cmd->count_assign != 0)
 		is_bad = is_bad_ass(cmd);
-	ft_printf("IS BAD = %d\n", is_bad);//DEBUG
 	process_clean_command(cmd, ass_or_exp, is_bad, cmd_type);
 }
 
