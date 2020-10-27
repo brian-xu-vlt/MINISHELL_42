@@ -78,7 +78,15 @@ int			main(int ac, char **av, char **envp)
 		}
 		jobs = process_minishell(cmd_line);
 		if (jobs != NULL)
-			waiter(jobs);
+		{
+			if (waiter(jobs) == FAILURE)
+			{
+				vct_clear(cmd_line);
+				free_list_job(&jobs);
+				exit_routine_le(NULL);
+				return (EXIT_FAILURE);
+			}
+		}
 		vct_clear(cmd_line);
 		free_list_job(&jobs);
 	}

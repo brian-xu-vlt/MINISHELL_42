@@ -24,7 +24,10 @@ int	waiter(t_list *job_list)
 				(cmd->condition == E_NOT_OR && ret_exec == false))
 			{
 				if (cleaner(cmd) == FAILURE)
+				{
+					ft_printf("CLEANER FAILURE\n");
 					return (FAILURE);
+				}
 				debug_cleaner(cmd);
 				ret_exec = executor; //UTILISER LE VRAI EXECUTOR
 			}

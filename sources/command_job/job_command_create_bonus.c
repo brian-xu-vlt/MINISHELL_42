@@ -62,6 +62,7 @@ void	init_cmd_var(t_cmd *cmd, t_list **list)
 	cmd->fd_string[2] = NULL;
 	cmd->condition = E_NONE;
 	cmd->redirection = FALSE;
+	cmd->envp = NULL;
 	if (*list != NULL)
 	{
 		token = (*list)->content;

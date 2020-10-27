@@ -58,5 +58,7 @@
 #define NB_DEL			29
 #define NO_ASSIGN_BUT_EXP	1	
 #define NB_CLEAN_COMMAND		5
+#define	ALL_FREE					1
+#define NOT_ALL_FREE					0
 	
 #endif

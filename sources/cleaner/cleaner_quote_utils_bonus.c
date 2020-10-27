@@ -47,3 +47,15 @@ void process_clean_command_quote(t_cmd *cmd, size_t i)
 	}
 	free(str_av);
 }
+
+void	iter_clean_quote(t_cmd *cmd, size_t size)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < size)
+	{
+		process_clean_command_quote(cmd, i);
+		i++;
+	}
+}

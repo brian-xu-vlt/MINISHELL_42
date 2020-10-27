@@ -23,7 +23,8 @@ static void	del_cmd(void *data)
 		free(cmd->envp[i]);
 		i++;
 	}
-	free(cmd->envp);
+	if (cmd->envp != NULL)
+		free(cmd->envp);
 	free(cmd->av);
 	free(cmd->tab_assign);
 	free(cmd->tab_exp);

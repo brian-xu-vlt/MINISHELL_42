@@ -181,9 +181,11 @@ void								count_ac_assign(t_cmd *cmd,
 														bool is_bad);
 int									init_tab_assign_ac(t_clean_cmd *clean_cmd,
 														t_cmd *cmd);
-void								fill_clean_cmd(t_cmd *cmd,
+int									fill_clean_cmd(t_cmd *cmd,
 													t_clean_cmd *clean_cmd);
-void								free_clean_command(t_clean_cmd *clean_cmd);
+void								iter_clean_quote(t_cmd *cmd, size_t size);
+void								free_clean_command(t_clean_cmd *clean_cmd,
+														int flag);
 
 	/******************************************************************************/
 	/*******************************_ERROR MANAGER_********************************/

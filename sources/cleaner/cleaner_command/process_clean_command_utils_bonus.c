@@ -1,15 +1,13 @@
 #include "minishell_bonus.h"
 
-void			free_clean_command(t_clean_cmd *clean_cmd)
+void		free_clean_command(t_clean_cmd *clean_cmd, int flag)
 {
-	size_t	i;
-
-	i = 0;
-	free(clean_cmd->av);
-	/*while (i < clean_cmd->ac)
+	if (flag == ALL_FREE)
 	{
-		free(clean_cmd->av[i]);
-	}*/
+		ft_printf("ALL\n");//DEBUG
+		free(clean_cmd->av);
+	}
+	free(clean_cmd);
 }
 
 static int		fill_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
@@ -34,9 +32,10 @@ static int		fill_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	}
 	cmd->ac = clean_cmd->ac;
 	cmd->count_assign = clean_cmd->count_assign;
+	return (SUCCESS);
 }
 
-void		fill_clean_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
+int		fill_clean_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
 {
 	size_t	i;
 	size_t	i_ass;
@@ -47,7 +46,6 @@ void		fill_clean_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	i_av = 0;
 	while (i < (size_t)cmd->ac)
 	{
-		ft_printf("I = %d\n", i);//DEBUG
 		if (i < clean_cmd->count_assign)
 		{
 			cmd->envp[i_ass] = ft_strdup(cmd->av[i]);
@@ -60,7 +58,9 @@ void		fill_clean_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
 		}
 		i++;
 	}
-	fill_cmd(cmd, clean_cmd);
+	if (fill_cmd(cmd, clean_cmd) == FAILURE)
+		return (FAILURE);
+	return (SUCCESS);
 }
 
 int	init_tab_assign_ac(t_clean_cmd *clean_cmd, t_cmd *cmd)

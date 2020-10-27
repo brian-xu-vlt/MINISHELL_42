@@ -110,7 +110,6 @@ SRCS += job_command_count_bonus.c
 SRCS += job_command_create_utils_bonus.c
 SRCS += cleaner_bonus.c
 SRCS += waiter_bonus.c
-SRCS += debug_cleaner_bonus.c
 SRCS += cleaner_quote_no_exp_bonus.c
 SRCS += cleaner_quote_utils_bonus.c
 SRCS += cleaner_quote_exp_bonus.c
