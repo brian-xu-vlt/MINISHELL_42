@@ -23,7 +23,8 @@ int	waiter(t_list *job_list)
 				(cmd->condition == E_YES_AND && ret_exec == true) ||
 				(cmd->condition == E_NOT_OR && ret_exec == false))
 			{
-				cleaner(cmd);
+				if (cleaner(cmd) == FAILURE)
+					return (FAILURE);
 				debug_cleaner(cmd);
 				ret_exec = executor; //UTILISER LE VRAI EXECUTOR
 			}

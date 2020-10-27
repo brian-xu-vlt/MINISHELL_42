@@ -66,7 +66,10 @@ int			main(int ac, char **av, char **envp)
 		else
 			read_loop(cmd_line);
 		if (ft_strncmp(vct_getstr(cmd_line), "exit", 5) == 0)
-			break ;
+		{
+			exit_routine_le(NULL);
+			return (EXIT_FAILURE);//ERREUR
+		}
 		if (test_env(cmd_line) == FAILURE)
 		{
 			exit_routine_le(NULL);
