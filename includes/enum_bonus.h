@@ -82,4 +82,11 @@ enum e_cmd
 	E_COMMAND//3
 };
 
+enum e_state_redir
+{
+	E_IN_REDIR, //0
+	E_IN_FILE, //1
+	E_IN_OUT		//2
+};
+
 #endif

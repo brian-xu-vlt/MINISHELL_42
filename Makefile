@@ -124,6 +124,7 @@ SRCS += get_command_type_utils_bonus.c
 SRCS += bad_ass_utils_bonus.c
 SRCS += process_clean_command_bonus.c
 SRCS += process_clean_command_utils_bonus.c
+SRCS += process_redirection_bonus.c
 
 OBJ_DIR = ./objs/
 
@@ -147,6 +148,7 @@ vpath %.c sources/cleaner
 vpath %.c sources/cleaner/cleaner_quote_exp
 vpath %.c sources/cleaner/cleaner_quote_no_exp
 vpath %.c sources/cleaner/cleaner_command
+vpath %.c sources/cleaner/cleaner_redirection
 vpath %.c TESTER_PARSER/
 vpath %.c TESTER_JOB_COMMAND/
 vpath %.c TESTER_CLEANER_QUOTE/

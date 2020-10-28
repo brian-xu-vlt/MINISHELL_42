@@ -11,6 +11,9 @@ static t_clean_cmd	*init_clean_command()
 	clean_cmd->ac = 0;
 	clean_cmd->index_export = 0;
 	clean_cmd->av = NULL;
+	clean_cmd->index_redir = 0;
+	clean_cmd->count_redir = 0;
+	clean_cmd->tab_redir = NULL;
 	return (clean_cmd);
 }
 
@@ -56,6 +59,10 @@ static int process_command_export(t_cmd *cmd, int ass_or_exp, bool is_bad,
 	if (fill_clean_cmd(cmd, clean_cmd) == FAILURE)
 	{
 		free_clean_command(clean_cmd, ALL_FREE);
+		return (FAILURE);
+	}
+	if (process_redirection(cmd, clean_cmd) == FAILURE)
+	{
 		return (FAILURE);
 	}
 	free_clean_command(clean_cmd, ALL_FREE);

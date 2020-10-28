@@ -186,6 +186,9 @@ int									fill_clean_cmd(t_cmd *cmd,
 void								iter_clean_quote(t_cmd *cmd, size_t size);
 void								free_clean_command(t_clean_cmd *clean_cmd,
 														int flag);
+int									process_redirection(t_cmd *cmd,
+													t_clean_cmd *clean_cmd);
+typedef	enum e_state_redir			(*t_state_redir)(char *);
 
 	/******************************************************************************/
 	/*******************************_ERROR MANAGER_********************************/
