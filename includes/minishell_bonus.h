@@ -190,6 +190,17 @@ int									process_redirection(t_cmd *cmd,
 													t_clean_cmd *clean_cmd);
 typedef	enum e_state_redir			(*t_state_redir)(char *);
 void 								debug_redir(char **redir, int ac);
+int									create_tab_redir(t_cmd *cmd,
+														t_clean_cmd *clean_cmd);
+int									clean_redir_av(t_cmd *cmd,
+													t_clean_cmd *clean_cmd);
+int									init_av_redir(t_cmd *cmd,
+													t_clean_cmd *clean_cmd,
+													size_t nb_av,
+													size_t nb_redir);
+int									count_redir(t_cmd *cmd,
+													t_clean_cmd *clean_cmd);
+int									count_av(t_cmd *cmd);
 
 	/******************************************************************************/
 	/*******************************_ERROR MANAGER_********************************/
