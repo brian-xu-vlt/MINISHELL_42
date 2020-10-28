@@ -10,7 +10,7 @@ void		clean_quote(t_cmd *cmd)
 	tmp_av0 = ft_strdup(cmd->av[0]);
 	while (i < (size_t)cmd->ac)
 	{
-		if (is_clean(i, tmp_av0, cmd->av[i], cmd) == true)
+		if (is_clean(i, tmp_av0, cmd->av[i]) == true)
 			process_clean_command_quote(cmd, i);
 		i++;
 	}

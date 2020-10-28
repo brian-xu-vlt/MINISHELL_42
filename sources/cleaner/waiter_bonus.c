@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static bool	executor(t_cmd *cmd)
+static bool	executor()
 {
 	return (true);
 }
@@ -29,7 +29,7 @@ int	waiter(t_list *job_list)
 					return (FAILURE);
 				}
 				debug_cleaner(cmd);
-				ret_exec = executor; //UTILISER LE VRAI EXECUTOR
+				ret_exec = executor(); //UTILISER LE VRAI EXECUTOR
 			}
 			tmp_cmd_lst = tmp_cmd_lst->next;
 		}

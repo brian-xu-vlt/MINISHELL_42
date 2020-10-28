@@ -19,14 +19,14 @@ static t_clean_cmd	*init_clean_command()
 	return (clean_cmd);
 }
 
-static int	process_command_any(t_cmd *cmd, int ass_or_exp, bool is_bad,
+static void	process_command_any(t_cmd *cmd, int ass_or_exp, bool is_bad,
 								enum e_cmd cmd_type)
 {
 	ft_printf("PROCESS COMMAND ANY\n");
 	if (is_bad == false)
 		ft_printf("EXPORT POP ENV ET ASSIGN\n");
 	//POP DANS ENV ET ASSIGN
-	else if (is_bad = true)
+	else
 		ft_printf("POP ENV CELUI FAUX\n");
 	//POP SAUF CELUI FAUX
 }

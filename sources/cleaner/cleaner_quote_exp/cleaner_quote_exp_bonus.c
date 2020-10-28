@@ -13,12 +13,10 @@ char	*between_nothing(char *str)
 {
 	char		*good_str;
 	t_vector	*vct_good;
-	bool		is_exp;
 	size_t		i;
 
 	good_str = NULL;
 	vct_good = vct_new();
-	is_exp = false;
 	i = 0;
 	while (str[i] != '\0')
 	{

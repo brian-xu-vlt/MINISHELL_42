@@ -18,7 +18,7 @@ bool		is_wrong_char(t_vector *vct)
 	return (false);
 }
 
-bool		is_clean(size_t i, char *tmp_av0, char *av, t_cmd *cmd)
+bool		is_clean(size_t i, char *tmp_av0, char *av)
 {
 	size_t		id_equal;
 	t_vector	*vct_av;
