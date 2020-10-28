@@ -11,10 +11,7 @@ void		clean_quote(t_cmd *cmd)
 	while (i < (size_t)cmd->ac)
 	{
 		if (is_clean(i, tmp_av0, cmd->av[i], cmd) == true)
-		{
-			ft_printf("IS_CLEAN == TRUE\n");
 			process_clean_command_quote(cmd, i);
-		}
 		i++;
 	}
 	free(tmp_av0);
@@ -33,14 +30,10 @@ static int	clean_command(t_cmd *cmd)
 	cmd_type = get_cmd_type(cmd);
 	if (cmd_type == E_EXPORT_EXEC || cmd_type == E_EXPORT_NO_EXEC)
 		ass_or_exp = FALSE;
-	ft_printf("CMD TYPE = %d\n\n", cmd_type);
 	if (cmd->count_assign != 0)
 		is_bad = is_bad_ass(cmd);
 	if (process_clean_command(cmd, ass_or_exp, is_bad, cmd_type) == FAILURE)
-	{
-		ft_printf("PROCESS CLEAN COMMAND == FAILURE\n");
 		return (FAILURE);
-	}
 	return (SUCCESS);
 }
 
@@ -50,9 +43,6 @@ int	cleaner(t_cmd *cmd)
 	ft_printf("\n\033[0;32mDEBUG AV CLEAN QUOTE\n\033[0m");//DEBUG
 	debug_av(cmd->av, cmd->ac);//DEBUG
 	if (clean_command(cmd) == FAILURE)
-	{
-		ft_printf("CLEAN COMMAND == FAILURE\n");
 		return (FAILURE);
-	}
 	return (SUCCESS);
 }

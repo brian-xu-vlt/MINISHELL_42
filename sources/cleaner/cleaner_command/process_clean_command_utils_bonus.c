@@ -7,7 +7,6 @@ void		free_clean_command(t_clean_cmd *clean_cmd, int flag)
 	i = 0;
 	if (flag == ALL_FREE)
 	{
-		ft_printf("ALL\n");//DEBUG
 		free(clean_cmd->av);
 		while (i < clean_cmd->count_redir)
 		{

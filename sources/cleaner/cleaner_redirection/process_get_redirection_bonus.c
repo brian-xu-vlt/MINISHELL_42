@@ -48,7 +48,6 @@ int	create_tab_redir(t_cmd *cmd, t_clean_cmd *clean_cmd)
 		i++;
 	}
 	ft_printf("\033[0;32mDEBUG REDIR BEFORE\n\033[0m");//DEBUG
-	ft_printf("CMD->AC = %d\n", cmd->ac);//DEBUG
 	debug_redir(clean_cmd->tmp_tab_redir, cmd->ac);
 	return (SUCCESS);
 }

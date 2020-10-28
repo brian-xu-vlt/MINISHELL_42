@@ -59,7 +59,6 @@ size_t		verif_assign(t_vector *vct_av, size_t id_equal)
 	vct = vct_new();
 	vct_cpy(vct, vct_av);
 	vct_cutfrom(vct, vct_getlen(vct) - id_equal);
-	ft_printf("VCT = %s\n", vct_getstr(vct));//DEBUG
 	if (vct_getlen(vct) == 0)
 	{
 		vct_del(&vct);
