@@ -19,7 +19,7 @@ static t_clean_cmd	*init_clean_command()
 	return (clean_cmd);
 }
 
-static void	process_command_any(t_cmd *cmd, int ass_or_exp, bool is_bad,
+static int	process_command_any(t_cmd *cmd, int ass_or_exp, bool is_bad,
 								enum e_cmd cmd_type)
 {
 	ft_printf("PROCESS COMMAND ANY\n");
@@ -29,6 +29,7 @@ static void	process_command_any(t_cmd *cmd, int ass_or_exp, bool is_bad,
 	else
 		ft_printf("POP ENV CELUI FAUX\n");
 	//POP SAUF CELUI FAUX
+	return(SUCCESS);
 }
 
 static int process_command_command(t_cmd *cmd, int ass_or_exp, bool is_bad,
@@ -36,10 +37,10 @@ static int process_command_command(t_cmd *cmd, int ass_or_exp, bool is_bad,
 {
 	//SI LA COMMANDE EN QUESTION EST UNSET -->> ASS_OR_EXP = FALSE
 	ft_printf("PROCESS COMMAND COMMAND\n");
+	return(SUCCESS);
 }
 
-static int process_command_export(t_cmd *cmd, int ass_or_exp, bool is_bad,
-								   enum e_cmd cmd_type)
+static int process_command_export(t_cmd *cmd, bool is_bad, enum e_cmd cmd_type)
 {
 	t_clean_cmd	*clean_cmd;
 
@@ -79,7 +80,7 @@ int process_clean_command(t_cmd *cmd, int ass_or_exp, bool is_bad,
 	// + revoir les diff printf
 	if (cmd_type == E_EXPORT_EXEC || cmd_type == E_EXPORT_NO_EXEC)
 	{
-		if (process_command_export(cmd, ass_or_exp, is_bad, cmd_type) == FAILURE)
+		if (process_command_export(cmd, is_bad, cmd_type) == FAILURE)
 			return (FAILURE);
 	}
 	if (cmd_type == E_COMMAND)

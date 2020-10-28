@@ -7,7 +7,7 @@ int	count_av(t_cmd *cmd)
 
 	i = 0;
 	count = 0;
-	while (i < cmd->ac)
+	while (i < (size_t)cmd->ac)
 	{
 		if (cmd->av[i] != NULL)
 			count++;
@@ -23,7 +23,7 @@ int	count_redir(t_cmd *cmd, t_clean_cmd *clean_cmd)
 
 	i = 0;
 	count = 0;
-	while (i < cmd->ac)
+	while (i < (size_t)cmd->ac)
 	{
 		if (clean_cmd->tmp_tab_redir[i] != NULL)
 			count++;
@@ -32,8 +32,7 @@ int	count_redir(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	return (count);
 }
 
-int	init_av_redir(t_cmd *cmd, t_clean_cmd *clean_cmd, size_t nb_av,
-							size_t nb_redir)
+int	init_av_redir(t_clean_cmd *clean_cmd, size_t nb_av, size_t nb_redir)
 {
 	clean_cmd->tab_redir = (char **)malloc(sizeof(char *) * nb_redir);
 	if (clean_cmd->tab_redir == NULL)

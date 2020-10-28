@@ -40,7 +40,7 @@ static int	clean_av(t_cmd *cmd, t_clean_cmd *clean_cmd, size_t nb_av)
 	return (SUCCESS);
 }
 
-static void	clean_redir(t_cmd *cmd, t_clean_cmd *clean_cmd, size_t nb_redir)
+static void	clean_redir(t_clean_cmd *clean_cmd, size_t nb_redir)
 {
 	process_clean((size_t)clean_cmd->ac, clean_cmd->tab_redir,
 					clean_cmd->tmp_tab_redir);
@@ -56,9 +56,9 @@ int	clean_redir_av(t_cmd *cmd, t_clean_cmd *clean_cmd)
 
 	nb_av = count_av(cmd);
 	nb_redir = count_redir(cmd, clean_cmd);
-	if (init_av_redir(cmd, clean_cmd, nb_av, nb_redir) == FAILURE)
+	if (init_av_redir(clean_cmd, nb_av, nb_redir) == FAILURE)
 		return (FAILURE);
 	clean_av(cmd, clean_cmd, nb_av);
-	clean_redir(cmd, clean_cmd, nb_redir);
+	clean_redir(clean_cmd, nb_redir);
 	return (SUCCESS);
 }
