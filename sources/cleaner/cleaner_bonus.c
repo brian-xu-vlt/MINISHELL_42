@@ -37,7 +37,7 @@ static int	clean_command(t_cmd *cmd)
 	return (SUCCESS);
 }
 
-int	cleaner(t_cmd *cmd)
+int			cleaner(t_cmd *cmd)
 {
 	clean_quote(cmd);
 	ft_printf("\n\033[0;32mDEBUG AV CLEAN QUOTE\n\033[0m");//DEBUG

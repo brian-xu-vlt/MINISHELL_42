@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-bool is_only_quote(char *str)
+bool	is_only_quote(char *str)
 {
 	size_t i;
 
@@ -14,7 +14,7 @@ bool is_only_quote(char *str)
 	return (true);
 }
 
-bool is_clean_command(char *str)
+bool	is_clean_command(char *str)
 {
 	char	*clean_cmd[NB_CLEAN_COMMAND] = {"echo", "export", "unset", "env",
 											"exit"};
@@ -30,7 +30,7 @@ bool is_clean_command(char *str)
 	return (false);
 }
 
-void process_clean_command_quote(t_cmd *cmd, size_t i)
+void	process_clean_command_quote(t_cmd *cmd, size_t i)
 {
 	char *str_av;
 

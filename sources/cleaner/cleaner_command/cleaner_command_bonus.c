@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-bool is_bad_ass(t_cmd *cmd)
+bool		is_bad_ass(t_cmd *cmd)
 {
 	size_t		i;
 	t_vector	*vct_av;

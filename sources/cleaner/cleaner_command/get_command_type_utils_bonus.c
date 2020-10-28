@@ -41,7 +41,7 @@ bool		is_clean(size_t i, char *tmp_av0, char *av)
 	return (true);
 }
 
-enum e_cmd export_or_command(t_vector *vct, size_t i, size_t id_equal,
+enum e_cmd	export_or_command(t_vector *vct, size_t i, size_t id_equal,
 							 size_t ac)
 {
 	if (ft_strequ(vct_getstr(vct), STR_EXPORT) == TRUE)

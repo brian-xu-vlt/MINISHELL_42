@@ -5,7 +5,7 @@ static bool	executor()
 	return (true);
 }
 
-int	waiter(t_list *job_list)
+int			waiter(t_list *job_list)
 {
 	t_job	*job;
 	t_list	*tmp_cmd_lst;

@@ -49,7 +49,7 @@ static void	clean_redir(t_clean_cmd *clean_cmd, size_t nb_redir)
 	debug_redir(clean_cmd->tab_redir, clean_cmd->count_redir);
 }
 
-int	clean_redir_av(t_cmd *cmd, t_clean_cmd *clean_cmd)
+int			clean_redir_av(t_cmd *cmd, t_clean_cmd *clean_cmd)
 {
 	size_t	nb_av;
 	size_t	nb_redir;

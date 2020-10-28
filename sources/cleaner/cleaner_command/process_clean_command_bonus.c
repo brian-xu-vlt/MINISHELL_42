@@ -19,7 +19,7 @@ static t_clean_cmd	*init_clean_command()
 	return (clean_cmd);
 }
 
-static int	process_command_any(t_cmd *cmd, int ass_or_exp, bool is_bad,
+static int			process_command_any(t_cmd *cmd, int ass_or_exp, bool is_bad,
 								enum e_cmd cmd_type)
 {
 	ft_printf("PROCESS COMMAND ANY\n");
@@ -32,15 +32,17 @@ static int	process_command_any(t_cmd *cmd, int ass_or_exp, bool is_bad,
 	return(SUCCESS);
 }
 
-static int process_command_command(t_cmd *cmd, int ass_or_exp, bool is_bad,
-									enum e_cmd cmd_type)
+static int			process_command_command(t_cmd *cmd, int ass_or_exp,
+												bool is_bad,
+												enum e_cmd cmd_type)
 {
 	//SI LA COMMANDE EN QUESTION EST UNSET -->> ASS_OR_EXP = FALSE
 	ft_printf("PROCESS COMMAND COMMAND\n");
 	return(SUCCESS);
 }
 
-static int process_command_export(t_cmd *cmd, bool is_bad, enum e_cmd cmd_type)
+static int 			process_command_export(t_cmd *cmd, bool is_bad,
+											enum e_cmd cmd_type)
 {
 	t_clean_cmd	*clean_cmd;
 
@@ -73,8 +75,8 @@ static int process_command_export(t_cmd *cmd, bool is_bad, enum e_cmd cmd_type)
 	return (SUCCESS);
 }
 
-int process_clean_command(t_cmd *cmd, int ass_or_exp, bool is_bad,
-						  enum e_cmd cmd_type)
+int 				process_clean_command(t_cmd *cmd, int ass_or_exp,
+											bool is_bad, enum e_cmd cmd_type)
 {
 	//COMPARER CHAQUE IF AVEC LES INDEXS DE OU SE TROUVE LES ASSIGN
 	// + revoir les diff printf

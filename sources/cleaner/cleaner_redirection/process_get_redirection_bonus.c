@@ -24,7 +24,7 @@ static enum e_state_redir	in_redir(char *str)
 	return (E_IN_FILE);
 }
 
-int	create_tab_redir(t_cmd *cmd, t_clean_cmd *clean_cmd)
+int							create_tab_redir(t_cmd *cmd, t_clean_cmd *clean_cmd)
 {
 	t_state_redir		function_state[] = {in_redir, in_file, in_out};
 	enum e_state_redir	state;

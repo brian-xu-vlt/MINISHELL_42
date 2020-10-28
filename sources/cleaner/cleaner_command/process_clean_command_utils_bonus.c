@@ -20,7 +20,7 @@ void		free_clean_command(t_clean_cmd *clean_cmd, int flag)
 	free(clean_cmd);
 }
 
-static int		fill_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
+static int	fill_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
 {
 	size_t	i;
 
@@ -45,7 +45,7 @@ static int		fill_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	return (SUCCESS);
 }
 
-int		fill_clean_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
+int			fill_clean_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
 {
 	size_t	i;
 	size_t	i_ass;
@@ -73,7 +73,7 @@ int		fill_clean_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	return (SUCCESS);
 }
 
-int	init_tab_assign_ac(t_clean_cmd *clean_cmd, t_cmd *cmd)
+int			init_tab_assign_ac(t_clean_cmd *clean_cmd, t_cmd *cmd)
 {
 	clean_cmd->av = (char **)malloc(sizeof(char *) * clean_cmd->ac);
 	if (clean_cmd->av == NULL)
@@ -84,7 +84,7 @@ int	init_tab_assign_ac(t_clean_cmd *clean_cmd, t_cmd *cmd)
 	return (SUCCESS);
 }
 
-void	count_ac_assign(t_cmd *cmd, t_clean_cmd *clean_cmd, bool is_bad)
+void		count_ac_assign(t_cmd *cmd, t_clean_cmd *clean_cmd, bool is_bad)
 {
 	size_t	i;
 	size_t	i_assign;
