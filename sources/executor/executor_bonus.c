@@ -65,21 +65,17 @@ void			executor(const t_job *job)
 	while (i < job->nb_cmd && cmd_cursor->content != NULL)
 	{
 		ret_value = 0;
-		if (i < job->nb_cmd - 1 || ((t_cmd *)cmd_cursor->content)->redirection == 1)
+		//if (i < job->nb_cmd - 1 || ((t_cmd *)cmd_cursor->content)->redirection == 1)
+		if (i < job->nb_cmd - 1)
 			do_pipe(p_out);
 		else
 			ft_memset(p_out, UNSET, sizeof(int[2]));
-system("ls -la /proc/$$/fd ; echo \"\n\"");
+		system("ls -la /proc/$$/fd ; echo \"\n\"");
 		execution_process(cmd_cursor->content, job->nb_cmd, p_in, p_out);
 		close_pipe_end(p_in[R_END]);
 		close_pipe_end(p_in[W_END]);
 		if (i < job->nb_cmd - 1)
 			ft_memmove(p_in, p_out, sizeof(int[2]));
-		else
-		{
-			close_pipe_end(p_out[R_END]);
-			close_pipe_end(p_out[W_END]);
-		}
 		cmd_cursor = cmd_cursor->next;
 		pid = wait(&wstatus);
 		i++;

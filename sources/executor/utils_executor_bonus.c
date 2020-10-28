@@ -45,11 +45,10 @@ int	is_builtin(const t_cmd *command)
 
 void		dup_pipes(const t_cmd *command, int p_in[2], int p_out[2])
 {
-	int			dup_ret;
 	struct stat	statbuf;
 
-	(void)command;
-	dup_ret = 0;
+	if (command->fd[STDOUT_FILENO] != STDOUT_FILENO)
+		dup2(command->fd[STDOUT_FILENO], STDOUT_FILENO);
 	if (p_in[R_END] != UNSET && fstat(p_in[R_END], &statbuf) != FAILURE)
 	{
 		dup2(p_in[R_END], STDIN_FILENO);
@@ -57,8 +56,6 @@ void		dup_pipes(const t_cmd *command, int p_in[2], int p_out[2])
 	}
 	if (p_out[W_END] != UNSET && fstat(p_out[W_END], &statbuf) != FAILURE)
 	{
-		if (command->fd[STDOUT_FILENO] != STDOUT_FILENO)
-			dup2(command->fd[STDOUT_FILENO], STDOUT_FILENO);
 		dup2(p_out[W_END], command->fd[STDOUT_FILENO]);
 		close_pipe_end(p_out[R_END]);
 	}
