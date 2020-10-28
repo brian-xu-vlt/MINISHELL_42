@@ -31,15 +31,26 @@ static int	create_tab_redir(t_cmd *cmd, t_clean_cmd *clean_cmd)
 
 	state = E_IN_OUT;
 	i = 0;
+	clean_cmd->tab_redir = (char **)malloc(sizeof(char *) * cmd->ac);
+	if (clean_cmd->tab_redir == NULL)
+		return (FAILURE);//ERROR
 	while (i < cmd->ac)
 	{
+		clean_cmd->tab_redir[i] = NULL;
 		ft_printf("state = %d\n", state);//DEBUG
+
 		state = function_state[state](cmd->av[i]);
-		ft_printf("str = %s\n\n", cmd->av[i]);//DEBUG
+		if (state == E_IN_REDIR || state == E_IN_FILE)
+		{
+			clean_cmd->tab_redir[i] = ft_strdup(cmd->av[i]);
+			cmd->av[i] = NULL;
+		}
+		ft_printf("str = %s\n\n", cmd->av[i]);//DEBUGi
 		i++;
 	}
-
-
+	ft_printf("\033[0;32mDEBUG REDIR\n\033[0m");//DEBUG
+	ft_printf("CMD->AC = %d\n", cmd->ac);//DEBUG
+	debug_redir(clean_cmd->tab_redir, cmd->ac);
 	return (SUCCESS);
 }
 

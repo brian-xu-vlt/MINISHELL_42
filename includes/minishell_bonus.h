@@ -189,6 +189,7 @@ void								free_clean_command(t_clean_cmd *clean_cmd,
 int									process_redirection(t_cmd *cmd,
 													t_clean_cmd *clean_cmd);
 typedef	enum e_state_redir			(*t_state_redir)(char *);
+void 								debug_redir(char **redir, int ac);
 
 	/******************************************************************************/
 	/*******************************_ERROR MANAGER_********************************/

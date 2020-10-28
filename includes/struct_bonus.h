@@ -78,7 +78,7 @@ typedef struct				s_clean_cmd
 	size_t	index_export;
 	size_t	index_redir;
 	size_t	count_redir;
-	size_t	*tab_redir;
+	char	**tab_redir;
 	char	**av;
 }
 							t_clean_cmd;
