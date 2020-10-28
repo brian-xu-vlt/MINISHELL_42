@@ -25,16 +25,19 @@ static int		execution_process(const t_cmd *command, const int nb_cmd,
 //	if (nb_cmd == 1 && command->name == NULL && command->env != NULL)
 		//DO ASSIGNATIONS export_execution_context_env(command);
 //	else if (ft_strequ(command->name, "exit") == TRUE)
-	if (ft_strequ(command->name, "exit") == TRUE)
-		exec_builtin(command);
-	else if (nb_cmd == 1 && is_builtin(command) == TRUE && command->redirection == 0)
-		exec_builtin(command);
-	else
-		exec_subshell(command, p_in, p_out);
-	if (command->redirection & F_REDIRECT_IN)
-		close(command->fd[STDIN_FILENO]);
-	if (command->redirection & F_REDIRECT_OUT)
-		close(command->fd[STDOUT_FILENO]);
+	if ((command->redirection & F_REDIRECT_FAILURE) == FALSE)
+	{
+		if (ft_strequ(command->name, "exit") == TRUE)
+			exec_builtin(command);
+		else if (nb_cmd == 1 && is_builtin(command) == TRUE && command->redirection == 0)
+			exec_builtin(command);
+		else
+			exec_subshell(command, p_in, p_out);
+		if (command->redirection & F_REDIRECT_IN)
+			close(command->fd[STDIN_FILENO]);
+		if (command->redirection & F_REDIRECT_OUT)
+			close(command->fd[STDOUT_FILENO]);
+	}
 	return (21);
 }
 
@@ -43,7 +46,6 @@ static void		do_pipe(int pipe_fd[2])
 	int		pipe_ret;
 
 	pipe_ret = pipe(pipe_fd);
-	ft_printf("Just PIPED : [%d, %d]\n", pipe_fd[0], pipe_fd[1]);
 	if (pipe_ret == FAILURE)
 		print_set_errno(errno, NULL, "do pipe: ", NULL);
 }

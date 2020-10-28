@@ -49,14 +49,14 @@ void		dup_pipes(const t_cmd *command, int p_in[2], int p_out[2])
 
 	if (command->redirection & F_REDIRECT_IN)
 		dup2(command->fd[STDIN_FILENO], STDIN_FILENO);
-	if (command->redirection & F_REDIRECT_OUT)
-		dup2(command->fd[STDOUT_FILENO], STDOUT_FILENO);
-	if (p_in[R_END] != UNSET && fstat(p_in[R_END], &statbuf) != FAILURE)
+	else if (p_in[R_END] != UNSET && fstat(p_in[R_END], &statbuf) != FAILURE)
 	{
 		dup2(p_in[R_END], STDIN_FILENO);
 		close_pipe_end(p_in[W_END]);
 	}
-	if (p_out[W_END] != UNSET && fstat(p_out[W_END], &statbuf) != FAILURE)
+	if (command->redirection & F_REDIRECT_OUT)
+		dup2(command->fd[STDOUT_FILENO], STDOUT_FILENO);
+	else if (p_out[W_END] != UNSET && fstat(p_out[W_END], &statbuf) != FAILURE)
 	{
 		dup2(p_out[W_END], command->fd[STDOUT_FILENO]);
 		close_pipe_end(p_out[R_END]);

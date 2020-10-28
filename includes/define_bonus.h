@@ -53,7 +53,7 @@
 /*******************************_EXECUTOR_*************************************/
 /******************************************************************************/
 
-#define	F_REDIRECT_ERROR		1<<0	
+#define	F_REDIRECT_FAILURE		1<<0	
 #define	F_REDIRECT_IN			1<<1
 #define	F_REDIRECT_OUT			1<<2
 
