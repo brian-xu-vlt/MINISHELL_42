@@ -1,21 +1,29 @@
 #include "minishell_bonus.h"
 
-static int	clean_av(t_cmd *cmd, t_clean_cmd *clean_cmd, size_t nb_av)
+static void process_clean(size_t size, char **dest, char **src)
 {
 	size_t	fake_av;
 	size_t	real_av;
 
 	fake_av = 0;
 	real_av = 0;
-	while (fake_av < cmd->ac)
+	
+	while (fake_av < size)
 	{
-		if (cmd->av[fake_av] != NULL)
+		if (src[fake_av] != NULL)
 		{
-			clean_cmd->tmp_av[real_av] = ft_strdup(cmd->av[fake_av]);
+			dest[real_av] = ft_strdup(src[fake_av]);
 			real_av++;	
 		}	
 		fake_av++;
 	}
+}
+
+static int	clean_av(t_cmd *cmd, t_clean_cmd *clean_cmd, size_t nb_av)
+{
+	size_t	real_av;
+	
+	process_clean((size_t)cmd->ac, clean_cmd->tmp_av, cmd->av);
 	free(cmd->av);
 	cmd->av = (char **)malloc(sizeof(char *) * nb_av);
 	if (cmd->av == NULL)
@@ -32,21 +40,8 @@ static int	clean_av(t_cmd *cmd, t_clean_cmd *clean_cmd, size_t nb_av)
 
 static void	clean_redir(t_cmd *cmd, t_clean_cmd *clean_cmd, size_t nb_redir)
 {
-	size_t	fake_av;
-	size_t	real_av;
-
-	fake_av = 0;
-	real_av = 0;
-	while (fake_av < clean_cmd->ac)
-	{
-		if (clean_cmd->tmp_tab_redir[fake_av] != NULL)
-		{
-			clean_cmd->tab_redir[real_av] =
-						ft_strdup(clean_cmd->tmp_tab_redir[fake_av]);
-			real_av++;	
-		}	
-		fake_av++;
-	}
+	process_clean((size_t)clean_cmd->ac, clean_cmd->tab_redir,
+					clean_cmd->tmp_tab_redir);
 	clean_cmd->count_redir = nb_redir;
 	ft_printf("\033[0;32mDEBUG REDIR FINAL\n\033[0m");//DEBUG
 	debug_redir(clean_cmd->tab_redir, clean_cmd->count_redir);

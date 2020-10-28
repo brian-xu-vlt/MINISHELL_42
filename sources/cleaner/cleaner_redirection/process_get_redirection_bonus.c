@@ -37,7 +37,6 @@ int	create_tab_redir(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	while (i < cmd->ac)
 	{
 		clean_cmd->tmp_tab_redir[i] = NULL;
-		ft_printf("state = %d\n", state);//DEBUG
 
 		state = function_state[state](cmd->av[i]);
 		if (state == E_IN_REDIR || state == E_IN_FILE)
@@ -45,7 +44,6 @@ int	create_tab_redir(t_cmd *cmd, t_clean_cmd *clean_cmd)
 			clean_cmd->tmp_tab_redir[i] = ft_strdup(cmd->av[i]);
 			cmd->av[i] = NULL;
 		}
-		ft_printf("str = %s\n\n", cmd->av[i]);//DEBUGi
 		i++;
 	}
 	ft_printf("\033[0;32mDEBUG REDIR BEFORE\n\033[0m");//DEBUG
