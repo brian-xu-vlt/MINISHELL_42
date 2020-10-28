@@ -13,6 +13,7 @@ static void process_clean(size_t size, char **dest, char **src)
 		if (src[fake_av] != NULL)
 		{
 			dest[real_av] = ft_strdup(src[fake_av]);
+			free(src[fake_av]);
 			real_av++;	
 		}	
 		fake_av++;
@@ -33,6 +34,7 @@ static int	clean_av(t_cmd *cmd, t_clean_cmd *clean_cmd, size_t nb_av)
 	while (real_av < nb_av)
 	{
 		cmd->av[real_av] = ft_strdup(clean_cmd->tmp_av[real_av]);
+		free(clean_cmd->tmp_av[real_av]);
 		real_av++;
 	}
 	return (SUCCESS);
@@ -40,6 +42,8 @@ static int	clean_av(t_cmd *cmd, t_clean_cmd *clean_cmd, size_t nb_av)
 
 static void	clean_redir(t_cmd *cmd, t_clean_cmd *clean_cmd, size_t nb_redir)
 {
+	ft_printf("ac = %d\n", clean_cmd->ac);//DEBUG
+	ft_printf("nb_redir = %d\n", nb_redir);//DEBUG
 	process_clean((size_t)clean_cmd->ac, clean_cmd->tab_redir,
 					clean_cmd->tmp_tab_redir);
 	clean_cmd->count_redir = nb_redir;

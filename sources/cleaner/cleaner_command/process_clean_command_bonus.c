@@ -65,6 +65,7 @@ static int process_command_export(t_cmd *cmd, int ass_or_exp, bool is_bad,
 	}
 	if (process_redirection(cmd, clean_cmd) == FAILURE)
 	{
+		free_clean_command(clean_cmd, ALL_FREE);
 		return (FAILURE);
 	}
 	free_clean_command(clean_cmd, ALL_FREE);
