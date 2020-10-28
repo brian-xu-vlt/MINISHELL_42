@@ -22,8 +22,8 @@ static void		exec_subshell(const t_cmd *command, int p_in[2], int p_out[2])
 static int		execution_process(const t_cmd *command, const int nb_cmd,
 												int p_in[2], int p_out[2])
 {
-//		if (nb_cmd == 1 && command->name == NULL && command->env != NULL)
-			//DO ASSIGNATIONS export_execution_context_env(command);
+//	if (nb_cmd == 1 && command->name == NULL && command->env != NULL)
+		//DO ASSIGNATIONS export_execution_context_env(command);
 //	else if (ft_strequ(command->name, "exit") == TRUE)
 	if (ft_strequ(command->name, "exit") == TRUE)
 		exec_builtin(command);
@@ -31,7 +31,9 @@ static int		execution_process(const t_cmd *command, const int nb_cmd,
 		exec_builtin(command);
 	else
 		exec_subshell(command, p_in, p_out);
-	if (command->redirection > 0)
+	if (command->redirection & F_REDIRECT_IN)
+		close(command->fd[STDIN_FILENO]);
+	if (command->redirection & F_REDIRECT_OUT)
 		close(command->fd[STDOUT_FILENO]);
 	return (21);
 }

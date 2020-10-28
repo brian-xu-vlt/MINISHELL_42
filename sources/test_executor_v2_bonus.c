@@ -12,7 +12,26 @@ static void	clean(t_cmd *command)
 	i = 0;
 	while (command->av[i] != NULL)
 	{
-		if (ft_strequ(command->av[i], ">") == TRUE || ft_strequ(command->av[i], ">>") == TRUE)
+		if (ft_strequ(command->av[i], "<") == TRUE)
+		{
+			open_flags = O_RDONLY;
+			file_path = vct_new();
+			if (file_path == NULL)
+				exit_routine_le(ERR_MALLOC);
+			vct_addstr(file_path, "/tmp/titi/");
+			vct_addstr(file_path, command->av[i + 1]);
+			command->fd[STDIN_FILENO] = open(vct_getstr(file_path), open_flags, mode_flags);
+			vct_del(&file_path);
+			ft_strdel(&command->av[i]);
+			if (command->av[i + 1] != NULL)
+				ft_strdel(&command->av[i + 1]);
+			command->ac = i;
+			if (command->fd[STDIN_FILENO] < 0)
+				command->redirection |= F_REDIRECT_ERROR;
+			else
+				command->redirection |= F_REDIRECT_IN;
+		}
+		else if (ft_strequ(command->av[i], ">") == TRUE || ft_strequ(command->av[i], ">>") == TRUE)
 		{
 			mode_flags = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 			if (ft_strequ(command->av[i], ">>") == TRUE)
@@ -31,9 +50,9 @@ static void	clean(t_cmd *command)
 				ft_strdel(&command->av[i + 1]);
 			command->ac = i;
 			if (command->fd[STDOUT_FILENO] < 0)
-				command->redirection = FAILURE;
+				command->redirection |= F_REDIRECT_ERROR;
 			else
-				command->redirection = 1;
+				command->redirection |= F_REDIRECT_OUT;
 		}
 		i++;
 	}
@@ -50,8 +69,7 @@ static void	fake_cleaner(t_list *jobs)
 		cursor_cmd = ((t_job *)cursor_job->content)->cmd_lst;
 		while (cursor_cmd != NULL)
 		{
-			if (((t_cmd *)cursor_cmd->content)->fd_string[1] != NULL)
-				clean(cursor_cmd->content);
+			clean(cursor_cmd->content);
 			cursor_cmd = cursor_cmd->next;
 		}
 		cursor_job = cursor_job->next;
