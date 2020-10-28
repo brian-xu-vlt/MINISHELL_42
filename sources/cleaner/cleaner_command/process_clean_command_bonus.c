@@ -17,6 +17,7 @@ static t_clean_cmd	*init_clean_command()
 static int	process_command_any(t_cmd *cmd, int ass_or_exp, bool is_bad,
 								enum e_cmd cmd_type)
 {
+	ft_printf("PROCESS COMMAND ANY\n");
 	if (is_bad == false)
 		ft_printf("EXPORT POP ENV ET ASSIGN\n");
 	//POP DANS ENV ET ASSIGN
@@ -29,7 +30,7 @@ static int process_command_command(t_cmd *cmd, int ass_or_exp, bool is_bad,
 									enum e_cmd cmd_type)
 {
 	//SI LA COMMANDE EN QUESTION EST UNSET -->> ASS_OR_EXP = FALSE
-	ft_printf("EXPORT POP MAIS PAS DANS ENV\n");
+	ft_printf("PROCESS COMMAND COMMAND\n");
 }
 
 static int process_command_export(t_cmd *cmd, int ass_or_exp, bool is_bad,
@@ -37,11 +38,11 @@ static int process_command_export(t_cmd *cmd, int ass_or_exp, bool is_bad,
 {
 	t_clean_cmd	*clean_cmd;
 
+	ft_printf("PROCESS COMMAND EXPORT\n");
 	iter_clean_quote(cmd, (size_t)cmd->ac);
 	clean_cmd = init_clean_command();
 	if (clean_cmd == NULL)
 	{
-		ft_printf("CLEAN CMD == NULL\n");
 		free_clean_command(clean_cmd, NOT_ALL_FREE);
 		return (FAILURE);
 	}
@@ -49,13 +50,11 @@ static int process_command_export(t_cmd *cmd, int ass_or_exp, bool is_bad,
 	clean_cmd->ac = cmd->ac - clean_cmd->count_assign;
 	if (init_tab_assign_ac(clean_cmd, cmd) == FAILURE)
 	{
-		ft_printf("INIT TAB ASSIGN AC == NULL\n");
 		free_clean_command(clean_cmd, ALL_FREE);
 		return (FAILURE);
 	}
 	if (fill_clean_cmd(cmd, clean_cmd) == FAILURE)
 	{
-		ft_printf("FILL CLEAN CMD == NULL\n");
 		free_clean_command(clean_cmd, ALL_FREE);
 		return (FAILURE);
 	}
