@@ -1,5 +1,17 @@
 #include "minishell_bonus.h"
 
+void	debug_fd(int *fd)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		ft_printf("fd[%d] = %d\n", i, fd[i]);
+		i++;
+	}
+}
+
 void debug_redir(char **redir, int ac)
 {
 	int i;

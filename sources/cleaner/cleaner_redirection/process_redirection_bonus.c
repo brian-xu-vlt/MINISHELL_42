@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static int	process_less(char *str)
+static int	process_less(char *str, t_cmd *cmd)
 {
 	extern int	errno;
 	int			fd;
@@ -14,11 +14,13 @@ static int	process_less(char *str)
 		ft_printf("errno is = %s (errno = %d)\n", strerror(errno), errno);
 		return (FAILURE);
 	}
+	cmd->fd[STDIN_FILENO] = fd;
 	ft_printf("errno is = %s (errno = %d)\n", strerror(errno), errno);
+	ft_printf("cmd->fd[%d] = %d\n\n", STDIN_FILENO, cmd->fd[STDIN_FILENO]);//DEBUG	
 	return (SUCCESS);
 }
 
-static int	process_greater(char *str)
+static int	process_greater(char *str, t_cmd *cmd)
 {
 	extern int	errno;
 	int			fd;
@@ -27,16 +29,19 @@ static int	process_greater(char *str)
 	errno = SUCCESS;
 	fd = open(str, O_RDONLY | O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP |
 				S_IROTH);
+	ft_printf("fd = %d\n", fd);//DEBUG	
 	if (fd < 0)
 	{
 		ft_printf("errno is = %s (errno = %d)\n", strerror(errno), errno);
 		return (FAILURE);
 	}
+	cmd->fd[STDOUT_FILENO] = fd;
 	ft_printf("errno is = %s (errno = %d)\n", strerror(errno), errno);
+	ft_printf("cmd->fd[%d] = %d\n\n", STDOUT_FILENO, cmd->fd[STDOUT_FILENO]);//DEBUG	
 	return (SUCCESS);
 }
 
-static int	process_double_greater(char *str)
+static int	process_double_greater(char *str, t_cmd *cmd)
 {
 	extern int	errno;
 	int			fd;
@@ -45,16 +50,19 @@ static int	process_double_greater(char *str)
 	errno = SUCCESS;
 	fd = open(str, O_RDONLY | O_WRONLY | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR |
 				S_IRGRP | S_IROTH);
+	ft_printf("fd = %d\n", fd);//DEBUG	
 	if (fd < 0)
 	{
 		ft_printf("errno is = %s (errno = %d)\n", strerror(errno), errno);
 		return (FAILURE);
 	}
+	cmd->fd[STDOUT_FILENO] = fd;
 	ft_printf("errno is = %s (errno = %d)\n", strerror(errno), errno);
+	ft_printf("cmd->fd[%d] = %d\n\n", STDOUT_FILENO, cmd->fd[STDOUT_FILENO]);//DEBUG	
 	return (SUCCESS);
 }
 
-static int	process_open_file(t_clean_cmd *clean_cmd)
+static int	process_open_file(t_cmd *cmd, t_clean_cmd *clean_cmd)
 {
 	size_t	i;
 	int		ret_file;
@@ -65,11 +73,11 @@ static int	process_open_file(t_clean_cmd *clean_cmd)
 	while (i < clean_cmd->count_redir)
 	{
 		if (ft_strequ(clean_cmd->tab_redir[i], DOUBLE_GREATER) == TRUE)
-			ret_file = process_double_greater(clean_cmd->tab_redir[i + 1]);
+			ret_file = process_double_greater(clean_cmd->tab_redir[i + 1], cmd);
 		else if (ft_strequ(clean_cmd->tab_redir[i], GREATER_THAN) == TRUE)
-			ret_file = process_greater(clean_cmd->tab_redir[i + 1]);
+			ret_file = process_greater(clean_cmd->tab_redir[i + 1], cmd);
 		else if (ft_strequ(clean_cmd->tab_redir[i], LESS_THAN) == TRUE)
-			ret_file = process_less(clean_cmd->tab_redir[i + 1]);
+			ret_file = process_less(clean_cmd->tab_redir[i + 1], cmd);
 		if (ret_file == FAILURE)
 		{
 			ft_printf("RET_FILE == FAILURE");
@@ -86,7 +94,9 @@ int	process_redirection(t_cmd *cmd, t_clean_cmd *clean_cmd)
 		return (FAILURE);
 	if (clean_redir_av(cmd, clean_cmd) == FAILURE)
 		return (FAILURE);
-	if (process_open_file(clean_cmd) == FAILURE)
+	if (process_open_file(cmd, clean_cmd) == FAILURE)
 		return (FAILURE);
+	ft_printf("\033[0;32mDEBUG FD FINAL\n\033[0m");//DEBUG
+	debug_fd(cmd->fd);
 	return (SUCCESS);
 }

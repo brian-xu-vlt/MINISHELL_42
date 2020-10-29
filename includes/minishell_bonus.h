@@ -200,6 +200,7 @@ int									init_av_redir(t_clean_cmd *clean_cmd,
 int									count_redir(t_cmd *cmd,
 													t_clean_cmd *clean_cmd);
 int									count_av(t_cmd *cmd);
+void								debug_fd(int *fd);
 
 	/******************************************************************************/
 	/*******************************_ERROR MANAGER_********************************/
