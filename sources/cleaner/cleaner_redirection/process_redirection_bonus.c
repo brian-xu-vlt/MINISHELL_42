@@ -110,6 +110,31 @@ static int	process_open_file(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	return (SUCCESS);
 }
 
+static void	get_pwd(char **fd_string)
+{
+	size_t	i;
+	char	*pwd;
+	t_vector	*vct_pwd;
+
+	i = 0;
+	while (i < NB_FD)
+	{
+		if (fd_string[i] != NULL)
+		{
+			pwd = getcwd(NULL, PATH_MAX);
+			ft_printf("PWD = %s\n", pwd);//DEBUG
+			vct_pwd = vct_new();
+			vct_addstr(vct_pwd, pwd);
+			vct_add(vct_pwd, '/');
+			vct_addstr(vct_pwd, fd_string[i]);
+			ft_printf("vct_pwd = %s\n", vct_getstr(vct_pwd));//DEBUG
+			free(fd_string[i]);
+			fd_string[i] = ft_strdup(vct_getstr(vct_pwd));
+		}
+		i++;
+	}
+}
+
 int	process_redirection(t_cmd *cmd, t_clean_cmd *clean_cmd)
 {
 	cmd->redirection = 0;
@@ -129,5 +154,8 @@ int	process_redirection(t_cmd *cmd, t_clean_cmd *clean_cmd)
 			cmd->redirection = cmd->redirection | F_REDIRECT_OUT
 								| F_REDIRECT_OUT_APPEND;
 	ft_printf("cmd->redirection = %d\n", cmd->redirection);//DEBUG
+	get_pwd(cmd->fd_string);
+	ft_printf("\033[0;32mDEBUG FD_STRING FINAL\n\033[0m");//DEBUG
+	debug_fd_string(cmd->fd_string);
 	return (SUCCESS);
 }

@@ -21,6 +21,7 @@
 # include <errno.h>
 # include <stdbool.h>
 # include <fcntl.h>
+# include <limits.h>
 
 /******************************************************************************/
 /*******************************_FUNCTION_*************************************/
@@ -201,6 +202,7 @@ int									count_redir(t_cmd *cmd,
 													t_clean_cmd *clean_cmd);
 int									count_av(t_cmd *cmd);
 void								debug_fd(int *fd);
+void								debug_fd_string(char **fd_sting);
 
 	/******************************************************************************/
 	/*******************************_ERROR MANAGER_********************************/

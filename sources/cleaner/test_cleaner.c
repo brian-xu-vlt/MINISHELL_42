@@ -1,5 +1,17 @@
 #include "minishell_bonus.h"
 
+void	debug_fd_string(char **fd_sting)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < NB_FD)
+	{
+		ft_printf("fd_string[%d] = %s\n", i, fd_sting[i]);//DEBUG
+		i++;
+	}
+}
+
 void	debug_fd(int *fd)
 {
 	size_t	i;
