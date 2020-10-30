@@ -1,35 +1,60 @@
 #include "minishell_bonus.h"
 
+static void	debug_print_mask(int mask)
+{
+	int			i;
+
+	i = 0;
+	ft_printf("Print mask : %d\n", mask);
+	while (i <= 4)
+		ft_printf("%d", (mask & (1 << i++)) != 0 ? 1 : 0);
+	ft_printf("\n");
+}
+
 static void	clean(t_cmd *command)
 {
 	int			i;
 	int			open_flags;
 	mode_t		mode_flags;
 	t_vector	*file_path;
+	int			fd_ret;
 
+	fd_ret = 0;
 	open_flags = 0;
 	mode_flags = 0;
 	i = 0;
+	command->redirection = 0;
 	while (command->av[i] != NULL)
 	{
 		if (ft_strequ(command->av[i], "<") == TRUE)
 		{
 			open_flags = O_RDONLY;
-			file_path = vct_new();
-			if (file_path == NULL)
-				exit_routine_le(ERR_MALLOC);
-			vct_addstr(file_path, "/tmp/titi/");
-			vct_addstr(file_path, command->av[i + 1]);
-			command->fd[STDIN_FILENO] = open(vct_getstr(file_path), open_flags, mode_flags);
-			vct_del(&file_path);
+			if (is_absolute_path(command->fd_string[STDIN_FILENO]) == FALSE)
+			{
+				file_path = vct_new();
+				if (file_path == NULL)
+					exit_routine_le(ERR_MALLOC);
+				vct_addstr(file_path, "/tmp/in/");
+				vct_addstr(file_path, command->av[i + 1]);
+				ft_strdel(&command->fd_string[STDIN_FILENO]);
+				command->fd_string[STDIN_FILENO] = ft_strdup(vct_getstr(file_path));
+				vct_del(&file_path);
+			}
+			fd_ret = open(command->fd_string[STDIN_FILENO], open_flags, mode_flags);
 			ft_strdel(&command->av[i]);
 			if (command->av[i + 1] != NULL)
 				ft_strdel(&command->av[i + 1]);
 			command->ac = i;
-			if (command->fd[STDIN_FILENO] < 0)
-				command->redirection |= F_REDIRECT_ERROR;
+			if (fd_ret < 0)
+			{
+				command->redirection |= F_REDIRECT_FAILURE;
+				print_set_errno(errno, NULL, command->fd_string[STDIN_FILENO], NULL);
+				return ;
+			}
 			else
 				command->redirection |= F_REDIRECT_IN;
+			close(fd_ret);
+			return ;
 		}
 		else if (ft_strequ(command->av[i], ">") == TRUE || ft_strequ(command->av[i], ">>") == TRUE)
 		{
@@ -38,21 +63,35 @@ static void	clean(t_cmd *command)
 				open_flags = O_WRONLY | O_CREAT | O_APPEND;
 			else
 				open_flags = O_WRONLY | O_CREAT | O_TRUNC;
-			file_path = vct_new();
-			if (file_path == NULL)
-				exit_routine_le(ERR_MALLOC);
-			vct_addstr(file_path, "/tmp/toto/");
-			vct_addstr(file_path, command->av[i + 1]);
-			command->fd[STDOUT_FILENO] = open(vct_getstr(file_path), open_flags, mode_flags);
-			vct_del(&file_path);
+			if (is_absolute_path(command->fd_string[STDOUT_FILENO]) == FALSE)
+			{
+				file_path = vct_new();
+				if (file_path == NULL)
+					exit_routine_le(ERR_MALLOC);
+				vct_addstr(file_path, "/tmp/out/");
+				vct_addstr(file_path, command->av[i + 1]);
+				ft_strdel(&command->fd_string[STDOUT_FILENO]);
+				command->fd_string[STDOUT_FILENO] = ft_strdup(vct_getstr(file_path));
+				vct_del(&file_path);
+			}
+			fd_ret  = open(command->fd_string[STDOUT_FILENO], open_flags, mode_flags);
 			ft_strdel(&command->av[i]);
 			if (command->av[i + 1] != NULL)
 				ft_strdel(&command->av[i + 1]);
 			command->ac = i;
-			if (command->fd[STDOUT_FILENO] < 0)
-				command->redirection |= F_REDIRECT_ERROR;
+			if (fd_ret < 0)
+			{
+				command->redirection |= F_REDIRECT_FAILURE;
+				print_set_errno(errno, NULL, command->fd_string[STDOUT_FILENO], NULL);
+				return ;
+			}
 			else
 				command->redirection |= F_REDIRECT_OUT;
+			if (open_flags & O_APPEND)
+				command->redirection |= F_REDIRECT_OUT_APPEND;
+			close(fd_ret);
+			debug_print_mask(command->redirection);
+			return ;
 		}
 		i++;
 	}

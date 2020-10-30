@@ -14,6 +14,10 @@ static void		exec_subshell(const t_cmd *command, int p_in[2], int p_out[2])
 			exec_builtin(command);
 		else	
 			exec_binary(command);
+		if (command->redirection & F_REDIRECT_IN)
+			close(command->fd[STDIN_FILENO]);
+		if (command->redirection & F_REDIRECT_OUT)
+			close(command->fd[STDOUT_FILENO]);
 		exit(42);											 //to change
 	}
 	else if (pid != 0 && pid != FAILURE)
@@ -33,12 +37,14 @@ static int		execution_process(const t_cmd *command, const int nb_cmd,
 			exec_builtin(command);
 		else
 			exec_subshell(command, p_in, p_out);
-		if (command->redirection & F_REDIRECT_IN)
+/*		if (command->redirection & F_REDIRECT_IN)
 			close(command->fd[STDIN_FILENO]);
 		if (command->redirection & F_REDIRECT_OUT)
 			close(command->fd[STDOUT_FILENO]);
-	}
-	return (21);
+*/	}
+	else
+		return (-1);
+	return (0);
 }
 
 static void		do_pipe(int pipe_fd[2])
@@ -74,8 +80,8 @@ void			executor(const t_job *job)
 			do_pipe(p_out);
 		else
 			ft_memset(p_out, UNSET, sizeof(int[2]));
-		system("ls -la /proc/$$/fd ; echo \"\n\"");
-		execution_process(cmd_cursor->content, job->nb_cmd, p_in, p_out);
+	//	system("ls -la /proc/$$/fd ; echo \"\n\"");
+		ret_value = execution_process(cmd_cursor->content, job->nb_cmd, p_in, p_out);
 		close_pipe_end(p_in[R_END]);
 		close_pipe_end(p_in[W_END]);
 		if (i < job->nb_cmd - 1)
@@ -84,6 +90,8 @@ void			executor(const t_job *job)
 		pid = wait(&wstatus);
 		i++;
 	}
+//	ft_printf("\n Files opened at the end:\n");
+//	system("ls -la /proc/$$/fd ; echo \"\n\"");
 	ms_setenv_int(get_env_list(GET), "?", ret_value, F_OVERWRITE);
 	ft_printf("\n(exec) $? = %d\n", get_env_value_int(get_env_list(GET), "?"));
 	manage_exit_status(wstatus, pid);

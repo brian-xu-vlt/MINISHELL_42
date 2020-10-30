@@ -56,6 +56,7 @@
 #define	F_REDIRECT_FAILURE		1<<0	
 #define	F_REDIRECT_IN			1<<1
 #define	F_REDIRECT_OUT			1<<2
+#define	F_REDIRECT_OUT_APPEND	1<<3
 
 #define SIG_MODE_NORMAL			0
 #define SIG_MODE_LINE_EDITOR	1

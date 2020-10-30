@@ -28,7 +28,7 @@ char		**get_all_path_directories(void)
 		return (ft_split(path_env, ':'));
 }
 
-static int		is_absolute_path(const char *bin_name)
+int		is_absolute_path(const char *bin_name)
 {
 	return ((ft_strchr((char *)bin_name, '/') == NOT_FOUND) ? FALSE : TRUE);
 }

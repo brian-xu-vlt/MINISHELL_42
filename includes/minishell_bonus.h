@@ -132,6 +132,7 @@ void	exec_binary(const t_cmd *command);
 void	signal_manager(int set_mode);
 void	executor(const t_job *job);
 char	*locate_binary_file(const char *bin_name);
+int		is_absolute_path(const char *bin_name);
 
 
 int		manage_exit_status(int wstatus, pid_t pid);
