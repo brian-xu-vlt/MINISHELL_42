@@ -61,5 +61,13 @@
 #define	ALL_FREE					1
 #define NOT_ALL_FREE					0
 #define	FILE_FAIL						2
-	
+
+#define F_REDIRECT_FAILURE		1 << 0
+#define F_REDIRECT_IN 			1 << 1
+#define F_REDIRECT_OUT 			1 << 2
+#define F_REDIRECT_OUT_APPEND	1 << 3
+
+#define IN 0
+#define OUT 1
+
 #endif
