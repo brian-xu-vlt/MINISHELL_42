@@ -7,7 +7,7 @@ static int	process_less(char *str, t_cmd *cmd)
 
 	ft_printf("PROCESS_LESS\n");
 	errno = SUCCESS;
-	fd = open(str, O_RDONLY | O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR |
+	fd = open(str, O_RDONLY | O_WRONLY | O_EXCL, S_IRUSR | S_IWUSR |
 				S_IRGRP | S_IROTH);
 	if (fd < 0)
 	{
