@@ -23,6 +23,14 @@ static void		exec_subshell(const t_cmd *command, int p_in[2], int p_out[2])
 	else if (pid != 0 && pid != FAILURE)
 		ms_setenv_int(get_env_list(GET), "!", (int)pid, F_OVERWRITE);
 }
+
+static int		is_builtin_executable(const int nb_cmd, const t_cmd *command)
+{
+	return (ft_strequ(command->name, "exit") == TRUE || 
+	(nb_cmd == 1 && is_builtin(command) == TRUE && command->redirection == 0));
+
+}
+
 static int		execution_process(const t_cmd *command, const int nb_cmd,
 												int p_in[2], int p_out[2])
 {
@@ -31,17 +39,11 @@ static int		execution_process(const t_cmd *command, const int nb_cmd,
 //	else if (ft_strequ(command->name, "exit") == TRUE)
 	if ((command->redirection & F_REDIRECT_FAILURE) == FALSE)
 	{
-		if (ft_strequ(command->name, "exit") == TRUE)
-			exec_builtin(command);
-		else if (nb_cmd == 1 && is_builtin(command) == TRUE && command->redirection == 0)
+		if (is_builtin_executable(nb_cmd, command) == TRUE)
 			exec_builtin(command);
 		else
 			exec_subshell(command, p_in, p_out);
-/*		if (command->redirection & F_REDIRECT_IN)
-			close(command->fd[STDIN_FILENO]);
-		if (command->redirection & F_REDIRECT_OUT)
-			close(command->fd[STDOUT_FILENO]);
-*/	}
+	}
 	else
 		return (-1);
 	return (0);
@@ -56,49 +58,43 @@ static void		do_pipe(int pipe_fd[2])
 		print_set_errno(errno, NULL, "do pipe: ", NULL);
 }
 
-void			executor(const t_job *job)
+static void		executor_loop(const t_job *job, int p_in[2], int p_out[2])
 {
+	int		ret;
 	size_t	i;
-	int		ret_value;
 	t_list	*cmd_cursor;
-	int		p_in[2];
-	int		p_out[2];
 	pid_t	pid;
 	int		wstatus;
-	
-	if (job == NULL || job->cmd_lst == NULL)
-		return ;
+
 	i = 0;
-	ft_memset(p_in, UNSET, sizeof(int[2]));
-	ft_memset(p_out, UNSET, sizeof(int[2]));
 	cmd_cursor = job->cmd_lst;
 	while (i < job->nb_cmd && cmd_cursor->content != NULL)
 	{
-		ret_value = 0;
-		//if (i < job->nb_cmd - 1 || ((t_cmd *)cmd_cursor->content)->redirection == 1)
 		if (i < job->nb_cmd - 1)
 			do_pipe(p_out);
 		else
 			ft_memset(p_out, UNSET, sizeof(int[2]));
-	//	system("ls -la /proc/$$/fd ; echo \"\n\"");
-		ret_value = execution_process(cmd_cursor->content, job->nb_cmd, p_in, p_out);
+		ret = execution_process(cmd_cursor->content, job->nb_cmd, p_in, p_out);
 		close_pipe_end(p_in[R_END]);
 		close_pipe_end(p_in[W_END]);
 		if (i < job->nb_cmd - 1)
 			ft_memmove(p_in, p_out, sizeof(int[2]));
-		cmd_cursor = cmd_cursor->next;
 		pid = wait(&wstatus);
+		cmd_cursor = cmd_cursor->next;
 		i++;
 	}
-//	ft_printf("\n Files opened at the end:\n");
-//	system("ls -la /proc/$$/fd ; echo \"\n\"");
-	ms_setenv_int(get_env_list(GET), "?", ret_value, F_OVERWRITE);
-	ft_printf("\n(exec) $? = %d\n", get_env_value_int(get_env_list(GET), "?"));
-	manage_exit_status(wstatus, pid);
+	manage_exit_status(ret, wstatus, pid);
 }
 
-
-/*	
-	if (ret_value != 0 || errno != 0)
-		ret_value = 128 + ret_value;
-*/
+void			executor(const t_job *job)
+{
+	int		p_in[2];
+	int		p_out[2];
+	
+	if (job != NULL && job->cmd_lst != NULL)
+	{
+		ft_memset(p_in, UNSET, sizeof(int[2]));
+		ft_memset(p_out, UNSET, sizeof(int[2]));
+		executor_loop(job, p_in, p_out);
+	}
+}

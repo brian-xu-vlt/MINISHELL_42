@@ -14,6 +14,7 @@ static void	debug_print_mask(int mask)
 static void	clean(t_cmd *command)
 {
 	int			i;
+	int			original_ac;
 	int			open_flags;
 	mode_t		mode_flags;
 	t_vector	*file_path;
@@ -24,7 +25,8 @@ static void	clean(t_cmd *command)
 	mode_flags = 0;
 	i = 0;
 	command->redirection = 0;
-	while (command->av[i] != NULL)
+	original_ac = command->ac;
+	while (i < original_ac)
 	{
 		if (ft_strequ(command->av[i], "<") == TRUE)
 		{
@@ -49,12 +51,10 @@ static void	clean(t_cmd *command)
 			{
 				command->redirection |= F_REDIRECT_FAILURE;
 				print_set_errno(errno, NULL, command->fd_string[STDIN_FILENO], NULL);
-				return ;
 			}
 			else
 				command->redirection |= F_REDIRECT_IN;
 			close(fd_ret);
-			return ;
 		}
 		else if (ft_strequ(command->av[i], ">") == TRUE || ft_strequ(command->av[i], ">>") == TRUE)
 		{
@@ -83,7 +83,6 @@ static void	clean(t_cmd *command)
 			{
 				command->redirection |= F_REDIRECT_FAILURE;
 				print_set_errno(errno, NULL, command->fd_string[STDOUT_FILENO], NULL);
-				return ;
 			}
 			else
 				command->redirection |= F_REDIRECT_OUT;
@@ -91,7 +90,6 @@ static void	clean(t_cmd *command)
 				command->redirection |= F_REDIRECT_OUT_APPEND;
 			close(fd_ret);
 			debug_print_mask(command->redirection);
-			return ;
 		}
 		i++;
 	}
