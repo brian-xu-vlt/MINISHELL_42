@@ -37,7 +37,6 @@ static int	process_greater(char *str, t_cmd *cmd, t_clean_cmd *clean_cmd)
 	fd = open(str, O_RDONLY | O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR |
 				S_IRGRP | S_IROTH);
 	//clean_cmd->tab_fd_out[i] = fd;
-	ft_printf("fd = %d\n", fd);//DEBUG	
 	if (fd < 0)
 	{
 		if (clean_cmd->tmp_fd_in > 2)
@@ -65,7 +64,6 @@ static int	process_double_greater(char *str, t_cmd *cmd, t_clean_cmd *clean_cmd)
 	fd = open(str, O_RDONLY | O_WRONLY | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR |
 				S_IRGRP | S_IROTH);
 	//clean_cmd->tab_fd_out_append[i] = fd;
-	ft_printf("fd = %d\n", fd);//DEBUG	
 	if (fd < 0)
 	{
 		if (clean_cmd->tmp_fd_in > 2)
@@ -88,7 +86,6 @@ static int	process_open_file(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	size_t	i;
 	int		ret_file;
 
-	ft_printf("\n\ncount_redir = %d\n", clean_cmd->count_redir);//DEBUG
 	i = 0;
 	ret_file = SUCCESS;
 	while (i < clean_cmd->count_redir)
@@ -118,21 +115,32 @@ static int	is_path(char *str)
 	return (false);
 }
 
-static void	get_pwd(char **fd_string)
+static int	get_pwd(char **fd_string)
 {
 	size_t	i;
 	char	*pwd;
+	char	*buff;
 	t_vector	*vct_pwd;
 	t_vector	*vct_string;
+	extern int	errno;
 
 	i = 0;
+	errno = SUCCESS;
+	pwd = NULL;
+	buff = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
+	if (buff == NULL)
+		return (FAILURE);
 	while (i < NB_FD)
 	{
 		if (fd_string[i] != NULL)
 		{
-			pwd = getcwd(NULL, PATH_MAX);
-			ft_printf("fd_string[%d] = %s\n", i, fd_string[i]);//DEBUG
-			ft_printf("PWD = %s\n", pwd);//DEBUG
+			pwd = getcwd(buff, PATH_MAX);
+			if (pwd == NULL)
+			{
+				print_set_errno(errno, "bash: getcwd", NULL);
+				free(buff);
+				return (FALSE);
+			}
 			vct_pwd = vct_new();
 			vct_addstr(vct_pwd, pwd);
 			if (is_path(fd_string[i]) == true)
@@ -141,23 +149,25 @@ static void	get_pwd(char **fd_string)
 				vct_addstr(vct_string, fd_string[i]);
 				vct_pop(vct_string);
 				vct_addstr(vct_pwd, vct_getstr(vct_string));
-				ft_printf("IS PATH == TRUE\n");//DEBUG
 			}
 			else
 			{
 				vct_add(vct_pwd, '/');
 				vct_addstr(vct_pwd, fd_string[i]);
 			}
-			ft_printf("vct_pwd = %s\n", vct_getstr(vct_pwd));//DEBUG
 			free(fd_string[i]);
 			fd_string[i] = ft_strdup(vct_getstr(vct_pwd));
 		}
 		i++;
 	}
+	return (SUCCESS);
 }
 
 int	process_redirection(t_cmd *cmd, t_clean_cmd *clean_cmd)
 {
+	int	ret_pwd;
+
+	ret_pwd = SUCCESS;
 	cmd->redirection = 0;
 	if (create_tab_redir(cmd, clean_cmd) == FAILURE)
 		return (FAILURE);
@@ -174,8 +184,9 @@ int	process_redirection(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	if (cmd->fd[1] != STDOUT_FILENO && cmd->fd[1] == clean_cmd->tmp_fd_append)
 			cmd->redirection = cmd->redirection | F_REDIRECT_OUT
 								| F_REDIRECT_OUT_APPEND;
-	ft_printf("cmd->redirection = %d\n", cmd->redirection);//DEBUG
-	get_pwd(cmd->fd_string);
+	ret_pwd = get_pwd(cmd->fd_string);
+	if (ret_pwd != SUCCESS)
+		return (ret_pwd);
 	ft_printf("\033[0;32mDEBUG FD_STRING FINAL\n\033[0m");//DEBUG
 	debug_fd_string(cmd->fd_string);
 	return (SUCCESS);

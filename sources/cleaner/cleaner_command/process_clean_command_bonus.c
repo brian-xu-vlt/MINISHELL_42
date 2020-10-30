@@ -48,8 +48,10 @@ static int 			process_command_export(t_cmd *cmd, bool is_bad,
 											enum e_cmd cmd_type)
 {
 	t_clean_cmd	*clean_cmd;
+	int			ret_redirection;
 
-	ft_printf("PROCESS COMMAND EXPORT\n");
+	ft_printf("\nPROCESS COMMAND EXPORT\n\n");
+	ret_redirection = SUCCESS;
 	iter_clean_quote(cmd, (size_t)cmd->ac);
 	clean_cmd = init_clean_command();
 	if (clean_cmd == NULL)
@@ -69,10 +71,11 @@ static int 			process_command_export(t_cmd *cmd, bool is_bad,
 		free_clean_command(clean_cmd, ALL_FREE);
 		return (FAILURE);
 	}
-	if (process_redirection(cmd, clean_cmd) == FILE_FAIL)
+	ret_redirection = process_redirection(cmd, clean_cmd);
+	if (ret_redirection != SUCCESS)
 	{
 		free_clean_command(clean_cmd, ALL_FREE);
-		return (FILE_FAIL);
+		return (ret_redirection);
 	}
 	free_clean_command(clean_cmd, ALL_FREE);
 	return (SUCCESS);
