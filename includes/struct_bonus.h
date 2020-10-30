@@ -82,6 +82,8 @@ typedef struct				s_clean_cmd
 	char	**tab_redir;
 	char	**tmp_av;
 	char	**av;
+	int		tmp_fd_in;
+	int		tmp_fd_out;
 }
 							t_clean_cmd;
 

@@ -16,6 +16,8 @@ static t_clean_cmd	*init_clean_command()
 	clean_cmd->tab_redir = NULL;
 	clean_cmd->tmp_tab_redir = NULL;
 	clean_cmd->tmp_av = NULL;
+	clean_cmd->tmp_fd_in = 0;
+	clean_cmd->tmp_fd_out = 1;
 	return (clean_cmd);
 }
 
