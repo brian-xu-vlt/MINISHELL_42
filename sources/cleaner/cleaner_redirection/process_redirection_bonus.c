@@ -127,6 +127,8 @@ static int	get_pwd(char **fd_string)
 	i = 0;
 	errno = SUCCESS;
 	pwd = NULL;
+	vct_pwd = vct_new();
+	vct_string = vct_new();
 	buff = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
 	if (buff == NULL)
 		return (FAILURE);
@@ -139,13 +141,13 @@ static int	get_pwd(char **fd_string)
 			{
 				print_set_errno(errno, "bash: getcwd", NULL);
 				free(buff);
+				vct_del(&vct_pwd);
+				vct_del(&vct_string);
 				return (FALSE);
 			}
-			vct_pwd = vct_new();
 			vct_addstr(vct_pwd, pwd);
 			if (is_path(fd_string[i]) == true)
 			{
-				vct_string = vct_new();
 				vct_addstr(vct_string, fd_string[i]);
 				vct_pop(vct_string);
 				vct_addstr(vct_pwd, vct_getstr(vct_string));
@@ -157,9 +159,14 @@ static int	get_pwd(char **fd_string)
 			}
 			free(fd_string[i]);
 			fd_string[i] = ft_strdup(vct_getstr(vct_pwd));
+			vct_clear(vct_pwd);
+			vct_clear(vct_string);
 		}
 		i++;
 	}
+	free(buff);
+	vct_del(&vct_pwd);
+	vct_del(&vct_string);
 	return (SUCCESS);
 }
 
