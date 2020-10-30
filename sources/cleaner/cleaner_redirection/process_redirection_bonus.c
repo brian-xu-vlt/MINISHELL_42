@@ -7,6 +7,7 @@ static int	process_less(char *str, t_cmd *cmd, t_clean_cmd *clean_cmd)
 	static size_t	i = 0;
 
 	errno = SUCCESS;
+	ft_printf("STR = %s\n");//DEBUG
 	fd = open(str, O_RDONLY | O_WRONLY | O_EXCL, S_IRUSR | S_IWUSR | S_IRGRP |
 				S_IROTH);
 	clean_cmd->tab_fd_in[i] = fd;
@@ -37,7 +38,6 @@ static int	process_greater(char *str, t_cmd *cmd, t_clean_cmd *clean_cmd)
 	errno = SUCCESS;
 	fd = open(str, O_RDONLY | O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR |
 				S_IRGRP | S_IROTH);
-	ft_printf("I = %d\n", i);
 	clean_cmd->tab_fd_out[i] = fd;
 	ft_printf("fd = %d\n", fd);//DEBUG	
 	if (fd < 0)
@@ -93,6 +93,7 @@ static int	process_open_file(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	ret_file = SUCCESS;
 	while (i < clean_cmd->count_redir)
 	{
+		ft_printf("i = %d\n", i);//DEBUG
 		if (ft_strequ(clean_cmd->tab_redir[i], DOUBLE_GREATER) == TRUE)
 			ret_file = process_double_greater(clean_cmd->tab_redir[i + 1], cmd,
 												clean_cmd);
@@ -100,15 +101,17 @@ static int	process_open_file(t_cmd *cmd, t_clean_cmd *clean_cmd)
 			ret_file = process_greater(clean_cmd->tab_redir[i + 1], cmd,
 											clean_cmd);
 		else if (ft_strequ(clean_cmd->tab_redir[i], LESS_THAN) == TRUE)
+		{
+			ft_printf("ENTER HER\n");//DEBUG
 			ret_file = process_less(clean_cmd->tab_redir[i + 1], cmd, clean_cmd);
+		}
 		if (ret_file == FAILURE)
 		{
 			ft_printf("RET_FILE == FAILURE\n");
 			return (FAILURE);
 		}
-		if (i += 2 < clean_cmd->count_redir)
-			i += 2;
-		else
+		i += 2;
+		if (i > clean_cmd->count_redir)
 			break ;
 	}
 	return (SUCCESS);
