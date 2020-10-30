@@ -110,11 +110,20 @@ static int	process_open_file(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	return (SUCCESS);
 }
 
+static int	is_path(char *str)
+{
+	if (ft_strlen(str) > 2)
+		if (str[0] == '.' && str[1] == '/')
+			return (true);
+	return (false);
+}
+
 static void	get_pwd(char **fd_string)
 {
 	size_t	i;
 	char	*pwd;
 	t_vector	*vct_pwd;
+	t_vector	*vct_string;
 
 	i = 0;
 	while (i < NB_FD)
@@ -122,11 +131,23 @@ static void	get_pwd(char **fd_string)
 		if (fd_string[i] != NULL)
 		{
 			pwd = getcwd(NULL, PATH_MAX);
+			ft_printf("fd_string[%d] = %s\n", i, fd_string[i]);//DEBUG
 			ft_printf("PWD = %s\n", pwd);//DEBUG
 			vct_pwd = vct_new();
 			vct_addstr(vct_pwd, pwd);
-			vct_add(vct_pwd, '/');
-			vct_addstr(vct_pwd, fd_string[i]);
+			if (is_path(fd_string[i]) == true)
+			{
+				vct_string = vct_new();
+				vct_addstr(vct_string, fd_string[i]);
+				vct_pop(vct_string);
+				vct_addstr(vct_pwd, vct_getstr(vct_string));
+				ft_printf("IS PATH == TRUE\n");//DEBUG
+			}
+			else
+			{
+				vct_add(vct_pwd, '/');
+				vct_addstr(vct_pwd, fd_string[i]);
+			}
 			ft_printf("vct_pwd = %s\n", vct_getstr(vct_pwd));//DEBUG
 			free(fd_string[i]);
 			fd_string[i] = ft_strdup(vct_getstr(vct_pwd));
