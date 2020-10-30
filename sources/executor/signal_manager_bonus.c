@@ -42,21 +42,21 @@ static void	sig_handler_int(int sig)
 	if (pid != 0)
 		kill(pid, sig);
 	if ((sig_str = ms_strsignal(sig)) != NOT_FOUND)
-		ft_printf("%s ", sig_str);
+		ft_printf("[%s] ", sig_str);
 }
 
 void		signal_manager(int set_mode)
 {
 	int					i;
-	static const int 	sig_nb = 2;
+	static const int 	sig_nb = 3;
 	static const int 	sig_list[sig_nb] = {
-		SIGINT, SIGQUIT
+		SIGINT, SIGQUIT, SIGCHLD
 	};
 	static void 	(*handler_mode_exec[sig_nb])(int) = {
 		sig_handler_int, sig_handler_int
 	};
 	static void 	(*handler_mode_line_editor[sig_nb])(int) = {
-		sig_handler_int, SIG_IGN
+		sig_handler_int, SIG_IGN, sig_handler_int
 	};
 
 	i = 0;

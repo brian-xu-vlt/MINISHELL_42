@@ -79,10 +79,10 @@ static void		executor_loop(const t_job *job, int p_in[2], int p_out[2])
 		close_pipe_end(p_in[W_END]);
 		if (i < job->nb_cmd - 1)
 			ft_memmove(p_in, p_out, sizeof(int[2]));
-		pid = wait(&wstatus);
 		cmd_cursor = cmd_cursor->next;
 		i++;
 	}
+	while ((pid = wait(&wstatus)) > 0);
 	manage_exit_status(ret, wstatus, pid);
 }
 

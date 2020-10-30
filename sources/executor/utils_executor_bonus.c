@@ -2,23 +2,24 @@
 
 int	manage_exit_status(int ret, int wstatus, pid_t pid)
 {
+(void)pid;
 	//ret = 0;
 	if (WIFEXITED(wstatus) == TRUE)
 	{
 		ret = WEXITSTATUS(wstatus);
-		ft_printf("\nEXIT_MANAGER : Exit status == %i", ret);
+	//	ft_printf("\nEXIT_MANAGER : Exit status == %i", ret);
 	}
 	else if (WIFSIGNALED(wstatus) == TRUE)
 	{
 		ret = WTERMSIG(wstatus);
-		ft_printf("\nEXIT_MANAGER : PID %i Got a signal %i ", pid, ret);
+	//	ft_printf("\nEXIT_MANAGER : PID %i Got a signal %i ", pid, ret);
 		if (WCOREDUMP(wstatus) != FALSE)
 			ft_printf("(core dumped)");
 	}
 	else if (WIFSTOPPED(wstatus) == TRUE)
 	{
 		ret = WSTOPSIG(wstatus);
-		ft_printf("\nEXIT_MANAGER : Got a STOPED by pid %d", ret);
+	//	ft_printf("\nEXIT_MANAGER : Got a STOPED by pid %d", ret);
 	}
 	ft_printf("\n");
 	ms_setenv_int(get_env_list(GET), "?", ret, F_OVERWRITE);
@@ -69,7 +70,6 @@ static int	open_file(t_cmd *command, int fd_fileno)
 	command->fd[fd_fileno] = fd_return;
 	return (fd_return);	
 }
-
 
 void		dup_pipes(const t_cmd *command, int p_in[2], int p_out[2])
 {
