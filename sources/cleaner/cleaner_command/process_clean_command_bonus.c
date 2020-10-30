@@ -18,6 +18,7 @@ static t_clean_cmd	*init_clean_command()
 	clean_cmd->tmp_av = NULL;
 	clean_cmd->tmp_fd_in = 0;
 	clean_cmd->tmp_fd_out = 1;
+	clean_cmd->tmp_fd_append = 1;
 	return (clean_cmd);
 }
 

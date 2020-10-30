@@ -84,9 +84,7 @@ typedef struct				s_clean_cmd
 	char	**av;
 	int		tmp_fd_in;
 	int		tmp_fd_out;
-	int		*tab_fd_in;
-	int		*tab_fd_out;
-	int		*tab_fd_out_append;
+	int		tmp_fd_append;
 }
 							t_clean_cmd;
 
