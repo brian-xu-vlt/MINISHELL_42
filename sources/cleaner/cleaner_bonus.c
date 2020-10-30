@@ -22,9 +22,11 @@ static int	clean_command(t_cmd *cmd)
 	int			ass_or_exp;
 	bool		is_bad;
 	enum e_cmd	cmd_type;
+	int			ret_command;
 
 	ass_or_exp = FALSE;
 	is_bad = false;
+	ret_command = SUCCESS;
 	if (cmd->count_assign != 0 && cmd->count_exp != 0)
 		ass_or_exp = NO_ASSIGN_BUT_EXP;
 	cmd_type = get_cmd_type(cmd);
@@ -32,8 +34,9 @@ static int	clean_command(t_cmd *cmd)
 		ass_or_exp = FALSE;
 	if (cmd->count_assign != 0)
 		is_bad = is_bad_ass(cmd);
-	if (process_clean_command(cmd, ass_or_exp, is_bad, cmd_type) == FAILURE)
-		return (FAILURE);
+	ret_command = process_clean_command(cmd, ass_or_exp, is_bad, cmd_type);
+	if (ret_command != SUCCESS)
+		return (ret_command);
 	return (SUCCESS);
 }
 
@@ -42,7 +45,5 @@ int			cleaner(t_cmd *cmd)
 	clean_quote(cmd);
 	ft_printf("\n\033[0;32mDEBUG AV CLEAN QUOTE\n\033[0m");//DEBUG
 	debug_av(cmd->av, cmd->ac);//DEBUG
-	if (clean_command(cmd) == FAILURE)
-		return (FAILURE);
-	return (SUCCESS);
+	return (clean_command(cmd));
 }

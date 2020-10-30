@@ -68,10 +68,10 @@ static int 			process_command_export(t_cmd *cmd, bool is_bad,
 		free_clean_command(clean_cmd, ALL_FREE);
 		return (FAILURE);
 	}
-	if (process_redirection(cmd, clean_cmd) == FAILURE)
+	if (process_redirection(cmd, clean_cmd) == FILE_FAIL)
 	{
 		free_clean_command(clean_cmd, ALL_FREE);
-		return (FAILURE);
+		return (FILE_FAIL);
 	}
 	free_clean_command(clean_cmd, ALL_FREE);
 	return (SUCCESS);
@@ -83,19 +83,10 @@ int 				process_clean_command(t_cmd *cmd, int ass_or_exp,
 	//COMPARER CHAQUE IF AVEC LES INDEXS DE OU SE TROUVE LES ASSIGN
 	// + revoir les diff printf
 	if (cmd_type == E_EXPORT_EXEC || cmd_type == E_EXPORT_NO_EXEC)
-	{
-		if (process_command_export(cmd, is_bad, cmd_type) == FAILURE)
-			return (FAILURE);
-	}
+		return (process_command_export(cmd, is_bad, cmd_type));
 	if (cmd_type == E_COMMAND)
-	{
-		if (process_command_command(cmd, ass_or_exp, is_bad, cmd_type) == FAILURE)
-			return (FAILURE);
-	}
+		return (process_command_command(cmd, ass_or_exp, is_bad, cmd_type));
 	if (cmd_type == E_ANY)
-	{
-		if (process_command_any(cmd, ass_or_exp, is_bad, cmd_type) == FAILURE)
-			return (FAILURE);
-	}
+		return (process_command_any(cmd, ass_or_exp, is_bad, cmd_type));
 	return (SUCCESS);
 }

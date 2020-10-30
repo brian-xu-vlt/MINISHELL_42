@@ -11,7 +11,9 @@ int			waiter(t_list *job_list)
 	t_list	*tmp_cmd_lst;
 	t_cmd	*cmd;
 	bool	ret_exec;
+	int		ret_cleaner;
 	
+	ret_cleaner = SUCCESS;
 	while (job_list != NULL)
 	{
 		job = job_list->content;
@@ -23,10 +25,11 @@ int			waiter(t_list *job_list)
 				(cmd->condition == E_YES_AND && ret_exec == true) ||
 				(cmd->condition == E_NOT_OR && ret_exec == false))
 			{
-				if (cleaner(cmd) == FAILURE)
+				ret_cleaner = cleaner(cmd);
+				if (ret_cleaner != SUCCESS)
 				{
-					ft_printf("CLEANER FAILURE\n");
-					return (FAILURE);
+					ft_printf("CLEANER FAILURE OR FALSE\n");
+					return (ret_cleaner);
 				}
 				debug_cleaner(cmd);
 				ret_exec = executor(); //UTILISER LE VRAI EXECUTOR

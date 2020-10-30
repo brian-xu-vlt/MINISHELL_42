@@ -60,5 +60,6 @@
 #define NB_CLEAN_COMMAND		5
 #define	ALL_FREE					1
 #define NOT_ALL_FREE					0
+#define	FILE_FAIL						2
 	
 #endif
