@@ -11,11 +11,10 @@ static int	process_less(char *str, t_cmd *cmd)
 				S_IRGRP | S_IROTH);
 	if (fd < 0)
 	{
-		ft_printf("errno is = %s (errno = %d)\n", strerror(errno), errno);
+		print_set_errno(errno, "bash", str);
 		return (FAILURE);
 	}
 	cmd->fd[STDIN_FILENO] = fd;
-	ft_printf("errno is = %s (errno = %d)\n", strerror(errno), errno);
 	ft_printf("cmd->fd[%d] = %d\n\n", STDIN_FILENO, cmd->fd[STDIN_FILENO]);//DEBUG	
 	return (SUCCESS);
 }
@@ -27,16 +26,15 @@ static int	process_greater(char *str, t_cmd *cmd)
 
 	ft_printf("PROCESS_GREATER\n");
 	errno = SUCCESS;
-	fd = open(str, O_RDONLY | O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP |
-				S_IROTH);
+	fd = open(str, O_RDONLY | O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR |
+				S_IRGRP | S_IROTH);
 	ft_printf("fd = %d\n", fd);//DEBUG	
 	if (fd < 0)
 	{
-		ft_printf("errno is = %s (errno = %d)\n", strerror(errno), errno);
+		print_set_errno(errno, "bash", str);
 		return (FAILURE);
 	}
 	cmd->fd[STDOUT_FILENO] = fd;
-	ft_printf("errno is = %s (errno = %d)\n", strerror(errno), errno);
 	ft_printf("cmd->fd[%d] = %d\n\n", STDOUT_FILENO, cmd->fd[STDOUT_FILENO]);//DEBUG	
 	return (SUCCESS);
 }
@@ -53,11 +51,10 @@ static int	process_double_greater(char *str, t_cmd *cmd)
 	ft_printf("fd = %d\n", fd);//DEBUG	
 	if (fd < 0)
 	{
-		ft_printf("errno is = %s (errno = %d)\n", strerror(errno), errno);
+		print_set_errno(errno, "bash", str);
 		return (FAILURE);
 	}
 	cmd->fd[STDOUT_FILENO] = fd;
-	ft_printf("errno is = %s (errno = %d)\n", strerror(errno), errno);
 	ft_printf("cmd->fd[%d] = %d\n\n", STDOUT_FILENO, cmd->fd[STDOUT_FILENO]);//DEBUG	
 	return (SUCCESS);
 }
