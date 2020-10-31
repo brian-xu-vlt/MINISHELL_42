@@ -18,7 +18,8 @@ static const char	*ms_strsignal(int sig)
 	};
 	static const char 	*sig_str[sig_nb] = {
 		"Abort", "Bus Error", "Segmentation Fault", "Child status has changed",
-		"Hangup", "Illegal instruction", "Interrupt ^C", "Broken pipe",
+		//"Hangup", "Illegal instruction", "Interrupt ^C", "Broken pipe",
+		"Hangup", "Illegal instruction", "", "Broken pipe",
 		"Quit", "Stop process", "Continue Process", "Stop typed at terminal",
 		"Termination signal"
 	};
@@ -33,7 +34,7 @@ static const char	*ms_strsignal(int sig)
 	return (NOT_FOUND);
 }
 
-static void	sig_handler_int(int sig)
+static void	display_signal(int sig)
 {
 	pid_t		pid;
 	const char	*sig_str;
@@ -42,7 +43,7 @@ static void	sig_handler_int(int sig)
 	if (pid != 0)
 		kill(pid, sig);
 	if ((sig_str = ms_strsignal(sig)) != NOT_FOUND)
-		ft_printf("[%s] ", sig_str);
+		ft_printf("%s ", sig_str);
 }
 
 void		signal_manager(int set_mode)
@@ -53,10 +54,10 @@ void		signal_manager(int set_mode)
 		SIGINT, SIGQUIT, SIGCHLD
 	};
 	static void 	(*handler_mode_exec[sig_nb])(int) = {
-		sig_handler_int, sig_handler_int
+		display_signal, display_signal, SIG_DFL
 	};
 	static void 	(*handler_mode_line_editor[sig_nb])(int) = {
-		sig_handler_int, SIG_IGN, sig_handler_int
+		display_signal, SIG_IGN, display_signal
 	};
 
 	i = 0;
@@ -71,6 +72,3 @@ void		signal_manager(int set_mode)
 		i++;
 	}
 }
-
-
-

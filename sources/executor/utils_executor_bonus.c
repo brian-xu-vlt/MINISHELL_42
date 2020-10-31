@@ -21,7 +21,7 @@ int	manage_exit_status(int ret, int wstatus, pid_t pid)
 		ret = WSTOPSIG(wstatus);
 	//	ft_printf("\nEXIT_MANAGER : Got a STOPED by pid %d", ret);
 	}
-	ft_printf("\n");
+//	ft_printf("\n");
 	ms_setenv_int(get_env_list(GET), "?", ret, F_OVERWRITE);
 	ft_printf("\n(exec) $? = %d\n", get_env_value_int(get_env_list(GET), "?"));
 	return (ret);

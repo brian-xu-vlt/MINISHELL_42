@@ -65,7 +65,10 @@ static void		waiter(int ret)
 	pid_t	pid;
 	int		wstatus;
 
-	while ((pid = wait(&wstatus)) > 0);
+	wstatus = 0;
+	pid = 1;
+	while (pid != FAILURE)
+		pid = wait(&wstatus);
 	manage_exit_status(ret, wstatus, pid);
 }
 
