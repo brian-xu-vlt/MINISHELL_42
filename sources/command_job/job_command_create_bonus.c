@@ -1,5 +1,19 @@
 #include "minishell_bonus.h"
 
+static void	create_cmd_second(t_cmd *cmd, t_cmd *cmd_model)
+{
+	cmd->count_assign = cmd_model->count_assign;
+	cmd->count_exp = cmd_model->count_exp;
+	cmd->tab_assign = cmd_model->tab_assign;
+	cmd->tab_exp = cmd_model->tab_exp;
+	cmd->tmp_fd_in = 0;	
+	cmd->tmp_fd_out = 1;
+	cmd->tmp_fd_append = 1;	
+	cmd->tab_redir = NULL;
+	cmd->count_redir= 0;
+	cmd->ret = FAILURE;
+}
+
 t_cmd	*create_cmd(t_cmd *cmd_model)
 {
 	t_cmd	*cmd;
@@ -17,16 +31,7 @@ t_cmd	*create_cmd(t_cmd *cmd_model)
 		create_cmd_fd_string(cmd, cmd_model);
 		cmd->condition = cmd_model->condition;
 		cmd->redirection = cmd_model->redirection;
-		cmd->count_assign = cmd_model->count_assign;
-		cmd->count_exp = cmd_model->count_exp;
-		cmd->tab_assign = cmd_model->tab_assign;
-		cmd->tab_exp = cmd_model->tab_exp;
-		cmd->tmp_fd_in = 0;	
-		cmd->tmp_fd_out = 1;
-		cmd->tmp_fd_append = 1;	
-		cmd->tab_redir = NULL;
-		cmd->count_redir= 0;
-		cmd->ret = FAILURE;
+		create_cmd_second(cmd, cmd_model);
 	}
 	return (cmd);
 }

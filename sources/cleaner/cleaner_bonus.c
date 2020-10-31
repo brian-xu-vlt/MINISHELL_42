@@ -43,7 +43,7 @@ static int	clean_command(t_cmd *cmd)
 int			cleaner(t_cmd *cmd)
 {
 	clean_quote(cmd);
-	ft_printf("\n\033[0;32mDEBUG AV CLEAN QUOTE\n\033[0m");//DEBUG
-	debug_av(cmd->av, cmd->ac);//DEBUG
+	//ft_printf("\n\033[0;32mDEBUG AV CLEAN QUOTE\n\033[0m");//DEBUG
+	//debug_av(cmd->av, cmd->ac);//DEBUG
 	return (clean_command(cmd));
 }

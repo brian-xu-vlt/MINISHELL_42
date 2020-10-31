@@ -29,6 +29,7 @@ void debug_redir(char **redir, int ac)
 	int i;
 
 	i = 0;
+	ft_printf("AC = %d\n", ac);//DEBUGA
 	while (i < ac)
 	{
 		ft_printf("redir[%d] = %s\n", i, redir[i]);

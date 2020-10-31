@@ -3,7 +3,6 @@
 static void	del_cmd(void *data)
 {
 	t_cmd *cmd;
-	int		i;
 
 	cmd = (t_cmd *)data;
 	if (cmd == NULL)
@@ -11,31 +10,21 @@ static void	del_cmd(void *data)
 	free(cmd->fd_string[0]);
 	free(cmd->fd_string[1]);
 	free(cmd->fd_string[2]);
-	i = 0;
-	while (i < cmd->ac)
+	if (cmd->av != NULL)
 	{
-		free(cmd->av[i]);
-		i++;
-	}
-	i = 0;
-	while (i < cmd->count_assign)
-	{
-		free(cmd->envp[i]);
-		i++;
-	}
-	i = 0;
-	if (cmd->tab_redir != NULL)
-	{
-		while (i < cmd->count_redir)
-		{
-			free(cmd->tab_redir[i]);
-			i++;
-		}
-		free(cmd->tab_redir);
+		ft_free_tab(cmd->ac, cmd->av);
+		free(cmd->av);
 	}
 	if (cmd->envp != NULL)
+	{
+		ft_free_tab(cmd->count_assign, cmd->envp);
 		free(cmd->envp);
-	free(cmd->av);
+	}
+	if (cmd->tab_redir != NULL)
+	{
+		ft_free_tab(cmd->count_redir, cmd->tab_redir);
+		free(cmd->tab_redir);
+	}
 	free(cmd->tab_assign);
 	free(cmd->tab_exp);
 	free(cmd);

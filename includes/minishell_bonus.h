@@ -203,6 +203,10 @@ int									count_redir(t_cmd *cmd,
 int									count_av(t_cmd *cmd);
 void								debug_fd(int *fd);
 void								debug_fd_string(char **fd_sting);
+int									process_command_export_utils_bonus(
+										t_cmd *cmd, size_t ac,
+										t_clean_cmd *clean_cmd, bool is_bad);
+t_clean_cmd							*init_clean_command();
 
 	/******************************************************************************/
 	/*******************************_ERROR MANAGER_********************************/

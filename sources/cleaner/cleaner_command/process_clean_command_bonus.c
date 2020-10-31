@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static t_clean_cmd	*init_clean_command()
+t_clean_cmd	*init_clean_command()
 {
 	t_clean_cmd	*clean_cmd;
 	
@@ -47,13 +47,13 @@ static int			process_command_command(t_cmd *cmd, int ass_or_exp,
 static int 			process_command_export(t_cmd *cmd, bool is_bad,
 											enum e_cmd cmd_type)
 {
-	t_clean_cmd	*clean_cmd;
-	int			ret_redirection;
+	t_clean_cmd *clean_cmd;
+	int ret_redirection;
+	int	ret;
 
-	ft_printf("\nPROCESS COMMAND EXPORT\n\n");
-	ret_redirection = SUCCESS;
 	iter_clean_quote(cmd, (size_t)cmd->ac);
 	clean_cmd = init_clean_command();
+	ret = SUCCESS;
 	if (clean_cmd == NULL)
 	{
 		free_clean_command(clean_cmd, NOT_ALL_FREE);
@@ -61,24 +61,15 @@ static int 			process_command_export(t_cmd *cmd, bool is_bad,
 	}
 	count_ac_assign(cmd, clean_cmd, is_bad);
 	clean_cmd->ac = cmd->ac - clean_cmd->count_assign;
-	if (init_tab_assign_ac(clean_cmd, cmd) == FAILURE)
+	ret = init_tab_assign_ac(clean_cmd, cmd);
+	if (ret != FAILURE)
 	{
-		free_clean_command(clean_cmd, ALL_FREE);
-		return (FAILURE);
-	}
-	if (fill_clean_cmd(cmd, clean_cmd) == FAILURE)
-	{
-		free_clean_command(clean_cmd, ALL_FREE);
-		return (FAILURE);
-	}
-	ret_redirection = process_redirection(cmd, clean_cmd);
-	if (ret_redirection != SUCCESS)
-	{
-		free_clean_command(clean_cmd, ALL_FREE);
-		return (ret_redirection);
+		ret = fill_clean_cmd(cmd, clean_cmd);
+		if (ret != FAILURE)
+			ret = process_redirection(cmd, clean_cmd);
 	}
 	free_clean_command(clean_cmd, ALL_FREE);
-	return (SUCCESS);
+	return (ret);
 }
 
 int 				process_clean_command(t_cmd *cmd, int ass_or_exp,
