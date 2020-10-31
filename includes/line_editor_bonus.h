@@ -130,7 +130,8 @@ enum	e_optional_termcap
 
 typedef struct	s_line_editor
 {
-	struct termios	*termios_backup;
+	struct termios	*termios_editor;
+	struct termios	*termios_bkup;
 	char			*termcap[NB_ESSENTIAL_TERMCAP + NB_OPTIONAL_TERMCAP];
 	char			*cmd_line_backup;
 	t_vector		*cmd_line;
@@ -227,6 +228,7 @@ void		move_cursor_at_index(int index_to);
 
 void		init_prompt(void);
 void		init_term_mode(void);
+void		set_termios(const struct termios *termios_mode);
 void		init_line_editor(t_vector *cmd_line);
 void		update_window_size(void);
 

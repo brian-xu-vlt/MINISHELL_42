@@ -23,8 +23,8 @@ void		exit_routine_le(char *err_code)
 	t_le		*le;
 
 	le = get_struct(GET);
-	if (le->termios_backup != NULL)
-		tcsetattr(STDIN_FILENO, TCSADRAIN, le->termios_backup);
+	if (le->termios_bkup != NULL)
+		tcsetattr(STDIN_FILENO, TCSADRAIN, le->termios_bkup);
 	if (le->termcap[VISIBLE_CURSOR] != NULL)
 		tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
 	if (le->cmd_line_backup != NULL)

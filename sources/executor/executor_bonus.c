@@ -27,13 +27,15 @@ static void		exec_subshell(const t_cmd *command, int p_in[2], int p_out[2])
 static int		is_builtin_executable(const int nb_cmd, const t_cmd *command)
 {
 	return (ft_strequ(command->name, "exit") == TRUE || 
-	(nb_cmd == 1 && is_builtin(command) == TRUE && command->redirection == 0));
+		(nb_cmd == 1 && is_builtin(command) == TRUE 
+		&& command->redirection == F_NO_REDIRECT));
 
 }
 
 static int		execution_process(const t_cmd *command, const int nb_cmd,
 												int p_in[2], int p_out[2])
 {
+	// open files with lila's functions
 //	if (nb_cmd == 1 && command->name == NULL && command->env != NULL)
 		//DO ASSIGNATIONS export_execution_context_env(command);
 //	else if (ft_strequ(command->name, "exit") == TRUE)
@@ -58,13 +60,20 @@ static void		do_pipe(int pipe_fd[2])
 		print_set_errno(errno, NULL, "do pipe: ", NULL);
 }
 
+static void		waiter(int ret)
+{
+	pid_t	pid;
+	int		wstatus;
+
+	while ((pid = wait(&wstatus)) > 0);
+	manage_exit_status(ret, wstatus, pid);
+}
+
 static void		executor_loop(const t_job *job, int p_in[2], int p_out[2])
 {
 	int		ret;
 	size_t	i;
 	t_list	*cmd_cursor;
-	pid_t	pid;
-	int		wstatus;
 
 	i = 0;
 	cmd_cursor = job->cmd_lst;
@@ -72,18 +81,16 @@ static void		executor_loop(const t_job *job, int p_in[2], int p_out[2])
 	{
 		if (i < job->nb_cmd - 1)
 			do_pipe(p_out);
-		else
-			ft_memset(p_out, UNSET, sizeof(int[2]));
 		ret = execution_process(cmd_cursor->content, job->nb_cmd, p_in, p_out);
 		close_pipe_end(p_in[R_END]);
 		close_pipe_end(p_in[W_END]);
 		if (i < job->nb_cmd - 1)
 			ft_memmove(p_in, p_out, sizeof(int[2]));
+		ft_memset(p_out, UNSET, sizeof(int[2]));
 		cmd_cursor = cmd_cursor->next;
 		i++;
 	}
-	while ((pid = wait(&wstatus)) > 0);
-	manage_exit_status(ret, wstatus, pid);
+	waiter(ret);
 }
 
 void			executor(const t_job *job)

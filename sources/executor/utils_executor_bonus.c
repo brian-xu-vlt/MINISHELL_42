@@ -107,7 +107,7 @@ pid_t	fork_process(void)
 void		close_pipe_end(int pipe_to_close)
 {
 	int		close_ret;
-
+	
 	close_ret = 0;
 	if (pipe_to_close != UNSET)
 	{

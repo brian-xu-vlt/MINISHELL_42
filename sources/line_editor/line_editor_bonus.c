@@ -26,6 +26,7 @@ void			line_editor(void)
 	t_le	*le;
 
 	le = get_struct(GET);
+	set_termios(le->termios_editor);
 	update_window_size();
 	init_prompt();
 	init_selection();
@@ -37,5 +38,6 @@ void			line_editor(void)
 	}
 	unselect_all();
 	move_cursor_at_index(vct_getlen(le->cmd_line));
+	set_termios(le->termios_bkup);
 	// HERE : set termode back to normal (echo)
 }
