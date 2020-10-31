@@ -23,6 +23,16 @@ static void	del_cmd(void *data)
 		free(cmd->envp[i]);
 		i++;
 	}
+	i = 0;
+	if (cmd->tab_redir != NULL)
+	{
+		while (i < cmd->count_redir)
+		{
+			free(cmd->tab_redir[i]);
+			i++;
+		}
+		free(cmd->tab_redir);
+	}
 	if (cmd->envp != NULL)
 		free(cmd->envp);
 	free(cmd->av);

@@ -21,6 +21,11 @@ t_cmd	*create_cmd(t_cmd *cmd_model)
 		cmd->count_exp = cmd_model->count_exp;
 		cmd->tab_assign = cmd_model->tab_assign;
 		cmd->tab_exp = cmd_model->tab_exp;
+		cmd->tmp_fd_in = 0;	
+		cmd->tmp_fd_out = 1;
+		cmd->tmp_fd_append = 1;	
+		cmd->tab_redir = NULL;
+		cmd->count_redir= 0;
 		cmd->ret = FAILURE;
 	}
 	return (cmd);
