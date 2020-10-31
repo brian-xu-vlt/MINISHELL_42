@@ -1,14 +1,11 @@
 #include "minishell_bonus.h"
 
-static int	process_less(char *str, t_cmd *cmd, t_clean_cmd *clean_cmd)
+static int process_less(char *str, t_cmd *cmd, t_clean_cmd *clean_cmd)
 {
-	extern int	errno;
-	int			fd;
-	static size_t	i = 0;
+	int fd;
+	static size_t i = 0;
 
-	errno = SUCCESS;
-	fd = open(str, O_RDONLY | O_WRONLY | O_EXCL, S_IRUSR | S_IWUSR | S_IRGRP |
-				S_IROTH);
+	fd = open(str, O_RDONLY | O_WRONLY | O_EXCL, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	//clean_cmd->tab_fd_in[i] = fd;
 	if (fd < 0)
 	{
@@ -27,15 +24,12 @@ static int	process_less(char *str, t_cmd *cmd, t_clean_cmd *clean_cmd)
 	return (SUCCESS);
 }
 
-static int	process_greater(char *str, t_cmd *cmd, t_clean_cmd *clean_cmd)
+static int process_greater(char *str, t_cmd *cmd, t_clean_cmd *clean_cmd)
 {
-	extern int	errno;
-	int			fd;
-	static size_t	i = 0;
+	int fd;
+	static size_t i = 0;
 
-	errno = SUCCESS;
-	fd = open(str, O_RDONLY | O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR |
-				S_IRGRP | S_IROTH);
+	fd = open(str, O_RDONLY | O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	//clean_cmd->tab_fd_out[i] = fd;
 	if (fd < 0)
 	{
@@ -54,15 +48,12 @@ static int	process_greater(char *str, t_cmd *cmd, t_clean_cmd *clean_cmd)
 	return (SUCCESS);
 }
 
-static int	process_double_greater(char *str, t_cmd *cmd, t_clean_cmd *clean_cmd)
+static int process_double_greater(char *str, t_cmd *cmd, t_clean_cmd *clean_cmd)
 {
-	extern int	errno;
-	int			fd;
-	static size_t	i = 0;
+	int fd;
+	static size_t i = 0;
 
-	errno = SUCCESS;
-	fd = open(str, O_RDONLY | O_WRONLY | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR |
-				S_IRGRP | S_IROTH);
+	fd = open(str, O_RDONLY | O_WRONLY | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	//clean_cmd->tab_fd_out_append[i] = fd;
 	if (fd < 0)
 	{
@@ -81,10 +72,10 @@ static int	process_double_greater(char *str, t_cmd *cmd, t_clean_cmd *clean_cmd)
 	return (SUCCESS);
 }
 
-static int	process_open_file(t_cmd *cmd, t_clean_cmd *clean_cmd)
+static int process_open_file(t_cmd *cmd, t_clean_cmd *clean_cmd)
 {
-	size_t	i;
-	int		ret_file;
+	size_t i;
+	int ret_file;
 
 	i = 0;
 	ret_file = SUCCESS;
@@ -92,89 +83,23 @@ static int	process_open_file(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	{
 		if (ft_strequ(clean_cmd->tab_redir[i], DOUBLE_GREATER) == TRUE)
 			ret_file = process_double_greater(clean_cmd->tab_redir[i + 1], cmd,
-												clean_cmd);
+											  clean_cmd);
 		else if (ft_strequ(clean_cmd->tab_redir[i], GREATER_THAN) == TRUE)
 			ret_file = process_greater(clean_cmd->tab_redir[i + 1], cmd,
-											clean_cmd);
+									   clean_cmd);
 		else if (ft_strequ(clean_cmd->tab_redir[i], LESS_THAN) == TRUE)
 			ret_file = process_less(clean_cmd->tab_redir[i + 1], cmd, clean_cmd);
 		if (ret_file == FAILURE)
 			return (FAILURE);
 		i += 2;
 		if (i >= clean_cmd->count_redir)
-			break ;
+			break;
 	}
 	return (SUCCESS);
 }
 
-static int	is_path(char *str)
+int process_redirection(t_cmd *cmd, t_clean_cmd *clean_cmd)
 {
-	if (ft_strlen(str) > 2)
-		if (str[0] == '.' && str[1] == '/')
-			return (true);
-	return (false);
-}
-
-static int	get_pwd(char **fd_string)
-{
-	size_t	i;
-	char	*pwd;
-	char	*buff;
-	t_vector	*vct_pwd;
-	t_vector	*vct_string;
-	extern int	errno;
-
-	i = 0;
-	errno = SUCCESS;
-	pwd = NULL;
-	vct_pwd = vct_new();
-	vct_string = vct_new();
-	buff = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
-	if (buff == NULL)
-		return (FAILURE);
-	while (i < NB_FD)
-	{
-		if (fd_string[i] != NULL)
-		{
-			pwd = getcwd(buff, PATH_MAX);
-			if (pwd == NULL)
-			{
-				print_set_errno(errno, "bash: getcwd", NULL);
-				free(buff);
-				vct_del(&vct_pwd);
-				vct_del(&vct_string);
-				return (FALSE);
-			}
-			vct_addstr(vct_pwd, pwd);
-			if (is_path(fd_string[i]) == true)
-			{
-				vct_addstr(vct_string, fd_string[i]);
-				vct_pop(vct_string);
-				vct_addstr(vct_pwd, vct_getstr(vct_string));
-			}
-			else
-			{
-				vct_add(vct_pwd, '/');
-				vct_addstr(vct_pwd, fd_string[i]);
-			}
-			free(fd_string[i]);
-			fd_string[i] = ft_strdup(vct_getstr(vct_pwd));
-			vct_clear(vct_pwd);
-			vct_clear(vct_string);
-		}
-		i++;
-	}
-	free(buff);
-	vct_del(&vct_pwd);
-	vct_del(&vct_string);
-	return (SUCCESS);
-}
-
-int	process_redirection(t_cmd *cmd, t_clean_cmd *clean_cmd)
-{
-	int	ret_pwd;
-
-	ret_pwd = SUCCESS;
 	cmd->redirection = 0;
 	if (create_tab_redir(cmd, clean_cmd) == FAILURE)
 		return (FAILURE);
@@ -182,19 +107,18 @@ int	process_redirection(t_cmd *cmd, t_clean_cmd *clean_cmd)
 		return (FAILURE);
 	if (process_open_file(cmd, clean_cmd) == FAILURE)
 		return (FILE_FAIL);
-	ft_printf("\033[0;32mDEBUG FD FINAL\n\033[0m");//DEBUG
+	ft_printf("\033[0;32mDEBUG FD FINAL\n\033[0m"); //DEBUG
 	debug_fd(cmd->fd);
 	if (cmd->fd[0] != STDIN_FILENO && cmd->fd[0] == clean_cmd->tmp_fd_in)
-			cmd->redirection = cmd->redirection | F_REDIRECT_IN;
+		cmd->redirection = cmd->redirection | F_REDIRECT_IN;
 	if (cmd->fd[1] != STDOUT_FILENO && cmd->fd[1] == clean_cmd->tmp_fd_out)
-			cmd->redirection = cmd->redirection | F_REDIRECT_OUT;
+		cmd->redirection = cmd->redirection | F_REDIRECT_OUT;
 	if (cmd->fd[1] != STDOUT_FILENO && cmd->fd[1] == clean_cmd->tmp_fd_append)
-			cmd->redirection = cmd->redirection | F_REDIRECT_OUT
-								| F_REDIRECT_OUT_APPEND;
-	ret_pwd = get_pwd(cmd->fd_string);
-	if (ret_pwd != SUCCESS)
-		return (ret_pwd);
-	ft_printf("\033[0;32mDEBUG FD_STRING FINAL\n\033[0m");//DEBUG
+		cmd->redirection = cmd->redirection | F_REDIRECT_OUT | F_REDIRECT_OUT_APPEND;
+	//ret_pwd = get_pwd(cmd->fd_string);
+	//if (ret_pwd != SUCCESS)
+		//return (ret_pwd);
+	ft_printf("\033[0;32mDEBUG FD_STRING FINAL\n\033[0m"); //DEBUG
 	debug_fd_string(cmd->fd_string);
 	return (SUCCESS);
 }
