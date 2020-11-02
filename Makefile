@@ -129,6 +129,7 @@ SRCS += process_get_redirection_bonus.c
 SRCS += process_clean_redirection_bonus.c
 SRCS += process_clean_redirection_utils_bonus.c
 SRCS += process_command_utils_bonus.c
+SRCS += process_clean_command_command_utils_bonus.c
 
 OBJ_DIR = ./objs/
 

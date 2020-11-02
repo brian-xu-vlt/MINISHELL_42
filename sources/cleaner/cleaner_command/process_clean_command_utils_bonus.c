@@ -1,5 +1,6 @@
 #include "minishell_bonus.h"
 
+
 void		free_clean_command(t_clean_cmd *clean_cmd, int flag)
 {
 	size_t	i;
@@ -8,11 +9,11 @@ void		free_clean_command(t_clean_cmd *clean_cmd, int flag)
 	if (flag == ALL_FREE)
 	{
 		free(clean_cmd->av);
-		while (i < clean_cmd->count_redir)
+		/*while (i < clean_cmd->count_redir)
 		{
 			free(clean_cmd->tab_redir[i]);
 			i++;
-		}
+		}*/
 		free(clean_cmd->tab_redir);
 		free(clean_cmd->tmp_tab_redir);
 		free(clean_cmd->tmp_av);
@@ -50,20 +51,31 @@ int			fill_clean_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	size_t	i;
 	size_t	i_ass;
 	size_t	i_av;
+	bool	is_export;
 
 	i = 0;
 	i_ass = 0;
 	i_av = 0;
+	is_export = false;
 	while (i < (size_t)cmd->ac)
 	{
-		if (i < clean_cmd->count_assign)
+		if (ft_strequ(cmd->av[i], STR_EXPORT) == TRUE)
+			is_export = true;
+		if (i_ass < clean_cmd->count_assign && i == cmd->tab_assign[i_ass])
 		{
 			cmd->envp[i_ass] = ft_strdup(cmd->av[i]);
+			ft_printf("cmd->envp[%d] = %s\n", i, cmd->envp[i_ass]);//DEBUG
 			i_ass++;
 		}
-		if (i >= clean_cmd->count_assign)
+		else if (ft_strlen(cmd->av[i]) == 0 && is_export == false)
+		{
+			i++;
+			continue;
+		}
+		else
 		{
 			clean_cmd->av[i_av] = ft_strdup(cmd->av[i]);
+			ft_printf("clean_cmd->av[%d] = %s\n", i, clean_cmd->av[i_av]);//DEBUG
 			i_av++;
 		}
 		i++;
@@ -104,6 +116,8 @@ void		count_ac_assign(t_cmd *cmd, t_clean_cmd *clean_cmd, bool is_bad)
 			clean_cmd->index_export = i;
 			return ;
 		}
+		else
+			clean_cmd->count_other++;
 		i++;
 	}
 }
