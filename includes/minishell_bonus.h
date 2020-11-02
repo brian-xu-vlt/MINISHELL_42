@@ -33,8 +33,7 @@
 
 int		test(t_vector *input);
 int		test_env(t_vector *input);
-int		test_executor(t_vector *input);
-int		test_executor_v2(t_list *jobs);
+int		test_executor(t_list *jobs);
 
 
 t_list	*test_lexer(t_vector *input);

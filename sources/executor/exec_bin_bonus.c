@@ -9,15 +9,17 @@ void			exec_binary(const t_cmd *command)
 	char	**path_list;
 
 	ret = 0;
-//	signal_manager(SIG_MODE_NORMAL);
 	export_execution_context_env(command);
 	path_list = get_all_path_directories();
 	envp = get_envp(get_env_list(GET));
 	i = 0;
 	while (path_list[i] != NULL)
 	{
-		full_path = get_exec_path(path_list[i], command->name);
-	//	ft_printf("trying .... %s\n", full_path);
+		if (is_absolute_path(command->name) == TRUE)
+			full_path = ft_strdup(command->name);
+		else
+			full_path = get_exec_path(path_list[i], command->name);
+//		ft_printf("trying .... %s\n", full_path);
 		if (full_path != NULL)
 			ret = execve(full_path, command->av, envp); ////////////////// see p82 for failure!
 		free(full_path);

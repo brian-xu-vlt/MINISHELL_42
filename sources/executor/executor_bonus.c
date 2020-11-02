@@ -9,6 +9,7 @@ static void		exec_subshell(const t_cmd *command, int p_in[2], int p_out[2])
 		return ;
 	else if (pid == 0)
 	{
+		signal_manager(SIG_MODE_DEFAULT);
 		dup_pipes(command, p_in, p_out);
 		if (is_builtin(command) == TRUE)
 			exec_builtin(command);
@@ -21,7 +22,10 @@ static void		exec_subshell(const t_cmd *command, int p_in[2], int p_out[2])
 		exit(42);											 //to change
 	}
 	else if (pid != 0 && pid != FAILURE)
+	{
+		signal_manager(SIG_MODE_EXEC);
 		ms_setenv_int(get_env_list(GET), "!", (int)pid, F_OVERWRITE);
+	}
 }
 
 static int		is_builtin_executable(const int nb_cmd, const t_cmd *command)

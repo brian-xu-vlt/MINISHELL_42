@@ -31,6 +31,7 @@ int			main(int ac, char **av)
 	t_list		*jobs;		
 
 	usage(ac, av);
+	signal_manager(SIG_MODE_CMD_LINE);
 	init_env();
 	cmd_line = vct_new();
 	if (cmd_line == NULL)
@@ -42,21 +43,19 @@ int			main(int ac, char **av)
 	{
 		if (BONUS_FLAG == TRUE)
 		{
-			signal_manager(SIG_MODE_LINE_EDITOR);
 			line_editor();
 			save_history();
 			ft_putstr_fd("\n", STDOUT_FILENO); //debug ?
-			signal_manager(SIG_MODE_NORMAL);
 		}
 		else
 			read_loop(cmd_line);
-		signal_manager(SIG_MODE_EXEC);
 		lexer_list = test_lexer(cmd_line);
 		if (lexer_list != NULL)
 			ret_parser = test_parser(lexer_list);
 		if (ret_parser != FALSE)
 			jobs = test_jobs(lexer_list);
-		test_executor_v2(jobs);
+		test_executor(jobs);
+		signal_manager(SIG_MODE_CMD_LINE);
 		free_list_job(&jobs);
 		free_list_token(&lexer_list);
 		vct_clear(cmd_line);

@@ -59,8 +59,8 @@
 #define	F_REDIRECT_OUT			1<<3
 #define	F_REDIRECT_OUT_APPEND	1<<4
 
-#define SIG_MODE_NORMAL			0
-#define SIG_MODE_LINE_EDITOR	1
+#define SIG_MODE_DEFAULT		0
+#define SIG_MODE_CMD_LINE		1
 #define SIG_MODE_EXEC			2
 
 

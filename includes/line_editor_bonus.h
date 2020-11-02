@@ -42,6 +42,7 @@
 # define	ERR_TERMCAP		"Minishell is not (yet) compatible to this Terminal"
 # define	ERR_MALLOC		"Malloc could not allocate memory."
 # define	ERR_FORK		"Could not fork a chilf process."
+# define	ERR_HUP			"Received a Hang Up signal."
 
 /**********************************
 *********     UTILS     ***********

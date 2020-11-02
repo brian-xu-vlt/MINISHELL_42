@@ -49,8 +49,7 @@ HEADER = $(INCLUDES)minishell_bonus.h
 
 #SRCS += test_bonus.c
 SRCS += test_env_bonus.c
-#SRCS += test_executor_bonus.c
-SRCS += test_executor_v2_bonus.c
+SRCS += test_executor_bonus.c
 SRCS += main_bonus.c
 #SRCS += main_tester_parser.c #TO DELETE
 #SRCS += main_tester_job_command.c #TO DELETE

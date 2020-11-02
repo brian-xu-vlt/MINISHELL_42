@@ -35,11 +35,8 @@ int		is_absolute_path(const char *bin_name)
 
 char	*get_exec_path(char *dir, const char *name)
 {
-	if (is_absolute_path(name) == TRUE)
-		return (ft_strdup(name));
-	else if (dir != NULL)
+	if (dir != NULL)
 		return (create_full_path(dir, name));
-	else
-		return (NULL);
+	return (NULL);
 }
 
