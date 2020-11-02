@@ -5,53 +5,10 @@
 	SIGSTOP, SIGTSTP, SIGTTIN, SIGTTOU, SIGURG, SIGXCPU, SIGXFSZ, SIGVTALRM,
 	SIGPROF, SIGWINCH, SIGPOLL, SIGSYS 
 */
-/*
-static const char	*ms_strsignal(int sig)
-{
-	int					i;
-	static const int 	sig_nb = 13;
-	static const int 	sig_list[sig_nb] = {
-		SIGABRT, SIGBUS, SIGSEGV, SIGCHLD,
-		SIGHUP, SIGILL, SIGINT, SIGPIPE,
-		SIGQUIT, SIGSTOP, SIGCONT, SIGTSTP,
-		SIGTERM
-	};
-	static const char 	*sig_str[sig_nb] = {
-		"Abort", "Bus Error", "Segmentation Fault", "Child status has changed",
-		//"Hangup", "Illegal instruction", "^C", "Broken pipe",
-		"Hangup", "Illegal instruction", "\n", "Broken pipe",
-		"Quit", "Stop process", "Continue Process", "Stop typed at terminal",
-		"Termination signal"
-	};
-	
-	i = 0;
-	while (i < sig_nb)
-	{
-		if (sig_list[i] == sig)
-			return (sig_str[i]);
-		i++;
-	}
-	return (NOT_FOUND);
-}
-
-static void	display_signal(int sig)
-{
-	pid_t		pid;
-	const char	*sig_str;
-
-(void)pid;
-		pid = get_env_value_int(get_env_list(GET), "!");
-	if (pid != 0)
-		kill(pid, sig);
-	if ((sig_str = ms_strsignal(sig)) != NOT_FOUND)
-		ft_printf("%s ", sig_str);
-}
-*/
-
 static void	newprompt_at_signal(int sig)
 {
 	(void)sig;
-	ft_putstr_fd("[--^C--]\n", STDOUT_FILENO);
+	ft_putstr_fd("^C\n", STDOUT_FILENO);
 	init_prompt();
 }
 
@@ -73,7 +30,6 @@ static void	send_signal_to_child(int sig)
 
 	pid = 0;
 	pid = get_env_value_int(get_env_list(GET), "!");
-	ft_printf("{%d}\n", pid);
 	if (pid != 0)
 		kill(pid, sig);
 }

@@ -1,18 +1,46 @@
 #include "minishell_bonus.h"
 
+static const char	*ms_strsignal(int sig)
+{
+	int					i;
+	static const int 	sig_nb = 15;
+	static const int 	sig_list[sig_nb] = {
+		SIGALRM, SIGVTALRM, SIGPROF,
+		SIGABRT, SIGBUS, SIGSEGV, SIGHUP, SIGQUIT,
+		SIGILL, SIGKILL, SIGSTOP, SIGCONT,
+		SIGTSTP, SIGTERM, SIGPOLL };
+	static const char 	*sig_str[sig_nb] = {
+		"Alarm clock","Virtual Alarm clock", "Profiling timer expired",
+		"Abort", "Bus Error", "Segmentation Fault", "Hangup", "Quit",
+		"Illegal instruction", "Killed", "Stop process", "Continue Process",
+		"Stop typed at terminal", "Termination signal", "I/O possible" };
+	
+	i = 0;
+	while (i < sig_nb)
+	{
+		if (sig_list[i] == sig)
+			return (sig_str[i]);
+		i++;
+	}
+	return (NOT_FOUND);
+}
+
+static void	display_signal_str(int sig)
+{
+	const char	*sig_str;
+
+	if ((sig_str = ms_strsignal(sig)) != NOT_FOUND)
+		ft_printf("%s ", sig_str);
+}
+
 int	manage_exit_status(int ret, int wstatus, pid_t pid)
 {
 (void)pid;
 	//ret = 0;
-	if (WIFEXITED(wstatus) == TRUE)
-	{
-		ret = WEXITSTATUS(wstatus);
-	//	ft_printf("\nEXIT_MANAGER : Exit status == %i", ret);
-	}
-	else if (WIFSIGNALED(wstatus) == TRUE)
+	if (WIFSIGNALED(wstatus) == TRUE)
 	{
 		ret = WTERMSIG(wstatus);
-	//	ft_printf("\nEXIT_MANAGER : PID %i Got a signal %i ", pid, ret);
+		display_signal_str(ret);
 		if (WCOREDUMP(wstatus) != FALSE)
 			ft_printf("(core dumped)");
 	}
@@ -21,9 +49,14 @@ int	manage_exit_status(int ret, int wstatus, pid_t pid)
 		ret = WSTOPSIG(wstatus);
 	//	ft_printf("\nEXIT_MANAGER : Got a STOPED by pid %d", ret);
 	}
-//	ft_printf("\n");
+	else if (WIFEXITED(wstatus) == TRUE)
+	{
+		ret = WEXITSTATUS(wstatus);
+	//	ft_printf("\nEXIT_MANAGER : Exit status == %i", ret);
+	}
+	ft_printf("\r\n");
 	ms_setenv_int(get_env_list(GET), "?", ret, F_OVERWRITE);
-	ft_printf("\n(exec) $? = %d\n", get_env_value_int(get_env_list(GET), "?"));
+	ft_printf("\n(exit_manager) $? = %d\n", get_env_value_int(get_env_list(GET), "?"));
 	return (ret);
 }
 /*	
