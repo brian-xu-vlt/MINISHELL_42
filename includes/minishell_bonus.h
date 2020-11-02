@@ -41,8 +41,6 @@ t_list					*lexer(t_vector *input);
 size_t					get_token(char c);
 ssize_t					get_double_token(t_vector *input);
 void					free_list_token(t_list **token);
-int						handle_quote(t_vector *input, t_list **token_list,
-										int ret);
 int 					extract_token(t_list **token_list, char *str,
 										size_t type);
 void					exit_routine_lexer(t_vector *word, t_vector *vct,
@@ -52,11 +50,9 @@ int						quote_checker(char *str);
 bool					is_simplequote(t_vector *input);
 typedef	enum e_state	(*t_state)(t_vector *);
 bool					is_doublequote(t_vector *input);
-bool					is_simplequote(t_vector *input);
 bool					is_end(t_vector *input);
 int						extract_token_word(t_list **token_list, t_vector *vct);
 char					*handle_bracket(char *str, t_list **token_list);
-int						get_new_type(t_vector *input);
 void					free_list_token(t_list **token);
 const char				*get_token_str(const int type);
 char					*get_data(int type);
@@ -151,39 +147,17 @@ void								process_between_double(char *str,
 void								handle_double(char *str, size_t i,
 													size_t end_simple,
 													t_vector *vct_good);
-enum e_cmd							get_cmd_type(t_cmd *cmd);
 bool								is_only_quote(char *str);
 bool								is_clean_command(char *str);
 void								process_clean_command_quote(t_cmd *cmd,
 																	size_t i);
 bool								is_clean(size_t i, char *tmp_av0, char *av,
 												t_cmd *cmd);
-enum e_cmd 							export_or_command(t_vector *vct, size_t i,
-														ssize_t id_equal,
-														size_t ac);
-enum e_cmd 							process_get_cmd_type(t_vector *vct,
-															size_t i, size_t ac,
-															t_cmd *cmd);
 size_t 								verif_assign(t_vector *vct_av,
 													size_t id_equal);
 bool 								is_wrong_char(t_vector *vct);
-bool								is_bad_ass(t_cmd *cmd);
-bool 								is_wrong_char_export(t_vector *vct_av);
 bool 								is_wrong_ass(t_vector *vct);
-bool 								process_wrong_ass(t_cmd *cmd, t_vector *vct,
-														size_t i_ass);
-int									process_clean_command(t_cmd *cmd/*,
-															int ass_or_exp,
-															bool is_bad,
-															enum e_cmd cmd_type*/);
-void								count_ac_assign(t_cmd *cmd,
-														t_clean_cmd *clean_cmd,
-														bool is_bad);
-int									init_tab_assign_ac(t_clean_cmd *clean_cmd,
-														t_cmd *cmd);
-int									fill_clean_cmd(t_cmd *cmd,
-													t_clean_cmd *clean_cmd);
-void								iter_clean_quote(t_cmd *cmd, size_t size);
+int									process_clean_command(t_cmd *cmd);
 void								free_clean_command(t_clean_cmd *clean_cmd,
 														int flag);
 int									process_redirection(t_cmd *cmd,
@@ -202,13 +176,8 @@ int									count_redir(t_cmd *cmd,
 int									count_av(t_cmd *cmd);
 void								debug_fd(int *fd);
 void								debug_fd_string(char **fd_sting);
-int									process_command_export_utils_bonus(
-										t_cmd *cmd, size_t ac,
-										t_clean_cmd *clean_cmd, bool is_bad);
 t_clean_cmd							*init_clean_command();
 int									get_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd);
-int									clean_av_len(t_cmd *cmd,
-													t_clean_cmd *clean_cmd);
 int									get_envp_av(t_cmd *cmd,
 													t_clean_cmd *clean_cmd,
 													int index_cmd);
