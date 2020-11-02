@@ -13,7 +13,6 @@ static int	handle_envp(t_cmd *cmd, t_clean_cmd *clean_cmd, int index_cmd)
 			clean_cmd->count_assign++;
 		i++;
 	}
-	ft_printf("count_assign= %d\n", clean_cmd->count_assign);//DEBUG
 	cmd->envp = (char **)malloc(sizeof(char *) * clean_cmd->count_assign);
 	if (cmd->envp == NULL)
 		return (FAILURE);
@@ -89,7 +88,8 @@ int	get_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	i_exp = 0;
 	while (i < (size_t)cmd->ac)
 	{
-		if (cmd->count_assign != 0 && i == cmd->tab_assign[i_assign])
+		if (i_assign < cmd->count_assign && cmd->count_assign != 0
+				&& i == cmd->tab_assign[i_assign])
 		{
 			vct_addstr(vct, cmd->av[i]);
 			id_equal = vct_clen(vct, ASSIGN);
@@ -99,7 +99,8 @@ int	get_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
 			i_assign++;
 			vct_clear(vct);
 		}
-		else if (cmd->count_exp != 0 && i == cmd->tab_exp[i_exp])
+		else if (i_exp < cmd->count_exp && cmd->count_exp != 0
+					&& i == cmd->tab_exp[i_exp])
 		{
 			vct_addstr(vct, cmd->av[i]);
 			vct_pop(vct);

@@ -31,14 +31,12 @@ static int			process_command_command(t_cmd *cmd)
 
 	clean_cmd = init_clean_command();
 	ret = SUCCESS;
-	ft_printf("PROCESS COMMAND COMMAND\n");
 	if (clean_cmd == NULL)
 	{
 		free_clean_command(clean_cmd, NOT_ALL_FREE);
 		return (FAILURE);
 	}
 	index_cmd = get_cmd(cmd, clean_cmd);
-	ft_printf("INDEX_CMD = %d\n", index_cmd);//DEBUG
 	iter_clean_quote(cmd, (size_t)cmd->ac);
 	if (get_envp_av(cmd, clean_cmd, index_cmd) == FAILURE)
 		return (FAILURE);
