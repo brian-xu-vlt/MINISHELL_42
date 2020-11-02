@@ -45,6 +45,7 @@ static void	clean_redir(t_clean_cmd *clean_cmd, size_t nb_redir)
 	process_clean((size_t)clean_cmd->ac, clean_cmd->tab_redir,
 					clean_cmd->tmp_tab_redir);
 	clean_cmd->count_redir = nb_redir;
+	ft_printf("\033[0;32mDEBUG REDIR FINAL\n\033[0m");//DEBUG
 	debug_redir(clean_cmd->tab_redir, clean_cmd->count_redir);
 }
 

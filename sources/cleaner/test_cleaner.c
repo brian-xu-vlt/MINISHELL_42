@@ -29,7 +29,6 @@ void debug_redir(char **redir, int ac)
 	int i;
 
 	i = 0;
-	ft_printf("AC = %d\n", ac);//DEBUGA
 	while (i < ac)
 	{
 		ft_printf("redir[%d] = %s\n", i, redir[i]);
@@ -53,7 +52,8 @@ void	debug_cleaner(t_cmd *cmd)
 {
 	ft_printf("\n");//DEBUG
 	ft_printf("\033[0;32mDEBUG AV FINAL\n\033[0m");//DEBUG
-	debug_av(cmd->av, cmd->ac);
+	if (cmd->av != NULL)
+		debug_av(cmd->av, cmd->ac);
 	ft_printf("\n");//DEBUG
 	ft_printf("\033[0;32mDEBUG ENV FINAL\n\033[0m");//DEBUG
 	ft_printf("COUNT ASSIGN = %d\n", cmd->count_assign);//DEBUG

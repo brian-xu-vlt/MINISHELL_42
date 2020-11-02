@@ -70,4 +70,6 @@
 #define IN 0
 #define OUT 1
 
+#define NO_COMMAND 2
+
 #endif

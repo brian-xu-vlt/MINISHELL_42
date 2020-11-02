@@ -177,10 +177,11 @@ int									count_av(t_cmd *cmd);
 void								debug_fd(int *fd);
 void								debug_fd_string(char **fd_sting);
 t_clean_cmd							*init_clean_command();
-int									get_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd);
+int									get_cmd(t_cmd *cmd);
 int									get_envp_av(t_cmd *cmd,
 													t_clean_cmd *clean_cmd,
 													int index_cmd);
+void								iter_clean_quote(t_cmd *cmd, size_t size);
 
 
 	/******************************************************************************/

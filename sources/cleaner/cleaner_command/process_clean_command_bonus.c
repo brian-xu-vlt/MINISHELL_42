@@ -26,21 +26,22 @@ t_clean_cmd	*init_clean_command()
 static int			process_command_command(t_cmd *cmd)
 {
 	t_clean_cmd *clean_cmd;
-	int			ret;
 	int			index_cmd;
+	int			ret_cmd;
 
 	clean_cmd = init_clean_command();
-	ret = SUCCESS;
 	if (clean_cmd == NULL)
 	{
 		free_clean_command(clean_cmd, NOT_ALL_FREE);
 		return (FAILURE);
 	}
-	index_cmd = get_cmd(cmd, clean_cmd);
+	index_cmd = get_cmd(cmd);
 	iter_clean_quote(cmd, (size_t)cmd->ac);
-	if (get_envp_av(cmd, clean_cmd, index_cmd) == FAILURE)
+	ret_cmd = get_envp_av(cmd, clean_cmd, index_cmd);
+	if (ret_cmd == FAILURE)
 		return (FAILURE);
-	process_redirection(cmd, clean_cmd);
+	if (ret_cmd != NO_COMMAND)
+		process_redirection(cmd, clean_cmd);
 	return(SUCCESS);
 }
 
