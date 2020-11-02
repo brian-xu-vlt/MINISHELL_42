@@ -30,30 +30,41 @@ int	env_builtin(int ac, char **av, char **envp)
 	return (SUCCESS);
 }
 
+static void	export_loop(int ac, char **av, const char *builtin)
+{
+	int			i;
+
+	i = 1;
+	while (i < ac)
+	{
+		if (ft_isalpha(av[i][0]) == TRUE)
+			export_env(get_env_list(GET), av[i]);
+		else
+			print_set_errno(EINVAL, NULL, builtin, av[i]);
+		i++;
+	}
+}
+
 int	export_builtin(int ac, char **av, char **envp)
 {
 	const char	*builtin = "export";
-	int			i;
 (void)envp;
 
-	if (ft_strequ(av[0], (char *)builtin) == FALSE)
-		return (0);
-	if (ac == 1)
-		print_export_output(get_env_list(GET));
-	else
+	errno = 0;
+	if (ft_strequ(av[0], (char *)builtin) == TRUE && ac > 1)
 	{
-		i = 1;
-		while (i < ac)
+		if (av[1][0] == '-')
 		{
-			if (ft_isalpha(av[i][0]) == TRUE)
-				export_env(get_env_list(GET), av[i]);
-			else
-				print_set_errno(EINVAL, NULL, builtin, av[i]);
-			i++;
+			print_set_errno(0, " Invalid option", builtin, av[1]);
+			return (2);
 		}
+		else
+			export_loop(ac, av, builtin);
+		if (errno == EINVAL)
+			return (1);
 	}
-	if (errno != 0)
-		return (BUILTIN_FAILURE);
+	else if (ft_strequ(av[0], (char *)builtin) == TRUE && ac == 1)
+		print_export_output(get_env_list(GET));
 	return (SUCCESS);
 }
 

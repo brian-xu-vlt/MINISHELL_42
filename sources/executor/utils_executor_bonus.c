@@ -45,25 +45,15 @@ int	manage_exit_status(int ret, int wstatus, pid_t pid)
 			ft_printf("(core dumped)");
 	}
 	else if (WIFSTOPPED(wstatus) == TRUE)
-	{
 		ret = WSTOPSIG(wstatus);
-	//	ft_printf("\nEXIT_MANAGER : Got a STOPED by pid %d", ret);
-	}
 	else if (WIFEXITED(wstatus) == TRUE)
-	{
-		ret = WEXITSTATUS(wstatus);
-	//	ft_printf("\nEXIT_MANAGER : Exit status == %i", ret);
-	}
+		ret = WEXITSTATUS(wstatus) - 128;
+	ret += (ret != 0) ? 128 : 0;
 	ft_printf("\r\n");
 	ms_setenv_int(get_env_list(GET), "?", ret, F_OVERWRITE);
 	ft_printf("\n(exit_manager) $? = %d\n", get_env_value_int(get_env_list(GET), "?"));
 	return (ret);
 }
-/*	
-	system("ls -la /proc/$$/fd ; echo \"\n\"");
-	if (ret != 0 || errno != 0)
-		ret = 128 + ret;
-*/
 
 int	is_builtin(const t_cmd *command)
 {

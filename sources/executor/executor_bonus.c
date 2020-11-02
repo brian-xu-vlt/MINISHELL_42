@@ -3,7 +3,8 @@
 static void		exec_subshell(const t_cmd *command, int p_in[2], int p_out[2])
 {
 	pid_t	pid;
-	
+	int		ret;
+
 	pid = fork_process();
 	if (pid == FAILURE) 						//implement error managment
 		return ;
@@ -12,14 +13,15 @@ static void		exec_subshell(const t_cmd *command, int p_in[2], int p_out[2])
 		signal_manager(SIG_MODE_DEFAULT);
 		dup_pipes(command, p_in, p_out);
 		if (is_builtin(command) == TRUE)
-			exec_builtin(command);
+			ret = exec_builtin(command);
 		else	
-			exec_binary(command);
+			ret = exec_binary(command);
 		if (command->redirection & F_REDIRECT_IN)
 			close(command->fd[STDIN_FILENO]);
 		if (command->redirection & F_REDIRECT_OUT)
 			close(command->fd[STDOUT_FILENO]);
-		exit(42);											 //to change
+		ft_printf("exit subshell = %d\n\n", ret);
+		exit(ret);
 	}
 	else if (pid != 0 && pid != FAILURE)
 	{
@@ -39,20 +41,25 @@ static int		is_builtin_executable(const int nb_cmd, const t_cmd *command)
 static int		execution_process(const t_cmd *command, const int nb_cmd,
 												int p_in[2], int p_out[2])
 {
+	int		ret;
+
+	ret = 0;
+
 	// open files with lila's functions
 //	if (nb_cmd == 1 && command->name == NULL && command->env != NULL)
 		//DO ASSIGNATIONS export_execution_context_env(command);
 //	else if (ft_strequ(command->name, "exit") == TRUE)
+	
 	if ((command->redirection & F_REDIRECT_FAILURE) == FALSE)
 	{
 		if (is_builtin_executable(nb_cmd, command) == TRUE)
-			exec_builtin(command);
+			ret = exec_builtin(command);
 		else
 			exec_subshell(command, p_in, p_out);
 	}
 	else
 		return (-1);
-	return (0);
+	return (ret);
 }
 
 static void		do_pipe(int pipe_fd[2])
@@ -70,7 +77,7 @@ static void		waiter(int ret)
 	int		wstatus;
 
 	wstatus = 0;
-	pid = 1;
+	pid = SUCCESS;
 	while (pid != FAILURE)
 		pid = wait(&wstatus);
 	manage_exit_status(ret, wstatus, pid);
@@ -104,7 +111,7 @@ void			executor(const t_job *job)
 {
 	int		p_in[2];
 	int		p_out[2];
-	
+
 	if (job != NULL && job->cmd_lst != NULL)
 	{
 		ft_memset(p_in, UNSET, sizeof(int[2]));
