@@ -39,10 +39,14 @@ static int			process_command_command(t_cmd *cmd)
 	iter_clean_quote(cmd, (size_t)cmd->ac);
 	ret_cmd = get_envp_av(cmd, clean_cmd, index_cmd);
 	if (ret_cmd == FAILURE)
+	{
+		free_clean_command(clean_cmd, ALL_FREE);
 		return (FAILURE);
+	}
 	if (ret_cmd != NO_COMMAND)
 		process_redirection(cmd, clean_cmd);
-	return(SUCCESS);
+	free_clean_command(clean_cmd, ALL_FREE);
+	return (SUCCESS);
 }
 
 int 				process_clean_command(t_cmd *cmd)

@@ -86,6 +86,7 @@ int	get_envp_av(t_cmd *cmd, t_clean_cmd *clean_cmd, int index_cmd)
 	while (i_clean < clean_cmd->ac)
 	{
 		clean_cmd->av[i_clean] = ft_strdup(cmd->av[i]);
+		free(cmd->av[i]);
 		i_clean++;
 		i++;
 	}
@@ -130,7 +131,10 @@ int	get_cmd(t_cmd *cmd)
 			id_equal = vct_clen(vct, ASSIGN);
 			vct_cutfrom(vct, vct_getlen(vct) - id_equal);
 			if (is_wrong_ass(vct) == false)
+			{
+				vct_del(&vct);
 				return (i);
+			}
 			i_assign++;
 			vct_clear(vct);
 		}
@@ -140,13 +144,20 @@ int	get_cmd(t_cmd *cmd)
 			vct_addstr(vct, cmd->av[i]);
 			vct_pop(vct);
 			if (is_wrong_ass(vct) == false)
+			{
+				vct_del(&vct);
 				return (i);
+			}
 			i_exp++;
 			vct_clear(vct);
 		}
 		else
+		{
+			vct_del(&vct);
 			return (i);
+		}
 		i++;
 	}
+	vct_del(&vct);
 	return (FAILURE);
 }
