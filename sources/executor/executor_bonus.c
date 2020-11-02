@@ -4,6 +4,7 @@ static void		exec_subshell(const t_cmd *command, int p_in[2], int p_out[2])
 {
 	pid_t	pid;
 	int		ret;
+ft_printf("KIKOO\n\n\n\n");
 
 	pid = fork_process();
 	if (pid == FAILURE) 						//implement error managment
@@ -35,7 +36,6 @@ static int		is_builtin_executable(const int nb_cmd, const t_cmd *command)
 	return (ft_strequ(command->name, "exit") == TRUE || 
 		(nb_cmd == 1 && is_builtin(command) == TRUE 
 		&& command->redirection == F_NO_REDIRECT));
-
 }
 
 static int		execution_process(const t_cmd *command, const int nb_cmd,

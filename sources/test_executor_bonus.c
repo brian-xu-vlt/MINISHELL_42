@@ -106,6 +106,7 @@ static void	fake_cleaner(t_list *jobs)
 		cursor_cmd = ((t_job *)cursor_job->content)->cmd_lst;
 		while (cursor_cmd != NULL)
 		{
+			((t_cmd *)cursor_cmd->content)->redirection = F_NO_REDIRECT;
 			clean(cursor_cmd->content);
 			cursor_cmd = cursor_cmd->next;
 		}
