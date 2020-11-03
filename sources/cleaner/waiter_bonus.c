@@ -77,6 +77,17 @@ static int process_double_greater(char *str, t_cmd *cmd)
 	return (SUCCESS);
 }
 
+static void	init_cmd_redirection(t_cmd *cmd)
+{
+	if (cmd->fd[0] != STDIN_FILENO && cmd->fd[0] == cmd->tmp_fd_in)
+		cmd->redirection = cmd->redirection | F_REDIRECT_IN;
+	if (cmd->fd[1] != STDOUT_FILENO && cmd->fd[1] == cmd->tmp_fd_out)
+		cmd->redirection = cmd->redirection | F_REDIRECT_OUT;
+	if (cmd->fd[1] != STDOUT_FILENO && cmd->fd[1] == cmd->tmp_fd_append)
+		cmd->redirection = cmd->redirection | F_REDIRECT_OUT |
+						   F_REDIRECT_OUT_APPEND;
+}
+
 static int process_open_file(t_cmd *cmd)
 {
 	size_t i;
@@ -98,6 +109,7 @@ static int process_open_file(t_cmd *cmd)
 		if (i >= cmd->count_redir)
 			break;
 	}
+	init_cmd_redirection(cmd);
 	return (SUCCESS);
 }
 
@@ -107,13 +119,6 @@ static int executor(t_cmd *cmd)
 		return (FILE_FAIL);
 	ft_printf("\033[0;32mDEBUG FD FINAL\n\033[0m"); //DEBUG
 	debug_fd(cmd->fd);
-	if (cmd->fd[0] != STDIN_FILENO && cmd->fd[0] == cmd->tmp_fd_in)
-		cmd->redirection = cmd->redirection | F_REDIRECT_IN;
-	if (cmd->fd[1] != STDOUT_FILENO && cmd->fd[1] == cmd->tmp_fd_out)
-		cmd->redirection = cmd->redirection | F_REDIRECT_OUT;
-	if (cmd->fd[1] != STDOUT_FILENO && cmd->fd[1] == cmd->tmp_fd_append)
-		cmd->redirection = cmd->redirection | F_REDIRECT_OUT |
-						   F_REDIRECT_OUT_APPEND;
 	//ret_pwd = get_pwd(cmd->fd_string);
 	//if (ret_pwd != SUCCESS)
 	//return (ret_pwd);
