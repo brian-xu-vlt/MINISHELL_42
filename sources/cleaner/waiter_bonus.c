@@ -1,7 +1,7 @@
 #include "minishell_bonus.h"
 
 /////////////////////////////////////////////////////////////////////////////////
-/*PROCESS_REDIRECTION A AJOUTER AU DEBUT DU WAITER*/
+/*PROCESS_REDIRECTION A AJOUTER AU DEBUT DE L'EXECUTOR*/
 
 static int process_less(char *str, t_cmd *cmd)
 {
@@ -10,7 +10,6 @@ static int process_less(char *str, t_cmd *cmd)
 
 	fd = open(str, O_RDONLY | O_WRONLY | O_EXCL, S_IRUSR | S_IWUSR | S_IRGRP |
 				S_IROTH);
-	//clean_cmd->tab_fd_in[i] = fd;
 	if (fd < 0)
 	{
 		if (cmd->tmp_fd_in > 2)
@@ -35,7 +34,6 @@ static int process_greater(char *str, t_cmd *cmd)
 
 	fd = open(str, O_RDONLY | O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR |
 				S_IRGRP | S_IROTH);
-	//clean_cmd->tab_fd_out[i] = fd;
 	if (fd < 0)
 	{
 		if (cmd->tmp_fd_in > 2)
@@ -59,7 +57,6 @@ static int process_double_greater(char *str, t_cmd *cmd)
 
 	fd = open(str, O_RDONLY | O_WRONLY | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR |
 				S_IRGRP | S_IROTH);
-	//clean_cmd->tab_fd_out_append[i] = fd;
 	if (fd < 0)
 	{
 		if (cmd->tmp_fd_in > 2)
@@ -113,21 +110,17 @@ static int process_open_file(t_cmd *cmd)
 	return (SUCCESS);
 }
 
+/////////////////////////////////////////////////////////////////////////////////
+
 static int executor(t_cmd *cmd)
 {
 	if (process_open_file(cmd) == FAILURE)
 		return (FILE_FAIL);
 	ft_printf("\033[0;32mDEBUG FD FINAL\n\033[0m"); //DEBUG
 	debug_fd(cmd->fd);
-	//ret_pwd = get_pwd(cmd->fd_string);
-	//if (ret_pwd != SUCCESS)
-	//return (ret_pwd);
 	ft_printf("\033[0;32mDEBUG FD_STRING FINAL\n\033[0m"); //DEBUG
-	//SUITE DE L'EXECUTOR
 	return (SUCCESS);
 }
-
-/////////////////////////////////////////////////////////////////////////////////
 
 static int process_cleaner(t_cmd *cmd)
 {
@@ -142,17 +135,11 @@ static int process_cleaner(t_cmd *cmd)
 	{
 		ret_cleaner = cleaner(cmd);
 		if (ret_cleaner != SUCCESS)
-		{
-			ft_printf("CLEANER FAILURE OR FALSE\n");
 			return (ret_cleaner);
-		}
 		debug_cleaner(cmd);
 		ret_exec = executor(cmd); //UTILISER LE VRAI EXECUTOR
 		if (ret_exec != SUCCESS)
-		{
-			ft_printf("EXEC FAILED\n");
 			return (ret_exec);
-		}
 	}
 	return (SUCCESS);
 }

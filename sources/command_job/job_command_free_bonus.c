@@ -12,7 +12,6 @@ static void	del_cmd(void *data)
 	free(cmd->fd_string[2]);
 	if (cmd->av != NULL)
 	{
-		ft_printf("TU RENTRES ICI HEIN :)\n");//DEBUG
 		ft_free_tab(cmd->ac, cmd->av);
 		free(cmd->av);
 	}

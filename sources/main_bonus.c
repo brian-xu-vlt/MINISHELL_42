@@ -86,7 +86,6 @@ int			main(int ac, char **av, char **envp)
 				exit_routine_le(NULL);
 				return (EXIT_FAILURE);
 			}
-			ft_printf("WAITER IS FALSE OR SUCCESS\n");//DEBUG
 		}
 		vct_clear(cmd_line);
 		free_list_job(&jobs);

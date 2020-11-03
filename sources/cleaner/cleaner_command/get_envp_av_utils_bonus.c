@@ -51,7 +51,6 @@ int	fill_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	size_t	i;
 
 	cmd->ac = clean_cmd->ac;
-	ft_printf("AC = %d\n", cmd->ac);//DEBUG
 	cmd->av = (char **)malloc(sizeof(char *) * cmd->ac);
 	if (cmd->av == NULL)
 		return (FAILURE);

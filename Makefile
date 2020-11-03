@@ -111,7 +111,6 @@ SRCS += job_command_create_utils_bonus.c
 SRCS += cleaner_bonus.c
 SRCS += waiter_bonus.c
 SRCS += cleaner_quote_no_exp_bonus.c
-SRCS += cleaner_quote_utils_bonus.c
 SRCS += cleaner_quote_exp_bonus.c
 SRCS += hub_cleaner_quote_exp_bonus.c
 SRCS += cleaner_quote_exp_utils_bonus.c
@@ -127,6 +126,7 @@ SRCS += is_clean_bonus.c
 SRCS += get_type_command_bonus.c
 SRCS += get_envp_av_bonus.c
 SRCS += get_envp_av_utils_bonus.c
+SRCS += cleaner_quote_bonus.c
 
 
 OBJ_DIR = ./objs/
