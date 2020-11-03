@@ -135,8 +135,10 @@ char	*locate_binary_file(const char *bin_name);
 int		is_absolute_path(const char *bin_name);
 
 
+int		is_valid_job(const t_job *job);
+int		is_last_cmd(const size_t i, const size_t nb_cmd);
 int		is_solo_builtin(const int nb_cmd, const t_cmd *command);
-void	manage_subshell_exit_status(const int wstatus);
+int		manage_subshell_exit_status(const int wstatus);
 void	do_pipe(int pipe_fd[2]);
 void	close_pipe_end(int pipe_to_close);
 pid_t	fork_process(void);

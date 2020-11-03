@@ -33,22 +33,22 @@ static void	display_signal_str(int sig)
 		ft_printf("%s ", sig_str);
 }
 
-void	manage_subshell_exit_status(const int wstatus)
+int			manage_subshell_exit_status(const int wstatus)
 {
-	int			ret;
+	int			exit_status;
 
-	ret = 0;
+	exit_status = 0;
 	if (WIFSIGNALED(wstatus) == TRUE)
 	{
-		ret = WTERMSIG(wstatus);
-		display_signal_str(ret);
+		exit_status = WTERMSIG(wstatus);
+		display_signal_str(exit_status);
 		if (WCOREDUMP(wstatus) != FALSE)
 			ft_printf("(core dumped)");
 	}
 	else if (WIFSTOPPED(wstatus) == TRUE)
-		ret = WSTOPSIG(wstatus);
+		exit_status = WSTOPSIG(wstatus);
 	else if (WIFEXITED(wstatus) == TRUE)
-		ret = WEXITSTATUS(wstatus) - 128;
-	ret += (ret != 0) ? 128 : 0;
-	ms_setenv_int(get_env_list(GET), "?", ret, F_OVERWRITE);
+		exit_status = WEXITSTATUS(wstatus) - 128;
+	exit_status += (exit_status != 0) ? 128 : 0;
+	return (exit_status);
 }

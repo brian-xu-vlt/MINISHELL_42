@@ -34,9 +34,8 @@ static void		exec_subshell(const t_cmd *command, int p_in[2], int p_out[2])
 		ms_setenv_int(get_env_list(GET), "!LAST_PID", (int)pid, F_OVERWRITE);
 	}
 }
-		//ms_setenv_int(get_env_list(GET), "?", 1, F_OVERWRITE);
 
-static int		execution_process(const t_cmd *command, const int nb_cmd,
+static int		exec_process(const t_cmd *command, const int nb_cmd,
 													int p_in[2], int p_out[2])
 {
 	int		ret;
@@ -49,6 +48,8 @@ static int		execution_process(const t_cmd *command, const int nb_cmd,
 		ret = exec_builtin(command);
 	else
 		exec_subshell(command, p_in, p_out);
+	close_pipe_end(p_in[R_END]);
+	close_pipe_end(p_in[W_END]);
 	return (ret);
 }
 
@@ -56,6 +57,7 @@ static void		waiter(const t_cmd *command, const int nb_cmd, int ret)
 {
 	pid_t	pid;
 	int		wstatus;
+	int		exit_status;
 
 	wstatus = 0;
 	pid = SUCCESS;
@@ -67,33 +69,11 @@ static void		waiter(const t_cmd *command, const int nb_cmd, int ret)
 		{
 			pid = wait(&wstatus);
 			if (pid == get_env_value_int(get_env_list(GET), "!LAST_PID"))
-				manage_subshell_exit_status(wstatus);
+			{
+				exit_status = manage_subshell_exit_status(wstatus);
+				ms_setenv_int(get_env_list(GET), "?", exit_status, F_OVERWRITE);
+			}
 		}
-	}
-}
-
-static void		loop_commands(const t_job *job, int p_in[2], int p_out[2])
-{
-	int		ret;
-	size_t	i;
-	t_list	*cmd_cursor;
-
-	i = 0;
-	cmd_cursor = job->cmd_lst;
-	while (i < job->nb_cmd && cmd_cursor->content != NULL)
-	{
-		if (i < job->nb_cmd - 1)
-			do_pipe(p_out);
-		ret = execution_process(cmd_cursor->content, job->nb_cmd, p_in, p_out);
-		close_pipe_end(p_in[R_END]);
-		close_pipe_end(p_in[W_END]);
-		if (i < job->nb_cmd - 1)
-			ft_memmove(p_in, p_out, sizeof(int[2]));
-		ft_memset(p_out, UNSET, sizeof(int[2]));
-		if (i >= job->nb_cmd - 1)
-			waiter(cmd_cursor->content, job->nb_cmd, ret);
-		cmd_cursor = cmd_cursor->next;
-		i++;
 	}
 }
 
@@ -101,11 +81,28 @@ void			executor(const t_job *job)
 {
 	int		p_in[2];
 	int		p_out[2];
+	int		ret;
+	size_t	i;
+	t_list	*cmd_cursor;
 
-	if (job != NULL && job->cmd_lst != NULL && job->nb_cmd > 0)
+	if (is_valid_job(job) == TRUE)
 	{
 		ft_memset(p_in, UNSET, sizeof(int[2]));
 		ft_memset(p_out, UNSET, sizeof(int[2]));
-		loop_commands(job, p_in, p_out);
+		cmd_cursor = job->cmd_lst;
+		i = 0;
+		while (i < job->nb_cmd && cmd_cursor->content != NULL)
+		{
+			if (is_last_cmd(i, job->nb_cmd) == FALSE)
+				do_pipe(p_out);
+			ret = exec_process(cmd_cursor->content, job->nb_cmd, p_in, p_out);
+			if (is_last_cmd(i, job->nb_cmd) == FALSE)
+				ft_memmove(p_in, p_out, sizeof(int[2]));
+			ft_memset(p_out, UNSET, sizeof(int[2]));
+			if (is_last_cmd(i, job->nb_cmd) == TRUE)
+				waiter(cmd_cursor->content, job->nb_cmd, ret);
+			cmd_cursor = cmd_cursor->next;
+			i++;
+		}
 	}
 }
