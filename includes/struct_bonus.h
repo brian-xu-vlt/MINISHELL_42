@@ -57,6 +57,7 @@ typedef struct				s_cmd
 	enum e_condition_type	condition;
 	int						redirection;
 	int						ret;
+	pid_t					pid;
 	char					**envp;
 }
 							t_cmd;
