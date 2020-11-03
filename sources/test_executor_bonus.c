@@ -1,5 +1,5 @@
 #include "minishell_bonus.h"
-
+/*
 static void	debug_print_mask(int mask)
 {
 	int			i;
@@ -10,7 +10,7 @@ static void	debug_print_mask(int mask)
 		ft_printf("%d", (mask & (1 << i++)) != 0 ? 1 : 0);
 	ft_printf("\n");
 }
-
+*/
 static void	clean(t_cmd *command)
 {
 	int			i;
@@ -89,7 +89,7 @@ static void	clean(t_cmd *command)
 			if (open_flags & O_APPEND)
 				command->redirection |= F_REDIRECT_OUT_APPEND;
 			close(fd_ret);
-			debug_print_mask(command->redirection);
+		//	debug_print_mask(command->redirection);
 		}
 		i++;
 	}

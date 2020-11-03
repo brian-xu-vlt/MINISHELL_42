@@ -1,34 +1,38 @@
 #include "minishell_bonus.h"
 
+static void		child_process(const t_cmd *command, int p_in[2], int p_out[2])
+{
+	int		ret;
+
+	signal_manager(SIG_MODE_DEFAULT);
+	dup_pipes(command, p_in, p_out);
+	if (is_builtin(command) == TRUE)
+		ret = exec_builtin(command);
+	else	
+		ret = exec_binary(command);
+	if (command->redirection & F_REDIRECT_IN)
+		close(command->fd[STDIN_FILENO]);
+	if (command->redirection & F_REDIRECT_OUT)
+		close(command->fd[STDOUT_FILENO]);
+	exit(ret);
+}
+
 static void		exec_subshell(const t_cmd *command, int p_in[2], int p_out[2])
 {
 	pid_t	pid;
-	int		ret;
 
 	pid = fork_process();
 	if (pid == 0)
-	{
-		signal_manager(SIG_MODE_DEFAULT);
-		dup_pipes(command, p_in, p_out);
-		if (is_builtin(command) == TRUE)
-			ret = exec_builtin(command);
-		else	
-			ret = exec_binary(command);
-		if (command->redirection & F_REDIRECT_IN)
-			close(command->fd[STDIN_FILENO]);
-		if (command->redirection & F_REDIRECT_OUT)
-			close(command->fd[STDOUT_FILENO]);
-		exit(ret);
-	}
-	else if (pid != 0 && pid != FAILURE)
+		child_process(command, p_in, p_out);
+	else if (pid > 0)
 	{
 		signal_manager(SIG_MODE_EXEC);
-		ms_setenv_int(get_env_list(GET), "!", (int)pid, F_OVERWRITE);
+		ms_setenv_int(get_env_list(GET), "!LAST_PID", (int)pid, F_OVERWRITE);
 	}
 }
 
 static int		execution_process(const t_cmd *command, const int nb_cmd,
-												int p_in[2], int p_out[2])
+													int p_in[2], int p_out[2])
 {
 	int		ret;
 
@@ -46,7 +50,7 @@ static int		execution_process(const t_cmd *command, const int nb_cmd,
 			exec_subshell(command, p_in, p_out);
 	}
 	else
-		return (-1);
+		ms_setenv_int(get_env_list(GET), "?", 1, F_OVERWRITE);
 	return (ret);
 }
 
@@ -64,7 +68,7 @@ static void		waiter(const t_cmd *command, const int nb_cmd, int ret)
 		while (pid != FAILURE)
 		{
 			pid = wait(&wstatus);
-			if (pid == get_env_value_int(get_env_list(GET), "!"))
+			if (pid == get_env_value_int(get_env_list(GET), "!LAST_PID"))
 				manage_exit_status(wstatus);
 		}
 	}
@@ -83,7 +87,6 @@ static void		loop_commands(const t_job *job, int p_in[2], int p_out[2])
 		if (i < job->nb_cmd - 1)
 			do_pipe(p_out);
 		ret = execution_process(cmd_cursor->content, job->nb_cmd, p_in, p_out);
-		ft_printf("[%d] %s\n", get_env_value_int(get_env_list(GET), "!"), ((t_cmd*)cmd_cursor->content)->name);
 		close_pipe_end(p_in[R_END]);
 		close_pipe_end(p_in[W_END]);
 		if (i < job->nb_cmd - 1)
