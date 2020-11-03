@@ -6,9 +6,7 @@ static void		exec_subshell(const t_cmd *command, int p_in[2], int p_out[2])
 	int		ret;
 
 	pid = fork_process();
-	if (pid == FAILURE) 						//implement error managment
-		return ;
-	else if (pid == 0)
+	if (pid == 0)
 	{
 		signal_manager(SIG_MODE_DEFAULT);
 		dup_pipes(command, p_in, p_out);
@@ -70,10 +68,9 @@ static void		waiter(const t_cmd *command, const int nb_cmd, int ret)
 				manage_exit_status(wstatus);
 		}
 	}
-	ft_printf("\nJust set $? to = %d\n", get_env_value_int(get_env_list(GET), "?")); //to remove
 }
 
-static void		loop_commandes(const t_job *job, int p_in[2], int p_out[2])
+static void		loop_commands(const t_job *job, int p_in[2], int p_out[2])
 {
 	int		ret;
 	size_t	i;
@@ -86,6 +83,7 @@ static void		loop_commandes(const t_job *job, int p_in[2], int p_out[2])
 		if (i < job->nb_cmd - 1)
 			do_pipe(p_out);
 		ret = execution_process(cmd_cursor->content, job->nb_cmd, p_in, p_out);
+		ft_printf("[%d] %s\n", get_env_value_int(get_env_list(GET), "!"), ((t_cmd*)cmd_cursor->content)->name);
 		close_pipe_end(p_in[R_END]);
 		close_pipe_end(p_in[W_END]);
 		if (i < job->nb_cmd - 1)
@@ -103,10 +101,10 @@ void			executor(const t_job *job)
 	int		p_in[2];
 	int		p_out[2];
 
-	if (job != NULL && job->cmd_lst != NULL)
+	if (job != NULL && job->cmd_lst != NULL && job->nb_cmd > 0)
 	{
 		ft_memset(p_in, UNSET, sizeof(int[2]));
 		ft_memset(p_out, UNSET, sizeof(int[2]));
-		loop_commandes(job, p_in, p_out);
+		loop_commands(job, p_in, p_out);
 	}
 }

@@ -36,4 +36,3 @@ int		is_solo_builtin(const int nb_cmd, const t_cmd *command)
 		(nb_cmd == 1 && is_builtin(command) == TRUE 
 		&& command->redirection == F_NO_REDIRECT));
 }
-

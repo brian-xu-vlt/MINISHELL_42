@@ -125,6 +125,7 @@ int			test_executor(t_list *jobs)
 		fake_cleaner(jobs);
 		if (jobs->content != NULL)
 			executor(jobs->content);
+		ft_printf("\nJust set $? to = %d\n", get_env_value_int(get_env_list(GET), "?")); //to remove
 		jobs = jobs->next;
 	}
 	return (SUCCESS);
