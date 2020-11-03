@@ -183,6 +183,12 @@ int									get_envp_av(t_cmd *cmd,
 													int index_cmd);
 void								iter_clean_quote(t_cmd *cmd, size_t size);
 int									process_clean_command(t_cmd *cmd);
+int									clean_cmd_av(t_cmd *cmd,
+													t_clean_cmd *clean_cmd,
+													bool no_cmd, int index_cmd);
+int									fill_clean_cmd(int index_cmd, t_cmd *cmd,
+												t_clean_cmd *clean_cmd);
+int									fill_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd);
 
 
 	/******************************************************************************/

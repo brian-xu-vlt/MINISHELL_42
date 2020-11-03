@@ -123,8 +123,11 @@ SRCS += verif_bonus.c
 SRCS += process_redirection_bonus.c
 SRCS += clean_redirection_bonus.c
 SRCS += clean_redirection_utils_bonus.c
-SRCS += clean_command_utils_bonus.c
 SRCS += is_clean_bonus.c
+SRCS += get_type_command_bonus.c
+SRCS += get_envp_av_bonus.c
+SRCS += get_envp_av_utils_bonus.c
+
 
 OBJ_DIR = ./objs/
 
