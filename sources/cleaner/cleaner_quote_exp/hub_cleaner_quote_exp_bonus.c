@@ -39,14 +39,11 @@ static char				*hub_between_function(enum e_between between, char *str)
 
 char					*clean_quote_exp(char *str)
 {
-	t_vector		*vct_cmd;
 	enum e_between	between;
 	char			*good_str;
 
-	vct_cmd = vct_new();
-	vct_addstr(vct_cmd, str);
 	between = is_between(str);
 	good_str = hub_between_function(between, str);
-	vct_del(&vct_cmd);
+	free(str);
 	return (good_str);
 }

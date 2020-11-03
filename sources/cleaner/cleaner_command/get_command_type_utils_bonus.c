@@ -27,7 +27,7 @@ bool		is_clean(size_t i, char *tmp_av0, char *av, t_cmd *cmd)
 
 	vct_av = vct_new();
 	vct_addstr(vct_av, av);
-	if (cmd->count_assign != 0 && i_ass < cmd->count_assign && 
+	if (cmd->count_assign != 0 && i_ass < (size_t)cmd->count_assign && 
 			i == cmd->tab_assign[i_ass])
 	{
 		i_ass++;
@@ -44,7 +44,7 @@ bool		is_clean(size_t i, char *tmp_av0, char *av, t_cmd *cmd)
 			}
 		}
 	}
-	if (cmd->count_exp != 0 && i_exp < cmd->count_exp && 
+	if (cmd->count_exp != 0 && i_exp < (size_t)cmd->count_exp && 
 			i == cmd->tab_exp[i_exp])
 	{
 		i_exp++;

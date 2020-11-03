@@ -57,7 +57,7 @@ void	debug_cleaner(t_cmd *cmd)
 	ft_printf("\n");//DEBUG
 	ft_printf("\033[0;32mDEBUG ENV FINAL\n\033[0m");//DEBUG
 	ft_printf("COUNT ASSIGN = %d\n", cmd->count_assign);//DEBUG
-	if (cmd->count_assign != 0)
+	if (cmd->envp != NULL)
 		debug_env(cmd->envp, cmd->count_assign);
 	ft_printf("\n");//DEBUG
 }

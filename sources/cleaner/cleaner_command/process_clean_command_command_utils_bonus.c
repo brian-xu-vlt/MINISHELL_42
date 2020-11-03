@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static int	handle_only_envp(t_cmd *cmd, t_clean_cmd *clean_cmd)
+static int	handle_only_envp(t_cmd *cmd)
 {
 	size_t	i;
 
@@ -8,9 +8,10 @@ static int	handle_only_envp(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	cmd->envp = (char **)malloc(sizeof(char *) * cmd->ac);
 	if (cmd->envp == NULL)
 		return (FAILURE);
-	while (i < cmd->ac)
+	while (i < (size_t)cmd->ac)
 	{
 		cmd->envp[i] = ft_strdup(cmd->av[i]);
+		ft_strdel(&cmd->av[i]);
 		i++;
 	}
 	return (SUCCESS);
@@ -39,6 +40,7 @@ static int	handle_envp(t_cmd *cmd, t_clean_cmd *clean_cmd, int index_cmd)
 		if (ft_strlen(cmd->av[i]) != 0)
 		{
 			cmd->envp[i_envp] = ft_strdup(cmd->av[i]);
+			ft_strdel(&cmd->av[i]);
 			i_envp++;
 		}
 		i++;
@@ -55,21 +57,24 @@ int	get_envp_av(t_cmd *cmd, t_clean_cmd *clean_cmd, int index_cmd)
 	i = 0;
 	i_clean = 0;
 	no_cmd = false;
+	ft_printf("index_cmd = %d\n", index_cmd);//DEBUG
 	if (index_cmd > 0)
 		if (handle_envp(cmd, clean_cmd, index_cmd) == FAILURE)
 			return (FAILURE);
 	if (index_cmd == FAILURE)
 	{
 		no_cmd = true;
-		if (handle_only_envp(cmd, clean_cmd) == FAILURE)
+		if (handle_only_envp(cmd) == FAILURE)
 			return (FAILURE);
 	}
+	if (index_cmd == 0)
+		cmd->count_assign = 0;
 	if (no_cmd == false)
 		clean_cmd->ac = cmd->ac - index_cmd;
 	else
 	{
 		i = 0;
-		while (i < cmd->ac)
+		while (i < (size_t)cmd->ac)
 		{
 			free(cmd->av[i]);
 			i++;
@@ -90,13 +95,14 @@ int	get_envp_av(t_cmd *cmd, t_clean_cmd *clean_cmd, int index_cmd)
 		i_clean++;
 		i++;
 	}
+	free(cmd->av);
 	i = 0;
-	while (i < (size_t)cmd->ac)
+	/*while (i < (size_t)cmd->ac)
 	{
 		free(cmd->av[i]);
 		i++;
 	}
-	//free(cmd->av);
+	//free(cmd->av);*/
 	cmd->ac = clean_cmd->ac;
 	cmd->av = (char **)malloc(sizeof(char *) * cmd->ac);
 	if (cmd->av == NULL)

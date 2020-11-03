@@ -32,20 +32,10 @@ bool	is_clean_command(char *str)
 
 void	process_clean_command_quote(t_cmd *cmd, size_t i)
 {
-	char *str_av;
-
-	str_av = ft_strdup(cmd->av[i]);
 	if (ft_strchr(cmd->av[i], EXP) == NULL)
-	{
-		free(cmd->av[i]);
-		cmd->av[i] = clean_quote_no_exp(str_av);
-	}
+		cmd->av[i] = clean_quote_no_exp(cmd->av[i]);
 	else
-	{
-		free(cmd->av[i]);
-		cmd->av[i] = clean_quote_exp(str_av);
-	}
-	free(str_av);
+		cmd->av[i] = clean_quote_exp(cmd->av[i]);
 }
 
 void	iter_clean_quote(t_cmd *cmd, size_t size)
