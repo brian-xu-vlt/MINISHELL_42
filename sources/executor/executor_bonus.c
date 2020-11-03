@@ -11,7 +11,7 @@ static void		child_process(const t_cmd *command, int p_in[2], int p_out[2])
 	{
 		if (is_builtin(command) == TRUE)
 			ret = exec_builtin(command);
-		else	
+		else
 			ret = exec_binary(command);
 	}
 	if (command->redirection & F_REDIRECT_IN)

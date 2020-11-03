@@ -19,7 +19,7 @@ static int	open_file(t_cmd *command, int fd_fileno)
 	if (fd_return < 0)
 		print_set_errno(errno, NULL, command->fd_string[fd_fileno], NULL);
 	command->fd[fd_fileno] = fd_return;
-	return (fd_return);	
+	return (fd_return);
 }
 
 void		dup_pipes(const t_cmd *command, int p_in[2], int p_out[2])
@@ -45,12 +45,12 @@ void		dup_pipes(const t_cmd *command, int p_in[2], int p_out[2])
 void		close_pipe_end(int pipe_to_close)
 {
 	int		close_ret;
-	
+
 	close_ret = 0;
 	if (pipe_to_close != UNSET)
 	{
 		close_ret = close(pipe_to_close);
-		if (DEBUG_MODE == TRUE && close_ret == FAILURE) // TO CHANGE BACK 
+		if (DEBUG_MODE == TRUE && close_ret == FAILURE) // TO CHANGE BACK
 			print_set_errno(errno, NULL, "close pipe: ", NULL);
 		pipe_to_close = UNSET;
 	}

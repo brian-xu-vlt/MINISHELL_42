@@ -5,9 +5,9 @@ int	exec_builtin(const t_cmd *command)
 	int					i;
 	int					ret_value;
 	static const int	builtins_nb = 4;
-	static const char	*builtin_names[builtins_nb] = 
+	static const char	*builtin_names[builtins_nb] =
 		{ "exit", "env", "export", "unset" };
-	int					(*builtin_functions[builtins_nb])(int, char **, char **) = 
+	int					(*builtin_functions[builtins_nb])(int, char **, char **) =
 		{ exit_builtin, env_builtin, export_builtin, unset_builtin };
 
 	i = 0;

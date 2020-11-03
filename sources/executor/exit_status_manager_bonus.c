@@ -14,7 +14,7 @@ static const char	*ms_strsignal(int sig)
 		"Abort", "Bus Error", "Segmentation Fault", "Hangup", "Quit",
 		"Illegal instruction", "Killed", "Stop process", "Continue Process",
 		"Stop typed at terminal", "Termination signal", "I/O possible" };
-	
+
 	i = 0;
 	while (i < sig_nb)
 	{
