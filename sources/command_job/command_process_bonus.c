@@ -3,9 +3,9 @@
 int	get_command(int type)
 {
 	if (type == E_LESS_THAN || type == E_GREATER_THAN)
-		return (E_CMD_SIMPLE_REDIRECTION);
+		return (E_CMD_S_REDIRECTION);
 	else if (type == E_DOUBLE_GREATER)
-		return (E_CMD_DOUBLE_REDIRECTION);
+		return (E_CMD_D_REDIRECTION);
 	return (E_CMD_AV);
 }
 

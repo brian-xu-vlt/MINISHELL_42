@@ -2,7 +2,7 @@
 
 int	count_ac(t_list **list)
 {
-	int	count;
+	int		count;
 	t_list	*cpy_list;
 	t_token	*token;
 
@@ -30,7 +30,7 @@ int	count_ac(t_list **list)
 
 int	count_assign(t_list **list)
 {
-	int	count;
+	int		count;
 	t_list	*cpy_list;
 	t_token	*token;
 
@@ -59,7 +59,7 @@ int	count_assign(t_list **list)
 
 int	count_exp(t_list **list)
 {
-	int	count;
+	int		count;
 	t_list	*cpy_list;
 	t_token	*token;
 

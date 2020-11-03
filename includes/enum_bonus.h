@@ -48,8 +48,8 @@ enum e_condition_type
 enum e_cmd_type
 {
 	E_CMD_ASSIGN,
-	E_CMD_SIMPLE_REDIRECTION,
-	E_CMD_DOUBLE_REDIRECTION,
+	E_CMD_S_REDIRECTION,
+	E_CMD_D_REDIRECTION,
 	E_CMD_AV
 };
 

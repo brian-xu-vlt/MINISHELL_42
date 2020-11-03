@@ -51,7 +51,7 @@ int is_cmd(t_token *token, t_cmd *cmd, int add_command)
 {
 	if (token->type == E_LESS_THAN || token->type == E_GREATER_THAN || token->type == E_DOUBLE_GREATER)
 	{
-		if (fill_cmd_model(cmd, token, token->type == E_DOUBLE_GREATER ? 			E_CMD_DOUBLE_REDIRECTION : E_CMD_SIMPLE_REDIRECTION) == FAILURE)
+		if (fill_cmd_model(cmd, token, token->type == E_DOUBLE_GREATER ? 			E_CMD_D_REDIRECTION : E_CMD_S_REDIRECTION) == FAILURE)
 			return (FAILURE);
 	}
 	else

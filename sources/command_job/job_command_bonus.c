@@ -2,7 +2,7 @@
 
 static int	process_sep(t_list **head, t_list **jobs)
 {
-	t_list *token_list = *head;
+	t_list	*token_list = *head;
 	t_job	*job;
 	t_cmd	cmd;
 	t_token	*token;
@@ -33,14 +33,14 @@ static void	count_nb_command(t_list *job_list)
 	t_job	*job;
 	t_list	*tmp_cmd_lst;
 	size_t	count_nb_cmd;
-	
+
 	while (job_list != NULL)
 	{
 		job = job_list->content;
 		tmp_cmd_lst = job->cmd_lst;
 		count_nb_cmd = 0;
 		while (tmp_cmd_lst != NULL)
-		{	
+		{
 			count_nb_cmd++;
 			tmp_cmd_lst = tmp_cmd_lst->next;
 		}
@@ -49,7 +49,7 @@ static void	count_nb_command(t_list *job_list)
 	}
 }
 
-t_list	*get_jobs(t_list *token_list)
+t_list		*get_jobs(t_list *token_list)
 {
 	t_list	*jobs = NULL;
 	int		ret;

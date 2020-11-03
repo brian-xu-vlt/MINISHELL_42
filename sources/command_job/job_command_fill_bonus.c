@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-int	fill_name(char *str, t_cmd *cmd)
+int		fill_name(char *str, t_cmd *cmd)
 {
 	static int count;
 
@@ -61,7 +61,7 @@ int		fill_exp(int flag, int count_ac, t_cmd *cmd)
 	return (SUCCESS);
 }
 
-int	fill_ac(char **av)
+int		fill_ac(char **av)
 {
 	int	ac;
 
