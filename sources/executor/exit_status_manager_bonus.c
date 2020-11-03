@@ -33,7 +33,7 @@ static void	display_signal_str(int sig)
 		ft_printf("%s ", sig_str);
 }
 
-void	manage_exit_status(const int wstatus)
+void	manage_subshell_exit_status(const int wstatus)
 {
 	int			ret;
 

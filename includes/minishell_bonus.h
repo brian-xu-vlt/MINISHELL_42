@@ -136,7 +136,7 @@ int		is_absolute_path(const char *bin_name);
 
 
 int		is_solo_builtin(const int nb_cmd, const t_cmd *command);
-void	manage_exit_status(const int wstatus);
+void	manage_subshell_exit_status(const int wstatus);
 void	do_pipe(int pipe_fd[2]);
 void	close_pipe_end(int pipe_to_close);
 pid_t	fork_process(void);

@@ -6,10 +6,14 @@ static void		child_process(const t_cmd *command, int p_in[2], int p_out[2])
 
 	signal_manager(SIG_MODE_DEFAULT);
 	dup_pipes(command, p_in, p_out);
-	if (is_builtin(command) == TRUE)
-		ret = exec_builtin(command);
-	else	
-		ret = exec_binary(command);
+	ret = 1;
+	if ((command->redirection & F_REDIRECT_FAILURE) == FALSE)
+	{
+		if (is_builtin(command) == TRUE)
+			ret = exec_builtin(command);
+		else	
+			ret = exec_binary(command);
+	}
 	if (command->redirection & F_REDIRECT_IN)
 		close(command->fd[STDIN_FILENO]);
 	if (command->redirection & F_REDIRECT_OUT)
@@ -30,6 +34,7 @@ static void		exec_subshell(const t_cmd *command, int p_in[2], int p_out[2])
 		ms_setenv_int(get_env_list(GET), "!LAST_PID", (int)pid, F_OVERWRITE);
 	}
 }
+		//ms_setenv_int(get_env_list(GET), "?", 1, F_OVERWRITE);
 
 static int		execution_process(const t_cmd *command, const int nb_cmd,
 													int p_in[2], int p_out[2])
@@ -40,17 +45,10 @@ static int		execution_process(const t_cmd *command, const int nb_cmd,
 	// open files with lila's functions
 //	if (nb_cmd == 1 && command->name == NULL && command->env != NULL)
 		//DO ASSIGNATIONS export_execution_context_env(command);
-//	else if (ft_strequ(command->name, "exit") == TRUE)
-	
-	if ((command->redirection & F_REDIRECT_FAILURE) == FALSE)
-	{
-		if (is_solo_builtin(nb_cmd, command) == TRUE)
-			ret = exec_builtin(command);
-		else
-			exec_subshell(command, p_in, p_out);
-	}
+	if (is_solo_builtin(nb_cmd, command) == TRUE)
+		ret = exec_builtin(command);
 	else
-		ms_setenv_int(get_env_list(GET), "?", 1, F_OVERWRITE);
+		exec_subshell(command, p_in, p_out);
 	return (ret);
 }
 
@@ -69,7 +67,7 @@ static void		waiter(const t_cmd *command, const int nb_cmd, int ret)
 		{
 			pid = wait(&wstatus);
 			if (pid == get_env_value_int(get_env_list(GET), "!LAST_PID"))
-				manage_exit_status(wstatus);
+				manage_subshell_exit_status(wstatus);
 		}
 	}
 }
