@@ -1,11 +1,12 @@
 #include "minishell_bonus.h"
 
-void	handle_double(char *str, size_t i, size_t end_simple, t_vector *vct_good)
+void	handle_double(char *str, size_t i, size_t end_simple,
+						t_vector *vct_good)
 {
 	t_vector	*vct_simple;
 	char		*good_str;
 	size_t		in;
-	
+
 	vct_simple = vct_new();
 	vct_addstr(vct_simple, str + i);
 	vct_cutfrom(vct_simple, vct_getlen(vct_simple) - end_simple);
@@ -33,7 +34,7 @@ void	process_between_double(char *str, t_vector *vct_good)
 {
 	size_t	i;
 	size_t	end_double;
-	
+
 	i = 0;
 	end_double = 0;
 	while (str[i] != '\0')

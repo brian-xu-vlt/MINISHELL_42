@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-bool		is_wrong_char(t_vector *vct)
+bool	is_wrong_char(t_vector *vct)
 {
 	size_t i;
 
@@ -18,7 +18,7 @@ bool		is_wrong_char(t_vector *vct)
 	return (false);
 }
 
-bool is_wrong_ass(t_vector *vct)
+bool	is_wrong_ass(t_vector *vct)
 {
 	if (ft_isdigit(vct_getfirstchar(vct)) == TRUE)
 		return (false);
@@ -27,7 +27,7 @@ bool is_wrong_ass(t_vector *vct)
 	return (true);
 }
 
-size_t		verif_assign(t_vector *vct_av, size_t id_equal)
+size_t	verif_assign(t_vector *vct_av, size_t id_equal)
 {
 	t_vector *vct;
 

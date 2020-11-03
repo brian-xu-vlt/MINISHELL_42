@@ -2,10 +2,10 @@
 #include "minishell_bonus.h"
 
 int	clean_cmd_av(t_cmd *cmd, t_clean_cmd *clean_cmd, bool no_cmd,
-						int index_cmd)
+					int index_cmd)
 {
 	size_t	i;
-	
+
 	if (no_cmd == false)
 		clean_cmd->ac = cmd->ac - index_cmd;
 	else
@@ -23,7 +23,6 @@ int	clean_cmd_av(t_cmd *cmd, t_clean_cmd *clean_cmd, bool no_cmd,
 	}
 	return (SUCCESS);
 }
-
 
 int	fill_clean_cmd(int index_cmd, t_cmd *cmd, t_clean_cmd *clean_cmd)
 {

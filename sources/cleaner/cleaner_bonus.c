@@ -26,10 +26,10 @@ void		free_clean_command(t_clean_cmd *clean_cmd, int flag)
 	free(clean_cmd);
 }
 
-t_clean_cmd	*init_clean_command()
+t_clean_cmd	*init_clean_command(void)
 {
 	t_clean_cmd	*clean_cmd;
-	
+
 	clean_cmd = (t_clean_cmd *)malloc(sizeof(t_clean_cmd));
 	if (clean_cmd == NULL)
 		return (NULL);

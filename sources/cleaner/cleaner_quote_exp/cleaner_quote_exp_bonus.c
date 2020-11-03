@@ -66,7 +66,7 @@ char	*between_both(char *str)
 {
 	char		*good_str;
 	t_vector	*vct_good;
-	
+
 	good_str = NULL;
 	vct_good = vct_new();
 	process_between_both(str, vct_good);

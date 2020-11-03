@@ -176,7 +176,7 @@ int									count_redir(t_cmd *cmd,
 int									count_av(t_cmd *cmd);
 void								debug_fd(int *fd);
 void								debug_fd_string(char **fd_sting);
-t_clean_cmd							*init_clean_command();
+t_clean_cmd							*init_clean_command(void);
 int									get_cmd(t_cmd *cmd);
 int									get_envp_av(t_cmd *cmd,
 													t_clean_cmd *clean_cmd,

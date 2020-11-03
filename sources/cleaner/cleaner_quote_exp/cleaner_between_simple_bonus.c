@@ -41,7 +41,7 @@ void	process_between_simple(char *str, t_vector *vct_good)
 {
 	size_t	i;
 	size_t	end_simple;
-	
+
 	i = 0;
 	end_simple = 0;
 	while (str[i] != '\0')

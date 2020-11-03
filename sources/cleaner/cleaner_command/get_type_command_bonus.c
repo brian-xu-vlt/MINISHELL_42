@@ -3,7 +3,7 @@
 static bool	verif_assign_cmd(char *str)
 {
 	t_vector	*vct;
-	size_t	id_equal;
+	size_t		id_equal;
 
 	vct = vct_new();
 	vct_addstr(vct, str);
@@ -55,7 +55,7 @@ static int	process_get_cmd(size_t i_assign, size_t i_exp, size_t i, t_cmd *cmd)
 	return (FALSE);
 }
 
-int	get_cmd(t_cmd *cmd)
+int			get_cmd(t_cmd *cmd)
 {
 	size_t	i;
 	size_t	i_assign;

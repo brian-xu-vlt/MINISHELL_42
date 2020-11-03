@@ -17,13 +17,30 @@ static int	handle_only_envp(t_cmd *cmd)
 	return (SUCCESS);
 }
 
-static int	handle_envp(t_cmd *cmd, t_clean_cmd *clean_cmd, int index_cmd)
+static void	fill_envp(t_cmd *cmd, int index_cmd)
 {
 	size_t	i;
 	size_t	i_envp;
 
-	i = 0;
 	i_envp = 0;
+	i = 0;
+	while (i < (size_t)index_cmd)
+	{
+		if (ft_strlen(cmd->av[i]) != 0)
+		{
+			cmd->envp[i_envp] = ft_strdup(cmd->av[i]);
+			ft_strdel(&cmd->av[i]);
+			i_envp++;
+		}
+		i++;
+	}
+}
+
+static int	handle_envp(t_cmd *cmd, t_clean_cmd *clean_cmd, int index_cmd)
+{
+	size_t	i;
+
+	i = 0;
 	while (i < (size_t)index_cmd)
 	{
 		if (ft_strlen(cmd->av[i]) != 0)
@@ -35,16 +52,7 @@ static int	handle_envp(t_cmd *cmd, t_clean_cmd *clean_cmd, int index_cmd)
 		return (FAILURE);
 	i = 0;
 	cmd->count_assign = clean_cmd->count_assign;
-	while (i < (size_t)index_cmd)
-	{
-		if (ft_strlen(cmd->av[i]) != 0)
-		{
-			cmd->envp[i_envp] = ft_strdup(cmd->av[i]);
-			ft_strdel(&cmd->av[i]);
-			i_envp++;
-		}
-		i++;
-	}
+	fill_envp(cmd, index_cmd);
 	return (SUCCESS);
 }
 
@@ -71,7 +79,7 @@ static int	handle_get_envp(t_cmd *cmd, t_clean_cmd *clean_cmd, int index_cmd)
 	return (SUCCESS);
 }
 
-int	get_envp_av(t_cmd *cmd, t_clean_cmd *clean_cmd, int index_cmd)
+int			get_envp_av(t_cmd *cmd, t_clean_cmd *clean_cmd, int index_cmd)
 {
 	int		ret_envp;
 	int		ret_clean_cmd;
