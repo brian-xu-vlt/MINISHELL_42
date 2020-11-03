@@ -72,4 +72,8 @@
 
 #define NO_COMMAND 2
 
+#define TRUE_ASSIGN	1
+#define TRUE_EXP	2
+#define TRUE_CMD	3
+
 #endif

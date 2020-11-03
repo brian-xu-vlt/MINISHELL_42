@@ -18,9 +18,28 @@ bool		is_wrong_char(t_vector *vct)
 	return (false);
 }
 
-bool		is_clean(size_t i, char *tmp_av0, char *av, t_cmd *cmd)
+static bool	is_clean_assign(t_vector *vct_av, size_t i, char *tmp_av0,
+								char *av)
 {
 	size_t		id_equal;
+
+	id_equal = vct_clen(vct_av, ASSIGN);
+	if (id_equal != vct_getlen(vct_av))
+	{
+		if ((verif_assign(vct_av, id_equal) == false
+				&& i != 0 && is_clean_command(tmp_av0) == false) ||
+				(i == 0 && is_only_quote(av) == false) ||
+				(is_only_quote(av) == true))
+		{
+			vct_del(&vct_av);
+			return (false);
+		}
+	}
+	return (true);
+}
+
+bool		is_clean(size_t i, char *tmp_av0, char *av, t_cmd *cmd)
+{
 	t_vector	*vct_av;
 	static size_t	i_ass = 0;
 	static size_t	i_exp = 0;
@@ -31,18 +50,8 @@ bool		is_clean(size_t i, char *tmp_av0, char *av, t_cmd *cmd)
 			i == cmd->tab_assign[i_ass])
 	{
 		i_ass++;
-		id_equal = vct_clen(vct_av, ASSIGN);
-		if (id_equal != vct_getlen(vct_av))
-		{
-			if ((verif_assign(vct_av, id_equal) == false
-					&& i != 0 && is_clean_command(tmp_av0) == false) ||
-					(i == 0 && is_only_quote(av) == false) ||
-					(is_only_quote(av) == true))
-			{
-				vct_del(&vct_av);
-				return (false);
-			}
-		}
+		if (is_clean_assign(vct_av, i, tmp_av0, av) == false)
+			return (false);
 	}
 	if (cmd->count_exp != 0 && i_exp < (size_t)cmd->count_exp && 
 			i == cmd->tab_exp[i_exp])

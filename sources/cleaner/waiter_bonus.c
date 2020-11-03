@@ -8,7 +8,8 @@ static int process_less(char *str, t_cmd *cmd)
 	int fd;
 	static size_t i = 0;
 
-	fd = open(str, O_RDONLY | O_WRONLY | O_EXCL, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	fd = open(str, O_RDONLY | O_WRONLY | O_EXCL, S_IRUSR | S_IWUSR | S_IRGRP |
+				S_IROTH);
 	//clean_cmd->tab_fd_in[i] = fd;
 	if (fd < 0)
 	{
@@ -32,7 +33,8 @@ static int process_greater(char *str, t_cmd *cmd)
 	int fd;
 	static size_t i = 0;
 
-	fd = open(str, O_RDONLY | O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	fd = open(str, O_RDONLY | O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR |
+				S_IRGRP | S_IROTH);
 	//clean_cmd->tab_fd_out[i] = fd;
 	if (fd < 0)
 	{
@@ -55,7 +57,8 @@ static int process_double_greater(char *str, t_cmd *cmd)
 	int fd;
 	static size_t i = 0;
 
-	fd = open(str, O_RDONLY | O_WRONLY | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	fd = open(str, O_RDONLY | O_WRONLY | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR |
+				S_IRGRP | S_IROTH);
 	//clean_cmd->tab_fd_out_append[i] = fd;
 	if (fd < 0)
 	{
