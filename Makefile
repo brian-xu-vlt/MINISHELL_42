@@ -119,15 +119,13 @@ SRCS += cleaner_between_nothing_bonus.c
 SRCS += cleaner_between_simple_bonus.c
 SRCS += cleaner_between_double_bonus.c
 SRCS += cleaner_between_both_bonus.c
-SRCS += get_command_type_utils_bonus.c
-SRCS += bad_ass_utils_bonus.c
-SRCS += process_clean_command_bonus.c
-SRCS += process_clean_command_utils_bonus.c
+SRCS += verif_bonus.c
 SRCS += process_redirection_bonus.c
 SRCS += process_get_redirection_bonus.c
 SRCS += process_clean_redirection_bonus.c
 SRCS += process_clean_redirection_utils_bonus.c
-SRCS += process_clean_command_command_utils_bonus.c
+SRCS += clean_command_utils_bonus.c
+SRCS += is_clean_bonus.c
 
 OBJ_DIR = ./objs/
 
