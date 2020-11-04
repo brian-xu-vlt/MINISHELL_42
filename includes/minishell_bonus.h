@@ -178,7 +178,13 @@ int									clean_cmd_av(t_cmd *cmd,
 int									fill_clean_cmd(int index_cmd, t_cmd *cmd,
 												t_clean_cmd *clean_cmd);
 int									fill_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd);
-
+void								fill_envp(t_cmd *cmd, int index_cmd);
+int									count_new_ac(char **av, size_t size);
+int									count_clean_exp(char **av, size_t size);
+int									*fill_tab_clean_exp(int *tab_clean_exp,
+															char **av,
+															size_t size,
+															int clean_exp);
 
 	/******************************************************************************/
 	/*******************************_ERROR MANAGER_********************************/

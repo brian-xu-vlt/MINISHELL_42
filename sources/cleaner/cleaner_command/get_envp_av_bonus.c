@@ -1,21 +1,5 @@
 #include "minishell_bonus.h"
 
-static int	count_new_ac(char **av, size_t size)
-{
-	size_t	i;
-	size_t	new_ac;
-
-	i = 0;
-	new_ac = 0;
-	while (i < size)
-	{
-		if (ft_strlen(av[i]) != 0)
-			new_ac++;
-		i++;
-	}
-	return (new_ac);
-}
-
 static int	handle_only_envp(t_cmd *cmd)
 {
 	size_t	i;
@@ -42,24 +26,6 @@ static int	handle_only_envp(t_cmd *cmd)
 	return (SUCCESS);
 }
 
-static void	fill_envp(t_cmd *cmd, int index_cmd)
-{
-	size_t	i;
-	size_t	i_envp;
-
-	i_envp = 0;
-	i = 0;
-	while (i < (size_t)index_cmd)
-	{
-		if (ft_strlen(cmd->av[i]) != 0)
-		{
-			cmd->envp[i_envp] = ft_strdup(cmd->av[i]);
-			ft_strdel(&cmd->av[i]);
-			i_envp++;
-		}
-		i++;
-	}
-}
 
 static int	handle_envp(t_cmd *cmd, t_clean_cmd *clean_cmd, int index_cmd)
 {
