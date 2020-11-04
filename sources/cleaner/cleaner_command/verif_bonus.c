@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-bool is_del(char c)
+bool	is_del(char c)
 {
 	size_t i;
 

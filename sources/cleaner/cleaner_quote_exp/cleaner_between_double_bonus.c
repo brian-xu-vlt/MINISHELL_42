@@ -16,7 +16,7 @@ void	handle_double(char *str, size_t i, size_t end_simple,
 	good_str = ft_strdup(vct_getstr(vct_simple));
 	while (good_str[in] != '\0')
 	{
-		if (good_str[in] != EXP || (good_str[in] == EXP 
+		if (good_str[in] != EXP || (good_str[in] == EXP
 				&& in == ft_strlen(good_str) - 1))
 			vct_add(vct_good, good_str[in]);
 		else if (good_str[in] == EXP)

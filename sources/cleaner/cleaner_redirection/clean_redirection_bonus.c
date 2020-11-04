@@ -39,15 +39,15 @@ static int	clean_av(t_cmd *cmd, t_clean_cmd *clean_cmd, size_t nb_av)
 	return (SUCCESS);
 }
 
-static void clean_redir(t_clean_cmd *clean_cmd, size_t nb_redir)
+static void	clean_redir(t_clean_cmd *clean_cmd, size_t nb_redir)
 {
 	process_clean((size_t)clean_cmd->ac, clean_cmd->tab_redir,
-				  clean_cmd->tmp_tab_redir);
+					clean_cmd->tmp_tab_redir);
 	clean_cmd->count_redir = nb_redir;
 	ft_printf("\n");
 }
 
-int 		clean_redir_av(t_cmd *cmd, t_clean_cmd *clean_cmd)
+int			clean_redir_av(t_cmd *cmd, t_clean_cmd *clean_cmd)
 {
 	size_t nb_av;
 	size_t nb_redir;

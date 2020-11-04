@@ -26,7 +26,6 @@ static int	handle_only_envp(t_cmd *cmd)
 	return (SUCCESS);
 }
 
-
 static int	handle_envp(t_cmd *cmd, t_clean_cmd *clean_cmd, int index_cmd)
 {
 	size_t	i;
@@ -52,6 +51,7 @@ static int	handle_get_envp(t_cmd *cmd, t_clean_cmd *clean_cmd, int index_cmd)
 	bool	no_cmd;
 	int		ret_cmd;
 	no_cmd = false;
+
 	if (index_cmd > 0)
 		if (handle_envp(cmd, clean_cmd, index_cmd) == FAILURE)
 			return (FAILURE);

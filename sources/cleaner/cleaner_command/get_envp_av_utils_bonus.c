@@ -1,7 +1,7 @@
 
 #include "minishell_bonus.h"
 
-int	count_new_ac(char **av, size_t size)
+int		count_new_ac(char **av, size_t size)
 {
 	size_t	i;
 	size_t	new_ac;
@@ -36,7 +36,7 @@ void	fill_envp(t_cmd *cmd, int index_cmd)
 	}
 }
 
-int	clean_cmd_av(t_cmd *cmd, t_clean_cmd *clean_cmd, bool no_cmd,
+int		clean_cmd_av(t_cmd *cmd, t_clean_cmd *clean_cmd, bool no_cmd,
 					int index_cmd)
 {
 	size_t	i;
@@ -59,7 +59,7 @@ int	clean_cmd_av(t_cmd *cmd, t_clean_cmd *clean_cmd, bool no_cmd,
 	return (SUCCESS);
 }
 
-int	fill_clean_cmd(int index_cmd, t_cmd *cmd, t_clean_cmd *clean_cmd)
+int		fill_clean_cmd(int index_cmd, t_cmd *cmd, t_clean_cmd *clean_cmd)
 {
 	size_t	i_clean;
 	size_t	i;
@@ -80,7 +80,7 @@ int	fill_clean_cmd(int index_cmd, t_cmd *cmd, t_clean_cmd *clean_cmd)
 	return (SUCCESS);
 }
 
-int	fill_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
+int		fill_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
 {
 	size_t	i;
 

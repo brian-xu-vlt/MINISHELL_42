@@ -1,8 +1,7 @@
 #include "minishell_bonus.h"
 
-static void		free_clean_command(t_clean_cmd *clean_cmd, int flag, int clean_exp,
-
-								int *tab_clean_exp)
+static void		free_clean_command(t_clean_cmd *clean_cmd, int flag,
+									int clean_exp, int *tab_clean_exp)
 {
 	size_t	i;
 
@@ -30,7 +29,7 @@ static void		free_clean_command(t_clean_cmd *clean_cmd, int flag, int clean_exp,
 	free(clean_cmd);
 }
 
-t_clean_cmd	*init_clean_command(void)
+t_clean_cmd		*init_clean_command(void)
 {
 	t_clean_cmd	*clean_cmd;
 
@@ -53,7 +52,7 @@ t_clean_cmd	*init_clean_command(void)
 	return (clean_cmd);
 }
 
-static void	clean_quote(t_cmd *cmd, int clean_exp, int *tab_clean_exp)
+static void		clean_quote(t_cmd *cmd, int clean_exp, int *tab_clean_exp)
 {
 	int	i;
 	int	i_exp;
@@ -72,7 +71,7 @@ static void	clean_quote(t_cmd *cmd, int clean_exp, int *tab_clean_exp)
 	}
 }
 
-static int			process_clean_command(t_cmd *cmd, int *tab_clean_exp,
+static int		process_clean_command(t_cmd *cmd, int *tab_clean_exp,
 											int clean_exp)
 {
 	t_clean_cmd *clean_cmd;
@@ -99,9 +98,9 @@ static int			process_clean_command(t_cmd *cmd, int *tab_clean_exp,
 	return (SUCCESS);
 }
 
-int			cleaner(t_cmd *cmd)
+int				cleaner(t_cmd *cmd)
 {
-	int	ret_cmd;
+	int		ret_cmd;
 	size_t	clean_exp;
 	int		*tab_clean_exp;
 

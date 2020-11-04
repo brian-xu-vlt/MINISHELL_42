@@ -23,8 +23,8 @@ int	*fill_tab_clean_exp(int *tab_clean_exp, char **av, size_t size,
 	size_t	i_exp;
 
 	i = 0;
-	i_exp = 0;	
-	while (i < size)	
+	i_exp = 0;
+	while (i < size)
 	{
 		if (ft_strchr(av[i], EXP) != NULL)
 		{
