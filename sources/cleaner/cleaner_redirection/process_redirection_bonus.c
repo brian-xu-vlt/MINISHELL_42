@@ -61,7 +61,6 @@ int 						process_redirection(t_cmd *cmd,
 		return (FAILURE);
 	if (clean_redir_av(cmd, clean_cmd) == FAILURE)
 		return (FAILURE);
-	//debug_fd_string(cmd->fd_string);
 	cmd->tmp_fd_in = clean_cmd->tmp_fd_in;
 	cmd->tmp_fd_out = clean_cmd->tmp_fd_out;
 	cmd->tmp_fd_append = clean_cmd->tmp_fd_append;

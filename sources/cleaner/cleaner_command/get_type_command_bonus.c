@@ -47,7 +47,6 @@ static int	process_get_cmd(size_t i_assign, size_t i_exp, size_t i, t_cmd *cmd)
 	else if (i_exp < (size_t)cmd->count_exp && cmd->count_exp != 0
 				&& i == (size_t)cmd->tab_exp[i_exp])
 	{
-		//ft_printf("HEY\n");//DEBUG
 		if (verif_exp_cmd(cmd->av[i]) == false)
 			return (TRUE_EXP);
 		return (FALSE_EXP);
@@ -67,9 +66,7 @@ int			get_cmd(t_cmd *cmd)
 	i_exp = 0;
 	while (i < (size_t)cmd->ac)
 	{
-		//ft_printf("cmd->av[%d] = %s\n", i, cmd->av[i]);//DEBUG
 		ret = process_get_cmd(i_assign, i_exp, i, cmd);
-		//ft_printf("ret = %d\n\n", ret);//DEBUG
 		if (ret == FALSE_ASSIGN || ret == FALSE_EXP || ret == TRUE_CMD)
 			return (i);
 		if (ret == TRUE_ASSIGN)

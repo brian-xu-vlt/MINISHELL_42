@@ -59,4 +59,8 @@ void	debug_cleaner(t_cmd *cmd)
 	if (cmd->envp != NULL)
 		debug_env(cmd->envp, cmd->count_assign);
 	ft_printf("\n");//DEBUG
+	ft_printf("cmd->ac = %d\n", cmd->ac);
+	ft_printf("cmd->count_assign = %d\n", cmd->count_assign);
+	ft_printf("cmd->count_exp = %d\n", cmd->count_exp);
+	ft_printf("cmd->count_redir = %d\n\n", cmd->count_redir);
 }

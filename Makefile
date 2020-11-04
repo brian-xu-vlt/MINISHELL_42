@@ -113,7 +113,6 @@ SRCS += waiter_bonus.c
 SRCS += cleaner_quote_no_exp_bonus.c
 SRCS += cleaner_quote_exp_bonus.c
 SRCS += hub_cleaner_quote_exp_bonus.c
-SRCS += cleaner_quote_exp_utils_bonus.c
 SRCS += cleaner_between_nothing_bonus.c
 SRCS += cleaner_between_simple_bonus.c
 SRCS += cleaner_between_double_bonus.c
@@ -122,11 +121,9 @@ SRCS += verif_bonus.c
 SRCS += process_redirection_bonus.c
 SRCS += clean_redirection_bonus.c
 SRCS += clean_redirection_utils_bonus.c
-SRCS += is_clean_bonus.c
 SRCS += get_type_command_bonus.c
 SRCS += get_envp_av_bonus.c
 SRCS += get_envp_av_utils_bonus.c
-SRCS += cleaner_quote_bonus.c
 
 
 OBJ_DIR = ./objs/

@@ -120,7 +120,6 @@ void	process_between_both(char *str, t_vector *vct_good);
 /******************************************************************************/
 
 int									cleaner(t_cmd *cmd);
-void								clean_quote(t_cmd *cmd);
 void								debug_cleaner(t_cmd *cmd);
 void								debug_av(char **av, int ac);
 int									waiter(t_list *job_list);
@@ -148,12 +147,6 @@ void								process_between_double(char *str,
 void								handle_double(char *str, size_t i,
 													size_t end_simple,
 													t_vector *vct_good);
-bool								is_only_quote(char *str);
-bool								is_clean_command(char *str);
-void								process_clean_command_quote(t_cmd *cmd,
-																	size_t i);
-bool								is_clean(size_t i, char *tmp_av0, char *av,
-												t_cmd *cmd);
 size_t 								verif_assign(t_vector *vct_av,
 													size_t id_equal);
 bool 								is_wrong_char(t_vector *vct);
@@ -179,7 +172,6 @@ int									get_cmd(t_cmd *cmd);
 int									get_envp_av(t_cmd *cmd,
 													t_clean_cmd *clean_cmd,
 													int index_cmd);
-void								iter_clean_quote(t_cmd *cmd, size_t size);
 int									clean_cmd_av(t_cmd *cmd,
 													t_clean_cmd *clean_cmd,
 													bool no_cmd, int index_cmd);
