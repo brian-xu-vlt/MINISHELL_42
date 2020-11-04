@@ -4,7 +4,8 @@ static int	execution(const t_cmd *command, char *bin_full_path, char **envp)
 {
 	int		ret;
 
-	ret = execve(bin_full_path, command->av, envp); ////////////////// see p82 for failure!
+	errno = 0;
+	ret = execve(bin_full_path, command->av, envp); /////// see p82 for failure!
 	if (ret == FAILURE)
 		print_set_errno(errno, NULL, bin_full_path, NULL);
 	return (ret);
@@ -22,7 +23,6 @@ int			exec_binary(const t_cmd *command)
 	bin_full_path = locate_binary_file(command->name);
 	if (bin_full_path != NOT_FOUND)
 	{
-		ft_printf("TEST EXECUTION\n\n");
 		envp = get_envp(get_env_list(GET));
 		ret = execution(command, bin_full_path, envp);
 		ret = (errno == EACCES) ? 126 : ret;

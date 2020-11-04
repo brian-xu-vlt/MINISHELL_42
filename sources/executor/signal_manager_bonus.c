@@ -23,12 +23,12 @@ static void	window_at_signal(int sig)
 void		signal_manager(int set_mode)
 {
 	int					i;
-	static const int 	sig_nb = 5;
-	static const int 	sig_list[sig_nb] = {
-		SIGHUP,	SIGINT, SIGQUIT,
+	static const int	sig_nb = 5;
+	static const int	sig_list[sig_nb] = {
+		SIGHUP, SIGINT, SIGQUIT,
 		SIGTERM, SIGWINCH	};
-	static void 		(*handlers_mode_cmd_line[sig_nb])(int) = {
-		exit_at_signal,	newprompt_at_signal, SIG_IGN,
+	static void			(*handlers_mode_cmd_line[sig_nb])(int) = {
+		exit_at_signal, newprompt_at_signal, SIG_IGN,
 		exit_at_signal, window_at_signal	};
 
 	i = 0;

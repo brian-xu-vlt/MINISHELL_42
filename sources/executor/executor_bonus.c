@@ -42,8 +42,8 @@ static int		exec_process(const t_cmd *command, const int nb_cmd,
 
 	ret = 0;
 	// open files with lila's functions
-//	if (nb_cmd == 1 && command->name == NULL && command->env != NULL)
-		//DO ASSIGNATIONS export_execution_context_env(command);
+	//	if (nb_cmd == 1 && command->name == NULL && command->env != NULL)
+	//DO ASSIGNATIONS export_execution_context_env(command);
 	if (is_solo_builtin(nb_cmd, command) == TRUE)
 		ret = exec_builtin(command);
 	else
@@ -85,24 +85,23 @@ void			executor(const t_job *job)
 	size_t	i;
 	t_list	*cmd_cursor;
 
-	if (is_valid_job(job) == TRUE)
+	if (is_valid_job(job) == FALSE)
+		return ;
+	ft_memset(p_in, UNSET, sizeof(int[2]));
+	ft_memset(p_out, UNSET, sizeof(int[2]));
+	cmd_cursor = job->cmd_lst;
+	i = 0;
+	while (i < job->nb_cmd && cmd_cursor->content != NULL)
 	{
-		ft_memset(p_in, UNSET, sizeof(int[2]));
+		if (is_last_cmd(i, job->nb_cmd) == FALSE)
+			do_pipe(p_out);
+		ret = exec_process(cmd_cursor->content, job->nb_cmd, p_in, p_out);
+		if (is_last_cmd(i, job->nb_cmd) == FALSE)
+			ft_memmove(p_in, p_out, sizeof(int[2]));
 		ft_memset(p_out, UNSET, sizeof(int[2]));
-		cmd_cursor = job->cmd_lst;
-		i = 0;
-		while (i < job->nb_cmd && cmd_cursor->content != NULL)
-		{
-			if (is_last_cmd(i, job->nb_cmd) == FALSE)
-				do_pipe(p_out);
-			ret = exec_process(cmd_cursor->content, job->nb_cmd, p_in, p_out);
-			if (is_last_cmd(i, job->nb_cmd) == FALSE)
-				ft_memmove(p_in, p_out, sizeof(int[2]));
-			ft_memset(p_out, UNSET, sizeof(int[2]));
-			if (is_last_cmd(i, job->nb_cmd) == TRUE)
-				waiter(cmd_cursor->content, job->nb_cmd, ret);
-			cmd_cursor = cmd_cursor->next;
-			i++;
-		}
+		if (is_last_cmd(i, job->nb_cmd) == TRUE)
+			waiter(cmd_cursor->content, job->nb_cmd, ret);
+		cmd_cursor = cmd_cursor->next;
+		i++;
 	}
 }

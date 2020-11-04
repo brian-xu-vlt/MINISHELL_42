@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static char		**get_all_path_directories(void)
+static char	**get_all_path_directories(void)
 {
 	char		*path_env;
 	char		**ret_all_paths;
@@ -59,9 +59,9 @@ static char	*check_dir_option(const char *bin_name, const char *dir_option)
 
 char		*locate_binary_file(const char *bin_name)
 {
-	char	**dir_options;
-	char	*ret_full_path;
-	int		i;
+	char		**dir_options;
+	char		*ret_full_path;
+	int			i;
 
 	ret_full_path = NOT_FOUND;
 	if (is_path(bin_name) == TRUE)
