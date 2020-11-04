@@ -75,11 +75,18 @@ static int			process_clean_command(t_cmd *cmd, int *tab_clean_exp, int clean_exp
 	i_exp = 0;
 	while (i < cmd->ac)
 	{
-		//ft_printf("i = %d\n", i);//DEBUG
-		//ft_printf("i_exp = %d\n", i_exp);//DEBUG
-		//ft_printf("clean_exp = %d\n", clean_exp);//DEBUG
-		if (i < clean_exp && i != tab_clean_exp[i_exp])
+		ft_printf("i = %d\n", i);//DEBUG
+		ft_printf("i_exp = %d\n", i_exp);//DEBUG
+		ft_printf("clean_exp = %d\n", clean_exp);//DEBUG
+		if (clean_exp == 0 || (i < clean_exp && i != tab_clean_exp[i_exp]))
+		{
+			ft_printf("cmd->av[%d] = %s\n", i, cmd->av[i]);//DEBUG
 			cmd->av[i] = clean_quote_no_exp(cmd->av[i]);
+		}
+		if (i > clean_exp)
+		{
+			cmd->av[i] = clean_quote_no_exp(cmd->av[i]);
+		}
 		else if (i < clean_exp && i == tab_clean_exp[i_exp])
 			i_exp++;
 		i++;
