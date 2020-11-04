@@ -1,32 +1,12 @@
 #include "minishell_bonus.h"
 
-static int	execution(const t_cmd *command, char **path_list, char **envp)
+static int	execution(const t_cmd *command, char *bin_full_path, char **envp)
 {
 	int		ret;
-	int		i;
-	char 	*full_path;
 
-	ret = 0;
-	i = 0;
-	while (path_list[i] != NULL)
-	{
-		errno = 0;
-		if (is_absolute_path(command->name) == TRUE)
-			full_path = ft_strdup(command->name);
-		else
-			full_path = get_exec_path(path_list[i], command->name);
-		if (full_path != NULL && errno != EACCES)
-			ret = execve(full_path, command->av, envp); ////////////////// see p82 for failure!
-		free(full_path);
-		i++;
-	}
-	if (path_list[i] == NULL)
-	{
-		print_set_errno(0, "command not found", command->name, NULL);
-		ret = 127;
-	}
-	else
-		print_set_errno(errno, NULL, command->name, NULL);
+	ret = execve(bin_full_path, command->av, envp); ////////////////// see p82 for failure!
+	if (ret == FAILURE)
+		print_set_errno(errno, NULL, bin_full_path, NULL);
 	return (ret);
 }
 
@@ -34,17 +14,24 @@ int			exec_binary(const t_cmd *command)
 {
 	int			ret;
 	char		**envp;
-	char		**path_list;
+	char		*bin_full_path;
 
-	ret = 0;
-	export_execution_context_env(command);
-	path_list = get_all_path_directories();
-	envp = get_envp(get_env_list(GET));
-	if (path_list != NULL)
-		ret = execution(command, path_list, envp);
-	if (errno == EACCES)
+	errno = 0;
+	ret = 127;
+//	export_execution_context_env(command);
+	bin_full_path = locate_binary_file(command->name);
+	if (bin_full_path != NOT_FOUND)
+	{
+		ft_printf("TEST EXECUTION\n\n");
+		envp = get_envp(get_env_list(GET));
+		ret = execution(command, bin_full_path, envp);
+		ret = (errno == EACCES) ? 126 : ret;
+		free(bin_full_path);
+		free_char_arr(envp);
+	}
+	else if (errno == EISDIR)
 		ret = 126;
-	free_char_arr(path_list);
-	free_char_arr(envp);
+	else if (is_path(command->name) == FALSE)
+		print_set_errno(0, ERR_NO_COMMAND, command->name, NULL);
 	return (ret);
 }

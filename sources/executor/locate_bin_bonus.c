@@ -2,77 +2,85 @@
 
 static char		**get_all_path_directories(void)
 {
-	char	*path_env;
+	char		*path_env;
+	char		**ret_all_paths;
 
+	ret_all_paths = NULL;
 	path_env = vct_getstr(get_env_value_vct(get_env_list(GET), "PATH"));
 	if (path_env == NOT_FOUND)
 		return (NULL);
 	else
-		return (ft_split(path_env, ':'));
-}
-
-static int		go_through_single_dir(DIR *dir_stream, const char *bin_name)
-{
-	struct dirent	*cursor_file;
-
-	cursor_file = readdir(dir_stream);
-	while (cursor_file != NULL)
 	{
-		if (ft_strequ(cursor_file->d_name, (char *)bin_name) == TRUE)
-			return (TRUE);
-		cursor_file = readdir(dir_stream);
+		ret_all_paths = ft_split(path_env, ':');
+		if (ret_all_paths == NULL)
+			exit_routine_le(ERR_MALLOC);
 	}
-	return (FALSE);
+	return (ret_all_paths);
 }
 
-static int		find_binary_in_a_dir(char *directory, const char *bin_name)
+static int	stat_path(const char *path_to_stat)
 {
-	int				ret;
-	DIR				*dir_stream;
+	struct stat	statbuf;
+	int			ret;
 
-	ret = FALSE;
-	dir_stream = opendir(directory);
-	if (dir_stream == NULL)
-		return (FALSE);
-	ret = go_through_single_dir(dir_stream, bin_name);
-	closedir(dir_stream);
-	return (ret);
+	errno = 0;
+	ret = stat(path_to_stat, &statbuf);
+	if (S_ISDIR(statbuf.st_mode) != 0)
+		errno = EISDIR;
+	return ((ret != FAILURE && errno == 0) ? SUCCESS : FAILURE);
 }
 
-/*
-static char		*find_binary_in_pwd(const char *bin_name)
+static void	concat_path(t_vector **vct, char *dir_option, char *bin_name)
 {
-	char	*pwd;
-
-	pwd = vct_getstr(get_env_value_vct("PWD"));
-	if (pwd != NOT_FOUND && find_binary_in_a_dir(pwd, bin_name) == TRUE)
-		return (ft_strdup(pwd));
-	return (NOT_FOUND);
+	if (*vct == NULL)
+		exit_routine_le(ERR_MALLOC);
+	vct_addstr(*vct, (char *)dir_option);
+	vct_addstr(*vct, "/");
+	vct_addstr(*vct, (char *)bin_name);
 }
-*/
+
+static char	*check_dir_option(const char *bin_name, const char *dir_option)
+{
+	t_vector	*full_path_vct;
+	char		*ret_full_path;
+	int			ret;
+
+	errno = 0;
+	ret_full_path = NOT_FOUND;
+	full_path_vct = vct_new();
+	concat_path(&full_path_vct, (char *)dir_option, (char *)bin_name);
+	if ((ret = stat_path(vct_getstr(full_path_vct))) == SUCCESS)
+		ret_full_path = ft_strdup(vct_getstr(full_path_vct));
+	else if (ret == FAILURE && errno != ENOENT && errno != ENAMETOOLONG)
+		print_set_errno(errno, NULL, ret_full_path, NULL);
+	vct_del(&full_path_vct);
+	return (ret_full_path);
+}
 
 char		*locate_binary_file(const char *bin_name)
 {
 	char	**dir_options;
-	char	*ret_dir;
+	char	*ret_full_path;
 	int		i;
 
-	ret_dir = NOT_FOUND;
-	dir_options = get_all_path_directories();
-	if (dir_options == NULL || dir_options[0] == NULL)
-		return (NOT_FOUND);
-	i = 0;
-	while (dir_options[i] != NULL)
+	ret_full_path = NOT_FOUND;
+	if (is_path(bin_name) == TRUE)
 	{
-		if (find_binary_in_a_dir(dir_options[i], bin_name) == TRUE)
-		{
-			ret_dir = ft_strdup(dir_options[i]);
-			if (ret_dir == NULL)
-				exit_routine_le(ERR_MALLOC);
-			break ;
-		}
-		i++;
+		if (stat_path(bin_name) == SUCCESS)
+			ret_full_path = ft_strdup(bin_name);
+		else
+			print_set_errno(errno, NULL, bin_name, NULL);
 	}
-	free_char_ptr_arr(dir_options);
-	return (ret_dir);
+	else
+	{
+		dir_options = get_all_path_directories();
+		if (dir_options != NULL && dir_options[0] != NULL)
+		{
+			i = 0;
+			while (dir_options[i] != NULL && ret_full_path == NOT_FOUND)
+				ret_full_path = check_dir_option(bin_name, dir_options[i++]);
+			free_char_arr(dir_options);
+		}
+	}
+	return (ret_full_path);
 }

@@ -124,15 +124,13 @@ int		add_job_to_list(t_job *job, t_list **jobs, t_list *token_list,
 #define R_END				0
 #define W_END				1
 
-char	**get_all_path_directories(void);
-char	*get_exec_path(const char *dir, const char *name);
 void	export_execution_context_env(const t_cmd *command);
 int		exec_builtin(const t_cmd *command);
 int		exec_binary(const t_cmd *command);
 void	signal_manager(int set_mode);
 void	executor(const t_job *job);
 char	*locate_binary_file(const char *bin_name);
-int		is_absolute_path(const char *bin_name);
+int		is_path(const char *bin_name);
 
 
 int		is_valid_job(const t_job *job);

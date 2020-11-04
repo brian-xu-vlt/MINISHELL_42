@@ -31,7 +31,7 @@ static void	clean(t_cmd *command)
 		if (ft_strequ(command->av[i], "<") == TRUE)
 		{
 			open_flags = O_RDONLY;
-			if (is_absolute_path(command->fd_string[STDIN_FILENO]) == FALSE)
+			if (is_path(command->fd_string[STDIN_FILENO]) == FALSE)
 			{
 				file_path = vct_new();
 				if (file_path == NULL)
@@ -63,7 +63,7 @@ static void	clean(t_cmd *command)
 				open_flags = O_WRONLY | O_CREAT | O_APPEND;
 			else
 				open_flags = O_WRONLY | O_CREAT | O_TRUNC;
-			if (is_absolute_path(command->fd_string[STDOUT_FILENO]) == FALSE)
+			if (is_path(command->fd_string[STDOUT_FILENO]) == FALSE)
 			{
 				file_path = vct_new();
 				if (file_path == NULL)

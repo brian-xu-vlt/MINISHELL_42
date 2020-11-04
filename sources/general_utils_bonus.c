@@ -11,3 +11,8 @@ void		free_char_arr(char **arr)
 		free(arr[i++]);
 	free(arr);
 }
+
+int		is_path(const char *bin_name)
+{
+	return ((ft_strchr((char *)bin_name, '/') == NOT_FOUND) ? FALSE : TRUE);
+}
