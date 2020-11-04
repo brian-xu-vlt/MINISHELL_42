@@ -1,16 +1,17 @@
 #include "minishell_bonus.h"
 
-bool is_job_sep(t_token *token)
+bool	is_job_sep(t_token *token)
 {
-	return (token->type == E_OR || token->type == E_AND || token->type == E_SEPARATOR ? true : false);
+	return (token->type == E_OR || token->type == E_AND ||
+				token->type == E_SEPARATOR ? true : false);
 }
 
-bool is_cmd_sep(t_token *token)
+bool	is_cmd_sep(t_token *token)
 {
 	return (is_job_sep(token) || token->type == E_PIPE);
 }
 
-int is_end_cmd(t_token *token, t_list **token_list, t_cmd *cmd, t_job *job)
+int		is_end_cmd(t_token *token, t_list **token_list, t_cmd *cmd, t_job *job)
 {
 	if (is_cmd_sep(token) == true || next_is_end(token_list) == true)
 	{
@@ -29,8 +30,8 @@ int is_end_cmd(t_token *token, t_list **token_list, t_cmd *cmd, t_job *job)
 	return (false);
 }
 
-int is_add_cmd(t_token *token, t_list *token_list, t_cmd *cmd,
-			   t_job *job)
+int		is_add_cmd(t_token *token, t_list *token_list, t_cmd *cmd,
+					t_job *job)
 {
 	int ret;
 
@@ -47,16 +48,19 @@ int is_add_cmd(t_token *token, t_list *token_list, t_cmd *cmd,
 	return (SUCCESS);
 }
 
-int is_cmd(t_token *token, t_cmd *cmd, int add_command)
+int		is_cmd(t_token *token, t_cmd *cmd, int add_command)
 {
-	if (token->type == E_LESS_THAN || token->type == E_GREATER_THAN || token->type == E_DOUBLE_GREATER)
+	if (token->type == E_LESS_THAN || token->type == E_GREATER_THAN ||
+			token->type == E_DOUBLE_GREATER)
 	{
-		if (fill_cmd_model(cmd, token, token->type == E_DOUBLE_GREATER ? 			E_CMD_D_REDIRECTION : E_CMD_S_REDIRECTION) == FAILURE)
+		if (fill_cmd_model(cmd, token, token->type == E_DOUBLE_GREATER ?
+						E_CMD_D_REDIRECTION : E_CMD_S_REDIRECTION) == FAILURE)
 			return (FAILURE);
 	}
 	else
 		fill_cmd_model(cmd, token, E_CMD_AV);
 	if (add_command == TRUE)
 		return (true);
-	return ((token->type == E_LESS_THAN || token->type == E_GREATER_THAN || token->type == E_DOUBLE_GREATER) ? true : false);
+	return ((token->type == E_LESS_THAN || token->type == E_GREATER_THAN ||
+				token->type == E_DOUBLE_GREATER) ? true : false);
 }

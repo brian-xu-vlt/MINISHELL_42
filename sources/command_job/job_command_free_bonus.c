@@ -1,5 +1,11 @@
 #include "minishell_bonus.h"
 
+static void	free_cmd(size_t size, void *data)
+{
+	ft_free_tab(size, data);
+	free(data);
+}
+
 static void	del_cmd(void *data)
 {
 	t_cmd *cmd;
@@ -11,26 +17,17 @@ static void	del_cmd(void *data)
 	free(cmd->fd_string[1]);
 	free(cmd->fd_string[2]);
 	if (cmd->av != NULL)
-	{
-		ft_free_tab(cmd->ac, cmd->av);
-		free(cmd->av);
-	}
+		free_cmd(cmd->ac, cmd->av);
 	if (cmd->envp != NULL)
-	{
-		ft_free_tab(cmd->count_assign, cmd->envp);
-		free(cmd->envp);
-	}
+		free_cmd(cmd->count_assign, cmd->envp);
 	if (cmd->tab_redir != NULL)
-	{
-		ft_free_tab(cmd->count_redir, cmd->tab_redir);
-		free(cmd->tab_redir);
-	}
+		free_cmd(cmd->count_redir, cmd->tab_redir);
 	free(cmd->tab_assign);
 	free(cmd->tab_exp);
 	free(cmd);
 }
 
-static void del_jobs(void *data)
+static void	del_jobs(void *data)
 {
 	t_job *job;
 
@@ -41,7 +38,7 @@ static void del_jobs(void *data)
 	free(job);
 }
 
-void free_list_job(t_list **jobs)
+void		free_list_job(t_list **jobs)
 {
 	ft_lstdel(jobs, del_jobs);
 }

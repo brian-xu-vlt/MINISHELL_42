@@ -36,7 +36,7 @@ t_cmd		*create_cmd(t_cmd *cmd_model)
 	return (cmd);
 }
 
-int 		add_cmd_to_job(t_job *job, t_cmd *cmd_model)
+int			add_cmd_to_job(t_job *job, t_cmd *cmd_model)
 {
 	t_cmd	*cmd;
 	t_list	*cmd_node;

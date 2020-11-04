@@ -1,16 +1,16 @@
 #include "minishell_bonus.h"
 
-
 const char	*get_token_str(const int type)
 {
 	static const char *tokens[] = {SEPARATOR, PIPE, SIMPLE_QUOTE, QUOTE,
 					LESS_THAN, GREATER_THAN, SPACE, TAB, DOUBLE_GREATER,
 					OR, AND, S_WORD, S_EXP, S_ASSIGN, S_START, S_END
 					, S_NO_TYPE};
+
 	return (tokens[type]);
 }
 
-void	debug(const int type)
+void		debug(const int type)
 {
 	ft_printf("token->type = %s\n", get_token_str(type));
 }

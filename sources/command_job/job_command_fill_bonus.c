@@ -27,7 +27,8 @@ int		fill_assign(int flag, int count_ac, t_cmd *cmd)
 
 	if (count == 0)
 	{
-		cmd->tab_assign = (size_t *)malloc(sizeof(size_t) * (cmd->count_assign));
+		cmd->tab_assign = (size_t *)malloc(sizeof(size_t) *
+							(cmd->count_assign));
 		if (cmd->tab_assign == NULL)
 			return (FAILURE);
 	}

@@ -56,6 +56,7 @@ char					*handle_bracket(char *str, t_list **token_list);
 void					free_list_token(t_list **token);
 const char				*get_token_str(const int type);
 char					*get_data(int type);
+void					free_token(t_list *node, t_token *token);
 
 /******************************************************************************/
 /*******************************_PARSER_***************************************/
@@ -101,7 +102,7 @@ int		is_cmd(t_token *token, t_cmd *cmd, int add_command);
 int		is_end_cmd(t_token *token, t_list **token_list, t_cmd *cmd, t_job *job);
 int		is_add_cmd(t_token *token, t_list *token_list, t_cmd *cmd,
 			t_job *job);
-t_job	*init_job();
+t_job	*init_job(void);
 int		add_job_to_list(t_job *job, t_list **jobs, t_list *token_list,
 			t_list **head);
 int		count_assign(t_list **list);
