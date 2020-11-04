@@ -118,7 +118,9 @@ static int executor(t_cmd *cmd)
 		return (FILE_FAIL);
 	ft_printf("\033[0;32mDEBUG FD FINAL\n\033[0m"); //DEBUG
 	debug_fd(cmd->fd);
-	ft_printf("\033[0;32mDEBUG FD_STRING FINAL\n\033[0m"); //DEBUG
+	ft_printf("\n");
+	ft_printf("\033[0;32mDEBUG REDIR FINAL\n\033[0m");//DEBUG
+	debug_redir(cmd->tab_redir, cmd->count_redir);
 	return (SUCCESS);
 }
 

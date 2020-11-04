@@ -34,6 +34,7 @@
 #define C_GREATER_THAN		'>'//5
 #define	C_SPACE				' '//6
 #define C_TAB				'\t'//7
+#define C_EXPORT			'$'
 
 #define GRAMMAR			";|'\"<> \t"
 
@@ -75,5 +76,7 @@
 #define TRUE_ASSIGN	1
 #define TRUE_EXP	2
 #define TRUE_CMD	3
+#define FALSE_ASSIGN 4
+#define FALSE_EXP		5
 
 #endif

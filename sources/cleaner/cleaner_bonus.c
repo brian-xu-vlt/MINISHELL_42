@@ -1,6 +1,8 @@
 #include "minishell_bonus.h"
 
-void		free_clean_command(t_clean_cmd *clean_cmd, int flag)
+static void		free_clean_command(t_clean_cmd *clean_cmd, int flag, int clean_exp,
+
+								int *tab_clean_exp)
 {
 	size_t	i;
 
@@ -23,6 +25,8 @@ void		free_clean_command(t_clean_cmd *clean_cmd, int flag)
 		free(clean_cmd->tmp_tab_redir);
 		free(clean_cmd->tmp_av);
 	}
+	if (clean_exp != 0)
+		free(tab_clean_exp);
 	free(clean_cmd);
 }
 
@@ -49,29 +53,46 @@ t_clean_cmd	*init_clean_command(void)
 	return (clean_cmd);
 }
 
-int			process_clean_command(t_cmd *cmd)
+static int			process_clean_command(t_cmd *cmd, int *tab_clean_exp, int clean_exp)
 {
 	t_clean_cmd *clean_cmd;
 	int			index_cmd;
 	int			ret_cmd;
+	int			i;
+	int			i_exp;
 
+	//ft_printf("PROCESS CLEAN COMMAND\n");//DEBUG
+	//ft_printf("CMD->AV[0] = %s\n", cmd->av[0]);//DEBUG
 	clean_cmd = init_clean_command();
 	if (clean_cmd == NULL)
 	{
-		free_clean_command(clean_cmd, NOT_ALL_FREE);
+		free_clean_command(clean_cmd, NOT_ALL_FREE, clean_exp, tab_clean_exp);
 		return (FAILURE);
 	}
 	index_cmd = get_cmd(cmd);
-	iter_clean_quote(cmd, (size_t)cmd->ac);
+	//ft_printf("index_cmd = %d\n", index_cmd);//DEBUG
+	i = 0;
+	i_exp = 0;
+	while (i < cmd->ac)
+	{
+		//ft_printf("i = %d\n", i);//DEBUG
+		//ft_printf("i_exp = %d\n", i_exp);//DEBUG
+		//ft_printf("clean_exp = %d\n", clean_exp);//DEBUG
+		if (i < clean_exp && i != tab_clean_exp[i_exp])
+			cmd->av[i] = clean_quote_no_exp(cmd->av[i]);
+		else if (i < clean_exp && i == tab_clean_exp[i_exp])
+			i_exp++;
+		i++;
+	}
 	ret_cmd = get_envp_av(cmd, clean_cmd, index_cmd);
 	if (ret_cmd == FAILURE)
 	{
-		free_clean_command(clean_cmd, ALL_FREE);
+		free_clean_command(clean_cmd, ALL_FREE, clean_exp, tab_clean_exp);
 		return (FAILURE);
 	}
 	if (ret_cmd != NO_COMMAND)
 		process_redirection(cmd, clean_cmd);
-	free_clean_command(clean_cmd, ALL_FREE);
+	free_clean_command(clean_cmd, ALL_FREE, clean_exp, tab_clean_exp);
 	return (SUCCESS);
 }
 
@@ -94,8 +115,49 @@ void		clean_quote(t_cmd *cmd)
 int			cleaner(t_cmd *cmd)
 {
 	int	ret_cmd;
+	size_t	i;
+	size_t	clean_exp;
+	int		*tab_clean_exp;
+	size_t	i_exp;
 
-	clean_quote(cmd);
-	ret_cmd = process_clean_command(cmd);
+	i = 0;
+
+	//clean_quote(cmd);
+	clean_exp = 0;
+	while (i < (size_t)cmd->ac)
+	{
+		if (ft_strchr(cmd->av[i], EXP) != NULL)
+			clean_exp++;
+		i++;
+	}
+	//ft_printf("clean_exp = %d\n", clean_exp);//DEBUG
+	i = 0;
+	if (clean_exp != 0)
+	{
+		tab_clean_exp = (int *)malloc(sizeof(int) * clean_exp);
+		if (tab_clean_exp == NULL)
+			return (FAILURE);
+	}
+	i_exp = 0;
+	while (i < (size_t)cmd->ac)	
+	{
+		if (ft_strchr(cmd->av[i], EXP) != NULL)
+		{
+			if (clean_exp != 0)
+			{
+				tab_clean_exp[i_exp] = i;
+				i_exp++;
+			}
+			cmd->av[i] = clean_quote_exp(cmd->av[i]);
+		}
+		i++;
+	}
+	i = 0;
+	while (i < clean_exp)
+	{
+		//ft_printf("tab_clean_exp[%d] = %d\n", i, tab_clean_exp[i]);//DEBUG
+		i++;
+	}
+	ret_cmd = process_clean_command(cmd, tab_clean_exp, clean_exp);
 	return (ret_cmd);
 }

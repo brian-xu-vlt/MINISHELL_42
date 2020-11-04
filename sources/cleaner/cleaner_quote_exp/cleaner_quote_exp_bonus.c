@@ -29,9 +29,7 @@ char	*between_nothing(char *str)
 		}
 		i++;
 	}
-	ft_printf("good_str = %s\n", good_str);
 	good_str = ft_strdup(vct_getstr(vct_good));
-	ft_printf("good_str = %s\n", good_str);
 	vct_del(&vct_good);
 	return (good_str);
 }

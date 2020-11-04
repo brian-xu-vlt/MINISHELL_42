@@ -158,9 +158,6 @@ size_t 								verif_assign(t_vector *vct_av,
 													size_t id_equal);
 bool 								is_wrong_char(t_vector *vct);
 bool 								is_wrong_ass(t_vector *vct);
-int									process_clean_command(t_cmd *cmd);
-void								free_clean_command(t_clean_cmd *clean_cmd,
-														int flag);
 int									process_redirection(t_cmd *cmd,
 													t_clean_cmd *clean_cmd);
 typedef	enum e_state_redir			(*t_state_redir)(char *);
@@ -183,7 +180,6 @@ int									get_envp_av(t_cmd *cmd,
 													t_clean_cmd *clean_cmd,
 													int index_cmd);
 void								iter_clean_quote(t_cmd *cmd, size_t size);
-int									process_clean_command(t_cmd *cmd);
 int									clean_cmd_av(t_cmd *cmd,
 													t_clean_cmd *clean_cmd,
 													bool no_cmd, int index_cmd);

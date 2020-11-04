@@ -24,7 +24,8 @@ static bool	verif_exp_cmd(char *str)
 
 	vct = vct_new();
 	vct_addstr(vct, str);
-	vct_pop(vct);
+	if (vct_getfirstchar(vct) == C_EXPORT)
+		vct_pop(vct);
 	if (is_wrong_ass(vct) == false)
 	{
 		vct_del(&vct);
@@ -39,20 +40,19 @@ static int	process_get_cmd(size_t i_assign, size_t i_exp, size_t i, t_cmd *cmd)
 	if (i_assign < (size_t)cmd->count_assign && cmd->count_assign != 0
 			&& i == (size_t)cmd->tab_assign[i_assign])
 	{
-		if (verif_assign_cmd(cmd->av[i]) == true)
+		if (verif_assign_cmd(cmd->av[i]) == false)
 			return (TRUE_ASSIGN);
-		i_assign++;
+		return (FALSE_ASSIGN);
 	}
 	else if (i_exp < (size_t)cmd->count_exp && cmd->count_exp != 0
 				&& i == (size_t)cmd->tab_exp[i_exp])
 	{
-		if (verif_exp_cmd(cmd->av[i]) == true)
+		//ft_printf("HEY\n");//DEBUG
+		if (verif_exp_cmd(cmd->av[i]) == false)
 			return (TRUE_EXP);
-		i_exp++;
+		return (FALSE_EXP);
 	}
-	else
-		return (TRUE_CMD);
-	return (FALSE);
+	return (TRUE_CMD);
 }
 
 int			get_cmd(t_cmd *cmd)
@@ -67,8 +67,10 @@ int			get_cmd(t_cmd *cmd)
 	i_exp = 0;
 	while (i < (size_t)cmd->ac)
 	{
+		//ft_printf("cmd->av[%d] = %s\n", i, cmd->av[i]);//DEBUG
 		ret = process_get_cmd(i_assign, i_exp, i, cmd);
-		if (ret != FALSE)
+		//ft_printf("ret = %d\n\n", ret);//DEBUG
+		if (ret == FALSE_ASSIGN || ret == FALSE_EXP || ret == TRUE_CMD)
 			return (i);
 		if (ret == TRUE_ASSIGN)
 			i_assign++;
