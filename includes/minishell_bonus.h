@@ -125,7 +125,7 @@ int		add_job_to_list(t_job *job, t_list **jobs, t_list *token_list,
 #define W_END				1
 
 char	**get_all_path_directories(void);
-char	*get_exec_path(char *dir, const char *name);
+char	*get_exec_path(const char *dir, const char *name);
 void	export_execution_context_env(const t_cmd *command);
 int		exec_builtin(const t_cmd *command);
 int		exec_binary(const t_cmd *command);

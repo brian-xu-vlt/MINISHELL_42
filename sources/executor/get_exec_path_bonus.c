@@ -33,7 +33,7 @@ int		is_absolute_path(const char *bin_name)
 	return ((ft_strchr((char *)bin_name, '/') == NOT_FOUND) ? FALSE : TRUE);
 }
 
-char	*get_exec_path(char *dir, const char *name)
+char	*get_exec_path(const char *dir, const char *name)
 {
 	if (dir != NULL)
 		return (create_full_path(dir, name));
