@@ -85,6 +85,7 @@ static int			process_clean_command(t_cmd *cmd, int *tab_clean_exp, int clean_exp
 		i++;
 	}
 	ret_cmd = get_envp_av(cmd, clean_cmd, index_cmd);
+	ft_printf("ret_cmd cleaner = %d\n", ret_cmd);//DEBUG
 	if (ret_cmd == FAILURE)
 	{
 		free_clean_command(clean_cmd, ALL_FREE, clean_exp, tab_clean_exp);

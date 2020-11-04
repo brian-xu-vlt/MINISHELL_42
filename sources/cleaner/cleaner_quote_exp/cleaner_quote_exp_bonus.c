@@ -29,6 +29,8 @@ char	*between_nothing(char *str)
 		}
 		i++;
 	}
+	ft_printf("vct_good = %s\n", vct_getstr(vct_good));//DEBUGA
+	ft_printf("good str = %s\n", good_str);//DEBUGA
 	good_str = ft_strdup(vct_getstr(vct_good));
 	vct_del(&vct_good);
 	return (good_str);
