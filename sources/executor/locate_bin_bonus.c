@@ -49,7 +49,8 @@ static char	*check_dir_option(const char *bin_name, const char *dir_option)
 	ret_full_path = NOT_FOUND;
 	full_path_vct = vct_new();
 	concat_path(&full_path_vct, (char *)dir_option, (char *)bin_name);
-	if ((ret = stat_path(vct_getstr(full_path_vct))) == SUCCESS)
+	ret = stat_path(vct_getstr(full_path_vct));
+	if (ret == SUCCESS)
 		ret_full_path = ft_strdup(vct_getstr(full_path_vct));
 	else if (ret == FAILURE && errno != ENOENT && errno != ENAMETOOLONG)
 		print_set_errno(errno, NULL, ret_full_path, NULL);
@@ -64,7 +65,8 @@ char		*locate_binary_file(const char *bin_name)
 	int			i;
 
 	ret_full_path = NOT_FOUND;
-	if (is_path(bin_name) == TRUE)
+	dir_options = get_all_path_directories();
+	if (is_path(bin_name) == TRUE || dir_options == NULL)
 	{
 		if (stat_path(bin_name) == SUCCESS)
 			ret_full_path = ft_strdup(bin_name);
@@ -73,14 +75,10 @@ char		*locate_binary_file(const char *bin_name)
 	}
 	else
 	{
-		dir_options = get_all_path_directories();
-		if (dir_options != NULL && dir_options[0] != NULL)
-		{
-			i = 0;
-			while (dir_options[i] != NULL && ret_full_path == NOT_FOUND)
-				ret_full_path = check_dir_option(bin_name, dir_options[i++]);
-			free_char_arr(dir_options);
-		}
+		i = 0;
+		while (dir_options[i] != NULL && ret_full_path == NOT_FOUND)
+			ret_full_path = check_dir_option(bin_name, dir_options[i++]);
+		free_char_arr(dir_options);
 	}
 	return (ret_full_path);
 }

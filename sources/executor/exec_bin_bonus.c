@@ -19,7 +19,7 @@ int			exec_binary(const t_cmd *command)
 
 	errno = 0;
 	ret = 127;
-//	export_execution_context_env(command);
+	//	export_execution_context_env(command);
 	bin_full_path = locate_binary_file(command->name);
 	if (bin_full_path != NOT_FOUND)
 	{
@@ -29,9 +29,9 @@ int			exec_binary(const t_cmd *command)
 		free(bin_full_path);
 		free_char_arr(envp);
 	}
-	else if (errno == EISDIR)
+	else if (bin_full_path != NOT_FOUND && errno == EISDIR)
 		ret = 126;
-	else if (is_path(command->name) == FALSE)
+	else if (bin_full_path != NOT_FOUND && is_path(command->name) == FALSE)
 		print_set_errno(0, ERR_NO_COMMAND, command->name, NULL);
 	return (ret);
 }
