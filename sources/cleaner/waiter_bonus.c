@@ -114,6 +114,9 @@ static int process_open_file(t_cmd *cmd)
 
 static int executor(t_cmd *cmd)
 {
+	int	ret_pwd; //BUILTINPWD
+
+	ret_pwd = SUCCESS; //BUILTINPWD
 	if (process_open_file(cmd) == FAILURE)
 		return (FILE_FAIL);
 	ft_printf("\033[0;32mDEBUG FD FINAL\n\033[0m"); //DEBUG
@@ -121,6 +124,11 @@ static int executor(t_cmd *cmd)
 	ft_printf("\n");
 	ft_printf("\033[0;32mDEBUG REDIR FINAL\n\033[0m");//DEBUG
 	debug_redir(cmd->tab_redir, cmd->count_redir);
+	ft_printf("CMD->AV[0] = %s\n", cmd->av[0]);//DEBUG
+	if (ft_strequ(cmd->av[0], STR_PWD) == TRUE) //BUILTINPWD
+		ret_pwd = pwd_builtin(); //BUILTINPWD
+	if (ret_pwd != SUCCESS) //BUILTINPWD
+		return (ret_pwd); //BUILTINPWD
 	return (SUCCESS);
 }
 

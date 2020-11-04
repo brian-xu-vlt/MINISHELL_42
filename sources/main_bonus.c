@@ -84,6 +84,7 @@ int			main(int ac, char **av, char **envp)
 				vct_clear(cmd_line);
 				free_list_job(&jobs);
 				exit_routine_le(NULL);
+				ft_printf("MAIN FAILURE OR FALSE\n");//DEBUG
 				return (EXIT_FAILURE);
 			}
 		}

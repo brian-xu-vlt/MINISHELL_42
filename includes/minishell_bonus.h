@@ -199,6 +199,7 @@ int									*fill_tab_clean_exp(int *tab_clean_exp,
 	int env_builtin(int argc, char **argv);
 	int export_builtin(int argc, char **argv);
 	int unset_builtin(int argc, char **argv);
+	int	pwd_builtin(void);
 
 	/******************************************************************************/
 	/*******************************_ENV_MANAGER_**********************************/
