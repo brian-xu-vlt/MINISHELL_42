@@ -29,11 +29,7 @@ int hub_cleaner(t_list *job_list)
 			ret_cleaner = process_cleaner(cmd);
 			if (ret_cleaner != SUCCESS)
 				return (ret_cleaner);
-			ft_printf("\033[0;32mDEBUG FD FINAL\n\033[0m"); //DEBUG
-			debug_fd(cmd->fd);
 			ft_printf("\n");
-			ft_printf("\033[0;32mDEBUG REDIR FINAL\n\033[0m");//DEBUG
-			debug_redir(cmd->tab_redir, cmd->count_redir);
 			tmp_cmd_lst = tmp_cmd_lst->next;
 		}
 		executor(job); //UTILISER LE VRAI EXECUTOR
