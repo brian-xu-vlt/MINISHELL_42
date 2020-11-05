@@ -93,6 +93,7 @@ void			executor(const t_job *job)
 	i = 0;
 	while (i < job->nb_cmd && cmd_cursor->content != NULL)
 	{
+		//command->redirection = open files;
 		if (is_last_cmd(i, job->nb_cmd) == FALSE)
 			do_pipe(p_out);
 		ret = exec_process(cmd_cursor->content, job->nb_cmd, p_in, p_out);
