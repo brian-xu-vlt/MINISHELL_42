@@ -1,6 +1,0 @@
-sources/test_executor_v2_bonus.c:28:16: error: use of undeclared identifier 'job'
-                cursor_cmd = job->cmd_lst;
-                             ^
-1 error generated.
-make[1]: *** [objs/test_executor_v2_bonus.o] Error 1
-make: *** [all] Error 2

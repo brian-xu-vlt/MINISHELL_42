@@ -31,7 +31,5 @@ int			exec_binary(const t_cmd *command)
 	}
 	else if (bin_full_path != NOT_FOUND && errno == EISDIR)
 		ret = 126;
-	else if (bin_full_path != NOT_FOUND && is_path(command->name) == FALSE)
-		print_set_errno(0, ERR_NO_COMMAND, command->name, NULL);
 	return (ret);
 }
