@@ -34,6 +34,7 @@
 #define C_GREATER_THAN		'>'//5
 #define	C_SPACE				' '//6
 #define C_TAB				'\t'//7
+#define C_EXPORT			'$'
 
 #define GRAMMAR			";|'\"<> \t"
 
@@ -43,8 +44,47 @@
 #define FIRST_CHAR		0
 
 #define N_SIMPLE_QUOTE	1
-#define N_QUOTE			2
+#define N_QUOTE			
 
 #define NB_FD			3
-	
+
+/******************************************************************************/
+/*******************************_CLEANER_**************************************/
+/******************************************************************************/
+
+#define STR_EXPORT		"export"
+#define DEL				"`~!@#$%^&*()_-+={}[]:,.?/'\" \t"
+
+
+#define NB_DEL			29
+#define NO_ASSIGN_BUT_EXP	1	
+#define NB_CLEAN_COMMAND		5
+#define	ALL_FREE					1
+#define NOT_ALL_FREE					0
+#define	FILE_FAIL						2
+
+#define F_REDIRECT_FAILURE		1 << 0
+#define F_REDIRECT_IN 			1 << 1
+#define F_REDIRECT_OUT 			1 << 2
+#define F_REDIRECT_OUT_APPEND	1 << 3
+
+#define IN 0
+#define OUT 1
+
+#define NO_COMMAND 2
+
+#define TRUE_ASSIGN	1
+#define TRUE_EXP	2
+#define TRUE_CMD	3
+#define FALSE_ASSIGN 4
+#define FALSE_EXP		5
+
+/******************************************************************************/
+/*******************************_BUILTIN_**************************************/
+/******************************************************************************/
+
+#define STR_PWD "pwd"
+#define PWD_FAIL 1
+#define PWD_SUCCESS 0
+
 #endif

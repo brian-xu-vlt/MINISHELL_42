@@ -52,6 +52,8 @@ SRCS += test_env_bonus.c
 SRCS += main_bonus.c
 #SRCS += main_tester_parser.c #TO DELETE
 #SRCS += main_tester_job_command.c #TO DELETE
+#SRCS += main_tester_cleaner_quote_bonus.c #TO DELETE
+#SRCS += main_tester_cleaner_quote_exp_bonus.c #TO DELETE
 SRCS += test_lexer_bonus.c
 SRCS += test_parser_bonus.c
 SRCS += test_jobs_bonus.c
@@ -100,9 +102,30 @@ SRCS += job_command_fill_bonus.c
 SRCS += test_job_command.c
 SRCS += verif.c
 SRCS += job_command_free_bonus.c
-SRCS += process_cmd_bonus.c
-SRCS += init_job_bonus.c
-SRCS += is_something_bonus.c
+SRCS += test_cleaner.c
+SRCS += command_process_bonus.c
+SRCS += job_init_bonus.c
+SRCS += job_command_is_something_bonus.c
+SRCS += job_command_count_bonus.c
+SRCS += job_command_create_utils_bonus.c
+SRCS += cleaner_bonus.c
+SRCS += hub_cleaner_bonus.c
+SRCS += cleaner_quote_no_exp_bonus.c
+SRCS += cleaner_quote_exp_bonus.c
+SRCS += hub_cleaner_quote_exp_bonus.c
+SRCS += cleaner_between_nothing_bonus.c
+SRCS += cleaner_between_simple_bonus.c
+SRCS += cleaner_between_double_bonus.c
+SRCS += cleaner_between_both_bonus.c
+SRCS += verif_bonus.c
+SRCS += process_redirection_bonus.c
+SRCS += clean_redirection_bonus.c
+SRCS += clean_redirection_utils_bonus.c
+SRCS += get_type_command_bonus.c
+SRCS += get_envp_av_bonus.c
+SRCS += get_envp_av_utils_bonus.c
+SRCS += cleaner_utils_bonus.c
+
 
 OBJ_DIR = ./objs/
 
@@ -122,8 +145,15 @@ vpath %.c sources/line_editor/handlers/clipboard
 vpath %.c sources/line_editor/handlers/selection
 vpath %.c sources/line_editor/handlers/special_keys
 vpath %.c sources/command_job
+vpath %.c sources/cleaner
+vpath %.c sources/cleaner/cleaner_quote_exp
+vpath %.c sources/cleaner/cleaner_quote_no_exp
+vpath %.c sources/cleaner/cleaner_command
+vpath %.c sources/cleaner/cleaner_redirection
 vpath %.c TESTER_PARSER/
 vpath %.c TESTER_JOB_COMMAND/
+vpath %.c TESTER_CLEANER_QUOTE/
+vpath %.c TESTER_CLEANER_QUOTE_EXP/
 
 OBJS = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 

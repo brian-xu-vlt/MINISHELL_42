@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-void	parser_debug(t_token *token)
+void		parser_debug(t_token *token)
 {
 	if (token->data != NULL)
 		printf("type = %-*s | data [%s]\n", 8,
@@ -32,7 +32,6 @@ static int	check_token(t_token *token, enum e_token_type *current,
 			}
 			i++;
 		}
-
 	}
 	//if (ret == TRUE)
 		//parser_debug(token);

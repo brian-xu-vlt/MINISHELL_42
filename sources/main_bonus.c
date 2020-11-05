@@ -27,12 +27,10 @@ static t_list	*process_minishell(t_vector *cmd_line)
 	t_list		*lexer_list;
 	t_list		*jobs;
 	int			ret_parser;	
-	int			ret_jobs;
 
 	lexer_list = NULL;
 	jobs = NULL;
 	ret_parser = SUCCESS;
-	ret_jobs = SUCCESS;
 	lexer_list = test_lexer(cmd_line);
 	if (lexer_list != NULL)
 	{
@@ -40,11 +38,6 @@ static t_list	*process_minishell(t_vector *cmd_line)
 		if (ret_parser != FALSE)
 			jobs = test_jobs(lexer_list);
 		if (jobs == NULL)
-		{
-			free_list_job(&jobs);
-			ret_jobs = FAILURE;
-		}
-		if (ret_jobs == SUCCESS)
 			free_list_job(&jobs);
 	}
 	free_list_token(&lexer_list);
@@ -73,15 +66,32 @@ int			main(int ac, char **av, char **envp)
 		else
 			read_loop(cmd_line);
 		if (ft_strncmp(vct_getstr(cmd_line), "exit", 5) == 0)
-			break ;
-		if (test_env(cmd_line) == FAILURE)
 		{
 			exit_routine_le(NULL);
 			return (EXIT_FAILURE);//ERREUR
 		}
+		if (test_env(cmd_line) == FAILURE)
+		{
+			exit_routine_le(NULL);
+			free_list_job(&jobs);
+			return (EXIT_FAILURE);//ERREUR
+		}
 		jobs = process_minishell(cmd_line);
+		if (jobs != NULL)
+		{
+			if (hub_cleaner(jobs) == FAILURE)
+			{
+				vct_clear(cmd_line);
+				free_list_job(&jobs);
+				exit_routine_le(NULL);
+				ft_printf("MAIN FAILURE OR FALSE\n");//DEBUG
+				return (EXIT_FAILURE);
+			}
+		}
 		vct_clear(cmd_line);
+		free_list_job(&jobs);
 	}
 	exit_routine_le(NULL);
+	free_list_job(&jobs);
 	return (EXIT_SUCCESS);
 }
