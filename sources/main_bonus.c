@@ -79,7 +79,7 @@ int			main(int ac, char **av, char **envp)
 		jobs = process_minishell(cmd_line);
 		if (jobs != NULL)
 		{
-			if (waiter(jobs) == FAILURE)
+			if (hub_cleaner(jobs) == FAILURE)
 			{
 				vct_clear(cmd_line);
 				free_list_job(&jobs);

@@ -122,7 +122,6 @@ void	process_between_both(char *str, t_vector *vct_good);
 int									cleaner(t_cmd *cmd);
 void								debug_cleaner(t_cmd *cmd);
 void								debug_av(char **av, int ac);
-int									waiter(t_list *job_list);
 char								*clean_quote_no_exp(char *str);
 char 								*clean_quote_exp(char *str);
 typedef	enum e_state_quote_no_exp	(*t_state_quote_no_exp)(char);
@@ -185,6 +184,7 @@ int									*fill_tab_clean_exp(int *tab_clean_exp,
 															char **av,
 															size_t size,
 															int clean_exp);
+int 								hub_cleaner(t_list *job_list);
 
 	/******************************************************************************/
 	/*******************************_ERROR MANAGER_********************************/

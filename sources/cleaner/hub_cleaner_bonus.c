@@ -126,7 +126,7 @@ static int process_cleaner(t_cmd *cmd)
 	return (SUCCESS);
 }
 
-int waiter(t_list *job_list)
+int hub_cleaner(t_list *job_list)
 {
 	t_job *job;
 	t_list *tmp_cmd_lst;
