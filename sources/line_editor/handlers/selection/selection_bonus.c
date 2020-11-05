@@ -2,7 +2,6 @@
 
 static void	set_selection(void)
 {
-	int		vct_len;
 	t_le	*le;
 
 	le = get_struct(GET);
