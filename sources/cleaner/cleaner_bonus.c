@@ -94,6 +94,7 @@ static int		process_clean_command(t_cmd *cmd, int *tab_clean_exp,
 	}
 	if (ret_cmd != NO_COMMAND)
 		process_redirection(cmd, clean_cmd);
+	cmd->name = cmd->av[0];
 	free_clean_command(clean_cmd, ALL_FREE, clean_exp, tab_clean_exp);
 	return (SUCCESS);
 }
