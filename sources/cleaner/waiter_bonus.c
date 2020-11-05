@@ -85,7 +85,7 @@ static void	init_cmd_redirection(t_cmd *cmd)
 						   F_REDIRECT_OUT_APPEND;
 }
 
-static int process_open_file(t_cmd *cmd)
+static void process_open_file(t_cmd *cmd)
 {
 	size_t i;
 	int ret_file;
@@ -101,13 +101,12 @@ static int process_open_file(t_cmd *cmd)
 		else if (ft_strequ(cmd->tab_redir[i], LESS_THAN) == TRUE)
 			ret_file = process_less(cmd->tab_redir[i + 1], cmd);
 		if (ret_file == FAILURE)
-			return (FAILURE);
+			cmd->redirection = cmd->redirection | F_REDIRECT_FAILURE;
 		i += 2;
 		if (i >= cmd->count_redir)
 			break;
 	}
 	init_cmd_redirection(cmd);
-	return (SUCCESS);
 }
 
 /////////////////////////////////////////////////////////////////////////////////
