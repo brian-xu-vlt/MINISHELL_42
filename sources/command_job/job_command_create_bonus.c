@@ -22,7 +22,6 @@ t_cmd		*create_cmd(t_cmd *cmd_model)
 	if (cmd != NULL)
 	{
 		ft_bzero(cmd, sizeof(t_cmd));
-		cmd->name = cmd_model->name;
 		cmd->av = cmd_model->av;
 		cmd->ac = cmd_model->ac;
 		cmd->fd[0] = STDIN_FILENO;
