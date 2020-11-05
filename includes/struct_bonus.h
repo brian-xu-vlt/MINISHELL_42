@@ -5,12 +5,6 @@
 /**********************************_ENV_***************************************/
 /******************************************************************************/
 
-typedef struct					s_env_data
-{
-	char						**envp;
-	t_list						*env_lst;
-}								t_env_data;
-
 typedef struct					s_env
 {
 	char						*env_name;
@@ -99,5 +93,6 @@ typedef struct					s_job
 	t_list					*cmd_lst;
 	size_t					nb_cmd;
 }								t_job;
+
 
 #endif

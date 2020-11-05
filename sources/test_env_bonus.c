@@ -9,7 +9,7 @@ static void	debug_export(t_vector *input)
 	ac = 0;
 	while (av[ac] != NULL)
 		ac++;
-	export_builtin(ac, av);
+	export_builtin(ac, av, NULL);
 	ac = 0;
 	while (av[ac] != NULL)
 		free(av[ac++]);
@@ -22,7 +22,7 @@ static void	debug_print_env(t_vector *input)
 
 	str = vct_getstr(input);
 	str += ft_strlen("print") + 1;
-	ft_putstr_fd(vct_getstr(get_env_value_vct(str)), STDERR_FILENO);
+	ft_putstr_fd(vct_getstr(get_env_value_vct(get_env_list(GET), str)), STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
 }
 
@@ -32,7 +32,7 @@ static void	debug_store_env(t_vector *input)
 
 	str = vct_getstr(input);
 	str += ft_strlen("store") + 1;
-	store_internal_var(str);
+	ms_putenv(get_env_list(GET), str);
 }
 
 static void	debug_unset(t_vector *input)
@@ -44,7 +44,7 @@ static void	debug_unset(t_vector *input)
 	ac = 0;
 	while (av[ac] != NULL)
 		ac++;
-	unset_builtin(ac, av);
+	unset_builtin(ac, av, NULL);
 	ac = 0;
 	while (av[ac] != NULL)
 		free(av[ac++]);
@@ -60,7 +60,7 @@ static void	debug_env(t_vector *input)
 	ac = 0;
 	while (av[ac] != NULL)
 		ac++;
-	env_builtin(ac, av);
+	env_builtin(ac, av, NULL);
 	ac = 0;
 	while (av[ac] != NULL)
 		free(av[ac++]);
@@ -82,6 +82,8 @@ int	test_env(t_vector *input)
 		debug_env(input);
 	else if (ft_strncmp(vct_getstr(input), "unset", 5) == 0)
 		debug_unset(input);
+	else
+		return (FAILURE);
 	return (SUCCESS);
 }
 

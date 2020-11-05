@@ -9,6 +9,8 @@ static void		line_editor_loop(t_le *le)
 		update_window_size();
 		tputs(le->termcap[HIDE_CURSOR], 1, ms_putchar);
 		le->vct_index_backup = le->vct_index;
+		if (key == 4 && vct_getlen(le->cmd_line) == 0)
+			exit_routine_le("exit");
 		if (ft_isprint(key) == TRUE)
 			handle_print_char(key);
 		else
@@ -24,6 +26,7 @@ void			line_editor(void)
 	t_le	*le;
 
 	le = get_struct(GET);
+	set_termios(le->termios_editor);
 	update_window_size();
 	init_prompt();
 	init_selection();
@@ -35,4 +38,6 @@ void			line_editor(void)
 	}
 	unselect_all();
 	move_cursor_at_index(vct_getlen(le->cmd_line));
+	set_termios(le->termios_bkup);
+	// HERE : set termode back to normal (echo)
 }

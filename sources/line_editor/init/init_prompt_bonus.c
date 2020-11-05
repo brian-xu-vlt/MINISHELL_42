@@ -11,4 +11,15 @@ void	init_prompt(void)
 	le->cx = (int)le->prompt_len;
 	le->cy = 0;
 	le->vct_index = 0;
+	vct_clear(le->cmd_line);
 }
+/*
+		SIGABRT, SIGINT, SIGQUIT, SIGCHLD, SIGWINCH
+	};
+	static void 	(*handlers_mode_normal[sig_nb])(int) = {
+		SIG_DFL, sigint_normal_mode, display_signal, SIG_DFL, window_signal
+	};
+	static void 	(*handlers_mode_exec[sig_nb])(int) = {
+		display_signal, display_signal, display_signal, SIG_DFL, SIG_DFL
+	};
+*/

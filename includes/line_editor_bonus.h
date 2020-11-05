@@ -33,14 +33,16 @@
 **********************************/
 
 # define	ERR_NO_MESSAGE	NULL
-# define	ERR_ENV			"Could not load environement variables"
-# define	ERR_NEW_VCT		"Could not malloc vector"
-# define	ERR_VCT			"Vector function failed"
-# define	ERR_ENVP		"Envp is null"
-# define	ERR_SCREEN_SIZE	"Screen size is too small"
-# define	ERR_TERM_NAME	"Terminal type variable could not be located"
+# define	ERR_ENV			"Could not load environement variables."
+# define	ERR_NEW_VCT		"Could not malloc vector."
+# define	ERR_VCT			"Vector function failed."
+# define	ERR_ENVP		"Envp is null."
+# define	ERR_SCREEN_SIZE	"Screen size is too small."
+# define	ERR_TERM_NAME	"TERM environment variable not set."
 # define	ERR_TERMCAP		"Minishell is not (yet) compatible to this Terminal"
-# define	ERR_MALLOC		"Malloc could not allocate memory"
+# define	ERR_MALLOC		"Malloc could not allocate memory."
+# define	ERR_FORK		"Could not fork a chilf process."
+# define	ERR_HUP			"Received a Hang Up signal."
 
 /**********************************
 *********     UTILS     ***********
@@ -129,7 +131,8 @@ enum	e_optional_termcap
 
 typedef struct	s_line_editor
 {
-	struct termios	*termios_backup;
+	struct termios	*termios_editor;
+	struct termios	*termios_bkup;
 	char			*termcap[NB_ESSENTIAL_TERMCAP + NB_OPTIONAL_TERMCAP];
 	char			*cmd_line_backup;
 	t_vector		*cmd_line;
@@ -226,6 +229,7 @@ void		move_cursor_at_index(int index_to);
 
 void		init_prompt(void);
 void		init_term_mode(void);
+void		set_termios(const struct termios *termios_mode);
 void		init_line_editor(t_vector *cmd_line);
 void		update_window_size(void);
 

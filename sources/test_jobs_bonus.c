@@ -69,6 +69,9 @@ void	debug_jobs(t_list *job_list)
 			ft_printf("name = %s\n", cmd->name);
 			debug_av(cmd->av, cmd->ac);
 			ft_printf("ac = %d\n", cmd->ac);
+			ft_printf("fd[0] = %d\n", cmd->fd[0]);
+			ft_printf("fd[1] = %d\n", cmd->fd[1]);
+			ft_printf("fd[2] = %d\n", cmd->fd[2]);
 			ft_printf("fd_string[0] = %s\n", cmd->fd_string[0]);
 			ft_printf("fd_string[1] = %s\n", cmd->fd_string[1]);
 			ft_printf("fd_string[2] = %s\n", cmd->fd_string[2]);
@@ -96,6 +99,6 @@ t_list	*test_jobs(t_list *lexer_list)
 	jobs = get_jobs(lexer_list);
 	if (jobs == NULL)
 		return (NULL);
-	debug_jobs(jobs);
+//	debug_jobs(jobs);
 	return (jobs);
 }

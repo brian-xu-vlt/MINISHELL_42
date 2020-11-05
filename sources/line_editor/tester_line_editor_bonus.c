@@ -30,24 +30,3 @@ int		main(int ac, char **av, char **envp)
 	exit_routine_le(NULL);
 	return (0);
 }
-
-/*
-	if (ft_strncmp(vct_getstr(le->cmd_line), "env", 4) == 0)
-			print_env(ALL);
-		if (ft_strncmp(vct_getstr(le->cmd_line), "e", 2) == 0)
-			print_env("test");
-		if (ft_strncmp(vct_getstr(le->cmd_line), "1", 2) == 0)
-			store_env("test", "42");
-		if (ft_strncmp(vct_getstr(le->cmd_line), "2", 2) == 0)
-			store_env("test", "21");
-		if (ft_strncmp(vct_getstr(le->cmd_line), "3", 2) == 0)
-			store_env("test2", "1337");
-		if (ft_strncmp(vct_getstr(le->cmd_line), "4", 2) == 0)
-			store_env("t", "1337");
-		if (ft_strncmp(vct_getstr(le->cmd_line), "5", 2) == 0)
-			delete_env("t");
-		if (ft_strncmp(vct_getstr(le->cmd_line), "6", 2) == 0)
-			store_env("test", "");
-		if (ft_strncmp(vct_getstr(le->cmd_line), "7", 2) == 0)
-			store_env("LC_TERMINAL_VERSION", "");
-*/

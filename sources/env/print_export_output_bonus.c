@@ -2,14 +2,14 @@
 
 static void	put_env_name(char *env_name)
 {
-	ft_putstr_fd("export ", STDERR_FILENO);
-	ft_putstr_fd(env_name, STDERR_FILENO);
+	ft_putstr_fd("export ", STDOUT_FILENO);
+	ft_putstr_fd(env_name, STDOUT_FILENO);
 }
 static void	put_env_value(t_vector *env_value)
 {
-	ft_putstr_fd("=\"", STDERR_FILENO);
-	ft_putstr_fd(vct_getstr(env_value), STDERR_FILENO);
-	ft_putstr_fd("\"", STDERR_FILENO);
+	ft_putstr_fd("=\"", STDOUT_FILENO);
+	ft_putstr_fd(vct_getstr(env_value), STDOUT_FILENO);
+	ft_putstr_fd("\"", STDOUT_FILENO);
 }
 
 static void	print_disambiguate_value(t_vector *env_value)
@@ -45,7 +45,7 @@ static void	print_btree_node(t_btree *node)
 	put_env_name(env->env_name);
 	if (env->env_value != NULL)
 		print_disambiguate_value(env->env_value);
-	ft_putstr_fd("\n", STDERR_FILENO);
+	ft_putstr_fd("\n", STDOUT_FILENO);
 }
 
 static int	cmp_function(void *env_1, void *env_2)
@@ -66,16 +66,17 @@ static void	add_to_btree(t_btree **tree, t_env *env)
 		btree_insert_data(tree, env, cmp_function);
 }
 
-void		get_export_output(void)
+void		print_export_output(t_list *env_lst)
 {
 	t_list		*cursor;
 	t_env		*content;
 	t_btree		*sorted_tree;
 
-	sorted_tree = NULL;
-	if ((cursor = get_env_data(GET)->env_lst) == NULL)
+	if (env_lst == NULL)
 		return ;
-	while (cursor != NULL)
+	sorted_tree = NULL;
+	cursor = env_lst;
+	while (cursor != NULL && cursor->content != NULL)
 	{
 		content = ((t_env *)cursor->content);
 		if (content->export_flag == TRUE)

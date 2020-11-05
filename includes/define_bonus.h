@@ -46,8 +46,6 @@
 #define N_SIMPLE_QUOTE	1
 #define N_QUOTE			
 
-#define NB_FD			3
-
 /******************************************************************************/
 /*******************************_CLEANER_**************************************/
 /******************************************************************************/
@@ -62,11 +60,6 @@
 #define	ALL_FREE					1
 #define NOT_ALL_FREE					0
 #define	FILE_FAIL						2
-
-#define F_REDIRECT_FAILURE		1 << 0
-#define F_REDIRECT_IN 			1 << 1
-#define F_REDIRECT_OUT 			1 << 2
-#define F_REDIRECT_OUT_APPEND	1 << 3
 
 #define IN 0
 #define OUT 1
@@ -86,5 +79,27 @@
 #define STR_PWD "pwd"
 #define PWD_FAIL 1
 #define PWD_SUCCESS 0
+
+
+/******************************************************************************/
+/*******************************_EXECUTOR_*************************************/
+/******************************************************************************/
+#define NB_FD			3
+
+#define	F_NO_REDIRECT			0	
+#define	F_REDIRECT_FAILURE		1<<0	
+#define	F_REDIRECT_IN			1<<1
+#define	F_REDIRECT_OUT			1<<2
+#define	F_REDIRECT_OUT_APPEND	1<<3
+
+#define SIG_MODE_DEFAULT		0
+#define SIG_MODE_CMD_LINE		1
+#define SIG_MODE_EXEC			2
+
+
+#define	ERR_NO_COMMAND		"command not found"
+#define	ERR_NO_FILE			"No such file or directory"
+
+#define DEFAULT_PATH_ENV	"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 #endif

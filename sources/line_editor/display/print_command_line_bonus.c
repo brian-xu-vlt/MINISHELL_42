@@ -10,7 +10,7 @@ static void	write_with_selection(t_le *le, int index_from)
 {
 	int			vct_len;
 	char		*v_str;
-	const int	fd = STDERR_FILENO;
+	const int	fd = STDOUT_FILENO;
 
 	v_str = vct_getstr(le->cmd_line);
 	vct_len = vct_getlen(le->cmd_line);
@@ -42,7 +42,7 @@ void		print_cmd_line(void)
 	index_from = le->vct_index;
 	i_delta = vct_getlen(le->cmd_line) - index_from;
 	if (le->select_min == UNSET)
-		write(STDERR_FILENO, vct_getstr(le->cmd_line) + index_from, i_delta);
+		write(STDOUT_FILENO, vct_getstr(le->cmd_line) + index_from, i_delta);
 	else
 		write_with_selection(le, index_from);
 	offset = (le->cy == 0) ? le->prompt_len : 0;

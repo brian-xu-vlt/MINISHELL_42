@@ -49,6 +49,7 @@ HEADER = $(INCLUDES)minishell_bonus.h
 
 #SRCS += test_bonus.c
 SRCS += test_env_bonus.c
+SRCS += test_executor_bonus.c
 SRCS += main_bonus.c
 #SRCS += main_tester_parser.c #TO DELETE
 #SRCS += main_tester_job_command.c #TO DELETE
@@ -62,6 +63,7 @@ SRCS += token_bonus.c
 SRCS += free_list_bonus.c
 SRCS += parser_bonus.c
 SRCS += parser_process_bonus.c
+
 SRCS += debug_tools.c
 SRCS += print_command_line_bonus.c
 SRCS += refresh_command_line_bonus.c
@@ -81,17 +83,31 @@ SRCS += exit_routine_le_bonus.c
 SRCS += update_screen_data_bonus.c
 SRCS += utils_bonus.c
 SRCS += utils_cursor_bonus.c
-SRCS += builtins_bonus.c
-SRCS += delete_env_bonus.c
+
+SRCS += duplicate_env_lst_bonus.c
+SRCS += builtins_env_bonus.c
+SRCS += unset_env_bonus.c
 SRCS += get_env_bonus.c
 SRCS += get_envp_bonus.c
 SRCS += init_env_bonus.c
 SRCS += print_env_bonus.c
 SRCS += store_env_bonus.c
 SRCS += utils_env_bonus.c
-SRCS += get_export_output_bonus.c
+SRCS += print_export_output_bonus.c
 SRCS += line_editor_bonus.c
 SRCS += print_errno.c
+SRCS += general_utils_bonus.c
+
+SRCS += open_file_redirect_bonus.c
+SRCS += signal_manager_bonus.c
+SRCS += exit_status_manager_bonus.c
+SRCS += utils_pipes_executor_bonus.c
+SRCS += utils_executor_bonus.c
+SRCS += export_exec_context_bonus.c
+SRCS += executor_bonus.c
+SRCS += exec_builtin_bonus.c
+SRCS += locate_bin_bonus.c
+SRCS += exec_bin_bonus.c
 SRCS += job_command_bonus.c
 SRCS += handle_no_word_bonus.c
 SRCS += handle_no_word_utils_bonus.c
@@ -134,6 +150,7 @@ vpath %.c sources/error_manager
 vpath %.c sources/lexer
 vpath %.c sources/builtins
 vpath %.c sources/env
+vpath %.c sources/executor
 vpath %.c sources/parser
 vpath %.c sources/line_editor
 vpath %.c sources/line_editor/debug

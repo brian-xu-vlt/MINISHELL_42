@@ -2,52 +2,79 @@
 
 // return int mais pas sur, peut etre juste utiliser le errno.
 
-int	env_builtin(int ac, char **av)
+int	exit_builtin(int ac, char **av, char **envp)
 {
-	const char	*builtin = "env";
-
-	if (ft_strncmp(av[0], builtin, ft_strlen(builtin) + 1) != 0)
+	const char	*builtin = "exit";
+(void)envp;
+	if (ft_strequ(av[0], (char *)builtin) == FALSE)
 		return (0);
 	if (ac == 1)
-		print_env();
+		exit_routine_le("exit");
+	return (SUCCESS);
+}
+
+int	env_builtin(int ac, char **av, char **envp)
+{
+	const char	*builtin = "env";
+(void)envp;
+
+	if (ft_strequ(av[0], (char *)builtin) == FALSE)
+		return (0);
+	if (ac == 1)
+		print_env(get_env_list(GET));
 	else
 	{
-		print_set_errno(EINVAL, (char *)builtin, av[1]);
+		print_set_errno(EINVAL, NULL, builtin, av[1]);
 		return (FAILURE);
 	}	
 	return (SUCCESS);
 }
 
-int	export_builtin(int ac, char **av)
+static void	export_loop(int ac, char **av, const char *builtin)
 {
-	const char	*builtin = "export";
 	int			i;
 
-	if (ft_strncmp(av[0], builtin, ft_strlen(builtin) + 1) != 0)
-		return (0);
-	if (ac == 1)
-		get_export_output();
-	else
+	i = 1;
+	while (i < ac)
 	{
-		i = 1;
-		while (i < ac)
-		{
-			if (ft_isalpha(av[i][0]) == TRUE)
-				export_env(av[i]);
-			else
-				print_set_errno(EINVAL, (char *)builtin, av[i]);
-			i++;
-		}
+		if (ft_isalpha(av[i][0]) == TRUE)
+			export_env(get_env_list(GET), av[i]);
+		else
+			print_set_errno(EINVAL, NULL, builtin, av[i]);
+		i++;
 	}
+}
+
+int	export_builtin(int ac, char **av, char **envp)
+{
+	const char	*builtin = "export";
+(void)envp;
+
+	errno = 0;
+	if (ft_strequ(av[0], (char *)builtin) == TRUE && ac > 1)
+	{
+		if (av[1][0] == '-')
+		{
+			print_set_errno(0, " Invalid option", builtin, av[1]);
+			return (2);
+		}
+		else
+			export_loop(ac, av, builtin);
+		if (errno == EINVAL)
+			return (1);
+	}
+	else if (ft_strequ(av[0], (char *)builtin) == TRUE && ac == 1)
+		print_export_output(get_env_list(GET));
 	return (SUCCESS);
 }
 
-int	unset_builtin(int ac, char **av)
+int	unset_builtin(int ac, char **av, char **envp)
 {
 	const char	*builtin = "unset";
 	int			i;
 
-	if (ac == 1 || ft_strncmp(av[0], builtin, ft_strlen(builtin) + 1) != 0)
+(void)envp;
+	if (ac == 1 || ft_strequ(av[0], (char *)builtin) == FALSE)
 		return (0);
 	else
 	{
@@ -55,9 +82,9 @@ int	unset_builtin(int ac, char **av)
 		while (i < ac)
 		{
 			if (av[i][0] == '-')
-				print_set_errno(EINVAL, (char *)builtin, av[i]);
+				print_set_errno(EINVAL, NULL, builtin, av[i]);
 			else
-				delete_env(av[i]);
+				unset_env(get_env_list(GET), av[i]);
 			i++;
 		}
 	}

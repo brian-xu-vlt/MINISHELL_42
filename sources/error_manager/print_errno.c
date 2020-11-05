@@ -1,11 +1,20 @@
 #include "minishell_bonus.h"
 
-void	print_set_errno(int err_value, char *function_name, char *error_source)
+void	print_set_errno(int errno_value, const char *err_str,
+						const char *function_name, const char *error_source)
 {
-	errno = err_value;
-	ft_printf("%s: ", function_name);
+	dup2(STDERR_FILENO, STDOUT_FILENO);
+	ft_printf("minishell: ");
+	if (function_name != NULL)
+		ft_printf("%s: ", function_name);
 	if (error_source != NULL)
 		ft_printf("%s: ", error_source);
-	ft_putstr_fd(strerror(errno), STDERR_FILENO);
+	if (err_str != NULL)
+		ft_printf("%s ", err_str);
+	else if (errno_value != 0)
+	{
+		errno = errno_value;
+		ft_putstr_fd(strerror(errno), STDERR_FILENO);
+	}
 	ft_printf("\n");
 }

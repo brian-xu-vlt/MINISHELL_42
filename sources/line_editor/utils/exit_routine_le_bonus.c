@@ -18,36 +18,26 @@ static void	free_history_list(void)
 	le->history_cache = NULL;
 }
 
-static void	free_env_list(void)
-{
-	t_env_data		*env_data;
-
-	env_data = get_env_data(GET);
-	if (env_data->env_lst != NULL)
-	{
-		ft_lstclear(&env_data->env_lst, del_env_elem);
-		env_data->env_lst = NULL;
-	}
-}
-
 void		exit_routine_le(char *err_code)
 {
 	t_le		*le;
 
 	le = get_struct(GET);
-	if (le->termios_backup != NULL)
-		tcsetattr(STDIN_FILENO, TCSADRAIN, le->termios_backup);
+	if (le->termios_bkup != NULL)
+		tcsetattr(STDIN_FILENO, TCSADRAIN, le->termios_bkup);
 	if (le->termcap[VISIBLE_CURSOR] != NULL)
 		tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
 	if (le->cmd_line_backup != NULL)
 		free(le->cmd_line_backup);
 	vct_del(&le->cmd_line);
 	vct_del(&le->clipboard);
-	free_env_list();
+	free_env_list(get_env_list(GET));
 	free_history_list();
 	if (err_code != NULL)
 	{
-		ft_printf("%s\n", err_code);
+		ft_putstr_fd(err_code, STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+		//ft_printf("%s\n", err_code);
 		exit(FAILURE);
 	}
 	exit(0);

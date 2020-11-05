@@ -2,11 +2,11 @@
 
 static void	exit_routine_failed_envp(char **envp)
 {
-	free_envp(envp);
+	free_char_arr(envp);
 	exit_routine_le(ERR_MALLOC);
 }
 
-static char	*create_env(char *env_name, t_vector *env_value)
+static char	*create_env(const char *env_name, t_vector *env_value)
 {
 	int		env_name_len;
 	int		env_value_len;
@@ -26,33 +26,31 @@ static char	*create_env(char *env_name, t_vector *env_value)
 	return (ret_str);
 }
 
-void		free_envp(char **envp)
+static char	**allocate_envp(const t_list *env_lst, int *lst_size)
 {
-	int		i;
+	char	**envp;
 
-	i = 0;
+	*lst_size = ft_lstsize((t_list *)env_lst);
+	envp = (char **)ft_calloc(sizeof(char *), *lst_size + 1);
 	if (envp == NULL)
-		return ;	
-	while (envp[i] != NULL)
-		free(envp[i++]);
-	free(envp);
+		exit_routine_le(ERR_MALLOC);
+	return (envp);
 }
 
-char		**get_envp(void)
+char		**get_envp(t_list *env_lst)
 {
 	int		i;
-	int		lst_size;
 	t_list	*cursor;
+	int		lst_size;
 	char	**envp;
 	t_env	*content;
 
-	if ((cursor = get_env_data(GET)->env_lst) == NULL)
+	if (env_lst == NULL)
 		return (NULL);
-	lst_size = ft_lstsize(cursor);
-	if ((envp = (char **)ft_calloc(sizeof(char *), lst_size + 1)) == NULL)
-		exit_routine_le(ERR_MALLOC);
+	envp = allocate_envp(env_lst, &lst_size);
+	cursor = env_lst;
 	i = 0;
-	while (cursor != NULL && i <= lst_size)
+	while (cursor != NULL && cursor->content != NULL && i <= lst_size)
 	{
 		content = ((t_env *)cursor->content);
 		if (content->export_flag == TRUE && content->env_value != NULL)
@@ -64,5 +62,5 @@ char		**get_envp(void)
 		}
 		cursor = cursor->next;
 	}
-	return (envp);
+	return(envp);
 }

@@ -19,9 +19,15 @@
 # include <stdio.h> //A ENLEVER POUR PRINTF
 # include <string.h>
 # include <errno.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include <dirent.h>
+# include <unistd.h>
 # include <stdbool.h>
 # include <fcntl.h>
 # include <limits.h>
+# include <signal.h>
 
 /******************************************************************************/
 /*******************************_FUNCTION_*************************************/
@@ -29,6 +35,9 @@
 
 int		test(t_vector *input);
 int		test_env(t_vector *input);
+int		test_executor(t_list *jobs);
+
+
 t_list	*test_lexer(t_vector *input);
 int		test_parser(t_list *lexer_list);
 t_list	*test_jobs(t_list *lexer_list);
@@ -70,6 +79,7 @@ void		debug(const int type);
 /*******************************_JOB/COMMAND_**********************************/
 /******************************************************************************/
 
+void	debug_jobs(t_list *job_list);
 t_list	*get_jobs(t_list *token_list);
 void	free_list_jobs(t_list **jobs);
 void	debug_token_list(t_list *list);
@@ -186,47 +196,93 @@ int									*fill_tab_clean_exp(int *tab_clean_exp,
 															int clean_exp);
 int 								hub_cleaner(t_list *job_list);
 
-	/******************************************************************************/
-	/*******************************_ERROR MANAGER_********************************/
-	/******************************************************************************/
+/******************************************************************************/
+/*******************************_EXECUTION_************************************/
+/******************************************************************************/
 
-	void print_set_errno(int err_value, char *function_name, char *error_source);
+#define BUILTIN_FAILURE		1
+#define R_END				0
+#define W_END				1
 
-	/******************************************************************************/
-	/*******************************_BUILTINS_*************************************/
-	/******************************************************************************/
+void	process_open_file(t_cmd *cmd);
+void	export_execution_context_env(const t_cmd *command);
+int		exec_builtin(const t_cmd *command);
+int		exec_binary(const t_cmd *command);
+void	signal_manager(int set_mode);
+void	executor(const t_job *job);
+char	*locate_binary_file(const char *bin_name);
+int		is_path(const char *bin_name);
 
-	int env_builtin(int argc, char **argv);
-	int export_builtin(int argc, char **argv);
-	int unset_builtin(int argc, char **argv);
-	int	pwd_builtin(void);
 
-	/******************************************************************************/
-	/*******************************_ENV_MANAGER_**********************************/
-	/******************************************************************************/
+int		is_valid_job(const t_job *job);
+int		is_last_cmd(const size_t i, const size_t nb_cmd);
+int		is_solo_builtin(const int nb_cmd, const t_cmd *command);
+int		manage_subshell_exit_status(const int wstatus);
+void	do_pipe(int pipe_fd[2]);
+void	close_pipe_end(int pipe_to_close);
+pid_t	fork_process(void);
+void	dup_pipes(const t_cmd *command, int p_in[2], int p_out[2]);
+int		is_builtin(const t_cmd *command);
+/******************************************************************************/
+/*******************************_GENERAL_UTILES_*******************************/
+/******************************************************************************/
+
+void	free_char_arr(char **arr);
+
+/******************************************************************************/
+/*******************************_ERROR MANAGER_********************************/
+/******************************************************************************/
+
+void	print_set_errno(int errno_value, const char *err_str,
+						const char *function_name, const char *error_source);
+
+/******************************************************************************/
+/*******************************_BUILTINS_*************************************/
+/******************************************************************************/
+
+int		exit_builtin(int ac, char **av, char **envp);
+int		env_builtin(int argc, char **argv, char **envp);
+int		export_builtin(int argc, char **argv, char **envp);
+int		unset_builtin(int argc, char **argv, char **envp);
+int		pwd_builtin(void);
+
+/******************************************************************************/
+/*******************************_ENV_MANAGER_**********************************/
+/******************************************************************************/
 
 # define	ALL				NULL
 # define	NOT_FOUND		NULL
 
-void		free_envp(char **envp);
+# define	F_NOFLAG		0
+# define	F_EXPORT		(1 << 0)
+# define	F_OVERWRITE		(1 << 1)
+
+void		free_env_list(t_list *env_lst);
+
 void		del_env_elem(void *elem_content);
 void		free_btree_node(t_btree *node);
-void		delete_env(char *env_name);
+void		unset_env(t_list *env_lst, const char *env_name);
 
-void		store_internal_var(char *env);
-char		**get_envp(void);
-void		export_env(char *env);
-void		init_env(char **env);
+void		ms_setenv(t_list *env_lst, const char *env_name,
+											const char *env_value, int flags);
+void		ms_setenv_int(t_list *env_lst, const char *env_name, int value,
+												int flags);
+void		ms_putenv(t_list *env_lst, const char *env);
+char		**get_envp(t_list *env_lst);
+void		export_env(t_list *env_lst, const char *env);
+void		init_env(void);
 
-void		print_env(void);
-void		get_export_output(void);
+void		print_env(t_list *env_lst);
+void		print_export_output(t_list *env_lst);
 
-t_env_data	*get_env_data(t_env_data *mem);
-t_env		*get_env_struct(char *env_name);
-t_list		*get_env_node(char *env_name);
-t_vector	*get_env_value_vct(char *env_name);
+t_list		*duplicate_env_lst(t_list *env_lst);
+t_list		*get_env_list(t_list *mem);
+t_env		*get_env_struct(t_list *env_lst, const char *env_name);
+t_list		*get_env_node(t_list *env_lst, const char *env_name);
+t_vector	*get_env_value_vct(t_list *env_lst, const char *env_name);
+int			get_env_value_int(t_list *env_lst, const char *env_name);
 
-void		parse_env(char *env, char **env_name, t_vector **env_value,
-															int *append_flag);
+void		parse_env(const char *env, char **env_name, char **env_value,
+																int *overwrite);
 void		parser_debug(t_token *token);
 #endif

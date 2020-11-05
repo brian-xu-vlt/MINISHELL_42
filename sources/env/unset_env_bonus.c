@@ -38,13 +38,13 @@ static void	ft_lstdel_node(t_list **lst, t_list *node, void (*del)(void *))
 	}
 }
 
-void		delete_env(char *env_name)
+void		unset_env(t_list *env_lst, const char *env_name)
 {
 	t_list	*env_node;
 
 	if (env_name == NULL)
 		return ;
-	env_node = get_env_node(env_name);
+	env_node = get_env_node(env_lst, env_name);
 	if (env_node != NOT_FOUND)
-		ft_lstdel_node(&get_env_data(GET)->env_lst, env_node, del_env_elem);
+		ft_lstdel_node(&env_lst, env_node, del_env_elem);
 }
