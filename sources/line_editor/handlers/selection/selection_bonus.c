@@ -6,8 +6,6 @@ static void	set_selection(void)
 	t_le	*le;
 
 	le = get_struct(GET);
-	vct_len = (int)vct_getlen(le->cmd_line);
-	vct_len = (int)vct_getlen(le->cmd_line);
 	le->select_min = (le->vct_index < le->vct_index_backup) ?
 										le->vct_index : le->vct_index_backup;
 	le->select_max = (le->vct_index < le->vct_index_backup) ?
