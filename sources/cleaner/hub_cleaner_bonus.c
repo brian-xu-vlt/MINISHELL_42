@@ -111,10 +111,6 @@ static void process_open_file(t_cmd *cmd)
 
 /////////////////////////////////////////////////////////////////////////////////
 
-static void executor(t_job *job)
-{
-}
-
 static int process_cleaner(t_cmd *cmd)
 {
 	int ret_cleaner;
