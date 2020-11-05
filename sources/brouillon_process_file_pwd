@@ -1,0 +1,13 @@
+static void executor(t_job *job)
+{
+	int	ret_pwd; //BUILTINPWD
+
+	ret_pwd = SUCCESS; //BUILTINPWD
+	if (process_open_file(cmd) == FAILURE)
+		return (FILE_FAIL);
+	if (ft_strequ(cmd->av[0], STR_PWD) == TRUE) //BUILTINPWD
+	ret_pwd = pwd_builtin(); //BUILTINPWD
+	if (ret_pwd != PWD_SUCCESS) //BUILTINPWD
+	return (ret_pwd); //BUILTINPWD
+	return (SUCCESS);
+}

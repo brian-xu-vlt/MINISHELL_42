@@ -17,11 +17,11 @@ int	pwd_builtin(void)
 	{
 		print_set_errno(errno, "bash: getcwd", NULL);
 		free(buff);
-		return (FALSE);
+		return (PWD_FAIL);
 	}
 	ft_printf("%s\n", pwd);
 	free(buff);
-	return (SUCCESS);
+	return (PWD_SUCCESS);
 }
 
 int	env_builtin(int ac, char **av)
