@@ -1,5 +1,5 @@
 #include "minishell_bonus.h"
-
+/*
 static void	debug_extra_av(const t_cmd *command)
 {
 	int		i;
@@ -18,13 +18,13 @@ static void	debug_extra_av(const t_cmd *command)
 		i++;
 	}
 }
-
+*/
 static int	execution(const t_cmd *command, char *bin_full_path, char **envp)
 {
 	int		ret;
 
 	errno = 0;
-	debug_extra_av(command);
+//	debug_extra_av(command);
 	ret = execve(bin_full_path, command->av, envp); /////// see p82 for failure!
 	if (ret == FAILURE)
 		print_set_errno(errno, NULL, bin_full_path, NULL);
