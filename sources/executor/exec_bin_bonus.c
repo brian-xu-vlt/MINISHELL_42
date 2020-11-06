@@ -40,6 +40,8 @@ int			exec_binary(const t_cmd *command)
 	errno = 0;
 	ret = 127;
 	//	export_execution_context_env(command);
+	if (command->ac <= 0)
+		return (0);
 	bin_full_path = locate_binary_file(command->name);
 	if (bin_full_path != NOT_FOUND)
 	{

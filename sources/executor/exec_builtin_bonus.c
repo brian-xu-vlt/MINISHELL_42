@@ -13,6 +13,8 @@ int	exec_builtin(const t_cmd *command)
 
 	i = 0;
 	ret_value = 0;
+	if (command->ac <= 0)
+		return (0);
 	while (i < NB_BUILTIN)
 	{
 		if (ft_strequ((char *)command->name, (char *)builtin_names[i]) == TRUE)

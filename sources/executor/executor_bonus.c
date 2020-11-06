@@ -89,9 +89,16 @@ void			executor(const t_job *job)
 	ft_memset(p_out, UNSET, sizeof(int[2]));
 	cmd_cursor = job->cmd_lst;
 	i = 0;
-	while (i < job->nb_cmd && cmd_cursor->content != NULL && ((t_cmd *)cmd_cursor->content)->name != NULL && ((t_cmd *)cmd_cursor->content)->av[0] != NULL)
+	while (i < job->nb_cmd && cmd_cursor->content != NULL)
 	{
-		process_open_file(cmd_cursor->content);
+	/*	if (ft_strequ(((t_cmd *)cmd_cursor->content)->name, "pwd") == TRUE)
+		{
+			free(((t_cmd *)cmd_cursor->content)->name);
+			((t_cmd *)cmd_cursor->content)->name = NULL;
+			((t_cmd *)cmd_cursor->content)->av[0] = NULL;
+			((t_cmd *)cmd_cursor->content)->ac = 0;
+		}
+	*/	process_open_file(cmd_cursor->content);
 		ft_printf("\033[0;32mDEBUG REDIR FINAL\n\033[0m");//DEBUG
 		debug_redir(((t_cmd *)cmd_cursor->content)->tab_redir, ((t_cmd *)cmd_cursor->content)->count_redir);
 		if (is_last_cmd(i, job->nb_cmd) == FALSE)

@@ -58,6 +58,7 @@ int			main(int ac, char **av)
 	jobs = NULL;
 	while (1)
 	{
+		signal_manager(SIG_MODE_CMD_LINE);
 		if (BONUS_FLAG == TRUE)
 		{
 			line_editor();
