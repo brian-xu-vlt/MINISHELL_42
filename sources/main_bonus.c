@@ -65,11 +65,6 @@ int			main(int ac, char **av)
 		}
 		else
 			read_loop(cmd_line);
-		/*if (ft_strncmp(vct_getstr(cmd_line), "exit", 5) == 0)
-		{
-			exit_routine_le(NULL);
-			return (EXIT_FAILURE);//ERREUR
-		}*/
 		jobs = process_minishell(cmd_line);
 		if (jobs != NULL)
 		{

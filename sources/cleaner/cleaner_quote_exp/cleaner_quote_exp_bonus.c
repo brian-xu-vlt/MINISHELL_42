@@ -2,11 +2,10 @@
 
 char	*exp_value(char *str)
 {
-	if (ft_strlen(str) == 0)
-		return (NULL);
-	if (ft_strequ(str, "tata") == TRUE)
-		return ("42");
-	return (NULL);
+	t_vector *vct;
+
+	vct = get_env_value_vct(get_env_list(GET), str);
+	return (vct_getstr(vct));
 }
 
 char	*between_nothing(char *str)
