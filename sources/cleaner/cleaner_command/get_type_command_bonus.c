@@ -40,6 +40,8 @@ static int	process_get_cmd(size_t i_assign, size_t i_exp, size_t i, t_cmd *cmd)
 	if (i_assign < (size_t)cmd->count_assign && cmd->count_assign != 0
 			&& i == (size_t)cmd->tab_assign[i_assign])
 	{
+		if (ft_strchr(cmd->av[i], ASSIGN) == NULL)
+			return (TRUE_CMD);
 		if (verif_assign_cmd(cmd->av[i]) == false)
 			return (TRUE_ASSIGN);
 		return (FALSE_ASSIGN);
@@ -47,6 +49,8 @@ static int	process_get_cmd(size_t i_assign, size_t i_exp, size_t i, t_cmd *cmd)
 	else if (i_exp < (size_t)cmd->count_exp && cmd->count_exp != 0
 				&& i == (size_t)cmd->tab_exp[i_exp])
 	{
+		if (ft_strchr(cmd->av[i], EXP) == NULL)
+			return (TRUE_CMD);
 		if (verif_exp_cmd(cmd->av[i]) == false)
 			return (TRUE_EXP);
 		return (FALSE_EXP);
