@@ -38,6 +38,7 @@ void			line_editor(void)
 	}
 	unselect_all();
 	move_cursor_at_index(vct_getlen(le->cmd_line));
+	save_history();
 	set_termios(le->termios_bkup);
-	// HERE : set termode back to normal (echo)
+	ft_printf("\n");
 }

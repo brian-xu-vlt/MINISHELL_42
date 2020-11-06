@@ -60,10 +60,7 @@ int			main(int ac, char **av)
 	{
 		signal_manager(SIG_MODE_CMD_LINE);
 		if (BONUS_FLAG == TRUE)
-		{
 			line_editor();
-			save_history();
-		}
 		else
 			read_loop(cmd_line);
 		jobs = process_minishell(cmd_line);

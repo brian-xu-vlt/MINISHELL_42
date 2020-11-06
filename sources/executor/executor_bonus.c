@@ -42,6 +42,9 @@ static int		exec_process(const t_cmd *command, const int nb_cmd,
 	int		ret;
 
 	ret = 0;
+	// open files with lila's functions
+	//	if (nb_cmd == 1 && command->name == NULL && command->env != NULL)
+	//DO ASSIGNATIONS export_execution_context_env(command);
 	if (is_solo_builtin(nb_cmd, command) == TRUE)
 		ret = exec_builtin(command);
 	else

@@ -65,9 +65,12 @@ int 						process_redirection(t_cmd *cmd,
 	cmd->tmp_fd_out = clean_cmd->tmp_fd_out;
 	cmd->tmp_fd_append = clean_cmd->tmp_fd_append;
 	cmd->count_redir = clean_cmd->count_redir;
-	cmd->tab_redir = (char **)malloc(sizeof(char *) * cmd->count_redir);
+	if (cmd->count_redir == 0)
+		return (SUCCESS);
+	cmd->tab_redir = (char **)malloc(sizeof(char *) * (cmd->count_redir + 1));
 	if (cmd->tab_redir == NULL)
 		return (FAILURE);//ERROR
+	cmd->tab_redir[cmd->count_redir] = NULL;
 	while (i < cmd->count_redir)
 	{
 		cmd->tab_redir[i] = ft_strdup(clean_cmd->tab_redir[i]);

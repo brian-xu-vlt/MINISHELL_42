@@ -7,7 +7,7 @@ static int process_cleaner(t_cmd *cmd)
 	ret_cleaner = cleaner(cmd);
 	if (ret_cleaner != SUCCESS)
 		return (ret_cleaner);
-	debug_cleaner(cmd);
+	//debug_cleaner(cmd);
 	return (SUCCESS);
 }
 
@@ -19,7 +19,7 @@ int hub_cleaner(t_list *job_list)
 	int ret_cleaner;
 
 	ret_cleaner = SUCCESS;
-	debug_jobs(job_list);
+//	debug_jobs(job_list);
 	while (job_list != NULL)
 	{
 		job = job_list->content;
@@ -30,11 +30,9 @@ int hub_cleaner(t_list *job_list)
 			ret_cleaner = process_cleaner(cmd);
 			if (ret_cleaner != SUCCESS)
 				return (ret_cleaner);
-			ft_printf("\n");
 			tmp_cmd_lst = tmp_cmd_lst->next;
 		}
-		debug_jobs(job_list);
-		executor(job); //UTILISER LE VRAI EXECUTOR
+		executor(job);
 		job_list = job_list->next;
 	}
 	return (SUCCESS);

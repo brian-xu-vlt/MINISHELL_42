@@ -8,10 +8,11 @@ static int	handle_only_envp(t_cmd *cmd)
 
 	i = 0;
 	new_ac = count_new_ac(cmd->av, cmd->ac);
-	cmd->envp = (char **)malloc(sizeof(char *) * new_ac);
+	cmd->envp = (char **)malloc(sizeof(char *) * (new_ac + 1));
 	if (cmd->envp == NULL)
 		return (FAILURE);
 	i_envp = 0;
+	cmd->envp[new_ac] = NULL;
 	while (i < (size_t)cmd->ac)
 	{
 		if (ft_strlen(cmd->av[i]) != 0)
@@ -37,9 +38,10 @@ static int	handle_envp(t_cmd *cmd, t_clean_cmd *clean_cmd, int index_cmd)
 			clean_cmd->count_assign++;
 		i++;
 	}
-	cmd->envp = (char **)malloc(sizeof(char *) * clean_cmd->count_assign);
+	cmd->envp = (char **)malloc(sizeof(char *) * (clean_cmd->count_assign + 1));
 	if (cmd->envp == NULL)
 		return (FAILURE);
+	cmd->envp[clean_cmd->count_assign] = NULL;
 	i = 0;
 	cmd->count_assign = clean_cmd->count_assign;
 	fill_envp(cmd, index_cmd);
