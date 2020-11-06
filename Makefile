@@ -196,12 +196,21 @@ clean :
 	$(MAKE) clean -C $(LIBDIR)
 	$(RM) -R $(OBJ_DIR)
 
+minishellclean :
+	$(RM) -R $(OBJ_DIR)
+
 fclean : clean
 	$(MAKE) fclean -C $(LIBDIR)
+	$(RM) $(NAME)
+
+mclean : minishellclean
 	$(RM) $(NAME)
 
 re : fclean
 	$(MAKE)
 
-.PHONY: all clean fclean re FORCE
+f : all
+	./$(NAME)
+
+.PHONY: all clean fclean mclean re FORCE
 #.SILENT:

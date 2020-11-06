@@ -4,8 +4,9 @@ static void	set_default_env(t_list *env_lst)
 {
 	if (vct_getstr(get_env_value_vct(env_lst, "PATH")) == NOT_FOUND)
 		ms_putenv(env_lst, DEFAULT_PATH_ENV);
-	if (vct_getstr(get_env_value_vct(env_lst, "PS1")) == NOT_FOUND)
+/*	if (vct_getstr(get_env_value_vct(env_lst, "PS1")) == NOT_FOUND)
 		export_env(env_lst, "PS1="PROMPT);
+*/
 }
 
 static void	increment_shlevel(void)

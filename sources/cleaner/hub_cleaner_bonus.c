@@ -19,6 +19,7 @@ int hub_cleaner(t_list *job_list)
 	int ret_cleaner;
 
 	ret_cleaner = SUCCESS;
+//	debug_jobs(job_list);
 	while (job_list != NULL)
 	{
 		job = job_list->content;

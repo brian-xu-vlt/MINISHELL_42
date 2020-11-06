@@ -45,6 +45,17 @@ static void	export_loop(int ac, char **av, const char *builtin)
 	}
 }
 
+static void	export_envp(char **envp)
+{
+	int			i;
+
+	i = 0;
+	if (envp == NULL)
+		return ;
+	while (envp != NULL && envp[i] != NULL)
+		export_env(get_env_list(GET), envp[i++]);
+}
+
 int	export_builtin(int ac, char **av, char **envp)
 {
 	const char	*builtin = "export";
@@ -63,8 +74,9 @@ int	export_builtin(int ac, char **av, char **envp)
 		if (errno == EINVAL)
 			return (1);
 	}
-	else if (ft_strequ(av[0], (char *)builtin) == TRUE && ac == 1)
+	if (ft_strequ(av[0], (char *)builtin) == TRUE && ac == 1)
 		print_export_output(get_env_list(GET));
+	export_envp(envp);
 	return (SUCCESS);
 }
 
