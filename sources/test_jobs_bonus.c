@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static void	debug_av(char **av, int ac)
+void	debug_av(char **av, int ac)
 {
 	int	i;
 
@@ -21,6 +21,30 @@ static char	*what_conditon(int type)
 	return ("E_YES_AND");
 }
 
+static void	debug_tab_exp(size_t *tab_exp, int count_exp)
+{
+	int	i;
+
+	i = 0;
+	while (i < count_exp)
+	{
+		ft_printf("tab_exp[%d] = %d\n", i, tab_exp[i]);
+		i++;	
+	}
+}
+
+static void	debug_tab_assign(size_t *tab_assign, int count_assign)
+{
+	int	i;
+
+	i = 0;
+	while (i < count_assign)
+	{
+		ft_printf("tab_assign[%d] = %d\n", i, tab_assign[i]);
+		i++;	
+	}
+}
+
 void	debug_jobs(t_list *job_list)
 {
 	t_job	*job;
@@ -36,6 +60,7 @@ void	debug_jobs(t_list *job_list)
 	{
 		job = job_list->content;
 		ft_printf("\033[32;01mJOBS %d\033[00m\n", cjob);
+		ft_printf("nb_cmd = %d\n", job->nb_cmd);
 		tmp_cmd_lst = job->cmd_lst;
 		while (tmp_cmd_lst != NULL)
 		{
@@ -51,7 +76,12 @@ void	debug_jobs(t_list *job_list)
 			ft_printf("fd_string[1] = %s\n", cmd->fd_string[1]);
 			ft_printf("fd_string[2] = %s\n", cmd->fd_string[2]);
 			ft_printf("condition = %s\n", what_conditon(cmd->condition));
-			ft_printf("redirection = %d\n\n", cmd->redirection);
+			ft_printf("redirection = %d\n", cmd->redirection);
+			ft_printf("count_assign = %d\n", cmd->count_assign);
+			ft_printf("count_exp = %d\n", cmd->count_exp);
+			debug_tab_assign(cmd->tab_assign, cmd->count_assign);
+			debug_tab_exp(cmd->tab_exp, cmd->count_exp);
+			ft_printf("\n");//DEBUG
 			tmp_cmd_lst = tmp_cmd_lst->next;
 			command++;
 		}

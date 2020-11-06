@@ -1,5 +1,7 @@
 #include "minishell_bonus.h"
 
+# define	NB_SIG	5
+
 static void	newprompt_at_signal(int sig)
 {
 	(void)sig;
@@ -23,16 +25,15 @@ static void	window_at_signal(int sig)
 void		signal_manager(int set_mode)
 {
 	int					i;
-	static const int	sig_nb = 5;
-	static const int	sig_list[sig_nb] = {
+	static const int	sig_list[NB_SIG] = {
 		SIGHUP, SIGINT, SIGQUIT,
 		SIGTERM, SIGWINCH	};
-	static void			(*handlers_mode_cmd_line[sig_nb])(int) = {
+	static void			(*handlers_mode_cmd_line[NB_SIG])(int) = {
 		exit_at_signal, newprompt_at_signal, SIG_IGN,
 		exit_at_signal, window_at_signal	};
 
 	i = 0;
-	while (i < sig_nb)
+	while (i < NB_SIG)
 	{
 		if (set_mode == SIG_MODE_DEFAULT)
 			signal(sig_list[i], SIG_DFL);

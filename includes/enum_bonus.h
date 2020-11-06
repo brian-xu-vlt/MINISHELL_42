@@ -48,11 +48,45 @@ enum e_condition_type
 enum e_cmd_type
 {
 	E_CMD_ASSIGN,
-	E_CMD_SIMPLE_REDIRECTION,
-	E_CMD_DOUBLE_REDIRECTION,
+	E_CMD_S_REDIRECTION,
+	E_CMD_D_REDIRECTION,
 	E_CMD_AV
 };
 
 #define RESIZE	4
+
+/******************************************************************************/
+/**********************************_CLEANER_***********************************/
+/******************************************************************************/
+
+enum e_state_quote_no_exp
+{
+	E_IN_SIMPLE_QUOTE, //0
+	E_IN_DOUBLE_QUOTE, //1
+	E_OUT				//2
+};
+
+enum e_between
+{
+	E_NOTHING,//0
+	E_SIMPLE,//1
+	E_DOUBLE,//2
+	E_BOTH //3
+};
+
+enum e_cmd
+{
+	E_ANY,//0
+	E_EXPORT_EXEC,//1
+	E_EXPORT_NO_EXEC,//2
+	E_COMMAND//3
+};
+
+enum e_state_redir
+{
+	E_IN_REDIR, //0
+	E_IN_FILE, //1
+	E_IN_OUT		//2
+};
 
 #endif

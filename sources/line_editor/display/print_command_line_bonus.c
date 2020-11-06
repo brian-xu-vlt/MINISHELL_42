@@ -11,23 +11,24 @@ static void	write_with_selection(t_le *le, int index_from)
 	int			vct_len;
 	char		*v_str;
 	const int	fd = STDOUT_FILENO;
+	int			ret;
 
 	v_str = vct_getstr(le->cmd_line);
 	vct_len = vct_getlen(le->cmd_line);
 	if (le->select_min < index_from)
 	{
 		tputs(le->termcap[SELECT], 1, ms_putchar);
-		write(fd, v_str + index_from, le->select_max - index_from + 1);
+		ret = write(fd, v_str + index_from, le->select_max - index_from + 1);
 		tputs(le->termcap[UNSELECT], 1, ms_putchar);
-		write(fd, v_str + le->select_max + 1, vct_len - le->select_max);
+		ret = write(fd, v_str + le->select_max + 1, vct_len - le->select_max);
 	}
 	else
 	{
-		write(fd, v_str + index_from, le->select_min - index_from);
+		ret = write(fd, v_str + index_from, le->select_min - index_from);
 		tputs(le->termcap[SELECT], 1, ms_putchar);
-		write(fd, v_str + le->select_min, le->select_max - le->select_min + 1);
+		ret = write(fd, v_str + le->select_min, le->select_max - le->select_min + 1);
 		tputs(le->termcap[UNSELECT], 1, ms_putchar);
-		write(fd, v_str + le->select_max + 1, vct_len - le->select_max);
+		ret = write(fd, v_str + le->select_max + 1, vct_len - le->select_max);
 	}
 }
 
@@ -37,12 +38,13 @@ void		print_cmd_line(void)
 	int			i_delta;
 	int			offset;
 	t_le		*le;
+	int			ret;
 
 	le = get_struct(GET);
 	index_from = le->vct_index;
 	i_delta = vct_getlen(le->cmd_line) - index_from;
 	if (le->select_min == UNSET)
-		write(STDOUT_FILENO, vct_getstr(le->cmd_line) + index_from, i_delta);
+		ret = write(STDOUT_FILENO, vct_getstr(le->cmd_line) + index_from, i_delta);
 	else
 		write_with_selection(le, index_from);
 	offset = (le->cy == 0) ? le->prompt_len : 0;

@@ -32,3 +32,11 @@ void		exit_routine_lexer(t_vector *word, t_vector *vct, t_vector *tmp,
 		token->type = 0;
 	}*/
 }
+
+void		free_token(t_list *node, t_token *token)
+{
+	ft_lstdelone(node, NULL);
+	free(node);
+	free(token->data);
+	free(token);
+}

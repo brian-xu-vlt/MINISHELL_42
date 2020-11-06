@@ -57,10 +57,36 @@ typedef struct				s_cmd
 	enum e_condition_type	condition;
 	int						redirection;
 	int						ret;
-	pid_t					pid;
+	int						count_assign;
+	int						count_exp;
+	size_t					*tab_assign;
+	size_t					*tab_exp;
 	char					**envp;
+	size_t					count_redir;
+	int						tmp_fd_in;
+	int						tmp_fd_out;
+	int						tmp_fd_append;
+	char					**tab_redir;
 }
 							t_cmd;
+
+typedef struct				s_clean_cmd
+{
+	size_t	count_assign;
+	size_t	ac;
+	size_t	index_export;
+	size_t	index_redir;
+	size_t	count_redir;
+	size_t	count_other;
+	char	**tmp_tab_redir;
+	char	**tab_redir;
+	char	**tmp_av;
+	char	**av;
+	int		tmp_fd_in;
+	int		tmp_fd_out;
+	int		tmp_fd_append;
+}
+							t_clean_cmd;
 
 typedef struct					s_job
 {

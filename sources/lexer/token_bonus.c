@@ -26,7 +26,7 @@ size_t		get_token(char c)
 	return (E_WORD);
 }
 
-static int extract_data(size_t type, char *str, t_token *token)
+static int	extract_data(size_t type, char *str, t_token *token)
 {
 	if ((type >= E_WORD && type < E_START) || type == E_SIMPLE_QUOTE
 			|| type == E_QUOTE)
@@ -50,10 +50,7 @@ int			extract_token(t_list **token_list, char *str, size_t type)
 	token->data = NULL;
 	if (extract_data(type, str, token) == FAILURE)
 	{
-		ft_lstdelone(node, NULL);
-		free(node);
-		free(token->data);
-		free(token);
+		free_token(node, token);
 		return (FAILURE);
 	}
 	token->type = type;
@@ -63,10 +60,7 @@ int			extract_token(t_list **token_list, char *str, size_t type)
 	node = ft_lstnew(token);
 	if (node == NULL)
 	{
-		ft_lstdelone(node, NULL);
-		free(node);
-		free(token->data);
-		free(token);
+		free_token(node, token);
 		return (FAILURE);
 	}
 	ft_lstadd_back(token_list, node);

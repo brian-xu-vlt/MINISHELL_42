@@ -9,13 +9,13 @@ char	*get_data(int type)
 	return (">>");
 }
 
-int	get_tablen(char **av)
+int		get_tablen(char **av)
 {
 	(void)av;
 	return (0);
 }
 
-int	next_is_end(t_list **token_list)
+int		next_is_end(t_list **token_list)
 {
 	t_list	*tmp_list;
 	t_token	*token;
@@ -28,7 +28,7 @@ int	next_is_end(t_list **token_list)
 	return (token->type == E_END ? true : false);
 }
 
-int	next_is_cmd_sep(t_list *token_list)
+int		next_is_cmd_sep(t_list *token_list)
 {
 	t_list	*tmp_list;
 	t_token	*token;

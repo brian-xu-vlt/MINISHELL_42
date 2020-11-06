@@ -1,14 +1,15 @@
 #include "minishell_bonus.h"
 
+# define	NB_BUILTIN	4 
+
 int		is_builtin(const t_cmd *command)
 {
 	int					i;
-	static const int	builtins_nb = 4;
-	static const char	*builtin_names[builtins_nb] = {
+	static const char	*builtin_names[NB_BUILTIN] = {
 		"exit",	"env", "export", "unset" };
 
 	i = 0;
-	while (i < builtins_nb)
+	while (i < NB_BUILTIN)
 	{
 		if (ft_strequ((char *)command->name, (char *)builtin_names[i]) == TRUE)
 			return (TRUE);
