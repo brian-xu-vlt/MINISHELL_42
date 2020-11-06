@@ -141,6 +141,7 @@ SRCS += get_type_command_bonus.c
 SRCS += get_envp_av_bonus.c
 SRCS += get_envp_av_utils_bonus.c
 SRCS += cleaner_utils_bonus.c
+SRCS += builtins_bonus.c
 
 
 OBJ_DIR = ./objs/

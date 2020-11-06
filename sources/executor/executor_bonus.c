@@ -94,6 +94,9 @@ void			executor(const t_job *job)
 	i = 0;
 	while (i < job->nb_cmd && cmd_cursor->content != NULL)
 	{
+		if (ft_strequ(STR_PWD, ((t_cmd*)cmd_cursor->content)->av[i]) == TRUE)
+			pwd_builtin(((t_cmd *)cmd_cursor->content)->ac,
+							((t_cmd *)cmd_cursor->content)->av, NULL);
 		process_open_file(cmd_cursor->content);
 //		ft_printf("\033[0;32mDEBUG REDIR FINAL\n\033[0m");//DEBUG
 //		debug_redir(((t_cmd *)cmd_cursor->content)->tab_redir, ((t_cmd *)cmd_cursor->content)->count_redir);
