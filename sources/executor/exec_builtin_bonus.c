@@ -12,6 +12,7 @@ int	exec_builtin(const t_cmd *command)
 		exit_builtin, env_builtin, export_builtin, unset_builtin };
 
 	i = 0;
+	ret_value = 0;
 	while (i < NB_BUILTIN)
 	{
 		if (ft_strequ((char *)command->name, (char *)builtin_names[i]) == TRUE)

@@ -4,6 +4,7 @@ static void		child_process(const t_cmd *command, int p_in[2], int p_out[2])
 {
 	int		ret;
 
+	export_execution_context_env(command);
 	signal_manager(SIG_MODE_DEFAULT);
 	dup_pipes(command, p_in, p_out);
 	ret = 1;
@@ -41,9 +42,6 @@ static int		exec_process(const t_cmd *command, const int nb_cmd,
 	int		ret;
 
 	ret = 0;
-	// open files with lila's functions
-	//	if (nb_cmd == 1 && command->name == NULL && command->env != NULL)
-	//DO ASSIGNATIONS export_execution_context_env(command);
 	if (is_solo_builtin(nb_cmd, command) == TRUE)
 		ret = exec_builtin(command);
 	else
@@ -91,7 +89,7 @@ void			executor(const t_job *job)
 	ft_memset(p_out, UNSET, sizeof(int[2]));
 	cmd_cursor = job->cmd_lst;
 	i = 0;
-	while (i < job->nb_cmd && cmd_cursor->content != NULL)
+	while (i < job->nb_cmd && cmd_cursor->content != NULL && ((t_cmd *)cmd_cursor->content)->name != NULL && ((t_cmd *)cmd_cursor->content)->av[0] != NULL)
 	{
 		process_open_file(cmd_cursor->content);
 		ft_printf("\033[0;32mDEBUG REDIR FINAL\n\033[0m");//DEBUG

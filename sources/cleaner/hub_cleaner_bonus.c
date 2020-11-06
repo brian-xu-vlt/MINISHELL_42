@@ -19,6 +19,7 @@ int hub_cleaner(t_list *job_list)
 	int ret_cleaner;
 
 	ret_cleaner = SUCCESS;
+	debug_jobs(job_list);
 	while (job_list != NULL)
 	{
 		job = job_list->content;
@@ -32,6 +33,7 @@ int hub_cleaner(t_list *job_list)
 			ft_printf("\n");
 			tmp_cmd_lst = tmp_cmd_lst->next;
 		}
+		debug_jobs(job_list);
 		executor(job); //UTILISER LE VRAI EXECUTOR
 		job_list = job_list->next;
 	}
