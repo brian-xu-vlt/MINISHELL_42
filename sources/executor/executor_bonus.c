@@ -94,8 +94,8 @@ void			executor(const t_job *job)
 	while (i < job->nb_cmd && cmd_cursor->content != NULL)
 	{
 		process_open_file(cmd_cursor->content);
-		ft_printf("\033[0;32mDEBUG REDIR FINAL\n\033[0m");//DEBUG
-		debug_redir(((t_cmd *)cmd_cursor->content)->tab_redir, ((t_cmd *)cmd_cursor->content)->count_redir);
+		//ft_printf("\033[0;32mDEBUG REDIR FINAL\n\033[0m");//DEBUG
+		//debug_redir(((t_cmd *)cmd_cursor->content)->tab_redir, ((t_cmd *)cmd_cursor->content)->count_redir);
 		if (is_last_cmd(i, job->nb_cmd) == FALSE)
 			do_pipe(p_out);
 		ret = exec_process(cmd_cursor->content, job->nb_cmd, p_in, p_out);

@@ -25,9 +25,10 @@ static int	clean_av(t_cmd *cmd, t_clean_cmd *clean_cmd, size_t nb_av)
 
 	process_clean((size_t)cmd->ac, clean_cmd->tmp_av, cmd->av);
 	free(cmd->av);
-	cmd->av = (char **)malloc(sizeof(char *) * nb_av);
+	cmd->av = (char **)malloc(sizeof(char *) * (nb_av + 1));
 	if (cmd->av == NULL)
 		return (FAILURE); //ERROR
+	cmd->av[nb_av] = NULL;
 	real_av = 0;
 	cmd->ac = nb_av;
 	while (real_av < nb_av)
@@ -44,7 +45,6 @@ static void	clean_redir(t_clean_cmd *clean_cmd, size_t nb_redir)
 	process_clean((size_t)clean_cmd->ac, clean_cmd->tab_redir,
 					clean_cmd->tmp_tab_redir);
 	clean_cmd->count_redir = nb_redir;
-	ft_printf("\n");
 }
 
 int			clean_redir_av(t_cmd *cmd, t_clean_cmd *clean_cmd)

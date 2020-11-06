@@ -5,6 +5,7 @@ static int process_less(char *str, t_cmd *cmd)
 	int fd;
 	static size_t i = 0;
 
+	ft_printf("PROCESS LESS\n");//DEBUG
 	fd = open(str, O_RDONLY | O_WRONLY | O_EXCL, S_IRUSR | S_IWUSR | S_IRGRP |
 				S_IROTH);
 	if (fd < 0)
@@ -13,7 +14,7 @@ static int process_less(char *str, t_cmd *cmd)
 			close(cmd->tmp_fd_in);
 		if (cmd->tmp_fd_out > 2)
 			close(cmd->tmp_fd_out);
-		print_set_errno(errno, "bash", str, NULL);
+		print_set_errno(errno, strerror(errno), str, NULL);
 		return (FAILURE);
 	}
 	if (cmd->tmp_fd_in > 2)
@@ -37,7 +38,7 @@ static int process_greater(char *str, t_cmd *cmd)
 			close(cmd->tmp_fd_in);
 		if (cmd->tmp_fd_out > 2)
 			close(cmd->tmp_fd_out);
-		print_set_errno(errno, "bash", str, NULL);
+		print_set_errno(errno, strerror(errno), str, NULL);
 		return (FAILURE);
 	}
 	if (cmd->tmp_fd_out > 2)
@@ -60,7 +61,7 @@ static int process_double_greater(char *str, t_cmd *cmd)
 			close(cmd->tmp_fd_in);
 		if (cmd->tmp_fd_out > 2)
 			close(cmd->tmp_fd_out);
-		print_set_errno(errno, "bash", str, NULL);
+		print_set_errno(errno, strerror(errno), str, NULL);
 		return (FAILURE);
 	}
 	if (cmd->tmp_fd_append > 2)
