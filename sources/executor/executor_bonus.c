@@ -80,7 +80,7 @@ static void		preprocess_command(const t_cmd *command)
 {
 	if (command->ac == 0 && command->count_assign != 0)
 		export_envp_content(command);
-	process_open_file((t_cmd *)command); 					//change to cons in prototype
+	process_open_file((t_cmd *)command); 					//change to const in prototype
 }
 
 
