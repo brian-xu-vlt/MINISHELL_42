@@ -205,7 +205,7 @@ int 								hub_cleaner(t_list *job_list);
 #define W_END				1
 
 void	process_open_file(t_cmd *cmd);
-void	export_execution_context_env(const t_cmd *command);
+void	export_envp_content(const t_cmd *command);
 int		exec_builtin(const t_cmd *command);
 int		exec_binary(const t_cmd *command);
 void	signal_manager(int set_mode);

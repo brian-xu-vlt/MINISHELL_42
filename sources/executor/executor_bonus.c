@@ -4,7 +4,7 @@ static void		child_process(const t_cmd *command, int p_in[2], int p_out[2])
 {
 	int		ret;
 
-	export_execution_context_env(command);
+	export_envp_content(command);
 	signal_manager(SIG_MODE_DEFAULT);
 	dup_pipes(command, p_in, p_out);
 	ret = 1;
@@ -42,9 +42,6 @@ static int		exec_process(const t_cmd *command, const int nb_cmd,
 	int		ret;
 
 	ret = 0;
-	// open files with lila's functions
-	//	if (nb_cmd == 1 && command->name == NULL && command->env != NULL)
-	//DO ASSIGNATIONS export_execution_context_env(command);
 	if (is_solo_builtin(nb_cmd, command) == TRUE)
 		ret = exec_builtin(command);
 	else
@@ -78,6 +75,15 @@ static void		waiter(const t_cmd *command, const int nb_cmd, int ret)
 	}
 }
 
+// extract function from executor
+static void		preprocess_command(const t_cmd *command)
+{
+	if (command->ac == 0 && command->count_assign != 0)
+		export_envp_content(command);
+	process_open_file((t_cmd *)command); 					//change to cons in prototype
+}
+
+
 void			executor(const t_job *job)
 {
 	int		p_in[2];
@@ -94,9 +100,7 @@ void			executor(const t_job *job)
 	i = 0;
 	while (i < job->nb_cmd && cmd_cursor->content != NULL)
 	{
-		process_open_file(cmd_cursor->content);
-//		ft_printf("\033[0;32mDEBUG REDIR FINAL\n\033[0m");//DEBUG
-//		debug_redir(((t_cmd *)cmd_cursor->content)->tab_redir, ((t_cmd *)cmd_cursor->content)->count_redir);
+		preprocess_command(cmd_cursor->content);
 		if (is_last_cmd(i, job->nb_cmd) == FALSE)
 			do_pipe(p_out);
 		ret = exec_process(cmd_cursor->content, job->nb_cmd, p_in, p_out);
