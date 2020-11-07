@@ -6,12 +6,26 @@ int	pwd_builtin(int ac, char **av, char **envp)
 {
 	char	*pwd;
 	char	*buff;
+	t_vector	*option;
 
 	errno = SUCCESS;
 	pwd = NULL;
-	if (ac != 1)
+	(void)envp;
+	if (ac != 1 && ft_strlen(av[1]) != 1)
 	{
-		ft_printf("av[1] = %s\n", av[1]);//DEBUG
+		if (ft_strlen(av[1]) > 1 && av[1][0] == '-')
+		{
+			option = vct_new();
+			vct_add(option, av[1][0]);
+			vct_add(option, av[1][1]);
+			ft_putstr_fd("minishell: pwd: ", STDERR_FILENO);
+			ft_putstr_fd(vct_getstr(option), STDERR_FILENO);
+			ft_putstr_fd(": invalid option\npwd: usage: pwd [-LP]\n",
+							STDERR_FILENO);
+			ft_printf("###########################################\n\n");//DEBUG
+			vct_del(&option);
+			return (PWD_FAIL);
+		}
 	}
 	buff = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
 	if (buff == NULL)
@@ -25,6 +39,7 @@ int	pwd_builtin(int ac, char **av, char **envp)
 	}
 	ft_printf("MINE PWD\n");//DEBUG
 	ft_printf("%s\n", pwd);
+	ft_printf("##########################\n\n");//DEBUG
 	free(buff);
 	return (PWD_SUCCESS);
 }
