@@ -3,5 +3,33 @@
         {
             "path": ".."
         }
-    ]
+    ],
+    "settings": {
+    },
+    "launch": {
+        "version": "0.2.0",
+        "configurations": [
+          {
+            "name": "MINISHELL - vm",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/REPO/Minishell",
+            "miDebuggerServerAddress": "localhost:9091",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}/REPO",
+            "environment": [],
+            "externalConsole": true,
+            "linux": {
+              "MIMode": "gdb"
+            },
+            "osx": {
+              "MIMode": "gdb"
+            },
+            "windows": {
+              "MIMode": "gdb"
+            }
+          }
+        ]
+      }
 }
