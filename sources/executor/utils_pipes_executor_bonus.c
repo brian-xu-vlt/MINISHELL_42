@@ -1,41 +1,17 @@
 #include "minishell_bonus.h"
 
-static int	open_file(t_cmd *command, int fd_fileno)
+void		dup_pipes(t_cmd *command, int p_in[2], int p_out[2])
 {
-	int					open_flags;
-	int					fd_return;
-
-	open_flags = 0;
-	if (fd_fileno == STDIN_FILENO)
-		open_flags = O_RDONLY;
-	else
-	{
-		if (command->redirection & F_REDIRECT_OUT_APPEND)
-			open_flags = O_WRONLY | O_CREAT | O_APPEND;
-		else if (command->redirection & F_REDIRECT_OUT)
-			open_flags = O_WRONLY | O_CREAT | O_TRUNC;
-	}
-	fd_return = open(command->fd_string[fd_fileno], open_flags);
-	if (fd_return < 0)
-		print_set_errno(errno, NULL, command->fd_string[fd_fileno], NULL);
-	command->fd[fd_fileno] = fd_return;
-	return (fd_return);
-}
-
-void		dup_pipes(const t_cmd *command, int p_in[2], int p_out[2])
-{
-	struct stat	statbuf;
-
 	if (command->redirection & F_REDIRECT_IN)
-		dup2(open_file((t_cmd *)command, STDIN_FILENO), STDIN_FILENO);
-	else if (p_in[R_END] != UNSET && fstat(p_in[R_END], &statbuf) != FAILURE)
+		dup2(command->fd[STDIN_FILENO], STDIN_FILENO);
+	else if (p_in[R_END] != UNSET && (command->redirection & F_REDIRECT_FAILURE) == FALSE)
 	{
 		dup2(p_in[R_END], STDIN_FILENO);
 		close_pipe_end(p_in[W_END]);
 	}
 	if (command->redirection & F_REDIRECT_OUT)
-		dup2(open_file((t_cmd *)command, STDOUT_FILENO), STDOUT_FILENO);
-	else if (p_out[W_END] != UNSET && fstat(p_out[W_END], &statbuf) != FAILURE)
+		dup2(command->fd[STDOUT_FILENO], STDOUT_FILENO);
+	else if (p_out[W_END] != UNSET && (command->redirection & F_REDIRECT_FAILURE) == FALSE)
 	{
 		dup2(p_out[W_END], command->fd[STDOUT_FILENO]);
 		close_pipe_end(p_out[R_END]);

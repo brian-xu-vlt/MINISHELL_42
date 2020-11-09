@@ -7,4 +7,4 @@ ssh user42@papy killall gdbserver &> /dev/null
 ssh                         \
   -L9091:localhost:9091     \
   user42@papy               \
-  "zsh -l -c 'echo $TERM ; cd /home/user42/42/minishell/REPO && make debug=0 err=1 CC=clang -j8 && gdbserver :9091 ./Minishell'"
+  "zsh -l -c 'cd /home/user42/42/minishell/REPO && make debug_mode=1 debug=0 err=1 opti=0 CC=clang -j8 && gdbserver :9091 ./Minishell'"

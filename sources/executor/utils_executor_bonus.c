@@ -34,8 +34,8 @@ pid_t	fork_process(void)
 int		is_solo_builtin(const int nb_cmd, const t_cmd *command)
 {
 	return (ft_strequ(command->name, "exit") == TRUE ||
-		(nb_cmd == 1 && is_builtin(command) == TRUE
-		&& command->redirection == F_NO_REDIRECT));
+		(nb_cmd == 1 && is_builtin(command) == TRUE));
+		//&& command->redirection == F_NO_REDIRECT));
 }
 
 int		is_last_cmd(const size_t i, const size_t nb_cmd)

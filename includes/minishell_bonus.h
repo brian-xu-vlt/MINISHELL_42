@@ -206,10 +206,10 @@ int 								hub_cleaner(t_list *job_list);
 
 void	process_open_file(t_cmd *cmd);
 void	export_envp_content(const t_cmd *command);
-int		exec_builtin(const t_cmd *command);
+int		exec_builtin(t_cmd *command, int p_in[2], int p_out[2]);
 int		exec_binary(const t_cmd *command);
 void	signal_manager(int set_mode);
-int		execution_process(t_job *job, const t_cmd *command,
+int		execution_process(t_job *job, t_cmd *command,
 													int p_in[2], int p_out[2]);
 void	executor(t_job *job);
 char	*locate_binary_file(const char *bin_name);
@@ -223,7 +223,7 @@ int		manage_subshell_exit_status(const int wstatus);
 void	do_pipe(int pipe_fd[2]);
 void	close_pipe_end(int pipe_to_close);
 pid_t	fork_process(void);
-void	dup_pipes(const t_cmd *command, int p_in[2], int p_out[2]);
+void	dup_pipes(t_cmd *command, int p_in[2], int p_out[2]);
 int		is_builtin(const t_cmd *command);
 /******************************************************************************/
 /*******************************_GENERAL_UTILES_*******************************/

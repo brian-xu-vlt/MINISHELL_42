@@ -24,11 +24,11 @@ static void		waiter(const t_job *job, const t_cmd *command, int ret)
 	}
 }
 
-static void		preprocess_command(const t_cmd *command)
+static void		preprocess_command(t_cmd *command)
 {
 	if (command->ac == 0 && command->count_assign != 0)
 		export_envp_content(command);
-	process_open_file((t_cmd *)command); 					//change to const in prototype
+	process_open_file(command);
 }
 
 static void		execution_loop(t_job *job, int p_in[2], int p_out[2])
@@ -65,4 +65,6 @@ void			executor(t_job *job)
 	ft_memset(p_in, UNSET, sizeof(int[2]));
 	ft_memset(p_out, UNSET, sizeof(int[2]));
 	execution_loop(job, p_in, p_out);
+	ft_printf("$? = %d\n", get_env_value_int(get_env_list(GET), "?"));
+	ft_printf("$? = %s\n", vct_getstr(get_env_value_vct(get_env_list(GET), "?")));
 }

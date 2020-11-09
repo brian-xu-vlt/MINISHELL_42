@@ -55,8 +55,11 @@ void		init_line_editor(t_vector *cmd_line)
 	if (le->clipboard == NULL)
 		exit_routine_le(ERR_MALLOC);
 	le->cmd_line = cmd_line;
-	init_library_db();
-	init_term_mode();
-	fill_termcaps(le);
-	update_window_size();
+	if (DEBUG_MODE == 0)
+	{
+		init_library_db();
+		init_term_mode();
+		fill_termcaps(le);
+		update_window_size();
+	}
 }

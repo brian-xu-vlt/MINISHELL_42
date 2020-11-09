@@ -34,8 +34,10 @@ ifneq ($(opti), 0)
 	CFLAGS += -O3
 endif
 
-ifneq ($(debug_mode), 0)
-	DEBUG_MODE = 0 
+ifeq ($(debug_mode), 1)
+	DEBUG_MODE = 1
+else
+	DEBUG_MODE = 0
 endif
 
 CC = gcc

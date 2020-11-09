@@ -59,10 +59,10 @@ int			main(int ac, char **av)
 	while (1)
 	{
 		signal_manager(SIG_MODE_CMD_LINE);
-		if (BONUS_FLAG == TRUE)
-			line_editor();
-		else
+		if (DEBUG_MODE == TRUE)
 			read_loop(cmd_line);
+		else
+			line_editor();
 		jobs = process_minishell(cmd_line);
 		if (jobs != NULL)
 		{

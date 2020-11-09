@@ -23,11 +23,11 @@
             "name": "MINISHELL - vm",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceRoot}/REPO/Minishell",
+            "program": "${workspaceRoot}/Minishell",
             "miDebuggerServerAddress": "localhost:9091",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceRoot}/REPO",
+            "cwd": "${workspaceRoot}",
             "environment": [],
             "externalConsole": true,
             "linux": {

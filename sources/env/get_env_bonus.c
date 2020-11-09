@@ -53,10 +53,8 @@ int			get_env_value_int(t_list *env_lst, const char *env_name)
 	if (value_vct != NOT_FOUND)
 		return (ft_atoi(vct_getstr(value_vct)));
 	else
-	{
 		errno = FAILURE;
-		return (0);
-	}
+	return (0);
 }
 
 t_list		*get_env_list(t_list *mem)
