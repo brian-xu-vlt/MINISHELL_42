@@ -209,6 +209,8 @@ void	export_envp_content(const t_cmd *command);
 int		exec_builtin(const t_cmd *command);
 int		exec_binary(const t_cmd *command);
 void	signal_manager(int set_mode);
+int		execution_process(t_job *job, const t_cmd *command,
+													int p_in[2], int p_out[2]);
 void	executor(t_job *job);
 char	*locate_binary_file(const char *bin_name);
 int		is_path(const char *bin_name);

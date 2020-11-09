@@ -104,6 +104,7 @@ SRCS += exit_status_manager_bonus.c
 SRCS += utils_pipes_executor_bonus.c
 SRCS += utils_executor_bonus.c
 SRCS += export_exec_context_bonus.c
+SRCS += execution_process_bonus.c
 SRCS += executor_bonus.c
 SRCS += exec_builtin_bonus.c
 SRCS += locate_bin_bonus.c

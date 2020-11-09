@@ -7,7 +7,14 @@
     "settings": {
       "terminal.integrated.fontFamily": "Roboto Mono Medium for Powerline",
       "terminal.integrated.fontSize": 13,
-      "editor.fontFamily": "Roboto Mono Medium for Powerline, Monaco, 'Courier New', monospace"
+      "editor.fontFamily": "Roboto Mono Medium for Powerline, Monaco, 'Courier New', monospace",
+      "telemetry.enableTelemetry": false,
+      "telemetry.enableCrashReporter": false,
+      "cSpell.words": [
+        "false",
+        "true"
+      ],
+      "zenMode.hideLineNumbers": false
     },
     "launch": {
         "version": "0.2.0",
