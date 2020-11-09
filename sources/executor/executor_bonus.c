@@ -22,7 +22,8 @@ static void		child_process(const t_cmd *command, int p_in[2], int p_out[2])
 	exit(ret);
 }
 
-static void		exec_subshell(const t_cmd *command, int p_in[2], int p_out[2])
+static void		exec_subshell(t_job *job, const t_cmd *command,
+													int p_in[2], int p_out[2])
 {
 	pid_t	pid;
 
@@ -32,26 +33,27 @@ static void		exec_subshell(const t_cmd *command, int p_in[2], int p_out[2])
 	else if (pid > 0)
 	{
 		signal_manager(SIG_MODE_EXEC);
-		ms_setenv_int(get_env_list(GET), "!LAST_PID", (int)pid, F_OVERWRITE);
+		job->last_pid = pid;
+		//ms_setenv_int(get_env_list(GET), "!LAST_PID", (int)pid, F_OVERWRITE);
 	}
 }
 
-static int		exec_process(const t_cmd *command, const int nb_cmd,
+static int		exec_process(t_job *job, const t_cmd *command,
 													int p_in[2], int p_out[2])
 {
 	int		ret;
 
 	ret = 0;
-	if (is_solo_builtin(nb_cmd, command) == TRUE)
+	if (is_solo_builtin(job->nb_cmd, command) == TRUE)
 		ret = exec_builtin(command);
 	else
-		exec_subshell(command, p_in, p_out);
+		exec_subshell(job, command, p_in, p_out);
 	close_pipe_end(p_in[R_END]);
 	close_pipe_end(p_in[W_END]);
 	return (ret);
 }
 
-static void		waiter(const t_cmd *command, const int nb_cmd, int ret)
+static void		waiter(const t_job *job, const t_cmd *command, int ret)
 {
 	pid_t	pid;
 	int		wstatus;
@@ -59,14 +61,15 @@ static void		waiter(const t_cmd *command, const int nb_cmd, int ret)
 
 	wstatus = 0;
 	pid = SUCCESS;
-	if (is_solo_builtin(nb_cmd, command) == TRUE)
+	if (is_solo_builtin(job->nb_cmd, command) == TRUE)
 		ms_setenv_int(get_env_list(GET), "?", ret, F_OVERWRITE);
 	else
 	{
 		while (pid != FAILURE)
 		{
 			pid = wait(&wstatus);
-			if (pid == get_env_value_int(get_env_list(GET), "!LAST_PID"))
+			//if (pid == get_env_value_int(get_env_list(GET), "!LAST_PID"))
+			if (pid == job->last_pid)
 			{
 				exit_status = manage_subshell_exit_status(wstatus);
 				ms_setenv_int(get_env_list(GET), "?", exit_status, F_OVERWRITE);
@@ -84,7 +87,7 @@ static void		preprocess_command(const t_cmd *command)
 }
 
 
-void			executor(const t_job *job)
+void			executor(t_job *job)
 {
 	int		p_in[2];
 	int		p_out[2];
@@ -103,12 +106,12 @@ void			executor(const t_job *job)
 		preprocess_command(cmd_cursor->content);
 		if (is_last_cmd(i, job->nb_cmd) == FALSE)
 			do_pipe(p_out);
-		ret = exec_process(cmd_cursor->content, job->nb_cmd, p_in, p_out);
+		ret = exec_process(job, cmd_cursor->content, p_in, p_out);
 		if (is_last_cmd(i, job->nb_cmd) == FALSE)
 			ft_memmove(p_in, p_out, sizeof(int[2]));
 		ft_memset(p_out, UNSET, sizeof(int[2]));
 		if (is_last_cmd(i, job->nb_cmd) == TRUE)
-			waiter(cmd_cursor->content, job->nb_cmd, ret);
+			waiter(job, cmd_cursor->content, ret);
 		cmd_cursor = cmd_cursor->next;
 		i++;
 	}

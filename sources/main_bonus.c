@@ -54,14 +54,14 @@ int			main(int ac, char **av)
 	cmd_line = vct_new();
 	if (cmd_line == NULL)
 		exit_routine_le(ERR_MALLOC);
-//	init_line_editor(cmd_line);
+	init_line_editor(cmd_line);
 	jobs = NULL;
 	while (1)
 	{
 		signal_manager(SIG_MODE_CMD_LINE);
-//		if (BONUS_FLAG == TRUE)
-//			line_editor();
-//		else
+		if (BONUS_FLAG == TRUE)
+			line_editor();
+		else
 			read_loop(cmd_line);
 		jobs = process_minishell(cmd_line);
 		if (jobs != NULL)

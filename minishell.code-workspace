@@ -1,10 +1,13 @@
 {
     "folders": [
         {
-            "path": ".."
+            "path": "."
         }
     ],
     "settings": {
+      "terminal.integrated.fontFamily": "Roboto Mono Medium for Powerline",
+      "terminal.integrated.fontSize": 13,
+      "editor.fontFamily": "Roboto Mono Medium for Powerline, Monaco, 'Courier New', monospace"
     },
     "launch": {
         "version": "0.2.0",
