@@ -206,7 +206,7 @@ int 								hub_cleaner(t_list *job_list);
 
 void	process_open_file(t_cmd *cmd);
 void	export_envp_content(const t_cmd *command);
-int		exec_builtin(t_cmd *command, int p_in[2], int p_out[2]);
+int		exec_builtin(t_cmd *command);
 int		exec_binary(const t_cmd *command);
 void	signal_manager(int set_mode);
 int		execution_process(t_job *job, t_cmd *command,
@@ -220,6 +220,8 @@ int		is_valid_job(const t_job *job);
 int		is_last_cmd(const size_t i, const size_t nb_cmd);
 int		is_solo_builtin(const int nb_cmd, const t_cmd *command);
 int		manage_subshell_exit_status(const int wstatus);
+int		ms_dup(int old_fd);
+int		ms_dup2(int old_fd, int new_fd);
 void	do_pipe(int pipe_fd[2]);
 void	close_pipe_end(int pipe_to_close);
 pid_t	fork_process(void);

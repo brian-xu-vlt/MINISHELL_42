@@ -40,3 +40,30 @@ void		do_pipe(int pipe_fd[2])
 	if (pipe_ret == FAILURE)
 		print_set_errno(errno, NULL, "do pipe: ", NULL);
 }
+
+int			ms_dup2(int old_fd, int new_fd)
+{
+	int		ret;
+	errno = 0;
+	ret = dup2(old_fd, new_fd);
+	if (ret == FAILURE || ret != new_fd)
+	{
+		print_set_errno(errno, NULL, NULL, NULL);
+		exit_routine_le(ERR_NO_MESSAGE);
+	}
+	return (ret);
+}
+
+int			ms_dup(int old_fd)
+{
+	int		ret;
+
+	errno = 0;
+	ret = dup(old_fd);
+	if (ret == FAILURE)
+	{
+		print_set_errno(errno, NULL, NULL, NULL);
+		exit_routine_le(ERR_NO_MESSAGE);
+	}
+	return (ret);
+}

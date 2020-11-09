@@ -76,6 +76,7 @@ int			main(int ac, char **av)
 		}
 		vct_clear(cmd_line);
 		free_list_job(&jobs);
+	ft_printf("$? = %s\n", vct_getstr(get_env_value_vct(get_env_list(GET), "?")));
 	}
 	exit_routine_le(NULL);
 	free_list_job(&jobs);

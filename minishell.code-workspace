@@ -14,7 +14,8 @@
         "false",
         "true"
       ],
-      "zenMode.hideLineNumbers": false
+      "zenMode.hideLineNumbers": false,
+      "crosshair.enabled": true
     },
     "launch": {
         "version": "0.2.0",

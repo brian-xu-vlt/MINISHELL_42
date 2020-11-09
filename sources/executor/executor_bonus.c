@@ -65,6 +65,4 @@ void			executor(t_job *job)
 	ft_memset(p_in, UNSET, sizeof(int[2]));
 	ft_memset(p_out, UNSET, sizeof(int[2]));
 	execution_loop(job, p_in, p_out);
-	ft_printf("$? = %d\n", get_env_value_int(get_env_list(GET), "?"));
-	ft_printf("$? = %s\n", vct_getstr(get_env_value_vct(get_env_list(GET), "?")));
 }

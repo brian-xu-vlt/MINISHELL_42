@@ -6,20 +6,19 @@ t_list		*get_env_node(t_list *env_lst, const char *target_env_name)
 	char			*env_name;
 	t_list			*cursor;
 
-	//if (target_env_name == NULL || ft_isalpha(target_env_name[0]) == FALSE)
 	if (target_env_name == NULL)
-	{
 		errno = EINVAL; 
-		return (NOT_FOUND);
-	}
-	cursor = env_lst;
-	target_name_len = ft_strlen(target_env_name);
-	while (cursor != NULL && cursor->content != NULL)
+	else
 	{
-		env_name = ((t_env *)cursor->content)->env_name;
-		if (ft_strequ(env_name, (char *)target_env_name) == TRUE)
-			return (cursor);
-		cursor = cursor->next;
+		cursor = env_lst;
+		target_name_len = ft_strlen(target_env_name);
+		while (cursor != NULL && cursor->content != NULL)
+		{
+			env_name = ((t_env *)cursor->content)->env_name;
+			if (ft_strequ(env_name, (char *)target_env_name) == TRUE)
+				return (cursor);
+			cursor = cursor->next;
+		}
 	}
 	return (NOT_FOUND);
 }

@@ -43,6 +43,7 @@
 # define	ERR_MALLOC		"Malloc could not allocate memory."
 # define	ERR_FORK		"Could not fork a chilf process."
 # define	ERR_HUP			"Received a Hang Up signal."
+# define	ERR_DUP			"Could not duplicate file descriptor."
 
 /**********************************
 *********     UTILS     ***********
