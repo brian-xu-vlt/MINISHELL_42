@@ -18,10 +18,9 @@ int	pwd_builtin(int ac, char **av, char **envp)
 			option = vct_new();
 			vct_add(option, av[1][0]);
 			vct_add(option, av[1][1]);
-			ft_putstr_fd("minishell: pwd: ", STDERR_FILENO);
-			ft_putstr_fd(vct_getstr(option), STDERR_FILENO);
-			ft_putstr_fd(": invalid option\npwd: usage: pwd [-LP]\n",
-							STDERR_FILENO);
+			ft_printf("PRINT_SET_ERRNO\n");//DEBUG
+			print_set_errno(0,"invalid option","pwd", vct_getstr(option));
+			ft_putstr_fd("pwd: usage: pwd [-LP]\n", STDERR_FILENO);
 			ft_printf("###########################################\n\n");//DEBUG
 			vct_del(&option);
 			return (PWD_FAIL);
