@@ -90,11 +90,12 @@ int	unset_builtin(int ac, char **av, char **envp)
 		return (0);
 	else
 	{
-		i = 0;
+		i = 1;
 		while (i < ac)
 		{
 			if (av[i][0] == '-')
 				print_set_errno(EINVAL, NULL, builtin, av[i]);
+		//	else if (ft_isalpha(av[i][0]) == TRUE)
 			else
 				unset_env(get_env_list(GET), av[i]);
 			i++;

@@ -13,6 +13,12 @@ void		del_env_elem(void *elem_content)
 	free(elem_content);
 }
 
+static int	is_list_head(t_list *cursor, t_list *node)
+{
+	return ((cursor == node) ? TRUE : FALSE);
+
+}
+
 static void	ft_lstdel_node(t_list **lst, t_list *node, void (*del)(void *))
 {
 	t_list	*cursor;
@@ -20,9 +26,10 @@ static void	ft_lstdel_node(t_list **lst, t_list *node, void (*del)(void *))
 	if (del == NULL || lst == NULL || node == NULL)
 		return ;
 	cursor = *lst;
-	if (cursor == node)
+	if (is_list_head(cursor, node) == TRUE)
 	{
 		*lst = cursor->next;
+		get_env_list(*lst);
 		ft_lstdelone(node, del);
 		return ;
 	}

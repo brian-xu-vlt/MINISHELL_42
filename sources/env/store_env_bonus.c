@@ -4,7 +4,7 @@ static t_env	*store_new_env(t_list *env_lst, const char *env_name,
 														const char *env_value)
 {
 	t_env		*new_env;
-
+ft_printf("*******store new env = '%s'\n", env_name);
 	new_env = (t_env *)ft_calloc(1, sizeof(t_env));
 	if (new_env == NULL)
 		exit_routine_le(ERR_MALLOC);

@@ -4,12 +4,12 @@ void	dup_pipes(t_cmd *command, int p_in[2], int p_out[2])
 {
 	if (p_in[R_END] != UNSET)
 	{
-		dup2(p_in[R_END], STDIN_FILENO);
+		ms_dup2(p_in[R_END], STDIN_FILENO);
 		close_pipe_end(p_in[W_END]);
 	}
 	if (p_out[W_END] != UNSET)
 	{
-		dup2(p_out[W_END], command->fd[STDOUT_FILENO]);
+		ms_dup2(p_out[W_END], command->fd[STDOUT_FILENO]);
 		close_pipe_end(p_out[R_END]);
 	}
 }

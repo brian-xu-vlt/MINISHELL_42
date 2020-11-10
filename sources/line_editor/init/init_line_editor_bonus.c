@@ -3,9 +3,10 @@
 static void	init_library_db(void)
 {
 	int			ret;
-	const char	*term_name = "xterm-256color";
+	//const char	*term_name = "xterm-256color";
+	const char	*term_name;
 
-//	term_name = getenv("TERM"); // to be changed MINISHELL get env !!!!!!!
+	term_name = getenv("TERM"); // to be changed MINISHELL get env !!!!!!!
 	if (term_name == NULL)
 		exit_routine_le(ERR_TERM_NAME);
 	if (ft_strequ((char *)term_name, "ansi") == TRUE)
