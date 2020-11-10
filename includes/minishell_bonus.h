@@ -141,7 +141,6 @@ char								*between_simple(char *str);
 char								*between_double(char *str);
 char								*between_both(char *str);
 bool								is_del(char c);
-size_t								end_exp(char *str);
 size_t								handle_exp(size_t i, t_vector *vct_good,
 												char *str);
 size_t								end_quote(char *str, size_t i,
@@ -195,6 +194,10 @@ int									*fill_tab_clean_exp(int *tab_clean_exp,
 															size_t size,
 															int clean_exp);
 int 								hub_cleaner(t_list *job_list);
+ssize_t								end_exp(char *str);
+
+
+bool is_exp_sep(char c);
 
 /******************************************************************************/
 /*******************************_EXECUTION_************************************/

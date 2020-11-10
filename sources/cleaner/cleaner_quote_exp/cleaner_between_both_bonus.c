@@ -32,16 +32,24 @@ void			process_between_both(char *str, t_vector *vct_good)
 			i = i + process_double(str, i, vct_good);
 			continue ;
 		}
-		if (str[i] == C_SIMPLE_QUOTE)
+		else if (str[i] == C_SIMPLE_QUOTE)
 		{
 			i = i + process_simple(str, i, vct_good);
 			continue ;
 		}
-		if (str[i] == EXP)
+		else if (str[i] == EXP)
 		{
-			i = handle_exp(i, vct_good, str);
+			if (str[i] == EXP && i + 1 <= ft_strlen(str) &&
+					(str[i + 1] == C_QUOTE || str[i + 1] == C_SIMPLE_QUOTE))
+			{
+				vct_add(vct_good, str[i]);
+				i++;
+			}
+			else
+				i = handle_exp(i, vct_good, str);
 			continue ;
 		}
+		
 		vct_add(vct_good, str[i]);
 		i++;
 	}
