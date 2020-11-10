@@ -44,11 +44,21 @@ static t_list	*process_minishell(t_vector *cmd_line)
 	return (jobs);
 }
 
+static void	check_std_fd(void)
+{
+	struct stat	wstat;
+
+	if (fstat(STDIN_FILENO, &wstat) != 0
+	|| fstat(STDOUT_FILENO, &wstat) != 0 || fstat(STDERR_FILENO, &wstat) != 0)
+		exit(0);
+}
+
 int			main(int ac, char **av)
 {
 	t_vector	*cmd_line;
 	t_list		*jobs;
 
+	check_std_fd();
 	usage(ac, av);
 	init_env();
 	cmd_line = vct_new();
