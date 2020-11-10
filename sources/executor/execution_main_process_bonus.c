@@ -37,7 +37,7 @@ static void	dup_redirection(t_cmd *cmd)
 		ms_dup2(cmd->fd[STDOUT_FILENO], STDOUT_FILENO);
 }
 
-int			execution_process(t_job *job, t_cmd *cmd, int p_in[2], int p_out[2])
+int			execution_main_process(t_job *job, t_cmd *cmd, int p_in[2], int p_out[2])
 {                 
 	int			ret;
 

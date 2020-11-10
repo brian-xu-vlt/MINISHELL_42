@@ -209,7 +209,7 @@ void	export_envp_content(const t_cmd *command);
 int		exec_builtin(t_cmd *command);
 int		exec_binary(const t_cmd *command);
 void	signal_manager(int set_mode);
-int		execution_process(t_job *job, t_cmd *command,
+int		execution_main_process(t_job *job, t_cmd *command,
 													int p_in[2], int p_out[2]);
 
 void	exec_subshell(t_job *job, t_cmd *cmd, int p_in[2], int p_out[2]);
