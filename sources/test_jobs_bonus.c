@@ -99,6 +99,6 @@ t_list	*test_jobs(t_list *lexer_list)
 	jobs = get_jobs(lexer_list);
 	if (jobs == NULL)
 		return (NULL);
-//	debug_jobs(jobs);
+	debug_jobs(jobs);
 	return (jobs);
 }

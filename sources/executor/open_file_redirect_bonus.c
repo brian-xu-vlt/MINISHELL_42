@@ -6,8 +6,7 @@ static int process_less(char *str, t_cmd *cmd)
 	static size_t i = 0;
 
 	ft_printf("PROCESS LESS\n");//DEBUG
-	fd = open(str, O_RDONLY | O_WRONLY | O_EXCL, S_IRUSR | S_IWUSR | S_IRGRP |
-				S_IROTH);
+	fd = open(str, O_RDONLY | O_EXCL);
 	if (fd < 0)
 	{
 		if (cmd->tmp_fd_in > 2)
@@ -30,8 +29,7 @@ static int process_greater(char *str, t_cmd *cmd)
 	int fd;
 	static size_t i = 0;
 
-	fd = open(str, O_RDONLY | O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR |
-				S_IRGRP | S_IROTH);
+	fd = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
 		if (cmd->tmp_fd_in > 2)
@@ -53,8 +51,7 @@ static int process_double_greater(char *str, t_cmd *cmd)
 	int fd;
 	static size_t i = 0;
 
-	fd = open(str, O_RDONLY | O_WRONLY | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR |
-				S_IRGRP | S_IROTH);
+	fd = open(str, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd < 0)
 	{
 		if (cmd->tmp_fd_in > 2)
@@ -90,6 +87,8 @@ void process_open_file(t_cmd *cmd)
 
 	i = 0;
 	ret_file = SUCCESS;
+	for (int j = 0; j < cmd->count_redir; j++)
+		ft_printf("CMD->TAB_REDIR[%d] = %s\n", j, cmd->tab_redir[j]);//DEBUJG
 	while (i < cmd->count_redir)
 	{
 		if (ft_strequ(cmd->tab_redir[i], DOUBLE_GREATER) == TRUE)

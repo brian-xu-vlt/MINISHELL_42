@@ -46,6 +46,13 @@ int			quote_checker(char *str)
 	{
 		//past_state = state;
 		//ft_printf(" ->%s \n", debug_error[state]);
+		if ((state == E_STATE_STRING || state == E_STATE_DQUOTE)
+			&& vct_getfirstchar(input) == '\\')
+		{
+			vct_pop(input);
+			vct_pop(input);
+			continue ;
+		}
 		state = function_state[state](input);
 		if (state == E_STATE_ERROR)
 			break ;
@@ -63,6 +70,26 @@ int			quote_checker(char *str)
 	return (SUCCESS);
 }
 
+
+static bool	 	parse_backslash(t_vector *input, t_vector *word,  bool is_quoting)
+{
+	const char c = vct_getfirstchar(input);
+	const char c_next = vct_getcharat(input, 1);
+
+	if (c != '\\')
+		return (false);
+	if ((is_quoting == true
+		&& (c_next == '$' || c_next == '\\' || c_next == '\"'))
+		|| is_quoting == false)
+	{
+		if (is_quoting == true)
+			vct_add(word, c);
+		vct_pop(input);
+		return (true);
+	}
+	return (false);
+}
+
 int			handle_assign_quote(t_vector *input, t_vector *word)
 {
 	char	c;
@@ -71,7 +98,6 @@ int			handle_assign_quote(t_vector *input, t_vector *word)
 
 	quote_state = false;
 	dquote_state = false;
-	c = vct_getfirstchar(input);
 	while (vct_getlen(input) > 0)
 	{
 		c = vct_getfirstchar(input);
@@ -79,9 +105,17 @@ int			handle_assign_quote(t_vector *input, t_vector *word)
 			quote_state = !quote_state;
 		else if (c == C_QUOTE)
 			dquote_state = !dquote_state;
-		if (quote_state == false && dquote_state == false
-				&& is_end(input) == true)
-			break ;
+		if (quote_state == false)
+		{
+			if (parse_backslash(input, word, dquote_state) == false)
+			{
+				if (dquote_state == false && is_end(input) == true)
+					break ;
+			}
+			else if (vct_getlen(input) == 0)
+				return (FAILURE);
+		}
+		c = vct_getfirstchar(input);
 		vct_add(word, c);
 		vct_pop(input);
 	}

@@ -36,7 +36,7 @@ void debug_redir(char **redir, int ac)
 	}
 }
 
-/*static void debug_envp(char **envp, int ac)
+static void debug_envp(char **envp, int ac)
 {
 	int i;
 
@@ -46,9 +46,9 @@ void debug_redir(char **redir, int ac)
 		ft_printf("envp[%d] = %s\n", i, envp[i]);
 		i++;
 	}
-}*/
+}
 
-/*void	debug_cleaner(t_cmd *cmd)
+void	debug_cleaner(t_cmd *cmd)
 {
 	ft_printf("\n");//DEBUG
 	ft_printf("\033[0;32mDEBUG AV FINAL\n\033[0m");//DEBUG
@@ -63,4 +63,4 @@ void debug_redir(char **redir, int ac)
 	//ft_printf("cmd->count_assign = %d\n", cmd->count_assign);
 	//ft_printf("cmd->count_exp = %d\n", cmd->count_exp);
 	//ft_printf("cmd->count_redir = %d\n\n", cmd->count_redir);
-}*/
+}

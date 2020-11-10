@@ -7,7 +7,7 @@ static int process_cleaner(t_cmd *cmd)
 	ret_cleaner = cleaner(cmd);
 	if (ret_cleaner != SUCCESS)
 		return (ret_cleaner);
-	//debug_cleaner(cmd);
+	debug_cleaner(cmd);
 	return (SUCCESS);
 }
 
@@ -47,6 +47,7 @@ int hub_cleaner(t_list *job_list)
 				return (ret_cleaner);
 			tmp_cmd_lst = tmp_cmd_lst->next;
 		}
+		//debug_jobs(job_list);
 		if (ret_executor == SUCCESS)
 			executor(job);
 		ret_executor = get_env_value_int(get_env_list(GET), "?");

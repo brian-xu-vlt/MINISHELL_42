@@ -52,8 +52,6 @@
 
 #define STR_EXPORT		"export"
 
-#define DEL_EXP				";~$=:\\/'\" \t"
-
 #define EXP_DEL_EXCEPTION "_"
 
 #define NB_DEL			30

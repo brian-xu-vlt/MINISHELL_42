@@ -51,6 +51,7 @@ typedef struct				s_cmd
 {
 	char					*name;
 	char					**av;
+	enum e_token_type			*type;
 	int						ac;
 	int						fd[NB_FD];
 	char					*fd_string[NB_FD];

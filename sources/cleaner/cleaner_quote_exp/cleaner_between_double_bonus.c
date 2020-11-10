@@ -21,6 +21,23 @@ void	handle_double(char *str, size_t i, size_t end_simple,
 	good_str = ft_strdup(vct_getstr(vct_simple));
 	while (good_str[in] != '\0')
 	{
+		if (good_str[in] == '\\'
+			&& (good_str[in + 1] == '$'
+				|| good_str[in + 1] == '\\'
+				|| good_str[in + 1] == '\0'
+				|| good_str[in + 1] == '\"'))
+		{
+			if ((good_str[in + 1] == '\"'
+				&& (good_str[in + 2] == '\0' || ft_strchr(good_str + in + 2, '\"') == NULL))
+				|| good_str[in + 1] == '\0')
+			{
+				ft_printf("That's an eror !\n");
+				exit(1);
+			}
+			vct_add(vct_good, good_str[in + 1]);
+			in += 2;
+			continue;
+		}
 		if (in + 1 < ft_strlen(good_str) && good_str[in] == '$'
 				&& good_str[in + 1] == '?')
 		{
@@ -51,6 +68,7 @@ void	process_between_double(char *str, t_vector *vct_good)
 	end_double = 0;
 	while (str[i] != '\0')
 	{
+
 		if (str[i] == C_QUOTE)
 		{
 			end_double = end_quote(str, i, E_DOUBLE);

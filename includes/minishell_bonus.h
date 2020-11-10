@@ -93,7 +93,7 @@ void	init_cmd_var(t_cmd *cmd, t_list **list);
 int		fill_cmd_model(t_cmd *cmd, t_token *token, int type);
 char	*debug_get_type(int type);
 int		next_is_cmd_sep(t_list *token_list);
-int		fill_name(char *str, t_cmd *cmd);
+int		fill_name(t_token *token, t_cmd *cmd);
 int		fill_ac(char **av);
 int		verif_name(char *good, char *name);
 int		verif_ac(int good, int ac);
@@ -161,7 +161,7 @@ bool 								is_wrong_char(t_vector *vct);
 bool 								is_wrong_ass(t_vector *vct);
 int									process_redirection(t_cmd *cmd,
 													t_clean_cmd *clean_cmd);
-typedef	enum e_state_redir			(*t_state_redir)(char *);
+typedef	enum e_state_redir			(*t_state_redir)(char *str, enum e_token_type type);
 void 								debug_redir(char **redir, int ac);
 int									create_tab_redir(t_cmd *cmd,
 														t_clean_cmd *clean_cmd);
