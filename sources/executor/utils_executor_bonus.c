@@ -31,16 +31,15 @@ pid_t	fork_process(void)
 	return (pid_ret);
 }
 
-int		is_solo_builtin(const int nb_cmd, const t_cmd *command)
+int		is_solo_builtin(const size_t nb_cmd, const t_cmd *command)
 {
 	return (ft_strequ(command->name, "exit") == TRUE ||
 		(nb_cmd == 1 && is_builtin(command) == TRUE));
-		//&& command->redirection == F_NO_REDIRECT));
 }
 
-int		is_last_cmd(const size_t i, const size_t nb_cmd)
+int		is_last_cmd(const int cmd_index, const int nb_cmd)
 {
-	return ((i >= nb_cmd - 1) ? TRUE : FALSE);
+	return ((cmd_index >= nb_cmd - 1) ? TRUE : FALSE);
 }
 
 int		is_valid_job(const t_job *job)

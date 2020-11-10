@@ -26,32 +26,32 @@ static void		waiter(const t_job *job, const t_cmd *command, int ret)
 
 static void		preprocess_command(t_cmd *command)
 {
+	process_open_file(command);
 	if (command->ac == 0 && command->count_assign != 0)
 		export_envp_content(command);
-	process_open_file(command);
 }
 
 static void		execution_loop(t_job *job, int p_in[2], int p_out[2])
 {
 	int		ret;
 	t_list	*cmd_cursor;
-	size_t	i;
+	size_t	cmd_index;
 
-	i = 0;
+	cmd_index = 0;
 	cmd_cursor = job->cmd_lst;
-	while (i < job->nb_cmd && cmd_cursor->content != NULL)
+	while (cmd_index < job->nb_cmd && cmd_cursor->content != NULL)
 	{
 		preprocess_command(cmd_cursor->content);
-		if (is_last_cmd(i, job->nb_cmd) == FALSE)
-			do_pipe(p_out);
+		if (is_last_cmd(cmd_index, job->nb_cmd) == FALSE)
+			ms_pipe(p_out);
 		ret = execution_process(job, cmd_cursor->content, p_in, p_out);
-		if (is_last_cmd(i, job->nb_cmd) == FALSE)
+		if (is_last_cmd(cmd_index, job->nb_cmd) == FALSE)
 			ft_memmove(p_in, p_out, sizeof(int[2]));
 		ft_memset(p_out, UNSET, sizeof(int[2]));
-		if (is_last_cmd(i, job->nb_cmd) == TRUE)
+		if (is_last_cmd(cmd_index, job->nb_cmd) == TRUE)
 			waiter(job, cmd_cursor->content, ret);
 		cmd_cursor = cmd_cursor->next;
-		i++;
+		cmd_index++;
 	}
 }
 
