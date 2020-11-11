@@ -45,7 +45,13 @@ LIB_TERMCAP = -lncurses -ltermcap
 INCLUDES = ./includes/
 INCLUDES_LIB = ./libft/includes/
 
-HEADER = $(INCLUDES)minishell_bonus.h
+HEADER += $(INCLUDES)minishell_bonus.h
+HEADER += $(INCLUDES)define_bonus.h
+HEADER += $(INCLUDES)enum_bonus.h
+HEADER += $(INCLUDES)lexer_bonus.h
+HEADER += $(INCLUDES)line_editor_bonus.h
+HEADER += $(INCLUDES)parser_bonus.h
+HEADER += $(INCLUDES)struct_bonus.h
 
 #SRCS += test_bonus.c
 SRCS += test_env_bonus.c

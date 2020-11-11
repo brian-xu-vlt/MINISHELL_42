@@ -83,8 +83,10 @@ static bool	 	parse_backslash(t_vector *input, t_vector *word,  bool is_quoting)
 		|| is_quoting == false)
 	{
 		if (is_quoting == true)
+		{
 			vct_add(word, c);
-		vct_pop(input);
+			vct_pop(input);
+		}
 		return (true);
 	}
 	return (false);
