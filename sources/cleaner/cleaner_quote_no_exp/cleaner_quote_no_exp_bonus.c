@@ -51,6 +51,19 @@ char								*clean_quote_no_exp(char *str)
 	old_state = FAILURE;
 	while (str[i] != '\0')
 	{
+		if (state == E_IN_DOUBLE_QUOTE && str[i] == '\\'
+			&& (str[i + 1] == '$' || str[i + 1] == '\\' || str[i + 1] == '\"'))
+		{
+			if (str[i + 1] == '\"'
+				&& (str[i + 2] == '\0' || ft_strchr(str + i + 2, '\"') == NULL))
+			{
+				ft_printf("That's an eror !\n");
+				exit(1);
+			}
+			vct_add(vct_good, str[i + 1]);
+			i += 2;
+			continue;
+		}
 		state = function_state[state](str[i]);
 		if (is_pop_char(old_state, state) == false)
 			vct_add(vct_good, str[i]);

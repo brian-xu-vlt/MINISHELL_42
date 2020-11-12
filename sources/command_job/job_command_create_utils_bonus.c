@@ -26,12 +26,12 @@ int		fill_data_cmd(t_token *token, t_cmd *cmd, int count)
 {
 	if (token->data == NULL)
 	{
-		if (fill_name(get_data(token->type), cmd) == FAILURE)
+		if (fill_name(token, cmd) == FAILURE)
 			return (FAILURE);
 	}
 	else
 	{
-		count = fill_name(token->data, cmd);
+		count = fill_name(token, cmd);
 		if (count == FAILURE)
 			return (FAILURE);
 		if (token->type == E_ASSIGN)

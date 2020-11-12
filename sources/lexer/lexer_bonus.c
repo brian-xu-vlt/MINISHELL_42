@@ -45,8 +45,8 @@ static int	process_lexer_word_assign(ssize_t type, t_list **token_list,
 {
 	int	ret;
 
-	ret = SUCCESS;
-	handle_assign_quote(input, word);
+	ret = handle_assign_quote(input, word);
+	// if ret == failure : \ cause error miss endl 
 	type = E_WORD;
 	if (vct_getlen(word) != 0)
 	{

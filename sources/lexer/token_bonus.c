@@ -43,6 +43,7 @@ int			extract_token(t_list **token_list, char *str, size_t type)
 	t_token	*token;
 	t_list	*node;
 
+
 	token = (t_token *)malloc(sizeof(t_token));
 	node = NULL;
 	if (token == NULL)
