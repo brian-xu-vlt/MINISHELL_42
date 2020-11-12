@@ -4,7 +4,8 @@ bool	is_wrong_ass(t_vector *vct)
 {
 	if (ft_isdigit(vct_getfirstchar(vct)) == TRUE)
 		return (false);
-	if (ft_isalnum(vct_getfirstchar(vct)) == false && vct_getfirstchar(vct) != '_')
+	if (ft_isalnum(vct_getfirstchar(vct)) == false &&
+			vct_getfirstchar(vct) != '_')
 		return (false);
 	return (true);
 }

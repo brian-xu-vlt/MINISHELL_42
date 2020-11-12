@@ -2,7 +2,8 @@
 
 static enum e_state_redir	in_out(char *str, enum e_token_type type)
 {
-	if (type != E_LESS_THAN && type != E_GREATER_THAN && type != E_DOUBLE_GREATER)
+	if (type != E_LESS_THAN && type != E_GREATER_THAN &&
+			type != E_DOUBLE_GREATER)
 		return (E_IN_OUT);
 	if (ft_strequ(str, LESS_THAN) == TRUE ||
 			ft_strequ(str, GREATER_THAN) == TRUE ||
@@ -13,7 +14,8 @@ static enum e_state_redir	in_out(char *str, enum e_token_type type)
 
 static enum e_state_redir in_file(char *str, enum e_token_type type)
 {
-	if (type != E_LESS_THAN && type != E_GREATER_THAN && type != E_DOUBLE_GREATER)
+	if (type != E_LESS_THAN && type != E_GREATER_THAN &&
+			type != E_DOUBLE_GREATER)
 		return (E_IN_OUT);
 	if (ft_strequ(str, LESS_THAN) == TRUE ||
 			ft_strequ(str, GREATER_THAN) == TRUE ||

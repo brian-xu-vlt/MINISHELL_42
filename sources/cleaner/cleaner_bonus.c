@@ -3,7 +3,7 @@
 char *exp_value(char *str)
 {
 	t_vector *vct;
-	
+
 	vct = get_env_value_vct(get_env_list(GET), str);
 	return (vct_getstr(vct));
 }
@@ -13,10 +13,10 @@ bool is_exp_sep(char c)
 	return (ft_isalnum(c) == false && ft_strchr(EXP_DEL_EXCEPTION, c) == NULL);
 }
 
-static void		free_clean_command(t_clean_cmd *clean_cmd, int flag,
-									int clean_exp, int *tab_clean_exp)
+static void free_clean_command(t_clean_cmd *clean_cmd, int flag,
+							   int clean_exp, int *tab_clean_exp)
 {
-	size_t	i;
+	size_t i;
 
 	i = 0;
 	if (flag == ALL_FREE)
@@ -42,9 +42,9 @@ static void		free_clean_command(t_clean_cmd *clean_cmd, int flag,
 	free(clean_cmd);
 }
 
-t_clean_cmd		*init_clean_command(void)
+t_clean_cmd *init_clean_command(void)
 {
-	t_clean_cmd	*clean_cmd;
+	t_clean_cmd *clean_cmd;
 
 	clean_cmd = (t_clean_cmd *)malloc(sizeof(t_clean_cmd));
 	if (clean_cmd == NULL)
@@ -65,12 +65,12 @@ t_clean_cmd		*init_clean_command(void)
 	return (clean_cmd);
 }
 
-static int		process_clean_command(t_cmd *cmd, int *tab_clean_exp,
-											int clean_exp)
+static int process_clean_command(t_cmd *cmd, int *tab_clean_exp,
+								 int clean_exp)
 {
 	t_clean_cmd *clean_cmd;
-	int			index_cmd;
-	int			ret_cmd;
+	int index_cmd;
+	int ret_cmd;
 
 	clean_cmd = init_clean_command();
 	if (clean_cmd == NULL)
@@ -92,18 +92,19 @@ static int		process_clean_command(t_cmd *cmd, int *tab_clean_exp,
 	return (SUCCESS);
 }
 
-void		parse_expansion(t_vector *input, t_vector *output)
+void parse_expansion(t_vector *input, t_vector *output)
 {
-	t_vector *expansion = vct_new();
-	char			*expansion_value;
-	char			c;
+	t_vector *expansion;
+	char *expansion_value;
+	char c;
 
+	expansion = vct_new();
 	vct_pop(input);
 	while (vct_getlen(input) > 0)
 	{
 		c = vct_getfirstchar(input);
 		if (is_exp_sep(c) && c != '?')
-			break ;
+			break;
 		vct_add(expansion, c);
 		vct_pop(input);
 	}
@@ -115,29 +116,40 @@ void		parse_expansion(t_vector *input, t_vector *output)
 		vct_addstr(output, expansion_value);
 	}
 	vct_del(&expansion);
-	
 }
 
-void		parse_simple_quote(t_vector *input, t_vector *output)
+void parse_simple_quote(t_vector *input, t_vector *output)
 {
-	char	c;
+	char c;
 
 	vct_pop(input);
 	while (vct_getlen(input) > 0)
 	{
 		c = vct_getfirstchar(input);
 		if (c == '\'')
-			break ;
+			break;
 		vct_add(output, c);
 		vct_pop(input);
 	}
 	vct_pop(input);
 }
 
-void		parse_double_quote(t_vector *input, t_vector *output)
+static int handle_backslash_double(char c, t_vector *input)
 {
-	char	c;
-	char	next_c;
+	vct_pop(input);
+	c = vct_getfirstchar(input);
+	if (c == '\0')
+	{
+		ft_printf("ERROR MAGGLE\n");
+		return (FAILURE);
+	}
+	return (SUCCESS);
+}
+
+int parse_double_quote(t_vector *input, t_vector *output)
+{
+	char c;
+	char next_c;
 
 	vct_pop(input);
 	while (vct_getlen(input) > 0)
@@ -146,70 +158,115 @@ void		parse_double_quote(t_vector *input, t_vector *output)
 		next_c = vct_getcharat(input, 1);
 		if (c == '\\' && (next_c == '$' || next_c == '\"' || next_c == '\\'))
 		{
-			vct_pop(input);
-			c = vct_getfirstchar(input);
-			if (c == '\0')
-				ft_printf("ERROR MAGGLE\n");
+			if (handle_backslash_double(c, input) == FAILURE)
+				return (FAILURE);
 		}
 		else if (c == '$')
 		{
 			parse_expansion(input, output);
-			continue ;
+			continue;
 		}
 		else if (c == '\"')
-			break ;
+			break;
 		vct_add(output, c);
 		vct_pop(input);
 	}
 	vct_pop(input);
+	return (SUCCESS);
 }
 
-char		*transform(char *arg)
+static int handle_backslash_nothing(t_vector *input, t_vector *output, char c)
 {
-	t_vector *input = vct_new();
-	t_vector *output = vct_new();
-	char			*transform_arg;
-	char			c;
+	vct_pop(input);
+	if (c == '\0')
+	{
+		ft_printf("ERROR MAGGLE\n");
+		return (FAILURE);
+	}
+	vct_add(output, vct_getfirstchar(input));
+	vct_pop(input);
+	return (SUCCESS);
+}
 
-	vct_addstr(input, arg);
+static int handle_char(char c, t_vector *input, t_vector *output)
+{
+	if (c == '\\')
+	{
+		if (handle_backslash_nothing(input, output, c) == FAILURE)
+			return (FAILURE);
+	}
+	else if (c == '\'')
+		parse_simple_quote(input, output);
+	else if (c == '\"')
+	{
+		if (parse_double_quote(input, output) == FAILURE)
+			return (FAILURE);
+	}
+	else if (c == '$')
+		parse_expansion(input, output);
+	else
+	{
+		vct_add(output, c);
+		vct_pop(input);
+	}
+	return (SUCCESS);
+}
+
+static int process_transform(t_vector *input, t_vector *output)
+{
+	char c;
+
 	while (vct_getlen(input) > 0)
 	{
 		c = vct_getfirstchar(input);
-		if (c == '\\')
-		{
-			vct_pop(input);
-			if (c == '\0')
-				ft_printf("ERROR MAGGLE\n");
-			vct_add(output, vct_getfirstchar(input));
-			vct_pop(input);		
-		}
-		else if (c == '\'')
-			parse_simple_quote(input, output);
-		else if (c == '\"')
-			parse_double_quote(input, output);
-		else if (c == '$')
-			parse_expansion(input, output);
-		else
-		{
-			vct_add(output, c);
-			vct_pop(input);		
-		}
+		if (handle_char(c, input, output) == FAILURE)
+			return (FAILURE);
+	}
+	return (SUCCESS);
+}
+
+char *transform(char *arg)
+{
+	t_vector *input;
+	t_vector *output;
+	char *transform_arg;
+
+	input = vct_new();
+	output = vct_new();
+	vct_addstr(input, arg);
+	transform_arg = NULL;
+	if (process_transform(input, output) == FAILURE)
+	{
+		vct_del(&input);
+		vct_del(&output);
+		return (NULL);
 	}
 	free(arg);
-	transform_arg = vct_strdup(output);
+	if (output != NULL)
+		transform_arg = vct_strdup(output);
 	vct_del(&input);
 	vct_del(&output);
 	return (transform_arg);
 }
 
-int				cleaner(t_cmd *cmd)
+int cleaner(t_cmd *cmd)
 {
-	int		ret_cmd;
-	size_t	clean_exp;
-	int		*tab_clean_exp;
+	int ret_cmd;
+	size_t clean_exp;
+	int *tab_clean_exp;
+	size_t	i;
 
-	for (int i = 0; i < cmd->ac; i++)
+	i = 0;
+	while (i < (size_t)cmd->ac)
+	{
 		cmd->av[i] = transform(cmd->av[i]);
+		if (cmd->av[i] == NULL)
+		{
+			free(cmd->av[i]);
+			return (BACKSL_ERROR);
+		}
+		i++;
+	}
 	tab_clean_exp = NULL;
 	clean_exp = 0;
 	ret_cmd = process_clean_command(cmd, tab_clean_exp, clean_exp);

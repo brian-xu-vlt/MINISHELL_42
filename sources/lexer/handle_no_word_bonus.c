@@ -110,15 +110,16 @@ int			handle_assign_quote(t_vector *input, t_vector *word)
 		if (quote_state == false)
 		{
 			if (parse_backslash(input, word, dquote_state) == false)
-			{
 				if (dquote_state == false && is_end(input) == true)
 					break ;
-			}
-			else if (vct_getlen(input) == 0)
-				return (FAILURE);
 		}
 		c = vct_getfirstchar(input);
 		vct_add(word, c);
+		if (c == '\\' && vct_getlen(input) == 1)
+		{
+			ft_printf("MAGG\n");
+			return (FAILURE);
+		}
 		vct_pop(input);
 	}
 	return (SUCCESS);
