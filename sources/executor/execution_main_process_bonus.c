@@ -44,8 +44,6 @@ int			execution_main_process(t_job *job, t_cmd *cmd,
 
 	if (cmd->ac == 0)
 		return (0);
-	if (cmd->redirection & F_REDIRECT_FAILURE)
-		return (1);
 	backup_std_fd(STDFD_STORE);
 	dup_redirection(cmd);
 	ret = 0;

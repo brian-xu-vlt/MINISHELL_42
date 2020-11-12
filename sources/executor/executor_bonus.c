@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static void		waiter(const t_job *job, const t_cmd *command, int ret)
+static void		waiter(const t_job *job)
 {
 	pid_t	pid;
 	int		wstatus;
@@ -8,18 +8,13 @@ static void		waiter(const t_job *job, const t_cmd *command, int ret)
 
 	wstatus = 0;
 	pid = SUCCESS;
-	if (is_solo_builtin(job->nb_cmd, command) == TRUE)
-		ms_setenv_int(get_env_list(GET), "?", ret, F_OVERWRITE);
-	else
+	while (pid != FAILURE)
 	{
-		while (pid != FAILURE)
+		pid = wait(&wstatus);
+		if (pid == job->last_pid)
 		{
-			pid = wait(&wstatus);
-			if (pid == job->last_pid)
-			{
-				exit_status = manage_subshell_exit_status(wstatus);
-				ms_setenv_int(get_env_list(GET), "?", exit_status, F_OVERWRITE);
-			}
+			exit_status = manage_subshell_exit_status(wstatus);
+			ms_setenv_int(get_env_list(GET), "?", exit_status, F_OVERWRITE);
 		}
 	}
 }
@@ -37,7 +32,10 @@ static void		execute_and_wait(t_job *job, t_cmd *cmd,
 	int		ret;
 
 	ret = execution_main_process(job, cmd, p_in, p_out);
-	waiter(job, cmd, ret);
+	if (is_solo_builtin(job->nb_cmd, cmd) == TRUE)
+		ms_setenv_int(get_env_list(GET), "?", ret, F_OVERWRITE);
+	else
+		waiter(job);
 }
 
 static void		execution_loop(t_job *job, int p_in[2], int p_out[2])
