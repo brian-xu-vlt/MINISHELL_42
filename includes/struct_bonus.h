@@ -51,6 +51,7 @@ typedef struct				s_cmd
 {
 	char					*name;
 	char					**av;
+	enum e_token_type			*type;
 	int						ac;
 	int						fd[NB_FD];
 	char					*fd_string[NB_FD];
@@ -92,6 +93,7 @@ typedef struct					s_job
 {
 	t_list					*cmd_lst;
 	size_t					nb_cmd;
+	pid_t 					last_pid;
 }								t_job;
 
 

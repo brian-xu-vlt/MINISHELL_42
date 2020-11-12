@@ -1,18 +1,15 @@
 #include "minishell_bonus.h"
 
-# define	NB_SIG_STR	15
-
 static const char	*ms_strsignal(int sig)
 {
 	int					i;
 	static const int	sig_list[NB_SIG_STR] = {
-		SIGALRM, SIGVTALRM, SIGPROF,
 		SIGABRT, SIGBUS, SIGSEGV, SIGHUP, SIGQUIT,
 		SIGILL, SIGKILL, SIGSTOP, SIGCONT,
 		SIGTSTP, SIGTERM, SIGPOLL };
 	static const char	*sig_str[NB_SIG_STR] = {
-		"Alarm clock", "Virtual Alarm clock", "Profiling timer expired",
 		"Abort", "Bus Error", "Segmentation Fault", "Hangup", "Quit",
+		"Alarm clock", "Virtual Alarm clock", "Profiling timer expired",
 		"Illegal instruction", "Killed", "Stop process", "Continue Process",
 		"Stop typed at terminal", "Termination signal", "I/O possible" };
 
@@ -45,6 +42,7 @@ int					manage_subshell_exit_status(const int wstatus)
 		display_signal_str(exit_status);
 		if (WCOREDUMP(wstatus) != FALSE)
 			ft_printf("(core dumped)");
+		ft_putchar_fd('\n', STDOUT_FILENO);
 	}
 	else if (WIFSTOPPED(wstatus) == TRUE)
 		exit_status = WSTOPSIG(wstatus);

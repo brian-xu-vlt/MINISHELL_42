@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-void	export_execution_context_env(const t_cmd *command)
+void	export_envp_content(const t_cmd *command)
 {
 	t_list	*env_lst;
 	int		i;

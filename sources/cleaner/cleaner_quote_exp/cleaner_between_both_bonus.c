@@ -37,12 +37,15 @@ void			process_between_both(char *str, t_vector *vct_good)
 			i = i + process_simple(str, i, vct_good);
 			continue ;
 		}
-		if (str[i] == EXP)
+		if (str[i] == EXP && i + 1 <= ft_strlen(str) && str[i + 1] != C_QUOTE &&
+			str[i + 1] != C_SIMPLE_QUOTE)
 		{
 			i = handle_exp(i, vct_good, str);
 			continue ;
 		}
-		vct_add(vct_good, str[i]);
+		if (str[i] != EXP && i + 1 <= ft_strlen(str) && str[i + 1] != C_SIMPLE_QUOTE
+			&& str[i + 1] != C_QUOTE)
+			vct_add(vct_good, str[i]);
 		i++;
 	}
 }

@@ -26,7 +26,7 @@ static t_list	*process_minishell(t_vector *cmd_line)
 {
 	t_list		*lexer_list;
 	t_list		*jobs;
-	int			ret_parser;	
+	int			ret_parser;
 
 	lexer_list = NULL;
 	jobs = NULL;
@@ -44,11 +44,26 @@ static t_list	*process_minishell(t_vector *cmd_line)
 	return (jobs);
 }
 
+static void	check_std_fd(void)
+{
+	struct stat	wstat;
+
+	if (write(STDOUT_FILENO, "", 1) == FAILURE)
+		exit (42);												// set line editor fd to STDERR_FILENO
+	if (write(STDERR_FILENO, "", 1) == FAILURE)
+		exit (21);												// ?..
+
+	if (fstat(STDIN_FILENO, &wstat) != 0
+	|| fstat(STDOUT_FILENO, &wstat) != 0 || fstat(STDERR_FILENO, &wstat) != 0)
+		exit(0);
+}
+
 int			main(int ac, char **av)
 {
 	t_vector	*cmd_line;
 	t_list		*jobs;
 
+	check_std_fd();
 	usage(ac, av);
 	init_env();
 	cmd_line = vct_new();
@@ -59,10 +74,11 @@ int			main(int ac, char **av)
 	while (1)
 	{
 		signal_manager(SIG_MODE_CMD_LINE);
-		if (BONUS_FLAG == TRUE)
-			line_editor();
-		else
+		if (DEBUG_MODE == TRUE)
 			read_loop(cmd_line);
+		else
+			line_editor();
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		jobs = process_minishell(cmd_line);
 		if (jobs != NULL)
 		{
@@ -76,6 +92,7 @@ int			main(int ac, char **av)
 		}
 		vct_clear(cmd_line);
 		free_list_job(&jobs);
+	ft_printf("\t\t\t\t[LAST EXIT STATUS %3d]\r", get_env_value_int(get_env_list(GET), "?"));  //TODO remove
 	}
 	exit_routine_le(NULL);
 	free_list_job(&jobs);

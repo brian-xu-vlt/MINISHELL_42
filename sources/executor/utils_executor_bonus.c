@@ -1,12 +1,10 @@
 #include "minishell_bonus.h"
 
-# define	NB_BUILTIN	4 
-
 int		is_builtin(const t_cmd *command)
 {
 	int					i;
 	static const char	*builtin_names[NB_BUILTIN] = {
-		"exit",	"env", "export", "unset" };
+		"exit", "env", "export", "unset" };
 
 	i = 0;
 	while (i < NB_BUILTIN)
@@ -31,16 +29,15 @@ pid_t	fork_process(void)
 	return (pid_ret);
 }
 
-int		is_solo_builtin(const int nb_cmd, const t_cmd *command)
+int		is_solo_builtin(const size_t nb_cmd, const t_cmd *command)
 {
 	return (ft_strequ(command->name, "exit") == TRUE ||
-		(nb_cmd == 1 && is_builtin(command) == TRUE
-		&& command->redirection == F_NO_REDIRECT));
+		(nb_cmd == 1 && is_builtin(command) == TRUE));
 }
 
-int		is_last_cmd(const size_t i, const size_t nb_cmd)
+int		is_last_cmd(const int cmd_index, const int nb_cmd)
 {
-	return ((i >= nb_cmd - 1) ? TRUE : FALSE);
+	return ((cmd_index >= nb_cmd - 1) ? TRUE : FALSE);
 }
 
 int		is_valid_job(const t_job *job)

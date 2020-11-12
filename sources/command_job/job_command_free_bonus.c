@@ -24,6 +24,7 @@ static void	del_cmd(void *data)
 		free_cmd(cmd->count_redir, cmd->tab_redir);
 	free(cmd->tab_assign);
 	free(cmd->tab_exp);
+	free(cmd->type);
 	free(cmd);
 }
 

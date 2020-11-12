@@ -93,7 +93,7 @@ void	init_cmd_var(t_cmd *cmd, t_list **list);
 int		fill_cmd_model(t_cmd *cmd, t_token *token, int type);
 char	*debug_get_type(int type);
 int		next_is_cmd_sep(t_list *token_list);
-int		fill_name(char *str, t_cmd *cmd);
+int		fill_name(t_token *token, t_cmd *cmd);
 int		fill_ac(char **av);
 int		verif_name(char *good, char *name);
 int		verif_ac(int good, int ac);
@@ -141,7 +141,6 @@ char								*between_simple(char *str);
 char								*between_double(char *str);
 char								*between_both(char *str);
 bool								is_del(char c);
-size_t								end_exp(char *str);
 size_t								handle_exp(size_t i, t_vector *vct_good,
 												char *str);
 size_t								end_quote(char *str, size_t i,
@@ -162,7 +161,7 @@ bool 								is_wrong_char(t_vector *vct);
 bool 								is_wrong_ass(t_vector *vct);
 int									process_redirection(t_cmd *cmd,
 													t_clean_cmd *clean_cmd);
-typedef	enum e_state_redir			(*t_state_redir)(char *);
+typedef	enum e_state_redir			(*t_state_redir)(char *str, enum e_token_type type);
 void 								debug_redir(char **redir, int ac);
 int									create_tab_redir(t_cmd *cmd,
 														t_clean_cmd *clean_cmd);
@@ -195,6 +194,10 @@ int									*fill_tab_clean_exp(int *tab_clean_exp,
 															size_t size,
 															int clean_exp);
 int 								hub_cleaner(t_list *job_list);
+ssize_t								end_exp(char *str);
+
+
+bool is_exp_sep(char c);
 
 /******************************************************************************/
 /*******************************_EXECUTION_************************************/
@@ -205,23 +208,29 @@ int 								hub_cleaner(t_list *job_list);
 #define W_END				1
 
 void	process_open_file(t_cmd *cmd);
-void	export_execution_context_env(const t_cmd *command);
-int		exec_builtin(const t_cmd *command);
+void	export_envp_content(const t_cmd *command);
+int		exec_builtin(t_cmd *command);
 int		exec_binary(const t_cmd *command);
 void	signal_manager(int set_mode);
-void	executor(const t_job *job);
+int		execution_main_process(t_job *job, t_cmd *command,
+													int p_in[2], int p_out[2]);
+
+void	exec_subshell(t_job *job, t_cmd *cmd, int p_in[2], int p_out[2]);
+void	executor(t_job *job);
 char	*locate_binary_file(const char *bin_name);
 int		is_path(const char *bin_name);
 
 
 int		is_valid_job(const t_job *job);
-int		is_last_cmd(const size_t i, const size_t nb_cmd);
-int		is_solo_builtin(const int nb_cmd, const t_cmd *command);
+int		is_last_cmd(const int cmd_index, const int nb_cmd);
+int		is_solo_builtin(const size_t nb_cmd, const t_cmd *command);
 int		manage_subshell_exit_status(const int wstatus);
-void	do_pipe(int pipe_fd[2]);
+int		ms_dup(int old_fd);
+int		ms_dup2(int old_fd, int new_fd);
+int		ms_pipe(int pipe_fd[2]);
 void	close_pipe_end(int pipe_to_close);
 pid_t	fork_process(void);
-void	dup_pipes(const t_cmd *command, int p_in[2], int p_out[2]);
+void	dup_pipes(t_cmd *command, int p_in[2], int p_out[2]);
 int		is_builtin(const t_cmd *command);
 /******************************************************************************/
 /*******************************_GENERAL_UTILES_*******************************/
@@ -244,7 +253,7 @@ int		exit_builtin(int ac, char **av, char **envp);
 int		env_builtin(int argc, char **argv, char **envp);
 int		export_builtin(int argc, char **argv, char **envp);
 int		unset_builtin(int argc, char **argv, char **envp);
-int		pwd_builtin(void);
+int		pwd_builtin(int ac, char **av, char **envp);
 
 /******************************************************************************/
 /*******************************_ENV_MANAGER_**********************************/

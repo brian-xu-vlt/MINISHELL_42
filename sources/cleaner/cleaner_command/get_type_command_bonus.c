@@ -70,6 +70,13 @@ int			get_cmd(t_cmd *cmd)
 	i_exp = 0;
 	while (i < (size_t)cmd->ac)
 	{
+		ft_printf("cmd->av[%d] = %s\n", i, cmd->av[i]);//DEBUG
+		ft_printf("cmd->ac = %d\n", cmd->ac);//DEBUG`
+		if (ft_strlen(cmd->av[i]) == 0 && i + 1 != cmd->ac)
+		{
+			i++;
+			continue ;
+		}
 		ret = process_get_cmd(i_assign, i_exp, i, cmd);
 		if (ret == FALSE_ASSIGN || ret == FALSE_EXP || ret == TRUE_CMD)
 			return (i);

@@ -1,42 +1,10 @@
 #include "minishell_bonus.h"
 
-bool	is_del(char c)
-{
-	size_t i;
-
-	i = 0;
-	while (i < NB_DEL)
-	{
-		if (c == DEL[i])
-			return (true);
-		i++;
-	}
-	return (false);
-}
-
-bool	is_wrong_char(t_vector *vct)
-{
-	size_t i;
-
-	while (vct_getlen(vct) > 0)
-	{
-		i = 0;
-		while (i < NB_DEL)
-		{
-			if (vct_getfirstchar(vct) == DEL[i])
-				return (true);
-			i++;
-		}
-		vct_pop(vct);
-	}
-	return (false);
-}
-
 bool	is_wrong_ass(t_vector *vct)
 {
 	if (ft_isdigit(vct_getfirstchar(vct)) == TRUE)
 		return (false);
-	if (is_wrong_char(vct) == true)
+	if (ft_isalnum(vct_getfirstchar(vct)) == false && vct_getfirstchar(vct) != '_')
 		return (false);
 	return (true);
 }
@@ -58,7 +26,8 @@ size_t	verif_assign(t_vector *vct_av, size_t id_equal)
 		vct_del(&vct);
 		return (false);
 	}
-	if (is_wrong_char(vct) == true)
+	if (ft_isalnum(vct_getfirstchar(vct)) == false &&
+			vct_getfirstchar(vct) != '_')
 	{
 		vct_del(&vct);
 		return (false);

@@ -1,13 +1,12 @@
 #include "minishell_bonus.h"
 
-static int process_less(char *str, t_cmd *cmd)
+static int	process_less(char *str, t_cmd *cmd)
 {
-	int fd;
-	static size_t i = 0;
+	int				fd;
+	static size_t	i = 0;
 
 	ft_printf("PROCESS LESS\n");//DEBUG
-	fd = open(str, O_RDONLY | O_WRONLY | O_EXCL, S_IRUSR | S_IWUSR | S_IRGRP |
-				S_IROTH);
+	fd = open(str, O_RDONLY | O_EXCL);
 	if (fd < 0)
 	{
 		if (cmd->tmp_fd_in > 2)
@@ -25,13 +24,12 @@ static int process_less(char *str, t_cmd *cmd)
 	return (SUCCESS);
 }
 
-static int process_greater(char *str, t_cmd *cmd)
+static int	process_greater(char *str, t_cmd *cmd)
 {
-	int fd;
-	static size_t i = 0;
+	int				fd;
+	static size_t	i = 0;
 
-	fd = open(str, O_RDONLY | O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR |
-				S_IRGRP | S_IROTH);
+	fd = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
 		if (cmd->tmp_fd_in > 2)
@@ -48,13 +46,13 @@ static int process_greater(char *str, t_cmd *cmd)
 	i++;
 	return (SUCCESS);
 }
-static int process_double_greater(char *str, t_cmd *cmd)
-{
-	int fd;
-	static size_t i = 0;
 
-	fd = open(str, O_RDONLY | O_WRONLY | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR |
-				S_IRGRP | S_IROTH);
+static int	process_double_greater(char *str, t_cmd *cmd)
+{
+	int				fd;
+	static size_t	i = 0;
+
+	fd = open(str, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd < 0)
 	{
 		if (cmd->tmp_fd_in > 2)
@@ -79,17 +77,19 @@ static void	init_cmd_redirection(t_cmd *cmd)
 	if (cmd->fd[1] != STDOUT_FILENO && cmd->fd[1] == cmd->tmp_fd_out)
 		cmd->redirection = cmd->redirection | F_REDIRECT_OUT;
 	if (cmd->fd[1] != STDOUT_FILENO && cmd->fd[1] == cmd->tmp_fd_append)
-		cmd->redirection = cmd->redirection | F_REDIRECT_OUT |
-						   F_REDIRECT_OUT_APPEND;
+		cmd->redirection = cmd->redirection | F_REDIRECT_OUT
+											| F_REDIRECT_OUT_APPEND;
 }
 
-void process_open_file(t_cmd *cmd)
+void		process_open_file(t_cmd *cmd)
 {
-	size_t i;
-	int ret_file;
+	size_t			i;
+	int				ret_file;
 
 	i = 0;
 	ret_file = SUCCESS;
+	for (size_t j = 0; j < cmd->count_redir; j++)
+		ft_printf("CMD->TAB_REDIR[%d] = %s\n", j, cmd->tab_redir[j]);//DEBUJG
 	while (i < cmd->count_redir)
 	{
 		if (ft_strequ(cmd->tab_redir[i], DOUBLE_GREATER) == TRUE)
@@ -102,7 +102,7 @@ void process_open_file(t_cmd *cmd)
 			cmd->redirection = cmd->redirection | F_REDIRECT_FAILURE;
 		i += 2;
 		if (i >= cmd->count_redir)
-			break;
+			break ;
 	}
 	init_cmd_redirection(cmd);
 }

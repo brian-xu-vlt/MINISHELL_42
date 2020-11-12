@@ -58,3 +58,5 @@ dkms.conf
 
 # Config file
 .vscode
+.code-workspace
+minishell.code-workspace

@@ -1,8 +1,6 @@
 #include "minishell_bonus.h"
 
-# define	NB_BUILTIN	4 
-
-int	exec_builtin(const t_cmd *command)
+int	exec_builtin(t_cmd *cmd)
 {
 	int					i;
 	int					ret_value;
@@ -13,13 +11,14 @@ int	exec_builtin(const t_cmd *command)
 
 	i = 0;
 	ret_value = 0;
-	if (command->ac <= 0)
-		return (0);
 	while (i < NB_BUILTIN)
 	{
-		if (ft_strequ((char *)command->name, (char *)builtin_names[i]) == TRUE)
-			ret_value = (builtin[i])(command->ac, command->av, command->envp);
+		if (ft_strequ((char *)cmd->name, (char *)builtin_names[i]) == TRUE)
+		{
+			ret_value = (builtin[i])(cmd->ac, cmd->av, cmd->envp);
+			return (ret_value);
+		}
 		i++;
 	}
-	return (ret_value);
+	return (0);
 }

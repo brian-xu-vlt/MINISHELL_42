@@ -24,6 +24,7 @@ t_cmd		*create_cmd(t_cmd *cmd_model)
 		ft_bzero(cmd, sizeof(t_cmd));
 		cmd->av = cmd_model->av;
 		cmd->ac = cmd_model->ac;
+		cmd->type = cmd_model->type;
 		cmd->fd[0] = STDIN_FILENO;
 		cmd->fd[1] = STDOUT_FILENO;
 		cmd->fd[2] = STDERR_FILENO;
@@ -66,6 +67,7 @@ void		init_cmd_var(t_cmd *cmd, t_list **list)
 	ft_bzero(cmd, sizeof(t_cmd));
 	cmd->name = NULL;
 	cmd->av = NULL;
+	cmd->type = NULL;
 	cmd->fd_string[0] = NULL;
 	cmd->fd_string[1] = NULL;
 	cmd->fd_string[2] = NULL;

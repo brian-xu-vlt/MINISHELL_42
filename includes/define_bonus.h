@@ -44,18 +44,18 @@
 #define FIRST_CHAR		0
 
 #define N_SIMPLE_QUOTE	1
-#define N_QUOTE			
+#define N_QUOTE
 
 /******************************************************************************/
 /*******************************_CLEANER_**************************************/
 /******************************************************************************/
 
 #define STR_EXPORT		"export"
-#define DEL				"`~!@#$%^&*()_-+={}[]:,.?/'\" \t"
 
+#define EXP_DEL_EXCEPTION "_"
 
-#define NB_DEL			29
-#define NO_ASSIGN_BUT_EXP	1	
+#define NB_DEL			30
+#define NO_ASSIGN_BUT_EXP	1
 #define NB_CLEAN_COMMAND		5
 #define	ALL_FREE					1
 #define NOT_ALL_FREE					0
@@ -84,22 +84,28 @@
 /******************************************************************************/
 /*******************************_EXECUTOR_*************************************/
 /******************************************************************************/
-#define NB_FD			3
+#define	NB_FD					3
+#define	NB_BUILTIN				4
+#define	NB_SIG					5
+#define	NB_SIG_STR				15
 
-#define	F_NO_REDIRECT			0	
-#define	F_REDIRECT_FAILURE		1<<0	
+#define	F_NO_REDIRECT			0
+#define	F_REDIRECT_FAILURE		1<<0
 #define	F_REDIRECT_IN			1<<1
 #define	F_REDIRECT_OUT			1<<2
 #define	F_REDIRECT_OUT_APPEND	1<<3
 
-#define SIG_MODE_DEFAULT		0
-#define SIG_MODE_CMD_LINE		1
-#define SIG_MODE_EXEC			2
+#define	SIG_MODE_DEFAULT		0
+#define	SIG_MODE_CMD_LINE		1
+#define	SIG_MODE_EXEC			2
 
+#define	STDFD_STORE				1
+#define	STDFD_RESTORE			2
 
-#define	ERR_NO_COMMAND		"command not found"
-#define	ERR_NO_FILE			"No such file or directory"
+#define	ERR_NO_COMMAND			"command not found"
+#define	ERR_NO_FILE				"No such file or directory"
 
-#define DEFAULT_PATH_ENV	"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+#define	DEFAULT_PATH_ENV		"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+#define	DEFAULT_EXIT_STATUS		"?=0"
 
 #endif

@@ -34,8 +34,10 @@ ifneq ($(opti), 0)
 	CFLAGS += -O3
 endif
 
-ifneq ($(debug_mode), 0)
-	DEBUG_MODE = 0 
+ifeq ($(debug_mode), 1)
+	DEBUG_MODE = 1
+else
+	DEBUG_MODE = 0
 endif
 
 CC = gcc
@@ -45,7 +47,13 @@ LIB_TERMCAP = -lncurses -ltermcap
 INCLUDES = ./includes/
 INCLUDES_LIB = ./libft/includes/
 
-HEADER = $(INCLUDES)minishell_bonus.h
+HEADER += $(INCLUDES)minishell_bonus.h
+HEADER += $(INCLUDES)define_bonus.h
+HEADER += $(INCLUDES)enum_bonus.h
+HEADER += $(INCLUDES)lexer_bonus.h
+HEADER += $(INCLUDES)line_editor_bonus.h
+HEADER += $(INCLUDES)parser_bonus.h
+HEADER += $(INCLUDES)struct_bonus.h
 
 #SRCS += test_bonus.c
 SRCS += test_env_bonus.c
@@ -101,9 +109,11 @@ SRCS += general_utils_bonus.c
 SRCS += open_file_redirect_bonus.c
 SRCS += signal_manager_bonus.c
 SRCS += exit_status_manager_bonus.c
-SRCS += utils_pipes_executor_bonus.c
+SRCS += utils_file_descriptor_bonus.c
 SRCS += utils_executor_bonus.c
 SRCS += export_exec_context_bonus.c
+SRCS += execution_main_process_bonus.c
+SRCS += execution_subshell_bonus.c
 SRCS += executor_bonus.c
 SRCS += exec_builtin_bonus.c
 SRCS += locate_bin_bonus.c
@@ -141,6 +151,7 @@ SRCS += get_type_command_bonus.c
 SRCS += get_envp_av_bonus.c
 SRCS += get_envp_av_utils_bonus.c
 SRCS += cleaner_utils_bonus.c
+SRCS += builtins_bonus.c
 
 
 OBJ_DIR = ./objs/

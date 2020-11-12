@@ -25,6 +25,7 @@ t_job	*init_job(void)
 	if (job == NULL)
 		return (NULL);
 	job->nb_cmd = 0;
+	job->last_pid = 0;
 	job->cmd_lst = NULL;
 	return (job);
 }
