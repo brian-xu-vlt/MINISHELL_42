@@ -1,5 +1,18 @@
 #include "minishell_bonus.h"
 
+char *exp_value(char *str)
+{
+	t_vector *vct;
+	
+	vct = get_env_value_vct(get_env_list(GET), str);
+	return (vct_getstr(vct));
+}
+
+bool is_exp_sep(char c)
+{
+	return (ft_isalnum(c) == false && ft_strchr(EXP_DEL_EXCEPTION, c) == NULL);
+}
+
 static void		free_clean_command(t_clean_cmd *clean_cmd, int flag,
 									int clean_exp, int *tab_clean_exp)
 {
@@ -52,26 +65,6 @@ t_clean_cmd		*init_clean_command(void)
 	return (clean_cmd);
 }
 
-static void		clean_quote(t_cmd *cmd, int clean_exp, int *tab_clean_exp)
-{
-	int	i;
-
-	i = 0;
-	(void)clean_exp;
-	(void)tab_clean_exp;
-	while (i < cmd->ac)
-	{
-		/*if (clean_exp == 0 || (i < clean_exp && i != tab_clean_exp[i_exp]))
-			cmd->av[i] = clean_quote_no_exp(cmd->av[i]);
-		if (i > clean_exp)
-			cmd->av[i] = clean_quote_no_exp(cmd->av[i]);
-		else if (i < clean_exp && i == tab_clean_exp[i_exp])
-			i_exp++;
-			*/
-		i++;
-	}
-}
-
 static int		process_clean_command(t_cmd *cmd, int *tab_clean_exp,
 											int clean_exp)
 {
@@ -86,8 +79,6 @@ static int		process_clean_command(t_cmd *cmd, int *tab_clean_exp,
 		return (FAILURE);
 	}
 	index_cmd = get_cmd(cmd);
-	ft_printf("index_cmd = %d\n", index_cmd);//DEBUG
-	clean_quote(cmd, clean_exp, tab_clean_exp);
 	ret_cmd = get_envp_av(cmd, clean_cmd, index_cmd);
 	if (ret_cmd == FAILURE)
 	{
@@ -100,11 +91,6 @@ static int		process_clean_command(t_cmd *cmd, int *tab_clean_exp,
 	free_clean_command(clean_cmd, ALL_FREE, clean_exp, tab_clean_exp);
 	return (SUCCESS);
 }
-
-
-
-
-
 
 void		parse_expansion(t_vector *input, t_vector *output)
 {
@@ -226,15 +212,6 @@ int				cleaner(t_cmd *cmd)
 		cmd->av[i] = transform(cmd->av[i]);
 	tab_clean_exp = NULL;
 	clean_exp = 0;
-	/*clean_exp = count_clean_exp(cmd->av, cmd->ac);
-	if (clean_exp != 0)
-	{
-		tab_clean_exp = (int *)malloc(sizeof(int) * clean_exp);
-		if (tab_clean_exp == NULL)
-			return (FAILURE);
-	}
-	tab_clean_exp = fill_tab_clean_exp(tab_clean_exp, cmd->av, cmd->ac,
-						clean_exp);*/
 	ret_cmd = process_clean_command(cmd, tab_clean_exp, clean_exp);
 	return (ret_cmd);
 }

@@ -30,14 +30,33 @@ static int	handle_only_envp(t_cmd *cmd)
 static int	handle_envp(t_cmd *cmd, t_clean_cmd *clean_cmd, int index_cmd)
 {
 	size_t	i;
+	size_t	count_len0;
 
 	i = 0;
+	count_len0 = 0;
+	/*if (index_cmd >= 1)
+	{
+		while (i < index_cmd)
+		{
+			ft_printf("cmd->av[%d] = %s\n", i, cmd->av[i]);//DEBUG
+			if (ft_strlen(cmd->av[i]) == 0)
+			{
+				free(cmd->av[i]);
+				count_len0++;
+			}
+			i++;
+		}
+	}
+	ft_printf("coun_len0 = %d\n", count_len0);//DEBUG
+	if (count_len0 == index_cmd)
+		return (SUCCESS);*/
 	while (i < (size_t)index_cmd)
 	{
 		if (ft_strlen(cmd->av[i]) != 0)
 			clean_cmd->count_assign++;
 		i++;
 	}
+	ft_printf("clean_cmd->count_assign = %d\n", clean_cmd->count_assign);//DEBUG
 	cmd->envp = (char **)malloc(sizeof(char *) * (clean_cmd->count_assign + 1));
 	if (cmd->envp == NULL)
 		return (FAILURE);
@@ -54,6 +73,7 @@ static int	handle_get_envp(t_cmd *cmd, t_clean_cmd *clean_cmd, int index_cmd)
 	int		ret_cmd;
 	no_cmd = false;
 
+	ft_printf("index_cmd = %d\n", index_cmd);//DEBUG
 	if (index_cmd > 0)
 		if (handle_envp(cmd, clean_cmd, index_cmd) == FAILURE)
 			return (FAILURE);
