@@ -102,7 +102,7 @@ t_list		*lexer(t_vector *input)
 		if (ret_process_lexer <= FAILURE)
 		{
 			if (ret_process_lexer == FAILURE)
-				print_set_errno(0, "syntax error : missing quote", NULL, NULL);
+				print_set_errno(0, "syntax error : unclosed quotting expression", NULL, NULL);
 			free_list_token(&token_list);
 			exit_routine_lexer(word, NULL, NULL, NULL);
 			return (NULL);
