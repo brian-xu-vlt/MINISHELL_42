@@ -46,7 +46,6 @@ int							create_tab_redir(t_cmd *cmd, t_clean_cmd *clean_cmd)
 		state = function_state[state](cmd->av[i], cmd->type[i]);
 		if (state == E_IN_REDIR || state == E_IN_FILE)
 		{
-			ft_printf("ICI: [%s] [%d]\n", cmd->av[i], cmd->type[i]);
 			clean_cmd->tmp_tab_redir[i] = ft_strdup(cmd->av[i]);
 			free(cmd->av[i]);
 			cmd->av[i] = NULL;

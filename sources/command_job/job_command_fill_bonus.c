@@ -21,7 +21,6 @@ int		fill_name(t_token *token, t_cmd *cmd)
 			&& (token->type == E_LESS_THAN || token->type == E_GREATER_THAN || token->type == E_DOUBLE_GREATER)
 			? get_data(token->type) : token->data);
 		cmd->type[count] = token->type;
-		ft_printf("ICI: [%s] [%d]\n", cmd->av[count], cmd->type[count]);
 		count++;
 	}
 	return (count);

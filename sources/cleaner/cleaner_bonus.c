@@ -86,6 +86,7 @@ static int		process_clean_command(t_cmd *cmd, int *tab_clean_exp,
 		return (FAILURE);
 	}
 	index_cmd = get_cmd(cmd);
+	ft_printf("index_cmd = %d\n", index_cmd);//DEBUG
 	clean_quote(cmd, clean_exp, tab_clean_exp);
 	ret_cmd = get_envp_av(cmd, clean_cmd, index_cmd);
 	if (ret_cmd == FAILURE)
@@ -222,12 +223,7 @@ int				cleaner(t_cmd *cmd)
 	int		*tab_clean_exp;
 
 	for (int i = 0; i < cmd->ac; i++)
-	{
-		ft_printf("BEFORE cmd->av[%d] = [%s]\n", i, cmd->av[i]);
 		cmd->av[i] = transform(cmd->av[i]);
-		ft_printf("AFTER cmd->av[%d] = [%s]\n", i, cmd->av[i]);
-		ft_printf("------------------------\n");
-	}
 	tab_clean_exp = NULL;
 	/*clean_exp = count_clean_exp(cmd->av, cmd->ac);
 	if (clean_exp != 0)
