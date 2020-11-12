@@ -5,7 +5,7 @@ bool	is_wrong_ass(t_vector *vct)
 	if (ft_isdigit(vct_getfirstchar(vct)) == TRUE)
 		return (false);
 	if (ft_isalnum(vct_getfirstchar(vct)) == false &&
-			vct_getfirstchar(vct) != '_')
+			vct_getfirstchar(vct) != LOW_LINE)
 		return (false);
 	return (true);
 }
@@ -28,7 +28,7 @@ size_t	verif_assign(t_vector *vct_av, size_t id_equal)
 		return (false);
 	}
 	if (ft_isalnum(vct_getfirstchar(vct)) == false &&
-			vct_getfirstchar(vct) != '_')
+			vct_getfirstchar(vct) != LOW_LINE)
 	{
 		vct_del(&vct);
 		return (false);

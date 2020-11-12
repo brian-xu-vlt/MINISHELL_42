@@ -25,7 +25,7 @@ static int is_next_job(int ret_executor, t_job *job)
 {
 	if (ret_executor == SUCCESS)
 		executor(job);
-	ret_executor = get_env_value_int(get_env_list(GET), "?");
+	ret_executor = get_env_value_int(get_env_list(GET), S_QUESTION_MARK);
 	return (ret_executor);
 }
 

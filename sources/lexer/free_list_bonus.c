@@ -18,19 +18,13 @@ void		free_list_token(t_list **token)
 void		exit_routine_lexer(t_vector *word, t_vector *vct, t_vector *tmp,
 								t_token *token)
 {
+	(void)token;
 	if (word != NULL)
 		vct_del(&word);
 	if (vct != NULL)
 		vct_del(&vct);
 	if (tmp != NULL)
 		vct_del(&tmp);
-	(void)token;
-	/*if (token != NULL)
-	{
-		free(token->data);
-		token->data = NULL;
-		token->type = 0;
-	}*/
 }
 
 void		free_token(t_list *node, t_token *token)

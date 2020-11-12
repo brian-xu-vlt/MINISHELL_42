@@ -46,7 +46,7 @@ static int	process_lexer_word_assign(ssize_t type, t_list **token_list,
 	int	ret;
 
 	ret = SUCCESS;
-	if (handle_assign_quote(input, word) == FAILURE)\
+	if (handle_assign_quote(input, word) == FAILURE)
 		return (ERROR_NEWLINE);
 	type = E_WORD;
 	if (vct_getlen(word) != 0)

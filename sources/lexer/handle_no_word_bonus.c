@@ -47,7 +47,7 @@ int			quote_checker(char *str)
 		//past_state = state;
 		//ft_printf(" ->%s \n", debug_error[state]);
 		if ((state == E_STATE_STRING || state == E_STATE_DQUOTE)
-			&& vct_getfirstchar(input) == '\\')
+			&& vct_getfirstchar(input) == C_BACKSLASH)
 		{
 			vct_pop(input);
 			vct_pop(input);
@@ -76,10 +76,10 @@ static bool	 	parse_backslash(t_vector *input, t_vector *word,  bool is_quoting)
 	const char c = vct_getfirstchar(input);
 	const char c_next = vct_getcharat(input, 1);
 
-	if (c != '\\')
+	if (c != C_BACKSLASH)
 		return (false);
 	if ((is_quoting == true
-		&& (c_next == '$' || c_next == '\\' || c_next == '\"'))
+		&& (c_next == C_EXP || c_next == C_BACKSLASH || c_next == C_QUOTE))
 		|| is_quoting == false)
 	{
 		if (is_quoting == true)
@@ -115,7 +115,7 @@ int			handle_assign_quote(t_vector *input, t_vector *word)
 		}
 		c = vct_getfirstchar(input);
 		vct_add(word, c);
-		if (c == '\\' && vct_getlen(input) == 1)
+		if (c == C_BACKSLASH && vct_getlen(input) == 1)
 		{
 			print_set_errno(0, "syntax error : missing newline", NULL, NULL);
 			return (FAILURE);
