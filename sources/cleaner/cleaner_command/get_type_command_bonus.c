@@ -70,8 +70,8 @@ int			get_cmd(t_cmd *cmd)
 	i_exp = 0;
 	while (i < (size_t)cmd->ac)
 	{
-		ft_printf("cmd->av[%d] = %s\n", i, cmd->av[i]);//DEBUG
-		ft_printf("cmd->ac = %d\n", cmd->ac);//DEBUG`
+//		ft_printf("cmd->av[%d] = %s\n", i, cmd->av[i]);//DEBUG
+//		ft_printf("cmd->ac = %d\n", cmd->ac);//DEBUG`
 		if (ft_strlen(cmd->av[i]) == 0 && i + 1 != (size_t)cmd->ac)
 		{
 			i++;

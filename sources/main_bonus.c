@@ -8,12 +8,15 @@ static void	print_prompt(void)
 static void	read_loop(t_vector *cmd_line)
 {
 	print_prompt();
-	vct_readline(cmd_line, 0);
+	if (vct_readline(cmd_line, 0) == FAILURE)
+	{
+		print_set_errno(errno, NULL, NULL, NULL);
+		exit_routine_le(ERR_NO_MESSAGE);
+	}
 }
 
 static void	usage(int ac, char **av)
 {
-	(void)ac;
 	(void)av;
 	if (ac != 1)
 	{
@@ -48,14 +51,10 @@ static void	check_std_fd(void)
 {
 	struct stat	wstat;
 
-	if (write(STDOUT_FILENO, "", 1) == FAILURE)
-		exit (42);												// set line editor fd to STDERR_FILENO
-	if (write(STDERR_FILENO, "", 1) == FAILURE)
-		exit (21);												// ?..
-
-	if (fstat(STDIN_FILENO, &wstat) != 0
-	|| fstat(STDOUT_FILENO, &wstat) != 0 || fstat(STDERR_FILENO, &wstat) != 0)
-		exit(0);
+	if ((write(STDOUT_FILENO, "", 1) == FAILURE)
+	|| (write(STDERR_FILENO, "", 1) == FAILURE)
+	|| (fstat(STDIN_FILENO, &wstat) != 0))
+	  	exit(0);
 }
 
 int			main(int ac, char **av)

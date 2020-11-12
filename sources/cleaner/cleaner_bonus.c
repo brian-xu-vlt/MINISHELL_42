@@ -86,7 +86,7 @@ static int		process_clean_command(t_cmd *cmd, int *tab_clean_exp,
 		return (FAILURE);
 	}
 	index_cmd = get_cmd(cmd);
-	ft_printf("index_cmd = %d\n", index_cmd);//DEBUG
+//	ft_printf("index_cmd = %d\n", index_cmd);//DEBUG
 	clean_quote(cmd, clean_exp, tab_clean_exp);
 	ret_cmd = get_envp_av(cmd, clean_cmd, index_cmd);
 	if (ret_cmd == FAILURE)
@@ -129,7 +129,7 @@ void		parse_expansion(t_vector *input, t_vector *output)
 		vct_addstr(output, expansion_value);
 	}
 	vct_del(&expansion);
-	
+
 }
 
 void		parse_simple_quote(t_vector *input, t_vector *output)
@@ -195,7 +195,7 @@ char		*transform(char *arg)
 			if (c == '\0')
 				ft_printf("ERROR MAGGLE\n");
 			vct_add(output, vct_getfirstchar(input));
-			vct_pop(input);		
+			vct_pop(input);
 		}
 		else if (c == '\'')
 			parse_simple_quote(input, output);
@@ -206,7 +206,7 @@ char		*transform(char *arg)
 		else
 		{
 			vct_add(output, c);
-			vct_pop(input);		
+			vct_pop(input);
 		}
 	}
 	free(arg);
