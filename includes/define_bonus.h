@@ -44,7 +44,7 @@
 #define FIRST_CHAR		0
 
 #define N_SIMPLE_QUOTE	1
-#define N_QUOTE			
+#define N_QUOTE
 
 /******************************************************************************/
 /*******************************_CLEANER_**************************************/
@@ -55,7 +55,7 @@
 
 
 #define NB_DEL			29
-#define NO_ASSIGN_BUT_EXP	1	
+#define NO_ASSIGN_BUT_EXP	1
 #define NB_CLEAN_COMMAND		5
 #define	ALL_FREE					1
 #define NOT_ALL_FREE					0
@@ -84,10 +84,11 @@
 /******************************************************************************/
 /*******************************_EXECUTOR_*************************************/
 /******************************************************************************/
-#define NB_FD			3
+#define NB_FD			        3
+#define	NB_BUILTIN              4
 
-#define	F_NO_REDIRECT			0	
-#define	F_REDIRECT_FAILURE		1<<0	
+#define	F_NO_REDIRECT			0
+#define	F_REDIRECT_FAILURE		1<<0
 #define	F_REDIRECT_IN			1<<1
 #define	F_REDIRECT_OUT			1<<2
 #define	F_REDIRECT_OUT_APPEND	1<<3

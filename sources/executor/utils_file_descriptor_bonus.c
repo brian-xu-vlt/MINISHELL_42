@@ -45,6 +45,7 @@ int		ms_dup2(int old_fd, int new_fd)
 {
 	int		ret;
 	errno = 0;
+
 	ret = dup2(old_fd, new_fd);
 	if (ret == FAILURE || ret != new_fd)
 	{

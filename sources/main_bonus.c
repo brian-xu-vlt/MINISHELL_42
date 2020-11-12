@@ -26,7 +26,7 @@ static t_list	*process_minishell(t_vector *cmd_line)
 {
 	t_list		*lexer_list;
 	t_list		*jobs;
-	int			ret_parser;	
+	int			ret_parser;
 
 	lexer_list = NULL;
 	jobs = NULL;
@@ -47,6 +47,11 @@ static t_list	*process_minishell(t_vector *cmd_line)
 static void	check_std_fd(void)
 {
 	struct stat	wstat;
+
+	if (write(STDOUT_FILENO, "", 1) == FAILURE)
+		exit (42);												// set line editor fd to STDERR_FILENO
+	if (write(STDERR_FILENO, "", 1) == FAILURE)
+		exit (21);												// ?..
 
 	if (fstat(STDIN_FILENO, &wstat) != 0
 	|| fstat(STDOUT_FILENO, &wstat) != 0 || fstat(STDERR_FILENO, &wstat) != 0)
