@@ -55,10 +55,10 @@ t_clean_cmd		*init_clean_command(void)
 static void		clean_quote(t_cmd *cmd, int clean_exp, int *tab_clean_exp)
 {
 	int	i;
-	int	i_exp;
 
 	i = 0;
-	i_exp = 0;
+	(void)clean_exp;
+	(void)tab_clean_exp;
 	while (i < cmd->ac)
 	{
 		/*if (clean_exp == 0 || (i < clean_exp && i != tab_clean_exp[i_exp]))
@@ -225,6 +225,7 @@ int				cleaner(t_cmd *cmd)
 	for (int i = 0; i < cmd->ac; i++)
 		cmd->av[i] = transform(cmd->av[i]);
 	tab_clean_exp = NULL;
+	clean_exp = 0;
 	/*clean_exp = count_clean_exp(cmd->av, cmd->ac);
 	if (clean_exp != 0)
 	{
