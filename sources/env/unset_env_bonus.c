@@ -49,7 +49,7 @@ void		unset_env(t_list *env_lst, const char *env_name)
 {
 	t_list	*env_node;
 
-	if (env_name == NULL)
+	if (env_name == NULL || ft_isalpha(*env_name) == FALSE)
 		return ;
 	env_node = get_env_node(env_lst, env_name);
 	if (env_node != NOT_FOUND)
