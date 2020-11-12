@@ -33,7 +33,7 @@ void	fill_envp(t_cmd *cmd, int index_cmd)
 			i_envp++;
 		}
 		else
-			free(cmd->av[i]);//DEBUG
+			free(cmd->av[i]);
 		i++;
 	}
 }

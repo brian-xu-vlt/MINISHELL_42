@@ -19,7 +19,7 @@ int handle_backslash_double(char c, t_vector *input)
 	c = vct_getfirstchar(input);
 	if (c == '\0')
 	{
-		ft_printf("ERROR MAGGLE\n");
+		print_set_errno(0, "syntax error : missing newline", NULL, NULL);
 		return (FAILURE);
 	}
 	return (SUCCESS);
@@ -30,7 +30,7 @@ int handle_backslash_nothing(t_vector *input, t_vector *output, char c)
 	vct_pop(input);
 	if (c == '\0')
 	{
-		ft_printf("ERROR MAGGLE\n");
+		print_set_errno(0, "syntax error : missing newline", NULL, NULL);
 		return (FAILURE);
 	}
 	vct_add(output, vct_getfirstchar(input));

@@ -45,9 +45,9 @@ static int	process_lexer_word_assign(ssize_t type, t_list **token_list,
 {
 	int	ret;
 
-	if (handle_assign_quote(input, word) == FAILURE)
-		return (FAILURE);
-	// if ret == failure : \ cause error miss endl 
+	ret = SUCCESS;
+	if (handle_assign_quote(input, word) == FAILURE)\
+		return (ERROR_NEWLINE);
 	type = E_WORD;
 	if (vct_getlen(word) != 0)
 	{
@@ -90,6 +90,7 @@ t_list		*lexer(t_vector *input)
 {
 	t_list		*token_list;
 	t_vector	*word;
+	int			ret_process_lexer;
 
 	word = vct_new();
 	token_list = NULL;
@@ -97,8 +98,11 @@ t_list		*lexer(t_vector *input)
 		return (NULL);
 	while (vct_getlen(input) > 0)
 	{
-		if (process_lexer(input, &token_list, word) == FAILURE)
+		ret_process_lexer = process_lexer(input, &token_list, word);
+		if (ret_process_lexer <= FAILURE)
 		{
+			if (ret_process_lexer == FAILURE)
+				print_set_errno(0, "syntax error : missing quote", NULL, NULL);
 			free_list_token(&token_list);
 			exit_routine_lexer(word, NULL, NULL, NULL);
 			return (NULL);

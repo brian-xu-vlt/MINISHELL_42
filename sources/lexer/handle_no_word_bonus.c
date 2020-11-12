@@ -117,7 +117,7 @@ int			handle_assign_quote(t_vector *input, t_vector *word)
 		vct_add(word, c);
 		if (c == '\\' && vct_getlen(input) == 1)
 		{
-			ft_printf("MAGG\n");
+			print_set_errno(0, "syntax error : missing newline", NULL, NULL);
 			return (FAILURE);
 		}
 		vct_pop(input);
