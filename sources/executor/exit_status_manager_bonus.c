@@ -43,6 +43,7 @@ int					manage_subshell_exit_status(const int wstatus)
 		display_signal_str(exit_status);
 		if (WCOREDUMP(wstatus) != FALSE)
 			ft_printf("(core dumped)");
+		ft_putchar_fd('\n', STDOUT_FILENO);
 	}
 	else if (WIFSTOPPED(wstatus) == TRUE)
 		exit_status = WSTOPSIG(wstatus);

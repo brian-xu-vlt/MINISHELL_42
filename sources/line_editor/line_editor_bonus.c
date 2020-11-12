@@ -40,5 +40,5 @@ void			line_editor(void)
 	move_cursor_at_index(vct_getlen(le->cmd_line));
 	save_history();
 	set_termios(le->termios_bkup);
-	ft_printf("\n");
+//	ft_printf("\n");
 }

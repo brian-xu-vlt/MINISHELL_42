@@ -78,6 +78,7 @@ int			main(int ac, char **av)
 			read_loop(cmd_line);
 		else
 			line_editor();
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		jobs = process_minishell(cmd_line);
 		if (jobs != NULL)
 		{
@@ -91,7 +92,7 @@ int			main(int ac, char **av)
 		}
 		vct_clear(cmd_line);
 		free_list_job(&jobs);
-	ft_printf("$? = %s\n", vct_getstr(get_env_value_vct(get_env_list(GET), "?")));
+	ft_printf("\t\t\t\t[LAST EXIT STATUS %3d]\r", get_env_value_int(get_env_list(GET), "?"));  //TODO remove
 	}
 	exit_routine_le(NULL);
 	free_list_job(&jobs);
