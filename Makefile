@@ -145,6 +145,8 @@ SRCS += get_envp_av_bonus.c
 SRCS += get_envp_av_utils_bonus.c
 SRCS += cleaner_utils_bonus.c
 SRCS += builtins_bonus.c
+SRCS += cleaner_quote_bonus.c
+SRCS += cleaner_quote_utils_bonus.c
 
 
 OBJ_DIR = ./objs/
@@ -167,10 +169,9 @@ vpath %.c sources/line_editor/handlers/selection
 vpath %.c sources/line_editor/handlers/special_keys
 vpath %.c sources/command_job
 vpath %.c sources/cleaner
-vpath %.c sources/cleaner/cleaner_quote_exp
-vpath %.c sources/cleaner/cleaner_quote_no_exp
 vpath %.c sources/cleaner/cleaner_command
 vpath %.c sources/cleaner/cleaner_redirection
+vpath %.c sources/cleaner/cleaner_quote
 vpath %.c TESTER_PARSER/
 vpath %.c TESTER_JOB_COMMAND/
 vpath %.c TESTER_CLEANER_QUOTE/

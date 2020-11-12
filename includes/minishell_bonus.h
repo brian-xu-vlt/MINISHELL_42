@@ -195,6 +195,13 @@ int									*fill_tab_clean_exp(int *tab_clean_exp,
 															int clean_exp);
 int 								hub_cleaner(t_list *job_list);
 ssize_t								end_exp(char *str);
+int 								process_clean_quote(t_vector *input,
+															t_vector *output);
+int 								handle_backslash_double(char c,
+															t_vector *input);
+int 								handle_backslash_nothing(t_vector *input,
+															t_vector *output,
+																char c);
 
 
 bool is_exp_sep(char c);
