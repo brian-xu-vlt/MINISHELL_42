@@ -1,7 +1,5 @@
 #include "minishell_bonus.h"
 
-# define	NB_SIG	5
-
 static void	newprompt_at_signal(int sig)
 {
 	(void)sig;

@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static void		child_process(t_cmd *cmd, int p_in[2], int p_out[2])
+static void	child_process(t_cmd *cmd, int p_in[2], int p_out[2])
 {
 	int		ret;
 

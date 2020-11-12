@@ -1,7 +1,5 @@
 #include "minishell_bonus.h"
 
-# define	NB_SIG_STR	15
-
 static const char	*ms_strsignal(int sig)
 {
 	int					i;

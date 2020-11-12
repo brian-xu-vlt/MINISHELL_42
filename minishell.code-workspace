@@ -15,7 +15,7 @@
         "true"
       ],
       "zenMode.hideLineNumbers": false,
-      "crosshair.enabled": true,
+      "crosshair.enabled": false,
       "files.associations": {
         "__functional_03": "c",
         "cstdlib": "c",
