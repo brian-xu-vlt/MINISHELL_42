@@ -3,7 +3,6 @@
 int		fill_name(t_token *token, t_cmd *cmd)
 {
 	static int count;
-	
 
 	if (count == 0)
 	{

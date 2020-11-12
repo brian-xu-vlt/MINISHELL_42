@@ -1,10 +1,10 @@
 #include "minishell_bonus.h"
 
-void parse_expansion(t_vector *input, t_vector *output)
+void		parse_expansion(t_vector *input, t_vector *output)
 {
-	t_vector *expansion;
-	char *expansion_value;
-	char c;
+	t_vector	*expansion;
+	char		*expansion_value;
+	char		c;
 
 	expansion = vct_new();
 	vct_pop(input);
@@ -12,7 +12,7 @@ void parse_expansion(t_vector *input, t_vector *output)
 	{
 		c = vct_getfirstchar(input);
 		if (is_exp_sep(c) && c != QUESTION_MARK)
-			break;
+			break ;
 		vct_add(expansion, c);
 		vct_pop(input);
 	}
@@ -26,7 +26,7 @@ void parse_expansion(t_vector *input, t_vector *output)
 	vct_del(&expansion);
 }
 
-void parse_simple_quote(t_vector *input, t_vector *output)
+void		parse_simple_quote(t_vector *input, t_vector *output)
 {
 	char c;
 
@@ -35,14 +35,14 @@ void parse_simple_quote(t_vector *input, t_vector *output)
 	{
 		c = vct_getfirstchar(input);
 		if (c == C_SIMPLE_QUOTE)
-			break;
+			break ;
 		vct_add(output, c);
 		vct_pop(input);
 	}
 	vct_pop(input);
 }
 
-int parse_double_quote(t_vector *input, t_vector *output)
+int			parse_double_quote(t_vector *input, t_vector *output)
 {
 	char c;
 	char next_c;
@@ -52,19 +52,15 @@ int parse_double_quote(t_vector *input, t_vector *output)
 	{
 		c = vct_getfirstchar(input);
 		next_c = vct_getcharat(input, 1);
-		if (c == C_BACKSLASH && (next_c == C_EXP || next_c == C_QUOTE
-				|| next_c == C_BACKSLASH))
-		{
-			if (handle_backslash_double(c, input) == FAILURE)
-				return (FAILURE);
-		}
+		if (is_backslash(c, next_c, input) == FAILURE)
+			return (FAILURE);
 		else if (c == C_EXPORT)
 		{
 			parse_expansion(input, output);
 			continue;
 		}
 		else if (c == C_QUOTE)
-			break;
+			break ;
 		vct_add(output, c);
 		vct_pop(input);
 	}
@@ -72,7 +68,7 @@ int parse_double_quote(t_vector *input, t_vector *output)
 	return (SUCCESS);
 }
 
-static int handle_char(char c, t_vector *input, t_vector *output)
+static int	handle_char(char c, t_vector *input, t_vector *output)
 {
 	if (c == C_BACKSLASH)
 	{
@@ -96,7 +92,7 @@ static int handle_char(char c, t_vector *input, t_vector *output)
 	return (SUCCESS);
 }
 
-int process_clean_quote(t_vector *input, t_vector *output)
+int			process_clean_quote(t_vector *input, t_vector *output)
 {
 	char c;
 

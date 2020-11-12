@@ -147,6 +147,7 @@ SRCS += cleaner_utils_bonus.c
 SRCS += builtins_bonus.c
 SRCS += cleaner_quote_bonus.c
 SRCS += cleaner_quote_utils_bonus.c
+SRCS += quote_checker_bonus.c
 
 
 OBJ_DIR = ./objs/

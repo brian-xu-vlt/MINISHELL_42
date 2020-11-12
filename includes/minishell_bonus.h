@@ -66,6 +66,9 @@ void					free_list_token(t_list **token);
 const char				*get_token_str(const int type);
 char					*get_data(int type);
 void					free_token(t_list *node, t_token *token);
+int 					handle_ret_lexer(int ret_process_lexer,
+											t_list *token_list, t_vector *word,
+											int flag);
 
 /******************************************************************************/
 /*******************************_PARSER_***************************************/
@@ -202,9 +205,9 @@ int 								handle_backslash_double(char c,
 int 								handle_backslash_nothing(t_vector *input,
 															t_vector *output,
 																char c);
-
-
-bool is_exp_sep(char c);
+int 								is_backslash(char c, char next_c,
+													t_vector *input);
+bool 								is_exp_sep(char c);
 
 /******************************************************************************/
 /*******************************_EXECUTION_************************************/

@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-void	debug_fd_string(char **fd_sting)
+void		debug_fd_string(char **fd_sting)
 {
 	size_t	i;
 
@@ -12,7 +12,7 @@ void	debug_fd_string(char **fd_sting)
 	}
 }
 
-void	debug_fd(int *fd)
+void		debug_fd(int *fd)
 {
 	size_t	i;
 
@@ -24,7 +24,7 @@ void	debug_fd(int *fd)
 	}
 }
 
-void debug_redir(char **redir, int ac)
+void		debug_redir(char **redir, int ac)
 {
 	int i;
 
@@ -36,7 +36,7 @@ void debug_redir(char **redir, int ac)
 	}
 }
 
-static void debug_envp(char **envp, int ac)
+static void	debug_envp(char **envp, int ac)
 {
 	int i;
 
@@ -48,7 +48,7 @@ static void debug_envp(char **envp, int ac)
 	}
 }
 
-void	debug_cleaner(t_cmd *cmd)
+void		debug_cleaner(t_cmd *cmd)
 {
 	ft_printf("\n");//DEBUG
 	ft_printf("\033[0;32mDEBUG AV FINAL\n\033[0m");//DEBUG

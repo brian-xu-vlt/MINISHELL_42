@@ -99,24 +99,12 @@ t_list		*lexer(t_vector *input)
 	while (vct_getlen(input) > 0)
 	{
 		ret_process_lexer = process_lexer(input, &token_list, word);
-		if (ret_process_lexer <= FAILURE)
-		{
-			if (ret_process_lexer == FAILURE)
-				print_set_errno(0, "syntax error : unclosed quotting expression", NULL, NULL);
-			free_list_token(&token_list);
-			exit_routine_lexer(word, NULL, NULL, NULL);
+		if (handle_ret_lexer(ret_process_lexer, token_list, word, LEXER)
+				== FAILURE)
 			return (NULL);
-		}
 	}
-	if (vct_getlen(word) != 0)
-	{
-		if (extract_token_word(&token_list, word) == FAILURE)
-		{
-			free_list_token(&token_list);
-			exit_routine_lexer(word, NULL, NULL, NULL);
-			return (NULL);
-		}
-	}
+	if (handle_ret_lexer(0, token_list, word, TOKEN) == FAILURE)
+		return (NULL);
 	vct_del(&word);
 	extract_token(&token_list, NULL, E_END);
 	return (token_list);

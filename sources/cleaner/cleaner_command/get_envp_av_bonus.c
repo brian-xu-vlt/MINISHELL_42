@@ -52,8 +52,8 @@ static int	handle_get_envp(t_cmd *cmd, t_clean_cmd *clean_cmd, int index_cmd)
 {
 	bool	no_cmd;
 	int		ret_cmd;
-	no_cmd = false;
 
+	no_cmd = false;
 	if (index_cmd > 0)
 		if (handle_envp(cmd, clean_cmd, index_cmd) == FAILURE)
 			return (FAILURE);

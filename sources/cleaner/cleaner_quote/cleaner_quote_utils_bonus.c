@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-char *exp_value(char *str)
+char	*exp_value(char *str)
 {
 	t_vector *vct;
 
@@ -8,12 +8,12 @@ char *exp_value(char *str)
 	return (vct_getstr(vct));
 }
 
-bool is_exp_sep(char c)
+bool	is_exp_sep(char c)
 {
 	return (ft_isalnum(c) == false && ft_strchr(EXP_DEL_EXCEPTION, c) == NULL);
 }
 
-int handle_backslash_double(char c, t_vector *input)
+int		handle_backslash_double(char c, t_vector *input)
 {
 	vct_pop(input);
 	c = vct_getfirstchar(input);
@@ -25,7 +25,7 @@ int handle_backslash_double(char c, t_vector *input)
 	return (SUCCESS);
 }
 
-int handle_backslash_nothing(t_vector *input, t_vector *output, char c)
+int		handle_backslash_nothing(t_vector *input, t_vector *output, char c)
 {
 	vct_pop(input);
 	if (c == '\0')
@@ -35,5 +35,16 @@ int handle_backslash_nothing(t_vector *input, t_vector *output, char c)
 	}
 	vct_add(output, vct_getfirstchar(input));
 	vct_pop(input);
+	return (SUCCESS);
+}
+
+int		is_backslash(char c, char next_c, t_vector *input)
+{
+	if (c == C_BACKSLASH && (next_c == C_EXP || next_c == C_QUOTE ||
+		next_c == C_BACKSLASH))
+	{
+		if (handle_backslash_double(c, input) == FAILURE)
+			return (FAILURE);
+	}
 	return (SUCCESS);
 }

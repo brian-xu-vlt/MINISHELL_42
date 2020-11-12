@@ -12,7 +12,7 @@ static enum e_state_redir	in_out(char *str, enum e_token_type type)
 	return (E_IN_OUT);
 }
 
-static enum e_state_redir in_file(char *str, enum e_token_type type)
+static enum e_state_redir	in_file(char *str, enum e_token_type type)
 {
 	if (type != E_LESS_THAN && type != E_GREATER_THAN &&
 			type != E_DOUBLE_GREATER)
@@ -24,7 +24,7 @@ static enum e_state_redir in_file(char *str, enum e_token_type type)
 	return (E_IN_OUT);
 }
 
-static enum e_state_redir in_redir(char *str, enum e_token_type type)
+static enum e_state_redir	in_redir(char *str, enum e_token_type type)
 {
 	(void)str;
 	(void)type;
@@ -57,7 +57,7 @@ int							create_tab_redir(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	return (SUCCESS);
 }
 
-int 						process_redirection(t_cmd *cmd,
+int							process_redirection(t_cmd *cmd,
 													t_clean_cmd *clean_cmd)
 {
 	size_t	i;

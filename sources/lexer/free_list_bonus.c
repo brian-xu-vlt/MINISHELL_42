@@ -16,7 +16,7 @@ void		free_list_token(t_list **token)
 }
 
 void		exit_routine_lexer(t_vector *word, t_vector *vct, t_vector *tmp,
-								t_token *token)
+						t_token *token)
 {
 	(void)token;
 	if (word != NULL)
@@ -33,4 +33,29 @@ void		free_token(t_list *node, t_token *token)
 	free(node);
 	free(token->data);
 	free(token);
+}
+
+int			handle_ret_lexer(int ret_process_lexer, t_list *token_list,
+								t_vector *word, int flag)
+{
+	if (ret_process_lexer <= FAILURE && flag == LEXER)
+	{
+		if (ret_process_lexer == FAILURE)
+			print_set_errno(0, "syntax error : unclosed quotting expression",
+							NULL, NULL);
+		free_list_token(&token_list);
+		exit_routine_lexer(word, NULL, NULL, NULL);
+		return (FAILURE);
+	}
+	if (vct_getlen(word) != 0 && flag == TOKEN)
+	{
+		if (extract_token_word(&token_list, word) == FAILURE)
+		{
+			handle_ret_lexer(0, token_list, word, TOKEN);
+			free_list_token(&token_list);
+			exit_routine_lexer(word, NULL, NULL, NULL);
+			return (FAILURE);
+		}
+	}
+	return (SUCCESS);
 }

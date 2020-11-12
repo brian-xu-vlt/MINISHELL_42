@@ -34,7 +34,7 @@ static int	check_token(t_token *token, enum e_token_type *current,
 		}
 	}
 	//if (ret == TRUE)
-		//parser_debug(token);
+	//parser_debug(token);
 	return (ret);
 }
 
@@ -58,5 +58,5 @@ int			process_parser(t_list *list, t_valid_token *valid_token)
 		}
 		list = list->next;
 	}
-	return (TRUE);//DEBUG
+	return (TRUE);
 }
