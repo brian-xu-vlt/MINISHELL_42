@@ -94,6 +94,8 @@
 #define STR_PWD "pwd"
 #define PWD_FAIL 1
 #define PWD_SUCCESS 0
+#define CD_FAIL		1
+#define CD_CONTINUE		2
 
 
 /******************************************************************************/

@@ -28,6 +28,7 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <signal.h>
+# include <dirent.h>
 
 /******************************************************************************/
 /*******************************_FUNCTION_*************************************/
@@ -264,6 +265,7 @@ int		env_builtin(int argc, char **argv, char **envp);
 int		export_builtin(int argc, char **argv, char **envp);
 int		unset_builtin(int argc, char **argv, char **envp);
 int		pwd_builtin(int ac, char **av, char **envp);
+int 	cd_builtin(int ac, char **av, char **envp);
 
 /******************************************************************************/
 /*******************************_ENV_MANAGER_**********************************/
