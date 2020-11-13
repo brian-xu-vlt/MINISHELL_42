@@ -10,9 +10,12 @@ void	insert_char_in_vct(char c)
 
 void	handle_print_char(char key)
 {
-	if (get_struct(GET)->select_min != -1)
+	t_le	*le;
+
+	le = get_struct(GET);
+	if (get_struct(GET)->select_min != UNSET)
 		delete_selection(0);
 	insert_char_in_vct(key);
-	move_cursor_right();
+	le->vct_index++;
 	refresh_command_line();
 }

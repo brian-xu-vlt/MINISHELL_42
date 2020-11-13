@@ -9,7 +9,7 @@ static void		line_editor_loop(t_le *le)
 		update_window_size();
 		tputs(le->termcap[HIDE_CURSOR], 1, ms_putchar);
 		le->vct_index_backup = le->vct_index;
-		if (key == 4 && vct_getlen(le->cmd_line) == 0)
+		if (key == K_EOF && vct_getlen(le->cmd_line) == 0)
 			exit_routine_le("exit");
 		if (ft_isprint(key) == TRUE)
 			handle_print_char(key);

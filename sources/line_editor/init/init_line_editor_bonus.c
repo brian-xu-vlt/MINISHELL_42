@@ -20,6 +20,7 @@ static void	fill_termcaps(t_le *le)
 {
 	int		i;
 
+	le->termcap[CLEAR_LINE] = tgetstr("ce", NULL);
 	le->termcap[CLEAR_ALL_AFTER_CURS] = tgetstr("cd", NULL);
 	le->termcap[SELECT] = tgetstr("so", NULL);
 	le->termcap[UNSELECT] = tgetstr("se", NULL);

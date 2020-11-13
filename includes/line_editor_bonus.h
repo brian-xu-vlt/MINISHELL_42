@@ -65,6 +65,7 @@
 *********  USER KEYS  *************
 **********************************/
 
+# define	K_EOF					4
 # define	K_UP					0x415b1b
 # define	K_DOWN					0x425b1b
 # define	K_RIGHT					0x435b1b
@@ -95,17 +96,17 @@
 # define	NO_HIGHLIGHT			"me"
 # define	SAVE_CURSOR_POS			"sc"
 # define	RESTORE_CURSOR_POS		"rc"
-# define	CLEAR_LINE				"ce"
 
 /**********************************
 *****  LINE EDITOR TERNCAPS ******
 **********************************/
 
-# define	NB_ESSENTIAL_TERMCAP	10
+# define	NB_ESSENTIAL_TERMCAP	11
 # define	NB_OPTIONAL_TERMCAP		4
 
 enum	e_essential_termcap
 {
+	CLEAR_LINE,
 	CLEAR_ALL_AFTER_CURS,
 	SELECT,
 	UNSELECT,
@@ -229,6 +230,7 @@ void		move_cursor_at_index(int index_to);
 ************************************************/
 
 void		init_prompt(void);
+void		print_line_editor_prompt(void);
 void		init_term_mode(void);
 void		set_termios(const struct termios *termios_mode);
 void		init_line_editor(t_vector *cmd_line);
