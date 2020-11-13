@@ -93,6 +93,7 @@ SRCS += utils_bonus.c
 SRCS += utils_cursor_bonus.c
 
 SRCS += duplicate_env_lst_bonus.c
+SRCS += builtins_echo_bonus.c
 SRCS += builtins_env_bonus.c
 SRCS += unset_env_bonus.c
 SRCS += get_env_bonus.c
@@ -190,7 +191,7 @@ all : $(LIB)
 
 $(OBJS): $(OBJ_DIR)%.o: %.c $(HEADER)
 	$(CC) -D DEBUG_MODE=$(DEBUG_MODE) -D BONUS_FLAG=1 $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
- 
+
 $(NAME): $(OBJ_DIR) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -I$(INCLUDES) -I$(INCLUDES_LIB) $(LIB_TERMCAP) -L./libft -lft -o $@
 	echo "\033[32m$@ is ready !\033[0m"

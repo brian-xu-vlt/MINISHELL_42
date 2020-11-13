@@ -254,6 +254,7 @@ int		env_builtin(int argc, char **argv, char **envp);
 int		export_builtin(int argc, char **argv, char **envp);
 int		unset_builtin(int argc, char **argv, char **envp);
 int		pwd_builtin(int ac, char **av, char **envp);
+int		echo_builtin(int ac, char **av, char **envp);
 
 /******************************************************************************/
 /*******************************_ENV_MANAGER_**********************************/
