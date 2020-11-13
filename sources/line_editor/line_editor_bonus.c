@@ -7,7 +7,7 @@ static void		line_editor_loop(t_le *le)
 	while (read(STDIN_FILENO, &key, 1) != FAILURE && key != K_ENTER)
 	{
 		update_window_size();
-		tputs(le->termcap[HIDE_CURSOR], 1, ms_putchar);
+		ms_tputs(le->termcap[HIDE_CURSOR], 1, ms_putchar);
 		le->vct_index_backup = le->vct_index;
 		if (key == K_EOF && vct_getlen(le->cmd_line) == 0)
 			exit_routine_le("exit");
@@ -17,7 +17,7 @@ static void		line_editor_loop(t_le *le)
 			handle_esc_seq(key);
 		if (DEBUG_MODE == TRUE)
 			debug_print_infos();
-		tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
+		ms_tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
 	}
 }
 

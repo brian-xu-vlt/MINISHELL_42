@@ -4,7 +4,7 @@ void	print_set_errno(int errno_value, const char *err_str,
 						const char *function_name, const char *error_source)
 {
 	dup2(STDERR_FILENO, STDOUT_FILENO);
-	ft_printf("minishell: ");
+	ft_printf("Minishell: ");
 	if (function_name != NULL)
 		ft_printf("%s: ", function_name);
 	if (error_source != NULL)

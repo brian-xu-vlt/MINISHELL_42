@@ -43,7 +43,8 @@
 # define	ERR_MALLOC		"Malloc could not allocate memory."
 # define	ERR_FORK		"Could not fork a chilf process."
 # define	ERR_HUP			"Received a Hang Up signal."
-
+# define	ERR_MS_PUTCHAR	"Could not write on stdout"
+# define	ERR_MS_TPUTS	"Could not output termcaps"
 
 /**********************************
 *********     UTILS     ***********
@@ -168,6 +169,7 @@ void		debug_print_flag(char *flag);
 
 t_le		*get_struct(t_le *env);
 int         ms_putchar(int c);
+int			ms_tputs(const char *str, int affcnt, int (*putc)(int));
 
 int			is_shift_on(long key);
 int			is_ctrl_on(long key);

@@ -18,15 +18,25 @@ static void	free_history_list(void)
 	le->history_cache = NULL;
 }
 
+static int	ft_putchar(int c)
+{
+	return (write(STDOUT_FILENO, &c, 1));
+}
+
+static void	exit_routine_reset_terminal(t_le *le)
+{
+	if (le->termcap[VISIBLE_CURSOR] != NULL)
+		tputs(le->termcap[VISIBLE_CURSOR], 1, ft_putchar);
+	if (le->termios_bkup != NULL)
+		tcsetattr(STDIN_FILENO, TCSADRAIN, le->termios_bkup);
+}
+
 void		exit_routine_le(char *err_code)
 {
 	t_le		*le;
 
 	le = get_struct(GET);
-	if (le->termios_bkup != NULL)
-		tcsetattr(STDIN_FILENO, TCSADRAIN, le->termios_bkup);
-	if (le->termcap[VISIBLE_CURSOR] != NULL)
-		tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
+	exit_routine_reset_terminal(le);
 	if (le->cmd_line_backup != NULL)
 		free(le->cmd_line_backup);
 	vct_del(&le->cmd_line);
