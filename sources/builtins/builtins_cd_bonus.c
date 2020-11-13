@@ -28,13 +28,21 @@ static int first_check(char *directory)
 	return (CD_CONTINUE);
 }
 
-static int process_cd(char *dir)
+static int	handle_cd_only(void)
 {
 	t_vector *vct_home;
 
+	ft_printf("HANDLE_CD_ONLY\n");//DEBUG
 	vct_home = get_env_value_vct(get_env_list(GET), "HOME");
 	ft_printf("vct_home = %s\n", vct_getstr(vct_home));//DEBUG
+	
+}
+
+static int process_cd(char *dir)
+{
 	ft_printf("dir = %s\n", dir);
+	if (dir == NULL)
+		handle_cd_only();
 }
 
 int cd_builtin(int ac, char **av, char **envp)
