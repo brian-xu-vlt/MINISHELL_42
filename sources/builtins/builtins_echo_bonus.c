@@ -16,9 +16,9 @@ int			echo_builtin(int ac, char **av, char **envp)
 	int			new_line_flag;
 
 	(void)envp;
-	if (ft_strequ(*av, (char *)builtin) == TRUE && ac >= 2)
+	new_line_flag = TRUE;
+	if (av != NULL && ft_strequ(*av, (char *)builtin) == TRUE && ac >= 2)
 	{
-		new_line_flag = TRUE;
 		av++;
 		if (ac >= 2 && ft_strequ(*av, (char *)option) == TRUE)
 		{
@@ -26,8 +26,8 @@ int			echo_builtin(int ac, char **av, char **envp)
 			av++;
 		}
 		echo_loop(av);
-		if (new_line_flag == TRUE)
-			ft_putchar_fd('\n', STDOUT_FILENO);
 	}
+	if (new_line_flag == TRUE)
+		ft_putchar_fd('\n', STDOUT_FILENO);
 	return (0);
 }
