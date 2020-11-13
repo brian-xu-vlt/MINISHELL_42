@@ -52,7 +52,7 @@ void		init_line_editor(t_vector *cmd_line)
 	get_struct(le);
 	if (le == NULL)
 		exit_routine_le(ERR_MALLOC);
-	le->prompt_len = ft_strlen(PROMPT);
+	le->prompt_len = ft_strlen(PROMPT_LINE_EDITION);
 	le->clipboard = vct_new();
 	if (le->clipboard == NULL)
 		exit_routine_le(ERR_MALLOC);
@@ -64,4 +64,6 @@ void		init_line_editor(t_vector *cmd_line)
 		fill_termcaps(le);
 		update_window_size();
 	}
+	le->stdout_stat = SUCCESS;
+	le->stderr_stat = SUCCESS;
 }

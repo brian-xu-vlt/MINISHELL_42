@@ -86,7 +86,8 @@
 # define	CTRL_MASK				(1 << 0)
 # define	SHIFT_MASK				(1 << 1)
 
-# define	PROMPT					"~$>"
+# define	PROMPT_SIMPLE			"NO_LINE_ED~$>"
+# define	PROMPT_LINE_EDITION		"LINE_EDITION~$>"
 
 /**********************************
 *********  DEBUG TERMCAPS *********
@@ -150,6 +151,8 @@ typedef struct	s_line_editor
 	int				vct_index_backup;
 	int				select_min;
 	int				select_max;
+	int				stdout_stat;
+	int				stderr_stat;
 }				t_le;
 
 /*************************************************
@@ -230,7 +233,7 @@ void		move_cursor_at_index(int index_to);
 ************************************************/
 
 void		init_prompt(void);
-void		print_line_editor_prompt(void);
+void		print_prompt(void);
 void		init_term_mode(void);
 void		set_termios(const struct termios *termios_mode);
 void		init_line_editor(t_vector *cmd_line);
