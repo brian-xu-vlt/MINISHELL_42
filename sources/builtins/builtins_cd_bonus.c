@@ -10,15 +10,6 @@ static int check_cd_arg(int ac)
 	return (CD_CONTINUE);
 }
 
-static int process_cd(char *dir, t_vector *new_dir, int flag)
-{
-	t_vector *vct_pwd;
-
-	vct_pwd = get_env_value_vct(get_env_list(GET), "PWD");
-	ft_printf("flag = %d\n", flag);//DEBUG
-	ft_printf("vct_pwd = %s\n", vct_getstr(vct_pwd));//DEBUG
-}
-
 static int first_check(char *directory)
 {
 	DIR *dir;
@@ -36,30 +27,32 @@ static int first_check(char *directory)
 	}
 	return (CD_CONTINUE);
 }
+
+static int process_cd(char *dir)
+{
+	t_vector *vct_home;
+
+	vct_home = get_env_value_vct(get_env_list(GET), "HOME");
+	ft_printf("vct_home = %s\n", vct_getstr(vct_home));//DEBUG
+	ft_printf("dir = %s\n", dir);
+}
+
 int cd_builtin(int ac, char **av, char **envp)
 {
-	int ret_closedir;
-	t_vector *new_av1;
 	int ret_check;
 
 	ft_printf("CD BUILTIN\n"); //DEBUG
 	(void)envp;
 	if (check_cd_arg(ac) == CD_FAIL)
 		return (CD_FAIL);
-	if (ac == 1)
-	{
-		new_av1 = vct_new();
-		vct_addstr(new_av1, "\\");
-	}
-	else
-		new_av1 = NULL;
-	if (new_av1 == NULL)
+	if (ac != 1 && ft_strlen(av[1]) != 0)
 	{
 		ret_check = first_check(av[1]);
 		if (ret_check != CD_CONTINUE)
 			return (ret_check == CD_FAIL ? CD_FAIL : FAILURE);
 	}
-	process_cd(av[1], new_av1, ret_check);
-	vct_del(&new_av1);
+	if (ac != 1 && ft_strlen(av[1]) == 0)
+		return (SUCCESS);
+	process_cd(av[1]);
 	return (SUCCESS);
 }
