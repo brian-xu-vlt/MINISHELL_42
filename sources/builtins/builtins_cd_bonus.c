@@ -17,18 +17,15 @@ static int check_directory(char *directory)
 
 	i = 2;
 	count_dot = 2;
-	if (ft_strlen(directory) > 2 && directory[0] == '.' && directory[1] == '.')
+	if (ft_strlen(directory) > 2 && directory[0] == DOT && directory[1] == DOT)
 	{
 		while (directory[i] != '\0')
 		{
-			if (count_dot == 2 && directory[i] == '.')
-			{
-				ft_printf("FAILURE");
+			if (count_dot == 2 && directory[i] == DOT)
 				return (FAILURE);
-			}
-			if (count_dot == 2 && directory[i] != '.')
+			if (count_dot == 2 && directory[i] != DOT)
 				count_dot = 0;
-			if (directory[i] == '.')
+			if (directory[i] == DOT)
 				count_dot++;
 			i++;
 		}
@@ -65,6 +62,7 @@ static int handle_pwd(int flag)
 {
 	char *pwd;
 	char *buff;
+
 	buff = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
 	if (buff == NULL)
 		return (FAILURE);
@@ -154,8 +152,8 @@ static void transform_new_dir(t_vector *new_dir, char *pwd, char *dir_denied)
 	vct_addstr(vct_denied, dir_denied);
 	while (vct_getlen(vct_denied) > 0)
 	{
-		while (vct_getfirstchar(vct_denied) == '/' &&
-			   vct_getcharat(vct_denied, 1) == '/')
+		while (vct_getfirstchar(vct_denied) == C_ROOT &&
+			   vct_getcharat(vct_denied, 1) == C_ROOT)
 			vct_pop(vct_denied);
 		vct_add(real_vct_denied, vct_getfirstchar(vct_denied));
 		vct_pop(vct_denied);
@@ -203,7 +201,8 @@ static int process_chdir(t_vector *vct_home, char *dir)
 	char *dir_denied;
 	int ret_chdir;
 
-	real_dir = ft_strdup(dir == NULL && vct_getlen(vct_home) != 0 ? vct_getstr(vct_home) : dir);
+	real_dir = ft_strdup(dir == NULL && vct_getlen(vct_home) != 0 ?
+					vct_getstr(vct_home) : dir);
 	ret_chdir = chdir(real_dir);
 	if (ret_chdir == FAILURE && ft_strnequ(real_dir, DOTDOT, 2) == TRUE)
 	{
@@ -233,13 +232,12 @@ static int process_cd(char *dir)
 	str_old_pwd = NULL;
 	vct_home = get_env_value_vct(get_env_list(GET), ENV_HOME);
 	vct_old_pwd = get_env_value_vct(get_env_list(GET), ENV_OLD_PWD);
-	ft_printf("dir = %s\n", dir);//DEBUG
 	if (vct_home == NULL && dir == NULL)
 	{
 		print_set_errno(0, "HOME not set", STR_CD, NULL);
 		return (CD_FAIL);
 	}
-	if (vct_old_pwd == NULL && ft_strequ(dir, "-") == TRUE)
+	if (vct_old_pwd == NULL && ft_strequ(dir, STR_MINUS) == TRUE)
 	{
 		handle_pwd(OLD_PWD);
 		return (SUCCESS);
@@ -249,10 +247,11 @@ static int process_cd(char *dir)
 		print_set_errno(0, "HOME has no value", STR_CD, NULL);
 		return (CD_FAIL);
 	}
-	if (ft_strequ(dir, "-") == TRUE)
+	if (ft_strequ(dir, STR_MINUS) == TRUE)
 	{
 		dir_old_pwd = get_env_value_vct(get_env_list(GET), "OLDPWD");
 		str_old_pwd = vct_getstr(dir_old_pwd);
+		ft_printf("%s\n", str_old_pwd);
 		ret_chdir = process_chdir(vct_home, str_old_pwd);
 		return (ret_chdir == FAILURE ? CD_FAIL : SUCCESS);
 	}
@@ -270,7 +269,7 @@ int cd_builtin(int ac, char **av, char **envp)
 	(void)envp;
 	if (check_cd_arg(ac) == CD_FAIL)
 		return (CD_FAIL);
-	if (ac != 1 && ft_strlen(av[1]) != 0 && ft_strequ(av[1], "-") == FALSE)
+	if (ac != 1 && ft_strlen(av[1]) != 0 && ft_strequ(av[1], STR_MINUS) == FALSE)
 	{
 		ret_check = first_check(av[1]);
 		if (ret_check != CD_CONTINUE)

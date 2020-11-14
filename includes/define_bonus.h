@@ -106,6 +106,8 @@
 #define PERMISSION_DENIED	13
 #define OLD_PWD				0
 #define PWD					1
+#define STR_MINUS				"-"
+#define DOT					'.'
 
 
 /******************************************************************************/
