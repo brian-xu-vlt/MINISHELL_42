@@ -133,7 +133,10 @@ static int handle_permission_denied(char **dir, char *dir_denied)
 	count_root = find_last_root_dot(vct_getstr(new_dir));
 	cut_root(new_dir, count_root);
 	cut_dir(new_dir, count_root);
-	*dir = ft_strdup(vct_getstr(new_dir));
+	if (vct_getlen(new_dir) == 0)
+		*dir = ft_strdup("/");
+	else
+		*dir = ft_strdup(vct_getstr(new_dir));
 	vct_del(&new_dir);
 	free(buff);
 	return (SUCCESS);
@@ -146,7 +149,6 @@ static int process_cd(char *dir)
 	char		*real_dir;
 	char		*dir_denied;
 
-	ft_printf("PROCESS_CD\n");//DEBUG
 	vct_home = get_env_value_vct(get_env_list(GET), "HOME");
 	if (vct_home == NULL)
 	{
