@@ -18,6 +18,7 @@ int	ft_strnequ(char *str1, char *str2, size_t n)
 	size_t	i;
 
 	i = 0;
+	ft_printf("str2 = %s\n", str2);//DEBUG
 	if (str1 == NULL || str2 == NULL)
 		return (FALSE);
 	if (str1 == NULL && str2 == NULL)
