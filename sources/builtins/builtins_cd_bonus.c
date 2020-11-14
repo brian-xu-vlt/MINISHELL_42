@@ -224,19 +224,37 @@ static int process_chdir(t_vector *vct_home, char *dir)
 static int process_cd(char *dir)
 {
 	t_vector *vct_home;
+	t_vector *vct_old_pwd;
 	int ret_chdir;
 	int	ret_pwd;
+	t_vector	*dir_old_pwd;
+	char		*str_old_pwd;
 
+	str_old_pwd = NULL;
 	vct_home = get_env_value_vct(get_env_list(GET), ENV_HOME);
-	if (vct_home == NULL)
+	vct_old_pwd = get_env_value_vct(get_env_list(GET), ENV_OLD_PWD);
+	ft_printf("dir = %s\n", dir);//DEBUG
+	if (vct_home == NULL && dir == NULL)
 	{
 		print_set_errno(0, "HOME not set", STR_CD, NULL);
 		return (CD_FAIL);
+	}
+	if (vct_old_pwd == NULL && ft_strequ(dir, "-") == TRUE)
+	{
+		handle_pwd(OLD_PWD);
+		return (SUCCESS);
 	}
 	if (dir == NULL && vct_getlen(vct_home) == 0)
 	{
 		print_set_errno(0, "HOME has no value", STR_CD, NULL);
 		return (CD_FAIL);
+	}
+	if (ft_strequ(dir, "-") == TRUE)
+	{
+		dir_old_pwd = get_env_value_vct(get_env_list(GET), "OLDPWD");
+		str_old_pwd = vct_getstr(dir_old_pwd);
+		ret_chdir = process_chdir(vct_home, str_old_pwd);
+		return (ret_chdir == FAILURE ? CD_FAIL : SUCCESS);
 	}
 	ret_pwd = handle_pwd(OLD_PWD);
 	if (ret_pwd != SUCCESS)
