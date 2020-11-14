@@ -7,7 +7,7 @@ static int process_cleaner(t_cmd *cmd)
 	ret_cleaner = cleaner(cmd);
 	if (ret_cleaner != SUCCESS)
 		return (ret_cleaner);
-	debug_cleaner(cmd);
+	//debug_cleaner(cmd);
 	return (SUCCESS);
 }
 
@@ -35,7 +35,6 @@ int hub_cleaner(t_list *job_list)
 	t_list *tmp_cmd_lst;
 	t_cmd *cmd;
 	int ret;
-	int ret_cd;
 
 	ret = SUCCESS;
 	while (job_list != NULL)
@@ -51,12 +50,6 @@ int hub_cleaner(t_list *job_list)
 			ret = process_cleaner(cmd);
 			if (ret != SUCCESS)
 				return (ret);
-			if (ft_strequ("cd", cmd->av[0]) == TRUE)
-			{
-				ret_cd = cd_builtin(cmd->ac, cmd->av, NULL);
-				ft_printf("ret_cd = %d\n", ret_cd);//DEBUG
-				ret = FAILURE;
-			}
 			tmp_cmd_lst = tmp_cmd_lst->next;
 		}
 		//debug_jobs(job_list);

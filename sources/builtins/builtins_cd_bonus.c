@@ -28,28 +28,50 @@ static int first_check(char *directory)
 	return (CD_CONTINUE);
 }
 
-static int	handle_cd_only(void)
+static int	handle_pwd(void)
 {
-	t_vector *vct_home;
+	char *pwd;
+	char *buff;
 
-	ft_printf("HANDLE_CD_ONLY\n");//DEBUG
-	vct_home = get_env_value_vct(get_env_list(GET), "HOME");
-	ft_printf("vct_home = %s\n", vct_getstr(vct_home));//DEBUG
-	
+	buff = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
+	if (buff == NULL)
+		return (FAILURE);
+	pwd = getcwd(buff, PATH_MAX);
+	if (pwd == NULL)
+	{
+		print_set_errno(errno, "bash: getcwd", NULL, NULL);
+		free(buff);
+		return (PWD_FAIL);
+	}
+	ms_setenv(get_env_list(GET), "PWD", pwd, F_EXPORT | F_OVERWRITE);
+	free(buff);
+	return (SUCCESS);
 }
 
 static int process_cd(char *dir)
 {
-	ft_printf("dir = %s\n", dir);
-	if (dir == NULL)
-		handle_cd_only();
+	t_vector *vct_home;
+	int			ret_chdir;
+	char		*real_dir;
+
+	vct_home = get_env_value_vct(get_env_list(GET), "HOME");
+	if (dir == NULL && vct_getlen(vct_home) == 0)
+		return (SUCCESS);
+	real_dir = ft_strdup(dir == NULL && vct_getlen(vct_home) != 0 ?
+				vct_getstr(vct_home) : dir);
+	ret_chdir = chdir(real_dir);
+	if (ret_chdir == FAILURE)
+		print_set_errno(errno, strerror(errno), "cd", real_dir);
+	free(real_dir);
+	if (ret_chdir == SUCCESS)
+		ret_chdir = handle_pwd();
+	return (ret_chdir == FAILURE ? CD_FAIL : SUCCESS);
 }
 
 int cd_builtin(int ac, char **av, char **envp)
 {
 	int ret_check;
 
-	ft_printf("CD BUILTIN\n"); //DEBUG
 	(void)envp;
 	if (check_cd_arg(ac) == CD_FAIL)
 		return (CD_FAIL);
@@ -61,6 +83,5 @@ int cd_builtin(int ac, char **av, char **envp)
 	}
 	if (ac != 1 && ft_strlen(av[1]) == 0)
 		return (SUCCESS);
-	process_cd(av[1]);
-	return (SUCCESS);
+	return (process_cd(av[1]));
 }
