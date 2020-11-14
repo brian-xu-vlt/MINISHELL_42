@@ -42,6 +42,7 @@ static void execution_loop(t_job *job, int p_in[2], int p_out[2])
 {
 	t_list *cmd_cursor;
 	size_t cmd_index;
+	int			ret_equ;
 
 	cmd_index = 0;
 	cmd_cursor = job->cmd_lst;
@@ -75,7 +76,6 @@ void executor(t_job *job)
 {
 	int p_in[2];
 	int p_out[2];
-
 	if (is_valid_job(job) == TRUE)
 	{
 		ft_memset(p_in, UNSET, sizeof(int[2]));

@@ -96,6 +96,16 @@
 #define PWD_SUCCESS 0
 #define CD_FAIL		1
 #define CD_CONTINUE		2
+#define STR_CD	"cd"
+#define DOTDOT	".."
+#define ENV_HOME	"HOME"
+#define ENV_PWD		"PWD"
+#define ENV_OLD_PWD		"OLDPWD"
+#define C_ROOT		'/'
+#define STR_ROOT	"/"
+#define PERMISSION_DENIED	13
+#define OLD_PWD				0
+#define PWD					1
 
 
 /******************************************************************************/
