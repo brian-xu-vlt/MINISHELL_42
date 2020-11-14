@@ -55,8 +55,16 @@ static int process_cd(char *dir)
 	char		*real_dir;
 
 	vct_home = get_env_value_vct(get_env_list(GET), "HOME");
+	if (vct_home == NULL)
+	{
+		print_set_errno(0, "HOME not set", "cd", NULL);
+		return (CD_FAIL);
+	}
 	if (dir == NULL && vct_getlen(vct_home) == 0)
-		return (SUCCESS);
+	{
+		print_set_errno(0, "HOME has no value", "cd", NULL);
+		return (CD_FAIL);
+	}
 	real_dir = ft_strdup(dir == NULL && vct_getlen(vct_home) != 0 ?
 				vct_getstr(vct_home) : dir);
 	ret_chdir = chdir(real_dir);
