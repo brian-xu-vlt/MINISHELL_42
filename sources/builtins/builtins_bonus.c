@@ -5,7 +5,7 @@
 static int pwd_error_option(char *str)
 {
 	t_vector *option;
-	
+
 	option = vct_new();
 	vct_add(option, str[0]);
 	vct_add(option, str[1]);

@@ -1,6 +1,6 @@
 #! /bin/bash
 
-print_set(){
+print_separator(){
 	i=1
 	max=$(tput cols)
 	while [ $i -le $max ]
@@ -18,7 +18,7 @@ test () {
 	echo "$TEST" | bash --posix 1>/tmp/ba 2>/tmp/ba.err
 	cat /tmp/ba.err >> /tmp/ba
 	cat /tmp/minishell.err >> /tmp/minishell
-	print_set
+	print_separator
 	echo -e "\e[33m \e[1m["$TEST"]\e[0m\t\t\t left is bash \t\t|\t\t right is minishell\n"
 	colordiff -y /tmp/ba /tmp/minishell
 	echo
@@ -35,5 +35,7 @@ else
 	test "unset hfdjskhdfkjhfsd ; env | sort"
 	test "hfdjskhdfkjhfsd"
 	test "ls fdsfsdfhfsd"
-	test ""
+	test "echo aaaaa bbbb cccccc dddddd > /tmp/a ; cat -e /tmp/a"
+	test "echo terminal is [\$TERM]"
+	test "echo terminal is [\$TERM4"
 fi

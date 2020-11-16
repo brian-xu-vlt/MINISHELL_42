@@ -6,6 +6,8 @@ static void	echo_loop(char **av)
 	{
 		ft_putstr_fd(*av, STDOUT_FILENO);
 		av++;
+		if (*av != NULL)
+			ft_putchar_fd(' ', STDOUT_FILENO);
 	}
 }
 
