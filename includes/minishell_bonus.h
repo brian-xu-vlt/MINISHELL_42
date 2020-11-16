@@ -266,6 +266,10 @@ int		export_builtin(int argc, char **argv, char **envp);
 int		unset_builtin(int argc, char **argv, char **envp);
 int		pwd_builtin(int ac, char **av, char **envp);
 int 	cd_builtin(int ac, char **av, char **envp);
+int 	handle_permission_denied(char **dir, char *dir_denied);
+int 	check_cd_arg(int ac);
+int 	first_check(char *directory);
+void 	transform_new_dir(t_vector *new_dir, char *pwd, char *dir_denied);
 
 /******************************************************************************/
 /*******************************_ENV_MANAGER_**********************************/
