@@ -245,6 +245,6 @@ void		update_window_size(void);
 /*************************************************
 **				MAIN FUNCTIONS
 ************************************************/
-void		line_editor(void);
+int			line_editor(void);
 
 #endif

@@ -92,7 +92,7 @@ int			main(int ac, char **av)
 			ret_read = read_loop(cmd_line);
 		else
 		{
-			line_editor();
+			ret_read = line_editor();
 			ft_putchar_fd('\n', STDOUT_FILENO);
 		}
 		jobs = process_minishell(cmd_line);
