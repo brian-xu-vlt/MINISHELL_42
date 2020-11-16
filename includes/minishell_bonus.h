@@ -209,6 +209,7 @@ bool is_exp_sep(char c);
 
 void	process_open_file(t_cmd *cmd);
 void	export_envp_content(const t_cmd *command);
+void	assign_envp_content(const t_cmd *command);
 int		exec_builtin(t_cmd *command);
 int		exec_binary(const t_cmd *command);
 void	signal_manager(int set_mode);

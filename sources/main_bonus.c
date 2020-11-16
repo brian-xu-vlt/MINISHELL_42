@@ -27,6 +27,7 @@ static int	read_loop(t_vector *cmd_line)
 	return (read_ret);
 }
 
+
 static void	usage(int ac, char **av)
 {
 	(void)av;
@@ -63,8 +64,8 @@ static void	check_std_fd(void)
 {
 	struct stat	wstat;
 
-	if ((write(STDOUT_FILENO, "", 1) == FAILURE)
-	|| (write(STDERR_FILENO, "", 1) == FAILURE)
+	if ((write(STDOUT_FILENO, "", 0) == FAILURE)
+	|| (write(STDERR_FILENO, "", 0) == FAILURE)
 	|| (fstat(STDIN_FILENO, &wstat) != 0))
 	  	exit(0);
 }
@@ -73,6 +74,7 @@ int			main(int ac, char **av)
 {
 	t_vector	*cmd_line;
 	t_list		*jobs;
+	int			ret_read;
 
 	check_std_fd();
 	usage(ac, av);
@@ -82,14 +84,17 @@ int			main(int ac, char **av)
 		exit_routine_le(ERR_MALLOC);
 	init_line_editor(cmd_line);
 	jobs = NULL;
-	while (1)
+	ret_read = 1;
+	while (ret_read > 0)
 	{
 		signal_manager(SIG_MODE_CMD_LINE);
 		if (DEBUG_MODE == TRUE)
-			read_loop(cmd_line);
+			ret_read = read_loop(cmd_line);
 		else
+		{
 			line_editor();
-		ft_putchar_fd('\n', STDOUT_FILENO);
+			ft_putchar_fd('\n', STDOUT_FILENO);
+		}
 		jobs = process_minishell(cmd_line);
 		if (jobs != NULL)
 		{
