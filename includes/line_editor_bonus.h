@@ -67,6 +67,7 @@
 **********************************/
 
 # define	K_EOF					4
+# define	K_TAB					9
 # define	K_UP					0x415b1b
 # define	K_DOWN					0x425b1b
 # define	K_RIGHT					0x435b1b
