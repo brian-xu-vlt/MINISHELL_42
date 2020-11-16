@@ -220,16 +220,34 @@ static int process_chdir(t_vector *vct_home, char *dir)
 	return (ret_chdir);
 }
 
+static int	hub_process_chdir(char *dir, t_vector *vct_home)
+{
+	t_vector	*dir_old_pwd;
+	char		*str_old_pwd;
+	int ret_chdir;
+	int	ret_pwd;
+
+	str_old_pwd = NULL;
+	if (ft_strequ(dir, STR_MINUS) == TRUE)
+	{
+		dir_old_pwd = get_env_value_vct(get_env_list(GET), "OLDPWD");
+		str_old_pwd = vct_getstr(dir_old_pwd);
+		ft_printf("%s\n", str_old_pwd);
+		ret_chdir = process_chdir(vct_home, str_old_pwd);
+		return (ret_chdir == FAILURE ? CD_FAIL : SUCCESS);
+	}
+	ret_pwd = handle_pwd(OLD_PWD);
+	if (ret_pwd != SUCCESS)
+		return (ret_pwd);
+	ret_chdir = process_chdir(vct_home, dir);
+	return (ret_chdir);
+}
+
 static int process_cd(char *dir)
 {
 	t_vector *vct_home;
 	t_vector *vct_old_pwd;
-	int ret_chdir;
-	int	ret_pwd;
-	t_vector	*dir_old_pwd;
-	char		*str_old_pwd;
 
-	str_old_pwd = NULL;
 	vct_home = get_env_value_vct(get_env_list(GET), ENV_HOME);
 	vct_old_pwd = get_env_value_vct(get_env_list(GET), ENV_OLD_PWD);
 	if (vct_home == NULL && dir == NULL)
@@ -247,19 +265,7 @@ static int process_cd(char *dir)
 		print_set_errno(0, "HOME has no value", STR_CD, NULL);
 		return (CD_FAIL);
 	}
-	if (ft_strequ(dir, STR_MINUS) == TRUE)
-	{
-		dir_old_pwd = get_env_value_vct(get_env_list(GET), "OLDPWD");
-		str_old_pwd = vct_getstr(dir_old_pwd);
-		ft_printf("%s\n", str_old_pwd);
-		ret_chdir = process_chdir(vct_home, str_old_pwd);
-		return (ret_chdir == FAILURE ? CD_FAIL : SUCCESS);
-	}
-	ret_pwd = handle_pwd(OLD_PWD);
-	if (ret_pwd != SUCCESS)
-		return (ret_pwd);
-	ret_chdir = process_chdir(vct_home, dir);
-	return (ret_chdir == FAILURE ? CD_FAIL : SUCCESS);
+	return (hub_process_chdir(dir, vct_home) == FAILURE ? CD_FAIL : SUCCESS);
 }
 
 int cd_builtin(int ac, char **av, char **envp)
