@@ -1,8 +1,6 @@
 #include "minishell_bonus.h"
 
-// return int mais pas sur, peut etre juste utiliser le errno.
-
-static int pwd_error_option(char *str)
+static int	pwd_error_option(char *str)
 {
 	t_vector *option;
 
@@ -12,12 +10,11 @@ static int pwd_error_option(char *str)
 	print_set_errno(0, "invalid option", "pwd", vct_getstr(option));
 	if (ft_putstr_fd("pwd: usage: pwd [-LP]\n", STDERR_FILENO) == FAILURE)
 		return (FAILURE);
-	ft_printf("###########################################\n\n"); //DEBUG
 	vct_del(&option);
 	return (SUCCESS);
 }
 
-int pwd_builtin(int ac, char **av, char **envp)
+int			pwd_builtin(int ac, char **av, char **envp)
 {
 	char *pwd;
 	char *buff;
@@ -42,7 +39,6 @@ int pwd_builtin(int ac, char **av, char **envp)
 		return (PWD_FAIL);
 	}
 	ft_printf("%s\n", pwd);
-	ft_printf("##########################\n\n"); //DEBUG
 	free(buff);
 	return (PWD_SUCCESS);
 }

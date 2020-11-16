@@ -3,10 +3,10 @@
 char	*get_data(int type)
 {
 	if (type == E_GREATER_THAN)
-		return (">");
+		return (GREATER_THAN);
 	else if (type == E_LESS_THAN)
-		return ("<");
-	return (">>");
+		return (LESS_THAN);
+	return (DOUBLE_GREATER);
 }
 
 int		get_tablen(char **av)

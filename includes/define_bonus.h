@@ -46,6 +46,11 @@
 #define N_SIMPLE_QUOTE	1
 #define N_QUOTE
 
+#define ERROR_NEWLINE	-2
+
+#define LEXER			0
+#define TOKEN			1
+
 /******************************************************************************/
 /*******************************_CLEANER_**************************************/
 /******************************************************************************/
@@ -71,6 +76,16 @@
 #define TRUE_CMD	3
 #define FALSE_ASSIGN 4
 #define FALSE_EXP		5
+#define BACKSL_ERROR	2
+
+#define LOW_LINE		'_'
+#define QUESTION_MARK	'?'
+#define S_QUESTION_MARK	"?"
+#define C_BACKSLASH		'\\'
+#define C_EXP			'$'
+
+#define CONTINUE		1
+#define BREAK			2
 
 /******************************************************************************/
 /*******************************_BUILTIN_**************************************/
@@ -79,6 +94,20 @@
 #define STR_PWD "pwd"
 #define PWD_FAIL 1
 #define PWD_SUCCESS 0
+#define CD_FAIL		1
+#define CD_CONTINUE		2
+#define STR_CD	"cd"
+#define DOTDOT	".."
+#define ENV_HOME	"HOME"
+#define ENV_PWD		"PWD"
+#define ENV_OLD_PWD		"OLDPWD"
+#define C_ROOT		'/'
+#define STR_ROOT	"/"
+#define PERMISSION_DENIED	13
+#define OLD_PWD				0
+#define PWD					1
+#define STR_MINUS				"-"
+#define DOT					'.'
 
 
 /******************************************************************************/

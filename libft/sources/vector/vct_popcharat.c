@@ -16,7 +16,7 @@ int	vct_popcharat(t_vector *vct, size_t index)
 {
 	if (vct == NULL || index >= vct->len)
 		return (FAILURE);
-	ft_memmove(vct->str + index,  vct->str + index + 1, vct->len - index);
+	ft_memmove(vct->str + index, vct->str + index + 1, vct->len - index);
 	vct->len--;
 	return (SUCCESS);
 }

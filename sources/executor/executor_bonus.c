@@ -1,10 +1,10 @@
 #include "minishell_bonus.h"
 
-static void		waiter(const t_job *job)
+static void waiter(const t_job *job)
 {
-	pid_t	pid;
-	int		wstatus;
-	int		exit_status;
+	pid_t pid;
+	int wstatus;
+	int exit_status;
 
 	wstatus = 0;
 	pid = SUCCESS;
@@ -19,7 +19,7 @@ static void		waiter(const t_job *job)
 	}
 }
 
-static void		open_files_and_export_env(t_cmd *command)
+static void open_files_and_export_env(t_cmd *command)
 {
 	process_open_file(command);
 	if (command->ac == 0 && command->count_assign != 0)
@@ -27,10 +27,10 @@ static void		open_files_and_export_env(t_cmd *command)
 	//	export_envp_content(command);
 }
 
-static void		execute_and_wait(t_job *job, t_cmd *cmd,
-													int p_in[2], int p_out[2])
+static void execute_and_wait(t_job *job, t_cmd *cmd,
+							 int p_in[2], int p_out[2])
 {
-	int		ret;
+	int ret;
 
 	ret = execution_main_process(job, cmd, p_in, p_out);
 	if (is_solo_builtin(job->nb_cmd, cmd) == TRUE)
@@ -39,10 +39,10 @@ static void		execute_and_wait(t_job *job, t_cmd *cmd,
 		waiter(job);
 }
 
-static void		execution_loop(t_job *job, int p_in[2], int p_out[2])
+static void execution_loop(t_job *job, int p_in[2], int p_out[2])
 {
-	t_list	*cmd_cursor;
-	size_t	cmd_index;
+	t_list *cmd_cursor;
+	size_t cmd_index;
 
 	cmd_index = 0;
 	cmd_cursor = job->cmd_lst;
@@ -63,11 +63,10 @@ static void		execution_loop(t_job *job, int p_in[2], int p_out[2])
 	}
 }
 
-void			executor(t_job *job)
+void executor(t_job *job)
 {
-	int		p_in[2];
-	int		p_out[2];
-
+	int p_in[2];
+	int p_out[2];
 	if (is_valid_job(job) == TRUE)
 	{
 		ft_memset(p_in, UNSET, sizeof(int[2]));
