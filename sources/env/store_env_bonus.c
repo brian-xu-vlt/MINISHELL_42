@@ -85,7 +85,7 @@ static void		store_env(t_list *env_lst, const char *env, int flags)
 
 void			ms_putenv(t_list *env_lst, const char *env)
 {
-	store_env(env_lst, env, F_OVERWRITE);
+	store_env(env_lst, env, F_NOFLAG);
 }
 
 void			export_env(t_list *env_lst, const char *env)
