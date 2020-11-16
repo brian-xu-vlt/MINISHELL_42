@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-int check_cd_arg(int ac)
+int			check_cd_arg(int ac)
 {
 	if (ac > 2)
 	{
@@ -10,7 +10,7 @@ int check_cd_arg(int ac)
 	return (CD_CONTINUE);
 }
 
-static int check_directory(char *directory)
+static int	check_directory(char *directory)
 {
 	size_t i;
 	size_t count_dot;
@@ -33,7 +33,7 @@ static int check_directory(char *directory)
 	return (SUCCESS);
 }
 
-int first_check(char *directory)
+int			first_check(char *directory)
 {
 	DIR *dir;
 	int ret_directory;
@@ -58,11 +58,11 @@ int first_check(char *directory)
 	return (CD_CONTINUE);
 }
 
-int handle_permission_denied(char **dir, char *dir_denied)
+int			handle_permission_denied(char **dir, char *dir_denied)
 {
-	char *pwd;
-	char *buff;
-	t_vector *new_dir;
+	char		*pwd;
+	char		*buff;
+	t_vector	*new_dir;
 
 	buff = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
 	if (buff == NULL)

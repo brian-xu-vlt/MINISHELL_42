@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static int find_last_root(char *pwd)
+static int	find_last_root(char *pwd)
 {
 	size_t i;
 	size_t count;
@@ -16,7 +16,7 @@ static int find_last_root(char *pwd)
 	return (count);
 }
 
-static int find_last_root_dot(char *pwd)
+static int	find_last_root_dot(char *pwd)
 {
 	size_t i;
 	size_t count;
@@ -32,7 +32,7 @@ static int find_last_root_dot(char *pwd)
 	return (count);
 }
 
-static void cut_root(t_vector *new_dir, size_t count_root)
+static void	cut_root(t_vector *new_dir, size_t count_root)
 {
 	size_t i;
 
@@ -46,7 +46,7 @@ static void cut_root(t_vector *new_dir, size_t count_root)
 		vct_cut(new_dir);
 }
 
-static void cut_dir(t_vector *new_dir, size_t count_root)
+static void	cut_dir(t_vector *new_dir, size_t count_root)
 {
 	size_t i;
 	size_t last_root;
@@ -60,11 +60,11 @@ static void cut_dir(t_vector *new_dir, size_t count_root)
 	}
 }
 
-void transform_new_dir(t_vector *new_dir, char *pwd, char *dir_denied)
+void		transform_new_dir(t_vector *new_dir, char *pwd, char *dir_denied)
 {
-	size_t count_root;
-	t_vector *vct_denied;
-	t_vector *real_vct_denied;
+	size_t		count_root;
+	t_vector	*vct_denied;
+	t_vector	*real_vct_denied;
 
 	vct_denied = vct_new();
 	real_vct_denied = vct_new();

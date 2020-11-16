@@ -1,8 +1,6 @@
 #include "minishell_bonus.h"
 
-// return int mais pas sur, peut etre juste utiliser le errno.
-
-static int pwd_error_option(char *str)
+static int	pwd_error_option(char *str)
 {
 	t_vector *option;
 
@@ -16,7 +14,7 @@ static int pwd_error_option(char *str)
 	return (SUCCESS);
 }
 
-int pwd_builtin(int ac, char **av, char **envp)
+int			pwd_builtin(int ac, char **av, char **envp)
 {
 	char *pwd;
 	char *buff;

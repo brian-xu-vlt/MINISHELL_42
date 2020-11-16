@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static int handle_pwd(int flag)
+static int	handle_pwd(int flag)
 {
 	char *pwd;
 	char *buff;
@@ -23,11 +23,11 @@ static int handle_pwd(int flag)
 	return (SUCCESS);
 }
 
-static int process_chdir(t_vector *vct_home, char *dir)
+static int	process_chdir(t_vector *vct_home, char *dir)
 {
-	char *real_dir;
-	char *dir_denied;
-	int ret_chdir;
+	char	*real_dir;
+	char	*dir_denied;
+	int		ret_chdir;
 
 	real_dir = ft_strdup(dir == NULL && vct_getlen(vct_home) != 0 ?
 					vct_getstr(vct_home) : dir);
@@ -52,8 +52,8 @@ static int	hub_process_chdir(char *dir, t_vector *vct_home)
 {
 	t_vector	*dir_old_pwd;
 	char		*str_old_pwd;
-	int ret_chdir;
-	int	ret_pwd;
+	int			ret_chdir;
+	int			ret_pwd;
 
 	str_old_pwd = NULL;
 	if (ft_strequ(dir, STR_MINUS) == TRUE)
@@ -71,7 +71,7 @@ static int	hub_process_chdir(char *dir, t_vector *vct_home)
 	return (ret_chdir);
 }
 
-static int process_cd(char *dir)
+static int	process_cd(char *dir)
 {
 	t_vector *vct_home;
 	t_vector *vct_old_pwd;
@@ -96,14 +96,15 @@ static int process_cd(char *dir)
 	return (hub_process_chdir(dir, vct_home) == FAILURE ? CD_FAIL : SUCCESS);
 }
 
-int cd_builtin(int ac, char **av, char **envp)
+int			cd_builtin(int ac, char **av, char **envp)
 {
 	int ret_check;
 
 	(void)envp;
 	if (check_cd_arg(ac) == CD_FAIL)
 		return (CD_FAIL);
-	if (ac != 1 && ft_strlen(av[1]) != 0 && ft_strequ(av[1], STR_MINUS) == FALSE)
+	if (ac != 1 && ft_strlen(av[1]) != 0 &&
+			ft_strequ(av[1], STR_MINUS) == FALSE)
 	{
 		ret_check = first_check(av[1]);
 		if (ret_check != CD_CONTINUE)
