@@ -43,8 +43,8 @@ static int			process_quote_checker(enum e_state state, t_vector *input)
 
 int					quote_checker(char *str)
 {
-	t_state			function_state[] = {string_state, squote_state,
-								dquote_state};
+	static t_state	function_state[] = {string_state, squote_state,
+											dquote_state};
 	enum e_state	state;
 	t_vector		*input;
 

@@ -3,7 +3,7 @@
 int		add_job_to_list(t_job *job, t_list **jobs, t_list *token_list,
 							t_list **head)
 {
-	t_list	*node_job = NULL;
+	t_list	*node_job;
 
 	node_job = ft_lstnew(job);
 	if (node_job == NULL)

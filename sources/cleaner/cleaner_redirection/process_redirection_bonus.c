@@ -33,9 +33,9 @@ static enum e_state_redir	in_redir(char *str, enum e_token_type type)
 
 int							create_tab_redir(t_cmd *cmd, t_clean_cmd *clean_cmd)
 {
-	t_state_redir		function_state[] = {in_redir, in_file, in_out};
-	enum e_state_redir	state;
-	size_t				i;
+	static t_state_redir	function_state[] = {in_redir, in_file, in_out};
+	enum e_state_redir		state;
+	size_t					i;
 
 	state = E_IN_OUT;
 	i = 0;

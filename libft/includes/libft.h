@@ -69,7 +69,6 @@ int					ft_iswhitespace(int c);
 int					ft_iswhitespacecomma(int c);
 int					ft_iswhitespacedigit(int c);
 int					ft_iscomma(int c);
-//size_t				ft_bubblesort_minindex(size_t *tab, size_t size);
 double				ft_lfpow(double nb, int pow);
 void				ft_int_to_char(unsigned char *s, int value);
 int					ft_atoi_base(const char *str, char *base);

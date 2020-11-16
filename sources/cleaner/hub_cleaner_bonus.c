@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static int process_cleaner(t_cmd *cmd)
+static int	process_cleaner(t_cmd *cmd)
 {
 	int ret_cleaner;
 
@@ -11,7 +11,7 @@ static int process_cleaner(t_cmd *cmd)
 	return (SUCCESS);
 }
 
-static int handle_condition(t_cmd *cmd, int ret_executor)
+static int	handle_condition(t_cmd *cmd, int ret_executor)
 {
 	if ((cmd->condition == E_YES_AND && ret_executor != SUCCESS) ||
 		(cmd->condition == E_NOT_OR && ret_executor == SUCCESS))
@@ -21,7 +21,7 @@ static int handle_condition(t_cmd *cmd, int ret_executor)
 	return (SUCCESS);
 }
 
-static int is_next_job(int ret_executor, t_job *job)
+static int	is_next_job(int ret_executor, t_job *job)
 {
 	if (ret_executor == SUCCESS)
 		executor(job);
@@ -29,12 +29,12 @@ static int is_next_job(int ret_executor, t_job *job)
 	return (ret_executor);
 }
 
-int hub_cleaner(t_list *job_list)
+int			hub_cleaner(t_list *job_list)
 {
-	t_job *job;
-	t_list *tmp_cmd_lst;
-	t_cmd *cmd;
-	int ret;
+	t_job	*job;
+	t_list	*tmp_cmd_lst;
+	t_cmd	*cmd;
+	int		ret;
 
 	ret = SUCCESS;
 	while (job_list != NULL)
