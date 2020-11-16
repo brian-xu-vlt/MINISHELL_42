@@ -20,6 +20,7 @@ static void	fill_termcaps(t_le *le)
 {
 	int		i;
 
+	le->termcap[CLEAR_LINE] = tgetstr("ce", NULL);
 	le->termcap[CLEAR_ALL_AFTER_CURS] = tgetstr("cd", NULL);
 	le->termcap[SELECT] = tgetstr("so", NULL);
 	le->termcap[UNSELECT] = tgetstr("se", NULL);
@@ -51,16 +52,18 @@ void		init_line_editor(t_vector *cmd_line)
 	get_struct(le);
 	if (le == NULL)
 		exit_routine_le(ERR_MALLOC);
-	le->prompt_len = ft_strlen(PROMPT);
+	le->prompt_len = ft_strlen(PROMPT_LINE_EDITION);
 	le->clipboard = vct_new();
 	if (le->clipboard == NULL)
 		exit_routine_le(ERR_MALLOC);
 	le->cmd_line = cmd_line;
-	if (DEBUG_MODE == 0)
+	if (DEBUG_MODE == FALSE)
 	{
 		init_library_db();
 		init_term_mode();
 		fill_termcaps(le);
 		update_window_size();
 	}
+	le->stdout_stat = SUCCESS;
+	le->stderr_stat = SUCCESS;
 }

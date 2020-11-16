@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static void process_clean(size_t size, char **dest, char **src)
+static void	process_clean(size_t size, char **dest, char **src)
 {
 	size_t fake_av;
 	size_t real_av;

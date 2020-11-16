@@ -43,7 +43,8 @@
 # define	ERR_MALLOC		"Malloc could not allocate memory."
 # define	ERR_FORK		"Could not fork a chilf process."
 # define	ERR_HUP			"Received a Hang Up signal."
-
+# define	ERR_MS_PUTCHAR	"Could not write on stdout"
+# define	ERR_MS_TPUTS	"Could not output termcaps"
 
 /**********************************
 *********     UTILS     ***********
@@ -65,6 +66,8 @@
 *********  USER KEYS  *************
 **********************************/
 
+# define	K_EOF					4
+# define	K_TAB					9
 # define	K_UP					0x415b1b
 # define	K_DOWN					0x425b1b
 # define	K_RIGHT					0x435b1b
@@ -85,7 +88,8 @@
 # define	CTRL_MASK				(1 << 0)
 # define	SHIFT_MASK				(1 << 1)
 
-# define	PROMPT					"~$>"
+# define	PROMPT_SIMPLE			"NO_LINE_ED~$>"
+# define	PROMPT_LINE_EDITION		"LINE_EDITION~$>"
 
 /**********************************
 *********  DEBUG TERMCAPS *********
@@ -95,17 +99,17 @@
 # define	NO_HIGHLIGHT			"me"
 # define	SAVE_CURSOR_POS			"sc"
 # define	RESTORE_CURSOR_POS		"rc"
-# define	CLEAR_LINE				"ce"
 
 /**********************************
 *****  LINE EDITOR TERNCAPS ******
 **********************************/
 
-# define	NB_ESSENTIAL_TERMCAP	10
+# define	NB_ESSENTIAL_TERMCAP	11
 # define	NB_OPTIONAL_TERMCAP		4
 
 enum	e_essential_termcap
 {
+	CLEAR_LINE,
 	CLEAR_ALL_AFTER_CURS,
 	SELECT,
 	UNSELECT,
@@ -149,6 +153,8 @@ typedef struct	s_line_editor
 	int				vct_index_backup;
 	int				select_min;
 	int				select_max;
+	int				stdout_stat;
+	int				stderr_stat;
 }				t_le;
 
 /*************************************************
@@ -164,6 +170,7 @@ void		debug_print_flag(char *flag);
 
 t_le		*get_struct(t_le *env);
 int         ms_putchar(int c);
+int			ms_tputs(const char *str, int affcnt, int (*putc)(int));
 
 int			is_shift_on(long key);
 int			is_ctrl_on(long key);
@@ -229,6 +236,7 @@ void		move_cursor_at_index(int index_to);
 ************************************************/
 
 void		init_prompt(void);
+void		print_prompt(void);
 void		init_term_mode(void);
 void		set_termios(const struct termios *termios_mode);
 void		init_line_editor(t_vector *cmd_line);
@@ -237,6 +245,6 @@ void		update_window_size(void);
 /*************************************************
 **				MAIN FUNCTIONS
 ************************************************/
-void		line_editor(void);
+int			line_editor(void);
 
 #endif

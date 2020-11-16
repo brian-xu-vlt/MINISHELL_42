@@ -33,8 +33,6 @@ static int	check_token(t_token *token, enum e_token_type *current,
 			i++;
 		}
 	}
-	//if (ret == TRUE)
-		//parser_debug(token);
 	return (ret);
 }
 
@@ -50,9 +48,13 @@ int			process_parser(t_list *list, t_valid_token *valid_token)
 		if (check_token(token, &current,
 							valid_token[current].next_token) == FALSE)
 		{
-			return (FALSE); //MESSAGE D'ERREUR
+			ft_putstr_fd("minishell: syntax error near unexpected token `",
+							STDERR_FILENO);
+			ft_putstr_fd((char *)get_token_str(token->type), STDERR_FILENO);
+			ft_putendl_fd("'", STDERR_FILENO);
+			return (FALSE);
 		}
 		list = list->next;
 	}
-	return (TRUE);//DEBUG
+	return (TRUE);
 }

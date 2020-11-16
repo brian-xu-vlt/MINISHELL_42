@@ -2,11 +2,12 @@
 
 static int	process_sep(t_list **head, t_list **jobs)
 {
-	t_list	*token_list = *head;
+	t_list	*token_list;
 	t_job	*job;
 	t_cmd	cmd;
 	t_token	*token;
 
+	token_list = *head;
 	job = init_job();
 	if (*head == NULL || job == NULL)
 		return (FAILURE);
@@ -51,9 +52,10 @@ static void	count_nb_command(t_list *job_list)
 
 t_list		*get_jobs(t_list *token_list)
 {
-	t_list	*jobs = NULL;
+	t_list	*jobs;
 	int		ret;
 
+	jobs = NULL;
 	ret = SUCCESS;
 	while (token_list != NULL)
 	{

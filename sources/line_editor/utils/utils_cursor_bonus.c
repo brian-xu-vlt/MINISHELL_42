@@ -7,14 +7,14 @@ void	move_at_col_x(int target_col)
 
 	le = get_struct(GET);
 	if (le->termcap[MOVE_AT_COL_X] != NULL)
-		tputs(tparm(le->termcap[MOVE_AT_COL_X], target_col), 1, ms_putchar);
+		ms_tputs(tparm(le->termcap[MOVE_AT_COL_X], target_col), 1, ms_putchar);
 	else
 	{
-		tputs(le->termcap[RETURN_CARRIAGE], 1, ms_putchar);
+		ms_tputs(le->termcap[RETURN_CARRIAGE], 1, ms_putchar);
 		i = 0;
 		while (i < target_col)
 		{
-			tputs(le->termcap[ONE_COL_RIGHT], 1, ms_putchar);
+			ms_tputs(le->termcap[ONE_COL_RIGHT], 1, ms_putchar);
 			i++;
 		}
 	}
@@ -29,14 +29,14 @@ int		move_cursor_left(void)
 		return (FAILURE);
 	if (le->cx == 0 && le->cy > 0)
 	{
-		tputs(le->termcap[ONE_ROW_UP], 1, ms_putchar);
+		ms_tputs(le->termcap[ONE_ROW_UP], 1, ms_putchar);
 		move_at_col_x(le->scols);
 		le->cx = le->scols - 1;
 		le->cy--;
 	}
 	else
 	{
-		tputs(le->termcap[ONE_COL_LEFT], 1, ms_putchar);
+		ms_tputs(le->termcap[ONE_COL_LEFT], 1, ms_putchar);
 		le->cx--;
 	}
 	le->vct_index--;
@@ -53,13 +53,13 @@ int		move_cursor_right(void)
 	if (le->cx >= le->scols - 1)
 	{
 		move_at_col_x(0);
-		tputs(le->termcap[ONE_ROW_DOWN], 1, ms_putchar);
+		ms_tputs(le->termcap[ONE_ROW_DOWN], 1, ms_putchar);
 		le->cx = 0;
 		le->cy++;
 	}
 	else
 	{
-		tputs(le->termcap[ONE_COL_RIGHT], 1, ms_putchar);
+		ms_tputs(le->termcap[ONE_COL_RIGHT], 1, ms_putchar);
 		le->cx++;
 	}
 	le->vct_index++;
@@ -92,7 +92,7 @@ void	move_previous_line_head(void)
 		return ;
 	if (le->cy > 0)
 	{
-		tputs(le->termcap[ONE_ROW_UP], 1, ms_putchar);
+		ms_tputs(le->termcap[ONE_ROW_UP], 1, ms_putchar);
 		le->cy--;
 	}
 	offset = (le->cy == 0) ? le->prompt_len : 0;

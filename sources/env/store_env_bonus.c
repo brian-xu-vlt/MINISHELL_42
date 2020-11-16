@@ -40,7 +40,7 @@ static void		update_existing_env(t_env *env_struct,
 	}
 }
 
-void			ms_setenv(t_list *env_lst, const char *env_name, 
+void			ms_setenv(t_list *env_lst, const char *env_name,
 											const char *env_value, int flags)
 {
 	t_env		*env_node;
@@ -75,7 +75,7 @@ static void		store_env(t_list *env_lst, const char *env, int flags)
 	if (env != NULL)
 	{
 		parse_env(env, &env_name, &env_value, &overwrite);
-		flags |= (overwrite == TRUE) ? F_OVERWRITE : F_NOFLAG; 
+		flags |= (overwrite == TRUE) ? F_OVERWRITE : F_NOFLAG;
 		ms_setenv(env_lst, env_name, env_value, flags);
 		if (env_value != NULL)
 			free(env_value);
@@ -85,7 +85,7 @@ static void		store_env(t_list *env_lst, const char *env, int flags)
 
 void			ms_putenv(t_list *env_lst, const char *env)
 {
-	store_env(env_lst, env, F_NOFLAG);
+	store_env(env_lst, env, F_OVERWRITE);
 }
 
 void			export_env(t_list *env_lst, const char *env)

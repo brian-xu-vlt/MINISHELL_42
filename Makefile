@@ -93,6 +93,7 @@ SRCS += utils_bonus.c
 SRCS += utils_cursor_bonus.c
 
 SRCS += duplicate_env_lst_bonus.c
+SRCS += builtins_echo_bonus.c
 SRCS += builtins_env_bonus.c
 SRCS += unset_env_bonus.c
 SRCS += get_env_bonus.c
@@ -136,13 +137,6 @@ SRCS += job_command_count_bonus.c
 SRCS += job_command_create_utils_bonus.c
 SRCS += cleaner_bonus.c
 SRCS += hub_cleaner_bonus.c
-SRCS += cleaner_quote_no_exp_bonus.c
-SRCS += cleaner_quote_exp_bonus.c
-SRCS += hub_cleaner_quote_exp_bonus.c
-SRCS += cleaner_between_nothing_bonus.c
-SRCS += cleaner_between_simple_bonus.c
-SRCS += cleaner_between_double_bonus.c
-SRCS += cleaner_between_both_bonus.c
 SRCS += verif_bonus.c
 SRCS += process_redirection_bonus.c
 SRCS += clean_redirection_bonus.c
@@ -151,7 +145,13 @@ SRCS += get_type_command_bonus.c
 SRCS += get_envp_av_bonus.c
 SRCS += get_envp_av_utils_bonus.c
 SRCS += cleaner_utils_bonus.c
-SRCS += builtins_bonus.c
+SRCS += builtins_pwd_bonus.c
+SRCS += builtins_cd_bonus.c
+SRCS += cleaner_quote_bonus.c
+SRCS += cleaner_quote_utils_bonus.c
+SRCS += quote_checker_bonus.c
+SRCS += builtins_cd_transform_bonus.c
+SRCS += builtins_cd_check_bonus.c
 
 
 OBJ_DIR = ./objs/
@@ -174,10 +174,9 @@ vpath %.c sources/line_editor/handlers/selection
 vpath %.c sources/line_editor/handlers/special_keys
 vpath %.c sources/command_job
 vpath %.c sources/cleaner
-vpath %.c sources/cleaner/cleaner_quote_exp
-vpath %.c sources/cleaner/cleaner_quote_no_exp
 vpath %.c sources/cleaner/cleaner_command
 vpath %.c sources/cleaner/cleaner_redirection
+vpath %.c sources/cleaner/cleaner_quote
 vpath %.c TESTER_PARSER/
 vpath %.c TESTER_JOB_COMMAND/
 vpath %.c TESTER_CLEANER_QUOTE/
@@ -190,7 +189,7 @@ all : $(LIB)
 
 $(OBJS): $(OBJ_DIR)%.o: %.c $(HEADER)
 	$(CC) -D DEBUG_MODE=$(DEBUG_MODE) -D BONUS_FLAG=1 $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
- 
+
 $(NAME): $(OBJ_DIR) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -I$(INCLUDES) -I$(INCLUDES_LIB) $(LIB_TERMCAP) -L./libft -lft -o $@
 	echo "\033[32m$@ is ready !\033[0m"

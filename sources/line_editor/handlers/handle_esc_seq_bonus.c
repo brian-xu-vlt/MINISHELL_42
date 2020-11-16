@@ -67,7 +67,9 @@ void		handle_esc_seq(char key)
 {
 	long	long_key;
 
-	if (key != K_DEL_BACKWARD)
+	if (key == K_TAB)
+		return ;
+	else if (key != K_DEL_BACKWARD)
 		long_key = expand_escape_sequence(key);
 	else
 		long_key = (long)key;

@@ -45,8 +45,9 @@ static int	process_lexer_word_assign(ssize_t type, t_list **token_list,
 {
 	int	ret;
 
-	ret = handle_assign_quote(input, word);
-	// if ret == failure : \ cause error miss endl 
+	ret = SUCCESS;
+	if (handle_assign_quote(input, word) == FAILURE)
+		return (ERROR_NEWLINE);
 	type = E_WORD;
 	if (vct_getlen(word) != 0)
 	{
@@ -89,6 +90,7 @@ t_list		*lexer(t_vector *input)
 {
 	t_list		*token_list;
 	t_vector	*word;
+	int			ret_process_lexer;
 
 	word = vct_new();
 	token_list = NULL;
@@ -96,22 +98,13 @@ t_list		*lexer(t_vector *input)
 		return (NULL);
 	while (vct_getlen(input) > 0)
 	{
-		if (process_lexer(input, &token_list, word) == FAILURE)
-		{
-			free_list_token(&token_list);
-			exit_routine_lexer(word, NULL, NULL, NULL);
+		ret_process_lexer = process_lexer(input, &token_list, word);
+		if (handle_ret_lexer(ret_process_lexer, token_list, word, LEXER)
+				== FAILURE)
 			return (NULL);
-		}
 	}
-	if (vct_getlen(word) != 0)
-	{
-		if (extract_token_word(&token_list, word) == FAILURE)
-		{
-			free_list_token(&token_list);
-			exit_routine_lexer(word, NULL, NULL, NULL);
-			return (NULL);
-		}
-	}
+	if (handle_ret_lexer(0, token_list, word, TOKEN) == FAILURE)
+		return (NULL);
 	vct_del(&word);
 	extract_token(&token_list, NULL, E_END);
 	return (token_list);

@@ -60,3 +60,5 @@ dkms.conf
 .vscode
 .code-workspace
 minishell.code-workspace
+.DS_Store
+._.DS_Store

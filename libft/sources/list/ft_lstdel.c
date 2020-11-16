@@ -20,11 +20,11 @@ static void	ft_delprocess(t_list *lst, void (*del)(void *))
 		if (del != NULL)
 			del(lst->content);
 		free(lst);
-		lst = NULL;	
+		lst = NULL;
 	}
 }
 
-void	ft_lstdel(t_list **lst, void (*del)(void *))
+void		ft_lstdel(t_list **lst, void (*del)(void *))
 {
 	if (lst != NULL)
 	{

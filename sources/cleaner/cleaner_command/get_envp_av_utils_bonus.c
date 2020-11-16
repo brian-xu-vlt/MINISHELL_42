@@ -32,6 +32,8 @@ void	fill_envp(t_cmd *cmd, int index_cmd)
 			ft_strdel(&cmd->av[i]);
 			i_envp++;
 		}
+		else
+			free(cmd->av[i]);
 		i++;
 	}
 }

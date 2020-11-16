@@ -28,6 +28,7 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <signal.h>
+# include <dirent.h>
 
 /******************************************************************************/
 /*******************************_FUNCTION_*************************************/
@@ -66,6 +67,9 @@ void					free_list_token(t_list **token);
 const char				*get_token_str(const int type);
 char					*get_data(int type);
 void					free_token(t_list *node, t_token *token);
+int 					handle_ret_lexer(int ret_process_lexer,
+											t_list *token_list, t_vector *word,
+											int flag);
 
 /******************************************************************************/
 /*******************************_PARSER_***************************************/
@@ -195,9 +199,16 @@ int									*fill_tab_clean_exp(int *tab_clean_exp,
 															int clean_exp);
 int 								hub_cleaner(t_list *job_list);
 ssize_t								end_exp(char *str);
-
-
-bool is_exp_sep(char c);
+int 								process_clean_quote(t_vector *input,
+															t_vector *output);
+int 								handle_backslash_double(char c,
+															t_vector *input);
+int 								handle_backslash_nothing(t_vector *input,
+															t_vector *output,
+																char c);
+int 								is_backslash(char c, char next_c,
+													t_vector *input);
+bool 								is_exp_sep(char c);
 
 /******************************************************************************/
 /*******************************_EXECUTION_************************************/
@@ -209,6 +220,7 @@ bool is_exp_sep(char c);
 
 void	process_open_file(t_cmd *cmd);
 void	export_envp_content(const t_cmd *command);
+void	assign_envp_content(const t_cmd *command);
 int		exec_builtin(t_cmd *command);
 int		exec_binary(const t_cmd *command);
 void	signal_manager(int set_mode);
@@ -254,6 +266,12 @@ int		env_builtin(int argc, char **argv, char **envp);
 int		export_builtin(int argc, char **argv, char **envp);
 int		unset_builtin(int argc, char **argv, char **envp);
 int		pwd_builtin(int ac, char **av, char **envp);
+int		echo_builtin(int ac, char **av, char **envp);
+int 	cd_builtin(int ac, char **av, char **envp);
+int 	handle_permission_denied(char **dir, char *dir_denied);
+int 	check_cd_arg(int ac);
+int 	first_check(char *directory);
+void 	transform_new_dir(t_vector *new_dir, char *pwd, char *dir_denied);
 
 /******************************************************************************/
 /*******************************_ENV_MANAGER_**********************************/

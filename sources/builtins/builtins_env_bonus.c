@@ -5,7 +5,8 @@
 int	exit_builtin(int ac, char **av, char **envp)
 {
 	const char	*builtin = "exit";
-(void)envp;
+
+	(void)envp;
 	if (ft_strequ(av[0], (char *)builtin) == FALSE)
 		return (0);
 	if (ac == 1)
@@ -16,8 +17,8 @@ int	exit_builtin(int ac, char **av, char **envp)
 int	env_builtin(int ac, char **av, char **envp)
 {
 	const char	*builtin = "env";
-(void)envp;
 
+	(void)envp;
 	if (ft_strequ(av[0], (char *)builtin) == FALSE)
 		return (0);
 	if (ac == 1)
@@ -59,7 +60,6 @@ static void	export_envp(char **envp)
 int	export_builtin(int ac, char **av, char **envp)
 {
 	const char	*builtin = "export";
-(void)envp;
 
 	errno = 0;
 	if (ft_strequ(av[0], (char *)builtin) == TRUE && ac > 1)
@@ -85,7 +85,7 @@ int	unset_builtin(int ac, char **av, char **envp)
 	const char	*builtin = "unset";
 	int			i;
 
-(void)envp;
+	(void)envp;
 	if (ac == 1 || ft_strequ(av[0], (char *)builtin) == FALSE)
 		return (0);
 	else

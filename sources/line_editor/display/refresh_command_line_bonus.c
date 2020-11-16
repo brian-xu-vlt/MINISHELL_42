@@ -2,13 +2,25 @@
 
 static void	refresh_whole_window(t_le *le)
 {
-	tputs(le->termcap[MOVE_CURSOR_HOME], le->cy, ms_putchar);
-	tputs(le->termcap[CLEAR_ALL_AFTER_CURS], le->cy, ms_putchar);
+	ms_tputs(le->termcap[MOVE_CURSOR_HOME], le->cy, ms_putchar);
+	ms_tputs(le->termcap[CLEAR_ALL_AFTER_CURS], le->cy, ms_putchar);
 	init_prompt();
 	le->screen_flag |= FULL_REFRESH;
 }
 
-static void	move_cursor_at_refresh_startingpoint(t_le *le)
+static void	move_cursor_at_refresh_startingpoint(t_le *le, int head_of_block)
+{
+	while (le->vct_index > head_of_block)
+		move_previous_line_head();
+	if (head_of_block == 0)
+	{
+		ms_tputs(tparm(le->termcap[MOVE_AT_COL_X], 0), 2, ms_putchar);
+		ms_tputs(le->termcap[CLEAR_LINE], 1, ms_putchar);
+		print_prompt();
+	}
+}
+
+static void	identify_refresh_startingpoint(t_le *le)
 {
 	int		head_of_block;
 
@@ -21,8 +33,7 @@ static void	move_cursor_at_refresh_startingpoint(t_le *le)
 		head_of_block = le->vct_index - 1;
 	else
 		head_of_block = 0;
-	while (le->vct_index > head_of_block)
-		move_previous_line_head();
+	move_cursor_at_refresh_startingpoint(le, head_of_block);
 }
 
 static void	move_cursor_at_backup(t_le *le, int index_backup, int vct_len)
@@ -48,8 +59,8 @@ void		refresh_command_line(void)
 	le = get_struct(GET);
 	vct_len = vct_getlen(le->cmd_line);
 	index_backup = (le->vct_index < vct_len) ? le->vct_index : UNSET;
-	move_cursor_at_refresh_startingpoint(le);
-	tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
+	identify_refresh_startingpoint(le);
+	ms_tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
 	print_cmd_line();
 	move_cursor_at_index(vct_len);
 	if ((le->screen_flag & HISTORY_REFRESH) == FALSE)

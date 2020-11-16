@@ -1,19 +1,35 @@
 #include "minishell_bonus.h"
 
-static void	print_prompt(void)
+void	print_prompt(void)
 {
-	ft_printf("SHELL > ");
+	t_le	*le;
+	char	*prompt_str;
+
+	le = get_struct(GET);
+	if (DEBUG_MODE == TRUE)
+		prompt_str = PROMPT_SIMPLE;
+	else
+		prompt_str = PROMPT_LINE_EDITION;
+	ft_putstr_fd(prompt_str, STDOUT_FILENO);
 }
 
-static void	read_loop(t_vector *cmd_line)
+static int	read_loop(t_vector *cmd_line)
 {
+	int		read_ret;
+
+	read_ret = 0;
 	print_prompt();
-	vct_readline(cmd_line, 0);
+	if ((read_ret = vct_readline(cmd_line, 0)) == FAILURE)
+	{
+		print_set_errno(errno, NULL, NULL, NULL);
+		exit_routine_le(ERR_NO_MESSAGE);
+	}
+	return (read_ret);
 }
+
 
 static void	usage(int ac, char **av)
 {
-	(void)ac;
 	(void)av;
 	if (ac != 1)
 	{
@@ -48,20 +64,17 @@ static void	check_std_fd(void)
 {
 	struct stat	wstat;
 
-	if (write(STDOUT_FILENO, "", 1) == FAILURE)
-		exit (42);												// set line editor fd to STDERR_FILENO
-	if (write(STDERR_FILENO, "", 1) == FAILURE)
-		exit (21);												// ?..
-
-	if (fstat(STDIN_FILENO, &wstat) != 0
-	|| fstat(STDOUT_FILENO, &wstat) != 0 || fstat(STDERR_FILENO, &wstat) != 0)
-		exit(0);
+	if ((write(STDOUT_FILENO, "", 0) == FAILURE)
+	|| (write(STDERR_FILENO, "", 0) == FAILURE)
+	|| (fstat(STDIN_FILENO, &wstat) != 0))
+	  	exit(0);
 }
 
 int			main(int ac, char **av)
 {
 	t_vector	*cmd_line;
 	t_list		*jobs;
+	int			ret_read;
 
 	check_std_fd();
 	usage(ac, av);
@@ -71,14 +84,17 @@ int			main(int ac, char **av)
 		exit_routine_le(ERR_MALLOC);
 	init_line_editor(cmd_line);
 	jobs = NULL;
-	while (1)
+	ret_read = 1;
+	while (ret_read > 0)
 	{
 		signal_manager(SIG_MODE_CMD_LINE);
 		if (DEBUG_MODE == TRUE)
-			read_loop(cmd_line);
+			ret_read = read_loop(cmd_line);
 		else
-			line_editor();
-		ft_putchar_fd('\n', STDOUT_FILENO);
+		{
+			ret_read = line_editor();
+			ft_putchar_fd('\n', STDOUT_FILENO);
+		}
 		jobs = process_minishell(cmd_line);
 		if (jobs != NULL)
 		{
@@ -92,7 +108,7 @@ int			main(int ac, char **av)
 		}
 		vct_clear(cmd_line);
 		free_list_job(&jobs);
-	ft_printf("\t\t\t\t[LAST EXIT STATUS %3d]\r", get_env_value_int(get_env_list(GET), "?"));  //TODO remove
+//	ft_printf("\t\t\t\t[LAST EXIT STATUS %3d]\r", get_env_value_int(get_env_list(GET), "?"));  //TODO remove
 	}
 	exit_routine_le(NULL);
 	free_list_job(&jobs);

@@ -3,12 +3,12 @@
 int		fill_name(t_token *token, t_cmd *cmd)
 {
 	static int count;
-	
 
 	if (count == 0)
 	{
 		cmd->av = (char **)malloc(sizeof(char *) * (cmd->ac + 1));
-		cmd->type = (enum e_token_type *)malloc(sizeof(enum e_token_type) * (cmd->ac + 1));
+		cmd->type = (enum e_token_type *)malloc(sizeof(enum e_token_type) *
+						(cmd->ac + 1));
 		if (cmd->av == NULL)
 			return (FAILURE);
 		cmd->av[cmd->ac] = NULL;
@@ -18,7 +18,8 @@ int		fill_name(t_token *token, t_cmd *cmd)
 	else
 	{
 		cmd->av[count] = ft_strdup(token->data == NULL
-			&& (token->type == E_LESS_THAN || token->type == E_GREATER_THAN || token->type == E_DOUBLE_GREATER)
+			&& (token->type == E_LESS_THAN || token->type == E_GREATER_THAN ||
+				token->type == E_DOUBLE_GREATER)
 			? get_data(token->type) : token->data);
 		cmd->type[count] = token->type;
 		count++;

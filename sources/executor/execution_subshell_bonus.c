@@ -4,6 +4,10 @@ static void	child_process(t_cmd *cmd, int p_in[2], int p_out[2])
 {
 	int		ret;
 
+	if (get_struct(GET)->stdout_stat != SUCCESS)
+		close(STDOUT_FILENO);
+	if (get_struct(GET)->stderr_stat != SUCCESS)
+		close(STDOUT_FILENO);
 	export_envp_content(cmd);
 	signal_manager(SIG_MODE_DEFAULT);
 	dup_pipes(cmd, p_in, p_out);

@@ -2,7 +2,8 @@
 
 static enum e_state_redir	in_out(char *str, enum e_token_type type)
 {
-	if (type != E_LESS_THAN && type != E_GREATER_THAN && type != E_DOUBLE_GREATER)
+	if (type != E_LESS_THAN && type != E_GREATER_THAN &&
+			type != E_DOUBLE_GREATER)
 		return (E_IN_OUT);
 	if (ft_strequ(str, LESS_THAN) == TRUE ||
 			ft_strequ(str, GREATER_THAN) == TRUE ||
@@ -11,9 +12,10 @@ static enum e_state_redir	in_out(char *str, enum e_token_type type)
 	return (E_IN_OUT);
 }
 
-static enum e_state_redir in_file(char *str, enum e_token_type type)
+static enum e_state_redir	in_file(char *str, enum e_token_type type)
 {
-	if (type != E_LESS_THAN && type != E_GREATER_THAN && type != E_DOUBLE_GREATER)
+	if (type != E_LESS_THAN && type != E_GREATER_THAN &&
+			type != E_DOUBLE_GREATER)
 		return (E_IN_OUT);
 	if (ft_strequ(str, LESS_THAN) == TRUE ||
 			ft_strequ(str, GREATER_THAN) == TRUE ||
@@ -22,7 +24,7 @@ static enum e_state_redir in_file(char *str, enum e_token_type type)
 	return (E_IN_OUT);
 }
 
-static enum e_state_redir in_redir(char *str, enum e_token_type type)
+static enum e_state_redir	in_redir(char *str, enum e_token_type type)
 {
 	(void)str;
 	(void)type;
@@ -31,9 +33,9 @@ static enum e_state_redir in_redir(char *str, enum e_token_type type)
 
 int							create_tab_redir(t_cmd *cmd, t_clean_cmd *clean_cmd)
 {
-	t_state_redir		function_state[] = {in_redir, in_file, in_out};
-	enum e_state_redir	state;
-	size_t				i;
+	static t_state_redir	function_state[] = {in_redir, in_file, in_out};
+	enum e_state_redir		state;
+	size_t					i;
 
 	state = E_IN_OUT;
 	i = 0;
@@ -55,7 +57,7 @@ int							create_tab_redir(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	return (SUCCESS);
 }
 
-int 						process_redirection(t_cmd *cmd,
+int							process_redirection(t_cmd *cmd,
 													t_clean_cmd *clean_cmd)
 {
 	size_t	i;
