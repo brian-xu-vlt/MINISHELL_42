@@ -83,10 +83,15 @@ static int	process_cd(char *dir)
 		print_set_errno(0, "HOME not set", STR_CD, NULL);
 		return (CD_FAIL);
 	}
-	if (vct_old_pwd == NULL && ft_strequ(dir, STR_MINUS) == TRUE)
+	if (ft_strequ(STR_MINUS, dir) == TRUE && vct_getstr(vct_old_pwd) == NULL)
 	{
-		handle_pwd(OLD_PWD);
-		return (SUCCESS);
+		print_set_errno(0, "OLDPWD not set", STR_CD, NULL);
+		return (CD_FAIL);
+	}
+	if (vct_getlen(vct_old_pwd) == 0 && ft_strequ(dir, STR_MINUS) == TRUE)
+	{
+		print_set_errno(0, "OLDPWD has no value", STR_CD, NULL);
+		return (CD_FAIL);
 	}
 	if (dir == NULL && vct_getlen(vct_home) == 0)
 	{
@@ -98,7 +103,7 @@ static int	process_cd(char *dir)
 
 int			cd_builtin(int ac, char **av, char **envp)
 {
-	int ret_check;
+	int			ret_check;
 
 	(void)envp;
 	if (check_cd_arg(ac) == CD_FAIL)

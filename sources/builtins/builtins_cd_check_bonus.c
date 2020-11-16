@@ -4,6 +4,7 @@ int			check_cd_arg(int ac)
 {
 	if (ac > 2)
 	{
+		ft_printf("CD  FAIL\n");//DEBUG
 		print_set_errno(0, "too many arguments", STR_CD, NULL);
 		return (CD_FAIL);
 	}
@@ -38,6 +39,7 @@ int			first_check(char *directory)
 	DIR *dir;
 	int ret_directory;
 
+	ft_printf("OPEN DIR\n");//DEBUG
 	dir = opendir(directory);
 	ret_directory = check_directory(directory);
 	if (dir == NULL && errno == PERMISSION_DENIED && ret_directory == SUCCESS)
