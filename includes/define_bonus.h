@@ -126,8 +126,8 @@
 
 #define	SIG_MODE_DEFAULT				0
 #define	SIG_MODE_CMD_LINE				1
-#define	SIG_MODE_CMD_LINE_NO_BONUS		1
-#define	SIG_MODE_EXEC					2
+#define	SIG_MODE_CMD_LINE_NO_BONUS		2
+#define	SIG_MODE_EXEC					3
 
 #define	STDFD_STORE				1
 #define	STDFD_RESTORE			2

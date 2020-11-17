@@ -14,6 +14,7 @@ static void	newprompt_at_signal(int sig)
 static void	no_bonus_quit_handler(int sig)
 {
 	(void)sig;
+//	return ;												// TODO: pick one solution
 	ft_putchar_fd('\b', STDOUT_FILENO);
 	ft_putchar_fd('\b', STDOUT_FILENO);
 	ft_putchar_fd(127, STDOUT_FILENO);
