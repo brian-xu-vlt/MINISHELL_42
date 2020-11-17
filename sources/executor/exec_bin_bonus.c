@@ -22,6 +22,7 @@ int			exec_binary(const t_cmd *command)
 	if (command->ac <= 0)
 		return (0);
 	bin_full_path = locate_binary_file(command->name);
+	ft_printf("return = %p\n", bin_full_path);
 	if (bin_full_path != NOT_FOUND)
 	{
 		envp = get_envp(get_env_list(GET));
