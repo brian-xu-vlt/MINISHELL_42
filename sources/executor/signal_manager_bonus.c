@@ -6,16 +6,20 @@ static void	newprompt_at_signal(int sig)
 	if (DEBUG_MODE != TRUE)
 		ft_putstr_fd("^C\n", STDOUT_FILENO);
 	else
-		ft_putstr_fd("..\n", STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	init_prompt();
 	ms_setenv_int(get_env_list(GET), "?", 130, F_OVERWRITE);
 }
 
-static void	quit_handler(int sig)
+static void	no_bonus_quit_handler(int sig)
 {
 	(void)sig;
+	ft_putchar_fd('\b', STDOUT_FILENO);
+	ft_putchar_fd('\b', STDOUT_FILENO);
 	ft_putchar_fd(127, STDOUT_FILENO);
 	ft_putchar_fd(127, STDOUT_FILENO);
+	ft_putchar_fd('\b', STDOUT_FILENO);
+	ft_putchar_fd('\b', STDOUT_FILENO);
 }
 
 static void	exit_at_signal(int sig)
@@ -41,7 +45,7 @@ void		signal_manager(int set_mode)
 		exit_at_signal, newprompt_at_signal, SIG_IGN,
 		exit_at_signal, window_at_signal };
 	static void			(*handlers_mode_cmd_line_no_bonus[NB_SIG])(int) = {
-		exit_at_signal, newprompt_at_signal, quit_handler,
+		exit_at_signal, newprompt_at_signal, no_bonus_quit_handler,
 		exit_at_signal, window_at_signal };
 
 	i = 0;

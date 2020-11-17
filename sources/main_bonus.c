@@ -1,50 +1,5 @@
 #include "minishell_bonus.h"
 
-static int			is_new_line(t_vector *rest, t_vector *vct)
-{
-	t_vector	*tmp;
-
-	if (vct_chr(rest, '\n') != FAILURE)
-	{
-		tmp = vct_splitchr(rest, '\n');
-		vct_cat(vct, tmp);
-		vct_del(&tmp);
-		return (TRUE);
-	}
-	return (FALSE);
-}
-
-static ssize_t		vct_readline_local(t_vector *vct, const int fd)
-{
-	ssize_t			ret;
-	static t_vector	*rest = NULL;
-	char			buff[BUFFER_SIZE];
-
-	if (vct == NULL || fd < 0)
-	{
-		vct_del(&rest);
-		return (fd == CLEANUP ? IS_EOF : FAILURE);
-	}
-	rest = rest == NULL ? vct_new() : rest;
-	ft_bzero(vct->str, vct->size);
-	vct->len = 0;
-	if (is_new_line(rest, vct) == TRUE)
-		return (IS_LINE);
-	while ((ret = read(fd, buff, BUFFER_SIZE)) > 0)
-	{
-		if (ft_strlen(buff) == 0)
-			return (IS_LINE);
-		if (vct_addmem(rest, buff, (size_t)ret) == FAILURE)
-			return (FAILURE);
-		if (is_new_line(rest, vct) == TRUE)
-			return (IS_LINE);
-	}
-	if (ret != FAILURE && rest->len != 0)
-		vct_cat(vct, rest);
-	vct_del(&rest);
-	return (IS_EOF);
-}
-
 static int	read_loop(t_vector *cmd_line)
 {
 	int		read_ret;
@@ -53,7 +8,7 @@ static int	read_loop(t_vector *cmd_line)
 	print_prompt();
 	close(STDERR_FILENO);
 	errno = 0;
-	if ((read_ret = vct_readline_local(cmd_line, 0)) == FAILURE)
+	if ((read_ret = vct_readline(cmd_line, 0)) == FAILURE)
 	{
 		print_set_errno(errno, NULL, NULL, NULL);
 		exit_routine_le(ERR_NO_MESSAGE);
