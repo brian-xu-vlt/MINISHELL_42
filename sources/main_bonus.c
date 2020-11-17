@@ -1,16 +1,48 @@
 #include "minishell_bonus.h"
 
-void	print_prompt(void)
+static int			is_new_line(t_vector *rest, t_vector *vct)
 {
-	t_le	*le;
-	char	*prompt_str;
+	t_vector	*tmp;
 
-	le = get_struct(GET);
-	if (DEBUG_MODE == TRUE)
-		prompt_str = PROMPT_SIMPLE;
-	else
-		prompt_str = PROMPT_LINE_EDITION;
-	ft_putstr_fd(prompt_str, STDOUT_FILENO);
+	if (vct_chr(rest, '\n') != FAILURE)
+	{
+		tmp = vct_splitchr(rest, '\n');
+		vct_cat(vct, tmp);
+		vct_del(&tmp);
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
+static ssize_t		vct_readline_local(t_vector *vct, const int fd)
+{
+	ssize_t			ret;
+	static t_vector	*rest = NULL;
+	char			buff[BUFFER_SIZE];
+
+	if (vct == NULL || fd < 0)
+	{
+		vct_del(&rest);
+		return (fd == CLEANUP ? IS_EOF : FAILURE);
+	}
+	rest = rest == NULL ? vct_new() : rest;
+	ft_bzero(vct->str, vct->size);
+	vct->len = 0;
+	if (is_new_line(rest, vct) == TRUE)
+		return (IS_LINE);
+	while ((ret = read(fd, buff, BUFFER_SIZE)) > 0)
+	{
+		if (ft_strlen(buff) == 0)
+			return (IS_LINE);
+		if (vct_addmem(rest, buff, (size_t)ret) == FAILURE)
+			return (FAILURE);
+		if (is_new_line(rest, vct) == TRUE)
+			return (IS_LINE);
+	}
+	if (ret != FAILURE && rest->len != 0)
+		vct_cat(vct, rest);
+	vct_del(&rest);
+	return (IS_EOF);
 }
 
 static int	read_loop(t_vector *cmd_line)
@@ -19,7 +51,9 @@ static int	read_loop(t_vector *cmd_line)
 
 	read_ret = 0;
 	print_prompt();
-	if ((read_ret = vct_readline(cmd_line, 0)) == FAILURE)
+	close(STDERR_FILENO);
+	errno = 0;
+	if ((read_ret = vct_readline_local(cmd_line, 0)) == FAILURE)
 	{
 		print_set_errno(errno, NULL, NULL, NULL);
 		exit_routine_le(ERR_NO_MESSAGE);
@@ -87,11 +121,14 @@ int			main(int ac, char **av)
 	ret_read = 1;
 	while (ret_read > 0)
 	{
-		signal_manager(SIG_MODE_CMD_LINE);
 		if (DEBUG_MODE == TRUE)
+		{
+			signal_manager(SIG_MODE_CMD_LINE_NO_BONUS);
 			ret_read = read_loop(cmd_line);
+		}
 		else
 		{
+			signal_manager(SIG_MODE_CMD_LINE);
 			ret_read = line_editor();
 			ft_putchar_fd('\n', STDOUT_FILENO);
 		}

@@ -124,9 +124,10 @@
 #define	F_REDIRECT_OUT			1<<2
 #define	F_REDIRECT_OUT_APPEND	1<<3
 
-#define	SIG_MODE_DEFAULT		0
-#define	SIG_MODE_CMD_LINE		1
-#define	SIG_MODE_EXEC			2
+#define	SIG_MODE_DEFAULT				0
+#define	SIG_MODE_CMD_LINE				1
+#define	SIG_MODE_CMD_LINE_NO_BONUS		1
+#define	SIG_MODE_EXEC					2
 
 #define	STDFD_STORE				1
 #define	STDFD_RESTORE			2

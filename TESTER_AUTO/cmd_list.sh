@@ -38,4 +38,37 @@ else
 	test "echo aaaaa bbbb cccccc dddddd > /tmp/a ; cat -e /tmp/a"
 	test "echo terminal is [\$TERM]"
 	test "echo terminal is [\$TERM4"
+	test "
+		toto+=42; echo \$toto ;
+		toto+=.; echo \$toto ;
+		toto+=-; echo \$toto ;
+		toto+='' ; echo \$toto ;
+		toto+=42; echo \$toto ;
+		toto+=42; echo \$toto ;
+		toto+=42; echo \$toto ;
+		toto+=42; echo \$toto ;		"
+	test "echo -n -n -n -n -n -n test"
+	test "echo -n -n -x -n -n -n test"
+	test "echo -n -n -n -n -n -x test"
+	test "echo > /tmp/test"
+	test "cat -e /tmp/test"
+	test "echo -n > /tmp/test"
+	test "cat -e /tmp/test"
+	test "echo \$?"
+	test "ls hdfjkdsf ; echo \$?"
+	test "ls hdfjkdsf ; echo \$?"
+
+	# test "exit 5"
+	# test "exit abcdef"
+	# test "exit 2 2 2 2 2 2"
+	# test "exit dqdsqd 2 dsqdqs"
+	# test "exit 9223372036854775807"
+	# test "exit 9223372036854775808"
+	# test "exit 500"
+	# test "exit -500"
+
+
+
+
+
 fi
