@@ -5,8 +5,7 @@ static int	read_loop(t_vector *cmd_line)
 	int		read_ret;
 
 	read_ret = 0;
-	print_prompt();
-	close(STDERR_FILENO);
+	init_prompt();
 	errno = 0;
 	if ((read_ret = vct_readline(cmd_line, 0)) == FAILURE)
 	{
@@ -100,7 +99,6 @@ int			main(int ac, char **av)
 		vct_clear(cmd_line);
 		free_list_job(&jobs);
 	}
-	exit_routine_le(NULL);
-	free_list_job(&jobs);
+	exit_routine_le(NORMAL_EXIT);
 	return (EXIT_SUCCESS);
 }

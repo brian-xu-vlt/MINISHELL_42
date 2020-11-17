@@ -32,6 +32,7 @@
 *********  ERRORS FLAGS ***********
 **********************************/
 
+# define	NORMAL_EXIT		"exit"
 # define	ERR_NO_MESSAGE	NULL
 # define	ERR_ENV			"Could not load environement variables."
 # define	ERR_NEW_VCT		"Could not malloc vector."

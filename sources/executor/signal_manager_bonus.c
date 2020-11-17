@@ -26,7 +26,6 @@ static void	no_bonus_quit_handler(int sig)
 static void	exit_at_signal(int sig)
 {
 	(void)sig;
-		ft_putstr_fd("----------------\n", STDOUT_FILENO);
 	exit_routine_le("exit");
 }
 
