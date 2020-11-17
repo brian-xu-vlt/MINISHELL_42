@@ -5,7 +5,7 @@ print_separator(){
 	max=$(tput cols)
 	while [ $i -le $max ]
 	do
-		echo -n '█'
+		echo -n '▁'
 		((i+=1))
 	done
 	echo
@@ -19,9 +19,14 @@ test () {
 	cat /tmp/ba.err >> /tmp/ba
 	cat /tmp/minishell.err >> /tmp/minishell
 	print_separator
-	echo -e "\e[33m \e[1m["$TEST"]\e[0m\t\t\t left is bash \t\t|\t\t right is minishell\n"
-	colordiff -y /tmp/ba /tmp/minishell
-	echo
+	diff -s /tmp/ba /tmp/minishell &>/dev/null
+	if [[ $? -ne 0 ]]
+	then
+		echo -e "\e[31m \e[1m["$TEST"]\e[0m\t\t\t left is bash \t\t|\t\t right is minishell\n"
+		colordiff -y /tmp/ba /tmp/minishell
+	else
+		echo -e "\e[32m \e[1m[OK] \e[0m\t\t["$TEST"]"
+	fi
 }
 
 if [[ -n "$1" ]]
@@ -57,7 +62,9 @@ else
 	test "echo \$?"
 	test "ls hdfjkdsf ; echo \$?"
 	test "ls hdfjkdsf ; echo \$?"
-
+	test "
+	\"e\"'c'ho 'b'\"o\"nj\"o\"'u'r\";\"
+	"
 	# test "exit 5"
 	# test "exit abcdef"
 	# test "exit 2 2 2 2 2 2"
