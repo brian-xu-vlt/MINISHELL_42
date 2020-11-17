@@ -11,7 +11,10 @@ void		print_set_errno(int errno_value, const char *err_str,
 						const char *function_name, const char *error_source)
 {
 	dup2(STDERR_FILENO, STDOUT_FILENO);
-	put_error("Minishell", TRUE);
+	if (DEBUG_MODE == TRUE)
+		put_error("bash", TRUE);
+	else
+		put_error("Minishell", TRUE);
 	if (function_name != NULL)
 		put_error(function_name, TRUE);
 	if (error_source != NULL)

@@ -11,8 +11,23 @@ print_separator(){
 	echo
 }
 
+print_diff_full () {
+	echo -e "\e[31m \e[1m["$TEST"]\e[0m\t\t\t left is bash \t\t|\t\t right is minishell\n"
+	colordiff -y /tmp/ba /tmp/minishell
+}
+
+print_diff_simple (){
+	diff -s /tmp/ba /tmp/minishell &>/dev/null
+	if [[ $? -ne 0 ]]
+	then
+		print_diff_full
+	else
+		echo -e "\e[32m \e[1m[OK] \e[0m\t\t["$TEST"]"
+	fi
+}
+
 test () {
-	TEST=$(echo "$1")
+	export TEST=$(echo "$1")
 	echo "$TEST" | env -i ./Minishell 1>/tmp/minishell 2>/tmp/minishell.err
 	echo "$TEST" | env -i bash --posix 1>/tmp/ba 2>/tmp/ba.err
 	cat /tmp/ba.err >> /tmp/ba
@@ -20,14 +35,9 @@ test () {
 	sed -i 's/NO_LINE_ED~$>//g' /tmp/minishell
 	sed -i 's/line [0-9]: //g' /tmp/ba
 	print_separator
-	diff -s /tmp/ba /tmp/minishell &>/dev/null
-	if [[ $? -ne 0 ]]
-	then
-		echo -e "\e[31m \e[1m["$TEST"]\e[0m\t\t\t left is bash \t\t|\t\t right is minishell\n"
-		colordiff -y /tmp/ba /tmp/minishell
-	else
-		echo -e "\e[32m \e[1m[OK] \e[0m\t\t["$TEST"]"
-	fi
+	print_diff_simple
+	# print_diff_full
+
 }
 
 test_bonus () {
@@ -41,12 +51,38 @@ test_bonus () {
 	test "echo a && false ; echo \$?"
 }
 
+test_executor() {
+	test "toto/tata=1"
+	test "./fail_bin/segault"
+	test "./Makefile"
+	test "/dev"
+	test "\"\""
+	test ""
+	test "unset PATH; \"\""
+	test "unset PATH; hjsdfkhfds"
+	test "unset PATH; ls"
+	test "unset PATH; Makefile"
+	test "unset PATH; /bin/ls"
+	test "unset PATH; /bin/ls"
+	# test "
+	# 	fail_bin/buserror;
+	# 	fail_bin/abort;
+	# 	fail_bin/segfault;
+	# "
+}
 
+test_exit () {
+	test "exit 5"
+	test "exit abcdef"
+	test "exit 2 2 2 2 2 2"
+	test "exit dqdsqd 2 dsqdqs"
+	test "exit 9223372036854775807"
+	test "exit 9223372036854775808"
+	test "exit 500"
+	test "exit -500"
+}
 
-if [[ -n "$1" ]]
-then
-	test "$1"
-else
+test_random () {
 	test "ls -l"
 	test "food=pizza export; export"
 	test "export cat=meow ; echo \$cat"
@@ -89,16 +125,20 @@ else
 	test "export TEST+=23; export | grep TEST"
 	test "export TEST1 TEST2=456 TEST4 TEST5 TEST3=78"
 	test "
-	export EMPTY ;
-	export NOTEMPTY= ;
-	export CHARS="AAA" ;
-	echo '$CHARS' ;
-	echo \$PWD\$HOMe\"\$HOME\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"HOME\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY |wc -m ;
+		export EMPTY ;
+		export NOTEMPTY= ;
+		export CHARS=AAA ;
+		echo '\$CHARS' ;
+		echo \$CHARS ;
+		echo \$PWD\$HOMe\"\$VAR_NONEXISTANT\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY |wc -m ;
 	"
 	test "
-	export TEST1=123; export TEST1 TEST2=456 TEST4 TEST5 TEST3=789		;
-	echo \$TEST\$TEST2\$TEST3 > /tmp/test1 > /tmp/test2 > /tmp/test3	;
-	cat /tmp/test1; cat /tmp/test2; cat /tmp/test3
+		export EMPTY ;
+		export NOTEMPTY= ;
+		export CHARS=AAA ;
+		echo '\$CHARS' ;
+		echo \$CHARS ;
+		echo \$PWD\$VAR_NONEXISTANT\"\$VAR_NONEXISTANT\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY ;
 	"
 	test "
 		echo \"\$HOME\"
@@ -111,6 +151,11 @@ else
 		echo \"\$HO\"\"ME\"
 		echo \"\$HO\"ME
 		echo \$\"HOME\"
+	"
+	test "
+	export TEST1=123; export TEST1 TEST2=456 TEST4 TEST5 TEST3=789		;
+	echo \$TEST\$TEST2\$TEST3 > /tmp/test1 > /tmp/test2 > /tmp/test3	;
+	cat /tmp/test1; cat /tmp/test2; cat /tmp/test3
 	"
 	test "
 		mkdir -p test1/test2/test3
@@ -129,18 +174,15 @@ else
 	test "cat > coucou > test < coucou | cat < coucou ; rm coucou"
 	test "4ABC=toto"
 	test "export 4ABC=toto"
+
+}
+
+if [[ -n "$1" ]]
+then
+	test "$1"
+else
+	test_random
 	test_bonus
-
-	# test "exit 5"
-	# test "exit abcdef"
-	# test "exit 2 2 2 2 2 2"
-	# test "exit dqdsqd 2 dsqdqs"
-	# test "exit 9223372036854775807"
-	# test "exit 9223372036854775808"
-	# test "exit 500"
-	# test "exit -500"
-
-
-
-
+	test_exit
+	test_executor
 fi

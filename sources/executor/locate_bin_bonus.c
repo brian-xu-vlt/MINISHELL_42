@@ -71,6 +71,8 @@ char		*locate_binary_file(const char *bin_name)
 			ret_full_path = ft_strdup(bin_name);
 		else
 			print_set_errno(errno, NULL, bin_name, NULL);
+		free_char_arr(dir_list);
+		return (ret_full_path);
 	}
 	else
 	{
