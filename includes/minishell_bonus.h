@@ -209,6 +209,7 @@ int 								handle_backslash_nothing(t_vector *input,
 int 								is_backslash(char c, char next_c,
 													t_vector *input);
 bool 								is_exp_sep(char c);
+bool								verif_assign_cmd(char *str);
 
 /******************************************************************************/
 /*******************************_EXECUTION_************************************/

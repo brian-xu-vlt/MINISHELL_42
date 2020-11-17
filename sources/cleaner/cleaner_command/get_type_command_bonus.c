@@ -1,19 +1,16 @@
 #include "minishell_bonus.h"
 
-static bool	verif_assign_cmd(char *str)
+bool	verif_assign_cmd(char *str)
 {
 	t_vector	*vct;
 	size_t		id_equal;
 
-	ft_printf("str = %s\n", str);//DEBUG
 	vct = vct_new();
 	vct_addstr(vct, str);
 	id_equal = vct_clen(vct, ASSIGN);
 	vct_cutfrom(vct, vct_getlen(vct) - id_equal);
-	ft_printf("vct = %s\n", vct_getstr(vct));//DEBUG
 	if (vct_chr(vct, C_PATH) != FAILURE)
 	{
-		ft_printf("FIND PATH\n");//DEBUG
 		vct_del(&vct);
 		return (true);
 	}
