@@ -96,7 +96,6 @@ int	exit_builtin(int ac, char **av, char **envp)
 	bool		ret_parser;
 	bool		ret_long;
 
-	ft_printf("EXEC BUILTIN\n"); //DEBUG
 	(void)envp;
 	exit_value = 0;
 	if (ac == 1)
