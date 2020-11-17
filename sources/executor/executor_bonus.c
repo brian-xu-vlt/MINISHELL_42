@@ -24,7 +24,6 @@ static void open_files_and_export_env(t_cmd *command)
 	process_open_file(command);
 	if (command->ac == 0 && command->count_assign != 0)
 		assign_envp_content(command);
-	//	export_envp_content(command);
 }
 
 static void execute_and_wait(t_job *job, t_cmd *cmd,
