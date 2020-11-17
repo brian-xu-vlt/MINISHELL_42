@@ -52,7 +52,6 @@ int	export_builtin(int ac, char **av, char **envp)
 	const char	*builtin = "export";
 
 	errno = 0;
-	ft_printf("EXPORT BUILT\n");//DEBUG
 	if (ft_strequ(av[0], (char *)builtin) == TRUE && ac > 1)
 	{
 		if (av[1][0] == '-')
@@ -62,8 +61,8 @@ int	export_builtin(int ac, char **av, char **envp)
 		}
 		else
 			export_loop(ac, av, builtin);
-		if (errno == EINVAL)
-			return (1);
+		//if (errno == EINVAL)
+			//return (1);
 	}
 	if (ft_strequ(av[0], (char *)builtin) == TRUE && ac == 1)
 		print_export_output(get_env_list(GET));

@@ -4,22 +4,48 @@ bool	verif_assign_cmd(char *str)
 {
 	t_vector	*vct;
 	size_t		id_equal;
+	ssize_t		nb_assign;
+	t_vector	*vct_cpy;
 
 	vct = vct_new();
+	vct_cpy = vct_new();
 	vct_addstr(vct, str);
+	vct_addstr(vct_cpy, vct_getstr(vct));
+	nb_assign = vct_nbchar(vct_cpy, S_ASSIGN);
+	if (nb_assign > 1)
+	{
+		vct_del(&vct);
+		vct_del(&vct_cpy);
+		return (true);
+	}
 	id_equal = vct_clen(vct, ASSIGN);
 	vct_cutfrom(vct, vct_getlen(vct) - id_equal);
 	if (vct_chr(vct, C_PATH) != FAILURE)
 	{
 		vct_del(&vct);
+		vct_del(&vct_cpy);
 		return (true);
 	}
 	if (is_wrong_ass(vct) == false)
 	{
 		vct_del(&vct);
+		vct_del(&vct_cpy);
+		return (true);
+	}
+	if (vct_getcharat(vct, vct_getlen(vct) - 1) == C_PLUS)
+	{
+		vct_del(&vct);
+		vct_del(&vct_cpy);
+		return (false);
+	}
+	if (vct_chr(vct, C_PLUS) != FAILURE || vct_chr(vct, C_MINUS) != FAILURE)
+	{
+		vct_del(&vct);
+		vct_del(&vct_cpy);
 		return (true);
 	}
 	vct_del(&vct);
+		vct_del(&vct_cpy);
 	return (false);
 }
 
