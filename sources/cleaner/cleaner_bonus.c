@@ -66,7 +66,7 @@ static int	process_clean_command(t_cmd *cmd, int *tab_clean_exp,
 		return (FAILURE);
 	}
 	index_cmd = get_cmd(cmd);
-//	ft_printf("index_cmd = %d\n", index_cmd);//DEBUG
+	ft_printf("index_cmd = %d\n", index_cmd);//DEBUG
 	ret_cmd = get_envp_av(cmd, clean_cmd, index_cmd);
 	if (ret_cmd == FAILURE)
 	{
