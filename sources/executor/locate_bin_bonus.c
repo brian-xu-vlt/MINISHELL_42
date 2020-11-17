@@ -62,6 +62,7 @@ char		*locate_binary_file(const char *bin_name)
 	char		*ret_full_path;
 	int			i;
 
+	errno = 0;
 	ret_full_path = NOT_FOUND;
 	dir_list = get_all_path_directories();
 	if (is_path(bin_name) == TRUE || (dir_list == NULL || dir_list[0] == NULL))
@@ -76,9 +77,9 @@ char		*locate_binary_file(const char *bin_name)
 		i = 0;
 		while (dir_list[i] != NULL && ret_full_path == NOT_FOUND)
 			ret_full_path = check_dir_option(bin_name, dir_list[i++]);
-		if (ret_full_path == NOT_FOUND && errno == ENOENT)
-			print_set_errno(0, ERR_NO_COMMAND, bin_name, NULL);
-		free_char_arr(dir_list);
 	}
+	free_char_arr(dir_list);
+	if (ret_full_path == NOT_FOUND || errno == ENOENT)
+		print_set_errno(0, ERR_NO_COMMAND, bin_name, NULL);
 	return (ret_full_path);
 }

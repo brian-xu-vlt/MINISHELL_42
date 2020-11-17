@@ -13,11 +13,12 @@ print_separator(){
 
 test () {
 	TEST=$(echo "$1")
-	echo "$TEST" | ./Minishell 1>/tmp/minishell 2>/tmp/minishell.err
-	sed -i 's/NO_LINE_ED~$>//g' /tmp/minishell
-	echo "$TEST" | bash --posix 1>/tmp/ba 2>/tmp/ba.err
+	echo "$TEST" | env -i ./Minishell 1>/tmp/minishell 2>/tmp/minishell.err
+	echo "$TEST" | env -i bash --posix 1>/tmp/ba 2>/tmp/ba.err
 	cat /tmp/ba.err >> /tmp/ba
 	cat /tmp/minishell.err >> /tmp/minishell
+	sed -i 's/NO_LINE_ED~$>//g' /tmp/minishell
+	sed -i 's/line [0-9]: //g' /tmp/ba
 	print_separator
 	diff -s /tmp/ba /tmp/minishell &>/dev/null
 	if [[ $? -ne 0 ]]
@@ -29,6 +30,19 @@ test () {
 	fi
 }
 
+test_bonus () {
+	test "\"\""
+	test "\'\'"
+	test "echo a && echo b ; echo \$?"
+	test "echo a || echo b ; echo \$?"
+	test "false || echo b ; echo \$?"
+	test "false && echo b ; echo \$?"
+	test "echo a || false ; echo \$?"
+	test "echo a && false ; echo \$?"
+}
+
+
+
 if [[ -n "$1" ]]
 then
 	test "$1"
@@ -36,6 +50,7 @@ else
 	test "ls -l"
 	test "food=pizza export; export"
 	test "export cat=meow ; echo \$cat"
+	test "unset SHSLVL PATH PWD OLDPWD _ ; echo \$PWD ; pwd ; ls"
 	test "export cat=meow ; env | sort"
 	test "unset hfdjskhdfkjhfsd ; env | sort"
 	test "hfdjskhdfkjhfsd"
@@ -65,6 +80,57 @@ else
 	test "
 	\"e\"'c'ho 'b'\"o\"nj\"o\"'u'r\";\"
 	"
+	test "export TEST; export | grep TEST"
+	test "export TEST=1; export | grep TEST"
+	test "export ERR+EUR=1"
+	test "export VAR_VALID=1"
+	test "export VAR-INVALID=1"
+	test "export BROK;EN_VAR=1; export | grep EN_VAR"
+	test "export TEST+=23; export | grep TEST"
+	test "export TEST1 TEST2=456 TEST4 TEST5 TEST3=78"
+	test "
+	export EMPTY ;
+	export NOTEMPTY= ;
+	export CHARS="AAA" ;
+	echo '$CHARS' ;
+	echo \$PWD\$HOMe\"\$HOME\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"HOME\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY |wc -m ;
+	"
+	test "
+	export TEST1=123; export TEST1 TEST2=456 TEST4 TEST5 TEST3=789		;
+	echo \$TEST\$TEST2\$TEST3 > /tmp/test1 > /tmp/test2 > /tmp/test3	;
+	cat /tmp/test1; cat /tmp/test2; cat /tmp/test3
+	"
+	test "
+		echo \"\$HOME\"
+		echo \$HOME
+		echo \"\$\"HOME
+		echo \$\"\"HOME
+		echo \"\"\$HOME
+		echo \$\"HOME\"
+		echo \$\"HO\"\"ME\"
+		echo \"\$HO\"\"ME\"
+		echo \"\$HO\"ME
+		echo \$\"HOME\"
+	"
+	test "
+		mkdir -p test1/test2/test3
+		cd test1/test2/test3
+		rm -r ../../../test1
+		cd ..
+		pwd
+		cd ..
+		pwd
+		cd ..
+		pwd
+	"
+	test "cd .././../.././../bin/ls"
+	test "unset \$HOME; cd"
+	test "touch /tmp/file ; /tmp/file"
+	test "cat > coucou > test < coucou | cat < coucou ; rm coucou"
+	test "4ABC=toto"
+	test "export 4ABC=toto"
+	test_bonus
+
 	# test "exit 5"
 	# test "exit abcdef"
 	# test "exit 2 2 2 2 2 2"
