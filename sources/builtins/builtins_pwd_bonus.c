@@ -34,7 +34,7 @@ int			pwd_builtin(int ac, char **av, char **envp)
 	pwd = getcwd(buff, PATH_MAX);
 	if (pwd == NULL)
 	{
-		print_set_errno(errno, "bash: getcwd", NULL, NULL);
+		print_set_errno(errno, "error", "getcwd", NULL);
 		free(buff);
 		return (PWD_FAIL);
 	}

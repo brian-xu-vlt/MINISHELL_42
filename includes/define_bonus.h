@@ -108,7 +108,14 @@
 #define PWD					1
 #define STR_MINUS				"-"
 #define DOT					'.'
-
+#define C_PLUS				'+'
+#define C_MINUS				'-'
+#define EXIT				"exit"
+#define EXIT_FAIL			1
+#define S_PLUS				"+"
+#define S_MINUS				"-"
+#define LEN_MIN_LONG		20
+#define LEN_PLUS_LONG		19
 
 /******************************************************************************/
 /*******************************_EXECUTOR_*************************************/
