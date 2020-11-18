@@ -132,6 +132,7 @@
 #define	STDFD_STORE				1
 #define	STDFD_RESTORE			2
 
+#define	ERR_INVALID_OPTION		"invalid option"
 #define	ERR_NO_COMMAND			"command not found"
 #define	ERR_NO_FILE				"No such file or directory"
 

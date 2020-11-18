@@ -2,11 +2,20 @@
 
 // return int mais pas sur, peut etre juste utiliser le errno.
 
+static void	print_envp(char **envp)
+{
+	int			i;
+
+	i = 0;
+	while (envp != NULL && envp[i] != NULL)
+		ft_printf("%s\n", envp[i++]);
+}
+
 int	env_builtin(int ac, char **av, char **envp)
 {
 	const char	*builtin = "env";
 
-	(void)envp;
+	print_envp(envp);
 	if (ft_strequ(av[0], (char *)builtin) == FALSE)
 		return (0);
 	if (ac == 1)
@@ -54,7 +63,8 @@ int	export_builtin(int ac, char **av, char **envp)
 	{
 		if (av[1][0] == '-')
 		{
-			print_set_errno(0, " Invalid option", builtin, av[1]);
+			print_set_errno(0, ERR_INVALID_OPTION, builtin, av[1]);
+			ft_printf("export: usage: export [name[=value] ...]\n");
 			return (2);
 		}
 		else
