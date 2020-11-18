@@ -73,6 +73,7 @@ int		fill_clean_cmd(int index_cmd, t_cmd *cmd, t_clean_cmd *clean_cmd)
 		return (FAILURE);
 	}
 	i = index_cmd;
+	clean_cmd->index_cmd = index_cmd;
 	i_clean = 0;
 	while (i_clean < clean_cmd->ac)
 	{

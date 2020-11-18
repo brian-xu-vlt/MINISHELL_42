@@ -5,7 +5,7 @@ static void	free_clean_command(t_clean_cmd *clean_cmd, int flag)
 	size_t i;
 
 	i = 0;
-	if (flag == ALL_FREE || MALLOC)
+	if (flag == ALL_FREE || flag == MALLOC)
 	{
 		if (clean_cmd->av != NULL)
 		{
@@ -27,8 +27,8 @@ static void	free_clean_command(t_clean_cmd *clean_cmd, int flag)
 		free(clean_cmd->tmp_av);
 	}
 	free(clean_cmd);
-	if (flag == MALLOC)
-		exit(-1);
+	if (flag == MALLOC || flag == NOT_ALL_FREE)
+		exit(FAILURE);
 }
 
 t_clean_cmd	*init_clean_command(void)
@@ -51,6 +51,7 @@ t_clean_cmd	*init_clean_command(void)
 	clean_cmd->count_other = 0;
 	clean_cmd->tmp_fd_out = 1;
 	clean_cmd->tmp_fd_append = 1;
+	clean_cmd->index_cmd = 0;
 	return (clean_cmd);
 }
 
@@ -70,7 +71,7 @@ static int	process_clean_command(t_cmd *cmd)
 	ret_cmd = get_envp_av(cmd, clean_cmd, index_cmd);
 	if (ret_cmd == FAILURE)
 	{
-		free_clean_command(clean_cmd, ALL_FREE);
+		free_clean_command(clean_cmd, MALLOC);
 		return (FAILURE);
 	}
 	if (ret_cmd != NO_COMMAND)

@@ -11,7 +11,7 @@ int		add_job_to_list(t_job *job, t_list **jobs, t_list *token_list,
 		ft_lstdelone(node_job, NULL);
 		free(node_job);
 		print_set_errno(0, ERR_MALLOC, NULL, NULL);
-		exit (FAILURE);
+		exit(FAILURE);
 	}
 	ft_lstadd_back(jobs, node_job);
 	*head = token_list;
@@ -26,7 +26,7 @@ t_job	*init_job(void)
 	if (job == NULL)
 	{
 		print_set_errno(0, ERR_MALLOC, NULL, NULL);
-		exit (FAILURE);
+		exit(FAILURE);
 	}
 	job->nb_cmd = 0;
 	job->last_pid = 0;

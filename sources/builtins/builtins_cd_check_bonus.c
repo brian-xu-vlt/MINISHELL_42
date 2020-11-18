@@ -91,7 +91,10 @@ int			handle_permission_denied(char **dir, char *dir_denied)
 
 	buff = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
 	if (buff == NULL)
-		return (FAILURE);
+	{
+		print_set_errno(0, ERR_MALLOC, NULL, NULL);
+		exit (FAILURE);
+	}
 	pwd = getcwd(buff, PATH_MAX);
 	if (pwd == NULL)
 	{

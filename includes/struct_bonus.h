@@ -68,6 +68,7 @@ typedef struct				s_cmd
 	int						tmp_fd_out;
 	int						tmp_fd_append;
 	char					**tab_redir;
+
 }
 							t_cmd;
 
@@ -86,6 +87,7 @@ typedef struct				s_clean_cmd
 	int		tmp_fd_in;
 	int		tmp_fd_out;
 	int		tmp_fd_append;
+	int						index_cmd;
 }
 							t_clean_cmd;
 

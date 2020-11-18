@@ -7,7 +7,11 @@ static int	handle_pwd(int flag)
 
 	buff = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
 	if (buff == NULL)
-		return (FAILURE);
+	{
+		free(buff);
+		print_set_errno(errno, ERR_MALLOC, NULL, NULL);
+		exit(FAILURE);
+	}
 	pwd = getcwd(buff, PATH_MAX);
 	if (pwd == NULL)
 	{

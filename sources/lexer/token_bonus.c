@@ -48,7 +48,7 @@ int			extract_token(t_list **token_list, char *str, size_t type)
 	if (token == NULL)
 	{
 		print_set_errno(0, ERR_MALLOC, NULL, NULL);
-		exit (FAILURE);
+		exit(FAILURE);
 	}
 	token->data = NULL;
 	if (extract_data(type, str, token) == FAILURE)

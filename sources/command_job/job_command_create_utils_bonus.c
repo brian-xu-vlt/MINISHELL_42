@@ -3,11 +3,11 @@
 void	create_cmd_fd_string(t_cmd *cmd, t_cmd *cmd_model)
 {
 	if (cmd_model->fd_string[0] != NULL)
-		cmd->fd_string[0] = ft_strdup(cmd_model->fd_string[0]);
+		cmd->fd_string[0] = cmd_model->fd_string[0];
 	if (cmd_model->fd_string[1] != NULL)
-		cmd->fd_string[1] = ft_strdup(cmd_model->fd_string[1]);
+		cmd->fd_string[1] = cmd_model->fd_string[1];
 	if (cmd_model->fd_string[2] != NULL)
-		cmd->fd_string[2] = ft_strdup(cmd_model->fd_string[2]);
+		cmd->fd_string[2] = cmd_model->fd_string[2];
 }
 
 int		resize_cmd(t_cmd *cmd, int count)
