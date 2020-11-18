@@ -14,28 +14,13 @@ static bool	is_numeric(t_vector *av)
 	return (true);
 }
 
-static bool	parse_vct(t_vector *vct_av)
+static void	cut_arg(t_vector *vct_av, size_t len_before, size_t count_num,
+						t_vector *av)
 {
 	size_t	index_space;
 	size_t	index_tab;
 	size_t	len;
-	t_vector	*av;
-	size_t		count_num;
-	size_t		len_before;
-
-	av = vct_new();
-	count_num = 0;
-	vct_cpy(av, vct_av);
-	while (vct_getlen(av) > 0 && (vct_getfirstchar(av) == C_SPACE ||
-			vct_getfirstchar(av) == C_TAB))
-		vct_pop(av);
-	vct_cpy(vct_av, av);
-	len_before = vct_getlen(vct_av);
-	while (vct_getlen(av) > 0 && ft_isdigit(vct_getfirstchar(av)) == true)
-	{
-		vct_pop(av);
-		count_num++;
-	}
+	
 	vct_cutfrom(vct_av, len_before - count_num);
 	len = vct_getlen(av);
 	index_space = vct_clen(av, C_SPACE) ;
@@ -44,6 +29,44 @@ static bool	parse_vct(t_vector *vct_av)
 		vct_cutfrom(av, len - (len - index_space));
 	else if (index_space > index_tab)
 		vct_cutfrom(av, len - (len - index_tab));
+}
+
+static size_t	pop_arg(t_vector *av, int flag)
+{
+	size_t count_num;
+
+	count_num = 0;
+	if (flag == POP_SPACE_TAB)
+	{
+		while (vct_getlen(av) > 0 && (vct_getfirstchar(av) == C_SPACE ||
+				vct_getfirstchar(av) == C_TAB))
+			vct_pop(av);
+	}
+	if (flag == COUNT_NUM)
+	{
+		while (vct_getlen(av) > 0 && ft_isdigit(vct_getfirstchar(av)) == true)
+		{
+			vct_pop(av);
+			count_num++;
+		}
+		return (count_num);
+	}
+	return (SUCCESS);
+}
+
+static bool	parse_vct(t_vector *vct_av)
+{
+	t_vector	*av;
+	size_t		count_num;
+	size_t		len_before;
+
+	av = vct_new();
+	vct_cpy(av, vct_av);
+	pop_arg(av, POP_SPACE_TAB);
+	vct_cpy(vct_av, av);
+	len_before = vct_getlen(vct_av);
+	count_num = pop_arg(av, COUNT_NUM);
+	cut_arg(vct_av, len_before, count_num, av);
 	while (vct_getlen(av) > 0)
 	{
 		if (vct_getfirstchar(av) != C_SPACE && vct_getfirstchar(av) != C_TAB)
@@ -86,23 +109,64 @@ static bool	is_long(t_vector *av, char c)
 	return (false);
 }
 
-int	exit_builtin(int ac, char **av, char **envp)
+static int	print_error(t_vector *vct_av, char *av, char c, int flag,
+							t_vector *vct_av_cpy)
 {
-	uint8_t	exit_value;
-	t_vector	*vct_av;
-	t_vector	*vct_av_cpy;
+	ft_printf("%s\n", EXIT);
+	if (vct_getlen(vct_av) == 0 && (flag == (NUM | MINUS_PLUS)))
+		print_set_errno(0, "numeric argument required", EXIT,
+							c == C_PLUS ? S_PLUS : S_MINUS);
+	else if (flag == NUM || (vct_getlen(vct_av) != 0 &&
+				(flag == (NUM | MINUS_PLUS))))
+		print_set_errno(0, "numeric argument required", EXIT, av);
+	else if (flag == ARG)
+		print_set_errno(0, "too many arguments", EXIT, av);
+	vct_del(&vct_av);
+	vct_del(&vct_av_cpy);
+	return (2);
+}
+
+static int	check_arg(t_vector *vct_av_cpy, t_vector *vct_av, char c, char *av,
+						int ac)
+{
 	bool			num_arg;
-	char		c;
 	bool		ret_parser;
 	bool		ret_long;
+	uint8_t	exit_value;
+	
+	num_arg = is_numeric(vct_av_cpy);
+	if (num_arg == false || vct_getlen(vct_av) == 0)
+		exit(print_error(vct_av, av, c, MINUS_PLUS | NUM, vct_av_cpy));
+	ret_parser = parse_vct(vct_av);
+	if (ret_parser == false)
+		exit(print_error(vct_av, av, c, NUM, vct_av_cpy));
+	vct_cpy(vct_av_cpy, vct_av);
+	ret_long = is_long(vct_av, c);
+	if (ret_long == true)
+		exit(print_error(vct_av, av, c, NUM, vct_av_cpy));
+	if (ret_long == false && ac > 2)
+		return (print_error(vct_av, NULL, c, ARG, vct_av_cpy));
+	vct_cpy(vct_av, vct_av_cpy);
+	if (c == C_MINUS || c == C_PLUS)
+		vct_addcharat(vct_av, 0, c);
+	exit_value = ft_atoi(vct_getstr(vct_av));
+	vct_del(&vct_av);
+	ft_printf("%s\n", EXIT);
+	exit(exit_value);
+	return (SUCCESS);
+}
+
+int	exit_builtin(int ac, char **av, char **envp)
+{
+	t_vector	*vct_av;
+	t_vector	*vct_av_cpy;
+	char		c;
 
 	(void)envp;
-	exit_value = 0;
 	if (ac == 1)
 	{
 		ft_printf("%s\n", EXIT);
 		exit(get_env_value_int(get_env_list(GET), S_QUESTION_MARK));
-		return (EXIT_FAIL);
 	}
 	vct_av = vct_new();
 	vct_addstr(vct_av, av[1]);
@@ -114,55 +178,7 @@ int	exit_builtin(int ac, char **av, char **envp)
 		vct_pop(vct_av);
 	vct_av_cpy = vct_new();
 	vct_cpy(vct_av_cpy, vct_av);
-	num_arg = is_numeric(vct_av_cpy);
-	if (num_arg == false || vct_getlen(vct_av) == 0)
-	{
-		ft_printf("%s\n", EXIT);
-		if (vct_getlen(vct_av) != 0)
-			print_set_errno(0, "numeric argument required", EXIT, av[1]);
-		else
-			print_set_errno(0, "numeric argument required", EXIT,
-								c == C_PLUS ? S_PLUS : S_MINUS);
-		vct_del(&vct_av);
-		exit(2);	
+	if (check_arg(vct_av_cpy, vct_av, c, av[1], ac) == 2)
 		return (EXIT_FAIL);
-	}
-	ret_parser = parse_vct(vct_av);
-	if (ret_parser == false)
-	{
-		ft_printf("%s\n", EXIT);
-		print_set_errno(0, "numeric argument required", EXIT,
-							av[1]);
-		vct_del(&vct_av);
-		exit(2);	
-		return (EXIT_FAIL);
-	}
-	vct_cpy(vct_av_cpy, vct_av);
-	ret_long = is_long(vct_av, c);
-	if (ret_long == true)
-	{
-		ft_printf("%s\n", EXIT);
-		print_set_errno(0, "numeric argument required", EXIT,
-							av[1]);
-		vct_del(&vct_av);
-		exit(2);	
-		return (EXIT_FAIL);
-	}
-	if (ret_long == false && ac > 2)
-	{
-		ft_printf("%s\n", EXIT);
-		print_set_errno(0, "too many arguments", EXIT,
-							av[1]);
-		vct_del(&vct_av);
-		exit(2);	
-		return (EXIT_FAIL);
-	}
-	vct_cpy(vct_av, vct_av_cpy);
-	if (c == C_MINUS || c == C_PLUS)
-		vct_addcharat(vct_av, 0, c);
-	exit_value = ft_atoi(vct_getstr(vct_av));
-	vct_del(&vct_av);
-	ft_printf("%s\n", EXIT);
-	exit(exit_value);
 	return (SUCCESS);
 }
