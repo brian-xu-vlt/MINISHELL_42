@@ -12,8 +12,8 @@ void	print_env(t_list *env_lst)
 {
 	char	**envp;
 	int		i;
-	i = 0;
 
+	i = 0;
 	envp = get_envp(env_lst);
 	while (envp[i] != NULL)
 	{

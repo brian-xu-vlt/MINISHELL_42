@@ -62,5 +62,5 @@ char		**get_envp(t_list *env_lst)
 		}
 		cursor = cursor->next;
 	}
-	return(envp);
+	return (envp);
 }

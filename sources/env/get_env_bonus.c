@@ -7,7 +7,7 @@ t_list		*get_env_node(t_list *env_lst, const char *target_env_name)
 	t_list			*cursor;
 
 	if (target_env_name == NULL)
-		errno = EINVAL; 
+		errno = EINVAL;
 	else
 	{
 		cursor = env_lst;
@@ -46,9 +46,9 @@ t_vector	*get_env_value_vct(t_list *env_lst, const char *env_name)
 int			get_env_value_int(t_list *env_lst, const char *env_name)
 {
 	t_vector		*value_vct;
-	
+
 	errno = 0;
- 	value_vct = get_env_value_vct(env_lst, env_name);
+	value_vct = get_env_value_vct(env_lst, env_name);
 	if (value_vct != NOT_FOUND)
 		return (ft_atoi(vct_getstr(value_vct)));
 	else

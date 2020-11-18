@@ -26,12 +26,11 @@ static void	increment_shlevel(void)
 		ms_setenv_int(env_lst, "SHLVL", shlvl_int + 1, F_OVERWRITE | F_EXPORT);
 }
 
-extern char **environ;   								   // move to minishell header !!
-
 void		init_env(void)
 {
 	t_list		*env_lst;
 	int			index;
+	extern char **environ;
 
 	if (environ == NULL)
 		exit_routine_le(ERR_ENV);

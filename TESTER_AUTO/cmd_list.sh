@@ -29,8 +29,8 @@ print_diff_simple (){
 
 test () {
 	export TEST=$(echo "$1")
-	echo "$TEST" | env -i ./Minishell 1>/tmp/minishell 2>/tmp/minishell.err
-	echo "$TEST" | env -i bash --posix 1>/tmp/ba 2>/tmp/ba.err
+	echo "$TEST" | env -i ./Minishell 1>/tmp/minishell 2>/tmp/minishell.err #; echo "RETURNED : $?" >> /tmp/minishell.err
+	echo "$TEST" | env -i bash --posix 1>/tmp/ba 2>/tmp/ba.err #; echo "RETURNED : $?" >> /tmp/ba.err
 	cat /tmp/ba.err >> /tmp/ba
 	cat /tmp/minishell.err >> /tmp/minishell
 	cat /tmp/ba >> /tmp/bash_sumup
@@ -122,6 +122,7 @@ test_random () {
 		toto+=42; echo \$toto ;
 		toto+=42; echo \$toto ;
 		toto+=42; echo \$toto ;		"
+	test "ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls"
 	test "echo -n -n -n -n -n -n test"
 	test "echo -n -n -x -n -n -n test"
 	test "echo -n -n -n -n -n -x test"
@@ -212,12 +213,12 @@ main () {
 	then
 		test "$1"
 	else
-		# test_random
-		# test_bonus
-		# test_exit
+		test_random
+		test_bonus
+		test_exit
 		test_executor
 		test_correction
-		# test_failed
+		test_failed
 	fi
 	echo -e "\n\n\e[31m \e[1m[ALL FAILED TEST] \e[0m"
 	cat /tmp/test_ko
