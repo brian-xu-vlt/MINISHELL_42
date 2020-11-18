@@ -2,14 +2,15 @@
 
 static void	set_default_env(t_list *env_lst)
 {
+	export_env(env_lst, "OLDPWD");
 	ms_putenv(env_lst, DEFAULT_EXIT_STATUS);
 	if (vct_getstr(get_env_value_vct(env_lst, "PATH")) == NOT_FOUND)
 		ms_putenv(env_lst, DEFAULT_PATH_ENV);
 	if (vct_getstr(get_env_value_vct(env_lst, "TERM")) == NOT_FOUND)
 		ms_putenv(env_lst, DEFAULT_TERM);
-/*	if (vct_getstr(get_env_value_vct(env_lst, "PS1")) == NOT_FOUND)
-		export_env(env_lst, "PS1="PROMPT);
-*/
+
+	// SET PWD HERE
+
 }
 
 static void	increment_shlevel(void)
@@ -25,7 +26,7 @@ static void	increment_shlevel(void)
 		ms_setenv_int(env_lst, "SHLVL", shlvl_int + 1, F_OVERWRITE | F_EXPORT);
 }
 
-extern char **environ;      // move to minishell header !!
+extern char **environ;   								   // move to minishell header !!
 
 void		init_env(void)
 {

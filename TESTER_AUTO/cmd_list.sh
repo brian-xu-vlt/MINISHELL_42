@@ -21,6 +21,7 @@ print_diff_simple (){
 	if [[ $? -ne 0 ]]
 	then
 		print_diff_full
+		echo "🔴 $TEST" >> /tmp/test_ko
 	else
 		echo -e "\e[32m \e[1m[OK] \e[0m\t\t["$TEST"]"
 	fi
@@ -33,12 +34,13 @@ test () {
 	cat /tmp/ba.err >> /tmp/ba
 	cat /tmp/minishell.err >> /tmp/minishell
 	sed -i 's/NO_LINE_ED~$>//g' /tmp/minishell
+	sed -i 's/Minishell: /bash: /g' /tmp/minishell
 	sed -i 's/line [0-9]: //g' /tmp/ba
 	print_separator
 	print_diff_simple
 	# print_diff_full
-
 }
+
 
 test_bonus () {
 	test "\"\""
@@ -52,7 +54,6 @@ test_bonus () {
 }
 
 test_executor() {
-	test "toto/tata=1"
 	test "./fail_bin/segault"
 	test "./Makefile"
 	test "/dev"
@@ -65,10 +66,10 @@ test_executor() {
 	test "unset PATH; /bin/ls"
 	test "unset PATH; /bin/ls"
 	# test "
-	# 	fail_bin/buserror;
-	# 	fail_bin/abort;
-	# 	fail_bin/segfault;
-	# "
+	#  	fail_bin/buserror;
+	#  	fail_bin/abort;
+	#  	fail_bin/segfault;
+	#  "
 }
 
 test_exit () {
@@ -84,11 +85,8 @@ test_exit () {
 
 test_random () {
 	test "ls -l"
-	test "food=pizza export; export"
 	test "export cat=meow ; echo \$cat"
 	test "unset SHSLVL PATH PWD OLDPWD _ ; echo \$PWD ; pwd ; ls"
-	test "export cat=meow ; env | sort"
-	test "unset hfdjskhdfkjhfsd ; env | sort"
 	test "hfdjskhdfkjhfsd"
 	test "ls fdsfsdfhfsd"
 	test "echo aaaaa bbbb cccccc dddddd > /tmp/a ; cat -e /tmp/a"
@@ -113,17 +111,31 @@ test_random () {
 	test "echo \$?"
 	test "ls hdfjkdsf ; echo \$?"
 	test "ls hdfjkdsf ; echo \$?"
-	test "
-	\"e\"'c'ho 'b'\"o\"nj\"o\"'u'r\";\"
-	"
 	test "export TEST; export | grep TEST"
 	test "export TEST=1; export | grep TEST"
-	test "export ERR+EUR=1"
 	test "export VAR_VALID=1"
-	test "export VAR-INVALID=1"
 	test "export BROK;EN_VAR=1; export | grep EN_VAR"
 	test "export TEST+=23; export | grep TEST"
 	test "export TEST1 TEST2=456 TEST4 TEST5 TEST3=78"
+	test "
+	export TEST1=123; export TEST1 TEST2=456 TEST4 TEST5 TEST3=789		;
+	echo \$TEST\$TEST2\$TEST3 > /tmp/test1 > /tmp/test2 > /tmp/test3	;
+	cat /tmp/test1; cat /tmp/test2; cat /tmp/test3
+	"
+	test "cd .././../.././../bin/ls"
+	test "unset \$HOME; cd"
+	test "touch /tmp/file ; /tmp/file"
+	test "cat > coucou > test_cat < coucou | cat < coucou ; rm coucou test_cat"
+	test "4ABC=toto"
+}
+
+test_failed () {
+	test "food=pizza export; export"
+	test "export cat=meow ; env | sort"
+	test "unset hfdjskhdfkjhfsd ; env | sort"
+	test "	\"e\"'c'ho 'b'\"o\"nj\"o\"'u'r\";\"	"
+	test "export ERR+EUR=1"
+	test "export VAR-INVALID=1"
 	test "
 		export EMPTY ;
 		export NOTEMPTY= ;
@@ -153,11 +165,6 @@ test_random () {
 		echo \$\"HOME\"
 	"
 	test "
-	export TEST1=123; export TEST1 TEST2=456 TEST4 TEST5 TEST3=789		;
-	echo \$TEST\$TEST2\$TEST3 > /tmp/test1 > /tmp/test2 > /tmp/test3	;
-	cat /tmp/test1; cat /tmp/test2; cat /tmp/test3
-	"
-	test "
 		mkdir -p test1/test2/test3
 		cd test1/test2/test3
 		rm -r ../../../test1
@@ -168,21 +175,27 @@ test_random () {
 		cd ..
 		pwd
 	"
-	test "cd .././../.././../bin/ls"
-	test "unset \$HOME; cd"
-	test "touch /tmp/file ; /tmp/file"
-	test "cat > coucou > test < coucou | cat < coucou ; rm coucou"
-	test "4ABC=toto"
 	test "export 4ABC=toto"
+	test "toto/tata=1"
+
+
 
 }
 
-if [[ -n "$1" ]]
-then
-	test "$1"
-else
-	test_random
-	test_bonus
-	test_exit
-	test_executor
-fi
+main () {
+	true > /tmp/test_ko
+	if [[ -n "$1" ]]
+	then
+		test "$1"
+	else
+		test_random
+		test_bonus
+		test_exit
+		test_executor
+		test_failed
+	fi
+	echo -e "\n\n\e[31m \e[1m[ALL FAILED TEST] \e[0m"
+	cat /tmp/test_ko
+}
+
+main $1
