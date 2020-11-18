@@ -99,7 +99,7 @@ int			cd_builtin(int ac, char **av, char **envp)
 	{
 		ret_check = first_check(av[1]);
 		if (ret_check != CD_CONTINUE)
-			return (ret_check == CD_FAIL ? CD_FAIL : FAILURE);
+			return (ret_check == CD_FAIL ? 2 : FAILURE);
 	}
 	if (ac != 1 && ft_strlen(av[1]) == 0)
 		return (SUCCESS);

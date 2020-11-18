@@ -63,6 +63,13 @@ int			first_check(char *directory)
 	DIR *dir;
 	int ret_directory;
 
+	if (ft_strlen(directory) > 1 && directory[0] == C_MINUS)
+	{
+		print_set_errno(0, "invalid option", STR_CD, directory);
+		ft_putendl_fd("cd: usage: cd [-L|[-P [-e]] [-@]] [dir]",
+						STDERR_FILENO);
+		return (CD_FAIL);
+	}
 	dir = opendir(directory);
 	ret_directory = check_directory(directory);
 	if (dir == NULL && errno == PERMISSION_DENIED && ret_directory == SUCCESS)
