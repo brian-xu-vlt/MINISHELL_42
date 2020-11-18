@@ -70,9 +70,9 @@ test_correction () {
 
 test_executor() {
 	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
-	test "non_existing_command______pouette"
 	test "./non_existing_file______pouette"
 	test "./fail_bin/segfault"
+	test "non_existing_command______pouette"
 	test "./Makefile"
 	test "/dev"
 	test "../../../ls"
@@ -216,7 +216,7 @@ main () {
 		# test_bonus
 		# test_exit
 		test_executor
-		# test_correction
+		test_correction
 		# test_failed
 	fi
 	echo -e "\n\n\e[31m \e[1m[ALL FAILED TEST] \e[0m"

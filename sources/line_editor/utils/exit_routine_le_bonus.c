@@ -1,6 +1,6 @@
 #include "line_editor_bonus.h"
 
-static void		del_history_elem(void *elem_content)
+static void	del_history_elem(void *elem_content)
 {
 	t_vector	*vct;
 
@@ -51,7 +51,7 @@ void		exit_routine_le(char *err_code)
 			ft_putstr_fd("\n", STDERR_FILENO);
 		}
 		if (err_code == NORMAL_EXIT)
-			exit (0);
+			exit(0);
 		exit(FAILURE);
 	}
 	exit(0);

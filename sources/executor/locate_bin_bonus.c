@@ -23,6 +23,7 @@ static int	stat_path(const char *path_to_stat)
 	struct stat	statbuf;
 	int			ret;
 
+	errno = 0;
 	ret = stat(path_to_stat, &statbuf);
 	if (S_ISDIR(statbuf.st_mode) != 0)
 		errno = EISDIR;
@@ -44,6 +45,7 @@ static char	*check_dir_option(const char *bin_name, const char *dir_option)
 	char		*ret_full_path;
 	int			ret;
 
+	errno = 0;
 	ret_full_path = NOT_FOUND;
 	full_path_vct = vct_new();
 	concat_path(&full_path_vct, (char *)dir_option, (char *)bin_name);
@@ -63,7 +65,7 @@ char		*locate_binary_file(const char *bin_name)
 	errno = 0;
 	ret_full_path = NOT_FOUND;
 	dir_list = get_all_path_directories();
-	if (is_path(bin_name) == TRUE || (dir_list == NULL || dir_list[0] == NULL))
+	if (is_path(bin_name) == TRUE || dir_list == NULL || dir_list[0] == NULL)
 	{
 		if (stat_path(bin_name) == SUCCESS)
 			ret_full_path = ft_strdup(bin_name);

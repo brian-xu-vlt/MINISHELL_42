@@ -89,7 +89,8 @@ SRCS += init_prompt_bonus.c
 SRCS += init_term_mode_bonus.c
 SRCS += exit_routine_le_bonus.c
 SRCS += update_screen_data_bonus.c
-SRCS += utils_bonus.c
+SRCS += line_editor_utils_bonus.c
+SRCS += line_editor_is_utils_bonus.c
 SRCS += utils_cursor_bonus.c
 
 SRCS += duplicate_env_lst_bonus.c

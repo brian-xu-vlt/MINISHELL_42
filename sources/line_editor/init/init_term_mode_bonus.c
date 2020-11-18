@@ -2,7 +2,7 @@
 
 void	set_termios(const struct termios *termios_mode)
 {
-	if (termios_mode != NULL)	
+	if (termios_mode != NULL)
 		tcsetattr(STDIN_FILENO, TCSAFLUSH, termios_mode);
 }
 
