@@ -14,15 +14,17 @@ print_separator(){
 print_diff_full () {
 	echo -e "\e[31m \e[1m[  ] \e[0m\t\t["$TEST"]"
 	#\t\t\t left is bash \t\t|\t\t right is minishell\n"
-	colordiff -y /tmp/ba /tmp/minishell
+	colordiff -y /tmp/ba.err /tmp/minishell.err
 }
 
 print_diff_simple (){
-	diff -s /tmp/ba /tmp/minishell &>/dev/null
+	diff -s /tmp/ba.err /tmp/minishell.err &>/dev/null
 	if [[ $? -ne 0 ]]
 	then
+		print_separator '▁'
 		print_diff_full
 		echo "🔴 $TEST" >> /tmp/test_ko
+		print_separator '▔'
 	else
 		echo -e "\e[32m \e[1m[OK] \e[0m\t\t["$TEST"]"
 	fi
@@ -33,15 +35,16 @@ test () {
 	export TEST=$1
 	echo "$TEST" | env -i ./Minishell 1>/tmp/minishell 2>/tmp/minishell.err #; echo "RETURNED : $?" >> /tmp/minishell.err
 	echo "$TEST" | env -i bash --posix 1>/tmp/ba 2>/tmp/ba.err #; echo "RETURNED : $?" >> /tmp/ba.err
-	cat /tmp/ba.err >> /tmp/ba
-	cat /tmp/minishell.err >> /tmp/minishell
-	cat /tmp/ba >> /tmp/bash_sumup
-	cat /tmp/minishell >> /tmp/minishell_sumup
-	sed -i 's/NO_LINE_ED~$>//g' /tmp/minishell
-	sed -i 's/Minishell: /bash: /g' /tmp/minishell
-	sed -i 's/minishell: /bash: /g' /tmp/minishell
-	sed -i 's/line [0-9]: //g' /tmp/ba
-	print_separator '▔'
+	cat /tmp/ba >> /tmp/ba.err
+	cat /tmp/minishell >> /tmp/minishell.err
+	echo -e "\n\n\t 🟡 [$TEST] 🟡 " >> /tmp/bash_sumup
+	cat /tmp/ba.err >> /tmp/bash_sumup
+	echo -e "\n\n\t 🟡 [$TEST] 🟡 " >> /tmp/minishell_sumup
+	cat /tmp/minishell.err >> /tmp/minishell_sumup
+	sed -i 's/NO_LINE_ED~$>//g' /tmp/minishell.err
+	sed -i 's/Minishell: /bash: /g' /tmp/minishell.err
+	sed -i 's/minishell: /bash: /g' /tmp/minishell.err
+	sed -i 's/line [0-9]: //g' /tmp/ba.err
 	print_diff_simple
 	# print_diff_full
 }
@@ -50,6 +53,7 @@ test () {
 test_bonus () {
 	print_separator '█'
 	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+
 	test "\"\""
 	test "\'\'"
 	test "echo a && echo b ; echo \$?"
@@ -63,14 +67,25 @@ test_bonus () {
 test_correction_exec () {
 	print_separator '█'
 	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+
 	test "/bin/ls"
 	test "/bin/ip"
 	test "/bin/aaaaaaaaaaaa"
+	test "./non_existing_file______pouette"
+	test "./fail_bin/segfault"
+	test "non_existing_command______pouette"
+	test "./Makefile"
+	test "/dev"
+	test "../../../ls"
+	test "\"\""
+	test ""
+	test " "
 }
 
 test_correction_arg () {
 	print_separator '█'
 	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+
 	test "/bin/ls -l"
 	test "/bin/ls aaaaaaaaaaa"
 	test "/bin/ls -x Makefile"
@@ -82,6 +97,7 @@ test_correction_arg () {
 test_correction_echo () {
 	print_separator '█'
 	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+
 	test "echo echo echo echo"
 	test "echo ; echo ; echo ; echo"
 	test "echo coucou a b c d e f g"
@@ -95,6 +111,7 @@ test_correction_echo () {
 test_correction_exit () {
 	print_separator '█'
 	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+
 	test "exit 5"
 	test "exit abcdef"
 	test "exit 2 2 2 2 2 2"
@@ -109,6 +126,7 @@ test_correction_exit () {
 test_correction_return () {
 	print_separator '█'
 	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+
 	test "/bin/ip ; echo \$?"
 	test "/bin/ipaaaaaaaaaa ; echo \$?"
 	test "/bin/ls aaaaaaabbbbbbbb ; echo \$?"
@@ -122,6 +140,7 @@ test_correction_return () {
 test_correction_semicolons () {
 	print_separator '█'
 	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+
 	test "echo a ; echo b"
 	test "echo a; echo b"
 	test "echo a ;echo b"
@@ -137,6 +156,7 @@ test_correction_semicolons () {
 test_correction_baskslashs () {
 	print_separator '█'
 	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+
 	test "ls \\Makefile"
 	test "ls \\\"Makefile\\\""
 	test "ls \\\'Makefile\\\'"
@@ -146,6 +166,7 @@ test_correction_baskslashs () {
 test_correction_env () {
 	print_separator '█'
 	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+
 	test "env | sort "
 	test "export"
 	test "unset"
@@ -155,7 +176,8 @@ test_correction_env () {
 
 	test "cat=meow export food=pizza ; export ; export"
 	test "cat=meow env; env | sort  ; export"
-	test "cat=meow env; env  | sort ; export"
+	test "cat=meow env; env | sort ; export"
+	test "cat env; env | sort ; export"
 
 	test "export -toto=1"
 	test "export cat=meow ; echo \$cat"
@@ -167,6 +189,9 @@ test_correction_env () {
 	test "export cat=meow ; cat=woof ; export"
 	test "cat=meow ; export cat=woof ; export"
 	test "cat=meow ; export cat=woof export ; export"
+	test "cat+=woof ; cat+=woof ; cat+=piaou ; export cat; export"
+	test "export cat=woof ; cat+=woof ; cat+=piaou ; export"
+	test "export cat+=woof ; cat+=woof ; cat+=piaou ; export"
 	test "export ERR+EUR=1"
 	test "export VAR-INVALID=1"
 	test "export PATH=42 ; export"
@@ -181,6 +206,7 @@ test_correction_env () {
 
 test_correction_exp () {
 	print_separator '█'
+
 	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
 	test "echo \$TERM"
 	test "echo \$\"TERM\""
@@ -200,13 +226,13 @@ test_correction_cd() {
 	test "cd ../././../// ; /bin/ls"
 	test "cd / ; /bin/ls"
 	test "cd ./ ; /bin/ls"
-	test "cd ./ ; /bin/ls"
+	test "cd ./.. ; /bin/ls"
 	test "cd ./sources ; /bin/ls"
 	test "cd ./aaaaaaaaaa ; /bin/ls"
 	test "cd aaaaaaa ; /bin/ls"
-	test "mkdir /tmp/aaa ; cd /tmp/aaa ; /bin/ls"
-	test "mkdir /tmp/aaa ; chmod 000 /tmp/aaa ; cd /tmp/aaa ; /bin/ls"
-	test "mkdir /tmp/aaa ; cd /tmp/aaa ; rm -rf /tmp/aaa ; cd .. ; /bin/ls"
+	test "rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; cd /tmp/aaa ; /bin/ls"
+	test "rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; chmod 000 /tmp/aaa ; cd /tmp/aaa ; /bin/ls"
+	test "rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; cd /tmp/aaa ; rm -rf /tmp/aaa ; cd .. ; /bin/ls"
 	test "cd /tmp ; cd - ; /bin/ls"
 	test "cd Makefile"
 	test "cd -x"
@@ -228,30 +254,85 @@ test_correction_pwd() {
 	test "cd ./sources ; pwd"
 	test "cd ./aaaaaaaaaa ; pwd"
 	test "cd aaaaaaa ; pwd"
-	test "mkdir /tmp/aaa ; cd /tmp/aaa ; pwd"
-	test "mkdir /tmp/aaa ; cd /tmp/aaa ; chmod 000 /tmp/aaa ; pwd"
-	test "mkdir -p /tmp/aaa/bbb ; cd /tmp/aaa/bbb ; rm -rf /tmp/aaa ; pwd"
+	test "rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; cd /tmp/aaa ; pwd"
+	test "rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; cd /tmp/aaa ; chmod 000 /tmp/aaa ; pwd"
+	test "rm -rf /tmp/aaa ; mkdir -p /tmp/aaa/bbb ; cd /tmp/aaa/bbb ; rm -rf /tmp/aaa ; pwd"
 	test "cd /tmp ; cd - ; pwd"
 }
 
-test_executor() {
+test_correction_PATH() {
 	print_separator '█'
 	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
 
-	test "./non_existing_file______pouette"
-	test "./fail_bin/segfault"
-	test "non_existing_command______pouette"
-	test "./Makefile"
-	test "/dev"
-	test "../../../ls"
-	test "\"\""
-	test ""
 	test "unset PATH; \"\""
 	test "unset PATH; hjsdfkhfds"
 	test "unset PATH; ls"
 	test "unset PATH; Makefile"
 	test "unset PATH; /bin/ls"
-	test "unset PATH; /bin/ls"
+	test "export PATH=\"\"; ls"
+	test "export PATH= ; ls"
+	test "export PATH=pizza ; ls"
+	test "export PATH=pizza ; pwd"
+	test "export PATH=pizza ; echo"
+	test "PATH=/tmp:./ ; ls"
+}
+
+test_correction_simple_quotes(){
+	print_separator '█'
+	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+
+	test "ls ''"
+	test "ls ''''"
+	test "echo ''"
+	test "echo $''"
+	test "export toto='' ; export"
+	test "''"
+	test "cat ''"
+}
+
+test_correction_redirect(){
+	print_separator '█'
+	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+
+	test "ls /dev > /tmp/file ; cat /tmp/file"
+	test "cal >/dev"
+	test "cal >"
+	test "date >../../../../../../../../../../../../tmp/file2 ; cat /tmp/file2"
+	test "ls /tmp > /tmp/ls ; cat </tmp/ls"
+	test "ls > /tmp/ls ; pwd >> /tmp/ls ; cat </tmp/ls"
+	test "cat < /tmp/ls ; cat /tmp/ls"
+	test "cat </dev"
+	test "cat >/dev"
+	test "touch /tmp/aaaaaaaa >/dev ; ls /tmp/aaaaaaaaa"
+	test "touch /tmp/aaaaaaaa </dev ; ls /tmp/aaaaaaaaa"
+	test "rm -rf /tmp/b ; ls >> /tmp/b ; ls >> /tmp/b ; ls >> /tmp/b ; ls >> /tmp/b ; cat /tmp/b"
+	test "rm -rf /tmp/b ; ls >> /tmp/b ; ls >> /tmp/b ; ls >> /tmp/b ; ls > /tmp/b ; cat /tmp/b"
+	test "cp Makefile /tmp/b ; true > /tmp/b ; cat </tmp/b"
+	test "cat > coucou > test_cat < coucou | cat < coucou ; rm -rf coucou test_cat"
+	test "rm -rf /tmp/a ; ls >/tmp/a </dev ; ls /tmp/a"
+	test "rm -rf /tmp/a ; touch /tmp/a >>/dev ; ls /tmp/a"
+	test "rm -rf /tmp/a ; touch /tmp/a >/dev ; ls /tmp/a"
+}
+
+test_correction_pipes() {
+
+	print_separator '█'
+	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+
+	test "ls | sort | cut -b 1-6"
+	test "ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls"
+	test "ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |aaaaaaaaaaaa |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls"
+	test "true | false | true"
+	test "false | false | true"
+	test "cat | cat | cat | grep 42"
+	test "rm -rf /tmp/a /tmp/b ; touch /tmp/a | ls >/dev | touch /tmp/b ; ls /tmp/a /tmp/b"
+
+}
+
+test_signal() {
+	print_separator '█'
+	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+
 	# test "
 	#  	fail_bin/buserror;
 	#  	fail_bin/abort;
@@ -259,7 +340,7 @@ test_executor() {
 	#  "
 }
 
-test_random () {
+test_random() {
 	print_separator '█'
 	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
 
@@ -290,10 +371,6 @@ test_random () {
 		toto+=42; echo \$toto ;
 		toto+=42; echo \$toto
 	"
-	test "ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls
-	|ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls
-	|ls |ls |ls |ls |ls |ls |ls |ls |ls |ls
-	"
 	test "echo > /tmp/test"
 	test "cat -e /tmp/test"
 	test "echo -n > /tmp/test"
@@ -315,11 +392,10 @@ test_random () {
 	test "cd .././../.././../bin/ls"
 	test "unset \$HOME; cd"
 	test "touch /tmp/file ; /tmp/file"
-	test "cat > coucou > test_cat < coucou | cat < coucou ; rm coucou test_cat"
 	test "4ABC=toto"
 }
 
-test_failed () {
+test_failed() {
 	print_separator '█'
 	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
 
@@ -375,25 +451,36 @@ main () {
 	then
 		test "$1"
 	else
+		echo
 		# test_random
 		# test_bonus
 		# test_executor
-
-		test_correction_exec
-		test_correction_arg
-		test_correction_echo
-		test_correction_exit
-		test_correction_return
-		test_correction_semicolons
-		test_correction_baskslashs
-		test_correction_env
-		test_correction_exp
-		test_correction_cd
-		test_correction_pwd
 		# test_failed
+		# test_signal
+
+		# test_correction_exec
+		# test_correction_arg
+		# test_correction_echo
+		# test_correction_exit
+		# test_correction_return
+		# test_correction_semicolons
+		# test_correction_baskslashs
+		# test_correction_env
+		# test_correction_exp
+		# test_correction_cd
+		# test_correction_pwd
+		# test_correction_PATH
+		test_correction_simple_quotes
+		test_correction_redirect
+		test_correction_pipes
 	fi
-	echo -e "\n\n\e[31m \e[1m[ALL FAILED TEST] \e[0m"
-	cat /tmp/test_ko
+
+	FAILED_TEST=$(cat /tmp/test_ko | wc -l)
+	if [[ $FAILED_TEST -gt 0 ]]
+	then
+		echo -e "\n\n\e[31m \e[1m[ $(cat /tmp/test_ko | wc -l) FAILED TEST] \e[0m"
+		cat /tmp/test_ko
+	fi
 }
 
 main "$1"

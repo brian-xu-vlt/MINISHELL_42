@@ -1,7 +1,5 @@
 #include "minishell_bonus.h"
 
-// return int mais pas sur, peut etre juste utiliser le errno.
-
 static void	print_envp(char **envp)
 {
 	int			i;
