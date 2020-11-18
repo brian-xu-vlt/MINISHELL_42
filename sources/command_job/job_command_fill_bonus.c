@@ -10,7 +10,10 @@ int		fill_name(t_token *token, t_cmd *cmd)
 		cmd->type = (enum e_token_type *)malloc(sizeof(enum e_token_type) *
 						(cmd->ac + 1));
 		if (cmd->av == NULL)
-			return (FAILURE);
+		{
+			print_set_errno(0, ERR_MALLOC, NULL, NULL);
+			exit(FAILURE);
+		}
 		cmd->av[cmd->ac] = NULL;
 	}
 	if (token == NULL)
@@ -56,7 +59,10 @@ int		fill_exp(int flag, int count_ac, t_cmd *cmd)
 	{
 		cmd->tab_exp = (size_t *)malloc(sizeof(size_t) * (cmd->count_exp));
 		if (cmd->tab_exp == NULL)
-			return (FAILURE);
+		{
+			print_set_errno(0, ERR_MALLOC, NULL, NULL);
+			exit(FAILURE);
+		}
 	}
 	if (flag == FAILURE)
 		count = 0;

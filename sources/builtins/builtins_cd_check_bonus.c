@@ -29,7 +29,6 @@ int			check_cd_arg(int ac)
 {
 	if (ac > 2)
 	{
-		ft_printf("CD  FAIL\n");//DEBUG
 		print_set_errno(0, "too many arguments", STR_CD, NULL);
 		return (CD_FAIL);
 	}
@@ -79,7 +78,7 @@ int			first_check(char *directory)
 	if (closedir(dir) == FAILURE)
 	{
 		print_set_errno(errno, strerror(errno), "closedir", NULL);
-		return (FAILURE);
+		exit(FAILURE);
 	}
 	return (CD_CONTINUE);
 }
@@ -96,9 +95,9 @@ int			handle_permission_denied(char **dir, char *dir_denied)
 	pwd = getcwd(buff, PATH_MAX);
 	if (pwd == NULL)
 	{
-		print_set_errno(errno, "bash: getcwd", NULL, NULL);
+		print_set_errno(errno, ERR_MALLOC, NULL, NULL);
 		free(buff);
-		return (PWD_FAIL);
+		exit(FAILURE);
 	}
 	new_dir = vct_new();
 	transform_new_dir(new_dir, pwd, dir_denied);

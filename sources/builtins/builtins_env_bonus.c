@@ -1,7 +1,5 @@
 #include "minishell_bonus.h"
 
-// return int mais pas sur, peut etre juste utiliser le errno.
-
 int	env_builtin(int ac, char **av, char **envp)
 {
 	const char	*builtin = "env";
@@ -42,9 +40,7 @@ static void	export_envp(char **envp)
 	if (envp == NULL)
 		return ;
 	while (envp != NULL && envp[i] != NULL)
-	{
 		export_env(get_env_list(GET), envp[i++]);
-	}
 }
 
 int	export_builtin(int ac, char **av, char **envp)

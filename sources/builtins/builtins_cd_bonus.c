@@ -11,9 +11,9 @@ static int	handle_pwd(int flag)
 	pwd = getcwd(buff, PATH_MAX);
 	if (pwd == NULL)
 	{
-		print_set_errno(errno, "bash: getcwd", NULL, NULL);
+		print_set_errno(errno, "bash: error on getcwd", NULL, NULL);
 		free(buff);
-		return (PWD_FAIL);
+		exit(FAILURE);
 	}
 	if (flag == PWD)
 		ms_setenv(get_env_list(GET), ENV_PWD, pwd, F_EXPORT | F_OVERWRITE);

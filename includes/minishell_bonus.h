@@ -70,6 +70,7 @@ void					free_token(t_list *node, t_token *token);
 int 					handle_ret_lexer(int ret_process_lexer,
 											t_list *token_list, t_vector *word,
 											int flag);
+t_list					*get_job(t_list *job);
 
 /******************************************************************************/
 /*******************************_PARSER_***************************************/
@@ -210,6 +211,8 @@ int 								is_backslash(char c, char next_c,
 													t_vector *input);
 bool 								is_exp_sep(char c);
 bool								verif_assign_cmd(char *str);
+void								exit_routine_cleaner(t_cmd *cmd,
+														t_clean_cmd *clean_cmd);
 
 /******************************************************************************/
 /*******************************_EXECUTION_************************************/

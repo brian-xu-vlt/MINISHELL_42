@@ -10,7 +10,8 @@ int		add_job_to_list(t_job *job, t_list **jobs, t_list *token_list,
 	{
 		ft_lstdelone(node_job, NULL);
 		free(node_job);
-		return (FAILURE);
+		print_set_errno(0, ERR_MALLOC, NULL, NULL);
+		exit (FAILURE);
 	}
 	ft_lstadd_back(jobs, node_job);
 	*head = token_list;
@@ -23,7 +24,10 @@ t_job	*init_job(void)
 
 	job = (t_job *)malloc(sizeof(t_job));
 	if (job == NULL)
-		return (NULL);
+	{
+		print_set_errno(0, ERR_MALLOC, NULL, NULL);
+		exit (FAILURE);
+	}
 	job->nb_cmd = 0;
 	job->last_pid = 0;
 	job->cmd_lst = NULL;

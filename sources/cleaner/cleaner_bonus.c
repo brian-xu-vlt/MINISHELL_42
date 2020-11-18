@@ -1,19 +1,21 @@
 #include "minishell_bonus.h"
 
-static void	free_clean_command(t_clean_cmd *clean_cmd, int flag,
-								int clean_exp, int *tab_clean_exp)
+static void	free_clean_command(t_clean_cmd *clean_cmd, int flag)
 {
 	size_t i;
 
 	i = 0;
-	if (flag == ALL_FREE)
+	if (flag == ALL_FREE || MALLOC)
 	{
-		while (i < clean_cmd->ac)
+		if (clean_cmd->av != NULL)
 		{
-			free(clean_cmd->av[i]);
-			i++;
+			while (i < clean_cmd->ac)
+			{
+				free(clean_cmd->av[i]);
+				i++;
+			}
+			free(clean_cmd->av);
 		}
-		free(clean_cmd->av);
 		i = 0;
 		while (i < clean_cmd->count_redir)
 		{
@@ -24,9 +26,9 @@ static void	free_clean_command(t_clean_cmd *clean_cmd, int flag,
 		free(clean_cmd->tmp_tab_redir);
 		free(clean_cmd->tmp_av);
 	}
-	if (clean_exp != 0)
-		free(tab_clean_exp);
 	free(clean_cmd);
+	if (flag == MALLOC)
+		exit(-1);
 }
 
 t_clean_cmd	*init_clean_command(void)
@@ -52,8 +54,7 @@ t_clean_cmd	*init_clean_command(void)
 	return (clean_cmd);
 }
 
-static int	process_clean_command(t_cmd *cmd, int *tab_clean_exp,
-									int clean_exp)
+static int	process_clean_command(t_cmd *cmd)
 {
 	t_clean_cmd *clean_cmd;
 	int			index_cmd;
@@ -62,20 +63,26 @@ static int	process_clean_command(t_cmd *cmd, int *tab_clean_exp,
 	clean_cmd = init_clean_command();
 	if (clean_cmd == NULL)
 	{
-		free_clean_command(clean_cmd, NOT_ALL_FREE, clean_exp, tab_clean_exp);
+		free_clean_command(clean_cmd, NOT_ALL_FREE);
 		return (FAILURE);
 	}
 	index_cmd = get_cmd(cmd);
 	ret_cmd = get_envp_av(cmd, clean_cmd, index_cmd);
 	if (ret_cmd == FAILURE)
 	{
-		free_clean_command(clean_cmd, ALL_FREE, clean_exp, tab_clean_exp);
+		free_clean_command(clean_cmd, ALL_FREE);
 		return (FAILURE);
 	}
 	if (ret_cmd != NO_COMMAND)
-		process_redirection(cmd, clean_cmd);
+	{
+		if (process_redirection(cmd, clean_cmd) == FAILURE)
+		{
+			free_clean_command(clean_cmd, MALLOC);
+			return (FAILURE);
+		}
+	}
 	cmd->name = (cmd->ac != 0 ? cmd->av[0] : NULL);
-	free_clean_command(clean_cmd, ALL_FREE, clean_exp, tab_clean_exp);
+	free_clean_command(clean_cmd, ALL_FREE);
 	return (SUCCESS);
 }
 
@@ -106,8 +113,6 @@ char		*clean_quote(char *arg)
 int			cleaner(t_cmd *cmd)
 {
 	int		ret_cmd;
-	size_t	clean_exp;
-	int		*tab_clean_exp;
 	size_t	i;
 
 	i = 0;
@@ -121,8 +126,6 @@ int			cleaner(t_cmd *cmd)
 		}
 		i++;
 	}
-	tab_clean_exp = NULL;
-	clean_exp = 0;
-	ret_cmd = process_clean_command(cmd, tab_clean_exp, clean_exp);
+	ret_cmd = process_clean_command(cmd);
 	return (ret_cmd);
 }

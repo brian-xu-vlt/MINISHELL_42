@@ -68,7 +68,10 @@ int		fill_clean_cmd(int index_cmd, t_cmd *cmd, t_clean_cmd *clean_cmd)
 
 	clean_cmd->av = (char **)malloc(sizeof(char *) * clean_cmd->ac);
 	if (clean_cmd->av == NULL)
+	{
+		print_set_errno(0, ERR_MALLOC, NULL, NULL);
 		return (FAILURE);
+	}
 	i = index_cmd;
 	i_clean = 0;
 	while (i_clean < clean_cmd->ac)
@@ -89,7 +92,10 @@ int		fill_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	cmd->ac = clean_cmd->ac;
 	cmd->av = (char **)malloc(sizeof(char *) * cmd->ac);
 	if (cmd->av == NULL)
+	{
+		print_set_errno(0, ERR_MALLOC, NULL, NULL);
 		return (FAILURE);
+	}
 	i = 0;
 	while (i < (size_t)cmd->ac)
 	{

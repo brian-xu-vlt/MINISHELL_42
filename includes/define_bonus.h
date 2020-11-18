@@ -66,6 +66,7 @@
 #define NB_CLEAN_COMMAND		5
 #define	ALL_FREE					1
 #define NOT_ALL_FREE					0
+#define MALLOC							2
 #define	FILE_FAIL						2
 
 #define IN 0
@@ -100,7 +101,7 @@
 /******************************************************************************/
 
 #define STR_PWD "pwd"
-#define PWD_FAIL 1
+#define PWD_FAIL 2
 #define PWD_SUCCESS 0
 #define CD_FAIL		1
 #define CD_CONTINUE		2
