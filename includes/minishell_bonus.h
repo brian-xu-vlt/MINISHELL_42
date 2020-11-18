@@ -273,16 +273,16 @@ int 	handle_permission_denied(char **dir, char *dir_denied);
 int 	check_cd_arg(int ac);
 int 	first_check(char *directory);
 void 	transform_new_dir(t_vector *new_dir, char *pwd, char *dir_denied);
-int		check_arg(t_vector *vct_av_cpy, t_vector *vct_av, char c,
-					char *av, int ac);
+int		check_arg(t_vector *vct_av, char c, char *av, int ac);
 bool	is_long(t_vector *av, char c);
 bool	parse_vct(t_vector *vct_av);
 size_t	pop_arg(t_vector *av, int flag);
 void	cut_arg(t_vector *vct_av, size_t len_before, size_t count_num,
 						t_vector *av);
 bool	is_numeric(t_vector *av);
-int		print_error(t_vector *vct_av, char *av, char c, int flag,
-						t_vector *vct_av_cpy);
+int		process_error(t_vector *vct_home, char *dir, t_vector *vct_old_pwd);
+int		print_error(t_vector *vct_av, char *av, char c, int flag);
+void	handle_exit_value(t_vector *vct_av, t_vector *vct_av_cpy, char c);
 
 /******************************************************************************/
 /*******************************_ENV_MANAGER_**********************************/

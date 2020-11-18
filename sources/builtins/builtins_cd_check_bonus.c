@@ -1,5 +1,30 @@
 #include "minishell_bonus.h"
 
+int			process_error(t_vector *vct_home, char *dir, t_vector *vct_old_pwd)
+{
+	if (vct_home == NULL && dir == NULL)
+	{
+		print_set_errno(0, "HOME not set", STR_CD, NULL);
+		return (CD_FAIL);
+	}
+	if (ft_strequ(STR_MINUS, dir) == TRUE && vct_getstr(vct_old_pwd) == NULL)
+	{
+		print_set_errno(0, "OLDPWD not set", STR_CD, NULL);
+		return (CD_FAIL);
+	}
+	if (vct_getlen(vct_old_pwd) == 0 && ft_strequ(dir, STR_MINUS) == TRUE)
+	{
+		print_set_errno(0, "OLDPWD has no value", STR_CD, NULL);
+		return (CD_FAIL);
+	}
+	if (dir == NULL && vct_getlen(vct_home) == 0)
+	{
+		print_set_errno(0, "HOME has no value", STR_CD, NULL);
+		return (CD_FAIL);
+	}
+	return (SUCCESS);
+}
+
 int			check_cd_arg(int ac)
 {
 	if (ac > 2)
@@ -39,7 +64,6 @@ int			first_check(char *directory)
 	DIR *dir;
 	int ret_directory;
 
-	ft_printf("OPEN DIR\n");//DEBUG
 	dir = opendir(directory);
 	ret_directory = check_directory(directory);
 	if (dir == NULL && errno == PERMISSION_DENIED && ret_directory == SUCCESS)

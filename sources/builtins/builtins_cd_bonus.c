@@ -78,26 +78,8 @@ static int	process_cd(char *dir)
 
 	vct_home = get_env_value_vct(get_env_list(GET), ENV_HOME);
 	vct_old_pwd = get_env_value_vct(get_env_list(GET), ENV_OLD_PWD);
-	if (vct_home == NULL && dir == NULL)
-	{
-		print_set_errno(0, "HOME not set", STR_CD, NULL);
+	if (process_error(vct_home, dir, vct_old_pwd) == CD_FAIL)
 		return (CD_FAIL);
-	}
-	if (ft_strequ(STR_MINUS, dir) == TRUE && vct_getstr(vct_old_pwd) == NULL)
-	{
-		print_set_errno(0, "OLDPWD not set", STR_CD, NULL);
-		return (CD_FAIL);
-	}
-	if (vct_getlen(vct_old_pwd) == 0 && ft_strequ(dir, STR_MINUS) == TRUE)
-	{
-		print_set_errno(0, "OLDPWD has no value", STR_CD, NULL);
-		return (CD_FAIL);
-	}
-	if (dir == NULL && vct_getlen(vct_home) == 0)
-	{
-		print_set_errno(0, "HOME has no value", STR_CD, NULL);
-		return (CD_FAIL);
-	}
 	return (hub_process_chdir(dir, vct_home) == FAILURE ? CD_FAIL : SUCCESS);
 }
 

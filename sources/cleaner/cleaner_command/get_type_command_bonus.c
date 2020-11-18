@@ -3,7 +3,7 @@
 static bool	verif_expect(t_vector *vct, t_vector *vct_cpy)
 {
 	size_t		id_equal;
-	
+
 	id_equal = vct_clen(vct, ASSIGN);
 	vct_cutfrom(vct, vct_getlen(vct) - id_equal);
 	if (vct_chr(vct, C_PATH) != FAILURE || is_wrong_ass(vct) == false)
@@ -15,7 +15,7 @@ static bool	verif_expect(t_vector *vct, t_vector *vct_cpy)
 	return (false);
 }
 
-bool	verif_assign_cmd(char *str)
+bool		verif_assign_cmd(char *str)
 {
 	t_vector	*vct;
 	ssize_t		nb_assign;

@@ -46,7 +46,7 @@ int			hub_cleaner(t_list *job_list)
 			cmd = tmp_cmd_lst->content;
 			ret = handle_condition(cmd, ret);
 			if (ret == FAILURE)
-				break;
+				break ;
 			ret = process_cleaner(cmd);
 			if (ret != SUCCESS)
 				return (ret);
