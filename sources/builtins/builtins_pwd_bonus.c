@@ -18,6 +18,7 @@ int			pwd_builtin(int ac, char **av, char **envp)
 	char *pwd;
 	char *buff;
 
+
 	errno = SUCCESS;
 	pwd = NULL;
 	(void)envp;
@@ -36,9 +37,9 @@ int			pwd_builtin(int ac, char **av, char **envp)
 	pwd = getcwd(buff, PATH_MAX);
 	if (pwd == NULL)
 	{
-		print_set_errno(errno, "error", "getcwd", NULL);
+		ft_putendl_fd("pwd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", STDERR_FILENO);
 		free(buff);
-		exit(FAILURE);
+		return (PWD_FAIL);
 	}
 	ft_printf("%s\n", pwd);
 	free(buff);

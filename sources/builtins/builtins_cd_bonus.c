@@ -15,9 +15,9 @@ static int	handle_pwd(int flag)
 	pwd = getcwd(buff, PATH_MAX);
 	if (pwd == NULL)
 	{
-		print_set_errno(errno, "bash: error on getcwd", NULL, NULL);
+		ft_putendl_fd("chdir: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", STDERR_FILENO);
 		free(buff);
-		exit(FAILURE);
+		return (FAILURE);
 	}
 	if (flag == PWD)
 		ms_setenv(get_env_list(GET), ENV_PWD, pwd, F_EXPORT | F_OVERWRITE);
