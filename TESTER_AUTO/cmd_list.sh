@@ -33,6 +33,8 @@ test () {
 	echo "$TEST" | env -i bash --posix 1>/tmp/ba 2>/tmp/ba.err
 	cat /tmp/ba.err >> /tmp/ba
 	cat /tmp/minishell.err >> /tmp/minishell
+	cat /tmp/ba >> /tmp/bash_sumup
+	cat /tmp/minishell >> /tmp/minishell_sumup
 	sed -i 's/NO_LINE_ED~$>//g' /tmp/minishell
 	sed -i 's/Minishell: /bash: /g' /tmp/minishell
 	sed -i 's/line [0-9]: //g' /tmp/ba
@@ -43,6 +45,7 @@ test () {
 
 
 test_bonus () {
+	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
 	test "\"\""
 	test "\'\'"
 	test "echo a && echo b ; echo \$?"
@@ -53,10 +56,26 @@ test_bonus () {
 	test "echo a && false ; echo \$?"
 }
 
+test_correction () {
+	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+	test "/bin/ls"
+	test "/bin/ls -l"
+	test "echo echo echo echo"
+	test "echo ; echo ; echo ; echo"
+	test "/bin/ip ; echo \$?"
+	test "/bin/ipee ; echo \$?"
+	test "/bin/ls non_existingfileeee ; echo \$?"
+
+}
+
 test_executor() {
-	test "./fail_bin/segault"
+	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+	test "non_existing_command______pouette"
+	test "./non_existing_file______pouette"
+	test "./fail_bin/segfault"
 	test "./Makefile"
 	test "/dev"
+	test "../../../ls"
 	test "\"\""
 	test ""
 	test "unset PATH; \"\""
@@ -73,6 +92,7 @@ test_executor() {
 }
 
 test_exit () {
+	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
 	test "exit 5"
 	test "exit abcdef"
 	test "exit 2 2 2 2 2 2"
@@ -84,6 +104,7 @@ test_exit () {
 }
 
 test_random () {
+	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
 	test "ls -l"
 	test "export cat=meow ; echo \$cat"
 	test "unset SHSLVL PATH PWD OLDPWD _ ; echo \$PWD ; pwd ; ls"
@@ -130,6 +151,7 @@ test_random () {
 }
 
 test_failed () {
+	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
 	test "food=pizza export; export"
 	test "export cat=meow ; env | sort"
 	test "unset hfdjskhdfkjhfsd ; env | sort"
@@ -184,15 +206,18 @@ test_failed () {
 
 main () {
 	true > /tmp/test_ko
+	true > /tmp/minishell_sumup
+	true > /tmp/bash_sumup
 	if [[ -n "$1" ]]
 	then
 		test "$1"
 	else
-		test_random
-		test_bonus
-		test_exit
+		# test_random
+		# test_bonus
+		# test_exit
 		test_executor
-		test_failed
+		# test_correction
+		# test_failed
 	fi
 	echo -e "\n\n\e[31m \e[1m[ALL FAILED TEST] \e[0m"
 	cat /tmp/test_ko
