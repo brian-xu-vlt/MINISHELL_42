@@ -32,20 +32,8 @@ bool	verif_assign_cmd(char *str)
 		vct_del(&vct_cpy);
 		return (true);
 	}
-	if (vct_getcharat(vct, vct_getlen(vct) - 1) == C_PLUS)
-	{
-		vct_del(&vct);
-		vct_del(&vct_cpy);
-		return (false);
-	}
-	if (vct_chr(vct, C_PLUS) != FAILURE || vct_chr(vct, C_MINUS) != FAILURE)
-	{
-		vct_del(&vct);
-		vct_del(&vct_cpy);
-		return (true);
-	}
 	vct_del(&vct);
-		vct_del(&vct_cpy);
+	vct_del(&vct_cpy);
 	return (false);
 }
 
