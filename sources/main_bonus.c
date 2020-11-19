@@ -1,24 +1,12 @@
 #include "minishell_bonus.h"
 
-void	print_prompt(void)
-{
-	t_le	*le;
-	char	*prompt_str;
-
-	le = get_struct(GET);
-	if (DEBUG_MODE == TRUE)
-		prompt_str = PROMPT_SIMPLE;
-	else
-		prompt_str = PROMPT_LINE_EDITION;
-	ft_putstr_fd(prompt_str, STDOUT_FILENO);
-}
-
 static int	read_loop(t_vector *cmd_line)
 {
 	int		read_ret;
 
 	read_ret = 0;
-	print_prompt();
+	init_prompt();
+	errno = 0;
 	if ((read_ret = vct_readline(cmd_line, 0)) == FAILURE)
 	{
 		print_set_errno(errno, NULL, NULL, NULL);
@@ -26,7 +14,6 @@ static int	read_loop(t_vector *cmd_line)
 	}
 	return (read_ret);
 }
-
 
 static void	usage(int ac, char **av)
 {
@@ -87,11 +74,14 @@ int			main(int ac, char **av)
 	ret_read = 1;
 	while (ret_read > 0)
 	{
-		signal_manager(SIG_MODE_CMD_LINE);
 		if (DEBUG_MODE == TRUE)
+		{
+			signal_manager(SIG_MODE_CMD_LINE_NO_BONUS);
 			ret_read = read_loop(cmd_line);
+		}
 		else
 		{
+			signal_manager(SIG_MODE_CMD_LINE);
 			ret_read = line_editor();
 			ft_putchar_fd('\n', STDOUT_FILENO);
 		}
@@ -108,9 +98,7 @@ int			main(int ac, char **av)
 		}
 		vct_clear(cmd_line);
 		free_list_job(&jobs);
-//	ft_printf("\t\t\t\t[LAST EXIT STATUS %3d]\r", get_env_value_int(get_env_list(GET), "?"));  //TODO remove
 	}
-	exit_routine_le(NULL);
-	free_list_job(&jobs);
+	exit_routine_le(NORMAL_EXIT);
 	return (EXIT_SUCCESS);
 }

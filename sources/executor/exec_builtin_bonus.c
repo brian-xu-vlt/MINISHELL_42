@@ -9,7 +9,7 @@ int	exec_builtin(t_cmd *cmd)
 		"export", "unset" };
 	static int			(*builtin[NB_BUILTIN])(int, char **, char **) = {
 		cd_builtin, echo_builtin, pwd_builtin, exit_builtin, env_builtin,
-		export_builtin,	unset_builtin };
+		export_builtin, unset_builtin };
 
 	i = 0;
 	ret_value = 0;

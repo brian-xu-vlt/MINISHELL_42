@@ -1,6 +1,6 @@
 #include "line_editor_bonus.h"
 
-static int		line_editor_loop(t_le *le)
+static int	line_editor_loop(t_le *le)
 {
 	char	key;
 	int		ret_read;

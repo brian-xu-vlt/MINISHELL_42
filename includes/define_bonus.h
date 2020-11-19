@@ -51,6 +51,8 @@
 #define LEXER			0
 #define TOKEN			1
 
+#define NEWLINE			"newline"
+
 /******************************************************************************/
 /*******************************_CLEANER_**************************************/
 /******************************************************************************/
@@ -64,6 +66,7 @@
 #define NB_CLEAN_COMMAND		5
 #define	ALL_FREE					1
 #define NOT_ALL_FREE					0
+#define MALLOC							2
 #define	FILE_FAIL						2
 
 #define IN 0
@@ -87,12 +90,18 @@
 #define CONTINUE		1
 #define BREAK			2
 
+#define C_PATH			'/'
+
+#define NUM				1<<0
+#define ARG				1<<1
+#define MINUS_PLUS		1<<2
+
 /******************************************************************************/
 /*******************************_BUILTIN_**************************************/
 /******************************************************************************/
 
 #define STR_PWD "pwd"
-#define PWD_FAIL 1
+#define PWD_FAIL 2
 #define PWD_SUCCESS 0
 #define CD_FAIL		1
 #define CD_CONTINUE		2
@@ -108,7 +117,16 @@
 #define PWD					1
 #define STR_MINUS				"-"
 #define DOT					'.'
-
+#define C_PLUS				'+'
+#define C_MINUS				'-'
+#define EXIT				"exit"
+#define EXIT_FAIL			1
+#define S_PLUS				"+"
+#define S_MINUS				"-"
+#define LEN_MIN_LONG		20
+#define LEN_PLUS_LONG		19
+#define POP_SPACE_TAB		0
+#define COUNT_NUM			1
 
 /******************************************************************************/
 /*******************************_EXECUTOR_*************************************/
@@ -124,17 +142,20 @@
 #define	F_REDIRECT_OUT			1<<2
 #define	F_REDIRECT_OUT_APPEND	1<<3
 
-#define	SIG_MODE_DEFAULT		0
-#define	SIG_MODE_CMD_LINE		1
-#define	SIG_MODE_EXEC			2
+#define	SIG_MODE_DEFAULT				0
+#define	SIG_MODE_CMD_LINE				1
+#define	SIG_MODE_CMD_LINE_NO_BONUS		2
+#define	SIG_MODE_EXEC					3
 
 #define	STDFD_STORE				1
 #define	STDFD_RESTORE			2
 
+#define	ERR_INVALID_OPTION		"invalid option"
 #define	ERR_NO_COMMAND			"command not found"
 #define	ERR_NO_FILE				"No such file or directory"
 
 #define	DEFAULT_PATH_ENV		"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+#define	DEFAULT_TERM			"TERM=dumb"
 #define	DEFAULT_EXIT_STATUS		"?=0"
 
 #endif

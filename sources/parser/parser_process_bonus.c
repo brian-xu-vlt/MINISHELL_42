@@ -50,7 +50,8 @@ int			process_parser(t_list *list, t_valid_token *valid_token)
 		{
 			ft_putstr_fd("minishell: syntax error near unexpected token `",
 							STDERR_FILENO);
-			ft_putstr_fd((char *)get_token_str(token->type), STDERR_FILENO);
+			ft_putstr_fd(token->type == E_END ? NEWLINE :
+							(char *)get_token_str(token->type), STDERR_FILENO);
 			ft_putendl_fd("'", STDERR_FILENO);
 			return (FALSE);
 		}

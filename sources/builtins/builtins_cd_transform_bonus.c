@@ -72,7 +72,7 @@ void		transform_new_dir(t_vector *new_dir, char *pwd, char *dir_denied)
 	while (vct_getlen(vct_denied) > 0)
 	{
 		while (vct_getfirstchar(vct_denied) == C_ROOT &&
-			   vct_getcharat(vct_denied, 1) == C_ROOT)
+				vct_getcharat(vct_denied, 1) == C_ROOT)
 			vct_pop(vct_denied);
 		vct_add(real_vct_denied, vct_getfirstchar(vct_denied));
 		vct_pop(vct_denied);

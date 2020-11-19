@@ -3,7 +3,7 @@
 static t_env	*store_new_env(t_list *env_lst, const char *env_name,
 														const char *env_value)
 {
-	t_env		*new_env;
+	t_env	*new_env;
 
 	new_env = (t_env *)ft_calloc(1, sizeof(t_env));
 	if (new_env == NULL)
@@ -43,7 +43,7 @@ static void		update_existing_env(t_env *env_struct,
 void			ms_setenv(t_list *env_lst, const char *env_name,
 											const char *env_value, int flags)
 {
-	t_env		*env_node;
+	t_env	*env_node;
 
 	if (env_lst == NULL)
 		return ;
@@ -65,11 +65,11 @@ void			ms_setenv_int(t_list *env_lst, const char *env_name,
 	free(int_str);
 }
 
-static void		store_env(t_list *env_lst, const char *env, int flags)
+void			store_env(t_list *env_lst, const char *env, int flags)
 {
-	char		*env_name;
-	char		*env_value;
-	int			overwrite;
+	char	*env_name;
+	char	*env_value;
+	int		overwrite;
 
 	overwrite = 0;
 	if (env != NULL)
@@ -81,14 +81,4 @@ static void		store_env(t_list *env_lst, const char *env, int flags)
 			free(env_value);
 		free(env_name);
 	}
-}
-
-void			ms_putenv(t_list *env_lst, const char *env)
-{
-	store_env(env_lst, env, F_OVERWRITE);
-}
-
-void			export_env(t_list *env_lst, const char *env)
-{
-	store_env(env_lst, env, F_EXPORT);
 }

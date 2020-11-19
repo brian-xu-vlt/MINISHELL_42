@@ -1,20 +1,41 @@
 #include "minishell_bonus.h"
 
-static bool	verif_assign_cmd(char *str)
+static bool	verif_expect(t_vector *vct, t_vector *vct_cpy)
 {
-	t_vector	*vct;
 	size_t		id_equal;
 
-	vct = vct_new();
-	vct_addstr(vct, str);
 	id_equal = vct_clen(vct, ASSIGN);
 	vct_cutfrom(vct, vct_getlen(vct) - id_equal);
-	if (is_wrong_ass(vct) == false)
+	if (vct_chr(vct, C_PATH) != FAILURE || is_wrong_ass(vct) == false)
 	{
 		vct_del(&vct);
+		vct_del(&vct_cpy);
 		return (true);
 	}
+	return (false);
+}
+
+bool		verif_assign_cmd(char *str)
+{
+	t_vector	*vct;
+	ssize_t		nb_assign;
+	t_vector	*vct_cpy;
+
+	vct = vct_new();
+	vct_cpy = vct_new();
+	vct_addstr(vct, str);
+	vct_addstr(vct_cpy, vct_getstr(vct));
+	nb_assign = vct_nbchar(vct_cpy, S_ASSIGN);
+	if (nb_assign > 1)
+	{
+		vct_del(&vct);
+		vct_del(&vct_cpy);
+		return (true);
+	}
+	if (verif_expect(vct, vct_cpy) == true)
+		return (true);
 	vct_del(&vct);
+	vct_del(&vct_cpy);
 	return (false);
 }
 
@@ -70,8 +91,6 @@ int			get_cmd(t_cmd *cmd)
 	i_exp = 0;
 	while (i < (size_t)cmd->ac)
 	{
-//		ft_printf("cmd->av[%d] = %s\n", i, cmd->av[i]);//DEBUG
-//		ft_printf("cmd->ac = %d\n", cmd->ac);//DEBUG`
 		if (ft_strlen(cmd->av[i]) == 0 && i + 1 != (size_t)cmd->ac)
 		{
 			i++;

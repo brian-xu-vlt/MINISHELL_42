@@ -5,6 +5,7 @@ static void	put_env_name(char *env_name)
 	ft_putstr_fd("export ", STDOUT_FILENO);
 	ft_putstr_fd(env_name, STDOUT_FILENO);
 }
+
 static void	put_env_value(t_vector *env_value)
 {
 	ft_putstr_fd("=\"", STDOUT_FILENO);
@@ -46,24 +47,6 @@ static void	print_btree_node(t_btree *node)
 	if (env->env_value != NULL)
 		print_disambiguate_value(env->env_value);
 	ft_putstr_fd("\n", STDOUT_FILENO);
-}
-
-static int	cmp_function(void *env_1, void *env_2)
-{
-	char		*env_name_1;
-	char		*env_name_2;
-
-	env_name_1 = ((t_env*)env_1)->env_name;
-	env_name_2 = ((t_env*)env_2)->env_name;
-	return (ft_strncmp(env_name_1, env_name_2, ft_strlen(env_name_1) + 1));
-}
-
-static void	add_to_btree(t_btree **tree, t_env *env)
-{
-	if (tree == NULL)
-		*tree = btree_create_node(env);
-	else
-		btree_insert_data(tree, env, cmp_function);
 }
 
 void		print_export_output(t_list *env_lst)

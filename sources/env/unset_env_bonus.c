@@ -16,7 +16,6 @@ void		del_env_elem(void *elem_content)
 static int	is_list_head(t_list *cursor, t_list *node)
 {
 	return ((cursor == node) ? TRUE : FALSE);
-
 }
 
 static void	ft_lstdel_node(t_list **lst, t_list *node, void (*del)(void *))

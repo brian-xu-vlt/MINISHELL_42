@@ -10,7 +10,12 @@ static int	process_sep(t_list **head, t_list **jobs)
 	token_list = *head;
 	job = init_job();
 	if (*head == NULL || job == NULL)
-		return (FAILURE);
+	{
+		if (*head == NULL)
+			free(job);//DEBUG
+		print_set_errno(0, ERR_MALLOC, NULL, NULL);
+		exit(FAILURE);
+	}
 	init_cmd_var(&cmd, &token_list);
 	while (token_list != NULL && is_job_sep(token_list->content) == false)
 	{

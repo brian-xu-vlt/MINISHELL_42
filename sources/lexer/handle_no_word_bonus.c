@@ -20,10 +20,11 @@ static bool	parse_backslash(t_vector *input, t_vector *word, bool is_quoting)
 	return (false);
 }
 
-static int	process_state(bool quote_state, bool dquote_state, t_vector *input,
-							t_vector *word)
+static int	process_state(t_vector *input, t_vector *word)
 {
-	char c;
+	char		c;
+	static bool quote_state = false;
+	static bool dquote_state = false;
 
 	c = vct_getfirstchar(input);
 	if (c == C_SIMPLE_QUOTE)
@@ -42,14 +43,10 @@ static int	process_state(bool quote_state, bool dquote_state, t_vector *input,
 int			handle_assign_quote(t_vector *input, t_vector *word)
 {
 	char c;
-	bool quote_state;
-	bool dquote_state;
 
-	quote_state = false;
-	dquote_state = false;
 	while (vct_getlen(input) > 0)
 	{
-		if (process_state(quote_state, dquote_state, input, word) == BREAK)
+		if (process_state(input, word) == BREAK)
 			break ;
 		c = vct_getfirstchar(input);
 		vct_add(word, c);

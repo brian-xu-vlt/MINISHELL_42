@@ -70,6 +70,7 @@ void					free_token(t_list *node, t_token *token);
 int 					handle_ret_lexer(int ret_process_lexer,
 											t_list *token_list, t_vector *word,
 											int flag);
+t_list					*get_job(t_list *job);
 
 /******************************************************************************/
 /*******************************_PARSER_***************************************/
@@ -209,6 +210,9 @@ int 								handle_backslash_nothing(t_vector *input,
 int 								is_backslash(char c, char next_c,
 													t_vector *input);
 bool 								is_exp_sep(char c);
+bool								verif_assign_cmd(char *str);
+void								exit_routine_cleaner(t_cmd *cmd,
+														t_clean_cmd *clean_cmd);
 
 /******************************************************************************/
 /*******************************_EXECUTION_************************************/
@@ -272,6 +276,16 @@ int 	handle_permission_denied(char **dir, char *dir_denied);
 int 	check_cd_arg(int ac);
 int 	first_check(char *directory);
 void 	transform_new_dir(t_vector *new_dir, char *pwd, char *dir_denied);
+int		check_arg(t_vector *vct_av, char c, char *av, int ac);
+bool	is_long(t_vector *av, char c);
+bool	parse_vct(t_vector *vct_av);
+size_t	pop_arg(t_vector *av, int flag);
+void	cut_arg(t_vector *vct_av, size_t len_before, size_t count_num,
+						t_vector *av);
+bool	is_numeric(t_vector *av);
+int		process_error(t_vector *vct_home, char *dir, t_vector *vct_old_pwd);
+int		print_error(t_vector *vct_av, char *av, char c, int flag);
+void	handle_exit_value(t_vector *vct_av, t_vector *vct_av_cpy, char c);
 
 /******************************************************************************/
 /*******************************_ENV_MANAGER_**********************************/
@@ -290,6 +304,7 @@ void		del_env_elem(void *elem_content);
 void		free_btree_node(t_btree *node);
 void		unset_env(t_list *env_lst, const char *env_name);
 
+void		store_env(t_list *env_lst, const char *env, int flags);
 void		ms_setenv(t_list *env_lst, const char *env_name,
 											const char *env_value, int flags);
 void		ms_setenv_int(t_list *env_lst, const char *env_name, int value,
@@ -300,9 +315,9 @@ void		export_env(t_list *env_lst, const char *env);
 void		init_env(void);
 
 void		print_env(t_list *env_lst);
+void		add_to_btree(t_btree **tree, t_env *env);
 void		print_export_output(t_list *env_lst);
 
-t_list		*duplicate_env_lst(t_list *env_lst);
 t_list		*get_env_list(t_list *mem);
 t_env		*get_env_struct(t_list *env_lst, const char *env_name);
 t_list		*get_env_node(t_list *env_lst, const char *env_name);

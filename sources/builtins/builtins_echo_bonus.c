@@ -22,12 +22,13 @@ int			echo_builtin(int ac, char **av, char **envp)
 	if (av != NULL && ft_strequ(*av, (char *)builtin) == TRUE && ac >= 2)
 	{
 		av++;
-		if (ac >= 2 && ft_strequ(*av, (char *)option) == TRUE)
+		while (av != NULL && ft_strequ(*av, (char *)option) == TRUE)
 		{
 			new_line_flag = FALSE;
 			av++;
 		}
-		echo_loop(av);
+		if (av != NULL)
+			echo_loop(av);
 	}
 	if (new_line_flag == TRUE)
 		ft_putchar_fd('\n', STDOUT_FILENO);

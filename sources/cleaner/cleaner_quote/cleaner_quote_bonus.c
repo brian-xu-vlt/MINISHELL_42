@@ -83,7 +83,11 @@ static int	handle_char(char c, t_vector *input, t_vector *output)
 			return (FAILURE);
 	}
 	else if (c == C_EXPORT)
+	{
 		parse_expansion(input, output);
+		if (vct_getfirstchar(output) == C_EXP)
+			vct_pop(output);
+	}
 	else
 	{
 		vct_add(output, c);

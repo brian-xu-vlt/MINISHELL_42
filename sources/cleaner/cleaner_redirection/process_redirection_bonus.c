@@ -41,17 +41,21 @@ int							create_tab_redir(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	i = 0;
 	clean_cmd->tmp_tab_redir = (char **)malloc(sizeof(char *) * cmd->ac);
 	if (clean_cmd->tmp_tab_redir == NULL)
-		return (FAILURE);//ERROR
+	{
+		print_set_errno(0, ERR_MALLOC, NULL, NULL);
+		return (FAILURE);
+	}
 	while (i < (size_t)cmd->ac)
 	{
 		clean_cmd->tmp_tab_redir[i] = NULL;
-		state = function_state[state](cmd->av[i], cmd->type[i]);
+		state = function_state[state](cmd->av[i], cmd->type[clean_cmd->index_cmd]);
 		if (state == E_IN_REDIR || state == E_IN_FILE)
 		{
 			clean_cmd->tmp_tab_redir[i] = ft_strdup(cmd->av[i]);
 			free(cmd->av[i]);
 			cmd->av[i] = NULL;
 		}
+		clean_cmd->index_cmd++;
 		i++;
 	}
 	return (SUCCESS);
@@ -76,7 +80,10 @@ int							process_redirection(t_cmd *cmd,
 		return (SUCCESS);
 	cmd->tab_redir = (char **)malloc(sizeof(char *) * (cmd->count_redir + 1));
 	if (cmd->tab_redir == NULL)
+	{
+		print_set_errno(0, ERR_MALLOC, NULL, NULL);
 		return (FAILURE);//ERROR
+	}
 	cmd->tab_redir[cmd->count_redir] = NULL;
 	while (i < cmd->count_redir)
 	{
