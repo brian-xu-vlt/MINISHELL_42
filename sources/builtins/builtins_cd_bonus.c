@@ -7,13 +7,17 @@ static int	handle_pwd(int flag)
 
 	buff = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
 	if (buff == NULL)
-		return (FAILURE);
+	{
+		free(buff);
+		print_set_errno(errno, ERR_MALLOC, NULL, NULL);
+		exit(FAILURE);
+	}
 	pwd = getcwd(buff, PATH_MAX);
 	if (pwd == NULL)
 	{
-		print_set_errno(errno, "bash: getcwd", NULL, NULL);
+		ft_putendl_fd("chdir: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", STDERR_FILENO);
 		free(buff);
-		return (PWD_FAIL);
+		return (FAILURE);
 	}
 	if (flag == PWD)
 		ms_setenv(get_env_list(GET), ENV_PWD, pwd, F_EXPORT | F_OVERWRITE);
@@ -78,27 +82,14 @@ static int	process_cd(char *dir)
 
 	vct_home = get_env_value_vct(get_env_list(GET), ENV_HOME);
 	vct_old_pwd = get_env_value_vct(get_env_list(GET), ENV_OLD_PWD);
-	if (vct_home == NULL && dir == NULL)
-	{
-		print_set_errno(0, "HOME not set", STR_CD, NULL);
+	if (process_error(vct_home, dir, vct_old_pwd) == CD_FAIL)
 		return (CD_FAIL);
-	}
-	if (vct_old_pwd == NULL && ft_strequ(dir, STR_MINUS) == TRUE)
-	{
-		handle_pwd(OLD_PWD);
-		return (SUCCESS);
-	}
-	if (dir == NULL && vct_getlen(vct_home) == 0)
-	{
-		print_set_errno(0, "HOME has no value", STR_CD, NULL);
-		return (CD_FAIL);
-	}
 	return (hub_process_chdir(dir, vct_home) == FAILURE ? CD_FAIL : SUCCESS);
 }
 
 int			cd_builtin(int ac, char **av, char **envp)
 {
-	int ret_check;
+	int			ret_check;
 
 	(void)envp;
 	if (check_cd_arg(ac) == CD_FAIL)
@@ -108,7 +99,7 @@ int			cd_builtin(int ac, char **av, char **envp)
 	{
 		ret_check = first_check(av[1]);
 		if (ret_check != CD_CONTINUE)
-			return (ret_check == CD_FAIL ? CD_FAIL : FAILURE);
+			return (ret_check == CD_FAIL ? 2 : FAILURE);
 	}
 	if (ac != 1 && ft_strlen(av[1]) == 0)
 		return (SUCCESS);

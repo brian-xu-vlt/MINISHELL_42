@@ -1,5 +1,30 @@
 #include "minishell_bonus.h"
 
+int			process_error(t_vector *vct_home, char *dir, t_vector *vct_old_pwd)
+{
+	if (vct_home == NULL && dir == NULL)
+	{
+		print_set_errno(0, "HOME not set", STR_CD, NULL);
+		return (CD_FAIL);
+	}
+	if (ft_strequ(STR_MINUS, dir) == TRUE && vct_getstr(vct_old_pwd) == NULL)
+	{
+		print_set_errno(0, "OLDPWD not set", STR_CD, NULL);
+		return (CD_FAIL);
+	}
+	if (vct_getlen(vct_old_pwd) == 0 && ft_strequ(dir, STR_MINUS) == TRUE)
+	{
+		print_set_errno(0, "OLDPWD has no value", STR_CD, NULL);
+		return (CD_FAIL);
+	}
+	if (dir == NULL && vct_getlen(vct_home) == 0)
+	{
+		print_set_errno(0, "HOME has no value", STR_CD, NULL);
+		return (CD_FAIL);
+	}
+	return (SUCCESS);
+}
+
 int			check_cd_arg(int ac)
 {
 	if (ac > 2)
@@ -38,6 +63,13 @@ int			first_check(char *directory)
 	DIR *dir;
 	int ret_directory;
 
+	if (ft_strlen(directory) > 1 && directory[0] == C_MINUS)
+	{
+		print_set_errno(0, "invalid option", STR_CD, directory);
+		ft_putendl_fd("cd: usage: cd [-L|[-P [-e]] [-@]] [dir]",
+						STDERR_FILENO);
+		return (CD_FAIL);
+	}
 	dir = opendir(directory);
 	ret_directory = check_directory(directory);
 	if (dir == NULL && errno == PERMISSION_DENIED && ret_directory == SUCCESS)
@@ -53,7 +85,7 @@ int			first_check(char *directory)
 	if (closedir(dir) == FAILURE)
 	{
 		print_set_errno(errno, strerror(errno), "closedir", NULL);
-		return (FAILURE);
+		exit(FAILURE);
 	}
 	return (CD_CONTINUE);
 }
@@ -66,13 +98,16 @@ int			handle_permission_denied(char **dir, char *dir_denied)
 
 	buff = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
 	if (buff == NULL)
-		return (FAILURE);
+	{
+		print_set_errno(0, ERR_MALLOC, NULL, NULL);
+		exit (FAILURE);
+	}
 	pwd = getcwd(buff, PATH_MAX);
 	if (pwd == NULL)
 	{
-		print_set_errno(errno, "bash: getcwd", NULL, NULL);
+		print_set_errno(errno, ERR_MALLOC, NULL, NULL);
 		free(buff);
-		return (PWD_FAIL);
+		exit(FAILURE);
 	}
 	new_dir = vct_new();
 	transform_new_dir(new_dir, pwd, dir_denied);

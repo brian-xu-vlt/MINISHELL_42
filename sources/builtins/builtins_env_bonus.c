@@ -33,7 +33,7 @@ static void	export_loop(int ac, char **av, const char *builtin)
 	i = 1;
 	while (i < ac)
 	{
-		if (ft_isalpha(av[i][0]) == TRUE)
+		if (verif_assign_cmd(av[i]) == false)
 			export_env(get_env_list(GET), av[i]);
 		else
 			print_set_errno(EINVAL, NULL, builtin, av[i]);
@@ -67,8 +67,8 @@ int	export_builtin(int ac, char **av, char **envp)
 		}
 		else
 			export_loop(ac, av, builtin);
-		if (errno == EINVAL)
-			return (1);
+		//if (errno == EINVAL)
+			//return (1);
 	}
 	if (ft_strequ(av[0], (char *)builtin) == TRUE && ac == 1)
 		print_export_output(get_env_list(GET));

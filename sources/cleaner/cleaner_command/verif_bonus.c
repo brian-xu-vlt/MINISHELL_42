@@ -2,11 +2,25 @@
 
 bool	is_wrong_ass(t_vector *vct)
 {
-	if (ft_isdigit(vct_getfirstchar(vct)) == TRUE)
-		return (false);
-	if (ft_isalnum(vct_getfirstchar(vct)) == false &&
-			vct_getfirstchar(vct) != LOW_LINE)
-		return (false);
+	t_vector	*vct_cpy;
+
+	vct_cpy = vct_new();
+	vct_addstr(vct_cpy, vct_getstr(vct));
+	if (vct_getfirstchar(vct_cpy) == LOW_LINE)
+		vct_pop(vct_cpy);
+	if (vct_getcharat(vct_cpy, vct_getlen(vct_cpy) - 1) == C_PLUS)
+		vct_cut(vct_cpy);
+	while (vct_getlen(vct_cpy) > 0)
+	{
+		if (ft_isalnum(vct_getfirstchar(vct_cpy)) == false &&
+				vct_getfirstchar(vct_cpy) != LOW_LINE)
+		{
+			vct_del(&vct_cpy);
+			return (false);
+		}
+		vct_pop(vct_cpy);
+	}
+	vct_del(&vct_cpy);
 	return (true);
 }
 
