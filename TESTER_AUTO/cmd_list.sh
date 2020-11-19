@@ -489,10 +489,36 @@ main () {
 		# test_correction_cd
 		# test_correction_pwd
 		# test_correction_PATH
-		test_correction_simple_quotes
-		test_correction_redirect
-		test_correction_pipes
-		test_correction_AND_OR
+		#test_correction_simple_quotes
+		#test_correction_redirect
+		#test_correction_pipes
+		#test_correction_AND_OR
+		test "echo haha"
+		test "cd ; cd - ; mkdir testcd7 ; cd testcd7 ; chmod 000 ../testcd7 ; cd . ; cd .."
+		test "echo -n 12345"
+		#test "env echo"
+		#test "env -i"
+		#test "exit 42 toto ; echo \$?"
+		#test "env ; toto= 42 export toto+=hello ; echo \$toto ; echo \$? ; unset toto ; echo \$toto"
+		test "toto=tata"
+		test ""
+		test "echo \haha >> toto > tata"
+		test ""
+		test ""
+		test ""
+		test ""
+		test ""
+		test ""
+		test ""
+		test ""
+		test ""
+		test ""
+		test ""
+		test ""
+		test ""
+		test ""
+		test ""
+		test ""
 	fi
 
 	print_separator '█'
