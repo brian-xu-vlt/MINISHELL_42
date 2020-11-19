@@ -6,7 +6,7 @@ static int	process_less(char *str, t_cmd *cmd)
 	static size_t	i = 0;
 
 	//ft_printf("PROCESS LESS\n");//DEBUG
-	fd = open(str, O_RDONLY | O_EXCL);
+	fd = open(str, O_RDONLY | O_EXCL, 0644);
 	if (fd < 0)
 	{
 		if (cmd->tmp_fd_in > 2)
