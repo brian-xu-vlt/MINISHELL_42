@@ -2,23 +2,19 @@
 
 static void	set_default_env(t_list *env_lst)
 {
+	handle_pwd(PWD);
 	export_env(env_lst, "OLDPWD");
 	ms_putenv(env_lst, DEFAULT_EXIT_STATUS);
 	if (vct_getstr(get_env_value_vct(env_lst, "PATH")) == NOT_FOUND)
 		ms_putenv(env_lst, DEFAULT_PATH_ENV);
 	if (vct_getstr(get_env_value_vct(env_lst, "TERM")) == NOT_FOUND)
 		ms_putenv(env_lst, DEFAULT_TERM);
-
-	// SET PWD HERE
-
 }
 
-static void	increment_shlevel(void)
+static void	increment_shlevel(t_list *env_lst)
 {
 	int			shlvl_int;
-	t_list		*env_lst;
 
-	env_lst = get_env_list(GET);
 	shlvl_int = get_env_value_int(env_lst, "SHLVL");
 	if (errno == FAILURE)
 		export_env(env_lst, "SHLVL=1");
@@ -45,6 +41,6 @@ void		init_env(void)
 			export_env(env_lst, environ[index]);
 		index++;
 	}
-	increment_shlevel();
 	set_default_env(env_lst);
+	increment_shlevel(env_lst);
 }

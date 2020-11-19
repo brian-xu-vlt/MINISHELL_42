@@ -48,10 +48,10 @@ static void	execution_loop(t_job *job, int p_in[2], int p_out[2])
 	while (cmd_cursor != NULL && cmd_cursor->content != NULL)
 	{
 		open_files_and_export_env(cmd_cursor->content);
-		// if (((t_cmd *)cmd_cursor->content)->av != NULL &&
-		// 		ft_strequ(((t_cmd *)cmd_cursor->content)->av[0], "exit") == TRUE)
-		// 	exit_builtin(((t_cmd *)cmd_cursor->content)->ac,
-		// 					((t_cmd *)cmd_cursor->content)->av, NULL);
+		if (((t_cmd *)cmd_cursor->content)->av != NULL &&
+				ft_strequ(((t_cmd *)cmd_cursor->content)->av[0], "exit") == TRUE)
+			exit_builtin(((t_cmd *)cmd_cursor->content)->ac,
+							((t_cmd *)cmd_cursor->content)->av, NULL);
 		if (is_last_cmd(cmd_index, job->nb_cmd) == FALSE)
 		{
 			ms_pipe(p_out);

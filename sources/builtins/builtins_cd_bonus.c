@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static int	handle_pwd(int flag)
+int	handle_pwd(int flag)
 {
 	char *pwd;
 	char *buff;

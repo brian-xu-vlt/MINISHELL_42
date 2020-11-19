@@ -12,11 +12,15 @@ print_separator(){
 }
 
 print_diff_full () {
+	colordiff $EXTRA_FLAGS -y /tmp/ba.log /tmp/minishell.log
+}
+
+print_diff_fail () {
 	echo -e "\e[31m \e[1m[$TEST_NB][  ] \e[0m\t\t["$TEST"]"
 	echo -e "🟨 [Diff]\n"
 	diff $EXTRA_FLAGS /tmp/ba.log /tmp/minishell.log | cat -e
 	echo -e "\n🟡 [Color Diff]\n"
-	colordiff $EXTRA_FLAGS -y /tmp/ba.log /tmp/minishell.log
+	print_diff_full
 }
 
 print_diff_simple (){
@@ -24,7 +28,7 @@ print_diff_simple (){
 	if [[ $? -ne 0 ]]
 	then
 		print_separator '▁'
-		print_diff_full
+		print_diff_fail
 		((TEST_FAILED_NB+=1))
 		echo "🔴 $TEST" >> /tmp/test_ko
 		echo -e "\t ⏫ [$TEST_NB][$TEST]" >> /tmp/bash_sumup
@@ -33,6 +37,19 @@ print_diff_simple (){
 	else
 		echo -e "\e[32m \e[1m[$TEST_NB][OK] \e[0m\t\t["$TEST"]"
 	fi
+}
+
+clean_log () {
+## bricolage destiné a retirer les faux negatifs du testeur
+	sed -i 's/NO_LINE_ED~$>//g' /tmp/minishell.log
+	sed -i 's/Minishell: /bash: /g' /tmp/minishell.log
+	sed -i 's/minishell: /bash: /g' /tmp/minishell.log
+	sed -i 's/line [0-9]: //g' /tmp/ba.log
+
+	#to remove once fixed
+	cat /tmp/ba.log | grep -v "\_\=" > /tmp/ba_tmp.log ; cat /tmp/ba_tmp.log > /tmp/ba.log
+	#to remove once fixed
+	cat /tmp/minishell.log | grep -v "exit$" > /tmp/minishell_tmp.log ; cat /tmp/minishell_tmp.log > /tmp/minishell.log
 }
 
 test () {
@@ -47,20 +64,7 @@ test () {
 	echo -e "\n\n\t 🟡 [$TEST_NB][$TEST] 🟡 " >> /tmp/minishell_sumup
 	cat /tmp/minishell.log >> /tmp/minishell_sumup
 
-
-## bricolage destiné a retirer les faux negatifs
-	sed -i 's/NO_LINE_ED~$>//g' /tmp/minishell.log
-	sed -i 's/Minishell: /bash: /g' /tmp/minishell.log
-	sed -i 's/minishell: /bash: /g' /tmp/minishell.log
-	sed -i 's/line [0-9]: //g' /tmp/ba.log
-
-	#to remove once fixed
-	cat /tmp/ba.log | grep -v "\_\=" > /tmp/ba_tmp.log ; cat /tmp/ba_tmp.log > /tmp/ba.log
-	#to remove once fixed
-	cat /tmp/ba.log | grep -v "PWD\=" > /tmp/ba_tmp.log ; cat /tmp/ba_tmp.log > /tmp/ba.log
-	#to remove once fixed
-	cat /tmp/minishell.log | grep -v "exit$" > /tmp/minishell_tmp.log ; cat /tmp/minishell_tmp.log > /tmp/minishell.log
-
+	clean_log
 	print_diff_simple
 }
 
@@ -426,6 +430,7 @@ test_correction_redirect(){
 	test "rm -rf /tmp/a ; echo aaa >/tmp/a /tmp >/tmp ; ls -l /tmp/a ; echo \$?"
 	test "rm -rf /tmp/a /tmp/b /tmp/c ; echo aaa >> /tmp/a >> /tmp/b >> /tmp/c ; ls -l /tmp/a /tmp/b /tmp/c ;  cat /tmp/a /tmp/b /tmp/c ; echo \$?"
 	test "rm -rf /tmp/a /tmp/b /tmp/c ; touch /tmp/a /tmp/b /tmp/c ; chmod 000 /tmp/a /tmp/b /tmp/c ; echo aaa > /tmp/a > /tmp/b > /tmp/c ; ls -l /tmp/a /tmp/b /tmp/c ;  cat /tmp/a /tmp/b /tmp/c ; echo \$?"
+	test "echo >/dev ; echo \$?"
  }
 
 test_correction_pipes() {
@@ -506,6 +511,8 @@ main () {
 	if [[ -n "$1" ]]
 	then
 		test "$1"
+		echo -e "\n [RESULT]\n"
+		print_diff_full
 	else
 	#  test_random
 	#  test_bonus
@@ -521,13 +528,13 @@ main () {
 	# test_correction_return
 	# test_correction_semicolons
 	# test_correction_baskslashs
-	# test_correction_env
-	# test_correction_exp
+	test_correction_env
+	test_correction_exp
 	# test_correction_cd
 	# test_correction_pwd
 	# test_correction_PATH
 	# test_correction_simple_quotes
-	test_correction_redirect
+	# test_correction_redirect
 	# test_correction_pipes
 	# test_correction_AND_OR
 	fi

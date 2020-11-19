@@ -271,6 +271,7 @@ int		export_builtin(int argc, char **argv, char **envp);
 int		unset_builtin(int argc, char **argv, char **envp);
 int		pwd_builtin(int ac, char **av, char **envp);
 int		echo_builtin(int ac, char **av, char **envp);
+int		handle_pwd(int flag);
 int 	cd_builtin(int ac, char **av, char **envp);
 int 	handle_permission_denied(char **dir, char *dir_denied);
 int 	check_cd_arg(int ac);
