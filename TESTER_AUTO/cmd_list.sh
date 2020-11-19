@@ -53,7 +53,7 @@ test () {
 
 test_random() {
 	print_separator '█'
-	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "1"
 	test "1 2 3 4 5 6 7 8 9"
@@ -97,7 +97,7 @@ cat /tmp/test1; cat /tmp/test2; cat /tmp/test3 "
 
 test_failed() {
 	print_separator '█'
-	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "	\"e\"'c'ho 'b'\"o\"nj\"o\"'u'r\";\"	"
 	test " export EMPTY ;
@@ -143,7 +143,7 @@ echo \$PWD\$HOMe\"\$VAR_NONEXISTANT\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTA
 
 test_bonus () {
 	print_separator '█'
-	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "\"\""
 	test "\'\'"
@@ -157,7 +157,7 @@ test_bonus () {
 
 test_correction_exec () {
 	print_separator '█'
-	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "/bin/ls"
 	test "/bin/ip"
@@ -175,7 +175,7 @@ test_correction_exec () {
 
 test_correction_arg () {
 	print_separator '█'
-	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "/bin/ls -l"
 	test "/bin/ls aaaaaaaaaaa"
@@ -187,7 +187,7 @@ test_correction_arg () {
 
 test_correction_echo () {
 	print_separator '█'
-	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "echo echo echo echo"
 	test "echo ; echo ; echo ; echo"
@@ -201,7 +201,7 @@ test_correction_echo () {
 
 test_correction_exit () {
 	print_separator '█'
-	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "exit 5"
 	test "exit abcdef"
@@ -216,7 +216,7 @@ test_correction_exit () {
 
 test_correction_return () {
 	print_separator '█'
-	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "/bin/ip ; echo \$?"
 	test "/bin/ipaaaaaaaaaa ; echo \$?"
@@ -230,7 +230,7 @@ test_correction_return () {
 
 test_correction_semicolons () {
 	print_separator '█'
-	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "echo a ; echo b"
 	test "echo a; echo b"
@@ -246,7 +246,7 @@ test_correction_semicolons () {
 
 test_correction_baskslashs () {
 	print_separator '█'
-	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "ls \\Makefile"
 	test "ls \\\"Makefile\\\""
@@ -256,7 +256,7 @@ test_correction_baskslashs () {
 
 test_correction_env () {
 	print_separator '█'
-	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "env | sort "
 	test "export"
@@ -298,7 +298,7 @@ test_correction_env () {
 test_correction_exp () {
 	print_separator '█'
 
-	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 	test "echo \$TERM"
 	test "echo \$\"TERM\""
 	test "echo \$\'TERM\'"
@@ -311,7 +311,7 @@ test_correction_exp () {
 
 test_correction_cd() {
 	print_separator '█'
-	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "cd ../ ; /bin/ls"
 	test "cd ../././../// ; /bin/ls"
@@ -332,7 +332,7 @@ test_correction_cd() {
 
 test_correction_pwd() {
 	print_separator '█'
-	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "pwd"
 	test "pwd -X"
@@ -354,7 +354,7 @@ test_correction_pwd() {
 
 test_correction_PATH() {
 	print_separator '█'
-	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "unset PATH; \"\""
 	test "unset PATH; hjsdfkhfds"
@@ -371,7 +371,7 @@ test_correction_PATH() {
 
 test_correction_simple_quotes(){
 	print_separator '█'
-	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "ls ''"
 	test "ls ''''"
@@ -384,7 +384,7 @@ test_correction_simple_quotes(){
 
 test_correction_redirect(){
 	print_separator '█'
-	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "ls /dev > /tmp/file ; cat /tmp/file"
 	test "cal >/dev"
@@ -413,7 +413,7 @@ test_correction_redirect(){
 test_correction_pipes() {
 
 	print_separator '█'
-	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "ls | sort | cut -b 1-6"
 	test "echo aaa | cat"
@@ -434,7 +434,7 @@ test_correction_pipes() {
 
 test_correction_AND_OR () {
 	print_separator '█'
-	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "true && echo aaa"
 	test "false && echo aaa"
@@ -453,7 +453,7 @@ test_correction_AND_OR () {
 
 test_signal() {
 	print_separator '█'
-	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "fail_bin/buserror;"
 	test "fail_bin/abort"
@@ -489,9 +489,9 @@ main () {
 		# test_correction_cd
 		# test_correction_pwd
 		# test_correction_PATH
-		# test_correction_simple_quotes
+		test_correction_simple_quotes
 		test_correction_redirect
-		# test_correction_pipes
+		test_correction_pipes
 		test_correction_AND_OR
 	fi
 
