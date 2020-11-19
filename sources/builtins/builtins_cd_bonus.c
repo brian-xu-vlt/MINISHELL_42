@@ -27,6 +27,40 @@ static int	handle_pwd(int flag)
 	return (SUCCESS);
 }
 
+static int	handle_pwd_swap(void)
+{
+	t_vector	*pwd;
+	t_vector	*home;
+	t_vector	*old;
+	t_vector	*tmp;
+	char		*str_pwd;
+	char		*str_old;
+
+	tmp = vct_new();	
+	pwd = get_env_value_vct(get_env_list(GET), "PWD");
+	home = get_env_value_vct(get_env_list(GET), "HOME");
+	old = get_env_value_vct(get_env_list(GET), "OLDPWD");
+	//ft_printf("pwd before = %s\n", vct_getstr(pwd));//DEBUG
+	//ft_printf("old before = %s\n", vct_getstr(old));//DEBUG
+	//ft_printf("home before = %s\n", vct_getstr(home));//DEBUG
+	vct_cpy(tmp, pwd);
+	vct_cpy(pwd, home);
+	vct_cpy(old, tmp);
+	//ft_printf("pwd = %s\n", vct_getstr(pwd));//DEBUG
+	//ft_printf("old = %s\n", vct_getstr(old));//DEBUG
+	//ft_printf("home = %s\n", vct_getstr(home));//DEBUG
+	str_pwd = ft_strdup(vct_getstr(pwd));
+	str_old = ft_strdup(vct_getstr(old));
+	//ft_printf("str_pwd = %s\n", str_pwd);
+	//ft_printf("str_old = %s\n", str_old);
+	ms_setenv(get_env_list(GET), ENV_PWD, str_pwd, F_EXPORT | F_OVERWRITE);
+	ms_setenv(get_env_list(GET), ENV_OLD_PWD, str_old, F_EXPORT | F_OVERWRITE);
+	free(str_pwd);
+	free(str_old);
+	vct_del(&tmp);
+	return(SUCCESS);
+}
+
 static int	process_chdir(t_vector *vct_home, char *dir)
 {
 	char	*real_dir;
@@ -48,7 +82,15 @@ static int	process_chdir(t_vector *vct_home, char *dir)
 		print_set_errno(errno, strerror(errno), STR_CD, real_dir);
 	free(real_dir);
 	if (ret_chdir == SUCCESS)
-		ret_chdir = handle_pwd(PWD);
+	{
+		if (dir == NULL)
+		{
+			ret_chdir = handle_pwd_swap();
+
+		}
+		else
+			ret_chdir = handle_pwd(PWD);
+	}
 	return (ret_chdir);
 }
 
@@ -80,8 +122,13 @@ static int	process_cd(char *dir)
 	t_vector *vct_home;
 	t_vector *vct_old_pwd;
 
+	//ft_printf("PROCESS_CD\n");//DEBUG
 	vct_home = get_env_value_vct(get_env_list(GET), ENV_HOME);
 	vct_old_pwd = get_env_value_vct(get_env_list(GET), ENV_OLD_PWD);
+	//ft_printf("dir = %s\n", dir);//DEBUG
+	//ft_printf("vct_home = %s\n", vct_getstr(vct_home));//DEBUG
+	if (dir == NULL && vct_home != NULL)
+		return (process_chdir(vct_home, dir));
 	if (process_error(vct_home, dir, vct_old_pwd) == CD_FAIL)
 		return (CD_FAIL);
 	return (hub_process_chdir(dir, vct_home) == FAILURE ? CD_FAIL : SUCCESS);
@@ -91,7 +138,10 @@ int			cd_builtin(int ac, char **av, char **envp)
 {
 	int			ret_check;
 
+//	ft_printf("cd\n");//DEBUG
 	(void)envp;
+//	if (ac > 1)
+//		ft_printf("av[1] = %s\n", av[1]);//DEBUG
 	if (check_cd_arg(ac) == CD_FAIL)
 		return (CD_FAIL);
 	if (ac != 1 && ft_strlen(av[1]) != 0 &&

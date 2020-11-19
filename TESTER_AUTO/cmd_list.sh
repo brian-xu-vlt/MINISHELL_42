@@ -527,9 +527,6 @@ main () {
 		#test "export ? ; echo \$?"
 		#test "unset toto ; echo \$? \$toto ; echo \$?"
 		#test "unset \$toto ; echo \$? ; echo \$toto"
-
-
-
 		#test "rm -rf haha hello hehe ;echo toto < haha > hello >> hehe ; echo \$? ; cat haha ; cat hello ; cat hehe"
 		#test "rm -rf hello ; titi > hello ; echo \$? ; cat hello"
 		#test "rm -rf haha hello ; echo titi > haha hehe heheh heheheh hihi > hello ; echo \$? ; cat haha ; cat hello"
@@ -538,8 +535,6 @@ main () {
 		#test "rm -rf test3 ; echo hihi >> test3 ; echo \$? ; car test3"
 		#test "rm -rf test/test1 ; mkdir test/test1 ; chhmod 000 test/test1 ; echo hehe < test/test1 ; echo \$? ; cat test/test1"
 		#test "rm -rf testgauche ; echo haha < testgauche"
-
-
 		#test "titi=tutu export "'toto'"="\$titi"'\$titi' ; echo \$? ; echo \$titi ; echo \$?"
 		#test "cd //////////////////////////// ; echo \$? ; pwd ; echo \$? ; echo \$PWD ; echo \$? ; echo \$OLDPWD ; echo \$?"
 		#test "cd ../. ; echo \$? ; pwd ; echo \$? ; cd ///....//// ; echo \$?"
@@ -553,17 +548,15 @@ main () {
 		#test "echo \$toto"" ; echo "\$toto""" ; echo '\$toto'''"
 		#test "toto= 42 ; echo \$toto ; echo "\$toto" ; echo '\$toto'"
 		#test "toto=42 ; echo \$toto"" ; echo "\$toto""" ; echo '\$toto'''"
-
-
 		#test "rm -rf testdroite ; echo haha > testdroite ; echo \$? ; cat testdroite ; ls -l"
 		#test "rm -rf testddroite ; echo haha >> testddroite ; echo \$? ; cat testddroite ; ls -l"
 		#test "rm -rf testgauche ; echo haha < testgauche ; echo \$? ; cat testgauche ; ls -l"
 		#test "rm -rf testgauche ; touch testgauche ; echo haha < testgauche ; echo \$? ; cat testgauche ; ls-l"
 		#test "rm -rf testgauche testdroitefail ; echo haha > testdroitfail hello < testgauche; echo $? ; cat testdroitfail ; cat testgauche ; ls -l"
 		#test "rm -rf testgauche testdroitefail ; echo haha < testgauche hello > testdroitfail; echo $? ; cat testdroitfail ; cat testgauche ; ls -l"
-		test ""
-		test ""
-		test ""
+		test "rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; cd /tmp/aaa ; rm -rf /tmp/aaa ; cd .. ; /bin/ls"
+		test "rm -rf /tmp/aaa ; mkdir -p /tmp/aaa/bbb ; cd /tmp/aaa/bbb ; rm -rf /tmp/aaa ; pwd"
+		test "cd ; cd - ; mkdir testcd7 ; cd testcd7 ; chmod 000 ../testcd7 ; cd . ; cd .."
 		test ""
 		test ""
 		test ""
