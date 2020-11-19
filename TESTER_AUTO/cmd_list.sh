@@ -14,16 +14,19 @@ print_separator(){
 print_diff_full () {
 	echo -e "\e[31m \e[1m[  ] \e[0m\t\t["$TEST"]"
 	#\t\t\t left is bash \t\t|\t\t right is minishell\n"
-	colordiff -y /tmp/ba.err /tmp/minishell.err
+	colordiff -y /tmp/ba.log /tmp/minishell.log
 }
 
 print_diff_simple (){
-	diff -s /tmp/ba.err /tmp/minishell.err &>/dev/null
+	diff -s /tmp/ba.log /tmp/minishell.log &>/dev/null
 	if [[ $? -ne 0 ]]
 	then
 		print_separator '▁'
 		print_diff_full
+		((TEST_FAILED_NB+=1))
 		echo "🔴 $TEST" >> /tmp/test_ko
+		echo -e "\t 🔴 [$TEST]" >> /tmp/bash_sumup
+		echo -e "\t 🔴 [$TEST]" >> /tmp/minishell_sumup
 		print_separator '▔'
 	else
 		echo -e "\e[32m \e[1m[OK] \e[0m\t\t["$TEST"]"
@@ -32,23 +35,111 @@ print_diff_simple (){
 
 test () {
 	# export TEST=$(echo "$1")
+	((TEST_NB+=1))
 	export TEST=$1
-	echo "$TEST" | env -i ./Minishell 1>/tmp/minishell 2>/tmp/minishell.err #; echo "RETURNED : $?" >> /tmp/minishell.err
-	echo "$TEST" | env -i bash --posix 1>/tmp/ba 2>/tmp/ba.err #; echo "RETURNED : $?" >> /tmp/ba.err
-	cat /tmp/ba >> /tmp/ba.err
-	cat /tmp/minishell >> /tmp/minishell.err
+	echo "$TEST" | env -i ./Minishell &>/tmp/minishell.log #; echo "RETURNED : $?" >> /tmp/minishell.log
+	echo "$TEST" | env -i bash --posix &>/tmp/ba.log #; echo "RETURNED : $?" >> /tmp/ba.log
 	echo -e "\n\n\t 🟡 [$TEST] 🟡 " >> /tmp/bash_sumup
-	cat /tmp/ba.err >> /tmp/bash_sumup
+	cat /tmp/ba.log >> /tmp/bash_sumup
 	echo -e "\n\n\t 🟡 [$TEST] 🟡 " >> /tmp/minishell_sumup
-	cat /tmp/minishell.err >> /tmp/minishell_sumup
-	sed -i 's/NO_LINE_ED~$>//g' /tmp/minishell.err
-	sed -i 's/Minishell: /bash: /g' /tmp/minishell.err
-	sed -i 's/minishell: /bash: /g' /tmp/minishell.err
-	sed -i 's/line [0-9]: //g' /tmp/ba.err
+	cat /tmp/minishell.log >> /tmp/minishell_sumup
+	sed -i 's/NO_LINE_ED~$>//g' /tmp/minishell.log
+	sed -i 's/Minishell: /bash: /g' /tmp/minishell.log
+	sed -i 's/minishell: /bash: /g' /tmp/minishell.log
+	sed -i 's/line [0-9]: //g' /tmp/ba.log
 	print_diff_simple
 	# print_diff_full
 }
 
+test_random() {
+	print_separator '█'
+	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+
+	test "1"
+	test "1 2 3 4 5 6 7 8 9"
+	test "-1 -2"
+	test "\\\n"
+	test ";"
+	test "|"
+	test ";|"
+	test ">>"
+	test "<"
+	test ">"
+	test ";>>|><"
+	test "unset SHSLVL PATH PWD OLDPWD _ ; echo \$PWD ; pwd ; ls"
+	test "hfdjskhdfkjhfsd"
+	test "ls fdsfsdfhfsd"
+	test "echo aaaaa bbbb cccccc dddddd > /tmp/a ; cat -e /tmp/a"
+	test "echo terminal is [\$TERM]"
+	test "echo terminal is [\$TERM4"
+	test " toto+=42; echo \$toto ; toto+=.; echo \$toto ; toto+=-; echo \$toto ; toto+='' ; echo \$toto ; toto+=42; echo \$toto ; toto+=42; echo \$toto ; toto+=42; echo \$toto ; toto+=42; echo \$toto"
+	test "echo > /tmp/test"
+	test "cat -e /tmp/test"
+	test "echo -n > /tmp/test"
+	test "cat -e /tmp/test"
+	test "echo \$?"
+	test "ls hdfjkdsf ; echo \$?"
+	test "ls hdfjkdsf ; echo \$?"
+	test "export TEST; export | grep TEST"
+	test "export TEST=1; export | grep TEST"
+	test "export VAR_VALID=1"
+	test "export BROK;EN_VAR=1; export | grep EN_VAR"
+	test "export TEST+=23; export | grep TEST"
+	test "export TEST1 TEST2=456 TEST4 TEST5 TEST3=78"
+	test " export TEST1=123; export TEST1 TEST2=456 TEST4 TEST5 TEST3=789		;
+echo \$TEST\$TEST2\$TEST3 > /tmp/test1 > /tmp/test2 > /tmp/test3	;
+cat /tmp/test1; cat /tmp/test2; cat /tmp/test3 "
+	test "cd .././../.././../bin/ls"
+	test "unset \$HOME; cd"
+	test "touch /tmp/file ; /tmp/file"
+	test "4ABC=toto"
+}
+
+test_failed() {
+	print_separator '█'
+	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+
+	test "	\"e\"'c'ho 'b'\"o\"nj\"o\"'u'r\";\"	"
+	test " export EMPTY ;
+export NOTEMPTY= ;
+export CHARS=AAA ;
+echo '\$CHARS' ;
+echo \$CHARS ;
+echo \$PWD\$HOMe\"\$VAR_NONEXISTANT\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY |wc -m ;"
+	test "
+		export EMPTY ;
+		export NOTEMPTY= ;
+		export CHARS=AAA ;
+		echo '\$CHARS' ;
+		echo \$CHARS ;
+		echo \$PWD\$VAR_NONEXISTANT\"\$VAR_NONEXISTANT\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY ;
+	"
+	test "
+		echo \"\$HOME\"
+		echo \$HOME
+		echo \"\$\"HOME
+		echo \$\"\"HOME
+		echo \"\"\$HOME
+		echo \$\"HOME\"
+		echo \$\"HO\"\"ME\"
+		echo \"\$HO\"\"ME\"
+		echo \"\$HO\"ME
+		echo \$\"HOME\"
+	"
+	test "
+		mkdir -p test1/test2/test3
+		cd test1/test2/test3
+		rm -r ../../../test1
+		cd ..
+		pwd
+		cd ..
+		pwd
+		cd ..
+		pwd
+	"
+	test "export 4ABC=toto"
+	test "toto/tata=1"
+}
 
 test_bonus () {
 	print_separator '█'
@@ -229,6 +320,7 @@ test_correction_cd() {
 	test "cd ./.. ; /bin/ls"
 	test "cd ./sources ; /bin/ls"
 	test "cd ./aaaaaaaaaa ; /bin/ls"
+	test "cd /aaaaaaaaaa ; /bin/ls"
 	test "cd aaaaaaa ; /bin/ls"
 	test "rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; cd /tmp/aaa ; /bin/ls"
 	test "rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; chmod 000 /tmp/aaa ; cd /tmp/aaa ; /bin/ls"
@@ -298,20 +390,24 @@ test_correction_redirect(){
 	test "cal >/dev"
 	test "cal >"
 	test "date >../../../../../../../../../../../../tmp/file2 ; cat /tmp/file2"
-	test "ls /tmp > /tmp/ls ; cat </tmp/ls"
+	test "ls-l /tmp > /tmp/ls ; cat </tmp/ls"
 	test "ls > /tmp/ls ; pwd >> /tmp/ls ; cat </tmp/ls"
-	test "cat < /tmp/ls ; cat /tmp/ls"
+	test "echo ls > /tmp/ls ; cat < /tmp/ls ; cat /tmp/ls"
 	test "cat </dev"
 	test "cat >/dev"
-	test "touch /tmp/aaaaaaaa >/dev ; ls /tmp/aaaaaaaaa"
-	test "touch /tmp/aaaaaaaa </dev ; ls /tmp/aaaaaaaaa"
+	test "touch /tmp/aaaaaaaa >/dev ; ls -l /tmp/aaaaaaaaa"
+	test "touch /tmp/aaaaaaaa </dev ; ls -l /tmp/aaaaaaaaa"
 	test "rm -rf /tmp/b ; ls >> /tmp/b ; ls >> /tmp/b ; ls >> /tmp/b ; ls >> /tmp/b ; cat /tmp/b"
 	test "rm -rf /tmp/b ; ls >> /tmp/b ; ls >> /tmp/b ; ls >> /tmp/b ; ls > /tmp/b ; cat /tmp/b"
 	test "cp Makefile /tmp/b ; true > /tmp/b ; cat </tmp/b"
 	test "cat > coucou > test_cat < coucou | cat < coucou ; rm -rf coucou test_cat"
 	test "rm -rf /tmp/a ; ls >/tmp/a </dev ; ls /tmp/a"
-	test "rm -rf /tmp/a ; touch /tmp/a >>/dev ; ls /tmp/a"
-	test "rm -rf /tmp/a ; touch /tmp/a >/dev ; ls /tmp/a"
+	test "rm -rf /tmp/a ; touch /tmp/a >>/dev ; ls -l /tmp/a"
+	test "rm -rf /tmp/a ; touch /tmp/a >/dev ; ls -l /tmp/a"
+	test "rm -rf /tmp/a /tmp/b /tmp/c ; echo aaa >        /tmp/a>     /tmp/b >                   /tmp/c ; ls -l /tmp/a /tmp/b /tmp/c ;  cat /tmp/a /tmp/b /tmp/c"
+	test "rm -rf /tmp/a /tmp/b /tmp/c ; echo aaa >/tmp/a >/tmp/b >/tmp/c ; ls -l /tmp/a /tmp/b /tmp/c ;  cat /tmp/a /tmp/b /tmp/c"
+	test "rm -rf /tmp/a /tmp/b /tmp/c ; echo aaa >> /tmp/a >> /tmp/b >> /tmp/c ; ls -l /tmp/a /tmp/b /tmp/c ;  cat /tmp/a /tmp/b /tmp/c"
+	test "rm -rf /tmp/a /tmp/b /tmp/c ; touch /tmp/a /tmp/b /tmp/c ; chmod 000 /tmp/a /tmp/b /tmp/c ; echo aaa > /tmp/a > /tmp/b > /tmp/c ; ls -l /tmp/a /tmp/b /tmp/c ;  cat /tmp/a /tmp/b /tmp/c"
 }
 
 test_correction_pipes() {
@@ -320,12 +416,38 @@ test_correction_pipes() {
 	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
 
 	test "ls | sort | cut -b 1-6"
+	test "echo aaa | cat"
 	test "ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls"
 	test "ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |aaaaaaaaaaaa |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls"
 	test "true | false | true"
 	test "false | false | true"
 	test "cat | cat | cat | grep 42"
-	test "rm -rf /tmp/a /tmp/b ; touch /tmp/a | ls >/dev | touch /tmp/b ; ls /tmp/a /tmp/b"
+	test "cat | cat | cat"
+	test "cat | cat | cat |"
+	test "| ls | sort"
+	test "rm -rf /tmp/a /tmp/b ; touch /tmp/a | ls >/dev | touch /tmp/b ; ls -l /tmp/a /tmp/b"
+	test "rm -rf /tmp/a /tmp/b /tmp/c ; echo aaa > /tmp/a | echo bbb >/tmp/b | cal > /tmp/c ; ls -l /tmp/a /tmp/b /tmp/c ; cat /tmp/a /tmp/b /tmp/c"
+	test "ls | grep XXXXXXX | sort -r | cut -b 1-1 | cat"
+	test "ls | grep | sort -r | cut -b 1-1 | cat"
+	test "ls | grep e | sort -r | aaaaaaa | cat"
+}
+
+test_correction_AND_OR () {
+	print_separator '█'
+	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
+
+	test "true && echo aaa"
+	test "false && echo aaa"
+	test "true || echo aaa"
+	test "false || echo aaa"
+	test "aaaaaaaa && echo aaa"
+	test "aaaaaaaa || echo aaa"
+	test "cd /xxxxxxxxxx && echo aaa"
+	test "cd /xxxxxxxxxx || echo aaa"
+	test "true || true && true && echo aaa"
+	test "true && true && true || echo aaa"
+	test "false && false || true && echo aaa"
+	test "false && false || false && echo aaa"
 
 }
 
@@ -333,129 +455,26 @@ test_signal() {
 	print_separator '█'
 	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
 
-	# test "
-	#  	fail_bin/buserror;
-	#  	fail_bin/abort;
-	#  	fail_bin/segfault;
-	#  "
+	test "fail_bin/buserror;"
+	test "fail_bin/abort"
+	test "fail_bin/segfault"
 }
 
-test_random() {
-	print_separator '█'
-	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
-
-	test "1"
-	test "1 2 3 4 5 6 7 8 9"
-	test "-1 -2"
-	test "\\\n"
-	test ";"
-	test "|"
-	test ";|"
-	test ">>"
-	test "<"
-	test ">"
-	test ";>>|><"
-	test "unset SHSLVL PATH PWD OLDPWD _ ; echo \$PWD ; pwd ; ls"
-	test "hfdjskhdfkjhfsd"
-	test "ls fdsfsdfhfsd"
-	test "echo aaaaa bbbb cccccc dddddd > /tmp/a ; cat -e /tmp/a"
-	test "echo terminal is [\$TERM]"
-	test "echo terminal is [\$TERM4"
-	test "
-		toto+=42; echo \$toto ;
-		toto+=.; echo \$toto ;
-		toto+=-; echo \$toto ;
-		toto+='' ; echo \$toto ;
-		toto+=42; echo \$toto ;
-		toto+=42; echo \$toto ;
-		toto+=42; echo \$toto ;
-		toto+=42; echo \$toto
-	"
-	test "echo > /tmp/test"
-	test "cat -e /tmp/test"
-	test "echo -n > /tmp/test"
-	test "cat -e /tmp/test"
-	test "echo \$?"
-	test "ls hdfjkdsf ; echo \$?"
-	test "ls hdfjkdsf ; echo \$?"
-	test "export TEST; export | grep TEST"
-	test "export TEST=1; export | grep TEST"
-	test "export VAR_VALID=1"
-	test "export BROK;EN_VAR=1; export | grep EN_VAR"
-	test "export TEST+=23; export | grep TEST"
-	test "export TEST1 TEST2=456 TEST4 TEST5 TEST3=78"
-	test "
-	export TEST1=123; export TEST1 TEST2=456 TEST4 TEST5 TEST3=789		;
-	echo \$TEST\$TEST2\$TEST3 > /tmp/test1 > /tmp/test2 > /tmp/test3	;
-	cat /tmp/test1; cat /tmp/test2; cat /tmp/test3
-	"
-	test "cd .././../.././../bin/ls"
-	test "unset \$HOME; cd"
-	test "touch /tmp/file ; /tmp/file"
-	test "4ABC=toto"
-}
-
-test_failed() {
-	print_separator '█'
-	echo -e "\n\n\e[34m \e[1m[$FUNCNAME] \e[0m"
-
-	test "	\"e\"'c'ho 'b'\"o\"nj\"o\"'u'r\";\"	"
-	test "
-		export EMPTY ;
-		export NOTEMPTY= ;
-		export CHARS=AAA ;
-		echo '\$CHARS' ;
-		echo \$CHARS ;
-		echo \$PWD\$HOMe\"\$VAR_NONEXISTANT\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY |wc -m ;
-	"
-	test "
-		export EMPTY ;
-		export NOTEMPTY= ;
-		export CHARS=AAA ;
-		echo '\$CHARS' ;
-		echo \$CHARS ;
-		echo \$PWD\$VAR_NONEXISTANT\"\$VAR_NONEXISTANT\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY ;
-	"
-	test "
-		echo \"\$HOME\"
-		echo \$HOME
-		echo \"\$\"HOME
-		echo \$\"\"HOME
-		echo \"\"\$HOME
-		echo \$\"HOME\"
-		echo \$\"HO\"\"ME\"
-		echo \"\$HO\"\"ME\"
-		echo \"\$HO\"ME
-		echo \$\"HOME\"
-	"
-	test "
-		mkdir -p test1/test2/test3
-		cd test1/test2/test3
-		rm -r ../../../test1
-		cd ..
-		pwd
-		cd ..
-		pwd
-		cd ..
-		pwd
-	"
-	test "export 4ABC=toto"
-	test "toto/tata=1"
-}
 
 main () {
 	true > /tmp/test_ko
 	true > /tmp/minishell_sumup
 	true > /tmp/bash_sumup
+	export TEST_NB=0
+	export TEST_FAILED_NB=0
 	if [[ -n "$1" ]]
 	then
 		test "$1"
 	else
-		echo
-		# test_random
-		# test_bonus
-		# test_executor
-		# test_failed
+		#  test_random
+		#  test_bonus
+		#  test_executor
+		#  test_failed
 		# test_signal
 
 		# test_correction_exec
@@ -470,16 +489,19 @@ main () {
 		# test_correction_cd
 		# test_correction_pwd
 		# test_correction_PATH
-		test_correction_simple_quotes
+		# test_correction_simple_quotes
 		test_correction_redirect
-		test_correction_pipes
+		# test_correction_pipes
+		test_correction_AND_OR
 	fi
 
-	FAILED_TEST=$(cat /tmp/test_ko | wc -l)
-	if [[ $FAILED_TEST -gt 0 ]]
+	print_separator '█'
+	if [[ $TEST_FAILED_NB -gt 0 ]]
 	then
-		echo -e "\n\n\e[31m \e[1m[ $(cat /tmp/test_ko | wc -l) FAILED TEST] \e[0m"
+		echo -e "\n\n\e[31m \e[1m\t\t[ ❌  FAILED TEST : $TEST_FAILED_NB / $TEST_NB ] \n\e[0m"
 		cat /tmp/test_ko
+	else
+		echo -e "\n\n\e[32m \e[1m\t\t[ ✅  SUCCESS TEST : $TEST_NB / $TEST_NB ] \n\e[0m"
 	fi
 }
 

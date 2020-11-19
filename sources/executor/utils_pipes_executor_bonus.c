@@ -15,7 +15,7 @@ static int	open_file(t_cmd *command, int fd_fileno)
 		else if (command->redirection & F_REDIRECT_OUT)
 			open_flags = O_WRONLY | O_CREAT | O_TRUNC;
 	}
-	fd_return = open(command->fd_string[fd_fileno], open_flags, 0644);
+	fd_return = open(command->fd_string[fd_fileno], open_flags, 0664);
 	if (fd_return < 0)
 		print_set_errno(errno, NULL, command->fd_string[fd_fileno], NULL);
 	command->fd[fd_fileno] = fd_return;

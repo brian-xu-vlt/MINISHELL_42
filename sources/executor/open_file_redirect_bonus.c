@@ -29,7 +29,7 @@ static int	process_greater(char *str, t_cmd *cmd)
 	int				fd;
 	static size_t	i = 0;
 
-	fd = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	if (fd < 0)
 	{
 		if (cmd->tmp_fd_in > 2)
@@ -52,7 +52,7 @@ static int	process_double_greater(char *str, t_cmd *cmd)
 	int				fd;
 	static size_t	i = 0;
 
-	fd = open(str, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	fd = open(str, O_WRONLY | O_APPEND | O_CREAT, 0664);
 	if (fd < 0)
 	{
 		if (cmd->tmp_fd_in > 2)
