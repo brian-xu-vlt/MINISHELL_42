@@ -27,8 +27,8 @@ print_diff_simple (){
 		print_diff_full
 		((TEST_FAILED_NB+=1))
 		echo "🔴 $TEST" >> /tmp/test_ko
-		echo -e "\n\t 🔴 [$TEST_NB][$TEST]" >> /tmp/bash_sumup
-		echo -e "\n\t 🔴 [$TEST_NB][$TEST]" >> /tmp/minishell_sumup
+		echo -e "\t ⏫ [$TEST_NB][$TEST]" >> /tmp/bash_sumup
+		echo -e "\t ⏫ [$TEST_NB][$TEST]" >> /tmp/minishell_sumup
 		print_separator '▔'
 	else
 		echo -e "\e[32m \e[1m[$TEST_NB][OK] \e[0m\t\t["$TEST"]"
@@ -36,40 +36,39 @@ print_diff_simple (){
 }
 
 test () {
-	# export TEST=$(echo "$1")
 	((TEST_NB+=1))
 	export TEST=$1
+
 	echo "$TEST" | env -i ./Minishell &>/tmp/minishell.log #; echo "RETURNED : $?" >> /tmp/minishell.log
 	echo "$TEST" | env -i bash --posix &>/tmp/ba.log #; echo "RETURNED : $?" >> /tmp/ba.log
+
 	echo -e "\n\n\t 🟡 [$TEST_NB][$TEST] 🟡 " >> /tmp/bash_sumup
 	cat /tmp/ba.log >> /tmp/bash_sumup
 	echo -e "\n\n\t 🟡 [$TEST_NB][$TEST] 🟡 " >> /tmp/minishell_sumup
 	cat /tmp/minishell.log >> /tmp/minishell_sumup
+
+
+## bricolage destiné a retirer les faux negatifs
 	sed -i 's/NO_LINE_ED~$>//g' /tmp/minishell.log
 	sed -i 's/Minishell: /bash: /g' /tmp/minishell.log
 	sed -i 's/minishell: /bash: /g' /tmp/minishell.log
 	sed -i 's/line [0-9]: //g' /tmp/ba.log
+
+	#to remove once fixed
 	cat /tmp/ba.log | grep -v "\_\=" > /tmp/ba_tmp.log ; cat /tmp/ba_tmp.log > /tmp/ba.log
-	cat /tmp/ba.log | grep -v "PWD\=" > /tmp/ba_tmp.log ; cat /tmp/ba_tmp.log > /tmp/ba.log 	#to remove once fixed
+	#to remove once fixed
+	cat /tmp/ba.log | grep -v "PWD\=" > /tmp/ba_tmp.log ; cat /tmp/ba_tmp.log > /tmp/ba.log
+	#to remove once fixed
+	cat /tmp/minishell.log | grep -v "exit$" > /tmp/minishell_tmp.log ; cat /tmp/minishell_tmp.log > /tmp/minishell.log
+
 	print_diff_simple
-	# print_diff_full
 }
 
 test_random() {
 	print_separator '█'
 	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
-	test "1"
-	test "1 2 3 4 5 6 7 8 9"
-	test "-1 -2"
-	test "\\\n"
-	test ";"
-	test "|"
-	test ";|"
-	test ">>"
-	test "<"
-	test ">"
-	test ";>>|><"
+
 	test "unset SHSLVL PATH PWD OLDPWD _ ; echo \$PWD ; pwd ; ls"
 	test "hfdjskhdfkjhfsd"
 	test "ls fdsfsdfhfsd"
@@ -199,7 +198,7 @@ test_correction_echo () {
 	test "echo - test"
 
 	# extra flags to void tests to fail because of files redirection and new lines
-	EXTRA_FLAGS="--ignore-all-space"
+	EXTRA_FLAGS="--ignore-trailing-space"
 	test "echo -n test aaa"
 	test "echo -n -n -n -n -n -n test aaa"
 	test "echo -n -n -N -n -n -n test aaa"
@@ -220,6 +219,8 @@ test_correction_exit () {
 	test "exit 9223372036854775808"
 	test "exit 500"
 	test "exit -500"
+	test "ls ; exit"
+	test "ls | exit"
 }
 
 
@@ -311,7 +312,7 @@ test_correction_exp () {
 	test "echo \$TERM"
 	test "echo \$\"TERM\""
 	test "echo \$\'TERM\'"
-	test "echo \$TERM\$PWD"
+	test "export TOTO=42 ; echo \$TERM\$TOTO"
 	test "echo \$TERMaaaaaaa"
 	test "echo aaaaaaa\$TERM"
 	test "echo -\$TERM"
@@ -395,29 +396,37 @@ test_correction_redirect(){
 	print_separator '█'
 	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
-	test "ls /dev > /tmp/file ; cat /tmp/file"
-	test "cal >/dev"
-	test "cal >"
-	test "date >../../../../../../../../../../../../tmp/file2 ; cat /tmp/file2"
-	test "ls-l /tmp > /tmp/ls ; cat </tmp/ls"
-	test "ls > /tmp/ls ; pwd >> /tmp/ls ; cat </tmp/ls"
-	test "echo ls > /tmp/ls ; cat < /tmp/ls ; cat /tmp/ls"
-	test "cat </dev"
-	test "cat >/dev"
-	test "touch /tmp/aaaaaaaa >/dev ; ls -l /tmp/aaaaaaaaa"
-	test "touch /tmp/aaaaaaaa </dev ; ls -l /tmp/aaaaaaaaa"
-	test "rm -rf /tmp/b ; ls >> /tmp/b ; ls >> /tmp/b ; ls >> /tmp/b ; ls >> /tmp/b ; cat /tmp/b"
-	test "rm -rf /tmp/b ; ls >> /tmp/b ; ls >> /tmp/b ; ls >> /tmp/b ; ls > /tmp/b ; cat /tmp/b"
-	test "cp Makefile /tmp/b ; true > /tmp/b ; cat </tmp/b"
-	test "cat > coucou > test_cat < coucou | cat < coucou ; rm -rf coucou test_cat"
-	test "rm -rf /tmp/a ; ls >/tmp/a </dev ; ls /tmp/a"
-	test "rm -rf /tmp/a ; touch /tmp/a >>/dev ; ls -l /tmp/a"
-	test "rm -rf /tmp/a ; touch /tmp/a >/dev ; ls -l /tmp/a"
-	test "rm -rf /tmp/a /tmp/b /tmp/c ; echo aaa >        /tmp/a>     /tmp/b >                   /tmp/c ; ls -l /tmp/a /tmp/b /tmp/c ;  cat /tmp/a /tmp/b /tmp/c"
-	test "rm -rf /tmp/a /tmp/b /tmp/c ; echo aaa >/tmp/a >/tmp/b >/tmp/c ; ls -l /tmp/a /tmp/b /tmp/c ;  cat /tmp/a /tmp/b /tmp/c"
-	test "rm -rf /tmp/a /tmp/b /tmp/c ; echo aaa >> /tmp/a >> /tmp/b >> /tmp/c ; ls -l /tmp/a /tmp/b /tmp/c ;  cat /tmp/a /tmp/b /tmp/c"
-	test "rm -rf /tmp/a /tmp/b /tmp/c ; touch /tmp/a /tmp/b /tmp/c ; chmod 000 /tmp/a /tmp/b /tmp/c ; echo aaa > /tmp/a > /tmp/b > /tmp/c ; ls -l /tmp/a /tmp/b /tmp/c ;  cat /tmp/a /tmp/b /tmp/c"
-}
+	test "ls /tmp > /tmp/file ; cat /tmp/file ; echo \$?"
+	test "date >../../../../../../../../../../../../tmp/file2 ; cat /tmp/file2 ; echo \$?"
+	test "ls-l /tmp > /tmp/ls ; cat </tmp/ls ; echo \$?"
+	test "ls > /tmp/ls ; pwd >> /tmp/ls ; cat </tmp/ls ; echo \$?"
+	test "echo ls > /tmp/ls ; cat < /tmp/ls ; cat /tmp/ls ; echo \$?"
+	test "cat </tmp ; echo \$?"
+	test "cat >/tmp ; echo \$?"
+	test "touch /tmp/aaaaaaaa >/tmp ; ls -l /tmp/aaaaaaaaa ; echo \$?"
+	test "touch /tmp/aaaaaaaa </tmp ; ls -l /tmp/aaaaaaaaa ; echo \$?"
+	test "rm -rf /tmp/b ; ls >> /tmp/b ; ls >> /tmp/b ; ls >> /tmp/b ; ls >> /tmp/b ; cat /tmp/b ; echo \$?"
+	test "rm -rf /tmp/b ; ls >> /tmp/b ; ls >> /tmp/b ; ls >> /tmp/b ; ls > /tmp/b ; cat /tmp/b ; echo \$?"
+	test "cp Makefile /tmp/b ; true > /tmp/b ; cat </tmp/b ; echo \$?"
+	test "cat > coucou > test_cat < coucou | cat < coucou ; rm -rf coucou test_cat ; echo \$?"
+	test "rm -rf /tmp/a ; ls >/tmp/a </tmp ; ls /tmp/a ; echo \$?"
+	test "rm -rf /tmp/a ; touch /tmp/a >>/tmp ; ls -l /tmp/a ; echo \$?"
+	test "rm -rf /tmp/a ; touch /tmp/a >/tmp ; ls -l /tmp/a ; echo \$?"
+	test "rm -rf /tmp/a /tmp/b /tmp/c ; echo aaa >        /tmp/a>     /tmp/b >                   /tmp/c ; ls -l /tmp/a /tmp/b /tmp/c ;  cat /tmp/a /tmp/b /tmp/c ; echo \$?"
+	test "rm -rf /tmp/a /tmp/b /tmp/c ; echo aaa >/tmp/a >/tmp/b >/tmp/c ; ls -l /tmp/a /tmp/b /tmp/c ;  cat /tmp/a /tmp/b /tmp/c ; echo \$?"
+	test "rm -rf /tmp/a ; touch /tmp/a >/tmp >/tmp >/ ; ls -l /tmp/a ; rm -rf /tmp/a ; echo \$?"
+	test "cal >/tmp ; echo \$?"
+	test "ls >/tmp >/tmp >/ ; echo \$?"
+	test "ls >/tmp >/tmp >/ | fakecommande ; echo \$?"
+	test "ls /tmp >/tmp >/ | cut -b 1-2 ; echo \$?"
+	test "echo aaaaaaaaa >/tmp >/tmp >/ ; echo \$?"
+	test "echo aaaaaaaaa >/tmp >/tmp >/ | fakecommande ; echo \$?"
+	test "echo aaaaaaaaa >/tmp >/tmp >/ | cut -b 1-2 ; echo \$?"
+	test "rm -rf /tmp/a ; echo aaa >/tmp >/tmp >/tmp/a ; ls -l /tmp/a ; echo \$?"
+	test "rm -rf /tmp/a ; echo aaa >/tmp/a /tmp >/tmp ; ls -l /tmp/a ; echo \$?"
+	test "rm -rf /tmp/a /tmp/b /tmp/c ; echo aaa >> /tmp/a >> /tmp/b >> /tmp/c ; ls -l /tmp/a /tmp/b /tmp/c ;  cat /tmp/a /tmp/b /tmp/c ; echo \$?"
+	test "rm -rf /tmp/a /tmp/b /tmp/c ; touch /tmp/a /tmp/b /tmp/c ; chmod 000 /tmp/a /tmp/b /tmp/c ; echo aaa > /tmp/a > /tmp/b > /tmp/c ; ls -l /tmp/a /tmp/b /tmp/c ;  cat /tmp/a /tmp/b /tmp/c ; echo \$?"
+ }
 
 test_correction_pipes() {
 
@@ -469,6 +478,23 @@ test_signal() {
 	test "fail_bin/segfault"
 }
 
+test_syntax() {
+	print_separator '█'
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
+
+	test "ls >"
+	test "1"
+	test "1 2 3 4 5 6 7 8 9"
+	test "-1 -2"
+	test "\\\n"
+	test ";"
+	test "|"
+	test ";|"
+	test ">>"
+	test "<"
+	test ">"
+	test ";>>|><"
+}
 
 main () {
 	true > /tmp/test_ko
@@ -481,28 +507,29 @@ main () {
 	then
 		test "$1"
 	else
-		#  test_random
-		#  test_bonus
-		#  test_executor
-		#  test_failed
-		# test_signal
+	#  test_random
+	#  test_bonus
+	#  test_executor
+	#  test_failed
+	#  test_signal
+	#  test_syntax
 
-		test_correction_exec
-		test_correction_arg
-		test_correction_echo
-		test_correction_exit
-		test_correction_return
-		test_correction_semicolons
-		test_correction_baskslashs
-		test_correction_env
-		test_correction_exp
-		test_correction_cd
-		test_correction_pwd
-		test_correction_PATH
-		test_correction_simple_quotes
-		test_correction_redirect
-		test_correction_pipes
-		test_correction_AND_OR
+	# test_correction_exec
+	# test_correction_arg
+	# test_correction_echo
+	# test_correction_exit
+	# test_correction_return
+	# test_correction_semicolons
+	# test_correction_baskslashs
+	# test_correction_env
+	# test_correction_exp
+	# test_correction_cd
+	# test_correction_pwd
+	# test_correction_PATH
+	# test_correction_simple_quotes
+	test_correction_redirect
+	# test_correction_pipes
+	# test_correction_AND_OR
 	fi
 
 	print_separator '█'

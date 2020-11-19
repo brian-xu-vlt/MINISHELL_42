@@ -13,6 +13,8 @@ int	exec_builtin(t_cmd *cmd)
 
 	i = 0;
 	ret_value = 0;
+	if ((cmd->redirection & F_REDIRECT_FAILURE) == TRUE)
+		return (1);
 	while (i < NB_BUILTIN)
 	{
 		if (ft_strequ((char *)cmd->name, (char *)builtin_names[i]) == TRUE)

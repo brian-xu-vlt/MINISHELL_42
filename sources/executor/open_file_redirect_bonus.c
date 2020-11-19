@@ -90,7 +90,8 @@ void		process_open_file(t_cmd *cmd)
 	ret_file = SUCCESS;
 //	for (size_t j = 0; j < cmd->count_redir; j++)
 //		ft_printf("CMD->TAB_REDIR[%d] = %s\n", j, cmd->tab_redir[j]);//DEBUJG
-	while (i < cmd->count_redir)
+	while (i < cmd->count_redir
+							&& (cmd->redirection & F_REDIRECT_FAILURE) == FALSE)
 	{
 		if (ft_strequ(cmd->tab_redir[i], DOUBLE_GREATER) == TRUE)
 			ret_file = process_double_greater(cmd->tab_redir[i + 1], cmd);
