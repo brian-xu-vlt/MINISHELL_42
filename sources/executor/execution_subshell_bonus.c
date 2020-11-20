@@ -10,7 +10,6 @@ static void	child_process(t_cmd *cmd, int p_in[2], int p_out[2])
 		close(STDOUT_FILENO);
 	if ((cmd->redirection & F_REDIRECT_FAILURE) == TRUE)
 		exit(1);														// replace by exit_routine_le ??....
-	export_envp_content(cmd);
 	signal_manager(SIG_MODE_DEFAULT);
 	dup_pipes(cmd, p_in, p_out);
 	ret = 1;
@@ -19,7 +18,10 @@ static void	child_process(t_cmd *cmd, int p_in[2], int p_out[2])
 		if (is_builtin(cmd) == TRUE)
 			ret = exec_builtin(cmd);
 		else
+		{
+			export_envp_content(cmd);
 			ret = exec_binary(cmd);
+		}
 	}
 	exit(ret);
 }

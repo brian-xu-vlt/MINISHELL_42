@@ -84,7 +84,7 @@ int	unset_builtin(int ac, char **av, char **envp)
 	static const char	*usage = "unset: usage: unset [name ...]\n";
 	int					i;
 
-	(void)envp;
+	errno = 0;
 	export_envp(envp);
 	if (ac == 1 || ft_strequ(av[0], (char *)builtin) == FALSE)
 		return (0);
@@ -93,16 +93,19 @@ int	unset_builtin(int ac, char **av, char **envp)
 		i = 1;
 		while (i < ac)
 		{
-			if (av[i][0] == '-' && i == 2)
+			if (av[i][0] == '-' && i >= 2)
 				print_invalid_identifier(builtin, av[i]);
 			else if (av[i][0] == '-')
+			{
 				print_invalid_option(builtin, av[i], usage);
+				return (2);
+			}
 			else if (ft_isalpha(*av[i]) == TRUE)
 				unset_env(get_env_list(GET), av[i]);
 			i++;
 		}
 	}
-	if (errno == EINVAL)
+	if (errno != 0)
 		return (1);
 	return (SUCCESS);
 }

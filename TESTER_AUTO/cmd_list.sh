@@ -30,7 +30,8 @@ print_diff_simple (){
 		print_separator '▁'
 		print_diff_fail
 		((TEST_FAILED_NB+=1))
-		echo "🔴 $TEST" >> /tmp/test_ko
+		echo "🔴 [$TEST_NB] $TEST" >> /tmp/test_ko
+		echo -e "\e[34m $(diff $EXTRA_FLAGS -s /tmp/ba.log /tmp/minishell.log)\e[0m" >> /tmp/test_ko
 		echo -e "\t ⏫ [$TEST_NB][$TEST]" >> /tmp/bash_sumup
 		echo -e "\t ⏫ [$TEST_NB][$TEST]" >> /tmp/minishell_sumup
 		print_separator '▔'
@@ -200,7 +201,7 @@ test_correction_echo () {
 	test "echo ; echo ; echo ; echo"
 	test "echo coucou a b c d e f g"
 	test "echo - test"
-
+	test "-nnnnnnn hello"
 	# extra flags to void tests to fail because of files redirection and new lines
 	# EXTRA_FLAGS="--ignore-trailing-space"
 	# EXTRA_FLAGS="--ignore-all-space"
@@ -278,10 +279,12 @@ test_correction_env () {
 	test "cat=meow ; env  | sort ; export"
 	test "export cat ; env  | sort ; export"
 	test "export cat=42 ; env  | sort ; export"
-
-	test "cat=meow env; env | sort  ; export"
-	test "cat=meow env; env | sort ; export"
-	test "cat env; env | sort ; export"
+	test "unset PWD ; cat=meow env; echo ; env | sort  ; export"
+	test "unset PWD ; cat=meow env; echo ; env | sort ; export"
+	test "cat env | sort; env | sort ; export"
+	test "cat=meow env | sort; env | sort  ; export"
+	test "cat=meow env | sort; env | sort ; export"
+	test "cat env | sort; env | sort ; export"
 
 }
 
@@ -315,7 +318,7 @@ test_correction_export () {
 	test "unset PATH ; export PATH ; export ; ls"
 	test "toto=42 ; echo \$? ; export to%to; echo \$? ; export"
 	test "toto=42 export to%to; echo \$? ; export"
-	test "env ; toto= 42 export toto+=hello ; echo \$toto ; echo \$? ; unset toto ; echo \$toto"
+	test "toto= 42 export toto+=hello ; echo \$toto ; echo \$? ; unset toto ; echo \$toto"
 
 }
 
@@ -326,14 +329,16 @@ test_correction_unset () {
 	test "unset hfdjskhdfkjhfsd ; env | sort"
 	test "export cat ; unset cat ; echo \$? ; export"
 	test "export cat=meow ; unset cat ; echo \$? ; export"
-	test "unset -xxxxxxx ; echo \$?"
-	test "unset -xxxxxxx PATH ; echo \$? ; export ; export"
-	test "unset -xxxxxxx PATH -yyyyyy ; echo \$? ; export ; export"
-	test "unset PATH -xxxxxxx ; echo \$? ; export"
-	test "export food=pizza ; cat=MEOOOWWW unset food ; export"
-	test "export food=pizza ; cat=MEOOOWWW unset food cat ; export"
-	test "export food=pizza ; cat=MEOOOWWW unset cat ; export"
-	test "export food=pizza ; cat=MEOOOWWW unset food | ls ; export"
+	test "export food=pizza; export | grep food ; unset -xxxxxxx ; echo \$?"
+	test "export food=pizza; export | grep food ; unset -xxxxxxx food ; echo \$? ; export "
+	test "export food=pizza; export | grep food ; unset -xxxxxxx food -yyyyyy ; echo \$? ; export"
+	test "export food=pizza; export | grep food ; unset food -xxxxxxx ; echo \$? ; export"
+	test "export food=pizza cat=MEOOWW; export | grep 'food\|cat' ; unset food -xxxxxxx cat ; echo \$? ; export"
+	test "export food=pizza cat=MEOOWW; export | grep 'food\|cat' ; unset food -xxxxxxx cat -yyyyyy ; echo \$? ; export"
+	test "export food=pizza; export | grep food ; cat=MEOOOWWW unset food ; export"
+	test "export food=pizza; export | grep food ; cat=MEOOOWWW unset food cat ; export"
+	test "export food=pizza; export | grep food ; cat=MEOOOWWW unset cat ; export"
+	test "export food=pizza; export | grep food ; cat=MEOOOWWW unset food | ls ; export"
 
 }
 
@@ -561,7 +566,7 @@ main () {
 	# test_correction_baskslashs
 	# test_correction_env
 	# test_correction_export
-	test_correction_unset
+	# test_correction_unset
 	# test_correction_exp
 	# test_correction_cd
 	# test_correction_pwd
@@ -577,10 +582,15 @@ main () {
 	if [[ $TEST_FAILED_NB -gt 0 ]]
 	then
 		echo -e "\n\n\e[31m \e[1m\t\t[ ❌  FAILED TEST : $TEST_FAILED_NB / $TEST_NB ] \n\e[0m"
+		echo -e "$(date): [ FAILED TEST :   $TEST_FAILED_NB / $TEST_NB ] ❌ " >> /tmp/history.log
 		cat /tmp/test_ko
 	else
 		echo -e "\n\n\e[32m \e[1m\t\t[ ✅  SUCCESS TEST : $TEST_NB / $TEST_NB ] \n\e[0m"
+		echo -e "$(date): [ FAILED TEST :   $TEST_FAILED_NB / $TEST_NB ] ✅ " >> /tmp/history.log
 	fi
+	echo -e "\n\n		---- HISTORY 10 last run ---\n"
+	cat /tmp/history.log | tail --lines=10
+
 }
 
 main "$1"
