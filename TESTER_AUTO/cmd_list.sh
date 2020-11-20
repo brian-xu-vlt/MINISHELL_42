@@ -202,6 +202,14 @@ test_correction_echo () {
 	test "echo coucou a b c d e f g"
 	test "echo - test"
 	test "-nnnnnnn hello"
+	test "-nnnnnne hello"
+	test "-----nnnnnnn hello"
+	test "- hello"
+	test "- nnnnnnn hello"
+	test "- n hello"
+	test "hello -n"
+	test "hello -nnnn"
+
 	# extra flags to void tests to fail because of files redirection and new lines
 	# EXTRA_FLAGS="--ignore-trailing-space"
 	# EXTRA_FLAGS="--ignore-all-space"
