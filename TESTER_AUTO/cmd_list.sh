@@ -44,21 +44,21 @@ clean_log () {
 	sed -i 's/NO_LINE_ED~$>//g' /tmp/minishell.log
 	sed -i 's/Minishell: /bash: /g' /tmp/minishell.log
 	sed -i 's/minishell: /bash: /g' /tmp/minishell.log
-	sed -i 's/line [0-9]: //g' /tmp/ba.log
+	# sed -i 's/line [0-9]: //g' /tmp/ba.log
 
 	#to remove once fixed
-	cat /tmp/ba.log | grep -v "\_\=" > /tmp/ba_tmp.log ; cat /tmp/ba_tmp.log > /tmp/ba.log
+	cat /tmp/ba.log | grep -v "\_\=\|bash-4.4\\$" > /tmp/ba_tmp.log ; cat /tmp/ba_tmp.log > /tmp/ba.log
 
 	#to remove once fixed
-	cat /tmp/minishell.log | grep -v "exit$" > /tmp/minishell_tmp.log ; cat /tmp/minishell_tmp.log > /tmp/minishell.log
+	# cat /tmp/minishell.log | grep -v "exit$" > /tmp/minishell_tmp.log ; cat /tmp/minishell_tmp.log > /tmp/minishell.log
 }
 
 test () {
 	((TEST_NB+=1))
 	export TEST=$1
 
-	echo "$TEST" | env -i ./Minishell &>/tmp/minishell.log #; echo "RETURNED : $?" >> /tmp/minishell.log
-	echo "$TEST" | env -i bash --posix &>/tmp/ba.log #; echo "RETURNED : $?" >> /tmp/ba.log
+	echo "$TEST" | env -i $EXTRA_ENV ./Minishell &>/tmp/minishell.log #; echo "RETURNED : $?" >> /tmp/minishell.log
+	echo "$TEST" | env -i $EXTRA_ENV bash --posix -i &>/tmp/ba.log #; echo "RETURNED : $?" >> /tmp/ba.log
 
 	echo -e "\n\n\t 🟡 [$TEST_NB][$TEST] 🟡 " >> /tmp/bash_sumup
 	cat /tmp/ba.log >> /tmp/bash_sumup
@@ -203,12 +203,12 @@ test_correction_echo () {
 	test "echo - test"
 
 	# extra flags to void tests to fail because of files redirection and new lines
-	EXTRA_FLAGS="--ignore-trailing-space"
+	# EXTRA_FLAGS="--ignore-trailing-space"
 	test "echo -n test aaa"
 	test "echo -n -n -n -n -n -n test aaa"
 	test "echo -n -n -N -n -n -n test aaa"
 	test "echo n -n -n -n -n -x test aaa"
-	EXTRA_FLAGS=""
+	# EXTRA_FLAGS=""
 }
 
 
@@ -274,23 +274,29 @@ test_correction_env () {
 	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "env | sort "
-	test "export"
 	test "unset"
 	test "cat=meow ; env  | sort ; export"
 	test "export cat ; env  | sort ; export"
 	test "export cat=42 ; env  | sort ; export"
 
-	test "cat=meow export food=pizza ; export ; export"
 	test "cat=meow env; env | sort  ; export"
 	test "cat=meow env; env | sort ; export"
 	test "cat env; env | sort ; export"
 
+}
+
+test_correction_export () {
+	print_separator '█'
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
+
+	test "export"
+	test "cat=meow export food=pizza ; export ; export"
 	test "export -toto=1"
+	test "export cat=woof -toto=1"
+	test "export -xxxxx cat=woof"
+	test "export -xxxxx cat=woof -yyyyyy"
 	test "export cat=meow ; echo \$cat"
 	test "food=pizza export; export"
-	test "unset hfdjskhdfkjhfsd ; env | sort"
-	test "export cat ; unset cat ; export"
-	test "export cat=meow ; unset cat ; export"
 	test "export cat=meow ; export cat=woof ; export"
 	test "export cat=meow ; cat=woof ; export"
 	test "cat=meow ; export cat=woof ; export"
@@ -306,9 +312,29 @@ test_correction_env () {
 	test "export cat=moew | export"
 	test "cat=moew export"
 	test "export cat=moew"
-	test "unset PATH ; export PATH ; export"
+	test "unset PATH ; export PATH ; export ; ls"
 	test "toto=42 ; echo \$? ; export to%to; echo \$? ; export"
 	test "toto=42 export to%to; echo \$? ; export"
+	test "env ; toto= 42 export toto+=hello ; echo \$toto ; echo \$? ; unset toto ; echo \$toto"
+
+}
+
+test_correction_unset () {
+	print_separator '█'
+	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
+
+	test "unset hfdjskhdfkjhfsd ; env | sort"
+	test "export cat ; unset cat ; echo \$? ; export"
+	test "export cat=meow ; unset cat ; echo \$? ; export"
+	test "unset -xxxxxxx ; echo \$?"
+	test "unset -xxxxxxx PATH ; echo \$? ; export ; export"
+	test "unset -xxxxxxx PATH -yyyyyy ; echo \$? ; export ; export"
+	test "unset PATH -xxxxxxx ; echo \$? ; export"
+	test "export food=pizza ; cat=MEOOOWWW unset food ; export"
+	test "export food=pizza ; cat=MEOOOWWW unset food cat ; export"
+	test "export food=pizza ; cat=MEOOOWWW unset cat ; export"
+	test "export food=pizza ; cat=MEOOOWWW unset food | ls ; export"
+
 }
 
 test_correction_exp () {
@@ -510,12 +536,15 @@ main () {
 	export EXTRA_FLAGS=
 	export TEST_NB=0
 	export TEST_FAILED_NB=0
+	export EXTRA_ENV='TERM=xterm-256color'
+
 	if [[ -n "$1" ]]
 	then
 		test "$1"
 		echo -e "\n [RESULT]\n"
 		print_diff_full
 	else
+
 	#  test_random
 	#  test_bonus
 	#  test_executor
@@ -524,13 +553,15 @@ main () {
 	#  test_syntax
 
 	# test_correction_arg
-	# test_correction_echo
+	test_correction_echo
 	# test_correction_exit
 	# test_correction_exec
 	# test_correction_return
 	# test_correction_semicolons
 	# test_correction_baskslashs
-	test_correction_env
+	# test_correction_env
+	# test_correction_export
+	test_correction_unset
 	# test_correction_exp
 	# test_correction_cd
 	# test_correction_pwd

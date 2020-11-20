@@ -28,7 +28,7 @@ int	env_builtin(int ac, char **av, char **envp)
 
 static void	export_loop(int ac, char **av, const char *builtin)
 {
-	int			i;
+	int					i;
 
 	i = 1;
 	while (i < ac)
@@ -36,18 +36,14 @@ static void	export_loop(int ac, char **av, const char *builtin)
 		if (verif_assign_cmd(av[i]) == false)
 			export_env(get_env_list(GET), av[i]);
 		else
-		{
 			print_invalid_identifier(builtin, av[i]);
-			errno = EINVAL;
-		}
-			// print_set_errno(EINVAL, NULL, builtin, av[i]);
 		i++;
 	}
 }
 
 static void	export_envp(char **envp)
 {
-	int			i;
+	int					i;
 
 	i = 0;
 	if (envp == NULL)
@@ -58,7 +54,8 @@ static void	export_envp(char **envp)
 
 int	export_builtin(int ac, char **av, char **envp)
 {
-	const char	*builtin = "export";
+	static const char	*builtin = "export";
+	static const char	*usage = "export: usage: export [name[=value] ...]\n";
 
 	if (ft_strequ(av[0], (char *)builtin) == FALSE)
 		return (0);
@@ -67,8 +64,7 @@ int	export_builtin(int ac, char **av, char **envp)
 	{
 		if (av[1][0] == '-')
 		{
-			print_set_errno(0, ERR_INVALID_OPTION, builtin, av[1]);
-			ft_printf("export: usage: export [name[=value] ...]\n");
+			print_invalid_option(builtin, av[1], usage);
 			return (2);
 		}
 		else
@@ -84,10 +80,12 @@ int	export_builtin(int ac, char **av, char **envp)
 
 int	unset_builtin(int ac, char **av, char **envp)
 {
-	const char	*builtin = "unset";
-	int			i;
+	static const char	*builtin = "unset";
+	static const char	*usage = "unset: usage: unset [name ...]\n";
+	int					i;
 
 	(void)envp;
+	export_envp(envp);
 	if (ac == 1 || ft_strequ(av[0], (char *)builtin) == FALSE)
 		return (0);
 	else
@@ -95,12 +93,16 @@ int	unset_builtin(int ac, char **av, char **envp)
 		i = 1;
 		while (i < ac)
 		{
-			if (av[i][0] == '-')
-				print_set_errno(EINVAL, NULL, builtin, av[i]);
+			if (av[i][0] == '-' && i == 2)
+				print_invalid_identifier(builtin, av[i]);
+			else if (av[i][0] == '-')
+				print_invalid_option(builtin, av[i], usage);
 			else if (ft_isalpha(*av[i]) == TRUE)
 				unset_env(get_env_list(GET), av[i]);
 			i++;
 		}
 	}
+	if (errno == EINVAL)
+		return (1);
 	return (SUCCESS);
 }
