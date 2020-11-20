@@ -611,8 +611,10 @@ main () {
 		test "toto=hello ; titi=toto ; unset titi ; echo \$titi ; echo \$toto"
 		test "toto=hello ; titi=toto ; unset toto ; echo \$titi ; echo \$toto"
 		test "unset toto titi; echo \$titi ; echo \$toto"
-		test ""
-		test ""
+		test "cd libft ; echo \$?"
+		test "cd blabla ; echo \$?"
+		test "cd ../. ; echo \$? ; pwd ; echo \$? ; cd ///....//// ; echo \$?"
+		test "cd ../../../trop_bien ; echo \$?"
 		test ""
 	fi
 
