@@ -36,7 +36,11 @@ static void	export_loop(int ac, char **av, const char *builtin)
 		if (verif_assign_cmd(av[i]) == false)
 			export_env(get_env_list(GET), av[i]);
 		else
-			print_set_errno(EINVAL, NULL, builtin, av[i]);
+		{
+			print_invalid_identifier(builtin, av[i]);
+			errno = EINVAL;
+		}
+			// print_set_errno(EINVAL, NULL, builtin, av[i]);
 		i++;
 	}
 }
@@ -56,8 +60,10 @@ int	export_builtin(int ac, char **av, char **envp)
 {
 	const char	*builtin = "export";
 
+	if (ft_strequ(av[0], (char *)builtin) == FALSE)
+		return (0);
 	errno = 0;
-	if (ft_strequ(av[0], (char *)builtin) == TRUE && ac > 1)
+	if (ac > 1)
 	{
 		if (av[1][0] == '-')
 		{
@@ -67,12 +73,12 @@ int	export_builtin(int ac, char **av, char **envp)
 		}
 		else
 			export_loop(ac, av, builtin);
-		//if (errno == EINVAL)
-			//return (1);
 	}
-	if (ft_strequ(av[0], (char *)builtin) == TRUE && ac == 1)
+	if (ac == 1)
 		print_export_output(get_env_list(GET));
 	export_envp(envp);
+	if (errno == EINVAL)
+		return (1);
 	return (SUCCESS);
 }
 

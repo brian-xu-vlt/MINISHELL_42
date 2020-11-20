@@ -48,6 +48,7 @@ clean_log () {
 
 	#to remove once fixed
 	cat /tmp/ba.log | grep -v "\_\=" > /tmp/ba_tmp.log ; cat /tmp/ba_tmp.log > /tmp/ba.log
+
 	#to remove once fixed
 	cat /tmp/minishell.log | grep -v "exit$" > /tmp/minishell_tmp.log ; cat /tmp/minishell_tmp.log > /tmp/minishell.log
 }
@@ -306,7 +307,8 @@ test_correction_env () {
 	test "cat=moew export"
 	test "export cat=moew"
 	test "unset PATH ; export PATH ; export"
-
+	test "toto=42 ; echo \$? ; export to%to; echo \$? ; export"
+	test "toto=42 export to%to; echo \$? ; export"
 }
 
 test_correction_exp () {
@@ -521,15 +523,15 @@ main () {
 	#  test_signal
 	#  test_syntax
 
-	# test_correction_exec
 	# test_correction_arg
 	# test_correction_echo
 	# test_correction_exit
+	# test_correction_exec
 	# test_correction_return
 	# test_correction_semicolons
 	# test_correction_baskslashs
 	test_correction_env
-	test_correction_exp
+	# test_correction_exp
 	# test_correction_cd
 	# test_correction_pwd
 	# test_correction_PATH
@@ -537,6 +539,7 @@ main () {
 	# test_correction_redirect
 	# test_correction_pipes
 	# test_correction_AND_OR
+
 	fi
 
 	print_separator '█'

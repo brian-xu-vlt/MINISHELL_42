@@ -7,6 +7,22 @@ static void	put_error(const char *err_str, int colon_flag)
 		ft_putstr_fd(": ", STDERR_FILENO);
 }
 
+void		print_invalid_identifier(const char *function_name,
+													const char *error_source)
+{
+	static const char	*error_str = "not a valid identifier";
+	t_vector			*tmp_error_source;
+
+	tmp_error_source = vct_new();
+	if (tmp_error_source == NULL)
+		exit_routine_le(ERR_MALLOC);
+	vct_add(tmp_error_source, '`');
+	vct_addstr(tmp_error_source, (char *)error_source);
+	vct_add(tmp_error_source, '\'');
+	print_set_errno(0, error_str, function_name, vct_getstr(tmp_error_source));
+	vct_del(&tmp_error_source);
+}
+
 void		print_set_errno(int errno_value, const char *err_str,
 						const char *function_name, const char *error_source)
 {

@@ -260,6 +260,8 @@ void	free_char_arr(char **arr);
 
 void	print_set_errno(int errno_value, const char *err_str,
 						const char *function_name, const char *error_source);
+void	print_invalid_identifier(const char *function_name,
+													const char *error_source);
 
 /******************************************************************************/
 /*******************************_BUILTINS_*************************************/
