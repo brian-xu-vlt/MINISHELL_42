@@ -42,10 +42,8 @@ print_diff_simple (){
 clean_log () {
 ## bricolage destiné a retirer les faux negatifs du testeur
 	sed -i 's/NO_LINE_ED~$>//g' /tmp/minishell.log
-	sed -i 's/bash-4.4$\\n//g' /tmp/minishell.log
 	sed -i 's/Minishell: /bash: /g' /tmp/minishell.log
 	sed -i 's/minishell: /bash: /g' /tmp/minishell.log
-	# sed -i 's/line [0-9]: //g' /tmp/ba.log
 
 	#to remove once fixed
 	cat /tmp/ba.log | grep -v "\_\=\|bash-4.4\\$ " > /tmp/ba_tmp.log ; cat /tmp/ba_tmp.log > /tmp/ba.log
