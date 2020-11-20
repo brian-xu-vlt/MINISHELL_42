@@ -10,6 +10,8 @@ static int	handle_pwd(int flag, char *dir)
 	t_vector	*vct_home;
 	t_vector	*tmp;
 
+	//ft_printf("HANDLE PWD\n");//DEBUG
+	//ft_printf("dir = %s\n", dir);//DEBUG
 	buff = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
 	if (buff == NULL)
 	{
@@ -39,13 +41,40 @@ static int	handle_pwd(int flag, char *dir)
 			vct_del(&tmp);
 			return (SUCCESS);
 		}
+		if (ft_strlen(dir) != 0 && dir[0] == '/')
+		{
+			tmp = vct_new();
+			vct_pwd = get_env_value_vct(get_env_list(GET), ENV_PWD);
+			vct_old = get_env_value_vct(get_env_list(GET), ENV_OLD_PWD);
+			vct_home = get_env_value_vct(get_env_list(GET), ENV_HOME);
+			vct_cpy(tmp, vct_pwd);
+			vct_clear(vct_pwd);
+			vct_addstr(vct_pwd, dir);
+			vct_cpy(vct_old, tmp);
+			pwd = ft_strdup(vct_getstr(vct_pwd));
+			old = ft_strdup(vct_getstr(vct_old));
+			ms_setenv(get_env_list(GET), ENV_PWD, pwd, F_EXPORT | F_OVERWRITE);
+			ms_setenv(get_env_list(GET), ENV_OLD_PWD, old, F_EXPORT | F_OVERWRITE);
+			free(pwd);
+			free(old);
+			vct_del(&tmp);
+			return (SUCCESS);
+		}
 		if (errno == 2)
 			return (2);
 		return (FAILURE);
 	}
+	vct_pwd = get_env_value_vct(get_env_list(GET), ENV_PWD);
+	vct_old = get_env_value_vct(get_env_list(GET), ENV_OLD_PWD);
+	vct_home = get_env_value_vct(get_env_list(GET), ENV_HOME);
+	//ft_printf("vct_pwd = %s\n", vct_getstr(vct_pwd));//DEBUG
+	//ft_printf("vct_old = %s\n", vct_getstr(vct_old));//DEBUG
+	//ft_printf("vct_home = %s\n", vct_getstr(vct_home));//DEBUG
 	if (flag == PWD)
 		ms_setenv(get_env_list(GET), ENV_PWD, pwd, F_EXPORT | F_OVERWRITE);
-	else if (flag == OLD_PWD)
+	else if (flag == OLD_PWD && vct_old != NULL)
+		ms_setenv(get_env_list(GET), ENV_OLD_PWD, pwd, F_EXPORT | F_OVERWRITE);
+	else if (flag == OLD_PWD && vct_pwd != NULL)
 		ms_setenv(get_env_list(GET), ENV_OLD_PWD, pwd, F_EXPORT | F_OVERWRITE);
 	free(buff);
 	return (SUCCESS);
@@ -82,14 +111,28 @@ static int	hub_process_chdir(char *dir, t_vector *vct_home)
 	char		*str_old_pwd;
 	int			ret_chdir;
 	int			ret_pwd;
+	t_vector	*pwd;
+	t_vector	*tmp;
+	char		*str_pwd;
 
 	str_old_pwd = NULL;
 	if (ft_strequ(dir, STR_MINUS) == TRUE)
 	{
+		tmp = vct_new();
+		pwd = get_env_value_vct(get_env_list(GET), "PWD");
 		dir_old_pwd = get_env_value_vct(get_env_list(GET), "OLDPWD");
+		ft_printf("%s\n", vct_getstr(dir_old_pwd));
+		vct_cpy(tmp, pwd);
+		//ft_printf("tmp = %s\n", vct_getstr(tmp));//DEBUG
+		vct_cpy(pwd, dir_old_pwd);
+		vct_cpy(dir_old_pwd, tmp);
 		str_old_pwd = vct_getstr(dir_old_pwd);
-		ft_printf("%s\n", str_old_pwd);
-		ret_chdir = process_chdir(vct_home, str_old_pwd);
+		str_pwd = vct_getstr(pwd);
+		//ft_printf("old_pwd = %s\n", str_old_pwd);//DEBUG
+	//	ft_printf("pwd = %s\n", str_pwd);//DEBUG
+	//	ft_printf("PRINT CD -------------------\n");//DEBUG
+		vct_del(&tmp);
+		ret_chdir = process_chdir(vct_home, str_pwd);
 		return (ret_chdir == FAILURE ? CD_FAIL : SUCCESS);
 	}
 	ret_pwd = handle_pwd(OLD_PWD, dir);
@@ -138,7 +181,7 @@ int			cd_builtin(int ac, char **av, char **envp)
 	if (ac != 1 && ft_strlen(av[1]) == 0)
 		return (SUCCESS);
 	ret_cd = process_cd(av[1]);
-	if (ret_cd == 2)
+	if (ret_cd == 2 && (ac > 1 && ft_strlen(av[1]) != 0 && av[1][0] != '/'))
 	{
 		ret_cd = 1;
 		print_set_errno(0, "No such file or directory", "cd", av[1]);
