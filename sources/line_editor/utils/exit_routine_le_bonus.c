@@ -34,7 +34,9 @@ static void	exit_routine_reset_terminal(t_le *le)
 void		exit_routine_le(char *err_code)
 {
 	t_le		*le;
+	int			last_exit_status;
 
+	last_exit_status = get_env_value_int(get_env_list(GET), S_QUESTION_MARK);
 	le = get_struct(GET);
 	exit_routine_reset_terminal(le);
 	if (le->cmd_line_backup != NULL)
@@ -43,6 +45,11 @@ void		exit_routine_le(char *err_code)
 	vct_del(&le->clipboard);
 	free_env_list(get_env_list(GET));
 	free_history_list();
+	if (ft_strequ(err_code, NORMAL_EXIT) == TRUE)
+	{
+		// ft_putstr_fd("exit\n", STDERR_FILENO);
+		exit(last_exit_status);
+	}
 	if (err_code != ERR_NO_MESSAGE)
 	{
 		if (isatty(STDERR_FILENO) == TRUE)

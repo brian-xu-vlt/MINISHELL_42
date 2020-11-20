@@ -19,7 +19,7 @@ static void	child_process(t_cmd *cmd, int p_in[2], int p_out[2])
 			ret = exec_builtin(cmd);
 		else
 		{
-			export_envp_content(cmd);
+			export_envp(cmd->envp);
 			ret = exec_binary(cmd);
 		}
 	}

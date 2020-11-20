@@ -223,7 +223,7 @@ void								exit_routine_cleaner(t_cmd *cmd,
 #define W_END				1
 
 void	process_open_file(t_cmd *cmd);
-void	export_envp_content(const t_cmd *command);
+void	export_envp(char **envp);
 void	assign_envp_content(const t_cmd *command);
 int		exec_builtin(t_cmd *command);
 int		exec_binary(const t_cmd *command);
