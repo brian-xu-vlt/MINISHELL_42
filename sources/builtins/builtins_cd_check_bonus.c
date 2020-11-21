@@ -96,6 +96,7 @@ int			handle_permission_denied(char **dir, char *dir_denied)
 	char		*buff;
 	t_vector	*new_dir;
 
+	//ft_printf("HAAA TE VOILA\n");
 	buff = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
 	if (buff == NULL)
 		exit_routine_le(ERR_MALLOC);

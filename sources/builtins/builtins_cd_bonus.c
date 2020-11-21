@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static int	handle_pwd(int flag, char *dir)
+static int	handle_pwd(int flag, char *dir, char *old_dir)
 {
 	char *pwd;
 	char *old;
@@ -9,7 +9,9 @@ static int	handle_pwd(int flag, char *dir)
 	t_vector	*vct_old;
 	t_vector	*vct_home;
 	t_vector	*tmp;
+	int			ret;
 
+	ret = SUCCESS;
 	buff = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
 	if (buff == NULL)
 	{
@@ -61,6 +63,40 @@ static int	handle_pwd(int flag, char *dir)
 			return (2);
 		return (FAILURE);
 	}
+	if (errno == 13)
+	{
+		tmp = vct_new();
+		vct_pwd = get_env_value_vct(get_env_list(GET), ENV_PWD);
+		vct_old = get_env_value_vct(get_env_list(GET), ENV_OLD_PWD);
+		vct_home = get_env_value_vct(get_env_list(GET), ENV_HOME);
+		if (ft_strlen(dir) != 0 && dir[0] != '.' && dir[0] != '/')
+		{
+			//ft_printf("dir = %s\n", dir);//DEBUG
+		//	ft_printf("old_dir = %s\n", old_dir);//DEBUG
+			//ft_printf("ICI ALORS ?\n");//DEBUG
+			if (ft_strequ(old_dir, STR_MINUS) == FALSE)
+				print_set_errno(0, "Permission denied", "cd", dir);
+			else
+				print_set_errno(0, "Not a directory", "cd", dir);
+			ms_setenv(get_env_list(GET), ENV_PWD, pwd, F_EXPORT | F_OVERWRITE);
+			free(pwd);
+			vct_del(&tmp);
+			return (3);
+		}
+		//ft_printf("errno == 13\n");//DEBUG
+		//ft_printf("vct_pwd = %s\n", vct_getstr(vct_pwd));//DEBUG
+		//ft_printf("vct_old = %s\n", vct_getstr(vct_old));//DEBUG
+		//ft_printf("vct_home = %s\n", vct_getstr(vct_home));//DEBUG
+		pwd = ft_strdup(vct_getstr(vct_pwd));
+		old = ft_strdup(vct_getstr(vct_old));
+		ms_setenv(get_env_list(GET), ENV_PWD, pwd, F_EXPORT | F_OVERWRITE);
+		ms_setenv(get_env_list(GET), ENV_OLD_PWD, old, F_EXPORT | F_OVERWRITE);
+		free(pwd);
+		free(old);
+		free(buff);
+		vct_del(&tmp);
+		return (SUCCESS);
+	}
 	vct_pwd = get_env_value_vct(get_env_list(GET), ENV_PWD);
 	vct_old = get_env_value_vct(get_env_list(GET), ENV_OLD_PWD);
 	vct_home = get_env_value_vct(get_env_list(GET), ENV_HOME);
@@ -77,11 +113,15 @@ static int	handle_pwd(int flag, char *dir)
 	return (SUCCESS);
 }
 
-static int	process_chdir(t_vector *vct_home, char *dir)
+static int	process_chdir(t_vector *vct_home, char *dir, char *old_dir, char *dir_old_pwd)
 {
 	char	*real_dir;
 	char	*dir_denied;
 	int		ret_chdir;
+	t_vector	*vct_pwd;
+	t_vector	*vct_old;
+	t_vector	*vct_now_home;
+	t_vector	*tmp;
 
 	real_dir = ft_strdup(dir == NULL && vct_getlen(vct_home) != 0 ?
 					vct_getstr(vct_home) : dir);
@@ -95,10 +135,45 @@ static int	process_chdir(t_vector *vct_home, char *dir)
 		ret_chdir = chdir(real_dir);
 	}
 	if (ret_chdir == FAILURE)
-		print_set_errno(errno, strerror(errno), STR_CD, real_dir);
+	{
+		//ft_printf("errno = %d\n", errno);//DEBUG
+		if (errno == 13)
+		{
+			ft_putstr_fd("Minishell: cd: ", STDERR_FILENO);
+			ft_putstr_fd(dir, STDERR_FILENO);
+			if (ft_strequ(old_dir, STR_MINUS) == TRUE)
+			{
+				ft_putendl_fd(": Permission denied", STDERR_FILENO);
+				tmp = vct_new();
+				vct_pwd = get_env_value_vct(get_env_list(GET), ENV_PWD);
+				vct_old = get_env_value_vct(get_env_list(GET), ENV_OLD_PWD);
+				vct_now_home = get_env_value_vct(get_env_list(GET), ENV_HOME);
+				vct_cpy(tmp, vct_pwd);
+				vct_cpy(vct_pwd, vct_old);
+				vct_cpy(vct_old, tmp);
+				vct_del(&tmp);
+			//	ft_printf("vct_pwd = %s\n", vct_getstr(vct_pwd));//DEBUG
+			//	ft_printf("vct_old = %s\n", vct_getstr(vct_old));//DEBUG
+			//	ft_printf("vct_now_home = %s\n", vct_getstr(vct_now_home));//DEBUG
+			}
+			else
+			{
+			//	ft_printf("TU VAS LA?\n");//DEBUG
+				ft_putendl_fd(": Not a directory", STDERR_FILENO);
+			}
+		}
+		else
+			print_set_errno(errno, strerror(errno), STR_CD, real_dir);
+	}
+	if (old_dir != NULL && ret_chdir != FAILURE &&
+			ft_strequ(old_dir, STR_MINUS) == TRUE)
+		ft_printf("%s\n", dir_old_pwd);
 	free(real_dir);
 	if (ret_chdir == SUCCESS)
-		ret_chdir = handle_pwd(PWD, dir);
+	{
+		//ft_printf("TU RENTRES PAR LA ?\n");//DEBUG
+		ret_chdir = handle_pwd(PWD, dir, NULL);
+	}
 	return (ret_chdir);
 }
 
@@ -111,14 +186,19 @@ static int	hub_process_chdir(char *dir, t_vector *vct_home)
 	t_vector	*pwd;
 	t_vector	*tmp;
 	char		*str_pwd;
+	char 		*old_dir;
 
 	str_old_pwd = NULL;
+	dir_old_pwd = NULL;
+	old_dir = NULL;
+	if (dir != NULL)
+		old_dir = ft_strdup(dir);
+	//ft_printf("old_dir FIRST = %s\n", old_dir);//DEBUG
 	if (ft_strequ(dir, STR_MINUS) == TRUE)
 	{
 		tmp = vct_new();
 		pwd = get_env_value_vct(get_env_list(GET), "PWD");
 		dir_old_pwd = get_env_value_vct(get_env_list(GET), "OLDPWD");
-		ft_printf("%s\n", vct_getstr(dir_old_pwd));
 		vct_cpy(tmp, pwd);
 		//ft_printf("tmp = %s\n", vct_getstr(tmp));//DEBUG
 		vct_cpy(pwd, dir_old_pwd);
@@ -126,16 +206,22 @@ static int	hub_process_chdir(char *dir, t_vector *vct_home)
 		str_old_pwd = vct_getstr(dir_old_pwd);
 		str_pwd = vct_getstr(pwd);
 		//ft_printf("old_pwd = %s\n", str_old_pwd);//DEBUG
-	//	ft_printf("pwd = %s\n", str_pwd);//DEBUG
+		//ft_printf("pwd = %s\n", str_pwd);//DEBUG
 	//	ft_printf("PRINT CD -------------------\n");//DEBUG
 		vct_del(&tmp);
-		ret_chdir = process_chdir(vct_home, str_pwd);
+		ret_chdir = process_chdir(vct_home, str_pwd, old_dir, str_pwd);
+		free(old_dir);
 		return (ret_chdir == FAILURE ? CD_FAIL : SUCCESS);
 	}
-	ret_pwd = handle_pwd(OLD_PWD, dir);
+	//ft_printf("TU RENTRES PAR ICI DU COUP ?\n");//DEBUG
+	ret_pwd = handle_pwd(OLD_PWD, dir, old_dir);
 	if (ret_pwd != SUCCESS)
-		return (ret_pwd);
-	ret_chdir = process_chdir(vct_home, dir);
+	{
+		free(old_dir);
+		return (ret_pwd == 3 ? 1 : ret_pwd);
+	}
+	ret_chdir = process_chdir(vct_home, dir, NULL, NULL);
+	free(old_dir);
 	return (ret_chdir);
 }
 
