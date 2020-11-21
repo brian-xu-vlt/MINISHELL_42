@@ -24,6 +24,14 @@ print_diff_fail () {
 }
 
 print_diff_simple (){
+	# SORT_RESULT allow to sort lines in order to avoid race conditions false positive
+	# not set by default
+	if [[ ! -z $SORT_RESULT ]]
+	then
+		echo -e "\n \e[36m ℹ️ This test sort the output in order to avoid race condition :\e[0m"
+		cat /tmp/ba.log | sort > /tmp/ba_sorted.log ; cat /tmp/ba_sorted.log > /tmp/ba.log
+		cat /tmp/minishell.log | sort > /tmp/ms_sorted.log ; cat /tmp/ms_sorted.log > /tmp/minishell.log
+	fi
 	diff $EXTRA_FLAGS -s /tmp/ba.log /tmp/minishell.log &>/dev/null
 	if [[ $? -ne 0 ]]
 	then
@@ -184,7 +192,9 @@ test_correction_exec () {
 	test "\"\""
 	test ""
 	test " "
-}
+
+
+ }
 
 test_correction_arg () {
 	print_separator '█'
@@ -214,6 +224,13 @@ test_correction_echo () {
 	test "echo -n"
 	test "echo -n -n -n -n"
 	test "echo -nnnn"
+
+	test "echo $ ; echo "$" ; echo '$'"
+    test "echo $"" ; echo "$""" ; echo '$'''"
+    test "echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
+    test "echo \$toto\"\" ; echo \"\$toto\"\"\" ; echo '\$toto'''"
+    test "toto= 42 ; echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
+    test "toto=42 ; echo \$toto\"\" ; echo \"\$toto\"\"\" ; echo '\$toto'''"
 
 # Cannot be tested with this
 	# extra flags to void tests to fail because of files redirection and new lines
@@ -877,6 +894,28 @@ test_correction_pipes() {
 	test "ls | grep XXXXXXX | sort -r | cut -b 1-1 | cat"
 	test "ls | grep | sort -r | cut -b 1-1 | cat"
 	test "ls | grep e | sort -r | aaaaaaa | cat"
+
+	SORT_RESULT=TRUE
+	test "ls >/tmp >/tmp/a | fake2"
+	test "fake1 ; ls >/tmp >/tmp/a | fake2"
+	test "ls >/tmp >/tmp/a | fake2 ; echo \$?"
+	test "ls >/tmp >/tmp/a | fake2 ; echo \$?"
+	test "ls >/tmp >/tmp/a | fakecommande ; echo \$?"
+	test "ls >/tmp/a >/tmp | fakecommande ; echo \$?"
+	test "ls <./aaaaaaaaa >/tmp/a | fakecommande ; echo \$?"
+	test "ls >/tmp <./aaaaaaaaa | fakecommande ; echo \$?"
+	test "touch /tmp/xxx ; chmod 000 /tmp/xxx ; ls </tmp/xxx >/tmp/a | fakecommande ; echo \$? ; rm -rf /tmp/xxx"
+	test "touch /tmp/xxx ; chmod 000 /tmp/xxx ; ls >/tmp/xxx | fakecommande ; echo \$? ; rm -rf /tmp/xxx"
+
+	test "echo 000001 ; sleep 0.4 ; fake3"
+	test "fake1 | fake2 | fake3 | sleep 0.4 | echo 00002 | fake4"
+
+	test "test fake1 | fake2 | fake3 | fake4 "
+	test "fake1 | fake2 | fake3 | fake4 | echo _____________________"
+	test "fake1 | fake2 | fake3 | fake4 | echo __ >/tmp ;echo ; echo"
+	test "echo __ >/tmp | fake1 | fake2 | fake3 | fake4 ; echo ; echo"
+	test "echo 00001 | sleep 0.4 | fake1 | sleep 0.4 | echo 00002"
+	unset SORT_RESULT
 }
 
 test_correction_AND_OR () {
@@ -929,6 +968,7 @@ main () {
 	true > /tmp/test_ko
 	true > /tmp/minishell_sumup
 	true > /tmp/bash_sumup
+	unset SORT_RESULT
 	export EXTRA_FLAGS=
 	export TEST_NB=0
 	export TEST_FAILED_NB=0
@@ -955,7 +995,7 @@ main () {
 	# test_correction_return
 	# test_correction_semicolons
 	# test_correction_baskslashs
-	test_correction_env
+	# test_correction_env
 
 	# test_correction_export_identifier
 	# test_correction_export_identifier_mix_valid
