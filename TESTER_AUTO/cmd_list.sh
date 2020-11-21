@@ -288,16 +288,17 @@ test_correction_env () {
 	print_separator '█'
 	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
-	# test "env | sort "
-	# test "cat=meow ; env  | sort ; export"
-	# test "export cat ; env  | sort ; export"
-	# test "export cat=42 ; env  | sort ; export"
-	# test "unset PWD ; cat=meow env; echo ; env | sort  ; export"
-	# test "unset PWD ; cat=meow env; echo ; env | sort ; export"
-	# test "cat env | sort; env | sort ; export"
-	# test "cat=meow env | sort; env | sort  ; export"
-	# test "cat=meow env | sort; env | sort ; export"
-	# test "cat env | sort; env | sort ; export"
+	test "env | sort "
+	test "cat=meow ; env  | sort ; export"
+	test "export cat ; env  | sort ; export"
+	test "export cat=42 ; env  | sort ; export"
+	test "unset PWD ; cat=meow env; echo ; env | sort  ; export"
+	test "unset PWD ; cat=meow env; echo ; env | sort ; export"
+	test "cat env | sort; env | sort ; export"
+	test "cat=meow env | sort; env | sort  ; export"
+	test "cat=meow env | sort; env | sort ; export"
+	test "cat env | sort; env | sort ; export"
+	test "export hello=hey ; echo \$? ; export -hola=touto ; echo \$? ; env -l ; echo \$? ; unset hola ; echo \$? ; unset hello ; echo \$? ; export toto+=hello ; echo \$? ; export _titi=tutu ; echo \$?"
 
 }
 
@@ -954,12 +955,12 @@ main () {
 	# test_correction_return
 	# test_correction_semicolons
 	# test_correction_baskslashs
-	# test_correction_env
+	test_correction_env
 
 	# test_correction_export_identifier
 	# test_correction_export_identifier_mix_valid
 	# test_correction_export
-	test_correction_unset_identifier
+	# test_correction_unset_identifier
 	# test_correction_unset_identifier_mix_valid
 	# test_correction_unset
 
@@ -971,6 +972,7 @@ main () {
 	# test_correction_redirect
 	# test_correction_pipes
 	# test_correction_AND_OR
+
 	fi
 
 	print_separator '█'

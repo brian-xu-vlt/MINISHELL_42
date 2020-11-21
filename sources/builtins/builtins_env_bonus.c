@@ -12,6 +12,7 @@ static void	print_envp(char **envp)
 int	env_builtin(int ac, char **av, char **envp)
 {
 	const char	*builtin = "env";
+	const char	*usage = "Try 'env --help' for more information.\n";
 
 	print_envp(envp);
 	if (ft_strequ(av[0], (char *)builtin) == FALSE)
@@ -20,8 +21,8 @@ int	env_builtin(int ac, char **av, char **envp)
 		print_env(get_env_list(GET));
 	else
 	{
-		print_set_errno(EINVAL, NULL, builtin, av[1]);
-		return (FAILURE);
+		print_invalid_option(builtin, av[1], usage);
+		return (BUILTIN_ENV_FAILURE);
 	}
 	return (SUCCESS);
 }
