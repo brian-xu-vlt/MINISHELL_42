@@ -1,34 +1,42 @@
 #include "minishell_bonus.h"
 
-static int	is_valid_identifier(const char *av_to_check, const char *builtin)
+static bool process_valid_identifier(t_vector *vct, char *av_to_check)
 {
-	t_vector			*tmp_av;
-	int					ret;
+    char    			c_first;
 
-
-if (av_to_check != NULL && av_to_check[0] == '-')
-{
-	print_invalid_identifier(builtin, av_to_check);
-	return (FALSE);
+    while (vct_getlen(vct) > 0)
+    {
+        c_first = vct_getfirstchar(vct);
+        if (ft_isalnum(c_first) == false && c_first != C_EXP &&
+                c_first != LOW_LINE)
+        {
+            print_invalid_identifier("unset", av_to_check);
+            vct_del(&vct);
+            return (false);
+        }
+        vct_pop(vct);
+    }
+    vct_del(&vct);
+    return (true);
 }
-return (TRUE);
-////////////////////////unused
 
-	if (av_to_check == NULL)
-		return (FALSE);
-	tmp_av = vct_new();
-	if (tmp_av == NULL)
-		exit_routine_le(ERR_MALLOC);
-	vct_addstr(tmp_av, (char *)av_to_check);
-	ret = is_wrong_ass(tmp_av);
-	vct_del(&tmp_av);
-	if (ret == TRUE)
-	{
-		print_invalid_identifier(builtin, av_to_check);
-		return (FALSE);
-	}
-	else
-		return (TRUE);
+static bool is_valid_identifier(char *av_to_check)
+{
+    t_vector			*vct;
+    char 				c_first;
+    char 				c_last;
+
+    vct = vct_new();
+    vct_addstr(vct, av_to_check);
+    c_first = vct_getfirstchar(vct);
+    c_last = vct_getcharat(vct, vct_getlen(vct) - 1);
+    if (c_last == C_EXP || ft_isdigit(c_first) == true)
+    {
+        print_invalid_identifier("unset", av_to_check);
+        vct_del(&vct);
+        return (false);
+    }
+    return (process_valid_identifier(vct, av_to_check));
 }
 
 int			unset_builtin(int ac, char **av, char **envp)
@@ -53,7 +61,7 @@ int			unset_builtin(int ac, char **av, char **envp)
 				print_invalid_option(builtin, av[i], usage);
 				return (BUILTIN_INVALID_IDENTIFIER);
 			}
-			if (is_valid_identifier(av[i], builtin) == TRUE)
+			if (is_valid_identifier(av[i]) == TRUE)
 				unset_env(get_env_list(GET), av[i]);
 			else
 				ret = BUILTIN_FAILURE;
