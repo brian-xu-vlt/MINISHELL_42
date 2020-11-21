@@ -129,8 +129,8 @@ SRCS += job_command_debug_bonus.c
 SRCS += job_command_utils_bonus.c
 SRCS += job_command_create_bonus.c
 SRCS += job_command_fill_bonus.c
-SRCS += test_job_command.c
-SRCS += verif.c
+#SRCS += test_job_command.c
+#SRCS += verif.c
 SRCS += job_command_free_bonus.c
 SRCS += test_cleaner.c
 SRCS += command_process_bonus.c
@@ -181,11 +181,6 @@ vpath %.c sources/cleaner
 vpath %.c sources/cleaner/cleaner_command
 vpath %.c sources/cleaner/cleaner_redirection
 vpath %.c sources/cleaner/cleaner_quote
-vpath %.c TESTER_PARSER/
-vpath %.c TESTER_JOB_COMMAND/
-vpath %.c TESTER_CLEANER_QUOTE/
-vpath %.c TESTER_CLEANER_QUOTE_EXP/
-vpath %.c TESTER_VALID_IDENTIFIER/
 
 OBJS = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 
