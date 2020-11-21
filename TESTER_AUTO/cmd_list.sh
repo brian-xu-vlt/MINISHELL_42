@@ -109,9 +109,7 @@ test_random() {
 	test "export BROK;EN_VAR=1; export | grep EN_VAR"
 	test "export TEST+=23; export | grep TEST"
 	test "export TEST1 TEST2=456 TEST4 TEST5 TEST3=78"
-	test " export TEST1=123; export TEST1 TEST2=456 TEST4 TEST5 TEST3=789		;
-echo \$TEST\$TEST2\$TEST3 > /tmp/test1 > /tmp/test2 > /tmp/test3	;
-cat /tmp/test1; cat /tmp/test2; cat /tmp/test3 "
+	test " export TEST1=123; export TEST1 TEST2=456 TEST4 TEST5 TEST3=789; echo \$TEST\$TEST2\$TEST3 > /tmp/test1 > /tmp/test2 > /tmp/test3; cat /tmp/test1; cat /tmp/test2; cat /tmp/test3 "
 	test "cd .././../.././../bin/ls"
 	test "unset \$HOME; cd"
 	test "touch /tmp/file ; /tmp/file"
@@ -123,43 +121,10 @@ test_failed() {
 	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "	\"e\"'c'ho 'b'\"o\"nj\"o\"'u'r\";\"	"
-	test " export EMPTY ;
-export NOTEMPTY= ;
-export CHARS=AAA ;
-echo '\$CHARS' ;
-echo \$CHARS ;
-echo \$PWD\$HOMe\"\$VAR_NONEXISTANT\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY |wc -m ;"
-	test "
-		export EMPTY ;
-		export NOTEMPTY= ;
-		export CHARS=AAA ;
-		echo '\$CHARS' ;
-		echo \$CHARS ;
-		echo \$PWD\$VAR_NONEXISTANT\"\$VAR_NONEXISTANT\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY ;
-	"
-	test "
-		echo \"\$HOME\"
-		echo \$HOME
-		echo \"\$\"HOME
-		echo \$\"\"HOME
-		echo \"\"\$HOME
-		echo \$\"HOME\"
-		echo \$\"HO\"\"ME\"
-		echo \"\$HO\"\"ME\"
-		echo \"\$HO\"ME
-		echo \$\"HOME\"
-	"
-	test "
-		mkdir -p test1/test2/test3
-		cd test1/test2/test3
-		rm -r ../../../test1
-		cd ..
-		pwd
-		cd ..
-		pwd
-		cd ..
-		pwd
-	"
+	test " export EMPTY ; export NOTEMPTY= ; export CHARS=AAA ; echo '\$CHARS' ; echo \$CHARS ; echo \$PWD\$HOMe\"\$VAR_NONEXISTANT\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY |wc -m ;"
+	test " export EMPTY ; export NOTEMPTY= ; export CHARS=AAA ; echo '\$CHARS' ; echo \$CHARS ; echo \$PWD\$VAR_NONEXISTANT\"\$VAR_NONEXISTANT\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY ;"
+	test " echo \"\$HOME\" ; echo \$HOME ; echo \"\$\"HOME ; echo \$\"\"HOME ; echo \"\"\$HOME ; echo \$\"HOME\" ; echo \$\"HO\"\"ME\" ; echo \"\$HO\"\"ME\" ; echo \"\$HO\"ME ; echo \$\"HOME\" "
+	test " mkdir -p test1/test2/test3 ; cd test1/test2/test3 ; rm -rf ../../../test1 ; cd .. ; pwd ; cd .. ; pwd ; cd .. ; pwd "
 	test "export 4ABC=toto"
 	test "toto/tata=1"
 }
@@ -985,20 +950,20 @@ main () {
 		print_diff_full
 	else
 
-	#  test_random
-	#  test_bonus
-	#  test_executor
+	 test_random
+	 test_bonus
+	 test_executor
 	#  test_failed
-	#  test_signal
-	#  test_syntax
+	 test_signal
+	 test_syntax
 
-	# test_correction_arg
-	# test_correction_echo
-	# test_correction_exit
-	# test_correction_exec
-	# test_correction_return
-	# test_correction_semicolons
-	# test_correction_baskslashs
+	test_correction_arg
+	test_correction_echo
+	test_correction_exit
+	test_correction_exec
+	test_correction_return
+	test_correction_semicolons
+	test_correction_baskslashs
 	test_correction_env
 
 	test_correction_export_identifier
@@ -1008,14 +973,14 @@ main () {
 	test_correction_unset_identifier_mix_valid
 	test_correction_unset
 
-	# test_correction_exp
-	# test_correction_cd
-	# test_correction_pwd
-	# test_correction_PATH
-	# test_correction_simple_quotes
-	# test_correction_redirect
-	# test_correction_pipes
-	# test_correction_AND_OR
+	test_correction_exp
+	test_correction_cd
+	test_correction_pwd
+	test_correction_PATH
+	test_correction_simple_quotes
+	test_correction_redirect
+	test_correction_pipes
+	test_correction_AND_OR
 
 	fi
 
