@@ -2,8 +2,14 @@
 
 static bool	is_valid_identifier(char *av_to_test)
 {
- return (verif_assign_cmd(av_to_test) == false
-		&& (ft_isalpha(*av_to_test) == true || *av_to_test == '_'));
+	if (ft_strchr(av_to_test, '+') != NOT_FOUND
+			&& ft_strnstr(av_to_test, "+=", ft_strlen(av_to_test)) == NOT_FOUND)
+		return (false);
+ 	else if (verif_assign_cmd(av_to_test) == false
+					&& (ft_isalpha(*av_to_test) == true || *av_to_test == '_'))
+		return (true);
+	else
+		return (false);
 }
 
 static void	export_loop(char **av, const char *builtin)

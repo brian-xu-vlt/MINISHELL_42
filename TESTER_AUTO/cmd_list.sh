@@ -308,6 +308,7 @@ test_correction_env () {
 	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "env | sort "
+	test "export cat ; env | grep cat"
 	test "cat=meow ; env  | sort ; export"
 	test "export cat ; env  | sort ; export"
 	test "export cat=42 ; env  | sort ; export"
@@ -344,7 +345,7 @@ test_correction_export_identifier () {
 	test "export abcd^  ; export"
 	test "export abcd!  ; export"
 	test "export abcd?  ; export"
-	# test "export abcd+  ; export"
+	test "export abcd+  ; export"
 
 	test "export .  ; export"
 	test "export /  ; export"
@@ -358,7 +359,7 @@ test_correction_export_identifier () {
 	test "export ^  ; export"
 	test "export !  ; export"
 	test "export ?  ; export"
-	# test "export +  ; export"
+	test "export +  ; export"
 
 	test "export  _cat=42  ; export"
 	test "export  %cat=42  ; export"
@@ -379,7 +380,8 @@ test_correction_export_identifier () {
 	test "export abcd^=42  ; export"
 	test "export abcd!=42  ; export"
 	test "export abcd?=42  ; export"
-	# test "export abcd+=42  ; export"
+	test "export abcd+=42  ; export"
+	test "export abcd+efg=42  ; export"
 
 	test "export .=42  ; export"
 	test "export /=42  ; export"
@@ -393,7 +395,8 @@ test_correction_export_identifier () {
 	test "export ^=42  ; export"
 	test "export !=42  ; export"
 	test "export ?=42  ; export"
-	# test "export +=42  ; export"
+	test "export +=42  ; export"
+	test "export +a=42  ; export"
 
 }
 
@@ -563,6 +566,7 @@ test_correction_export () {
 	test "cat+=woof ; cat+=woof ; cat+=piaou ; export cat; export"
 	test "export cat=woof ; cat+=woof ; cat+=piaou ; export"
 	test "export cat+=woof ; cat+=woof ; cat+=piaou ; export"
+
 	test "export ERR+EUR=1 ; export"
 	test "export VAR-INVALID=1 ; export"
 	test "export PATH=42 ; export"
