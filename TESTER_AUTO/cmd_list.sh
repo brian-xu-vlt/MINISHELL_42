@@ -515,7 +515,20 @@ test_correction_export () {
 	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 
-	test "export"
+	test "export ; env | grep cat"
+	test "cat=MEOOW ; export cat; export | grep cat ; env | grep cat"
+	test "cat='' ; export cat ; export | grep cat ; env | grep cat"
+	test "cat=\"\" ; export cat ; export | grep cat ; env | grep cat"
+	test "cat='\"\"' ; export cat ; export | grep cat ; env | grep cat"
+	test "cat=\"''\" ; export cat ; export | grep cat ; env | grep cat"
+	test "cat='\"''\"' ; export cat ; export | grep cat ; env | grep cat"
+	test "export cat ; export | grep cat ; env | grep cat"
+	test "export cat=''; export | grep cat ; env | grep cat"
+	test "export cat='0'; export | grep cat ; env | grep cat"
+	test "export cat=\"\" ; export | grep cat ; env | grep cat"
+	test "export cat= export | grep cat ; env | grep cat"
+	test "export cat= ; export | grep cat ; env | grep cat"
+
 	test "cat=meow export food=pizza ; export ; export"
 	test "export -toto=1"
 	test "export cat=woof -toto=1"
@@ -530,14 +543,14 @@ test_correction_export () {
 	test "cat+=woof ; cat+=woof ; cat+=piaou ; export cat; export"
 	test "export cat=woof ; cat+=woof ; cat+=piaou ; export"
 	test "export cat+=woof ; cat+=woof ; cat+=piaou ; export"
-	test "export ERR+EUR=1"
-	test "export VAR-INVALID=1"
+	test "export ERR+EUR=1 ; export"
+	test "export VAR-INVALID=1 ; export"
 	test "export PATH=42 ; export"
 	test "export ; export"
 	test "cat=moew export | export"
 	test "export cat=moew | export"
 	test "cat=moew export"
-	test "export cat=moew"
+	test "export cat=moew ; export"
 	test "unset PATH ; export PATH ; export ; ls"
 	test "toto=42 ; echo \$? ; export to%to; echo \$? ; export"
 	test "toto=42 export to%to; echo \$? ; export"
@@ -576,6 +589,11 @@ test_correction_unset_identifier () {
 	test "unset cat=^"
 	test "unset cat=!"
 	test "unset cat=?"
+
+	test "unset cat=\"\""
+	test "unset cat=''"
+	test "unset cat=\"''\""
+	test "unset cat='\"\"'"
 
 	test "unset abcd."
 	test "unset abcd/"
@@ -938,12 +956,12 @@ main () {
 	# test_correction_baskslashs
 	# test_correction_env
 
-	test_correction_export_identifier
-	test_correction_export_identifier_mix_valid
-	test_correction_export
+	# test_correction_export_identifier
+	# test_correction_export_identifier_mix_valid
+	# test_correction_export
 	test_correction_unset_identifier
-	test_correction_unset_identifier_mix_valid
-	test_correction_unset
+	# test_correction_unset_identifier_mix_valid
+	# test_correction_unset
 
 	# test_correction_exp
 	# test_correction_cd
