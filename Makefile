@@ -59,6 +59,7 @@ HEADER += $(INCLUDES)struct_bonus.h
 SRCS += test_env_bonus.c
 SRCS += test_executor_bonus.c
 SRCS += main_bonus.c
+#SRCS += main_tester_valid_identifier.c
 #SRCS += main_tester_parser.c #TO DELETE
 #SRCS += main_tester_job_command.c #TO DELETE
 #SRCS += main_tester_cleaner_quote_bonus.c #TO DELETE
@@ -184,6 +185,7 @@ vpath %.c TESTER_PARSER/
 vpath %.c TESTER_JOB_COMMAND/
 vpath %.c TESTER_CLEANER_QUOTE/
 vpath %.c TESTER_CLEANER_QUOTE_EXP/
+vpath %.c TESTER_VALID_IDENTIFIER/
 
 OBJS = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 

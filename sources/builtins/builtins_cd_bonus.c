@@ -10,14 +10,11 @@ static int	handle_pwd(int flag, char *dir)
 	t_vector	*vct_home;
 	t_vector	*tmp;
 
-	//ft_printf("HANDLE PWD\n");//DEBUG
-	//ft_printf("dir = %s\n", dir);//DEBUG
 	buff = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
 	if (buff == NULL)
 	{
 		free(buff);
-		print_set_errno(errno, ERR_MALLOC, NULL, NULL);
-		exit(FAILURE);
+		exit_routine_le(ERR_MALLOC);
 	}
 	pwd = getcwd(buff, PATH_MAX);
 	if (pwd == NULL)

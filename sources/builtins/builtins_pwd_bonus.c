@@ -30,9 +30,8 @@ int			pwd_builtin(int ac, char **av, char **envp)
 	buff = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
 	if (buff == NULL)
 	{
-		print_set_errno(errno, ERR_MALLOC, NULL, NULL);
 		free(buff);
-		exit(FAILURE);
+		exit_routine_le(ERR_MALLOC);
 	}
 	pwd = getcwd(buff, PATH_MAX);
 	if (pwd == NULL)

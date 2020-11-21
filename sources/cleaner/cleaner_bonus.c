@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static void	free_clean_command(t_clean_cmd *clean_cmd, int flag)
+static void free_clean_command(t_clean_cmd *clean_cmd, int flag)
 {
 	size_t i;
 
@@ -17,10 +17,13 @@ static void	free_clean_command(t_clean_cmd *clean_cmd, int flag)
 			free(clean_cmd->av);
 		}
 		i = 0;
-		while (i < clean_cmd->count_redir)
+		if (clean_cmd->tab_redir != NULL)
 		{
-			free(clean_cmd->tab_redir[i]);
-			i++;
+			while (i < clean_cmd->count_redir)
+			{
+				free(clean_cmd->tab_redir[i]);
+				i++;
+			}
 		}
 		free(clean_cmd->tab_redir);
 		free(clean_cmd->tmp_tab_redir);
@@ -28,10 +31,10 @@ static void	free_clean_command(t_clean_cmd *clean_cmd, int flag)
 	}
 	free(clean_cmd);
 	if (flag == MALLOC || flag == NOT_ALL_FREE)
-		exit(FAILURE);
+		exit_routine_le(ERR_MALLOC);
 }
 
-t_clean_cmd	*init_clean_command(void)
+t_clean_cmd *init_clean_command(void)
 {
 	t_clean_cmd *clean_cmd;
 
@@ -55,11 +58,11 @@ t_clean_cmd	*init_clean_command(void)
 	return (clean_cmd);
 }
 
-static int	process_clean_command(t_cmd *cmd)
+static int process_clean_command(t_cmd *cmd)
 {
 	t_clean_cmd *clean_cmd;
-	int			index_cmd;
-	int			ret_cmd;
+	int index_cmd;
+	int ret_cmd;
 
 	clean_cmd = init_clean_command();
 	if (clean_cmd == NULL)
@@ -87,11 +90,11 @@ static int	process_clean_command(t_cmd *cmd)
 	return (SUCCESS);
 }
 
-char		*clean_quote(char *arg)
+char *clean_quote(char *arg)
 {
-	t_vector	*input;
-	t_vector	*output;
-	char		*transform_arg;
+	t_vector *input;
+	t_vector *output;
+	char *transform_arg;
 
 	input = vct_new();
 	output = vct_new();
@@ -111,10 +114,10 @@ char		*clean_quote(char *arg)
 	return (transform_arg);
 }
 
-int			cleaner(t_cmd *cmd)
+int cleaner(t_cmd *cmd)
 {
-	int		ret_cmd;
-	size_t	i;
+	int ret_cmd;
+	size_t i;
 
 	i = 0;
 	while (i < (size_t)cmd->ac)
