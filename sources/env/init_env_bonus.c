@@ -22,6 +22,13 @@ static void	increment_shlevel(t_list *env_lst)
 		ms_setenv_int(env_lst, "SHLVL", shlvl_int + 1, F_OVERWRITE | F_EXPORT);
 }
 
+static void	exit_routine_init_env(void)
+{
+	ft_putstr_fd(ERR_MALLOC, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	exit (FAILURE);
+}
+
 void		init_env(void)
 {
 	t_list		*env_lst;
@@ -30,9 +37,10 @@ void		init_env(void)
 
 	if (environ == NULL)
 		exit_routine_le(ERR_ENV);
+	env_lst = NULL;
 	env_lst = (t_list *)ft_calloc(1, sizeof(t_list));
 	if (env_lst == NULL)
-		exit_routine_le(ERR_MALLOC);
+		exit_routine_init_env();
 	get_env_list(env_lst);
 	index = 0;
 	while (environ[index] != NULL)

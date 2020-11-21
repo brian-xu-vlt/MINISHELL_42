@@ -24,6 +24,7 @@ static int	stat_path(const char *path_to_stat)
 	int			ret;
 
 	errno = 0;
+	ft_bzero(&statbuf, sizeof(struct stat));
 	ret = stat(path_to_stat, &statbuf);
 	if (S_ISDIR(statbuf.st_mode) != 0)
 		errno = EISDIR;

@@ -52,11 +52,8 @@ void		exit_routine_le(char *err_code)
 	}
 	if (err_code != ERR_NO_MESSAGE)
 	{
-		if (isatty(STDERR_FILENO) == TRUE)
-		{
-			ft_putstr_fd(err_code, STDERR_FILENO);
-			ft_putstr_fd("\n", STDERR_FILENO);
-		}
+		ft_putstr_fd(err_code, STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
 		if (err_code == NORMAL_EXIT)
 			exit(0);
 		exit(FAILURE);
