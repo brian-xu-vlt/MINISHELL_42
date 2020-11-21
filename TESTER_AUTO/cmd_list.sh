@@ -28,7 +28,7 @@ print_diff_simple (){
 	# not set by default
 	if [[ ! -z $SORT_RESULT ]]
 	then
-		echo -e "\n \e[36m ℹ️ This test sort the output in order to avoid race condition :\e[0m"
+		echo -e "\n \e[36m ℹ️  This test sort the output in order to avoid race condition :\e[0m"
 		cat /tmp/ba.log | sort > /tmp/ba_sorted.log ; cat /tmp/ba_sorted.log > /tmp/ba.log
 		cat /tmp/minishell.log | sort > /tmp/ms_sorted.log ; cat /tmp/ms_sorted.log > /tmp/minishell.log
 	fi
@@ -66,17 +66,19 @@ test () {
 	((TEST_NB+=1))
 	export TEST=$1
 
-	echo "$TEST" | env -i $EXTRA_ENV ./Minishell &>/tmp/minishell.log #; echo "RETURNED : $?" >> /tmp/minishell.log
-	echo "$TEST" | env -i $EXTRA_ENV bash --posix -i &>/tmp/ba.log #; echo "RETURNED : $?" >> /tmp/ba.log
+	echo "$TEST" | env -i $EXTRA_ENV bash --posix -i &>/tmp/ba.log
+	echo "$TEST" | env -i $EXTRA_ENV ./Minishell &>/tmp/minishell.log
+
+	echo -e "\n\n\t 🟡 [$TEST_NB][$TEST] 🟡 " >> /tmp/minishell_sumup
+	cat /tmp/minishell.log >> /tmp/minishell_sumup
+
+	echo -e "\n\n\t 🟡 [$TEST_NB][$TEST] 🟡 " >> /tmp/bash_sumup
+	cat /tmp/ba.log >> /tmp/bash_sumup
 	# echo "$TEST" | env -i $EXTRA_ENV ./Minishell &>/tmp/minishell.log
 	# echo "RETURNED : $?" >> /tmp/minishell.log
 	# echo "$TEST" | env -i $EXTRA_ENV bash --posix -i &>/tmp/ba.log
 	# echo "RETURNED : $?" >> /tmp/ba.log
 
-	echo -e "\n\n\t 🟡 [$TEST_NB][$TEST] 🟡 " >> /tmp/bash_sumup
-	cat /tmp/ba.log >> /tmp/bash_sumup
-	echo -e "\n\n\t 🟡 [$TEST_NB][$TEST] 🟡 " >> /tmp/minishell_sumup
-	cat /tmp/minishell.log >> /tmp/minishell_sumup
 
 	clean_log
 	print_diff_simple
@@ -862,10 +864,8 @@ test_correction_redirect(){
 	test "rm -rf /tmp/a ; touch /tmp/a >/tmp >/tmp >/ ; ls -l /tmp/a ; rm -rf /tmp/a ; echo \$?"
 	test "cal >/tmp ; echo \$?"
 	test "ls >/tmp >/tmp >/ ; echo \$?"
-	test "ls >/tmp >/tmp >/ | fakecommande ; echo \$?"
 	test "ls /tmp >/tmp >/ | cut -b 1-2 ; echo \$?"
 	test "echo aaaaaaaaa >/tmp >/tmp >/ ; echo \$?"
-	test "echo aaaaaaaaa >/tmp >/tmp >/ | fakecommande ; echo \$?"
 	test "echo aaaaaaaaa >/tmp >/tmp >/ | cut -b 1-2 ; echo \$?"
 	test "rm -rf /tmp/a ; echo aaa >/tmp >/tmp >/tmp/a ; ls -l /tmp/a ; echo \$?"
 	test "rm -rf /tmp/a ; echo aaa >/tmp/a /tmp >/tmp ; ls -l /tmp/a ; echo \$?"
@@ -995,14 +995,14 @@ main () {
 	# test_correction_return
 	# test_correction_semicolons
 	# test_correction_baskslashs
-	# test_correction_env
+	test_correction_env
 
-	# test_correction_export_identifier
-	# test_correction_export_identifier_mix_valid
-	# test_correction_export
-	# test_correction_unset_identifier
-	# test_correction_unset_identifier_mix_valid
-	# test_correction_unset
+	test_correction_export_identifier
+	test_correction_export_identifier_mix_valid
+	test_correction_export
+	test_correction_unset_identifier
+	test_correction_unset_identifier_mix_valid
+	test_correction_unset
 
 	# test_correction_exp
 	# test_correction_cd
