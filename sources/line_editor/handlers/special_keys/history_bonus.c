@@ -1,6 +1,5 @@
 #include "line_editor_bonus.h"
 
-
 static t_vector	*browse_history(long key)
 {
 	static t_list	*next_call_elem;
@@ -29,6 +28,16 @@ static t_vector	*browse_history(long key)
 	return ((t_vector *)cursor->content);
 }
 
+static void		backup_cmdline(t_le *le)
+{
+	if (le != NULL && le->cmd_line_backup == NULL && le->cmd_line != NULL)
+	{
+		le->cmd_line_backup = vct_strdup(le->cmd_line);
+		if (le->cmd_line_backup == NULL)
+			exit_routine_le(ERR_MALLOC);
+	}
+}
+
 void			call_history(long key)
 {
 	t_vector		*vct_history_element;
@@ -38,9 +47,7 @@ void			call_history(long key)
 	le = get_struct(GET);
 	if (le != NULL && le->history_cache != NULL)
 	{
-		if (le->cmd_line_backup == NULL)
-			if ((le->cmd_line_backup = vct_strdup(le->cmd_line)) == NULL)
-				exit_routine_le(ERR_MALLOC);
+		backup_cmdline(le);
 		vct_history_element = browse_history(key);
 		if (vct_history_element != NULL)
 			vct_cpy(le->cmd_line, vct_history_element);

@@ -204,7 +204,6 @@ void		cut_selection(void);
 
 void		save_history(void);
 void		call_history(long key);
-void		print_history(void);
 void		free_history(void);
 
 /*************************************************

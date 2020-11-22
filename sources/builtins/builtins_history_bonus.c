@@ -1,19 +1,9 @@
 #include "minishell_bonus.h"
 
-void			print_history(void)
+static void print_loop(t_le *le, t_list *cursor,int lst_size, int end_cursor)
 {
 	int				i;
-	int				lst_size;
-	int				end_cursor;
-	t_list			*cursor;
-	t_le			*le;
 
-	le = get_struct(GET);
-	cursor = le->history_cache;
-	if (cursor == NULL)
-		return ;
-	lst_size = ft_lstsize(cursor);
-	end_cursor = lst_size - 1;
 	while (end_cursor >= 0)
 	{
 		i = 0;
@@ -26,6 +16,25 @@ void			print_history(void)
 									vct_getstr((t_vector *)cursor->content));
 		cursor = le->history_cache;
 		end_cursor--;
+	}
+}
+
+static void	print_history(void)
+{
+	int				lst_size;
+	int				end_cursor;
+	t_list			*cursor;
+	t_le			*le;
+
+	le = get_struct(GET);
+	if (le != NULL)
+	{
+		cursor = le->history_cache;
+		if (cursor == NULL)
+			return ;
+		lst_size = ft_lstsize(cursor);
+		end_cursor = lst_size - 1;
+		print_loop(le, cursor, lst_size, end_cursor);
 	}
 }
 
