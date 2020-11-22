@@ -38,7 +38,5 @@ t_le	*get_struct(t_le *mem)
 
 	if (mem != NULL)
 		mem_backup = mem;
-	else if (mem == NULL && mem_backup == NULL)
-		exit_routine_le(ERR_MALLOC);
 	return (mem_backup);
 }

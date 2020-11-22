@@ -5,14 +5,12 @@ static void	del_history_elem(void *elem_content)
 	t_vector	*vct;
 
 	vct = (t_vector *)elem_content;
-	vct_del(&vct);
+	if (vct != NULL)
+		vct_del(&vct);
 }
 
-static void	free_history_list(void)
+static void	free_history_list(t_le *le)
 {
-	t_le		*le;
-
-	le = get_struct(GET);
 	if (le->history_cache != NULL)
 		ft_lstclear(&le->history_cache, del_history_elem);
 	le->history_cache = NULL;
@@ -34,28 +32,36 @@ static void	exit_routine_reset_terminal(t_le *le)
 void		exit_routine_le(char *err_code)
 {
 	t_le		*le;
+	t_list		*env_lst;
 	int			last_exit_status;
 
-	last_exit_status = get_env_value_int(get_env_list(GET), S_QUESTION_MARK);
 	le = get_struct(GET);
-	exit_routine_reset_terminal(le);
-	if (le->cmd_line_backup != NULL)
-		free(le->cmd_line_backup);
-	vct_del(&le->cmd_line);
-	vct_del(&le->clipboard);
-	free_env_list(get_env_list(GET));
-	free_history_list();
+	if (le != NULL)
+	{
+		exit_routine_reset_terminal(le);
+		if (le->cmd_line_backup != NULL)
+			free(le->cmd_line_backup);
+		vct_del(&le->cmd_line);
+		vct_del(&le->clipboard);
+		free_history_list(le);
+	}
+	env_lst = get_env_list(GET);
+	if (env_lst != NULL)
+	{
+		last_exit_status = get_env_value_int(env_lst, S_QUESTION_MARK);
+		free_env_list(env_lst);
+	}
 	if (ft_strequ(err_code, NORMAL_EXIT) == TRUE)
 	{
 		// ft_putstr_fd("exit\n", STDERR_FILENO);
 		exit(last_exit_status);
 	}
+	if (ft_strequ(err_code, ERR_MALLOC) == TRUE)
+		errno = ENOMEM;
 	if (err_code != ERR_NO_MESSAGE)
 	{
 		ft_putstr_fd(err_code, STDERR_FILENO);
 		ft_putstr_fd("\n", STDERR_FILENO);
-		if (err_code == NORMAL_EXIT)
-			exit(0);
 		exit(FAILURE);
 	}
 	exit(0);

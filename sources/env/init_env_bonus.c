@@ -24,6 +24,7 @@ static void	increment_shlevel(t_list *env_lst)
 
 static void	exit_routine_init_env(void)
 {
+	errno = ENOMEM;
 	ft_putstr_fd(ERR_MALLOC, STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
 	exit (FAILURE);
@@ -37,8 +38,7 @@ void		init_env(void)
 
 	if (environ == NULL)
 		exit_routine_le(ERR_ENV);
-	env_lst = NULL;
-	env_lst = (t_list *)ft_calloc(1, sizeof(t_list));
+	env_lst = ft_lstnew(NULL);
 	if (env_lst == NULL)
 		exit_routine_init_env();
 	get_env_list(env_lst);

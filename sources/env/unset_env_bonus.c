@@ -5,12 +5,15 @@ void		del_env_elem(void *elem_content)
 	char		*env_name;
 	t_vector	*env_value;
 
-	env_value = ((t_env *)elem_content)->env_value;
-	if (env_value != NULL)
-		vct_del(&env_value);
-	env_name = ((t_env *)elem_content)->env_name;
-	free(env_name);
-	free(elem_content);
+	if (elem_content != NULL)
+	{
+		env_value = ((t_env *)elem_content)->env_value;
+		if (env_value != NULL)
+			vct_del(&env_value);
+		env_name = ((t_env *)elem_content)->env_name;
+		free(env_name);
+		free(elem_content);
+	}
 }
 
 static int	is_list_head(t_list *cursor, t_list *node)

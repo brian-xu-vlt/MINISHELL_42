@@ -62,7 +62,5 @@ t_list		*get_env_list(t_list *mem)
 
 	if (mem != NULL)
 		mem_backup = mem;
-	else if (mem == NULL && mem_backup == NULL)
-		exit_routine_le(ERR_MALLOC);
 	return (mem_backup);
 }

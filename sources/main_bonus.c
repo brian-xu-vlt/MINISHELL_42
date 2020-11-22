@@ -66,6 +66,7 @@ int			main(int ac, char **av)
 	check_std_fd();
 	usage(ac, av);
 	init_env();
+	cmd_line = NULL;
 	cmd_line = vct_new();
 	if (cmd_line == NULL)
 		exit_routine_le(ERR_MALLOC);

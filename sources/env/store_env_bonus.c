@@ -16,7 +16,8 @@ static t_env	*store_new_env(t_list *env_lst, const char *env_name,
 		new_env->env_value = vct_new();
 		if (new_env->env_value == NULL)
 			exit_routine_le(ERR_MALLOC);
-		vct_addstr(new_env->env_value, (char *)env_value);
+		if (vct_addstr(new_env->env_value, (char *)env_value) == FAILURE)
+			exit_routine_le(ERR_MALLOC);
 	}
 	if (env_lst->content == NULL)
 		env_lst->content = new_env;
