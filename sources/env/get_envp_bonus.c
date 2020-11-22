@@ -10,6 +10,7 @@ static char	*create_env(const char *env_name, t_vector *env_value)
 {
 	int		env_name_len;
 	int		env_value_len;
+	char	*env_value_str;
 	char	*ret_str;
 
 	env_name_len = ft_strlen(env_name);
@@ -18,10 +19,11 @@ static char	*create_env(const char *env_name, t_vector *env_value)
 	if (ret_str == NULL)
 		exit_routine_le(ERR_MALLOC);
 	ft_memmove(ret_str, env_name, env_name_len);
-	if (env_value != NULL)
+	env_value_str = vct_getstr(env_value);
+	if (env_value_str != NULL)
 	{
 		ft_strcat(ret_str, "=");
-		ft_strcat(ret_str, vct_getstr(env_value));
+		ft_strcat(ret_str, env_value_str);
 	}
 	return (ret_str);
 }

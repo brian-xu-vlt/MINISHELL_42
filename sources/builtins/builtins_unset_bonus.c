@@ -4,7 +4,7 @@ static bool process_valid_identifier(t_vector *vct, char *av_to_check)
 {
     char    			c_first;
 
-    while (vct_getlen(vct) > 0)
+    while (vct != NULL && vct_getlen(vct) > 0)
     {
         c_first = vct_getfirstchar(vct);
         if (ft_isalnum(c_first) == false && c_first != C_EXP &&
@@ -27,7 +27,10 @@ static bool is_valid_identifier(char *av_to_check)
     char 				c_last;
 
     vct = vct_new();
-    vct_addstr(vct, av_to_check);
+    if (vct == NULL)
+        exit_routine_le(ERR_MALLOC);
+    if (vct_addstr(vct, av_to_check) == FAILURE)
+        exit_routine_le(ERR_MALLOC);
     c_first = vct_getfirstchar(vct);
     c_last = vct_getcharat(vct, vct_getlen(vct) - 1);
     if (c_last == C_EXP || ft_isdigit(c_first) == true)
