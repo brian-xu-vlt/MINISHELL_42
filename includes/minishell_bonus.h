@@ -184,6 +184,7 @@ void								debug_fd(int *fd);
 void								debug_fd_string(char **fd_sting);
 t_clean_cmd							*init_clean_command(void);
 int									get_cmd(t_cmd *cmd);
+char								*get_env_value_str(char *var);
 int									get_envp_av(t_cmd *cmd,
 													t_clean_cmd *clean_cmd,
 													int index_cmd);
@@ -276,7 +277,7 @@ int		unset_builtin(int argc, char **argv, char **envp);
 int		pwd_builtin(int ac, char **av, char **envp);
 int		echo_builtin(int ac, char **av, char **envp);
 int 	cd_builtin(int ac, char **av, char **envp);
-int 	handle_permission_denied(char **dir, char *dir_denied);
+char 	*handle_permission_denied(char *dir_denied);
 int 	check_cd_arg(int ac);
 int 	first_check(char *directory);
 void 	transform_new_dir(t_vector *new_dir, char *pwd, char *dir_denied);

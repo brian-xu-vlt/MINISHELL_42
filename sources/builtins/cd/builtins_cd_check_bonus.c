@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-int process_error(t_vector *vct_home, char *dir, t_vector *vct_old_pwd)
+int			process_error(t_vector *vct_home, char *dir, t_vector *vct_old_pwd)
 {
 	if (vct_home == NULL && dir == NULL)
 	{
@@ -25,7 +25,7 @@ int process_error(t_vector *vct_home, char *dir, t_vector *vct_old_pwd)
 	return (SUCCESS);
 }
 
-int check_cd_arg(int ac)
+int			check_cd_arg(int ac)
 {
 	if (ac > 2)
 	{
@@ -35,7 +35,7 @@ int check_cd_arg(int ac)
 	return (CD_CONTINUE);
 }
 
-static int check_directory(char *directory)
+static int	check_directory(char *directory)
 {
 	size_t i;
 	size_t count_dot;
@@ -58,7 +58,7 @@ static int check_directory(char *directory)
 	return (SUCCESS);
 }
 
-int first_check(char *directory)
+int			first_check(char *directory)
 {
 	DIR *dir;
 	int ret_directory;
@@ -67,7 +67,7 @@ int first_check(char *directory)
 	{
 		print_set_errno(0, "invalid option", STR_CD, directory);
 		ft_putendl_fd("cd: usage: cd [-L|[-P [-e]] [-@]] [dir]",
-					  STDERR_FILENO);
+					STDERR_FILENO);
 		return (CD_FAIL);
 	}
 	dir = opendir(directory);
@@ -82,19 +82,16 @@ int first_check(char *directory)
 			print_set_errno(errno, strerror(errno), STR_CD, directory);
 		return (CD_FAIL);
 	}
-	if (closedir(dir) == FAILURE)
-	{
-		print_set_errno(errno, strerror(errno), "closedir", NULL);
-		exit(FAILURE);
-	}
+	closedir(dir);
 	return (CD_CONTINUE);
 }
 
-int handle_permission_denied(char **dir, char *dir_denied)
+char		*handle_permission_denied(char *dir_denied)
 {
-	char *pwd;
-	char *buff;
-	t_vector *new_dir;
+	char		*pwd;
+	char		*buff;
+	char		*dir;
+	t_vector	*new_dir;
 
 	buff = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
 	if (buff == NULL)
@@ -105,10 +102,10 @@ int handle_permission_denied(char **dir, char *dir_denied)
 	new_dir = vct_new();
 	transform_new_dir(new_dir, pwd, dir_denied);
 	if (vct_getlen(new_dir) == 0)
-		*dir = ft_strdup(STR_ROOT);
+		dir = ft_strdup(STR_ROOT);
 	else
-		*dir = ft_strdup(vct_getstr(new_dir));
+		dir = ft_strdup(vct_getstr(new_dir));
 	vct_del(&new_dir);
 	free(buff);
-	return (SUCCESS);
+	return (dir);
 }

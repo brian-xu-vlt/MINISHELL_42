@@ -10,7 +10,7 @@ static void	put_error(const char *err_str, int colon_flag)
 void		print_set_errno(int errno_value, const char *err_str,
 						const char *function_name, const char *error_source)
 {
-	dup2(STDERR_FILENO, STDOUT_FILENO);
+	dup2(STDERR_FILENO, STDOUT_FILENO);  // WTF ??!!
 	put_error("Minishell", TRUE);
 	if (function_name != NULL)
 		put_error(function_name, TRUE);

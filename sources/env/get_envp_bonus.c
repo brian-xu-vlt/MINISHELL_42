@@ -1,5 +1,17 @@
 #include "minishell_bonus.h"
 
+char		*get_env_value_str(char *var)
+{
+	t_vector	*vct;
+	char		*str;
+
+	vct = get_env_value_vct(get_env_list(GET), var);
+	if (vct == NULL)
+		return (NULL);
+	str = vct_getstr(vct);
+	return (str);
+}
+
 static void	exit_routine_failed_envp(char **envp)
 {
 	free_char_arr(envp);
