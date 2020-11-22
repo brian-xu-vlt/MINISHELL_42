@@ -9,23 +9,14 @@ static void free_clean_command(t_clean_cmd *clean_cmd, int flag)
 	{
 		if (clean_cmd->av != NULL)
 		{
-			while (i < clean_cmd->ac)
-			{
-				free(clean_cmd->av[i]);
-				i++;
-			}
+			ft_free_tab(clean_cmd->av, clean_cmd->ac);
 			free(clean_cmd->av);
 		}
-		i = 0;
 		if (clean_cmd->tab_redir != NULL)
 		{
-			while (i < clean_cmd->count_redir)
-			{
-				free(clean_cmd->tab_redir[i]);
-				i++;
-			}
+			ft_free_tab(clean_cmd->tab_redir, clean_cmd->count_redir);
+			free(clean_cmd->tab_redir);
 		}
-		free(clean_cmd->tab_redir);
 		free(clean_cmd->tmp_tab_redir);
 		free(clean_cmd->tmp_av);
 	}
@@ -58,6 +49,19 @@ t_clean_cmd *init_clean_command(void)
 	return (clean_cmd);
 }
 
+static int	is_redirection(int ret_cmd, t_cmd *cmd, t_clean_cmd *clean_cmd)
+{
+	if (ret_cmd != NO_COMMAND)
+	{
+		if (process_redirection(cmd, clean_cmd) == FAILURE)
+		{
+			free_clean_command(clean_cmd, MALLOC);
+			return (FAILURE);
+		}
+	}
+	return (SUCCESS);
+}
+
 static int process_clean_command(t_cmd *cmd)
 {
 	t_clean_cmd *clean_cmd;
@@ -77,14 +81,8 @@ static int process_clean_command(t_cmd *cmd)
 		free_clean_command(clean_cmd, MALLOC);
 		return (FAILURE);
 	}
-	if (ret_cmd != NO_COMMAND)
-	{
-		if (process_redirection(cmd, clean_cmd) == FAILURE)
-		{
-			free_clean_command(clean_cmd, MALLOC);
-			return (FAILURE);
-		}
-	}
+	if (is_redirection(ret_cmd, cmd, clean_cmd) == FAILURE)
+		return (FAILURE);
 	cmd->name = (cmd->ac != 0 ? cmd->av[0] : NULL);
 	free_clean_command(clean_cmd, ALL_FREE);
 	return (SUCCESS);

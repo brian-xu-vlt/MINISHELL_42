@@ -1,5 +1,15 @@
 #include "minishell_bonus.h"
 
+static int	handle_error_malloc(t_list **head, t_job *job)
+{
+	if (*head == NULL || job == NULL)
+	{
+		if (*head == NULL)
+			free(job);
+		exit_routine_le(ERR_MALLOC);
+	}
+}
+
 static int	process_sep(t_list **head, t_list **jobs)
 {
 	t_list	*token_list;
@@ -9,12 +19,7 @@ static int	process_sep(t_list **head, t_list **jobs)
 
 	token_list = *head;
 	job = init_job();
-	if (*head == NULL || job == NULL)
-	{
-		if (*head == NULL)
-			free(job);
-		exit_routine_le(ERR_MALLOC);
-	}
+	handle_error_malloc(head, job);
 	init_cmd_var(&cmd, &token_list);
 	while (token_list != NULL && is_job_sep(token_list->content) == false)
 	{

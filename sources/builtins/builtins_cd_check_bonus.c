@@ -58,30 +58,37 @@ static int	check_directory(char *directory)
 	return (SUCCESS);
 }
 
+static int	error_message(char *directory, int flag, int ret_directory)
+{
+	if (flag == INVALID_OPTION)
+	{
+		print_set_errno(0, "invalid option", STR_CD, directory);
+		ft_putendl_fd("cd: usage: cd [-L|[-P [-e]] [-@]] [dir]",
+					  STDERR_FILENO);
+	}
+	if (flag == DIR_NULL)
+	{
+		if (ret_directory == FAILURE && errno == PERMISSION_DENIED)
+			print_set_errno(2, strerror(2), STR_CD, directory);
+		else
+			print_set_errno(errno, strerror(errno), STR_CD, directory);
+	}
+	return (CD_FAIL);
+}
+
 int			first_check(char *directory)
 {
 	DIR *dir;
 	int ret_directory;
 
 	if (ft_strlen(directory) > 1 && directory[0] == C_MINUS)
-	{
-		print_set_errno(0, "invalid option", STR_CD, directory);
-		ft_putendl_fd("cd: usage: cd [-L|[-P [-e]] [-@]] [dir]",
-						STDERR_FILENO);
-		return (CD_FAIL);
-	}
+		return (error_message(directory, INVALID_OPTION, ret_directory));
 	dir = opendir(directory);
 	ret_directory = check_directory(directory);
 	if (dir == NULL && errno == PERMISSION_DENIED && ret_directory == SUCCESS)
 		return (CD_CONTINUE);
 	if (dir == NULL)
-	{
-		if (ret_directory == FAILURE && errno == PERMISSION_DENIED)
-			print_set_errno(2, strerror(2), STR_CD, directory);
-		else
-			print_set_errno(errno, strerror(errno), STR_CD, directory);
-		return (CD_FAIL);
-	}
+		return (error_message(directory, DIR_NULL, ret_directory));
 	if (closedir(dir) == FAILURE)
 	{
 		print_set_errno(errno, strerror(errno), "closedir", NULL);

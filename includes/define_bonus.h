@@ -128,6 +128,13 @@
 #define POP_SPACE_TAB		0
 #define COUNT_NUM			1
 #define STR_UNSET				"unset"
+#define PWD_HOME			0
+#define PWD_DIR				1
+#define NOTHING				2
+#define PWD_OLDPWD			3
+#define INVALID_OPTION		0
+#define DIR_NULL			1
+
 
 /******************************************************************************/
 /*******************************_EXECUTOR_*************************************/

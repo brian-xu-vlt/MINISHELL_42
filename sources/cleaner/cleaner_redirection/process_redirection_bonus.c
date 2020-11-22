@@ -58,13 +58,8 @@ int							create_tab_redir(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	return (SUCCESS);
 }
 
-int							process_redirection(t_cmd *cmd,
-													t_clean_cmd *clean_cmd)
+static int	hub_process_redirection(t_cmd *cmd, t_clean_cmd *clean_cmd)
 {
-	size_t	i;
-
-	i = 0;
-	cmd->redirection = 0;
 	if (create_tab_redir(cmd, clean_cmd) == FAILURE)
 		return (FAILURE);
 	if (clean_redir_av(cmd, clean_cmd) == FAILURE)
@@ -72,6 +67,18 @@ int							process_redirection(t_cmd *cmd,
 		ft_free_tab(cmd->ac, clean_cmd->tmp_tab_redir);
 		return (FAILURE);
 	}
+	return (SUCCESS);
+}
+
+int							process_redirection(t_cmd *cmd,
+													t_clean_cmd *clean_cmd)
+{
+	size_t	i;
+
+	i = 0;
+	cmd->redirection = 0;
+	if (hub_process_redirection(cmd, clean_cmd) == FAILURE)
+		return (FAILURE);
 	cmd->tmp_fd_in = clean_cmd->tmp_fd_in;
 	cmd->tmp_fd_out = clean_cmd->tmp_fd_out;
 	cmd->tmp_fd_append = clean_cmd->tmp_fd_append;
