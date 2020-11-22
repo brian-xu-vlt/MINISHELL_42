@@ -510,6 +510,8 @@ test_correction_export () {
 	test "cat='\"\"' ; export cat ; export | grep cat ; env | grep cat"
 	test "cat=\"''\" ; export cat ; export | grep cat ; env | grep cat"
 	test "cat='\"''\"' ; export cat ; export | grep cat ; env | grep cat"
+	test "export toto='\\\"dd\\\"' ; env | grep toto"
+	test "export toto=\"\"'\"dd\"'\"\" ; env | grep toto ; export | grep toto ; echo \$toto"
 	test "export cat ; export | grep cat ; env | grep cat"
 	test "export cat=''; export | grep cat ; env | grep cat"
 	test "export cat='0'; export | grep cat ; env | grep cat"
@@ -950,37 +952,37 @@ main () {
 		print_diff_full
 	else
 
-	 test_random
-	 test_bonus
-	 test_executor
+	#  test_random
+	#  test_bonus
+	#  test_executor
 	#  test_failed
-	 test_signal
-	 test_syntax
+	#  test_signal
+	#  test_syntax
 
-	test_correction_arg
-	test_correction_echo
-	test_correction_exit
-	test_correction_exec
-	test_correction_return
-	test_correction_semicolons
-	test_correction_baskslashs
-	test_correction_env
+	# test_correction_arg
+	# test_correction_echo
+	# test_correction_exit
+	# test_correction_exec
+	# test_correction_return
+	# test_correction_semicolons
+	# test_correction_baskslashs
+	# test_correction_env
 
-	test_correction_export_identifier
-	test_correction_export_identifier_mix_valid
+	# test_correction_export_identifier
+	# test_correction_export_identifier_mix_valid
 	test_correction_export
-	test_correction_unset_identifier
-	test_correction_unset_identifier_mix_valid
-	test_correction_unset
+	# test_correction_unset_identifier
+	# test_correction_unset_identifier_mix_valid
+	# test_correction_unset
 
-	test_correction_exp
-	test_correction_cd
-	test_correction_pwd
-	test_correction_PATH
-	test_correction_simple_quotes
-	test_correction_redirect
-	test_correction_pipes
-	test_correction_AND_OR
+	# test_correction_exp
+	# test_correction_cd
+	# test_correction_pwd
+	# test_correction_PATH
+	# test_correction_simple_quotes
+	# test_correction_redirect
+	# test_correction_pipes
+	# test_correction_AND_OR
 
 	fi
 
