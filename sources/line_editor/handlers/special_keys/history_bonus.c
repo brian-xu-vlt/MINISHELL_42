@@ -1,35 +1,5 @@
 #include "line_editor_bonus.h"
 
-// peut devenir une sorte de builtin... ?
-
-void			print_history(void)
-{
-	int				i;
-	int				lst_size;
-	int				end_cursor;
-	t_list			*cursor;
-	t_le			*le;
-
-	le = get_struct(GET);
-	cursor = le->history_cache;
-	if (cursor == NULL)
-		return ;
-	lst_size = ft_lstsize(cursor);
-	end_cursor = lst_size - 1;
-	while (end_cursor >= 0)
-	{
-		i = 0;
-		while (i < end_cursor)
-		{
-			cursor = cursor->next;
-			i++;
-		}
-		ft_printf("%5d %s\n", lst_size - end_cursor,
-									vct_getstr((t_vector *)cursor->content));
-		cursor = le->history_cache;
-		end_cursor--;
-	}
-}
 
 static t_vector	*browse_history(long key)
 {
@@ -64,8 +34,9 @@ void			call_history(long key)
 	t_vector		*vct_history_element;
 	t_le			*le;
 
+	le = NULL;
 	le = get_struct(GET);
-	if (le->history_cache != NULL)
+	if (le != NULL && le->history_cache != NULL)
 	{
 		if (le->cmd_line_backup == NULL)
 			if ((le->cmd_line_backup = vct_strdup(le->cmd_line)) == NULL)
@@ -89,8 +60,9 @@ void			save_history(void)
 	t_list			*new_history_element;
 	t_le			*le;
 
+	le = NULL;
 	le = get_struct(GET);
-	if (vct_getlen(le->cmd_line) > 0)
+	if (le != NULL && vct_getlen(le->cmd_line) > 0)
 	{
 		new_history_element = ft_lstnew(vct_dup(le->cmd_line));
 		if (new_history_element == NULL)

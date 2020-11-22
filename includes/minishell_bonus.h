@@ -269,6 +269,7 @@ void	print_invalid_option(const char *function_name,
 /*******************************_BUILTINS_*************************************/
 /******************************************************************************/
 
+int		history_builtin(int ac, char **av, char **envp);
 int		exit_builtin(int ac, char **av, char **envp);
 int		env_builtin(int argc, char **argv, char **envp);
 int		export_builtin(int argc, char **argv, char **envp);

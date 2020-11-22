@@ -157,6 +157,7 @@ SRCS += quote_checker_bonus.c
 SRCS += builtins_cd_transform_bonus.c
 SRCS += builtins_cd_check_bonus.c
 SRCS += builtins_exit_utils_bonus.c
+SRCS += builtins_history_bonus.c
 
 
 OBJ_DIR = ./objs/
