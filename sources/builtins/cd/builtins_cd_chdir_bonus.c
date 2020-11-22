@@ -10,12 +10,12 @@ int handle_permission_not(char *dir, char *pwd, char *old_dir)
 
 	tmp = vct_new();
 	get_value(vct_pwd, vct_old, vct_home);
-	if (ft_strlen(dir) != 0 && dir[0] != '.' && dir[0] != '/')
+	if (ft_strlen(dir) != 0 && dir[0] != DOT && dir[0] != C_PATH)
 	{
 		if (ft_strequ(old_dir, STR_MINUS) == FALSE)
-			print_set_errno(0, "Permission denied", "cd", dir);
+			print_set_errno(0, ERR_PERMISSION, STR_CD, dir);
 		else
-			print_set_errno(0, "Not a directory", "cd", dir);
+			print_set_errno(0, ERR_NOT_DIR, STR_CD, dir);
 		ms_setenv(get_env_list(GET), ENV_PWD, pwd, F_EXPORT | F_OVERWRITE);
 		free(pwd);
 		vct_del(&tmp);
@@ -30,15 +30,15 @@ static void handle_chdir_failure(char *dir, char *old_dir, char *real_dir)
 {
 	if (errno == 13)
 	{
-		ft_putstr_fd("Minishell: cd: ", STDERR_FILENO);
+		ft_putstr_fd(CD_BUILT, STDERR_FILENO);
 		ft_putstr_fd(dir, STDERR_FILENO);
 		if (ft_strequ(old_dir, STR_MINUS) == TRUE)
 		{
-			ft_putendl_fd(": Permission denied", STDERR_FILENO);
+			ft_putendl_fd(ERR_PERMISSION_SPACE, STDERR_FILENO);
 			swap_pwd(PWD_OLDPWD, dir);
 		}
 		else
-			ft_putendl_fd(": Not a directory", STDERR_FILENO);
+			ft_putendl_fd(ERR_NOT_DIR_SPACE, STDERR_FILENO);
 	}
 	else
 		print_set_errno(errno, strerror(errno), STR_CD, real_dir);

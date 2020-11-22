@@ -20,7 +20,7 @@ static void handle_normal(int flag, char *pwd, char *buff)
 static int handle_pwd_error(char *buff, char *dir)
 {
 	free(buff);
-	if (dir == NULL || (ft_strlen(dir) != 0 && dir[0] == '/'))
+	if (dir == NULL || (ft_strlen(dir) != 0 && dir[0] == C_PATH))
 	{
 		swap_pwd(dir == NULL ? PWD_HOME : PWD_DIR, dir);
 		return (SUCCESS);

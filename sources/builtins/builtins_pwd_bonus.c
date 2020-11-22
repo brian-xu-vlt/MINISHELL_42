@@ -7,8 +7,8 @@ static int	pwd_error_option(char *str)
 	option = vct_new();
 	vct_add(option, str[0]);
 	vct_add(option, str[1]);
-	print_set_errno(0, "invalid option", "pwd", vct_getstr(option));
-	ft_putstr_fd("pwd: usage: pwd [-LP]\n", STDERR_FILENO);
+	print_set_errno(0, ERR_PWD_OPT, STR_PWD, vct_getstr(option));
+	ft_putstr_fd(ERR_PWD_US, STDERR_FILENO);
 	vct_del(&option);
 	return (SUCCESS);
 }
@@ -36,7 +36,7 @@ int			pwd_builtin(int ac, char **av, char **envp)
 	pwd = getcwd(buff, PATH_MAX);
 	if (pwd == NULL)
 	{
-		ft_putendl_fd("pwd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", STDERR_FILENO);
+		ft_putendl_fd(ERR_GET_PWD, STDERR_FILENO);
 		free(buff);
 		return (PWD_FAIL);
 	}

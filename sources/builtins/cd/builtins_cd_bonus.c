@@ -16,7 +16,7 @@ static int hub_process_chdir(char *dir, t_vector *vct_home)
 	if (ret_pwd != SUCCESS)
 	{
 		free(old_dir);
-		return (ret_pwd == 3 ? 1 : ret_pwd);
+		return (ret_pwd == 3 ? TRUE : ret_pwd);
 	}
 	ret_chdir = process_chdir(vct_home, dir, NULL, NULL);
 	free(old_dir);
@@ -52,15 +52,15 @@ int cd_builtin(int ac, char **av, char **envp)
 	{
 		ret_check = first_check(av[1]);
 		if (ret_check != CD_CONTINUE)
-			return (ret_check == CD_FAIL ? 1 : FAILURE);
+			return (ret_check == CD_FAIL ? TRUE : FAILURE);
 	}
 	if (ac != 1 && ft_strlen(av[1]) == 0)
 		return (SUCCESS);
 	ret_cd = process_cd(av[1]);
-	if (ret_cd == 2 && (ac > 1 && ft_strlen(av[1]) != 0 && av[1][0] != '/'))
+	if (ret_cd == 2 && (ac > 1 && ft_strlen(av[1]) != 0 && av[1][0] != C_PATH))
 	{
-		ret_cd = 1;
-		print_set_errno(0, "No such file or directory", "cd", av[1]);
+		ret_cd = TRUE;
+		print_set_errno(0, ERR_NO_FILE, STR_CD, av[1]);
 	}
 	return (ret_cd);
 }
