@@ -1,6 +1,5 @@
 #include "minishell_bonus.h"
 
-
 static int	process_lexer_no_word(ssize_t type, t_list **token_list,
 		t_vector *word, t_vector *input)
 {

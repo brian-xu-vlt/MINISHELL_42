@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static void handle_normal(int flag, char *pwd, char *buff)
+static void	handle_normal(int flag, char *pwd, char *buff)
 {
 	t_vector *vct_pwd;
 	t_vector *vct_old;
@@ -17,7 +17,7 @@ static void handle_normal(int flag, char *pwd, char *buff)
 	free(buff);
 }
 
-static int handle_pwd_error(char *buff, char *dir)
+static int	handle_pwd_error(char *buff, char *dir)
 {
 	free(buff);
 	if (dir == NULL || (ft_strlen(dir) != 0 && dir[0] == C_PATH))
@@ -30,12 +30,12 @@ static int handle_pwd_error(char *buff, char *dir)
 	return (FAILURE);
 }
 
-int handle_pwd(int flag, char *dir, char *old_dir)
+int			handle_pwd(int flag, char *dir, char *old_dir)
 {
-	char *pwd;
-	char *old;
-	char *buff;
-	int ret;
+	char	*pwd;
+	char	*old;
+	char	*buff;
+	int		ret;
 
 	buff = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
 	if (buff == NULL)
@@ -57,13 +57,13 @@ int handle_pwd(int flag, char *dir, char *old_dir)
 	return (SUCCESS);
 }
 
-int handle_old_pwd(char *old_dir)
+int			handle_old_pwd(char *old_dir)
 {
-	t_vector *tmp;
-	t_vector *pwd;
-	t_vector *dir_old_pwd;
-	t_vector *vct_home;
-	int ret_chdir;
+	t_vector	*tmp;
+	t_vector	*pwd;
+	t_vector	*dir_old_pwd;
+	t_vector	*vct_home;
+	int			ret_chdir;
 
 	tmp = vct_new();
 	get_value(pwd, dir_old_pwd, vct_home);

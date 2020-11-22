@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-void free_clean_command(t_clean_cmd *clean_cmd, int flag)
+void		free_clean_command(t_clean_cmd *clean_cmd, int flag)
 {
 	size_t i;
 
@@ -25,7 +25,7 @@ void free_clean_command(t_clean_cmd *clean_cmd, int flag)
 		exit_routine_le(ERR_MALLOC);
 }
 
-t_clean_cmd *init_clean_command(void)
+t_clean_cmd	*init_clean_command(void)
 {
 	t_clean_cmd *clean_cmd;
 
@@ -49,7 +49,7 @@ t_clean_cmd *init_clean_command(void)
 	return (clean_cmd);
 }
 
-int	count_clean_exp(char **av, size_t size)
+int			count_clean_exp(char **av, size_t size)
 {
 	size_t	i;
 	size_t	clean_exp;

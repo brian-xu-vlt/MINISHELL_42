@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static size_t process_clean(size_t size, char **dest, char **src)
+static size_t	process_clean(size_t size, char **dest, char **src)
 {
 	size_t fake_av;
 	size_t real_av;
@@ -20,7 +20,7 @@ static size_t process_clean(size_t size, char **dest, char **src)
 	return (real_av);
 }
 
-static int free_av(size_t ac, int i_dup, char **tmp_av)
+static int		free_av(size_t ac, int i_dup, char **tmp_av)
 {
 	size_t	real_av;
 	size_t	i;
@@ -30,7 +30,7 @@ static int free_av(size_t ac, int i_dup, char **tmp_av)
 	while (real_av < ac)
 	{
 		if (i == i_dup)
-			break;
+			break ;
 		if (tmp_av[real_av] != NULL)
 		{
 			free(tmp_av[real_av]);
@@ -41,7 +41,7 @@ static int free_av(size_t ac, int i_dup, char **tmp_av)
 	return (FAILURE);
 }
 
-static int clean_av(t_cmd *cmd, t_clean_cmd *clean_cmd, size_t nb_av)
+static int		clean_av(t_cmd *cmd, t_clean_cmd *clean_cmd, size_t nb_av)
 {
 	size_t real_av;
 	size_t i_dup;
@@ -65,14 +65,14 @@ static int clean_av(t_cmd *cmd, t_clean_cmd *clean_cmd, size_t nb_av)
 	return (SUCCESS);
 }
 
-static void clean_redir(t_clean_cmd *clean_cmd, size_t nb_redir)
+static void		clean_redir(t_clean_cmd *clean_cmd, size_t nb_redir)
 {
 	process_clean((size_t)clean_cmd->ac, clean_cmd->tab_redir,
-				  clean_cmd->tmp_tab_redir);
+					clean_cmd->tmp_tab_redir);
 	clean_cmd->count_redir = nb_redir;
 }
 
-int clean_redir_av(t_cmd *cmd, t_clean_cmd *clean_cmd)
+int				clean_redir_av(t_cmd *cmd, t_clean_cmd *clean_cmd)
 {
 	size_t nb_av;
 	size_t nb_redir;

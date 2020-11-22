@@ -13,11 +13,11 @@ static int	is_redirection(int ret_cmd, t_cmd *cmd, t_clean_cmd *clean_cmd)
 	return (SUCCESS);
 }
 
-static int process_clean_command(t_cmd *cmd)
+static int	process_clean_command(t_cmd *cmd)
 {
-	t_clean_cmd *clean_cmd;
-	int index_cmd;
-	int ret_cmd;
+	t_clean_cmd	*clean_cmd;
+	int			index_cmd;
+	int			ret_cmd;
 
 	clean_cmd = init_clean_command();
 	if (clean_cmd == NULL)
@@ -39,11 +39,11 @@ static int process_clean_command(t_cmd *cmd)
 	return (SUCCESS);
 }
 
-char *clean_quote(char *arg)
+char		*clean_quote(char *arg)
 {
-	t_vector *input;
-	t_vector *output;
-	char *transform_arg;
+	t_vector	*input;
+	t_vector	*output;
+	char		*transform_arg;
 
 	input = vct_new();
 	output = vct_new();
@@ -63,10 +63,10 @@ char *clean_quote(char *arg)
 	return (transform_arg);
 }
 
-int cleaner(t_cmd *cmd)
+int			cleaner(t_cmd *cmd)
 {
-	int ret_cmd;
-	size_t i;
+	int		ret_cmd;
+	size_t	i;
 
 	i = 0;
 	while (i < (size_t)cmd->ac)

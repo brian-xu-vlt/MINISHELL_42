@@ -1,12 +1,12 @@
 #include "minishell_bonus.h"
 
-int handle_permission_not(char *dir, char *pwd, char *old_dir)
+int			handle_permission_not(char *dir, char *pwd, char *old_dir)
 {
-	t_vector *vct_pwd;
-	t_vector *vct_old;
-	t_vector *vct_home;
-	t_vector *tmp;
-	char *old;
+	t_vector	*vct_pwd;
+	t_vector	*vct_old;
+	t_vector	*vct_home;
+	t_vector	*tmp;
+	char		*old;
 
 	tmp = vct_new();
 	get_value(vct_pwd, vct_old, vct_home);
@@ -26,7 +26,7 @@ int handle_permission_not(char *dir, char *pwd, char *old_dir)
 	return (SUCCESS);
 }
 
-static void handle_chdir_failure(char *dir, char *old_dir, char *real_dir)
+static void	handle_chdir_failure(char *dir, char *old_dir, char *real_dir)
 {
 	if (errno == 13)
 	{
@@ -67,12 +67,12 @@ int			handle_permission_denied(char **dir, char *dir_denied)
 	return (SUCCESS);
 }
 
-int process_chdir(t_vector *vct_home, char *dir, char *old_dir,
-						 char *dir_old_pwd)
+int			process_chdir(t_vector *vct_home, char *dir, char *old_dir,
+							char *dir_old_pwd)
 {
-	char *real_dir;
-	char *dir_denied;
-	int ret_chdir;
+	char	*real_dir;
+	char	*dir_denied;
+	int		ret_chdir;
 
 	real_dir = ft_strdup(dir == NULL && vct_getlen(vct_home) != 0 ?
 					vct_getstr(vct_home) : dir);

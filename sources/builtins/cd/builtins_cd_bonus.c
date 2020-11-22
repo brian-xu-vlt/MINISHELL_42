@@ -1,11 +1,11 @@
 #include "minishell_bonus.h"
 
-static int hub_process_chdir(char *dir, t_vector *vct_home)
+static int	hub_process_chdir(char *dir, t_vector *vct_home)
 {
-	int ret_chdir;
-	int ret_pwd;
-	char *old_dir;
-	t_vector *vct_home;
+	int			ret_chdir;
+	int			ret_pwd;
+	char		*old_dir;
+	t_vector	*vct_home;
 
 	old_dir = NULL;
 	if (dir != NULL)
@@ -23,11 +23,11 @@ static int hub_process_chdir(char *dir, t_vector *vct_home)
 	return (ret_chdir);
 }
 
-static int process_cd(char *dir)
+static int	process_cd(char *dir)
 {
-	t_vector *vct_home;
-	t_vector *vct_old_pwd;
-	int ret_process_chdir;
+	t_vector	*vct_home;
+	t_vector	*vct_old_pwd;
+	int			ret_process_chdir;
 
 	vct_home = get_env_value_vct(get_env_list(GET), ENV_HOME);
 	vct_old_pwd = get_env_value_vct(get_env_list(GET), ENV_OLD_PWD);
@@ -39,7 +39,7 @@ static int process_cd(char *dir)
 	return (ret_process_chdir);
 }
 
-int cd_builtin(int ac, char **av, char **envp)
+int			cd_builtin(int ac, char **av, char **envp)
 {
 	int ret_check;
 	int ret_cd;

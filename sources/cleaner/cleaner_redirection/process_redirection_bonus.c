@@ -5,15 +5,14 @@ static int	hub_process_redirection(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	if (create_tab_redir(cmd, clean_cmd) == FAILURE)
 		return (FAILURE);
 	if (clean_redir_av(cmd, clean_cmd) == FAILURE)
-	{	
+	{
 		ft_free_tab(cmd->ac, clean_cmd->tmp_tab_redir);
 		return (FAILURE);
 	}
 	return (SUCCESS);
 }
 
-int							process_redirection(t_cmd *cmd,
-													t_clean_cmd *clean_cmd)
+int			process_redirection(t_cmd *cmd, t_clean_cmd *clean_cmd)
 {
 	size_t	i;
 

@@ -1,13 +1,13 @@
 #include "minishell_bonus.h"
 
-void get_value(t_vector *vct_pwd, t_vector *vct_old, t_vector *vct_home)
+void		get_value(t_vector *vct_pwd, t_vector *vct_old, t_vector *vct_home)
 {
 	vct_pwd = get_env_value_vct(get_env_list(GET), ENV_PWD);
 	vct_old = get_env_value_vct(get_env_list(GET), ENV_OLD_PWD);
 	vct_home = get_env_value_vct(get_env_list(GET), ENV_HOME);
 }
 
-static void set_env(t_vector *vct_pwd, t_vector *vct_old)
+static void	set_env(t_vector *vct_pwd, t_vector *vct_old)
 {
 	char *pwd;
 	char *old;
@@ -20,7 +20,7 @@ static void set_env(t_vector *vct_pwd, t_vector *vct_old)
 	free(old);
 }
 
-void swap_pwd(int flag, char *dir)
+void		swap_pwd(int flag, char *dir)
 {
 	t_vector *vct_pwd;
 	t_vector *vct_old;

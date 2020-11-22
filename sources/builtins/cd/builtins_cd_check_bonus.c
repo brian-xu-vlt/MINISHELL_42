@@ -95,4 +95,3 @@ int			first_check(char *directory)
 	}
 	return (CD_CONTINUE);
 }
-

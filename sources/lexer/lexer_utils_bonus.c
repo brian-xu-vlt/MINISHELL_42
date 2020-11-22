@@ -10,7 +10,7 @@ const char	*get_token_str(const int type)
 	return (tokens[type]);
 }
 
-int	no_word(t_list **token_list, t_vector *word, size_t type)
+int			no_word(t_list **token_list, t_vector *word, size_t type)
 {
 	int	ret;
 
