@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static int	handle_error_malloc(t_list **head, t_job *job)
+static void	handle_error_malloc(t_list **head, t_job *job)
 {
 	if (*head == NULL || job == NULL)
 	{

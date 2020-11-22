@@ -291,13 +291,11 @@ int		process_error(t_vector *vct_home, char *dir, t_vector *vct_old_pwd);
 int		print_error(t_vector *vct_av, char *av, char c, int flag);
 void	handle_exit_value(t_vector *vct_av, t_vector *vct_av_cpy, char c);
 int 	handle_old_pwd(char *old_dir);
-int 	handle_pwd(int flag, char *dir, char *old_dir);
-int 	process_chdir(t_vector *vct_home, char *dir, char *old_dir,
-						char *dir_old_pwd);
 int 	handle_permission_not(char *dir, char *pwd, char *old_dir);
 void 	swap_pwd(int flag, char *dir);
-void 	get_value(t_vector *vct_pwd, t_vector *vct_old, t_vector *vct_home);
+void 	get_value(t_vector **vct_pwd, t_vector **vct_old, t_vector **vct_home);
 void 	free_clean_command(t_clean_cmd *clean_cmd, int flag);
+void	set_env(t_vector *vct_pwd, t_vector *vct_old);
 
 /******************************************************************************/
 /*******************************_ENV_MANAGER_**********************************/

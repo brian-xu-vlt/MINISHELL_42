@@ -2,19 +2,16 @@
 
 void		free_clean_command(t_clean_cmd *clean_cmd, int flag)
 {
-	size_t i;
-
-	i = 0;
 	if (flag == ALL_FREE || flag == MALLOC)
 	{
 		if (clean_cmd->av != NULL)
 		{
-			ft_free_tab(clean_cmd->av, clean_cmd->ac);
+			ft_free_tab(clean_cmd->ac, clean_cmd->av);
 			free(clean_cmd->av);
 		}
 		if (clean_cmd->tab_redir != NULL)
 		{
-			ft_free_tab(clean_cmd->tab_redir, clean_cmd->count_redir);
+			ft_free_tab(clean_cmd->count_redir, clean_cmd->tab_redir);
 			free(clean_cmd->tab_redir);
 		}
 		free(clean_cmd->tmp_tab_redir);

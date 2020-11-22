@@ -13,11 +13,11 @@ static int	pwd_error_option(char *str)
 	return (SUCCESS);
 }
 
-static int	first_check(int ac, char *av)
+static int	first_check_pwd(int ac, char *av)
 {
 	if (ac != 1 && ft_strlen(av) >= 1 && av[0] == '-')
 	{
-		pwd_error_option(av[1]);
+		pwd_error_option(av);
 		return (PWD_FAIL);
 	}
 	return (SUCCESS);
@@ -31,7 +31,7 @@ int			pwd_builtin(int ac, char **av, char **envp)
 	errno = SUCCESS;
 	pwd = NULL;
 	(void)envp;
-	if (first_chek(ac, av[1]) == PWD_FAIL)
+	if (first_check_pwd(ac, av[1]) == PWD_FAIL)
 		return (PWD_FAIL);
 	buff = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
 	if (buff == NULL)
