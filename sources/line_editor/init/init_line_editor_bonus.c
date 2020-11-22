@@ -48,9 +48,9 @@ void		init_line_editor(t_vector *cmd_line)
 	t_le	*le;
 
 	le = (t_le *)ft_calloc(1, sizeof(t_le));
-	get_struct(le);
 	if (le == NULL)
 		exit_routine_le(ERR_MALLOC);
+	get_struct(le);
 	le->prompt_len = ft_strlen(PROMPT_LINE_EDITION);
 	le->clipboard = vct_new();
 	if (le->clipboard == NULL)
