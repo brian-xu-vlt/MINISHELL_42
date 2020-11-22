@@ -156,6 +156,11 @@ SRCS += quote_checker_bonus.c
 SRCS += builtins_cd_transform_bonus.c
 SRCS += builtins_cd_check_bonus.c
 SRCS += builtins_exit_utils_bonus.c
+SRCS += builtins_cd_pwd_bonus.c
+SRCS += builtins_cd_chdir_bonus.c
+SRCS += builtins_cd_swap_bonus.c
+SRCS += create_tab_redir_bonus.c
+SRCS += lexer_utils_bonus.c
 
 
 OBJ_DIR = ./objs/
@@ -181,6 +186,8 @@ vpath %.c sources/cleaner
 vpath %.c sources/cleaner/cleaner_command
 vpath %.c sources/cleaner/cleaner_redirection
 vpath %.c sources/cleaner/cleaner_quote
+vpath %.c sources/builtins/cd
+vpath %.c sources/builtins/exit
 
 OBJS = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 

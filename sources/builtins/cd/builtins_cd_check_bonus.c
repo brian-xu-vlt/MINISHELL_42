@@ -97,25 +97,3 @@ int			first_check(char *directory)
 	return (CD_CONTINUE);
 }
 
-int			handle_permission_denied(char **dir, char *dir_denied)
-{
-	char		*pwd;
-	char		*buff;
-	t_vector	*new_dir;
-
-	buff = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
-	if (buff == NULL)
-		exit_routine_le(ERR_MALLOC);
-	pwd = getcwd(buff, PATH_MAX);
-	if (pwd == NULL)
-		exit_routine_le(ERR_MALLOC);
-	new_dir = vct_new();
-	transform_new_dir(new_dir, pwd, dir_denied);
-	if (vct_getlen(new_dir) == 0)
-		*dir = ft_strdup(STR_ROOT);
-	else
-		*dir = ft_strdup(vct_getstr(new_dir));
-	vct_del(&new_dir);
-	free(buff);
-	return (SUCCESS);
-}
