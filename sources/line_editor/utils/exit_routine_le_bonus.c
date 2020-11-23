@@ -64,5 +64,6 @@ void		exit_routine_le(char *err_code)
 		ft_putstr_fd("\n", STDERR_FILENO);
 		exit(FAILURE);
 	}
+	ft_printf("LA ?\n");//DEBUG
 	exit(0);
 }
