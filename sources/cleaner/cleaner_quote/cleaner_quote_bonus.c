@@ -85,7 +85,8 @@ static int	handle_char(char c, t_vector *input, t_vector *output)
 	else if (c == C_EXPORT)
 	{
 		parse_expansion(input, output);
-		if (vct_getfirstchar(output) == C_EXP)
+		if (vct_getfirstchar(output) == C_EXP && vct_getlen(input) != 0
+				&& vct_getfirstchar(input) != C_BACKSLASH)
 			vct_pop(output);
 	}
 	else

@@ -52,6 +52,8 @@
 #define TOKEN			1
 
 #define NEWLINE			"newline"
+#define ERR_SYNTAX 		"syntax error : unclosed quotting expression"
+#define ERR_NEWLINE 	"syntax error : missing newline"
 
 /******************************************************************************/
 /*******************************_CLEANER_**************************************/
@@ -127,6 +129,32 @@
 #define LEN_PLUS_LONG		19
 #define POP_SPACE_TAB		0
 #define COUNT_NUM			1
+#define STR_UNSET				"unset"
+#define PWD_HOME			0
+#define PWD_DIR				1
+#define NOTHING				2
+#define PWD_OLDPWD			3
+#define INVALID_OPTION		0
+#define DIR_NULL			1
+#define ERR_PERMISSION		"Permission denied"
+#define ERR_NOT_DIR			"Not a directory"
+#define CD_BUILT			"Minishell: cd:"
+#define ERR_PERMISSION_SPACE	": Permission denied"
+#define ERR_NOT_DIR_SPACE		": Not a directory"
+#define HOME_SET			"HOME not set"
+#define OLDPWD_SET			"OLDPWD not set"
+#define OLDPWD_VALUE		"OLDPWD has no value"
+#define HOME_VALUE			"HOME has no value"
+#define ERR_ARG				"too many arguments"
+#define ERR_OPT				"invalid option"
+#define ERR_USAGE 			"cd: usage: cd [-L|[-P [-e]] [-@]] [dir]"
+#define ERR_CLOSE 			"closedir"
+#define ERR_NUM 			"numeric argument required"
+#define ERR_MANY 			"too many arguments"
+#define ERR_PWD_OPT			"invalid option"
+#define STR_PWD				"pwd"
+#define ERR_PWD_US 			"pwd: usage: pwd [-LP]\n"
+#define ERR_GET_PWD 		"pwd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory"
 
 #define BUILTIN_ENV_FAILURE			125
 

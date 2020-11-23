@@ -69,6 +69,11 @@ test () {
 	echo "$TEST" | env -i $EXTRA_ENV bash --posix -i &>/tmp/ba.log
 	echo "$TEST" | env -i $EXTRA_ENV ./Minishell &>/tmp/minishell.log
 
+	# pour ENV
+	# echo "$TEST" | $EXTRA_ENV bash --posix -i &>/tmp/ba.log
+	# echo "$TEST" | $EXTRA_ENV ./Minishell &>/tmp/minishell.log
+	#
+
 	echo -e "\n\n\t 🟡 [$TEST_NB][$TEST] 🟡 " >> /tmp/minishell_sumup
 	cat /tmp/minishell.log >> /tmp/minishell_sumup
 

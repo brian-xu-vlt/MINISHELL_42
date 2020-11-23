@@ -71,6 +71,8 @@ int 					handle_ret_lexer(int ret_process_lexer,
 											t_list *token_list, t_vector *word,
 											int flag);
 t_list					*get_job(t_list *job);
+int						no_word(t_list **token_list, t_vector *word,
+									size_t type);
 
 /******************************************************************************/
 /*******************************_PARSER_***************************************/
@@ -182,6 +184,7 @@ void								debug_fd(int *fd);
 void								debug_fd_string(char **fd_sting);
 t_clean_cmd							*init_clean_command(void);
 int									get_cmd(t_cmd *cmd);
+char								*get_env_value_str(char *var);
 int									get_envp_av(t_cmd *cmd,
 													t_clean_cmd *clean_cmd,
 													int index_cmd);
@@ -213,6 +216,7 @@ bool 								is_exp_sep(char c);
 bool								verif_assign_cmd(char *str);
 void								exit_routine_cleaner(t_cmd *cmd,
 														t_clean_cmd *clean_cmd);
+char								*clean_quote(char *arg);
 
 /******************************************************************************/
 /*******************************_EXECUTION_************************************/
@@ -248,6 +252,7 @@ void	close_pipe_end(int pipe_to_close);
 pid_t	fork_process(void);
 void	dup_pipes(t_cmd *command, int p_in[2], int p_out[2]);
 int		is_builtin(const t_cmd *command);
+
 /******************************************************************************/
 /*******************************_GENERAL_UTILES_*******************************/
 /******************************************************************************/
@@ -282,7 +287,7 @@ int		pwd_builtin(int ac, char **av, char **envp);
 int		echo_builtin(int ac, char **av, char **envp);
 int		handle_pwd(int flag);
 int 	cd_builtin(int ac, char **av, char **envp);
-int 	handle_permission_denied(char **dir, char *dir_denied);
+char 	*handle_permission_denied(char *dir_denied);
 int 	check_cd_arg(int ac);
 int 	first_check(char *directory);
 void 	transform_new_dir(t_vector *new_dir, char *pwd, char *dir_denied);
@@ -296,6 +301,12 @@ bool	is_numeric(t_vector *av);
 int		process_error(t_vector *vct_home, char *dir, t_vector *vct_old_pwd);
 int		print_error(t_vector *vct_av, char *av, char c, int flag);
 void	handle_exit_value(t_vector *vct_av, t_vector *vct_av_cpy, char c);
+int 	handle_old_pwd(char *old_dir);
+int 	handle_permission_not(char *dir, char *pwd, char *old_dir);
+void 	swap_pwd(int flag, char *dir);
+void 	get_value(t_vector **vct_pwd, t_vector **vct_old, t_vector **vct_home);
+void 	free_clean_command(t_clean_cmd *clean_cmd, int flag);
+void	set_env(t_vector *vct_pwd, t_vector *vct_old);
 
 /******************************************************************************/
 /*******************************_ENV_MANAGER_**********************************/
