@@ -53,6 +53,7 @@ int			handle_assign_quote(t_vector *input, t_vector *word)
 		if (c == C_BACKSLASH && vct_getlen(input) == 1)
 		{
 			print_set_errno(0, ERR_NEWLINE, NULL, NULL);
+			ms_setenv_int(get_env_list(GET), "?", 2, F_OVERWRITE | F_EXPORT);
 			return (FAILURE);
 		}
 		vct_pop(input);
