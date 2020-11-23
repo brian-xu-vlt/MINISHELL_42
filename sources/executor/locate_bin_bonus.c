@@ -37,14 +37,9 @@ static void	concat_path(t_vector **vct, char *dir_option, char *bin_name)
 {
 	if (vct == NULL)
 		return ;
-	if (*vct == NULL)
-		exit_routine_le(ERR_MALLOC);
-	if (vct_addstr(*vct, (char *)dir_option) == FAILURE)
-		exit_routine_le(ERR_MALLOC);
-	if (vct_addstr(*vct, "/") == FAILURE)
-		exit_routine_le(ERR_MALLOC);
-	if (vct_addstr(*vct, (char *)bin_name) == FAILURE)
-		exit_routine_le(ERR_MALLOC);
+	safe_vct_addstr(*vct, (char *)dir_option);
+	safe_vct_addstr(*vct, "/");
+	safe_vct_addstr(*vct, (char *)bin_name);
 }
 
 static char	*check_dir_option(const char *bin_name, const char *dir_option)

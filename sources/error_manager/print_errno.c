@@ -18,11 +18,11 @@ void		print_invalid_option(const char *function_name,
 		exit_routine_le(ERR_MALLOC);
 	if (error_source != NULL && ft_strlen(error_source) >= 2)
 	{
-		vct_add(tmp_err_src, (char)error_source[0]);
-		vct_add(tmp_err_src, (char)error_source[1]);
+		safe_vct_add(tmp_err_src, (char)error_source[0]);
+		safe_vct_add(tmp_err_src, (char)error_source[1]);
 	}
 	else
-		vct_addstr(tmp_err_src, (char *)error_source);
+		safe_vct_addstr(tmp_err_src, (char *)error_source);
 	print_set_errno(EINVAL, error_str, function_name, vct_getstr(tmp_err_src));
 	vct_del(&tmp_err_src);
 	if (usage != NULL)
@@ -38,9 +38,9 @@ void		print_invalid_identifier(const char *function_name,
 	tmp_err_src = vct_new();
 	if (tmp_err_src == NULL)
 		exit_routine_le(ERR_MALLOC);
-	vct_add(tmp_err_src, '`');
-	vct_addstr(tmp_err_src, (char *)error_source);
-	vct_add(tmp_err_src, '\'');
+	safe_vct_add(tmp_err_src, '`');
+	safe_vct_addstr(tmp_err_src, (char *)error_source);
+	safe_vct_add(tmp_err_src, '\'');
 	print_set_errno(EINVAL, error_str, function_name, vct_getstr(tmp_err_src));
 	vct_del(&tmp_err_src);
 }

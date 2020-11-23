@@ -24,7 +24,8 @@
         "files.associations": {
             "__functional_03": "c",
             "cstdlib": "c",
-            "functional": "c"
+            "functional": "c",
+            "line_editor_bonus.h": "c"
         }
     },
     "launch": {

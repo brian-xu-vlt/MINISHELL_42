@@ -50,11 +50,12 @@ void			call_history(long key)
 		backup_cmdline(le);
 		vct_history_element = browse_history(key);
 		if (vct_history_element != NULL)
-			vct_cpy(le->cmd_line, vct_history_element);
+			safe_vct_cpy(le->cmd_line, vct_history_element);
 		else
 		{
 			vct_clear(le->cmd_line);
-			vct_pushstr(le->cmd_line, le->cmd_line_backup);
+			if (vct_pushstr(le->cmd_line, le->cmd_line_backup) == FAILURE)
+				exit_routine_le(ERR_MALLOC);
 			free(le->cmd_line_backup);
 			le->cmd_line_backup = NULL;
 		}
@@ -69,7 +70,7 @@ void			save_history(void)
 
 	le = NULL;
 	le = get_struct(GET);
-	if (le != NULL && vct_getlen(le->cmd_line) > 0)
+	if (le != NULL && le->cmd_line != NULL && vct_getlen(le->cmd_line) > 0)
 	{
 		new_history_element = ft_lstnew(vct_dup(le->cmd_line));
 		if (new_history_element == NULL)

@@ -31,9 +31,7 @@ static void	append_value_slashs(t_vector *env_value, t_vector *tmp_env_value)
 	{
 		char_at_index = vct_getcharat(tmp_env_value, i);
 		if (char_at_index == '\"' || char_at_index == '\'')
-			ret = vct_addcharat(tmp_env_value, i, '\\');
-		if (ret == FAILURE)
-			exit_routine_le(ERR_MALLOC);
+			safe_vct_addcharat(tmp_env_value, i, '\\');
 		i--;
 	}
 }
@@ -42,6 +40,8 @@ static void	print_disambiguate_value(t_vector *env_value)
 {
 	t_vector	*tmp_env_value;
 
+	if (env_value == NULL)
+		return ;
 	if (vct_chr(env_value, '\"') == FAILURE)
 		put_env_value(env_value);
 	else
@@ -59,11 +59,12 @@ static void	print_btree_node(t_btree *node)
 {
 	t_env		*env;
 
-	env = ((t_env*)node->item);
-	put_env_name(env->env_name);
-	if (env->env_value != NULL)
+	if (node != NULL && (env = ((t_env*)node->item)) != NULL)
+	{
+		put_env_name(env->env_name);
 		print_disambiguate_value(env->env_value);
-	ft_putstr_fd("\n", STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
+	}
 }
 
 void		print_export_output(t_list *env_lst)

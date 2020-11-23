@@ -29,7 +29,7 @@ static t_env	*store_new_env(t_list *env_lst, const char *env_name,
 static void		update_existing_env(t_env *env_struct,
 										const char *new_env_value, int flags)
 {
-	if (new_env_value != NULL)
+	if (new_env_value != NULL && env_struct != NULL)
 	{
 		if (env_struct->env_value == NULL)
 			env_struct->env_value = vct_new();
@@ -37,7 +37,8 @@ static void		update_existing_env(t_env *env_struct,
 			exit_routine_le(ERR_MALLOC);
 		if (flags &= F_OVERWRITE)
 			vct_clear(env_struct->env_value);
-		vct_addstr(env_struct->env_value, (char *)new_env_value);
+		if (vct_addstr(env_struct->env_value, (char *)new_env_value) == FAILURE)
+			exit_routine_le(ERR_MALLOC);
 	}
 }
 
@@ -46,7 +47,7 @@ void			ms_setenv(t_list *env_lst, const char *env_name,
 {
 	t_env	*env_node;
 
-	if (env_lst == NULL)
+	if (env_lst == NULL || env_name == NULL)
 		return ;
 	if ((env_node = get_env_struct(env_lst, env_name)) == NOT_FOUND)
 		env_node = store_new_env(env_lst, env_name, env_value);
@@ -61,6 +62,8 @@ void			ms_setenv_int(t_list *env_lst, const char *env_name,
 {
 	char	*int_str;
 
+	if (env_lst == NULL || env_name == NULL)
+		return ;
 	int_str = ft_itoa(value);
 	ms_setenv(env_lst, env_name, int_str, flags);
 	free(int_str);

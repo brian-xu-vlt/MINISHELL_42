@@ -57,13 +57,16 @@ void		refresh_command_line(void)
 	t_le	*le;
 
 	le = get_struct(GET);
-	vct_len = vct_getlen(le->cmd_line);
-	index_backup = (le->vct_index < vct_len) ? le->vct_index : UNSET;
-	identify_refresh_startingpoint(le);
-	ms_tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
-	print_cmd_line();
-	move_cursor_at_index(vct_len);
-	if ((le->screen_flag & HISTORY_REFRESH) == FALSE)
-		move_cursor_at_backup(le, index_backup, vct_len);
-	le->screen_flag = 0;
+	if (le != NULL)
+	{
+		vct_len = vct_getlen(le->cmd_line);
+		index_backup = (le->vct_index < vct_len) ? le->vct_index : UNSET;
+		identify_refresh_startingpoint(le);
+		ms_tputs(le->termcap[CLEAR_ALL_AFTER_CURS], 1, ms_putchar);
+		print_cmd_line();
+		move_cursor_at_index(vct_len);
+		if ((le->screen_flag & HISTORY_REFRESH) == FALSE)
+			move_cursor_at_backup(le, index_backup, vct_len);
+		le->screen_flag = 0;
+	}
 }
