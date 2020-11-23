@@ -6,7 +6,8 @@ static bool	verif_expect(t_vector *vct, t_vector *vct_cpy)
 
 	id_equal = vct_clen(vct, ASSIGN);
 	vct_cutfrom(vct, vct_getlen(vct) - id_equal);
-	if (vct_chr(vct, C_PATH) != FAILURE || is_wrong_ass(vct) == false)
+	if (ft_isdigit(vct_getfirstchar(vct)) == true ||
+			vct_chr(vct, C_PATH) != FAILURE || is_wrong_ass(vct) == false)
 	{
 		vct_del(&vct);
 		vct_del(&vct_cpy);

@@ -17,6 +17,8 @@ void		update_selection(long buff)
 	t_le	*le;
 
 	le = get_struct(GET);
+	if (le == NULL)
+		return ;
 	vct_len = (int)vct_getlen(le->cmd_line);
 	if (le->vct_index_backup == le->vct_index)
 		return ;
@@ -39,8 +41,11 @@ void		init_selection(void)
 	t_le	*le;
 
 	le = get_struct(GET);
-	le->select_min = UNSET;
-	le->select_max = UNSET;
+	if (le != NULL)
+	{
+		le->select_min = UNSET;
+		le->select_max = UNSET;
+	}
 }
 
 void		unselect_all(void)
@@ -48,10 +53,13 @@ void		unselect_all(void)
 	t_le	*le;
 
 	le = get_struct(GET);
-	if (le->select_min != UNSET)
+	if (le != NULL)
 	{
-		init_selection();
-		le->screen_flag |= FULL_REFRESH;
-		refresh_command_line();
+		if (le->select_min != UNSET)
+		{
+			init_selection();
+			le->screen_flag |= FULL_REFRESH;
+			refresh_command_line();
+		}
 	}
 }

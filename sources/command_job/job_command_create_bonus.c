@@ -44,19 +44,13 @@ int			add_cmd_to_job(t_job *job, t_cmd *cmd_model)
 	cmd_node = NULL;
 	cmd = create_cmd(cmd_model);
 	if (cmd == NULL)
-	{
-		print_set_errno(0, ERR_MALLOC, NULL, NULL);
-		free(cmd);
-		exit(FAILURE);
-	}
+		exit_routine_le(ERR_MALLOC);
 	cmd_node = ft_lstnew(cmd);
 	if (cmd_node == NULL)
 	{
-		print_set_errno(0, ERR_MALLOC, NULL, NULL);
 		ft_lstdelone(cmd_node, NULL);
-		free(cmd_node);
 		free(cmd);
-		exit(FAILURE);
+		exit_routine_le(ERR_MALLOC);
 	}
 	ft_lstadd_back(&job->cmd_lst, cmd_node);
 	return (SUCCESS);

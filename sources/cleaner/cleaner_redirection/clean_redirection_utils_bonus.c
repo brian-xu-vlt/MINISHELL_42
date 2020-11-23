@@ -36,15 +36,9 @@ int	init_av_redir(t_clean_cmd *clean_cmd, size_t nb_av, size_t nb_redir)
 {
 	clean_cmd->tab_redir = (char **)malloc(sizeof(char *) * nb_redir);
 	if (clean_cmd->tab_redir == NULL)
-	{
-		print_set_errno(0, ERR_MALLOC, NULL, NULL);
 		return (FAILURE);
-	}
 	clean_cmd->tmp_av = (char **)malloc(sizeof(char *) * nb_av);
 	if (clean_cmd->tmp_av == NULL)
-	{
-		print_set_errno(0, ERR_MALLOC, NULL, NULL);
 		return (FAILURE);
-	}
 	return (SUCCESS);
 }

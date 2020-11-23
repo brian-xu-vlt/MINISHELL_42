@@ -18,8 +18,6 @@ static int	line_editor_loop(t_le *le)
 			handle_print_char(key);
 		else
 			handle_esc_seq(key);
-		if (DEBUG_MODE == TRUE)
-			debug_print_infos();
 	}
 	return (ret_read);
 }

@@ -10,7 +10,7 @@ static int	read_loop(t_vector *cmd_line)
 	if ((read_ret = vct_readline(cmd_line, 0)) == FAILURE)
 	{
 		print_set_errno(errno, NULL, NULL, NULL);
-		exit_routine_le(ERR_NO_MESSAGE);
+		exit_routine_le(NORMAL_EXIT);
 	}
 	return (read_ret);
 }
@@ -66,6 +66,7 @@ int			main(int ac, char **av)
 	check_std_fd();
 	usage(ac, av);
 	init_env();
+	cmd_line = NULL;
 	cmd_line = vct_new();
 	if (cmd_line == NULL)
 		exit_routine_le(ERR_MALLOC);

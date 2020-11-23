@@ -5,8 +5,7 @@ static int	process_less(char *str, t_cmd *cmd)
 	int				fd;
 	static size_t	i = 0;
 
-	//ft_printf("PROCESS LESS\n");//DEBUG
-	fd = open(str, O_RDONLY | O_EXCL);
+	fd = open(str, O_RDONLY | O_EXCL, 0644);
 	if (fd < 0)
 	{
 		if (cmd->tmp_fd_in > 2)
@@ -90,7 +89,8 @@ void		process_open_file(t_cmd *cmd)
 	ret_file = SUCCESS;
 //	for (size_t j = 0; j < cmd->count_redir; j++)
 //		ft_printf("CMD->TAB_REDIR[%d] = %s\n", j, cmd->tab_redir[j]);//DEBUJG
-	while (i < cmd->count_redir)
+	while (i < cmd->count_redir
+							&& (cmd->redirection & F_REDIRECT_FAILURE) == FALSE)
 	{
 		if (ft_strequ(cmd->tab_redir[i], DOUBLE_GREATER) == TRUE)
 			ret_file = process_double_greater(cmd->tab_redir[i + 1], cmd);
@@ -99,7 +99,10 @@ void		process_open_file(t_cmd *cmd)
 		else if (ft_strequ(cmd->tab_redir[i], LESS_THAN) == TRUE)
 			ret_file = process_less(cmd->tab_redir[i + 1], cmd);
 		if (ret_file == FAILURE)
+		{
 			cmd->redirection = cmd->redirection | F_REDIRECT_FAILURE;
+			return ;
+		}
 		i += 2;
 		if (i >= cmd->count_redir)
 			break ;

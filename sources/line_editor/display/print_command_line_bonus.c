@@ -11,6 +11,8 @@ static ssize_t	safe_write(int fd, const void *buf, size_t nbyte)
 	ssize_t		ret;
 
 	errno = 0;
+	if (buf == NULL)
+		return (FAILURE);
 	ret = write(fd, buf, nbyte);
 	if (ret == FAILURE)
 	{

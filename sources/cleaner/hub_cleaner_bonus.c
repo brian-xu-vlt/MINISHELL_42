@@ -7,7 +7,6 @@ static int	process_cleaner(t_cmd *cmd)
 	ret_cleaner = cleaner(cmd);
 	if (ret_cleaner != SUCCESS)
 		return (ret_cleaner);
-	//debug_cleaner(cmd);
 	return (SUCCESS);
 }
 
@@ -52,7 +51,6 @@ int			hub_cleaner(t_list *job_list)
 				return (ret);
 			tmp_cmd_lst = tmp_cmd_lst->next;
 		}
-		//debug_jobs(job_list);
 		ret = is_next_job(ret, job);
 		job_list = job_list->next;
 	}

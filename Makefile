@@ -59,6 +59,7 @@ HEADER += $(INCLUDES)struct_bonus.h
 SRCS += test_env_bonus.c
 SRCS += test_executor_bonus.c
 SRCS += main_bonus.c
+#SRCS += main_tester_valid_identifier.c
 #SRCS += main_tester_parser.c #TO DELETE
 #SRCS += main_tester_job_command.c #TO DELETE
 #SRCS += main_tester_cleaner_quote_bonus.c #TO DELETE
@@ -94,6 +95,8 @@ SRCS += utils_cursor_bonus.c
 
 SRCS += builtins_echo_bonus.c
 SRCS += builtins_env_bonus.c
+SRCS += builtins_export_bonus.c
+SRCS += builtins_unset_bonus.c
 SRCS += builtins_exit_bonus.c
 SRCS += unset_env_bonus.c
 SRCS += get_env_bonus.c
@@ -124,14 +127,12 @@ SRCS += exec_bin_bonus.c
 SRCS += job_command_bonus.c
 SRCS += handle_no_word_bonus.c
 SRCS += handle_no_word_utils_bonus.c
-SRCS += job_command_debug_bonus.c
 SRCS += job_command_utils_bonus.c
 SRCS += job_command_create_bonus.c
 SRCS += job_command_fill_bonus.c
-SRCS += test_job_command.c
-SRCS += verif.c
+#SRCS += test_job_command.c
+#SRCS += verif.c
 SRCS += job_command_free_bonus.c
-SRCS += test_cleaner.c
 SRCS += command_process_bonus.c
 SRCS += job_init_bonus.c
 SRCS += job_command_is_something_bonus.c
@@ -155,6 +156,9 @@ SRCS += quote_checker_bonus.c
 SRCS += builtins_cd_transform_bonus.c
 SRCS += builtins_cd_check_bonus.c
 SRCS += builtins_exit_utils_bonus.c
+SRCS += builtins_history_bonus.c
+SRCS += create_tab_redir_bonus.c
+SRCS += lexer_utils_bonus.c
 
 
 OBJ_DIR = ./objs/
@@ -180,10 +184,8 @@ vpath %.c sources/cleaner
 vpath %.c sources/cleaner/cleaner_command
 vpath %.c sources/cleaner/cleaner_redirection
 vpath %.c sources/cleaner/cleaner_quote
-vpath %.c TESTER_PARSER/
-vpath %.c TESTER_JOB_COMMAND/
-vpath %.c TESTER_CLEANER_QUOTE/
-vpath %.c TESTER_CLEANER_QUOTE_EXP/
+vpath %.c sources/builtins/cd
+vpath %.c sources/builtins/exit
 
 OBJS = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 

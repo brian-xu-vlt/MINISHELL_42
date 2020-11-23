@@ -2,22 +2,46 @@
 
 static void	put_env_name(char *env_name)
 {
-	ft_putstr_fd("export ", STDOUT_FILENO);
-	ft_putstr_fd(env_name, STDOUT_FILENO);
+	if (env_name != NULL)
+	{
+		ft_putstr_fd("export ", STDOUT_FILENO);
+		ft_putstr_fd(env_name, STDOUT_FILENO);
+	}
 }
 
 static void	put_env_value(t_vector *env_value)
 {
-	ft_putstr_fd("=\"", STDOUT_FILENO);
-	ft_putstr_fd(vct_getstr(env_value), STDOUT_FILENO);
-	ft_putstr_fd("\"", STDOUT_FILENO);
+	if (env_value != NULL)
+	{
+		ft_putstr_fd("=\"", STDOUT_FILENO);
+		ft_putstr_fd(vct_getstr(env_value), STDOUT_FILENO);
+		ft_putstr_fd("\"", STDOUT_FILENO);
+	}
+}
+
+static void	append_value_slashs(t_vector *env_value, t_vector *tmp_env_value)
+{
+	int			i;
+	int			ret;
+	char		char_at_index;
+
+	ret = SUCCESS;
+	i = vct_getlen(env_value);
+	while (i >= 0)
+	{
+		char_at_index = vct_getcharat(tmp_env_value, i);
+		if (char_at_index == '\"' || char_at_index == '\'')
+			safe_vct_addcharat(tmp_env_value, i, '\\');
+		i--;
+	}
 }
 
 static void	print_disambiguate_value(t_vector *env_value)
 {
-	int			i;
 	t_vector	*tmp_env_value;
 
+	if (env_value == NULL)
+		return ;
 	if (vct_chr(env_value, '\"') == FAILURE)
 		put_env_value(env_value);
 	else
@@ -25,14 +49,7 @@ static void	print_disambiguate_value(t_vector *env_value)
 		tmp_env_value = vct_dup(env_value);
 		if (tmp_env_value == NULL)
 			exit_routine_le(ERR_MALLOC);
-		i = vct_getlen(env_value);
-		while (i >= 0)
-		{
-			if ((vct_getcharat(tmp_env_value, i) == '\"')
-								|| (vct_getcharat(tmp_env_value, i) == '\''))
-				vct_addcharat(tmp_env_value, i, '\\');
-			i--;
-		}
+		append_value_slashs(env_value, tmp_env_value);
 		put_env_value(tmp_env_value);
 		vct_del(&tmp_env_value);
 	}
@@ -42,11 +59,12 @@ static void	print_btree_node(t_btree *node)
 {
 	t_env		*env;
 
-	env = ((t_env*)node->item);
-	put_env_name(env->env_name);
-	if (env->env_value != NULL)
+	if (node != NULL && (env = ((t_env*)node->item)) != NULL)
+	{
+		put_env_name(env->env_name);
 		print_disambiguate_value(env->env_value);
-	ft_putstr_fd("\n", STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
+	}
 }
 
 void		print_export_output(t_list *env_lst)

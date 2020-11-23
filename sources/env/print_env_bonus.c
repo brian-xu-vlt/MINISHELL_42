@@ -2,9 +2,12 @@
 
 void	put_env(char *env_name, t_vector *env_value)
 {
+	char	*env_value_str;
+
 	ft_putstr_fd(env_name, STDOUT_FILENO);
-	if (env_value != NULL)
-		ft_printf("=%s", vct_getstr(env_value));
+	env_value_str = vct_getstr(env_value);
+	if (env_value_str != NULL)
+		ft_printf("=%s", env_value_str);
 	ft_putstr_fd("\n", STDOUT_FILENO);
 }
 

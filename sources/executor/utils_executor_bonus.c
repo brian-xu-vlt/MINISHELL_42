@@ -4,7 +4,7 @@ int		is_builtin(const t_cmd *command)
 {
 	int					i;
 	static const char	*builtin_names[NB_BUILTIN] = {
-		"cd", "echo", "pwd", "exit", "env", "export", "unset" };
+		"cd", "echo", "pwd", "exit", "env", "export", "unset", "history" };
 
 	i = 0;
 	while (i < NB_BUILTIN)

@@ -46,11 +46,12 @@ t_vector	*get_env_value_vct(t_list *env_lst, const char *env_name)
 int			get_env_value_int(t_list *env_lst, const char *env_name)
 {
 	t_vector		*value_vct;
+	char			*value_str;
 
 	errno = 0;
 	value_vct = get_env_value_vct(env_lst, env_name);
-	if (value_vct != NOT_FOUND)
-		return (ft_atoi(vct_getstr(value_vct)));
+	if (value_vct != NOT_FOUND && (value_str = vct_getstr(value_vct)) != NULL)
+		return (ft_atoi(value_str));
 	else
 		errno = FAILURE;
 	return (0);
@@ -62,7 +63,5 @@ t_list		*get_env_list(t_list *mem)
 
 	if (mem != NULL)
 		mem_backup = mem;
-	else if (mem == NULL && mem_backup == NULL)
-		exit_routine_le(ERR_MALLOC);
 	return (mem_backup);
 }

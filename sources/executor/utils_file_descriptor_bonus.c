@@ -22,8 +22,8 @@ void	close_pipe_end(int pipe_to_close)
 	if (pipe_to_close != UNSET)
 	{
 		close_ret = close(pipe_to_close);
-		if (DEBUG_MODE == TRUE && close_ret == FAILURE)
-			print_set_errno(errno, NULL, "close pipe: ", NULL);
+		// if (DEBUG_MODE == TRUE && close_ret == FAILURE)
+			// print_set_errno(errno, NULL, "close pipe: ", NULL);
 		pipe_to_close = UNSET;
 	}
 }

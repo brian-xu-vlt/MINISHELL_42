@@ -8,9 +8,9 @@ void	print_prompt(void)
 		prompt_str = PROMPT_SIMPLE;
 	else
 		prompt_str = PROMPT_LINE_EDITION;
-	if (isatty(STDOUT_FILENO) == TRUE)						// TODO: NO BONUS REMOVE FORBIDDEN !!
-		ft_putstr_fd(prompt_str, STDOUT_FILENO);
-	else if (isatty(STDERR_FILENO) == TRUE)
+	// if (isatty(STDOUT_FILENO) == TRUE)						// TODO: NO BONUS REMOVE FORBIDDEN !!
+	// 	ft_putstr_fd(prompt_str, STDOUT_FILENO);
+	// else if (isatty(STDERR_FILENO) == TRUE)
 		ft_putstr_fd(prompt_str, STDERR_FILENO);
 }
 

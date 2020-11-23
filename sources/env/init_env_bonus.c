@@ -2,28 +2,32 @@
 
 static void	set_default_env(t_list *env_lst)
 {
+	handle_pwd(GET);
 	export_env(env_lst, "OLDPWD");
 	ms_putenv(env_lst, DEFAULT_EXIT_STATUS);
 	if (vct_getstr(get_env_value_vct(env_lst, "PATH")) == NOT_FOUND)
 		ms_putenv(env_lst, DEFAULT_PATH_ENV);
 	if (vct_getstr(get_env_value_vct(env_lst, "TERM")) == NOT_FOUND)
 		ms_putenv(env_lst, DEFAULT_TERM);
-
-	// SET PWD HERE
-
 }
 
-static void	increment_shlevel(void)
+static void	increment_shlevel(t_list *env_lst)
 {
 	int			shlvl_int;
-	t_list		*env_lst;
 
-	env_lst = get_env_list(GET);
 	shlvl_int = get_env_value_int(env_lst, "SHLVL");
 	if (errno == FAILURE)
 		export_env(env_lst, "SHLVL=1");
 	else
 		ms_setenv_int(env_lst, "SHLVL", shlvl_int + 1, F_OVERWRITE | F_EXPORT);
+}
+
+static void	exit_routine_init_env(void)
+{
+	errno = ENOMEM;
+	ft_putstr_fd(ERR_MALLOC, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	exit (FAILURE);
 }
 
 void		init_env(void)
@@ -34,9 +38,9 @@ void		init_env(void)
 
 	if (environ == NULL)
 		exit_routine_le(ERR_ENV);
-	env_lst = (t_list *)ft_calloc(1, sizeof(t_list));
+	env_lst = ft_lstnew(NULL);
 	if (env_lst == NULL)
-		exit_routine_le(ERR_MALLOC);
+		exit_routine_init_env();
 	get_env_list(env_lst);
 	index = 0;
 	while (environ[index] != NULL)
@@ -45,6 +49,6 @@ void		init_env(void)
 			export_env(env_lst, environ[index]);
 		index++;
 	}
-	increment_shlevel();
 	set_default_env(env_lst);
+	increment_shlevel(env_lst);
 }
