@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static int	handle_pwd(char *dir)
+int	handle_pwd(char *dir)
 {
 	char *pwd;
 
