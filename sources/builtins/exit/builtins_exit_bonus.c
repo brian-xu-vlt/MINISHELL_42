@@ -10,7 +10,8 @@ void	handle_exit_value(t_vector *vct_av, t_vector *vct_av_cpy, char c)
 	exit_value = ft_atoi(vct_getstr(vct_av));
 	vct_del(&vct_av);
 	ft_printf("%s\n", EXIT);
-	exit(exit_value);
+	// exit(exit_value);
+	exit_routine_le(ERR_NO_MESSAGE);
 }
 
 int		print_error(t_vector *vct_av, char *av, char c, int flag)
@@ -62,7 +63,8 @@ int		exit_builtin(int ac, char **av, char **envp)
 	if (ac == 1)
 	{
 		ft_printf("%s\n", EXIT);
-		exit(get_env_value_int(get_env_list(GET), S_QUESTION_MARK));
+		// exit(get_env_value_int(get_env_list(GET), S_QUESTION_MARK));
+		exit_routine_le(ERR_NO_MESSAGE);
 	}
 	vct_av = vct_new();
 	vct_addstr(vct_av, av[1]);

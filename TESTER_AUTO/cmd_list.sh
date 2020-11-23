@@ -67,7 +67,9 @@ test () {
 	export TEST=$1
 
 	echo "$TEST" | env -i $EXTRA_ENV bash --posix -i &>/tmp/ba.log
+	echo "RETURNED : $?" >> /tmp/ba.log
 	echo "$TEST" | env -i $EXTRA_ENV ./Minishell &>/tmp/minishell.log
+	echo "RETURNED : $?" >> /tmp/minishell.log
 
 	# pour ENV
 	# echo "$TEST" | $EXTRA_ENV bash --posix -i &>/tmp/ba.log
@@ -964,30 +966,57 @@ main () {
 	#  test_signal
 	#  test_syntax
 
-	test_correction_arg
-	test_correction_echo
-	test_correction_exit
-	test_correction_exec
-	test_correction_return
-	test_correction_semicolons
-	test_correction_baskslashs
-	test_correction_env
+	# test_correction_arg
+	# test_correction_echo
+	# test_correction_exit
+	# test_correction_exec
+	# test_correction_return
+	# test_correction_semicolons
+	# test_correction_baskslashs
+	# test_correction_env
 
-	test_correction_export_identifier
-	test_correction_export_identifier_mix_valid
-	test_correction_export
-	test_correction_unset_identifier
-	test_correction_unset_identifier_mix_valid
-	test_correction_unset
+	# test_correction_export_identifier
+	# test_correction_export_identifier_mix_valid
+	# test_correction_export
+	# test_correction_unset_identifier
+	# test_correction_unset_identifier_mix_valid
+	# test_correction_unset
 
-	test_correction_exp
-	test_correction_cd
-	test_correction_pwd
-	test_correction_PATH
-	test_correction_simple_quotes
-	test_correction_redirect
-	test_correction_pipes
-	test_correction_AND_OR
+	# test_correction_exp
+	# test_correction_cd
+	# test_correction_pwd
+	# test_correction_PATH
+	# test_correction_simple_quotes
+	# test_correction_redirect
+	# test_correction_pipes
+	# test_correction_AND_OR
+
+# test "rm -rf haha hello hehe ;echo toto < haha > hello >> hehe ; echo \$? ; cat haha ; cat hello ; cat hehe"
+# test "rm -rf hello ; titi > hello ; echo \$? ; cat hello"
+# test "rm -rf haha hello ; echo titi > haha hehe heheh heheheh hihi > hello ; echo \$? ; cat haha ; cat hello"
+# test "rm -rf test1 ; echo hehe < test1 ; echo \$? ; cat test1"
+# test "rm -rf test2 ; echo haha > test2 ; echo \$? ; cat test2"
+# test "rm -rf test3 ; echo hihi >> test3 ; echo \$? ; car test3"
+# test "rm -rf test/test1 ; mkdir test/test1 ; chhmod 000 test/test1 ; echo hehe < test/test1 ; echo \$? ; cat test/test1"
+# test "rm -rf testgauche ; echo haha < testgauche"
+# test "rm -rf testdroite ; echo haha > testdroite ; echo \$? ; cat testdroite ; ls -l"
+# test "rm -rf testddroite ; echo haha >> testddroite ; echo \$? ; cat testddroite ; ls -l"
+# test "rm -rf testgauche ; echo haha < testgauche ; echo \$? ; cat testgauche ; ls -l"
+# test "rm -rf testgauche ; touch testgauche ; echo haha < testgauche ; echo \$? ; cat testgauche ; ls-l"
+# test "rm -rf testgauche testdroitefail ; echo haha > testdroitfail hello < testgauche; echo $? ; cat testdroitfail ; cat testgauche ; ls -l"
+# test "rm -rf testgauche testdroitefail ; echo haha < testgauche hello > testdroitfail; echo $? ; cat testdroitfail ; cat testgauche ; ls -l"
+
+		# test "echo \$ ; echo \"\$\" ; echo '\$'"
+		# test "echo \$\"\" ; echo \"\$\"\"\" ; echo '\$'''"
+		# test "echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
+		# test "echo \$toto\"\" ; echo \"\$toto\"\"\" ; echo '\$toto'''"
+		# test "toto= 42 ; echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
+		# test "toto=42 ; echo \$toto\"\" ; echo \"\$toto\"\"\" ; echo '\$toto'''"
+
+test "toto=hello titi=toto unset toto ; echo \$titi ; echo \$toto"
+test "toto=hello titi=toto unset titi ; echo \$titi ; echo \$toto"
+test "toto=hello ; titi=toto ; unset titi ; echo \$titi ; echo \$toto"
+test "toto=hello ; titi=toto ; unset toto ; echo \$titi ; echo \$toto"
 
 	fi
 
