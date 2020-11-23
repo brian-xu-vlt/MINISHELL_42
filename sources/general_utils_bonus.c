@@ -36,7 +36,7 @@ int		safe_vct_addcharat(t_vector *vct, size_t index, char c)
 {
 	int		ret;
 
-	if (c == '\0' || vct == NULL || index > vct_getlen(vct))
+	if (vct == NULL || index > vct_getlen(vct) || c == '\0')
 		return (FAILURE);
 	ret = vct_addcharat(vct, index, c);
 	if (ret == FAILURE)
