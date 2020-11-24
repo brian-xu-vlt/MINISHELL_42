@@ -67,9 +67,9 @@ test () {
 	export TEST=$1
 
 	echo "$TEST" | env -i $EXTRA_ENV bash --posix -i &>/tmp/ba.log
-	echo "RETURNED : $?" >> /tmp/ba.log
+	# echo "RETURNED : $?" >> /tmp/ba.log
 	echo "$TEST" | env -i $EXTRA_ENV ./Minishell &>/tmp/minishell.log
-	echo "RETURNED : $?" >> /tmp/minishell.log
+	# echo "RETURNED : $?" >> /tmp/minishell.log
 
 	# pour ENV
 	# echo "$TEST" | $EXTRA_ENV bash --posix -i &>/tmp/ba.log

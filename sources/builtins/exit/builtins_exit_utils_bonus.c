@@ -94,14 +94,27 @@ int			check_arg(t_vector *vct_av, char c, char *av, int ac)
 	vct_cpy(vct_av_cpy, vct_av);
 	num_arg = is_numeric(vct_av_cpy);
 	if (num_arg == false || vct_getlen(vct_av) == 0)
-		exit(print_error(vct_av, av, c, MINUS_PLUS | NUM));
+	{
+		ms_setenv_int(get_env_list(GET), "?",
+						print_error(vct_av, av, c, MINUS_PLUS | NUM),
+													F_EXPORT | F_OVERWRITE);
+		exit_routine_le(ERR_NO_MESSAGE);
+	}
 	ret_parser = parse_vct(vct_av);
 	if (ret_parser == false)
-		exit(print_error(vct_av, av, c, NUM));
+	{
+		ms_setenv_int(get_env_list(GET), "?", print_error(vct_av, av, c, NUM),
+						F_EXPORT | F_OVERWRITE);
+		exit_routine_le(ERR_NO_MESSAGE);
+	}
 	vct_cpy(vct_av_cpy, vct_av);
 	ret_long = is_long(vct_av, c);
 	if (ret_long == true)
-		exit(print_error(vct_av, av, c, NUM));
+	{
+		ms_setenv_int(get_env_list(GET), "?", print_error(vct_av, av, c, NUM),
+						F_EXPORT | F_OVERWRITE);
+		exit_routine_le(ERR_NO_MESSAGE);
+	}
 	if (ret_long == false && ac > 2)
 	{
 		vct_del(&vct_av_cpy);
