@@ -216,7 +216,7 @@ bool 								is_exp_sep(char c);
 bool								verif_assign_cmd(char *str);
 void								exit_routine_cleaner(t_cmd *cmd,
 														t_clean_cmd *clean_cmd);
-char								*clean_quote(char *arg);
+char								*clean_quote(char *arg, int *ret);
 
 /******************************************************************************/
 /*******************************_EXECUTION_************************************/

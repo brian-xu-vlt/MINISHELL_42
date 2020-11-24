@@ -5,6 +5,8 @@ static int	process_less(char *str, t_cmd *cmd)
 	int				fd;
 	static size_t	i = 0;
 
+	if (str == NULL || ft_strequ(LESS_THAN, str) == TRUE)
+		return (NO_FILE);
 	fd = open(str, O_RDONLY | O_EXCL, 0644);
 	if (fd < 0)
 	{
@@ -28,6 +30,8 @@ static int	process_greater(char *str, t_cmd *cmd)
 	int				fd;
 	static size_t	i = 0;
 
+	if (str == NULL || ft_strequ(GREATER_THAN, str) == TRUE)
+		return (NO_FILE);
 	fd = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	if (fd < 0)
 	{
@@ -51,6 +55,8 @@ static int	process_double_greater(char *str, t_cmd *cmd)
 	int				fd;
 	static size_t	i = 0;
 
+	if (str == NULL || ft_strequ(DOUBLE_GREATER, str) == TRUE)
+		return (NO_FILE);
 	fd = open(str, O_WRONLY | O_APPEND | O_CREAT, 0664);
 	if (fd < 0)
 	{
@@ -80,6 +86,20 @@ static void	init_cmd_redirection(t_cmd *cmd)
 											| F_REDIRECT_OUT_APPEND;
 }
 
+static void	print_file_error(char **str, size_t i, size_t size)
+{
+	ft_dprintf(STDERR_FILENO, "Minishell: ");
+	while (i < size)
+	{
+		if (i + 1 < size)
+			ft_dprintf(STDERR_FILENO, "%s ", str[i]);
+		else if (i + 1 == size)
+			ft_dprintf(STDERR_FILENO, "%s", str[i]);
+		i++;
+	}
+	ft_dprintf(STDERR_FILENO, ": no file mentioned\n");
+}
+
 void		process_open_file(t_cmd *cmd)
 {
 	size_t			i;
@@ -87,8 +107,6 @@ void		process_open_file(t_cmd *cmd)
 
 	i = 0;
 	ret_file = SUCCESS;
-//	for (size_t j = 0; j < cmd->count_redir; j++)
-//		ft_printf("CMD->TAB_REDIR[%d] = %s\n", j, cmd->tab_redir[j]);//DEBUJG
 	while (i < cmd->count_redir
 							&& (cmd->redirection & F_REDIRECT_FAILURE) == FALSE)
 	{
@@ -98,8 +116,10 @@ void		process_open_file(t_cmd *cmd)
 			ret_file = process_greater(cmd->tab_redir[i + 1], cmd);
 		else if (ft_strequ(cmd->tab_redir[i], LESS_THAN) == TRUE)
 			ret_file = process_less(cmd->tab_redir[i + 1], cmd);
-		if (ret_file == FAILURE)
+		if (ret_file == FAILURE || ret_file == NO_FILE)
 		{
+			if (ret_file == NO_FILE)
+				print_file_error(cmd->tab_redir, i, cmd->count_redir);
 			cmd->redirection = cmd->redirection | F_REDIRECT_FAILURE;
 			return ;
 		}

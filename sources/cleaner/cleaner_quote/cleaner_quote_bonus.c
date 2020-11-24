@@ -108,17 +108,24 @@ int			parse_double_quote(t_vector *input, t_vector *output)
 
 static int	handle_char(char c, t_vector *input, t_vector *output)
 {
+	int flag;
+
+	flag = 0;
 	if (c == C_BACKSLASH)
 	{
 		if (handle_backslash_nothing(input, output, c) == FAILURE)
 			return (FAILURE);
 	}
 	else if (c == C_SIMPLE_QUOTE)
+	{
+		flag = flag | F_SQUOTE;
 		parse_simple_quote(input, output);
+	}
 	else if (c == C_QUOTE)
 	{
 		if (parse_double_quote(input, output) == FAILURE)
 			return (FAILURE);
+		flag = flag | F_DQUOTE;
 	}
 	else if (c == C_EXPORT)
 	{
@@ -126,24 +133,40 @@ static int	handle_char(char c, t_vector *input, t_vector *output)
 		if (vct_getfirstchar(output) == C_EXP && vct_getlen(input) != 0
 				&& vct_getfirstchar(input) != C_BACKSLASH)
 			vct_pop(output);
+		flag = flag | F_EXP;
 	}
 	else
 	{
 		vct_add(output, c);
 		vct_pop(input);
 	}
-	return (SUCCESS);
+	return (flag);
 }
 
 int			process_clean_quote(t_vector *input, t_vector *output)
 {
 	char c;
+	int	flag;
 
+	flag = 0;
+	//ft_printf("\n\nINPUT = %s\n", vct_getstr(input));//DEBUG
 	while (vct_getlen(input) > 0)
 	{
 		c = vct_getfirstchar(input);
-		if (handle_char(c, input, output) == FAILURE)
+		flag = handle_char(c, input, output);
+		if (flag == FAILURE)
 			return (FAILURE);
 	}
+//	ft_printf("OUTPUT = %s\n", vct_getstr(output));//DEBUG
+//	ft_printf("flag = %d\n", flag);//DEBUG
+	if (flag == 8 && vct_getlen(output) == 0)
+		return (2);
+	if ((flag & F_SQUOTE || flag & F_DQUOTE) && vct_getlen(output) == 0)
+	{
+		vct_clear(output);
+		vct_add(output, '\0');
+	}
+//	if (output == NULL)
+//		ft_printf("OUPUT NULL\n");//DEBUYG
 	return (SUCCESS);
 }

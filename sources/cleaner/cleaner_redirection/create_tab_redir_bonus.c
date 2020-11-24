@@ -49,7 +49,10 @@ int							create_tab_redir(t_cmd *cmd, t_clean_cmd *clean_cmd)
 					cmd->type[clean_cmd->index_cmd]);
 		if (state == E_IN_REDIR || state == E_IN_FILE)
 		{
-			clean_cmd->tmp_tab_redir[i] = ft_strdup(cmd->av[i]);
+			if (cmd->av[i] != NULL)
+				clean_cmd->tmp_tab_redir[i] = ft_strdup(cmd->av[i]);
+			if (cmd->av[i] == NULL)
+				clean_cmd->tmp_tab_redir[i] = NULL;
 			free(cmd->av[i]);
 			cmd->av[i] = NULL;
 		}

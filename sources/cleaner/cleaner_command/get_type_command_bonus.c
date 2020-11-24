@@ -92,6 +92,11 @@ int			get_cmd(t_cmd *cmd)
 	i_exp = 0;
 	while (i < (size_t)cmd->ac)
 	{
+		if (cmd->av[i] == NULL)
+		{
+			i++;
+			continue ;
+		}
 		if (ft_strlen(cmd->av[i]) == 0 && i + 1 != (size_t)cmd->ac)
 		{
 			i++;
