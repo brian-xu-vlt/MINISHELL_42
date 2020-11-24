@@ -1018,6 +1018,39 @@ main () {
 # test "toto=hello ; titi=toto ; unset titi ; echo \$titi ; echo \$toto"
 # test "toto=hello ; titi=toto ; unset toto ; echo \$titi ; echo \$toto"
 
+		test "rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; cd /tmp/aaa ; rm -rf /tmp/aaa ; cd .. ; echo \$? ; /bin/ls"
+		test "rm -rf /tmp/aaa ; mkdir -p /tmp/aaa/bbb ; cd /tmp/aaa/bbb ; rm -rf /tmp/aaa ; pwd"
+		test "cd ; cd - ; mkdir testcd7 ; cd testcd7 ; chmod 000 ../testcd7 ; cd . ; cd .."
+		test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd  ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+		test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd - ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+		test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd ../.. ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+		test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd ../../../ ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+		test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd / ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+		test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd ./ ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+		test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd toto ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+		test "unset PWD ; unset OLDPWD ; unset HOME ; cd"
+		test "unset PWD ; unset OLDPWD ; unset HOME ; cd -"
+		test "unset PWD ; unset OLDPWD ; unset HOME ; cd ../"
+		test "unset PWD ; unset OLDPWD ; unset HOME ; cd libft"
+		test 'rm -rf /tmp/aaa/bbb ; mkdir -p /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd aaa ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+		test 'rm -rf /tmp/aaa/bbb ; mkdir -p /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd bbb ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+		test 'rm -rf /tmp/aaa/bbb ; mkdir -p /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd bbb ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+		test 'rm -rf /tmp/aaa/bbb ; mkdir -p /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd .. ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+		test 'cd libft ; echo $?'
+		test 'cd blabla ; echo $?'
+		test 'cd ../. ; echo $? ; pwd ; echo $? ; cd ///....//// ; echo $?'
+		test 'cd ../../../trop_bien ; echo $?'
+		test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd ../.. ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+		test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd /home/lila/Desktop/ ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+		test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd /home/lila/Desktop/42/PROJECTS/MINISHELL ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+		test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd /home/lila/Desktop/42/PROJECTS/MINISHELL/testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+		test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+		test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd . ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+		test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod/test1/ ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd test1 ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+		test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; mkdir test1 ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd test1 ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+		test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; cd libft ; cd -'
+		test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; cd libft ; echo $PWD'
+
 	fi
 
 	print_separator '█'

@@ -1,11 +1,21 @@
 #include "minishell_bonus.h"
 
+static void	handle_only_pwd(void)
+{
+	char *pwd;
+
+	pwd = getcwd(NULL, PATH_MAX);
+	ms_setenv(get_env_list(GET), ENV_PWD, pwd, F_EXPORT | F_OVERWRITE);
+	free(pwd);
+}
+
 static void	set_default_env(t_list *env_lst)
 {
-	handle_pwd(GET);
-	unset_env(env_lst, "OLDPWD");											// quick fix waiting for proper solution
-	export_env(env_lst, "OLDPWD");
-	ms_putenv(env_lst, DEFAULT_EXIT_STATUS);
+	handle_only_pwd();
+	//handle_pwd(GET);
+	//unset_env(env_lst, "OLDPWD");											// quick fix waiting for proper solution
+	//export_env(env_lst, "OLDPWD");
+	//ms_putenv(env_lst, DEFAULT_EXIT_STATUS);
 	if (vct_getstr(get_env_value_vct(env_lst, "PATH")) == NOT_FOUND)
 		ms_putenv(env_lst, DEFAULT_PATH_ENV);
 	if (vct_getstr(get_env_value_vct(env_lst, "TERM")) == NOT_FOUND)
