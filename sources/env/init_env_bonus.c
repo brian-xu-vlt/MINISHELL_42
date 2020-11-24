@@ -3,6 +3,7 @@
 static void	set_default_env(t_list *env_lst)
 {
 	handle_pwd(GET);
+	unset_env(env_lst, "OLDPWD");											// quick fix waiting for proper solution
 	export_env(env_lst, "OLDPWD");
 	ms_putenv(env_lst, DEFAULT_EXIT_STATUS);
 	if (vct_getstr(get_env_value_vct(env_lst, "PATH")) == NOT_FOUND)

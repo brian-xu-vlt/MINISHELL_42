@@ -10,17 +10,16 @@
 
 int main()
 {
-	char 	buff[2];
+	char 	buff[7000];
 	int		ret;
 
 	ret = 42;
-
+	sleep (3);
 	while (ret > 0)
 	{
-		ret = read(0, &buff, 1);
-		buff[1] = '\0';
-		printf("[%d][%s]", ret, buff);
-		buff[0] = '\0';
+		bzero(buff, 7000);
+		ret = read(0, &buff, 7000);
+		printf("[%d][%s]\n", ret, buff);
 	}
 		printf("last[%d][%s]\n", ret, buff);
 

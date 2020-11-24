@@ -23,7 +23,8 @@ static void	child_process(t_cmd *cmd, int p_in[2], int p_out[2])
 			ret = exec_binary(cmd);
 		}
 	}
-	exit(ret);
+	ms_setenv_int(get_env_list(GET), "?", ret, F_OVERWRITE);
+	exit_routine_le(NORMAL_EXIT);
 }
 
 void		exec_subshell(t_job *job, t_cmd *cmd, int p_in[2], int p_out[2])
