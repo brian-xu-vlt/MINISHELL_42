@@ -53,13 +53,10 @@ void		unselect_all(void)
 	t_le	*le;
 
 	le = get_struct(GET);
-	if (le != NULL)
+	if (le != NULL && le->select_min != UNSET)
 	{
-		if (le->select_min != UNSET)
-		{
-			init_selection();
-			le->screen_flag |= FULL_REFRESH;
-			refresh_command_line();
-		}
+		init_selection();
+		le->screen_flag |= FULL_REFRESH;
+		refresh_command_line();
 	}
 }

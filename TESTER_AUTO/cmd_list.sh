@@ -127,15 +127,19 @@ test_failed() {
 	print_separator '█'
 	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
-	test "	\"e\"'c'ho 'b'\"o\"nj\"o\"'u'r\";\"	"
-	test " export EMPTY ; export NOTEMPTY= ; export CHARS=AAA ; echo '\$CHARS' ; echo \$CHARS ; echo \$PWD\$HOMe\"\$VAR_NONEXISTANT01\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT02\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY |wc"
-	test " export EMPTY ; export NOTEMPTY= ; export CHARS=AAA ; echo '\$CHARS' ; echo \$CHARS ; echo \$PWD\$HOMe\"\$VAR_NONEXISTANT01\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT02\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY "
-	test " export EMPTY ; export NOTEMPTY= ; export CHARS=AAA ; echo '\$CHARS' ; echo \$CHARS ; echo \$PWD\$VAR_NONEXISTANT01\"\$VAR_NONEXISTANT02\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT03\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY | wc"
-	test " export EMPTY ; export NOTEMPTY= ; export CHARS=AAA ; echo '\$CHARS' ; echo \$CHARS ; echo \$PWD\$VAR_NONEXISTANT01\"\$VAR_NONEXISTANT02\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT03\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY ;"
-	test " echo \"\$HOME\" ; echo \$HOME ; echo \"\$\"HOME ; echo \$\"\"HOME ; echo \"\"\$HOME ; echo \$\"HOME\" ; echo \$\"HO\"\"ME\" ; echo \"\$HO\"\"ME\" ; echo \"\$HO\"ME ; echo \$\"HOME\" "
-	test " mkdir -p test1/test2/test3 ; cd test1/test2/test3 ; rm -rf ../../../test1 ; cd .. ; pwd ; cd .. ; pwd ; cd .. ; pwd "
-	test "export 4ABC=toto"
-	test "toto/tata=1"
+	# test "	\"e\"'c'ho 'b'\"o\"nj\"o\"'u'r\";\"	"
+	# test " export EMPTY ; export NOTEMPTY= ; export CHARS=AAA ; echo '\$CHARS' ; echo \$CHARS ; echo \$PWD\$HOMe\"\$VAR_NONEXISTANT01\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT02\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY |wc"
+	# test " export EMPTY ; export NOTEMPTY= ; export CHARS=AAA ; echo '\$CHARS' ; echo \$CHARS ; echo \$PWD\$HOMe\"\$VAR_NONEXISTANT01\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT02\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY "
+	# test " export EMPTY ; export NOTEMPTY= ; export CHARS=AAA ; echo '\$CHARS' ; echo \$CHARS ; echo \$PWD\$VAR_NONEXISTANT01\"\$VAR_NONEXISTANT02\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT03\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY | wc"
+	# test " export EMPTY ; export NOTEMPTY= ; export CHARS=AAA ; echo '\$CHARS' ; echo \$CHARS ; echo \$PWD\$VAR_NONEXISTANT01\"\$VAR_NONEXISTANT02\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT03\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY ;"
+	# test " echo \"\$HOME\" ; echo \$HOME ; echo \"\$\"HOME ; echo \$\"\"HOME ; echo \"\"\$HOME ; echo \$\"HOME\" ; echo \$\"HO\"\"ME\" ; echo \"\$HO\"\"ME\" ; echo \"\$HO\"ME ; echo \$\"HOME\" "
+	# test " mkdir -p test1/test2/test3 ; cd test1/test2/test3 ; rm -rf ../../../test1 ; cd .. ; pwd ; cd .. ; pwd ; cd .. ; pwd "
+	# test "export 4ABC=toto"
+	# test "toto/tata=1"
+	test " export EMPTY ; export NOTEMPTY= ; export CHARS=AAA ; echo \"\$VAR_NONEXISTANT02\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT03\""
+	test " export EMPTY ; export NOTEMPTY= ; export CHARS=AAA ; echo \$PWD \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT03\""
+	test " export EMPTY ; export NOTEMPTY= ; export CHARS=AAA ; echo \$PWD \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT03\""
+	test " export EMPTY ; export NOTEMPTY= ; export CHARS=AAA ; echo \$PWD\$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT03\""
 }
 
 test_bonus () {
@@ -972,7 +976,7 @@ main () {
 	#  test_syntax
 
 	# test_correction_arg
-	test_correction_echo
+	# test_correction_echo
 	# test_correction_exit
 	# test_correction_exec
 	# test_correction_return

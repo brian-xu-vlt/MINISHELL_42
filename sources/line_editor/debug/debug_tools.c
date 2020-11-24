@@ -22,7 +22,7 @@ void		debug_print_infos(void)
 	ft_printf("cursor col [%d/%d] ", le->cx, le->scols);
 	ft_printf("line [%d] vct_index [%d] ", le->cy, le->vct_index);
 	ft_printf("vct_len[%d] char_in_vct [%c]", vct_getlen(le->cmd_line),
-									vct_getcharat(le->cmd_line, le->vct_index));
+	vct_getcharat(le->cmd_line, le->vct_index));
 	debug_cursor_newline();
 	ft_printf("select_min/max [%d/%d] vct_content : \n___%s\n", le->select_min,
 		le->select_max, vct_getstr(le->cmd_line));

@@ -10,7 +10,8 @@ static void	echo_loop(char **av)
 		if (av_len > 0)
 			ft_putstr_fd(*av, STDOUT_FILENO);
 		av++;
-		if (*av != NULL && av_len > 0)
+		// if (*av != NULL && av_len > 0)
+		if (*av != NULL)
 			ft_putchar_fd(' ', STDOUT_FILENO);
 	}
 }

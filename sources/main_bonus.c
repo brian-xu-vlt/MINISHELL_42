@@ -97,7 +97,7 @@ int			main(int ac, char **av)
 				return (EXIT_FAILURE);
 			}
 		}
-		vct_clear(cmd_line);
+		// vct_clear(cmd_line);
 		free_list_job(&jobs);
 	}
 	exit_routine_le(NORMAL_EXIT);
