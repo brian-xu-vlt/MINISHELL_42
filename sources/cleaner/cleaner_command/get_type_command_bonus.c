@@ -80,16 +80,87 @@ static int	process_get_cmd(size_t i_assign, size_t i_exp, size_t i, t_cmd *cmd)
 	return (TRUE_CMD);
 }
 
+static void	debug_tab_assign(t_cmd *cmd)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < cmd->count_assign)
+	{
+		ft_printf("cmd->tab_assign[%d] = %d\n", i, cmd->tab_assign[i]);
+		i++;
+	}
+	ft_printf("\n\n");//DEBUG
+}
+
+static void	debug_tab_exp(t_cmd *cmd)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < cmd->count_exp)
+	{
+		ft_printf("cmd->tab_exp[%d] = %d\n", i, cmd->tab_exp[i]);
+		i++;
+	}
+	ft_printf("\n\n");//DEBUG
+}
+
+static void	how_increment(t_cmd *cmd, size_t *i, size_t *i_assign, size_t *i_exp)
+{
+	size_t	tmp_i;
+	size_t	i_tab_exp;
+
+	tmp_i = 0;
+	*i = *i + 1;
+//	debug_tab_exp(cmd);
+//	debug_tab_assign(cmd);
+	while (*i < (size_t)cmd->ac)
+	{
+		if (ft_strequ(LESS_THAN, cmd->av[*i]) == TRUE ||
+				ft_strequ(GREATER_THAN, cmd->av[*i]) == TRUE || 
+				ft_strequ(DOUBLE_GREATER, cmd->av[*i]) == TRUE)
+		{
+			if (cmd->count_exp != 0 && *i == cmd->tab_exp[*i_exp])
+			{
+			//	ft_printf("C'EST EGALE\n");//DEBUG
+				*i_exp = *i_exp + 1;
+				return ;
+			}
+			if (tmp_i != *i - 2)
+			{
+			//	ft_printf("tmp_i = %d\n", tmp_i);//DEBUG
+			//	ft_printf("cmd->av[%d] = %s\n", *i, cmd->av[*i]);//DEBUG
+			//	ft_printf("ca cloche\n");//DEBUG
+				if (tmp_i + 2 != cmd->ac)
+				{
+					if (cmd->count_assign != 0 &&  + 1 == cmd->tab_assign[0])
+						*i_assign = i_assign + 1;
+				//	ft_printf("DIFF AC\n");
+					*i = tmp_i + 2;
+					return ;
+				}
+
+			}
+		//	ft_printf("i INCREMENT STOP = %d\n", *i);//DEBUG
+			tmp_i = *i;
+		}
+		*i = *i + 1;
+	}
+}
+
 int			get_cmd(t_cmd *cmd)
 {
 	size_t	i;
 	size_t	i_assign;
 	size_t	i_exp;
 	int		ret;
+	int		flag_exp_before;
 
 	i = 0;
 	i_assign = 0;
 	i_exp = 0;
+	flag_exp_before = false;
 	while (i < (size_t)cmd->ac)
 	{
 		if (cmd->av[i] == NULL)
@@ -102,9 +173,23 @@ int			get_cmd(t_cmd *cmd)
 			i++;
 			continue ;
 		}
+		if (i == 0 && (ft_strequ(LESS_THAN, cmd->av[i]) == TRUE || 
+				ft_strequ(GREATER_THAN, cmd->av[i]) == TRUE || 
+				ft_strequ(DOUBLE_GREATER, cmd->av[i]) == TRUE))
+		{
+			//ft_printf("cmd->av[%d] = %s\n", i, cmd->av[i]);//DEBUG
+		//	ft_printf("CA RENTRE ICI\n");//DEBUG
+			flag_exp_before = true;
+			how_increment(cmd, &i, &i_assign, &i_exp);
+			//set_redir_before;
+			//set_av == NULL
+			continue ;
+		}
 		ret = process_get_cmd(i_assign, i_exp, i, cmd);
 		if (ret == FALSE_ASSIGN || ret == FALSE_EXP || ret == TRUE_CMD)
+		{
 			return (i);
+		}
 		if (ret == TRUE_ASSIGN)
 			i_assign++;
 		else if (ret == TRUE_EXP)

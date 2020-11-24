@@ -58,6 +58,10 @@ void debug_cleaner(t_cmd *cmd)
 	ft_printf("\033[0;32mDEBUG ENV FINAL\n\033[0m"); //DEBUG
 	if (cmd->envp != NULL)
 		debug_env(cmd->envp, cmd->count_assign);
+	ft_printf("\n");//DEBUG
+	ft_printf("\033[0;32mDEBUG REDIR FINAL\n\033[0m"); //DEBUG
+	if (cmd->tab_redir != NULL)
+		debug_redir(cmd->tab_redir, cmd->count_redir);
 	ft_printf("\n"); //DEBUG
 	ft_printf("cmd->ac = %d\n", cmd->ac);
 	ft_printf("cmd->count_assign = %d\n", cmd->count_assign);
