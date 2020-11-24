@@ -2,11 +2,15 @@
 
 static void	echo_loop(char **av)
 {
+	size_t		av_len;
+
 	while (av != NULL && *av != NULL)
 	{
-		ft_putstr_fd(*av, STDOUT_FILENO);
+		av_len = ft_strlen(*av);
+		if (av_len > 0)
+			ft_putstr_fd(*av, STDOUT_FILENO);
 		av++;
-		if (*av != NULL)
+		if (*av != NULL && av_len > 0)
 			ft_putchar_fd(' ', STDOUT_FILENO);
 	}
 }

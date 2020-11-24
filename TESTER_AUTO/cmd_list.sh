@@ -128,8 +128,10 @@ test_failed() {
 	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
 	test "	\"e\"'c'ho 'b'\"o\"nj\"o\"'u'r\";\"	"
-	test " export EMPTY ; export NOTEMPTY= ; export CHARS=AAA ; echo '\$CHARS' ; echo \$CHARS ; echo \$PWD\$HOMe\"\$VAR_NONEXISTANT\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY |wc -m ;"
-	test " export EMPTY ; export NOTEMPTY= ; export CHARS=AAA ; echo '\$CHARS' ; echo \$CHARS ; echo \$PWD\$VAR_NONEXISTANT\"\$VAR_NONEXISTANT\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY ;"
+	test " export EMPTY ; export NOTEMPTY= ; export CHARS=AAA ; echo '\$CHARS' ; echo \$CHARS ; echo \$PWD\$HOMe\"\$VAR_NONEXISTANT01\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT02\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY |wc"
+	test " export EMPTY ; export NOTEMPTY= ; export CHARS=AAA ; echo '\$CHARS' ; echo \$CHARS ; echo \$PWD\$HOMe\"\$VAR_NONEXISTANT01\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT02\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY "
+	test " export EMPTY ; export NOTEMPTY= ; export CHARS=AAA ; echo '\$CHARS' ; echo \$CHARS ; echo \$PWD\$VAR_NONEXISTANT01\"\$VAR_NONEXISTANT02\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT03\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY | wc"
+	test " export EMPTY ; export NOTEMPTY= ; export CHARS=AAA ; echo '\$CHARS' ; echo \$CHARS ; echo \$PWD\$VAR_NONEXISTANT01\"\$VAR_NONEXISTANT02\$PWD\" \$NOTEMPTY\$EMPTY'' \$\"VAR_NONEXISTANT03\"'\$EMPTY\$\"PWD' \$CHARS\"\$CHARS\"'\$PWD\"\$PWD\"'\$EMPTY\$NOTEMPTY ;"
 	test " echo \"\$HOME\" ; echo \$HOME ; echo \"\$\"HOME ; echo \$\"\"HOME ; echo \"\"\$HOME ; echo \$\"HOME\" ; echo \$\"HO\"\"ME\" ; echo \"\$HO\"\"ME\" ; echo \"\$HO\"ME ; echo \$\"HOME\" "
 	test " mkdir -p test1/test2/test3 ; cd test1/test2/test3 ; rm -rf ../../../test1 ; cd .. ; pwd ; cd .. ; pwd ; cd .. ; pwd "
 	test "export 4ABC=toto"
@@ -199,6 +201,9 @@ test_correction_echo () {
 	test "echo -n -n -n -n"
 	test "echo -nnnn"
 
+	test "echo a \$NOVAR b| wc"
+	test "echo a \\n b| wc"
+	test "echo -n a \\n b| wc"
 	test "echo $ ; echo "$" ; echo '$'"
     test "echo $"" ; echo "$""" ; echo '$'''"
     test "echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
@@ -962,34 +967,34 @@ main () {
 	#  test_random
 	#  test_bonus
 	#  test_executor
-	#  test_failed
+	 test_failed
 	#  test_signal
 	#  test_syntax
 
-	test_correction_arg
+	# test_correction_arg
 	test_correction_echo
-	test_correction_exit
-	test_correction_exec
-	test_correction_return
-	test_correction_semicolons
-	test_correction_baskslashs
-	test_correction_env
+	# test_correction_exit
+	# test_correction_exec
+	# test_correction_return
+	# test_correction_semicolons
+	# test_correction_baskslashs
+	# test_correction_env
 
-	test_correction_export_identifier
-	test_correction_export_identifier_mix_valid
-	test_correction_export
-	test_correction_unset_identifier
-	test_correction_unset_identifier_mix_valid
-	test_correction_unset
+	# test_correction_export_identifier
+	# test_correction_export_identifier_mix_valid
+	# test_correction_export
+	# test_correction_unset_identifier
+	# test_correction_unset_identifier_mix_valid
+	# test_correction_unset
 
-	test_correction_exp
-	test_correction_cd
-	test_correction_pwd
-	test_correction_PATH
-	test_correction_simple_quotes
-	test_correction_redirect
-	test_correction_pipes
-	test_correction_AND_OR
+	# test_correction_exp
+	# test_correction_cd
+	# test_correction_pwd
+	# test_correction_PATH
+	# test_correction_simple_quotes
+	# test_correction_redirect
+	# test_correction_pipes
+	# test_correction_AND_OR
 
 # test "rm -rf haha hello hehe ;echo toto < haha > hello >> hehe ; echo \$? ; cat haha ; cat hello ; cat hehe"
 # test "rm -rf hello ; titi > hello ; echo \$? ; cat hello"
