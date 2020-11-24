@@ -19,6 +19,7 @@ int		handle_backslash_double(char c, t_vector *input)
 	c = vct_getfirstchar(input);
 	if (c == '\0')
 	{
+		ms_setenv_int(get_env_list(GET), "?", 2, F_OVERWRITE | F_EXPORT);
 		print_set_errno(0, "syntax error : missing newline", NULL, NULL);
 		return (FAILURE);
 	}
@@ -30,6 +31,7 @@ int		handle_backslash_nothing(t_vector *input, t_vector *output, char c)
 	vct_pop(input);
 	if (c == '\0')
 	{
+		ms_setenv_int(get_env_list(GET), "?", 2, F_OVERWRITE | F_EXPORT);
 		print_set_errno(0, "syntax error : missing newline", NULL, NULL);
 		return (FAILURE);
 	}

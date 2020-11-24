@@ -10,7 +10,7 @@ void	handle_exit_value(t_vector *vct_av, t_vector *vct_av_cpy, char c)
 	exit_value = ft_atoi(vct_getstr(vct_av));
 	vct_del(&vct_av);
 	ft_printf("%s\n", EXIT);
-	// exit(exit_value);
+	ms_setenv_int(get_env_list(GET), "?", exit_value, F_OVERWRITE | F_EXPORT);
 	exit_routine_le(ERR_NO_MESSAGE);
 }
 
@@ -23,7 +23,10 @@ int		print_error(t_vector *vct_av, char *av, char c, int flag)
 				(flag == (NUM | MINUS_PLUS))))
 		print_set_errno(0, ERR_NUM, EXIT, av);
 	else if (flag == ARG)
+	{
 		print_set_errno(0, ERR_MANY, EXIT, av);
+		return (3);
+	}
 	vct_del(&vct_av);
 	return (2);
 }
@@ -58,12 +61,12 @@ int		exit_builtin(int ac, char **av, char **envp)
 {
 	t_vector	*vct_av;
 	char		c;
+	int			ret;
 
 	(void)envp;
 	if (ac == 1)
 	{
 		ft_printf("%s\n", EXIT);
-		// exit(get_env_value_int(get_env_list(GET), S_QUESTION_MARK));
 		exit_routine_le(ERR_NO_MESSAGE);
 	}
 	vct_av = vct_new();
@@ -72,7 +75,16 @@ int		exit_builtin(int ac, char **av, char **envp)
 	c = vct_getfirstchar(vct_av);
 	if (c == C_PLUS || c == C_MINUS)
 		vct_pop(vct_av);
-	if (check_arg(vct_av, c, av[1], ac) == 2)
+	ret = check_arg(vct_av, c, av[1], ac);
+	if (ret > 2)
+	{
+		/*si le retour est 3, renvoie Brian doit savoir que 3 veut dire que EXIT
+			a fail car trop d'arguments, donc si il recoit 3 et qu'il s'agit de EXIT,
+			set a 3 comme ca dans le hub cleaner je vois que ca vient de EXIT et si pas de commande,
+			je n'execute pas les autres jobs et donc je resete ensuite la valeur a 2 ?*/
+		vct_del(&vct_av);
 		return (EXIT_FAIL);
+	}
+	vct_del(&vct_av);
 	return (SUCCESS);
 }
