@@ -97,23 +97,23 @@ int			check_arg(t_vector *vct_av, char c, char *av, int ac)
 	{
 		ms_setenv_int(get_env_list(GET), "?",
 						print_error(vct_av, av, c, MINUS_PLUS | NUM),
-													F_EXPORT | F_OVERWRITE);
-		exit_routine_le(ERR_NO_MESSAGE);
+													F_OVERWRITE);
+		exit_routine_le(NORMAL_EXIT);
 	}
 	ret_parser = parse_vct(vct_av);
 	if (ret_parser == false)
 	{
 		ms_setenv_int(get_env_list(GET), "?", print_error(vct_av, av, c, NUM),
-						F_EXPORT | F_OVERWRITE);
-		exit_routine_le(ERR_NO_MESSAGE);
+						F_OVERWRITE);
+		exit_routine_le(NORMAL_EXIT);
 	}
 	vct_cpy(vct_av_cpy, vct_av);
 	ret_long = is_long(vct_av, c);
 	if (ret_long == true)
 	{
 		ms_setenv_int(get_env_list(GET), "?", print_error(vct_av, av, c, NUM),
-						F_EXPORT | F_OVERWRITE);
-		exit_routine_le(ERR_NO_MESSAGE);
+						F_OVERWRITE);
+		exit_routine_le(NORMAL_EXIT);
 	}
 	if (ret_long == false && ac > 2)
 	{
