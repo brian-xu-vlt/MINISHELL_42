@@ -75,9 +75,6 @@ void	debug_jobs(t_list *job_list)
 			ft_printf("fd_string[0] = %s\n", cmd->fd_string[0]);
 			ft_printf("fd_string[1] = %s\n", cmd->fd_string[1]);
 			ft_printf("fd_string[2] = %s\n", cmd->fd_string[2]);
-			ft_printf("fd_string_before[0] = %s\n", cmd->fd_string_before[0]);
-			ft_printf("fd_string_before[1] = %s\n", cmd->fd_string_before[1]);
-			ft_printf("fd_string_before[2] = %s\n", cmd->fd_string_before[2]);
 			ft_printf("condition = %s\n", what_conditon(cmd->condition));
 			ft_printf("redirection = %d\n", cmd->redirection);
 			ft_printf("count_assign = %d\n", cmd->count_assign);

@@ -226,7 +226,7 @@ char								*clean_quote(char *arg, int *ret);
 #define R_END				0
 #define W_END				1
 
-void	process_open_file(t_cmd *cmd);
+void	process_open_file(t_cmd *cmd, int flag);
 void	export_envp(char **envp);
 void	assign_envp_content(const t_cmd *command);
 int		exec_builtin(t_cmd *command);
