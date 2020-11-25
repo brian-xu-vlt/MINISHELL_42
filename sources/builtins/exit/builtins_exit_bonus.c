@@ -67,7 +67,7 @@ int		exit_builtin(int ac, char **av, char **envp)
 	if (ac == 1)
 	{
 		ft_printf("%s\n", EXIT);
-		exit_routine_le(ERR_NO_MESSAGE);
+		exit_routine_le(NORMAL_EXIT);
 	}
 	vct_av = vct_new();
 	vct_addstr(vct_av, av[1]);

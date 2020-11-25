@@ -51,18 +51,16 @@ void		exit_routine_le(char *err_code)
 		last_exit_status = get_env_value_int(env_lst, S_QUESTION_MARK);
 		free_env_list(env_lst);
 	}
-	if (ft_strequ(err_code, NORMAL_EXIT) == TRUE)
+	if (ft_strequ(err_code, NORMAL_EXIT) == FALSE)
 	{
-		// ft_putstr_fd("exit\n", STDERR_FILENO);
-		exit(last_exit_status);
+		if (ft_strequ(err_code, ERR_MALLOC) == TRUE)
+			errno = ENOMEM;
+		if (err_code != ERR_NO_MESSAGE)
+		{
+			ft_putstr_fd(err_code, STDERR_FILENO);
+			ft_putstr_fd("\n", STDERR_FILENO);
+			exit(FAILURE);
+		}
 	}
-	if (ft_strequ(err_code, ERR_MALLOC) == TRUE)
-		errno = ENOMEM;
-	if (err_code != ERR_NO_MESSAGE)
-	{
-		ft_putstr_fd(err_code, STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
-		exit(FAILURE);
-	}
-	exit(0);
+	exit(last_exit_status);
 }

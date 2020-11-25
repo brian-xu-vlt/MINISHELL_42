@@ -281,6 +281,7 @@ void	print_invalid_option(const char *function_name,
 int		history_builtin(int ac, char **av, char **envp);
 int		exit_builtin(int ac, char **av, char **envp);
 int		env_builtin(int argc, char **argv, char **envp);
+bool	is_valid_export_identifier(char *id_to_test);
 int		export_builtin(int argc, char **argv, char **envp);
 int		unset_builtin(int argc, char **argv, char **envp);
 int		pwd_builtin(int ac, char **av, char **envp);
