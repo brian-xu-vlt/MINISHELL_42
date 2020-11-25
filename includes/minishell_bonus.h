@@ -307,6 +307,7 @@ void 	swap_pwd(int flag, char *dir);
 void 	get_value(t_vector **vct_pwd, t_vector **vct_old, t_vector **vct_home);
 void 	free_clean_command(t_clean_cmd *clean_cmd, int flag);
 void	set_env(t_vector *vct_pwd, t_vector *vct_old);
+void	exit_error(t_vector *vct_av, char *av, char c, int flag);
 
 /******************************************************************************/
 /*******************************_ENV_MANAGER_**********************************/
