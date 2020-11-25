@@ -75,30 +75,15 @@ static int	process_double_greater(char *str, t_cmd *cmd)
 	return (SUCCESS);
 }
 
-static void	init_cmd_redirection(t_cmd *cmd, int redirection, int flag)
+static void	init_cmd_redirection(t_cmd *cmd)
 {
-	if (flag == AFTER)
-	{
-		cmd->redirection = cmd->redirection | redirection;
-		if (cmd->fd[0] != STDIN_FILENO && cmd->fd[0] == cmd->tmp_fd_in)
-				cmd->redirection = cmd->redirection | F_REDIRECT_IN;
-		if (cmd->fd[1] != STDOUT_FILENO && cmd->fd[1] == cmd->tmp_fd_out)
-				cmd->redirection = cmd->redirection | F_REDIRECT_OUT;
-		if (cmd->fd[1] != STDOUT_FILENO && cmd->fd[1] == cmd->tmp_fd_append)
-				cmd->redirection = cmd->redirection | F_REDIRECT_OUT
+	if (cmd->fd[0] != STDIN_FILENO && cmd->fd[0] == cmd->tmp_fd_in)
+			cmd->redirection = cmd->redirection | F_REDIRECT_IN;
+	if (cmd->fd[1] != STDOUT_FILENO && cmd->fd[1] == cmd->tmp_fd_out)
+			cmd->redirection = cmd->redirection | F_REDIRECT_OUT;
+	if (cmd->fd[1] != STDOUT_FILENO && cmd->fd[1] == cmd->tmp_fd_append)
+			cmd->redirection = cmd->redirection | F_REDIRECT_OUT
 												| F_REDIRECT_OUT_APPEND;
-	}
-	if (flag == BEFORE)
-	{
-		cmd->redirection_before = cmd->redirection_before | redirection;
-		if (cmd->fd[0] != STDIN_FILENO && cmd->fd[0] == cmd->tmp_fd_in)
-				cmd->redirection_before = cmd->redirection_before | F_REDIRECT_IN;
-		if (cmd->fd[1] != STDOUT_FILENO && cmd->fd[1] == cmd->tmp_fd_out)
-				cmd->redirection_before = cmd->redirection_before | F_REDIRECT_OUT;
-		if (cmd->fd[1] != STDOUT_FILENO && cmd->fd[1] == cmd->tmp_fd_append)
-				cmd->redirection_before = cmd->redirection_before | F_REDIRECT_OUT
-												| F_REDIRECT_OUT_APPEND;
-	}
 }
 
 static void	print_file_error(char **str, size_t i, size_t size)
@@ -120,61 +105,38 @@ void		process_open_file(t_cmd *cmd, int flag)
 	size_t			i;
 	int				ret_file;
 	size_t			size;
-	int 			flag_redir;
-	char			**tab_redir;
-	int				redirection;
 
 	i = 0;
-	redirection = 0;
 	ret_file = SUCCESS;
-	tab_redir = NULL;
 	if (flag == BEFORE)
-	{
 		size = cmd->count_redir_before;
-		tab_redir = (char **)malloc(sizeof(char *) * (size + 1));
-		while (i < size)
-		{
-			tab_redir[i] = ft_strdup(cmd->tab_redir_before[i]);
-			i++;
-		}
-		tab_redir[i] = NULL;
-	}
-	if (flag == AFTER)
-	{
+	else if (flag == AFTER)
 		size = cmd->count_redir;
-		tab_redir = (char **)malloc(sizeof(char *) * (size + 1));
-		while (i < size)
-		{
-			tab_redir[i] = ft_strdup(cmd->tab_redir_before[i]);
-			i++;
-		}
-		tab_redir[i] = NULL;
-	}
-	if (flag == AFTER)
-	{
-		size = cmd->count_redir;
-	}
-	i = 0;
 	while (i < size)
 	{
-		if (ft_strequ(tab_redir[i], DOUBLE_GREATER) == TRUE)
-			ret_file = process_double_greater(tab_redir[i + 1], cmd);
-		else if (ft_strequ(tab_redir[i], GREATER_THAN) == TRUE)
-			ret_file = process_greater(tab_redir[i + 1], cmd);
-		else if (ft_strequ(tab_redir[i], LESS_THAN) == TRUE)
-			ret_file = process_less(tab_redir[i + 1], cmd);
+		if (ft_strequ(flag == AFTER ? cmd->tab_redir[i] :
+				cmd->tab_redir_before[i], DOUBLE_GREATER) == TRUE)
+			ret_file = process_double_greater(flag == AFTER ?
+				cmd->tab_redir[i + 1] : cmd->tab_redir_before[i + 1], cmd);
+		else if (ft_strequ(flag == AFTER ? cmd->tab_redir[i] :
+				cmd->tab_redir_before[i], GREATER_THAN) == TRUE)
+			ret_file = process_greater(flag == AFTER ?
+				cmd->tab_redir[i + 1] : cmd->tab_redir_before[i + 1], cmd);
+		else if (ft_strequ(flag == AFTER ? cmd->tab_redir[i] :
+				cmd->tab_redir_before[i], LESS_THAN) == TRUE)
+			ret_file = process_less(flag == AFTER ? cmd->tab_redir[i + 1] :
+				cmd->tab_redir_before[i + 1], cmd);
 		if (ret_file == FAILURE || ret_file == NO_FILE)
 		{
 			if (ret_file == NO_FILE)
-				print_file_error(tab_redir, i, cmd->count_redir);
-			redirection = redirection | F_REDIRECT_FAILURE;
+				print_file_error(flag == AFTER ? cmd->tab_redir :
+					cmd->tab_redir_before, i, cmd->count_redir);
+			cmd->redirection = cmd->redirection | F_REDIRECT_FAILURE;
 			return ;
 		}
 		i += 2;
 		if (i >= size)
 			break ;
 	}
-	ft_free_tab(size, tab_redir);
-	free(tab_redir);
-	init_cmd_redirection(cmd, redirection, flag);
+	init_cmd_redirection(cmd);
 }
