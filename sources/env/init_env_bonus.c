@@ -31,6 +31,28 @@ static void	exit_routine_init_env(void)
 	exit (FAILURE);
 }
 
+static int	is_special_environ(char *environ)
+{
+	char		*env_name;
+	char		*env_value;
+	int			overwrite;
+	int			ret;
+
+	if (ft_strnstr(environ, "+=", ft_strlen(environ)) != NOT_FOUND)
+		return (true);
+	parse_env(environ, &env_name, &env_value, &overwrite);
+	ret = is_valid_export_identifier(env_name);
+	// ft_printf("valid id[%d]..................env[%s]name[%s]val[%s]\n",ret, environ, env_name, env_value);
+	free(env_name);
+	if (env_value != NULL)
+		free(env_value);
+	if (ret == false)
+		return (true);
+	else if (ft_isalpha(*environ) == false)
+		return (true);
+	return (false);
+}
+
 void		init_env(void)
 {
 	t_list		*env_lst;
@@ -46,7 +68,12 @@ void		init_env(void)
 	index = 0;
 	while (environ[index] != NULL)
 	{
-		if (ft_isalpha(environ[index][0]) == TRUE)
+		if (is_special_environ(environ[index]) == true)
+		{
+			// ft_printf("IS SPECIAL!\n");
+			ms_setenv(env_lst, environ[index], NULL, F_SPECIAL);
+		}
+		else
 			export_env(env_lst, environ[index]);
 		index++;
 	}

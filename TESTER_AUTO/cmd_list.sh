@@ -954,7 +954,7 @@ test_syntax() {
 test_with_extra_env ()
 {
 	EXTRA_ENV="$1"
-	echo -e "\n \e[36m  ℹ️  This test is done with env -i $1 \e[0m"
+	echo -e "\n \e[36m  ℹ️  This test is done with env -i $1 [./Minishell | bash --posix]\e[0m"
 	test "$2"
 	unset EXTRA_ENV
 
@@ -964,11 +964,15 @@ test_env_starter() {
 	print_separator '█'
 	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
-	# test_with_extra_env "c\@t=42" "env | sort; export | sort"
-	test_with_extra_env "c.t=42" "env | sort; export | sort ; echo ; echo \$c.t=42"
-	test_with_extra_env "cat+dog=42" "env | sort | grep -v '?' ; echo ; export | sort | grep -v '?' ; echo \$cat+dog"
-	test_with_extra_env "cat+=42" "env | sort | grep -v '?' ; echo ; export | sort | grep -v '?' ; echo \$cat+"
-	test_with_extra_env "cat=MEEEEEEEEEOWW" "env | sort | grep -v '?' ; echo ; export | sort | grep -v '?' ; echo \$cat"
+	test_with_extra_env "c\@t=42"					"env | sort; export | sort"
+	test_with_extra_env "c.t=42"				"env | sort; export | sort ; echo ; echo \$c.t ; echo \$c.t=42"
+	test_with_extra_env "cat+dog=42"			"env | sort | grep -v '?' ; echo ; export | sort | grep -v '?' ; echo \$cat+dog ; echo \$c.t=42"
+	test_with_extra_env "cat+=42"				"env | sort | grep -v '?' ; echo ; export | sort | grep -v '?' ; echo \$cat+ ; echo \$cat+=42"
+	test_with_extra_env "1cat=42"				"env | sort | grep -v '?' ; echo ; export | sort | grep -v '?' ; echo \$1cat ; echo \$1cat=42"
+	test_with_extra_env "3cat=42"				"env | sort | grep -v '?' ; echo ; export | sort | grep -v '?' ; echo \$3cat; echo \$3cat=42"
+	test_with_extra_env "c+at+=42"				"env | sort | grep -v '?' ; echo ; export | sort | grep -v '?' ; echo \$c+at+ ; echo \$c+at+=42"
+	test_with_extra_env "c;at=42"				"env | sort | grep -v '?' ; echo ; export | sort | grep -v '?' ; echo \$c;at ; echo \$c;at=42"
+	test_with_extra_env "cat=MEEEEEEEEEOWW"		"env | sort | grep -v '?' ; echo ; export | sort | grep -v '?' ; echo \$cat ; echo \$cat=MEEEEEEEEEOWW"
 }
 
 main () {
@@ -995,32 +999,32 @@ main () {
 	#  test_signal
 	#  test_syntax
 
-	test_correction_arg
-	test_correction_echo
-	test_correction_exit
-	test_correction_exec
-	test_correction_return
-	test_correction_semicolons
-	test_correction_baskslashs
+	# test_correction_arg
+	# test_correction_echo
+	# test_correction_exit
+	# test_correction_exec
+	# test_correction_return
+	# test_correction_semicolons
+	# test_correction_baskslashs
 	test_correction_env
 
 	test_correction_export_identifier
 	test_correction_export_identifier_mix_valid
 	test_correction_export
-	test_correction_unset_identifier
-	test_correction_unset_identifier_mix_valid
-	test_correction_unset
+	# test_correction_unset_identifier
+	# test_correction_unset_identifier_mix_valid
+	# test_correction_unset
 
-	test_correction_exp
-	test_correction_cd
-	test_correction_pwd
-	test_correction_PATH
-	test_correction_simple_quotes
-	test_correction_redirect
-	test_correction_pipes
-	test_correction_AND_OR
+	# test_correction_exp
+	# test_correction_cd
+	# test_correction_pwd
+	# test_correction_PATH
+	# test_correction_simple_quotes
+	# test_correction_redirect
+	# test_correction_pipes
+	# test_correction_AND_OR
 
-	# test_env_starter
+	test_env_starter
 
 # test "rm -rf haha hello hehe ;echo toto < haha > hello >> hehe ; echo \$? ; cat haha ; cat hello ; cat hehe"
 # test "rm -rf hello ; titi > hello ; echo \$? ; cat hello"

@@ -53,7 +53,9 @@ void			ms_setenv(t_list *env_lst, const char *env_name,
 		env_node = store_new_env(env_lst, env_name, env_value);
 	else
 		update_existing_env(env_node, env_value, flags);
-	if (flags &= F_EXPORT)
+	if (flags == F_SPECIAL)
+		env_node->export_flag = F_SPECIAL;
+	else if (flags &= F_EXPORT)
 		env_node->export_flag = TRUE;
 }
 

@@ -67,8 +67,10 @@ char		**get_envp(t_list *env_lst)
 	while (cursor != NULL && cursor->content != NULL && i <= lst_size)
 	{
 		content = ((t_env *)cursor->content);
-		if (content->export_flag == TRUE && content->env_value != NULL)
+		if ((content->export_flag == TRUE && content->env_value != NULL)
+		|| content->export_flag == F_SPECIAL)
 		{
+			// ft_printf("get_envp : %d - %s\n", content->export_flag, content->env_name);
 			envp[i] = create_env(content->env_name, content->env_value);
 			if (envp[i] == NULL)
 				exit_routine_failed_envp(envp);

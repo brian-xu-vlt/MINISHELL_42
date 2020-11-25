@@ -319,6 +319,7 @@ void	set_env(t_vector *vct_pwd, t_vector *vct_old);
 # define	F_NOFLAG		0
 # define	F_EXPORT		(1 << 0)
 # define	F_OVERWRITE		(1 << 1)
+# define	F_SPECIAL		(1 << 2)
 
 void		free_env_list(t_list *env_lst);
 

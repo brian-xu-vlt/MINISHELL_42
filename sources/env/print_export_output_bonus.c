@@ -80,7 +80,8 @@ void		print_export_output(t_list *env_lst)
 	while (cursor != NULL && cursor->content != NULL)
 	{
 		content = ((t_env *)cursor->content);
-		if (content->export_flag == TRUE)
+		// if (content->export_flag == TRUE)
+		// if (content->export_flag == TRUE && is_valid_export_identifier(content->env_name) == TRUE && ft_isalpha(content->env_name[0]))
 			add_to_btree(&sorted_tree, content);
 		cursor = cursor->next;
 	}

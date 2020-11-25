@@ -2,6 +2,8 @@
 
 bool	is_valid_export_identifier(char *id_to_test)
 {
+	if (id_to_test == NULL)
+		return (FAILURE);
 	if (ft_strchr(id_to_test, '+') != NOT_FOUND
 			&& ft_strnstr(id_to_test, "+=", ft_strlen(id_to_test)) == NOT_FOUND)
 		return (false);
