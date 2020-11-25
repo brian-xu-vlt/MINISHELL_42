@@ -66,7 +66,7 @@ test () {
 	((TEST_NB+=1))
 	export TEST=$1
 
-	echo "$TEST" | env -i $EXTRA_ENV bash --posix -i &>/tmp/ba.log
+	echo "$TEST" | env -i $EXTRA_ENV $(which bash) --posix -i &>/tmp/ba.log
 	# echo "RETURNED : $?" >> /tmp/ba.log
 	echo "$TEST" | env -i $EXTRA_ENV ./Minishell &>/tmp/minishell.log
 	# echo "RETURNED : $?" >> /tmp/minishell.log
@@ -974,6 +974,10 @@ test_env_starter() {
 	test_with_extra_env "c+at+=42"				"env | sort | grep -v '?' ; echo ; export | sort | grep -v '?' ; echo \$c+at+ ; echo \$c+at+=42 ; sh -c 'export ; env | sort'"
 	test_with_extra_env "c;at=42"				"env | sort | grep -v '?' ; echo ; export | sort | grep -v '?' ; echo \$c;at ; echo \$c;at=42 ; sh -c 'export ; env | sort'"
 	test_with_extra_env "cat=MEEEEEEEEEOWW"		"env | sort | grep -v '?' ; echo ; export | sort | grep -v '?' ; echo \$cat ; echo \$cat=MEEEEEEEEEOWW ; sh -c 'export ; env | sort'"
+	test_with_extra_env "PWD=/tmp"				"ls ; pwd"
+	test_with_extra_env "PATH=/tmp"				"ls ; export ; pwd ; cal ; ps ; echo ; /bin/ls"
+	test_with_extra_env "PATH="					"ls ; export ; pwd ; cal ; ps ; echo ; /bin/ls"
+	test_with_extra_env "PATH=''"				"ls ; export ; pwd ; cal ; ps ; echo ; /bin/ls"
 }
 
 main () {

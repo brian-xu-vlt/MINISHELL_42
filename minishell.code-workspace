@@ -20,7 +20,8 @@
         "__functional_03": "c",
         "cstdlib": "c",
         "functional": "c",
-        "minishell_bonus.h": "c"
+        "minishell_bonus.h": "c",
+        "__node_handle": "c"
       }
     },
     "launch": {
