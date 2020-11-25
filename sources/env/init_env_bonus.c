@@ -42,7 +42,6 @@ static int	is_special_environ(char *environ)
 		return (true);
 	parse_env(environ, &env_name, &env_value, &overwrite);
 	ret = is_valid_export_identifier(env_name);
-	// ft_printf("valid id[%d]..................env[%s]name[%s]val[%s]\n",ret, environ, env_name, env_value);
 	free(env_name);
 	if (env_value != NULL)
 		free(env_value);
@@ -69,10 +68,7 @@ void		init_env(void)
 	while (environ[index] != NULL)
 	{
 		if (is_special_environ(environ[index]) == true)
-		{
-			// ft_printf("IS SPECIAL!\n");
 			ms_setenv(env_lst, environ[index], NULL, F_SPECIAL);
-		}
 		else
 			export_env(env_lst, environ[index]);
 		index++;
