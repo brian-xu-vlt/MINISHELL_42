@@ -26,6 +26,11 @@ static int	process_clean_command(t_cmd *cmd)
 		return (FAILURE);
 	}
 	index_cmd = get_cmd(cmd);
+	if (index_cmd == ONLY_REDIR_BEFORE)
+	{
+		free_clean_command(clean_cmd, FREE_ONLY_CMD);
+		return (SUCCESS);
+	}
 	ret_cmd = get_envp_av(cmd, clean_cmd, index_cmd);
 	if (ret_cmd == FAILURE)
 	{

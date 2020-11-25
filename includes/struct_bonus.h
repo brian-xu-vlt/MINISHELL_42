@@ -64,10 +64,13 @@ typedef struct				s_cmd
 	size_t					*tab_exp;
 	char					**envp;
 	size_t					count_redir;
+	size_t					count_redir_before;
 	int						tmp_fd_in;
 	int						tmp_fd_out;
 	int						tmp_fd_append;
 	char					**tab_redir;
+	char					**tab_redir_before;
+
 
 }
 							t_cmd;

@@ -80,7 +80,7 @@ static int	process_get_cmd(size_t i_assign, size_t i_exp, size_t i, t_cmd *cmd)
 	return (TRUE_CMD);
 }
 
-static void	debug_tab_assign(t_cmd *cmd)
+/*static void	debug_tab_assign(t_cmd *cmd)
 {
 	size_t	i;
 
@@ -104,7 +104,7 @@ static void	debug_tab_exp(t_cmd *cmd)
 		i++;
 	}
 	ft_printf("\n\n");//DEBUG
-}
+}*/
 
 static void	how_increment(t_cmd *cmd, size_t *i, size_t *i_assign, size_t *i_exp)
 {
@@ -112,41 +112,53 @@ static void	how_increment(t_cmd *cmd, size_t *i, size_t *i_assign, size_t *i_exp
 	size_t	i_tab_exp;
 
 	tmp_i = 0;
-	*i = *i + 1;
-//	debug_tab_exp(cmd);
-//	debug_tab_assign(cmd);
 	while (*i < (size_t)cmd->ac)
 	{
 		if (ft_strequ(LESS_THAN, cmd->av[*i]) == TRUE ||
 				ft_strequ(GREATER_THAN, cmd->av[*i]) == TRUE || 
 				ft_strequ(DOUBLE_GREATER, cmd->av[*i]) == TRUE)
 		{
-			if (cmd->count_exp != 0 && *i == cmd->tab_exp[*i_exp])
-			{
-			//	ft_printf("C'EST EGALE\n");//DEBUG
-				*i_exp = *i_exp + 1;
+			if (cmd->count_exp != 0 && *i_exp != cmd->count_exp &&
+					*i == cmd->tab_exp[*i_exp])
 				return ;
-			}
-			if (tmp_i != *i - 2)
-			{
-			//	ft_printf("tmp_i = %d\n", tmp_i);//DEBUG
-			//	ft_printf("cmd->av[%d] = %s\n", *i, cmd->av[*i]);//DEBUG
-			//	ft_printf("ca cloche\n");//DEBUG
-				if (tmp_i + 2 != cmd->ac)
-				{
-					if (cmd->count_assign != 0 &&  + 1 == cmd->tab_assign[0])
-						*i_assign = i_assign + 1;
-				//	ft_printf("DIFF AC\n");
-					*i = tmp_i + 2;
-					return ;
-				}
-
-			}
-		//	ft_printf("i INCREMENT STOP = %d\n", *i);//DEBUG
-			tmp_i = *i;
+			if (cmd->count_assign != 0 && *i_assign != cmd->count_assign &&
+					*i + 1 == cmd->tab_assign[*i_assign])
+				*i_assign = *i_assign + 1;
+			else if (cmd->count_exp != 0 && *i_exp != cmd->count_exp &&
+					*i + 1 == cmd->tab_exp[*i_exp])
+				*i_exp = *i_exp + 1;
+			*i = *i + 2;
 		}
-		*i = *i + 1;
+		else
+			return ;
 	}
+}
+
+static int	set_redir_before(t_cmd *cmd, size_t i)
+{
+	size_t	start;
+
+	start = 0;
+	cmd->tab_redir_before = (char **)malloc(sizeof(char *) * (i + 1));
+	if (cmd->tab_redir_before == NULL)
+		exit_routine_le(ERR_MALLOC);
+	while (start < i)
+	{
+		cmd->tab_redir_before[start] = ft_strdup(cmd->av[start]);
+		free(cmd->av[start]);
+		cmd->av[start] = NULL;
+		start++;
+	}
+	cmd->tab_redir_before[start] = NULL;
+	cmd->count_redir_before = i;
+	if (cmd->count_redir_before == cmd->ac)
+	{
+		ft_free_tab(cmd->ac, cmd->av);
+		free(cmd->av);
+		cmd->av = NULL;
+		return (ONLY_REDIR_BEFORE);
+	}
+	return (SUCCESS);
 }
 
 int			get_cmd(t_cmd *cmd)
@@ -177,12 +189,13 @@ int			get_cmd(t_cmd *cmd)
 				ft_strequ(GREATER_THAN, cmd->av[i]) == TRUE || 
 				ft_strequ(DOUBLE_GREATER, cmd->av[i]) == TRUE))
 		{
-			//ft_printf("cmd->av[%d] = %s\n", i, cmd->av[i]);//DEBUG
-		//	ft_printf("CA RENTRE ICI\n");//DEBUG
 			flag_exp_before = true;
+			if ((i == 0 && cmd->ac == 1) ||
+					(cmd->count_exp != 0 && i == cmd->tab_exp[0]))
+				return (0);
 			how_increment(cmd, &i, &i_assign, &i_exp);
-			//set_redir_before;
-			//set_av == NULL
+			if (set_redir_before(cmd, i) == ONLY_REDIR_BEFORE)
+				return (ONLY_REDIR_BEFORE);
 			continue ;
 		}
 		ret = process_get_cmd(i_assign, i_exp, i, cmd);

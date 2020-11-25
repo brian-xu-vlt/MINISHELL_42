@@ -2,7 +2,7 @@
 
 void		free_clean_command(t_clean_cmd *clean_cmd, int flag)
 {
-	if (flag == ALL_FREE || flag == MALLOC)
+	if ((flag == ALL_FREE || flag == MALLOC) && flag != FREE_ONLY_CMD)
 	{
 		if (clean_cmd->av != NULL)
 		{
@@ -18,7 +18,7 @@ void		free_clean_command(t_clean_cmd *clean_cmd, int flag)
 		free(clean_cmd->tmp_av);
 	}
 	free(clean_cmd);
-	if (flag == MALLOC || flag == NOT_ALL_FREE)
+	if ((flag == MALLOC || flag == NOT_ALL_FREE) && flag != FREE_ONLY_CMD)
 		exit_routine_le(ERR_MALLOC);
 }
 

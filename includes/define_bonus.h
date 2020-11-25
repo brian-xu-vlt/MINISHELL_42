@@ -69,6 +69,7 @@
 #define	ALL_FREE					1
 #define NOT_ALL_FREE					0
 #define MALLOC							2
+#define FREE_ONLY_CMD					3
 #define	FILE_FAIL						2
 
 #define IN 0
@@ -103,6 +104,8 @@
 #define	F_EXP						1<<3
 
 #define NO_FILE						2
+
+#define ONLY_REDIR_BEFORE			-2
 
 /******************************************************************************/
 /*******************************_BUILTIN_**************************************/
