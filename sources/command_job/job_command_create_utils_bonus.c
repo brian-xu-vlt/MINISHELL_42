@@ -8,6 +8,12 @@ void	create_cmd_fd_string(t_cmd *cmd, t_cmd *cmd_model)
 		cmd->fd_string[1] = cmd_model->fd_string[1];
 	if (cmd_model->fd_string[2] != NULL)
 		cmd->fd_string[2] = cmd_model->fd_string[2];
+	if (cmd_model->fd_string_before[0] != NULL)
+		cmd->fd_string_before[0] = cmd_model->fd_string_before[0];
+	if (cmd_model->fd_string_before[1] != NULL)
+		cmd->fd_string_before[1] = cmd_model->fd_string_before[1];
+	if (cmd_model->fd_string_before[2] != NULL)
+		cmd->fd_string_before[2] = cmd_model->fd_string_before[2];
 }
 
 int		resize_cmd(t_cmd *cmd, int count)

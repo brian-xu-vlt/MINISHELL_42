@@ -54,9 +54,12 @@ typedef struct				s_cmd
 	enum e_token_type			*type;
 	int						ac;
 	int						fd[NB_FD];
+	int						fd_before[NB_FD];
 	char					*fd_string[NB_FD];
+	char					*fd_string_before[NB_FD];
 	enum e_condition_type	condition;
 	int						redirection;
+	int						redirection_before;
 	int						ret;
 	int						count_assign;
 	int						count_exp;
@@ -70,6 +73,7 @@ typedef struct				s_cmd
 	int						tmp_fd_append;
 	char					**tab_redir;
 	char					**tab_redir_before;
+	int						count_token;
 
 
 }
