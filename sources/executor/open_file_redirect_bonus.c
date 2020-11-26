@@ -107,6 +107,7 @@ void		process_open_file(t_cmd *cmd, int flag)
 	size_t			size;
 
 	i = 0;
+	size = 0;
 	ret_file = SUCCESS;
 	if (flag == BEFORE)
 		size = cmd->count_redir_before;

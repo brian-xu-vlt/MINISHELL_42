@@ -109,22 +109,22 @@ static void	debug_tab_exp(t_cmd *cmd)
 static void	how_increment(t_cmd *cmd, size_t *i, size_t *i_assign, size_t *i_exp)
 {
 	size_t	tmp_i;
-	size_t	i_tab_exp;
+	// size_t	i_tab_exp;
 
 	tmp_i = 0;
 	while (*i < (size_t)cmd->ac)
 	{
 		if (ft_strequ(LESS_THAN, cmd->av[*i]) == TRUE ||
-				ft_strequ(GREATER_THAN, cmd->av[*i]) == TRUE || 
+				ft_strequ(GREATER_THAN, cmd->av[*i]) == TRUE ||
 				ft_strequ(DOUBLE_GREATER, cmd->av[*i]) == TRUE)
 		{
-			if (cmd->count_exp != 0 && *i_exp != cmd->count_exp &&
+			if ((size_t)cmd->count_exp != 0 && *i_exp != (size_t)cmd->count_exp &&
 					*i == cmd->tab_exp[*i_exp])
 				return ;
-			if (cmd->count_assign != 0 && *i_assign != cmd->count_assign &&
+			if ((size_t)cmd->count_assign != 0 && *i_assign != (size_t)cmd->count_assign &&
 					*i + 1 == cmd->tab_assign[*i_assign])
 				*i_assign = *i_assign + 1;
-			else if (cmd->count_exp != 0 && *i_exp != cmd->count_exp &&
+			else if ((size_t)cmd->count_exp != 0 && *i_exp != (size_t)cmd->count_exp &&
 					*i + 1 == cmd->tab_exp[*i_exp])
 				*i_exp = *i_exp + 1;
 			*i = *i + 2;
@@ -151,7 +151,7 @@ static int	set_redir_before(t_cmd *cmd, size_t i)
 	}
 	cmd->tab_redir_before[start] = NULL;
 	cmd->count_redir_before = i;
-	if (cmd->count_redir_before == cmd->ac)
+	if (cmd->count_redir_before == (size_t)cmd->ac)
 	{
 		ft_free_tab(cmd->ac, cmd->av);
 		free(cmd->av);
@@ -185,8 +185,8 @@ int			get_cmd(t_cmd *cmd)
 			i++;
 			continue ;
 		}
-		if (i == 0 && (ft_strequ(LESS_THAN, cmd->av[i]) == TRUE || 
-				ft_strequ(GREATER_THAN, cmd->av[i]) == TRUE || 
+		if (i == 0 && (ft_strequ(LESS_THAN, cmd->av[i]) == TRUE ||
+				ft_strequ(GREATER_THAN, cmd->av[i]) == TRUE ||
 				ft_strequ(DOUBLE_GREATER, cmd->av[i]) == TRUE))
 		{
 			flag_exp_before = true;
