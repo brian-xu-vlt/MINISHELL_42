@@ -5,7 +5,7 @@ static void	handle_only_pwd(void)
 	char *pwd;
 
 	pwd = getcwd(NULL, PATH_MAX);
-	ms_setenv(get_env_list(GET), ENV_PWD, pwd, F_OVERWRITE);
+	ms_setenv(get_env_list(GET), ENV_PWD, pwd, F_OVERWRITE | F_EXPORT);
 	free(pwd);
 }
 
