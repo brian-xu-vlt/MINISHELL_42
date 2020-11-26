@@ -86,13 +86,13 @@ int			main(int ac, char **av)
 			ret_read = line_editor();
 			ft_putchar_fd('\n', STDOUT_FILENO);
 		}
-		jobs = process_minishell(cmd_line);
+		jobs = process_minishell(cmd_line);					// free_list_token + free_list_jobs
 		if (jobs != NULL)
 		{
 			if (hub_cleaner(jobs) == FAILURE)
 			{
 				vct_clear(cmd_line);
-				free_list_job(&jobs);
+				free_list_job(&jobs);						// recupérer pour exit_routine
 				exit_routine_le(NULL);
 				return (EXIT_FAILURE);
 			}

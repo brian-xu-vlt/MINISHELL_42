@@ -19,7 +19,7 @@
 static void	print_exit_error(int error)
 {
 	static const int	err_code[NB_ERR_CODES] = {
-		NORMAL_EXIT ,ERR_ENV ,ERR_NEW_VCT, ERR_VCT, ERR_ENVP, ERR_SCREEN_SIZE,
+		ERR_ENV ,ERR_NEW_VCT, ERR_VCT, ERR_ENVP, ERR_SCREEN_SIZE,
 		ERR_TERM_NAME, ERR_TERMCAP, ERR_MALLOC, ERR_FORK, ERR_HUP,
 		ERR_MS_PUTCHAR,ERR_MS_TPUTS };
 	static const char	*err_code_str[NB_ERR_CODES] = {
@@ -61,5 +61,3 @@ void		exit_routine(int err_code)
 		ft_dprintf(STDERR_FILENO, "exit\n");
 	exit(last_exit_status);
 }
-
-
