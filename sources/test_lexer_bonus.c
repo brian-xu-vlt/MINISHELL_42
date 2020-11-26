@@ -3,7 +3,8 @@
 t_list	*test_lexer(t_vector *input)
 {
 	t_list		*lexer_list;
-	
+	t_data		*data;
+
 //	ft_printf("\n%s\n", vct_getstr(input));
 	lexer_list = lexer(input);
 	if (lexer_list == NULL)
@@ -11,5 +12,8 @@ t_list	*test_lexer(t_vector *input)
 		free_list_token(&lexer_list);
 		return (NULL);
 	}
+	data = get_data(GET);
+	if (data != NULL)
+		data->lexer_list = lexer_list;
 	return (lexer_list);
 }

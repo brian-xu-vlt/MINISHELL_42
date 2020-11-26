@@ -43,7 +43,7 @@ static void	fill_termcaps(t_le *le)
 	}
 }
 
-void		init_line_editor(t_vector *cmd_line)
+t_le		*init_line_editor(t_vector *cmd_line)
 {
 	t_le	*le;
 
@@ -65,4 +65,5 @@ void		init_line_editor(t_vector *cmd_line)
 	}
 	le->stdout_stat = SUCCESS;
 	le->stderr_stat = SUCCESS;
+	return (le);
 }

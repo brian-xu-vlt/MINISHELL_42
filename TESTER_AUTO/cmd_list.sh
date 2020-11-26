@@ -67,9 +67,9 @@ test () {
 	export TEST=$1
 
 	echo "$TEST" | env -i $EXTRA_ENV $(which bash) --posix -i &>/tmp/ba.log
-	echo "RETURNED : $?" >> /tmp/ba.log
+	echo "EXITED WITH : $?" >> /tmp/ba.log
 	echo "$TEST" | env -i $EXTRA_ENV ./Minishell &>/tmp/minishell.log
-	echo "RETURNED : $?" >> /tmp/minishell.log
+	echo "EXITED WITH : $?" >> /tmp/minishell.log
 
 	# pour ENV
 	# echo "$TEST" | $EXTRA_ENV bash --posix -i &>/tmp/ba.log
@@ -205,11 +205,12 @@ test_correction_echo () {
 	test "echo -n -n -n -n"
 	test "echo -nnnn"
 
+	test "echo \$1cat=42"
 	test "echo a \$NOVAR b| wc"
 	test "echo a \\n b| wc"
 	test "echo -n a \\n b| wc"
-	test "echo $ ; echo "$" ; echo '$'"
-    test "echo $"" ; echo "$""" ; echo '$'''"
+	test "echo \$ ; echo \"\$\" ; echo '\$'"
+    test "echo \$\"\" ; echo \"\$\"\"\" ; echo '\$'''"
     test "echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
     test "echo \$toto\"\" ; echo \"\$toto\"\"\" ; echo '\$toto'''"
     test "toto= 42 ; echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
@@ -1016,22 +1017,22 @@ main () {
 	#  test_syntax
 
 	# test_correction_arg
-	# test_correction_echo
+	test_correction_echo
 	# test_correction_exit
 	# test_correction_exec
 	# test_correction_return
 	# test_correction_semicolons
 	# test_correction_baskslashs
-	test_correction_env
+	# test_correction_env
 
-	test_correction_export_identifier
-	test_correction_export_identifier_mix_valid
-	test_correction_export
-	test_correction_unset_identifier
-	test_correction_unset_identifier_mix_valid
-	test_correction_unset
+	# test_correction_export_identifier
+	# test_correction_export_identifier_mix_valid
+	# test_correction_export
+	# test_correction_unset_identifier
+	# test_correction_unset_identifier_mix_valid
+	# test_correction_unset
 
-	test_correction_exp
+	# test_correction_exp
 	# test_correction_cd
 	# test_correction_pwd
 	# test_correction_PATH
@@ -1128,7 +1129,15 @@ main () {
 		#test "echo 'tutu'\"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
 		#test "echo \"tutu\"\"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
 		#test "echo \"tu'i     'tu\"\"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
-
+	test "echo 'ma\' aaa \ bbb \      "
+	test " echo "poep\\"\" "
+	test "echo /\$\"123\$PWD\""
+	test "echo \$/"
+ 	test "export ; export a=\"\\\" ; export b='\\\' ; export c=\\"\\b\\" ; export"
+	test "  echo \"hallo\\\"\\poep\"  "
+	test " echo /$\"123\$PWD\" "
+	test " echo \$%%%%aaaaaaaaa "
+	test "echo \"\$222\""
 	fi
 
 	print_separator '█'

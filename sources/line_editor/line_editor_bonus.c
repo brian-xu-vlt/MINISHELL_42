@@ -37,10 +37,10 @@ int			line_editor(void)
 		free(le->cmd_line_backup);
 		le->cmd_line_backup = NULL;
 	}
-	// move_cursor_at_index(vct_getlen(le->cmd_line));
 	move_end_of_line();
 	unselect_all();
 	save_history();
 	set_termios(le->termios_bkup);
+	ft_putchar_fd('\n', STDOUT_FILENO);
 	return (ret_read);
 }

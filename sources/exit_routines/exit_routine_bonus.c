@@ -45,19 +45,24 @@ static void	print_exit_error(int error)
 void		exit_routine(int err_code)
 {
 	int			last_exit_status;
+	t_data		*data;
 
 	last_exit_status = get_env_value_int(get_env_list(GET), S_QUESTION_MARK);
-	exit_routine_le();
-	exit_routine_env();
-	exit_routine_lexer();
-	// ...
-
+	data = get_data(GET);
+	if (data != NULL)
+	{
+		if (data->cmd_line != NULL)
+			vct_del(&data->cmd_line);
+		exit_routine_line_edition(data->line_editor_data);
+		exit_routine_env();
+		if (data->current_jobs != NULL)
+			free_list_job(&data->current_jobs);
+		free(data);
+	}
 	if (err_code != NORMAL_EXIT)
 	{
 		print_exit_error(err_code);
 		exit (err_code);
 	}
-	else
-		ft_dprintf(STDERR_FILENO, "exit\n");
 	exit(last_exit_status);
 }

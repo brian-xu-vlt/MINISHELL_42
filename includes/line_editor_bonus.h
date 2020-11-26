@@ -239,7 +239,7 @@ void		init_prompt(void);
 void		print_prompt(void);
 void		init_term_mode(void);
 void		set_termios(const struct termios *termios_mode);
-void		init_line_editor(t_vector *cmd_line);
+t_le		*init_line_editor(t_vector *cmd_line);
 void		update_window_size(void);
 
 /*************************************************
