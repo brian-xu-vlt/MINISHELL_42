@@ -5,9 +5,11 @@ void		parse_expansion(t_vector *input, t_vector *output)
 	t_vector	*expansion;
 	char		*expansion_value;
 	char		c;
+	size_t		i;
 
 	expansion = vct_new();
 	vct_pop(input);
+	i = 0;
 	while (vct_getlen(input) > 0)
 	{
 		c = vct_getfirstchar(input);
@@ -15,6 +17,7 @@ void		parse_expansion(t_vector *input, t_vector *output)
 			break ;
 		vct_add(expansion, c);
 		vct_pop(input);
+		i++;
 	}
 	if (vct_getlen(expansion) == 0)
 		vct_add(output, C_EXPORT);
@@ -129,6 +132,13 @@ static int	handle_char(char c, t_vector *input, t_vector *output)
 	}
 	else if (c == C_EXPORT)
 	{
+		if (c == C_EXPORT && vct_getlen(input) != 1 &&
+				(vct_getcharat(input, 1) == C_SIMPLE_QUOTE ||
+				vct_getcharat(input, 1) == C_QUOTE))
+		{
+			vct_pop(input);
+			return (0);
+		}
 		parse_expansion(input, output);
 		if (vct_getfirstchar(output) == C_EXP && vct_getlen(input) != 0
 				&& vct_getfirstchar(input) != C_BACKSLASH)
@@ -149,7 +159,6 @@ int			process_clean_quote(t_vector *input, t_vector *output)
 	int	flag;
 
 	flag = 0;
-	//ft_printf("\n\nINPUT = %s\n", vct_getstr(input));//DEBUG
 	while (vct_getlen(input) > 0)
 	{
 		c = vct_getfirstchar(input);
@@ -157,8 +166,6 @@ int			process_clean_quote(t_vector *input, t_vector *output)
 		if (flag == FAILURE)
 			return (FAILURE);
 	}
-//	ft_printf("OUTPUT = %s\n", vct_getstr(output));//DEBUG
-//	ft_printf("flag = %d\n", flag);//DEBUG
 	if (flag == 8 && vct_getlen(output) == 0)
 		return (2);
 	if ((flag & F_SQUOTE || flag & F_DQUOTE) && vct_getlen(output) == 0)
@@ -166,7 +173,5 @@ int			process_clean_quote(t_vector *input, t_vector *output)
 		vct_clear(output);
 		vct_add(output, '\0');
 	}
-//	if (output == NULL)
-//		ft_printf("OUPUT NULL\n");//DEBUYG
 	return (SUCCESS);
 }
