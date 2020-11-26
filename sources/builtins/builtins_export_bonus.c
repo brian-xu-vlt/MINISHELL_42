@@ -14,17 +14,14 @@ bool	is_valid_export_identifier(char *id_to_test)
 		return (false);
 }
 
-static void	export_loop(char **av, const char *builtin)
+static void	export_loop(char **av)
 {
 	int					i;
 
 	i = 1;
 	while (av != NULL && av[i] != NULL)
 	{
-		if (is_valid_export_identifier(av[i]) == TRUE)
-			export_env(get_env_list(GET), av[i]);
-		else
-			print_invalid_identifier(builtin, av[i]);
+		export_env(get_env_list(GET), av[i]);
 		i++;
 	}
 }
@@ -56,12 +53,12 @@ int	export_builtin(int ac, char **av, char **envp)
 			return (2);
 		}
 		else
-			export_loop(av, builtin);
+			export_loop(av);
 	}
 	if (ac == 1)
 		print_export_output(get_env_list(GET));
 	export_envp(envp);
 	if (errno == EINVAL)
 		return (1);
-	return (SUCCESS);
+	return (0);
 }

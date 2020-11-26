@@ -62,5 +62,6 @@ void		exit_routine_le(char *err_code)
 			exit(FAILURE);
 		}
 	}
+	// ft_printf("%s\n", NORMAL_EXIT);
 	exit(last_exit_status);
 }

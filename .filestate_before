@@ -1,0 +1,14 @@
+fail_bin
+includes
+libft
+Makefile
+Minishell
+minishell.code-workspace
+mini_tester
+newms.code-workspace
+objs
+prepare_remote_debug.sh
+README.md
+sources
+TESTER_AUTO
+valgrind-out.ts

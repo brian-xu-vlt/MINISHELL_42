@@ -379,6 +379,17 @@ test_correction_export_identifier () {
 	test "export +=42  ; export"
 	test "export +a=42  ; export"
 
+	test "export a=====42  ; echo \$ ; export"
+	test "export a====+42  ; echo \$ ; export"
+	test "export a+====42  ; echo \$ ; export"
+	test "export a+b====42  ; echo \$ ; export"
+	test "export a+b+====42  ; echo \$ ; export"
+	test "export 42 ; echo \$ ; export"
+	test "export a=4+2 ; echo \$ ; export"
+	test "export a=42+= ; echo \$ ; export"
+	test "export a+=42= ; echo \$ ; export"
+	test "export a+=42+= ; echo \$ ; export"
+
 }
 
 test_correction_export_identifier_mix_valid () {
@@ -1011,16 +1022,16 @@ main () {
 	# test_correction_return
 	# test_correction_semicolons
 	# test_correction_baskslashs
-	# test_correction_env
+	test_correction_env
 
-	# test_correction_export_identifier
-	# test_correction_export_identifier_mix_valid
-	# test_correction_export
-	# test_correction_unset_identifier
-	# test_correction_unset_identifier_mix_valid
-	# test_correction_unset
+	test_correction_export_identifier
+	test_correction_export_identifier_mix_valid
+	test_correction_export
+	test_correction_unset_identifier
+	test_correction_unset_identifier_mix_valid
+	test_correction_unset
 
-	# test_correction_exp
+	test_correction_exp
 	# test_correction_cd
 	# test_correction_pwd
 	# test_correction_PATH
@@ -1029,7 +1040,7 @@ main () {
 	# test_correction_pipes
 	# test_correction_AND_OR
 
-	test_env_starter
+	# test_env_starter
 
 # test "rm -rf haha hello hehe ;echo toto < haha > hello >> hehe ; echo \$? ; cat haha ; cat hello ; cat hehe"
 # test "rm -rf hello ; titi > hello ; echo \$? ; cat hello"

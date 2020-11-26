@@ -62,3 +62,12 @@ int		is_path(const char *bin_name)
 		return (false);
 	return ((ft_strchr((char *)bin_name, '/') == NOT_FOUND) ? FALSE : TRUE);
 }
+
+// t_data		*get_data(t_list *mem)
+// {
+// 	static t_data	*mem_backup = NULL;
+
+// 	if (mem != NULL)
+// 		mem_backup = mem;
+// 	return (mem_backup);
+// }
