@@ -28,6 +28,9 @@ t_cmd		*create_cmd(t_cmd *cmd_model)
 		cmd->fd[0] = STDIN_FILENO;
 		cmd->fd[1] = STDOUT_FILENO;
 		cmd->fd[2] = STDERR_FILENO;
+		cmd->fd_before[0] = STDIN_FILENO;
+		cmd->fd_before[1] = STDOUT_FILENO;
+		cmd->fd_before[2] = STDERR_FILENO;
 		create_cmd_fd_string(cmd, cmd_model);
 		cmd->condition = cmd_model->condition;
 		cmd->redirection = cmd_model->redirection;
@@ -68,9 +71,14 @@ void		init_cmd_var(t_cmd *cmd, t_list **list)
 	cmd->fd_string[1] = NULL;
 	cmd->fd_string[2] = NULL;
 	cmd->condition = E_NONE;
+	cmd->condition = E_NONE;
 	cmd->redirection = FALSE;
+	cmd->redirection_before = FALSE;
 	cmd->envp = NULL;
 	cmd->tab_redir = NULL;
+	cmd->tab_redir_before = NULL;
+	cmd->count_redir_before = 0;
+	cmd->count_token = 0;
 	if (*list != NULL)
 	{
 		token = (*list)->content;

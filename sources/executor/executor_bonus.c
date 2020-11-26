@@ -21,7 +21,10 @@ static void	waiter(const t_job *job)
 
 static void	open_files_and_export_env(t_cmd *command)
 {
-	process_open_file(command);
+	if (command->tab_redir_before != NULL)
+		process_open_file(command, BEFORE);
+	if (command->tab_redir != NULL && command->redirection != F_REDIRECT_FAILURE)
+		process_open_file(command, AFTER);
 	if (command->ac == 0 && command->count_assign != 0)
 		assign_envp_content(command);
 }

@@ -216,7 +216,7 @@ bool 								is_exp_sep(char c);
 bool								verif_assign_cmd(char *str);
 void								exit_routine_cleaner(t_cmd *cmd,
 														t_clean_cmd *clean_cmd);
-char								*clean_quote(char *arg);
+char								*clean_quote(char *arg, int *ret);
 
 /******************************************************************************/
 /*******************************_EXECUTION_************************************/
@@ -226,7 +226,7 @@ char								*clean_quote(char *arg);
 #define R_END				0
 #define W_END				1
 
-void	process_open_file(t_cmd *cmd);
+void	process_open_file(t_cmd *cmd, int flag);
 void	export_envp(char **envp);
 void	assign_envp_content(const t_cmd *command);
 int		exec_builtin(t_cmd *command);
@@ -308,6 +308,7 @@ void 	swap_pwd(int flag, char *dir);
 void 	get_value(t_vector **vct_pwd, t_vector **vct_old, t_vector **vct_home);
 void 	free_clean_command(t_clean_cmd *clean_cmd, int flag);
 void	set_env(t_vector *vct_pwd, t_vector *vct_old);
+void	exit_error(t_vector *vct_av, char *av, char c, int flag);
 
 /******************************************************************************/
 /*******************************_ENV_MANAGER_**********************************/

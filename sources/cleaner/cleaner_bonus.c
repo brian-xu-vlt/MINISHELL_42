@@ -26,6 +26,11 @@ static int	process_clean_command(t_cmd *cmd)
 		return (FAILURE);
 	}
 	index_cmd = get_cmd(cmd);
+	if (index_cmd == ONLY_REDIR_BEFORE)
+	{
+		free_clean_command(clean_cmd, FREE_ONLY_CMD);
+		return (SUCCESS);
+	}
 	ret_cmd = get_envp_av(cmd, clean_cmd, index_cmd);
 	if (ret_cmd == FAILURE)
 	{
@@ -39,24 +44,33 @@ static int	process_clean_command(t_cmd *cmd)
 	return (SUCCESS);
 }
 
-char		*clean_quote(char *arg)
+char		*clean_quote(char *arg, int *ret)
 {
 	t_vector	*input;
 	t_vector	*output;
 	char		*transform_arg;
+	int			ret_clean;
 
 	input = vct_new();
 	output = vct_new();
+	*ret = 0;
 	vct_addstr(input, arg);
 	transform_arg = NULL;
-	if (process_clean_quote(input, output) == FAILURE)
+	ret_clean = process_clean_quote(input, output);
+	if (ret_clean == FAILURE)
 	{
+		*ret = 0;
 		vct_del(&input);
 		vct_del(&output);
 		return (NULL);
 	}
 	free(arg);
-	if (output != NULL)
+	if (ret_clean == 2)
+	{
+		transform_arg = NULL;
+		*ret = 2;
+	}
+	if (output != NULL && ret_clean != 2)
 		transform_arg = vct_strdup(output);
 	vct_del(&input);
 	vct_del(&output);
@@ -67,12 +81,13 @@ int			cleaner(t_cmd *cmd)
 {
 	int		ret_cmd;
 	size_t	i;
+	int		ret;
 
 	i = 0;
 	while (i < (size_t)cmd->ac)
 	{
-		cmd->av[i] = clean_quote(cmd->av[i]);
-		if (cmd->av[i] == NULL)
+		cmd->av[i] = clean_quote(cmd->av[i], &ret);
+		if (cmd->av[i] == NULL && ret == 0)
 		{
 			free(cmd->av[i]);
 			return (BACKSL_ERROR);
