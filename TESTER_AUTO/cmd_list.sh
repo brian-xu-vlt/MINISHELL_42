@@ -1022,16 +1022,16 @@ main () {
 	# test_correction_return
 	# test_correction_semicolons
 	# test_correction_baskslashs
-	test_correction_env
+	#test_correction_env
 
-	test_correction_export_identifier
-	test_correction_export_identifier_mix_valid
-	test_correction_export
-	test_correction_unset_identifier
-	test_correction_unset_identifier_mix_valid
-	test_correction_unset
+	#test_correction_export_identifier
+	#test_correction_export_identifier_mix_valid
+	#test_correction_export
+	#test_correction_unset_identifier
+	#test_correction_unset_identifier_mix_valid
+	#test_correction_unset
 
-	test_correction_exp
+	#test_correction_exp
 	# test_correction_cd
 	# test_correction_pwd
 	# test_correction_PATH
@@ -1128,6 +1128,15 @@ main () {
 		#test "echo 'tutu'\"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
 		#test "echo \"tutu\"\"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
 		#test "echo \"tu'i     'tu\"\"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
+		#test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; > TEST_FD/hello > TEST_FD/hello1 < ls > TEST_FD/hello2 -l ; cd TEST_FD ; cat hello hello1 hello2 ; ls "
+		#test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; > TEST_FD/hello > TEST_FD/hello1 ls > TEST_FD/hello2 -l ; cd TEST_FD ; cat hello hello1 hello2 ; ls "
+		#test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; \$droite TEST_FD/hello \$droite TEST_FD/hello1 ls \$droite TEST_FD/hello2 -l ; cd TEST_FD ; cat hello hello1 hello2 ; ls "
+		#test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; \$droite TEST_FD/hello \$ddroite TEST_FD/hello1 ls \$gauche TEST_FD/hello2 -l ; cd TEST_FD ; cat hello hello1 hello2 ; ls "
+		#test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; > TEST_FD/hello5 \$droite TEST_FD/hello1 ls > TEST_FD/hello6 -l ; cd TEST_FD ; cat hello5 hello1 hello6 ; ls "
+		#test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; \$ddroite"
+		#test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; \$ddroite echo haha"
+		#test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; echo haha > TEST_FD/SALUT \$droite TEST_FD/cava ; cd TEST_FD ; cat SALUT cava ; ls"
+		#test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; > titi=toto > toto=tata echo haha > TEST_FD/SALUT \$droite TEST_FD/cava ; cd TEST_FD ; cat SALUT cava ; ls"
 
 	fi
 
