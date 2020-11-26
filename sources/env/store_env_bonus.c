@@ -53,7 +53,9 @@ void			ms_setenv(t_list *env_lst, const char *env_name,
 		env_node = store_new_env(env_lst, env_name, env_value);
 	else
 		update_existing_env(env_node, env_value, flags);
-	if (flags &= F_EXPORT)
+	if (flags == F_SPECIAL)
+		env_node->export_flag = F_SPECIAL;
+	else if (flags &= F_EXPORT)
 		env_node->export_flag = TRUE;
 }
 
@@ -80,7 +82,10 @@ void			store_env(t_list *env_lst, const char *env, int flags)
 	{
 		parse_env(env, &env_name, &env_value, &overwrite);
 		flags |= (overwrite == TRUE) ? F_OVERWRITE : F_NOFLAG;
-		ms_setenv(env_lst, env_name, env_value, flags);
+		if (flags & F_EXPORT && is_valid_export_identifier(env_name) == false)
+			print_invalid_identifier("export", env);
+		else
+			ms_setenv(env_lst, env_name, env_value, flags);
 		if (env_value != NULL)
 			free(env_value);
 		free(env_name);

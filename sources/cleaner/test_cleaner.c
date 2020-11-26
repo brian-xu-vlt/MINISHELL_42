@@ -24,6 +24,19 @@ void debug_fd(int *fd)
 	}
 }
 
+void debug_redir_before(char **redir, int ac)
+{
+	int i;
+
+	i = 0;
+	ft_printf("ac = %d\n", ac);//DEBUG
+	while (i < ac)
+	{
+		ft_printf("redir_before[%d] = %s\n", i, redir[i]);
+		i++;
+	}
+}
+
 void debug_redir(char **redir, int ac)
 {
 	int i;
@@ -58,6 +71,14 @@ void debug_cleaner(t_cmd *cmd)
 	ft_printf("\033[0;32mDEBUG ENV FINAL\n\033[0m"); //DEBUG
 	if (cmd->envp != NULL)
 		debug_env(cmd->envp, cmd->count_assign);
+	ft_printf("\n");//DEBUG
+	ft_printf("\033[0;32mDEBUG REDIR BEFORE\n\033[0m"); //DEBUG
+	if (cmd->tab_redir_before != NULL)
+		debug_redir_before(cmd->tab_redir_before, cmd->count_redir_before);
+	ft_printf("\n");//DEBUG
+	ft_printf("\033[0;32mDEBUG REDIR FINAL\n\033[0m"); //DEBUG
+	if (cmd->tab_redir != NULL)
+		debug_redir(cmd->tab_redir, cmd->count_redir);
 	ft_printf("\n"); //DEBUG
 	ft_printf("cmd->ac = %d\n", cmd->ac);
 	ft_printf("cmd->count_assign = %d\n", cmd->count_assign);

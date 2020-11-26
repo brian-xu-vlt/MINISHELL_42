@@ -10,7 +10,7 @@ int		count_new_ac(char **av, size_t size)
 	new_ac = 0;
 	while (i < size)
 	{
-		if (ft_strlen(av[i]) != 0)
+		if (av[i] != NULL && ft_strlen(av[i]) != 0)
 			new_ac++;
 		i++;
 	}
@@ -26,7 +26,7 @@ void	fill_envp(t_cmd *cmd, int index_cmd)
 	i = 0;
 	while (i < (size_t)index_cmd)
 	{
-		if (ft_strlen(cmd->av[i]) != 0)
+		if (cmd->av[i] != NULL && ft_strlen(cmd->av[i]) != 0)
 		{
 			cmd->envp[i_envp] = ft_strdup(cmd->av[i]);
 			ft_strdel(&cmd->av[i]);
@@ -74,8 +74,13 @@ int		fill_clean_cmd(int index_cmd, t_cmd *cmd, t_clean_cmd *clean_cmd)
 	i_clean = 0;
 	while (i_clean < clean_cmd->ac)
 	{
-		clean_cmd->av[i_clean] = ft_strdup(cmd->av[i]);
-		free(cmd->av[i]);
+		if (cmd->av[i] != NULL)
+		{
+			clean_cmd->av[i_clean] = ft_strdup(cmd->av[i]);
+			free(cmd->av[i]);
+		}
+		if (cmd->av[i] == NULL)
+			clean_cmd->av[i_clean] = NULL;
 		i_clean++;
 		i++;
 	}
@@ -94,7 +99,11 @@ int		fill_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	i = 0;
 	while (i < (size_t)cmd->ac)
 	{
-		cmd->av[i] = ft_strdup(clean_cmd->av[i]);
+		if (clean_cmd->av[i] != NULL)
+		if (clean_cmd->av[i] != NULL)
+			cmd->av[i] = ft_strdup(clean_cmd->av[i]);
+		if (clean_cmd->av[i] == NULL)
+			cmd->av[i] = NULL;
 		i++;
 	}
 	return (SUCCESS);

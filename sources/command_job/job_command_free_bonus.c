@@ -22,6 +22,8 @@ static void	del_cmd(void *data)
 		free_cmd(cmd->count_assign, cmd->envp);
 	if (cmd->tab_redir != NULL)
 		free_cmd(cmd->count_redir, cmd->tab_redir);
+	if (cmd->tab_redir_before != NULL)
+		free_cmd(cmd->count_redir_before, cmd->tab_redir_before);
 	free(cmd->tab_assign);
 	free(cmd->tab_exp);
 	free(cmd->type);

@@ -24,7 +24,8 @@ static void	child_process(t_cmd *cmd, int p_in[2], int p_out[2])
 		}
 	}
 	ms_setenv_int(get_env_list(GET), "?", ret, F_OVERWRITE);
-	exit_routine_le(NORMAL_EXIT);
+	// exit_routine_le(NORMAL_EXIT);										// TODO: exit with exit_routine but make sure it doesn't output any termcaps
+	exit(ret);
 }
 
 void		exec_subshell(t_job *job, t_cmd *cmd, int p_in[2], int p_out[2])

@@ -5,8 +5,12 @@ static int	get_env_name_len(const char *env)
 	int		i;
 
 	i = 0;
-	while (env[i] != '\0' && env[i] != '=' && env[i] != '+')
+	while (env[i] != '\0')
+	{
+	 	if (env[i] == '=' || (env[i] == '+' && env[i + 1] == '='))
+			break ;
 		i++;
+	}
 	return (i);
 }
 

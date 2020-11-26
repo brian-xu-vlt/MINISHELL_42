@@ -26,13 +26,28 @@ static void	no_bonus_quit_handler(int sig)
 static void	exit_at_signal(int sig)
 {
 	(void)sig;
-	exit_routine_le("exit");
+	exit_routine_le(NORMAL_EXIT);
+	//exit_routine_le("exit");
+}
+
+static void	update_cursor_infos(void)
+{
+	t_le				*le;
+
+	le = get_struct(GET);
+	if (le != NULL && le->prompt_len + le->vct_index != 0)
+	{
+		le->cy = (le->prompt_len + le->vct_index - 1) / (le->scols);
+		if (le->cy > 0)
+			le->cx = (le->prompt_len + le->vct_index) - (le->scols / le->cy);
+	}
 }
 
 static void	window_at_signal(int sig)
 {
 	(void)sig;
 	update_window_size();
+	update_cursor_infos();
 }
 
 void		signal_manager(int set_mode)

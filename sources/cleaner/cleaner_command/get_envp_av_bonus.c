@@ -15,7 +15,7 @@ static int	handle_only_envp(t_cmd *cmd)
 	cmd->envp[new_ac] = NULL;
 	while (i < (size_t)cmd->ac)
 	{
-		if (ft_strlen(cmd->av[i]) != 0)
+		if (cmd->av[i] != NULL && ft_strlen(cmd->av[i]) != 0)
 		{
 			cmd->envp[i_envp] = ft_strdup(cmd->av[i]);
 			i_envp++;
@@ -34,7 +34,7 @@ static int	handle_envp(t_cmd *cmd, t_clean_cmd *clean_cmd, int index_cmd)
 	i = 0;
 	while (i < (size_t)index_cmd)
 	{
-		if (ft_strlen(cmd->av[i]) != 0)
+		if (cmd->av[i] != NULL && ft_strlen(cmd->av[i]) != 0)
 			clean_cmd->count_assign++;
 		i++;
 	}

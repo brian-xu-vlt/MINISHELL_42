@@ -1,9 +1,17 @@
 #include "minishell_bonus.h"
 
+static void	handle_only_pwd(void)
+{
+	char *pwd;
+
+	pwd = getcwd(NULL, PATH_MAX);
+	ms_setenv(get_env_list(GET), ENV_PWD, pwd, F_OVERWRITE);
+	free(pwd);
+}
+
 static void	set_default_env(t_list *env_lst)
 {
-	handle_pwd(GET);
-	unset_env(env_lst, "OLDPWD");											// quick fix waiting for proper solution
+	handle_only_pwd();
 	export_env(env_lst, "OLDPWD");
 	ms_putenv(env_lst, DEFAULT_EXIT_STATUS);
 	if (vct_getstr(get_env_value_vct(env_lst, "PATH")) == NOT_FOUND)
@@ -31,6 +39,27 @@ static void	exit_routine_init_env(void)
 	exit (FAILURE);
 }
 
+static int	is_special_environ(char *environ)
+{
+	char		*env_name;
+	char		*env_value;
+	int			overwrite;
+	int			ret;
+
+	if (ft_strnstr(environ, "+=", ft_strlen(environ)) != NOT_FOUND)
+		return (true);
+	parse_env(environ, &env_name, &env_value, &overwrite);
+	ret = is_valid_export_identifier(env_name);
+	free(env_name);
+	if (env_value != NULL)
+		free(env_value);
+	if (ret == false)
+		return (true);
+	else if (ft_isalpha(*environ) == false)
+		return (true);
+	return (false);
+}
+
 void		init_env(void)
 {
 	t_list		*env_lst;
@@ -46,7 +75,9 @@ void		init_env(void)
 	index = 0;
 	while (environ[index] != NULL)
 	{
-		if (ft_isalpha(environ[index][0]) == TRUE)
+		if (is_special_environ(environ[index]) == true)
+			ms_setenv(env_lst, environ[index], NULL, F_SPECIAL);
+		else
 			export_env(env_lst, environ[index]);
 		index++;
 	}

@@ -69,6 +69,7 @@
 #define	ALL_FREE					1
 #define NOT_ALL_FREE					0
 #define MALLOC							2
+#define FREE_ONLY_CMD					3
 #define	FILE_FAIL						2
 
 #define IN 0
@@ -97,6 +98,17 @@
 #define NUM				1<<0
 #define ARG				1<<1
 #define MINUS_PLUS		1<<2
+
+#define	F_SQUOTE					1<<1
+#define	F_DQUOTE					1<<2
+#define	F_EXP						1<<3
+
+#define NO_FILE						2
+
+#define ONLY_REDIR_BEFORE			-2
+
+#define BEFORE						0
+#define AFTER						1
 
 /******************************************************************************/
 /*******************************_BUILTIN_**************************************/
@@ -161,6 +173,10 @@
 #define BUILTIN_INVALID_IDENTIFIER	2
 #define BUILTIN_FAILURE				1
 #define BUILTIN_SUCCESS				0
+
+#define NUMFALSE_LENZERO				0
+#define PARSER_FALSE					1
+#define RETLONG_TRUE					2
 
 /******************************************************************************/
 /*******************************_EXECUTOR_*************************************/

@@ -4,6 +4,7 @@ int	handle_pwd(char *dir)
 {
 	char *pwd;
 
+	errno = 0;
 	if ((pwd = getcwd(NULL, PATH_MAX)) == NULL)
 	{
 		if (dir == NULL || (ft_strlen(dir) != 0 && dir[0] == '/'))
