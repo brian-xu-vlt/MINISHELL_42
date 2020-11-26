@@ -2,39 +2,30 @@
 
 static enum e_state_redir	in_out(char *str, enum e_token_type type)
 {
-	//ft_printf("\nIN OUT\n");//DEBUG
-	//ft_printf("str = %s\n", str);//DEBUG
-	//ft_printf("type = %d\n", type);//DEBUG
-	if (type != E_LESS_THAN && type != E_GREATER_THAN &&
-			type != E_DOUBLE_GREATER)
+	if ((type != E_LESS_THAN && type != E_GREATER_THAN &&
+			type != E_DOUBLE_GREATER))
 		return (E_IN_OUT);
-	if (ft_strequ(str, LESS_THAN) == TRUE ||
+	if ((ft_strequ(str, LESS_THAN) == TRUE ||
 			ft_strequ(str, GREATER_THAN) == TRUE ||
-			ft_strequ(str, DOUBLE_GREATER) == TRUE)
+			ft_strequ(str, DOUBLE_GREATER) == TRUE) && type != E_EXP)
 		return (E_IN_REDIR);
 	return (E_IN_OUT);
 }
 
 static enum e_state_redir	in_file(char *str, enum e_token_type type)
 {
-	//ft_printf("\nIN FILE\n");//DEBUG
-	//ft_printf("str = %s\n", str);//DEBUG
-	//ft_printf("type = %d\n", type);//DEBUG
-	if (type != E_LESS_THAN && type != E_GREATER_THAN &&
-			type != E_DOUBLE_GREATER)
+	if ((type != E_LESS_THAN && type != E_GREATER_THAN &&
+			type != E_DOUBLE_GREATER))
 		return (E_IN_OUT);
-	if (ft_strequ(str, LESS_THAN) == TRUE ||
+	if ((ft_strequ(str, LESS_THAN) == TRUE ||
 			ft_strequ(str, GREATER_THAN) == TRUE ||
-			ft_strequ(str, DOUBLE_GREATER) == TRUE)
+			ft_strequ(str, DOUBLE_GREATER) == TRUE) && type != E_EXP)
 		return (E_IN_REDIR);
 	return (E_IN_OUT);
 }
 
 static enum e_state_redir	in_redir(char *str, enum e_token_type type)
 {
-	//ft_printf("\nIN REDIR\n");//DEBUG
-	//ft_printf("str = %s\n", str);//DEBUG
-	//ft_printf("type = %d\n", type);//DEBUG
 	(void)str;
 	(void)type;
 	return (E_IN_FILE);
