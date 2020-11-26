@@ -1,5 +1,19 @@
 #include "minishell_bonus.h"
 
+static void pop_input(t_vector *input, t_vector *output)
+{
+	char	c;
+
+	while (vct_getlen(input) > 0)
+	{
+		c = vct_getfirstchar(input);
+		if (c == C_EXP)
+			return ;
+		vct_add(output, c);
+		vct_pop(input);
+	}
+}
+
 void		parse_expansion(t_vector *input, t_vector *output)
 {
 	t_vector	*expansion;
@@ -80,6 +94,12 @@ int			parse_double_quote(t_vector *input, t_vector *output)
 			index = 2;
 			break ;
 		}
+		if (c == C_BACKSLASH && next_c == C_QUOTE)
+		{
+			vct_pop(input);
+			vct_add(output, next_c);
+			return (SUCCESS);
+		}
 		if (is_backslash(c, next_c, input) == FAILURE)
 			return (FAILURE);
 		else if (c == C_EXPORT)
@@ -137,7 +157,21 @@ static int	handle_char(char c, t_vector *input, t_vector *output)
 				vct_getcharat(input, 1) == C_QUOTE))
 		{
 			vct_pop(input);
-			return (0);
+			return (SUCCESS);
+		}
+		if (c == C_EXPORT && vct_getlen(input) != 1 &&
+				is_exp_sep(vct_getcharat(input, 1)) == true &&
+				vct_getcharat(input, 1) != QUESTION_MARK)
+		{
+			//ft_printf("yeeeeah\n");//DEBUG
+			vct_add(output, c);
+		//	ft_printf("output 1 = %s\n", vct_getstr(output));//DEBUG
+			vct_pop(input);
+		//	ft_printf("input 1 = %s\n", vct_getstr(input));//DEBUG
+			pop_input(input, output);
+		//	ft_printf("input after = %s\n", vct_getstr(input));
+		//	ft_printf("output after = %s\n", vct_getstr(output));
+			return (SUCCESS);
 		}
 		parse_expansion(input, output);
 		if (vct_getfirstchar(output) == C_EXP && vct_getlen(input) != 0

@@ -1042,7 +1042,7 @@ main () {
 
 #	 test_env_starter
 
-		test "cd ; cd - ; mkdir testcd7 ; cd testcd7 ; chmod 000 ../testcd7 ; cd . ; cd .."
+		#test "cd ; cd - ; mkdir testcd7 ; cd testcd7 ; chmod 000 ../testcd7 ; cd . ; cd .."
 		#test "exit 42 toto ; echo \$?"
 		#test "env ; toto= 42 export toto+=hello ; echo \$toto ; echo \$? ; unset toto ; echo \$toto"
 		test "toto=tata"
@@ -1253,14 +1253,15 @@ main () {
 		test "echo /$\"123\$PWD\""
 		#test "echo $/"
 		#test "export ; export a=\"\\\" ; export b='\' ; export c=\b\ ; export"
-		test " echo \"hallo\\\"\poep\" "
+		#test " echo \"hallo\\\"\poep\" "
 		test " echo /$\"123\$PWD\" "
 		test " echo \$%%%%aaaaaaaaa "
-		test "echo \"\$222\""
+		#test "echo \"\$222\""
 		test "echo 00\\'pp ; echo 00\\\'pp"
 		test "echo aa'bb ;echo cc'dd"
 		test "echo aa\"bb ; echo cc\"dd"
-		test ""
+		test "echo \"hallo\\\\\"\poep\""
+		test "export toto=tata ;  echo \$%%%%aaaaaaaaa\$toto "
 		test ""
 
 	fi
