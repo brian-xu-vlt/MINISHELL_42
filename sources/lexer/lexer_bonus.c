@@ -40,12 +40,29 @@ static int	process_lexer(t_vector *input, t_list **token_list, t_vector *word)
 	char			c;
 
 	ret = 0;
+	//ft_printf("\n\ninput = [%s]\n", vct_getstr(input));//DEBUG
 	while (vct_getfirstchar(input) == C_SPACE
 			|| vct_getfirstchar(input) == C_TAB)
 		vct_pop(input);
 	c = vct_getfirstchar(input);
 	if (vct_getlen(input) == 0)
 		return (ret);
+	if (c == C_BACKSLASH && (vct_getcharat(input, 1) == C_SPACE
+			|| vct_getcharat(input, 1) == C_TAB))
+	{
+		//ft_printf("C == C_BACKSL\n");//DEBUG
+		vct_pop(input);
+		vct_add(word, vct_getfirstchar(input));
+		vct_pop(input);
+		//vct_add(word, vct_getcharat(input, 1));
+		//return (SUCCESS);
+	}
+	if (vct_getfirstchar(input) == C_TAB || vct_getfirstchar(input) == C_SPACE)
+	{
+		ret = extract_token(token_list, vct_getstr(word), E_WORD);
+		vct_clear(word);
+		return (ret);
+	}
 	type = get_double_token(input);
 	if (type == NO_TYPE)
 		type = get_token(c);

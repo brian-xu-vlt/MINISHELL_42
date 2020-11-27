@@ -211,7 +211,7 @@ test_correction_echo () {
 	test "echo -n -n -n -n"
 	test "echo -nnnn"
 
-	test "echo \$1cat=42"
+	#test "echo \$1cat=42"
 	test "echo a \$NOVAR b| wc"
 	test "echo a \\n b| wc"
 	test "echo -n a \\n b| wc"
@@ -306,7 +306,7 @@ test_correction_env () {
 	test "cat=meow env | sort; env | sort  ; export"
 	test "cat=meow env | sort; env | sort ; export"
 	test "cat env | sort; env | sort ; export"
-	test "export hello=hey ; echo \$? ; export -hola=touto ; echo \$? ; env -l ; echo \$? ; unset hola ; echo \$? ; unset hello ; echo \$? ; export toto+=hello ; echo \$? ; export _titi=tutu ; echo \$?"
+	#test "export hello=hey ; echo \$? ; export -hola=touto ; echo \$? ; env -l ; echo \$? ; unset hola ; echo \$? ; unset hello ; echo \$? ; export toto+=hello ; echo \$? ; export _titi=tutu ; echo \$?"
 
 }
 
@@ -554,10 +554,10 @@ test_correction_export () {
 	test "export cat= ; export | grep cat ; env | grep cat"
 
 	test "cat=meow export food=pizza ; export ; export"
-	test "export -toto=1"
+	#test "export -toto=1"
 	test "export cat=woof -toto=1"
-	test "export -xxxxx cat=woof"
-	test "export -xxxxx cat=woof -yyyyyy"
+	#test "export -xxxxx cat=woof"
+	#test "export -xxxxx cat=woof -yyyyyy"
 	test "export cat=meow ; echo \$cat"
 	test "food=pizza export; export"
 	test "export cat=meow ; export cat=woof ; export"
@@ -735,11 +735,11 @@ test_correction_unset () {
 	test "unset hfdjskhdfkjhfsd ; env | sort"
 	test "export cat ; unset cat ; echo \$? ; export"
 	test "export cat=meow ; unset cat ; echo \$? ; export"
-	test "export food=pizza; export | grep food ; unset -xxxxxxx -yyyyy food ; echo \$?"
-	test "export food=pizza; export | grep food ; unset -xxxxxxx ; echo \$?"
-	test "export food=pizza; export | grep food ; unset -xxxxxxx food ; echo \$? ; export "
-	test "export food=pizza; export | grep food ; unset -xxxxxxx food -yyyyyy ; echo \$? ; export"
-	test "export food=pizza; export | grep food ; unset food -xxxxxxx ; echo \$? ; export"
+	#test "export food=pizza; export | grep food ; unset -xxxxxxx -yyyyy food ; echo \$?"
+	#test "export food=pizza; export | grep food ; unset -xxxxxxx ; echo \$?"
+	#test "export food=pizza; export | grep food ; unset -xxxxxxx food ; echo \$? ; export "
+	#test "export food=pizza; export | grep food ; unset -xxxxxxx food -yyyyyy ; echo \$? ; export"
+	#test "export food=pizza; export | grep food ; unset food -xxxxxxx ; echo \$? ; export"
 	test "export food=pizza cat=MEOOWW; export | grep 'food\|cat' ; unset food -xxxxxxx cat ; echo \$? ; export"
 	test "export food=pizza cat=MEOOWW; export | grep 'food\|cat' ; unset food -xxxxxxx cat -yyyyyy ; echo \$? ; export"
 	test "export food=pizza; export | grep food ; cat=MEOOOWWW unset food ; export"
@@ -747,7 +747,7 @@ test_correction_unset () {
 	test "export food=pizza; export | grep food ; cat=MEOOOWWW unset cat ; export"
 	test "export food=pizza; export | grep food ; cat=MEOOOWWW unset food | ls ; export"
 
-	test "food=pizza; env | sort | grep food ; unset -xxxxxxx -yyyyy food ; echo \$?"
+	#test "food=pizza; env | sort | grep food ; unset -xxxxxxx -yyyyy food ; echo \$?"
 	test "food=pizza; env | sort | grep food ; cat=MEOOOWWW unset food | ls ; env | sort"
 	test "food=pizza; env | sort | grep food ; food=MEOOOWWW unset food | ls ; env | sort"
 	test "food=pizza; env | sort | grep food ; cat=MEOOOWWW unset food ; env | sort"
@@ -907,7 +907,7 @@ test_correction_pipes() {
 	test "false | false | true"
 	test "cat | cat | cat | grep 42"
 	test "cat | cat | cat"
-	test "cat | cat | cat |"
+	#test "cat | cat | cat |"
 	test "| ls | sort"
 	test "rm -rf /tmp/a /tmp/b ; touch /tmp/a | ls >/dev | touch /tmp/b ; ls -l /tmp/a /tmp/b"
 	test "rm -rf /tmp/a /tmp/b /tmp/c ; echo aaa > /tmp/a | echo bbb >/tmp/b | cal > /tmp/c ; ls -l /tmp/a /tmp/b /tmp/c ; cat /tmp/a /tmp/b /tmp/c"
@@ -1001,8 +1001,8 @@ test_env_starter() {
 	test_with_extra_env "c.t=42"				"env | sort; export | sort ; echo ; echo \$c.t ; echo \$c.t=42"
 	test_with_extra_env "cat+dog=42"			"env | sort | grep -v '?' ; echo ; export | sort | grep -v '?' ; echo \$cat+dog ; echo \$c.t=42 ; sh -c 'export ; env | sort'"
 	test_with_extra_env "cat+=42"				"env | sort | grep -v '?' ; echo ; export | sort | grep -v '?' ; echo \$cat+ ; echo \$cat+=42 ; sh -c 'export ; env | sort'"
-	test_with_extra_env "1cat=42"				"env | sort | grep -v '?' ; echo ; export | sort | grep -v '?' ; echo \$1cat ; echo \$1cat=42 ; sh -c 'export ; env | sort'"
-	test_with_extra_env "3cat=42"				"env | sort | grep -v '?' ; echo ; export | sort | grep -v '?' ; echo \$3cat; echo \$3cat=42 ; sh -c 'export ; env | sort'"
+	#test_with_extra_env "1cat=42"				"env | sort | grep -v '?' ; echo ; export | sort | grep -v '?' ; echo \$1cat ; echo \$1cat=42 ; sh -c 'export ; env | sort'"
+	#test_with_extra_env "3cat=42"				"env | sort | grep -v '?' ; echo ; export | sort | grep -v '?' ; echo \$3cat; echo \$3cat=42 ; sh -c 'export ; env | sort'"
 	test_with_extra_env "c+at+=42"				"env | sort | grep -v '?' ; echo ; export | sort | grep -v '?' ; echo \$c+at+ ; echo \$c+at+=42 ; sh -c 'export ; env | sort'"
 	test_with_extra_env "c+at+=42"				"env | sort | grep -v '?' ; echo ; export | sort | grep -v '?' ; echo \$c+at+ ; echo \$c+at+=42 ; sh -c 'export ; env | sort'"
 	test_with_extra_env "c;at=42"				"env | sort | grep -v '?' ; echo ; export | sort | grep -v '?' ; echo \$c;at ; echo \$c;at=42 ; sh -c 'export ; env | sort'"
@@ -1030,12 +1030,12 @@ main () {
 		print_diff_full
 	else
 
-	#  test_random
-	#  test_bonus
-	#  test_executor
-	#  test_failed
-	#  test_signal
-	#  test_syntax
+	  test_random
+	  test_bonus
+	  test_executor
+	  test_failed
+	  test_signal
+	  test_syntax
 
 	# test_correction_arg
 	test_correction_echo
@@ -1066,123 +1066,160 @@ main () {
 
 	# test_env_starter
 
-	# test "rm -rf haha hello hehe ;echo toto < haha > hello >> hehe ; echo \$? ; cat haha ; cat hello ; cat hehe"
-	# test "rm -rf hello ; titi > hello ; echo \$? ; cat hello"
-	# test "rm -rf haha hello ; echo titi > haha hehe heheh heheheh hihi > hello ; echo \$? ; cat haha ; cat hello"
-	# test "rm -rf test1 ; echo hehe < test1 ; echo \$? ; cat test1"
-	# test "rm -rf test2 ; echo haha > test2 ; echo \$? ; cat test2"
-	# test "rm -rf test3 ; echo hihi >> test3 ; echo \$? ; car test3"
-	# test "rm -rf test/test1 ; mkdir test/test1 ; chhmod 000 test/test1 ; echo hehe < test/test1 ; echo \$? ; cat test/test1"
-	# test "rm -rf testgauche ; echo haha < testgauche"
-	# test "rm -rf testdroite ; echo haha > testdroite ; echo \$? ; cat testdroite ; ls -l"
-	# test "rm -rf testddroite ; echo haha >> testddroite ; echo \$? ; cat testddroite ; ls -l"
-	# test "rm -rf testgauche ; echo haha < testgauche ; echo \$? ; cat testgauche ; ls -l"
-	# test "rm -rf testgauche ; touch testgauche ; echo haha < testgauche ; echo \$? ; cat testgauche ; ls-l"
-	# test "rm -rf testgauche testdroitefail ; echo haha > testdroitfail hello < testgauche; echo $? ; cat testdroitfail ; cat testgauche ; ls -l"
-	# test "rm -rf testgauche testdroitefail ; echo haha < testgauche hello > testdroitfail; echo $? ; cat testdroitfail ; cat testgauche ; ls -l"
+	#  test "rm -rf haha hello hehe ;echo toto < haha > hello >> hehe ; echo \$? ; cat haha ; cat hello ; cat hehe"
+	#  test "rm -rf hello ; titi > hello ; echo \$? ; cat hello"
+	#  test "rm -rf haha hello ; echo titi > haha hehe heheh heheheh hihi > hello ; echo \$? ; cat haha ; cat hello"
+	#  test "rm -rf test1 ; echo hehe < test1 ; echo \$? ; cat test1"
+	#  test "rm -rf test2 ; echo haha > test2 ; echo \$? ; cat test2"
+	#  test "rm -rf test3 ; echo hihi >> test3 ; echo \$? ; car test3"
+	#  test "rm -rf test/test1 ; mkdir test/test1 ; chhmod 000 test/test1 ; echo hehe < test/test1 ; echo \$? ; cat test/test1"
+	#  test "rm -rf testgauche ; echo haha < testgauche"
+	#  test "rm -rf testdroite ; echo haha > testdroite ; echo \$? ; cat testdroite ; ls -l"
+	#  test "rm -rf testddroite ; echo haha >> testddroite ; echo \$? ; cat testddroite ; ls -l"
+	#  test "rm -rf testgauche ; echo haha < testgauche ; echo \$? ; cat testgauche ; ls -l"
+	#  test "rm -rf testgauche ; touch testgauche ; echo haha < testgauche ; echo \$? ; cat testgauche ; ls-l"
+	#  test "rm -rf testgauche testdroitefail ; echo haha > testdroitfail hello < testgauche; echo $? ; cat testdroitfail ; cat testgauche ; ls -l"
+	#  test "rm -rf testgauche testdroitefail ; echo haha < testgauche hello > testdroitfail; echo $? ; cat testdroitfail ; cat testgauche ; ls -l"
 
-	# test "echo \$ ; echo \"\$\" ; echo '\$'"
-	# test "echo \$\"\" ; echo \"\$\"\"\" ; echo '\$'''"
-	# test "echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
-	# test "echo \$toto\"\" ; echo \"\$toto\"\"\" ; echo '\$toto'''"
-	# test "toto= 42 ; echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
-	# test "toto=42 ; echo \$toto\"\" ; echo \"\$toto\"\"\" ; echo '\$toto'''"
+	#  test "echo \$ ; echo \"\$\" ; echo '\$'"
+	#  test "echo \$\"\" ; echo \"\$\"\"\" ; echo '\$'''"
+	#  test "echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
+	#  test "echo \$toto\"\" ; echo \"\$toto\"\"\" ; echo '\$toto'''"
+	#  test "toto= 42 ; echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
+	#  test "toto=42 ; echo \$toto\"\" ; echo \"\$toto\"\"\" ; echo '\$toto'''"
 
-	# test "toto=hello titi=toto unset toto ; echo \$titi ; echo \$toto"
-	# test "toto=hello titi=toto unset titi ; echo \$titi ; echo \$toto"
-	# test "toto=hello ; titi=toto ; unset titi ; echo \$titi ; echo \$toto"
-	# test "toto=hello ; titi=toto ; unset toto ; echo \$titi ; echo \$toto"
+	#  test "toto=hello titi=toto unset toto ; echo \$titi ; echo \$toto"
+	#  test "toto=hello titi=toto unset titi ; echo \$titi ; echo \$toto"
+	#  test "toto=hello ; titi=toto ; unset titi ; echo \$titi ; echo \$toto"
+	#  test "toto=hello ; titi=toto ; unset toto ; echo \$titi ; echo \$toto"
 
-	#test "rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; cd /tmp/aaa ; rm -rf /tmp/aaa ; cd .. ; echo \$? ; /bin/ls"
-	#test "rm -rf /tmp/aaa ; mkdir -p /tmp/aaa/bbb ; cd /tmp/aaa/bbb ; rm -rf /tmp/aaa ; pwd"
-	#test "cd ; cd - ; mkdir testcd7 ; cd testcd7 ; chmod 000 ../testcd7 ; cd . ; cd .."
-	#test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd  ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
-	#test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd - ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
-	#test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd ../.. ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
-	#test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd ../../../ ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
-	#test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd / ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
-	#test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd ./ ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
-	#test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd toto ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
-	#test "unset PWD ; unset OLDPWD ; unset HOME ; cd"
-	#test "unset PWD ; unset OLDPWD ; unset HOME ; cd -"
-	#test "unset PWD ; unset OLDPWD ; unset HOME ; cd ../"
-	#test "unset PWD ; unset OLDPWD ; unset HOME ; cd libft"
-	#test 'rm -rf /tmp/aaa/bbb ; mkdir -p /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd aaa ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
-	#test 'rm -rf /tmp/aaa/bbb ; mkdir -p /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd bbb ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
-	#test 'rm -rf /tmp/aaa/bbb ; mkdir -p /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd bbb ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
-	#test 'rm -rf /tmp/aaa/bbb ; mkdir -p /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd .. ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
-	#test 'cd libft ; echo $?'
-	#test 'cd blabla ; echo $?'
-	#test 'cd ../. ; echo $? ; pwd ; echo $? ; cd ///....//// ; echo $?'
-	#test 'cd ../../../trop_bien ; echo $?'
-	#test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd ../.. ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
-	#test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd /home/lila/Desktop/ ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
-	#test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd /home/lila/Desktop/42/PROJECTS/MINISHELL ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
-	#test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd /home/lila/Desktop/42/PROJECTS/MINISHELL/testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
-	#test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
-	#test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd . ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
-	#test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod/test1/ ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd test1 ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
-	#test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; mkdir test1 ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd test1 ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
-	#test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; cd libft ; cd -'
-	#test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; cd libft ; echo $PWD'
-
-
-	# test "export toto=\"\"'\"dd\"'\"\" ; env | grep toto ; export | grep toto ; echo \$toto"
-	# test "export toto=\"\"\"dd\"\"\" ; env | grep toto ; export | grep toto ; echo \$toto"
-	# test "export toto=\"dd\" ; env | grep toto ; echo \$toto"
-	# test "export toto=\"dd\" ; env | grep toto ; echo \"dd\" ; env | grep toto"
-	# test "echo \$ ; echo \"\$\" ; echo '\$'"
-	# test "echo \$\"\" ; echo \"\$\"\"\" ; echo '\$'''"
-	# test "echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
-	# test "echo \$toto\"\" ; echo \"\$toto\"\"\" ; echo '\$toto'''"
-	# test "toto= 42 ; echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
-	# test "toto=42 ; echo \$toto\"\" ; echo \"\$toto\"\"\" ; echo '\$toto'''"
-	# test "echo $ ; echo "$" ; echo '$'"
-	# test "echo $"" ; echo "$""" ; echo '$'''"
-	# test "echo \$toto ; echo "\$toto" ; echo '\$toto'"
-	# test "echo \$toto"" ; echo "\$toto""" ; echo '\$toto'''"
-	# test "toto= 42 ; echo \$toto ; echo "\$toto" ; echo '\$toto'"
-	# test "toto=42 ; echo \$toto"" ; echo "\$toto""" ; echo '\$toto'''"
-	# test "export toto='\"\"'\"dd\"'\"\"' ; env | grep toto ; export | grep toto ; echo \$toto"
-	# test "export toto='\"\"'\"dd\"'\"\"' ; env | grep toto ; export | grep toto ; echo \$toto"
-	# test "echo \"'\"'\"'\"'toto'\"'\"'\"'\""
-	# test "echo \"'haha\"'\"'\"'toto'\"'\"'\"'\""
-	# test "echo '\"'\"'\"'\"'toto'\"'\"'\"'\"'"
-	# test "echo \"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
-	# test "echo ''\"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
-	# test "echo 'tutu'\"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
-	# test "echo \"tutu\"\"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
-	# test "echo \"tu'i     'tu\"\"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
+	# test "rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; cd /tmp/aaa ; rm -rf /tmp/aaa ; cd .. ; echo \$? ; /bin/ls"
+	# test "rm -rf /tmp/aaa ; mkdir -p /tmp/aaa/bbb ; cd /tmp/aaa/bbb ; rm -rf /tmp/aaa ; pwd"
+	# test "cd ; cd - ; mkdir testcd7 ; cd testcd7 ; chmod 000 ../testcd7 ; cd . ; cd .."
+	# test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd  ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd - ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd ../.. ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd ../../../ ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd / ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd ./ ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd toto ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test "unset PWD ; unset OLDPWD ; unset HOME ; cd"
+	# test "unset PWD ; unset OLDPWD ; unset HOME ; cd -"
+	# test "unset PWD ; unset OLDPWD ; unset HOME ; cd ../"
+	# test "unset PWD ; unset OLDPWD ; unset HOME ; cd libft"
+	# test 'rm -rf /tmp/aaa/bbb ; mkdir -p /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd aaa ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf /tmp/aaa/bbb ; mkdir -p /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd bbb ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf /tmp/aaa/bbb ; mkdir -p /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd bbb ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf /tmp/aaa/bbb ; mkdir -p /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd .. ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'cd libft ; echo $?'
+	# test 'cd blabla ; echo $?'
+	# test 'cd ../. ; echo $? ; pwd ; echo $? ; cd ///....//// ; echo $?'
+	# test 'cd ../../../trop_bien ; echo $?'
+	# test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd ../.. ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd /home/lila/Desktop/ ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd /home/lila/Desktop/42/PROJECTS/MINISHELL ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd /home/lila/Desktop/42/PROJECTS/MINISHELL/testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd . ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod/test1/ ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd test1 ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; mkdir test1 ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd test1 ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; cd libft ; cd -'
+	# test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; cd libft ; echo $PWD'
 
 
-	#test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; > TEST_FD/hello > TEST_FD/hello1 < ls > TEST_FD/hello2 -l ; cd TEST_FD ; cat hello hello1 hello2 ; ls "
-	#test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; > TEST_FD/hello > TEST_FD/hello1 ls > TEST_FD/hello2 -l ; cd TEST_FD ; cat hello hello1 hello2 ; ls "
-	#test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; \$droite TEST_FD/hello \$droite TEST_FD/hello1 ls \$droite TEST_FD/hello2 -l ; cd TEST_FD ; cat hello hello1 hello2 ; ls "
-	#test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; \$droite TEST_FD/hello \$ddroite TEST_FD/hello1 ls \$gauche TEST_FD/hello2 -l ; cd TEST_FD ; cat hello hello1 hello2 ; ls "
-	#test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; > TEST_FD/hello5 \$droite TEST_FD/hello1 ls > TEST_FD/hello6 -l ; cd TEST_FD ; cat hello5 hello1 hello6 ; ls "
-	#test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; \$ddroite"
-	#test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; \$ddroite echo haha"
-	#test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; echo haha > TEST_FD/SALUT \$droite TEST_FD/cava ; cd TEST_FD ; cat SALUT cava ; ls"
-	#test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; > titi=toto > toto=tata echo haha > TEST_FD/SALUT \$droite TEST_FD/cava ; cd TEST_FD ; cat SALUT cava ; ls"
-	# test "echo 'ma\' aaa \ bbb \ "
-	# test "echo 'ma\' aaa \ bbb \\      "
-	# test "echo 'ma\' aaa \ bbb \\\\      "
-	# test "echo 'ma\' aaa \        bbb      "
-	# test " echo poep\\\" "
-	# test "echo /$\"123\$PWD\""
-	# #test "echo $/"
-	# #test "export ; export a=\"\\\" ; export b='\' ; export c=\b\ ; export"
-	# #test " echo \"hallo\\\"\poep\" "
-	# test " echo /$\"123\$PWD\" "
-	# test " echo \$%%%%aaaaaaaaa "
-	# #test "echo \"\$222\""
-	# test "echo 00\\'pp ; echo 00\\\'pp"
-	# test "echo aa'bb ;echo cc'dd"
-	# test "echo aa\"bb ; echo cc\"dd"
-	# test "echo \"hallo\\\\\"\poep\""
-	# test "export toto=tata ;  echo \$%%%%aaaaaaaaa\$toto "
-	# test ""
+	#  test "export toto=\"\"'\"dd\"'\"\" ; env | grep toto ; export | grep toto ; echo \$toto"
+	#  test "export toto=\"\"\"dd\"\"\" ; env | grep toto ; export | grep toto ; echo \$toto"
+	#  test "export toto=\"dd\" ; env | grep toto ; echo \$toto"
+	#  test "export toto=\"dd\" ; env | grep toto ; echo \"dd\" ; env | grep toto"
+	#  test "echo \$ ; echo \"\$\" ; echo '\$'"
+	#  test "echo \$\"\" ; echo \"\$\"\"\" ; echo '\$'''"
+	#  test "echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
+	#  test "echo \$toto\"\" ; echo \"\$toto\"\"\" ; echo '\$toto'''"
+	#  test "toto= 42 ; echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
+	#  test "toto=42 ; echo \$toto\"\" ; echo \"\$toto\"\"\" ; echo '\$toto'''"
+	#  test "echo $ ; echo "$" ; echo '$'"
+	#  test "echo $"" ; echo "$""" ; echo '$'''"
+	#  test "echo \$toto ; echo "\$toto" ; echo '\$toto'"
+	#  test "echo \$toto"" ; echo "\$toto""" ; echo '\$toto'''"
+	#  test "toto= 42 ; echo \$toto ; echo "\$toto" ; echo '\$toto'"
+	#  test "toto=42 ; echo \$toto"" ; echo "\$toto""" ; echo '\$toto'''"
+	#  test "export toto='\"\"'\"dd\"'\"\"' ; env | grep toto ; export | grep toto ; echo \$toto"
+	#  test "export toto='\"\"'\"dd\"'\"\"' ; env | grep toto ; export | grep toto ; echo \$toto"
+	#  test "echo \"'\"'\"'\"'toto'\"'\"'\"'\""
+	#  test "echo \"'haha\"'\"'\"'toto'\"'\"'\"'\""
+	#  test "echo '\"'\"'\"'\"'toto'\"'\"'\"'\"'"
+	#  test "echo \"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
+	#  test "echo ''\"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
+	#  test "echo 'tutu'\"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
+	#  test "echo \"tutu\"\"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
+	#  test "echo \"tu'i     'tu\"\"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
 
+
+	# test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; > TEST_FD/hello > TEST_FD/hello1 < ls > TEST_FD/hello2 -l ; cd TEST_FD ; cat hello hello1 hello2 ; ls "
+	# test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; > TEST_FD/hello > TEST_FD/hello1 ls > TEST_FD/hello2 -l ; cd TEST_FD ; cat hello hello1 hello2 ; ls "
+	# test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; \$droite TEST_FD/hello \$droite TEST_FD/hello1 ls \$droite TEST_FD/hello2 -l ; cd TEST_FD ; cat hello hello1 hello2 ; ls "
+	# test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; \$droite TEST_FD/hello \$ddroite TEST_FD/hello1 ls \$gauche TEST_FD/hello2 -l ; cd TEST_FD ; cat hello hello1 hello2 ; ls "
+	# test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; > TEST_FD/hello5 \$droite TEST_FD/hello1 ls > TEST_FD/hello6 -l ; cd TEST_FD ; cat hello5 hello1 hello6 ; ls "
+	# test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; \$ddroite"
+	# test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; \$ddroite echo haha"
+	# test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; echo haha > TEST_FD/SALUT \$droite TEST_FD/cava ; cd TEST_FD ; cat SALUT cava ; ls"
+	# test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; > titi=toto > toto=tata echo haha > TEST_FD/SALUT \$droite TEST_FD/cava ; cd TEST_FD ; cat SALUT cava ; ls"
+	#  test "echo 'ma\' aaa \ bbb \ "
+	#  test "echo 'ma\' aaa \ bbb \\      "
+	 #test "echo 'ma\' aaa \ bbb \\\\      "
+	#  test "echo 'ma\' aaa \        bbb      "
+	#  test " echo poep\\\" "
+	#  test "echo /$\"123\$PWD\""
+	#  test "echo $/"
+	 #test "export ; export a=\"\\\" ; export b='\' ; export c=\b\ ; export"
+	#  test " echo \"hallo\\\"\poep\" "
+	#  test " echo /$\"123\$PWD\" "
+	#  test " echo \$%%%%aaaaaaaaa "
+	 #test "echo \"\$222\""
+	 #test "echo 00\\'pp ; echo 00\\\'pp"
+	#  test "echo aa'bb ;echo cc'dd"
+	#  test "echo aa\"bb ; echo cc\"dd"
+	 #test "echo \"hallo\\\\\"\poep\""
+	#  test "export toto=tata ;  echo \$%%%%aaaaaaaaa\$toto "
+	#  test "\\"
+	#  test "\\\\"
+	 #test "\\\\\\"
+	#  test "\\\\\\\\"
+	#  test "\ \\\\"
+	#  test "\\\\ \\\\"
+
+	# test "rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; cd /tmp/aaa ; rm -rf /tmp/aaa ; cd .. ; echo \$? ; /bin/ls"
+	# test "rm -rf /tmp/aaa ; mkdir -p /tmp/aaa/bbb ; cd /tmp/aaa/bbb ; rm -rf /tmp/aaa ; pwd"
+	# test "cd ; cd - ; mkdir testcd7 ; cd testcd7 ; chmod 000 ../testcd7 ; cd . ; cd .."
+	# test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd  ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd - ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd ../.. ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd ../../../ ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd / ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd ./ ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd toto ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test "unset PWD ; unset OLDPWD ; unset HOME ; cd"
+	# test "unset PWD ; unset OLDPWD ; unset HOME ; cd -"
+	# test "unset PWD ; unset OLDPWD ; unset HOME ; cd ../"
+	# test "unset PWD ; unset OLDPWD ; unset HOME ; cd libft"
+	# test 'rm -rf /tmp/aaa/bbb ; mkdir -p /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd aaa ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf /tmp/aaa/bbb ; mkdir -p /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd bbb ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf /tmp/aaa/bbb ; mkdir -p /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd bbb ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf /tmp/aaa/bbb ; mkdir -p /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd /tmp/aaa ; echo $PWD ; echo $OLDPWD ; echo $HOME ; rm -rf /tmp/aaa/bbb ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd .. ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'cd libft ; echo $?'
+	# test 'cd blabla ; echo $?'
+	# test 'cd ../. ; echo $? ; pwd ; echo $? ; cd ///....//// ; echo $?'
+	# test 'cd ../../../trop_bien ; echo $?'
+	# test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd ../.. ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd /home/lila/Desktop/ ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd /home/lila/Desktop/42/PROJECTS/MINISHELL ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd /home/lila/Desktop/42/PROJECTS/MINISHELL/testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd . ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod/test1/ ; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd test1 ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; rm -rf testchmod ; mkdir testchmod; echo $PWD ; echo $OLDPWD ; echo $HOME ; cd testchmod ; echo $? ; mkdir test1 ; echo $PWD ; echo $OLDPWD ; echo $HOME ; chmod 000 ../testchmod ; cd test1 ; echo $? ; echo $PWD ; echo $OLDPWD ; echo $HOME'
+	# test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; cd libft ; cd -'
+	# test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; cd libft ; echo $PWD'
 	fi
 
 	print_separator '█'

@@ -73,6 +73,8 @@ int 					handle_ret_lexer(int ret_process_lexer,
 t_list					*get_job(t_list *job);
 int						no_word(t_list **token_list, t_vector *word,
 									size_t type);
+bool					stop_assign_char(char c);
+bool					stop_assign_str(t_vector *input);
 
 /******************************************************************************/
 /*******************************_PARSER_***************************************/
