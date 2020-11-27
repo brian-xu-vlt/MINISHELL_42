@@ -258,7 +258,7 @@ int		is_builtin(const t_cmd *command);
 /******************************************************************************/
 
 t_data		*get_data_struct(t_data *mem);
-t_vector	*safe_vct_new(void)
+t_vector	*safe_vct_new(void);
 int			safe_vct_cpy(t_vector *dest, t_vector *src);
 int			safe_vct_add(t_vector *vct, char c);
 int			safe_vct_addstr(t_vector *vct, char *str);

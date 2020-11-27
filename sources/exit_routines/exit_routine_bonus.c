@@ -34,7 +34,7 @@ void		exit_routine(int err_code)
 	data = get_data_struct(GET);
 	if (data != NULL)
 	{
-		if (data->cmd_line != NULL)
+		// if (data->cmd_line != NULL)
 			vct_del(&data->cmd_line);
 		exit_routine_line_edition(data->line_editor_data);
 		exit_routine_env();
@@ -42,6 +42,7 @@ void		exit_routine(int err_code)
 			free_list_job(&data->current_jobs);
 		free(data);
 	}
+	vct_readline(NULL, -42);
 	if (err_code != EXIT_NORMAL)
 	{
 		print_exit_error(err_code);
