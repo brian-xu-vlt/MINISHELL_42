@@ -13,9 +13,9 @@
 # include "define_bonus.h"
 # include "enum_bonus.h"
 # include "lexer_bonus.h"
+# include "line_editor_bonus.h"
 # include "struct_bonus.h"
 # include "parser_bonus.h"
-# include "line_editor_bonus.h"
 # include <stdio.h> //A ENLEVER POUR PRINTF
 # include <string.h>
 # include <errno.h>
@@ -257,7 +257,7 @@ int		is_builtin(const t_cmd *command);
 /*******************************_GENERAL_UTILES_*******************************/
 /******************************************************************************/
 
-t_data	*get_data(t_list *mem);
+t_data	*get_data_struct(t_data *mem);
 int		safe_vct_cpy(t_vector *dest, t_vector *src);
 int		safe_vct_add(t_vector *vct, char c);
 int		safe_vct_addstr(t_vector *vct, char *str);
@@ -352,4 +352,13 @@ int			get_env_value_int(t_list *env_lst, const char *env_name);
 void		parse_env(const char *env, char **env_name, char **env_value,
 																int *overwrite);
 void		parser_debug(t_token *token);
+
+/******************************************************************************/
+/*******************************_ENV_MANAGER_**********************************/
+/******************************************************************************/
+
+void		exit_routine(int err_code);
+void		exit_routine_line_edition(t_le *le);
+void		exit_routine_env(void);
+
 #endif

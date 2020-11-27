@@ -95,10 +95,10 @@ char		*handle_permission_denied(char *dir_denied)
 
 	buff = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
 	if (buff == NULL)
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	pwd = getcwd(buff, PATH_MAX);
 	if (pwd == NULL)
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	new_dir = vct_new();
 	transform_new_dir(new_dir, pwd, dir_denied);
 	if (vct_getlen(new_dir) == 0)

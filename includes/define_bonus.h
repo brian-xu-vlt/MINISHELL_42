@@ -208,4 +208,24 @@
 #define	DEFAULT_TERM			"TERM=dumb"
 #define	DEFAULT_EXIT_STATUS		"?=0"
 
+/******************************************************************************/
+/***************************_EXIT ROUTINE_*************************************/
+/******************************************************************************/
+
+# define	EXIT_NORMAL					0
+# define	EXIT_ENV		 			-2
+# define	EXIT_NEW_VCT		 		-3
+# define	EXIT_VCT		 			-4
+# define	EXIT_ENVP		 			-5
+# define	EXIT_SCREEN_SIZE	 		-6
+# define	EXIT_TERM_NAME	 			-7
+# define	EXIT_TERMCAP		 		-8
+# define	EXIT_MALLOC		 			-9
+# define	EXIT_FORK		 			-10
+# define	EXIT_HUP			 		-11
+# define	EXIT_MS_PUTCHAR	 			-12
+# define	EXIT_MS_TPUTS 				-13
+
+# define	NB_EXIT_CODES				12
+
 #endif

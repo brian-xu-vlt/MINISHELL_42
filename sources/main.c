@@ -26,7 +26,7 @@ static t_list	*process_minishell(t_vector *cmd_line)
 {
 	t_list		*lexer_list;
 	t_list		*jobs;
-	int			ret_parser;	
+	int			ret_parser;
 
 	lexer_list = NULL;
 	jobs = NULL;
@@ -53,7 +53,7 @@ int			main(int ac, char **av)
 	init_env();
 	cmd_line = vct_new();
 	if (cmd_line == NULL)
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	init_line_editor(cmd_line);
 	jobs = NULL;
 	while (1)
@@ -67,14 +67,14 @@ int			main(int ac, char **av)
 			{
 				vct_clear(cmd_line);
 				free_list_job(&jobs);
-				exit_routine_le(NULL);
+				exit_routine(EXIT_NORMAL);
 				return (EXIT_FAILURE);
 			}
 		}
 		vct_clear(cmd_line);
 		free_list_job(&jobs);
 	}
-	exit_routine_le(NULL);
+	exit_routine(EXIT_NORMAL);
 	free_list_job(&jobs);
 	return (EXIT_SUCCESS);
 }

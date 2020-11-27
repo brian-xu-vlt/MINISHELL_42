@@ -52,26 +52,26 @@ static int	is_special_environ(char *environ)
 	return (false);
 }
 
-static t_list *init_env_list(void)
+static t_list	*init_env_list(void)
 {
 	t_list		*env_lst;
 
 	env_lst = ft_lstnew(NULL);
 	if (env_lst == NULL)
-		exit_routine(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	get_env_list(env_lst);
 	return (env_lst);
 }
 
-void		init_env(void)
+void			init_env(void)
 {
 	t_list		*env_lst;
 	int			index;
 	extern char **environ;
 
 	if (environ == NULL)
-		exit_routine_le(ERR_ENV);
-	env_lst = init_env_list;
+		exit_routine(EXIT_ENV);
+	env_lst = init_env_list();
 	index = 0;
 	while (environ[index] != NULL)
 	{

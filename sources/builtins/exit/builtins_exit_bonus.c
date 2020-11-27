@@ -11,7 +11,7 @@ void	handle_exit_value(t_vector *vct_av, t_vector *vct_av_cpy, char c)
 	vct_del(&vct_av);
 	// ft_printf("%s\n", EXIT);
 	ms_setenv_int(get_env_list(GET), "?", exit_value, F_OVERWRITE);
-	exit_routine_le(NORMAL_EXIT);
+	exit_routine(EXIT_NORMAL);
 }
 
 int		print_error(t_vector *vct_av, char *av, char c, int flag)
@@ -67,7 +67,7 @@ int		exit_builtin(int ac, char **av, char **envp)
 	if (ac == 1)
 	{
 		ft_printf("%s\n", EXIT);
-		exit_routine_le(NORMAL_EXIT);
+		exit_routine(EXIT_NORMAL);
 	}
 	vct_av = vct_new();
 	vct_addstr(vct_av, av[1]);

@@ -1,16 +1,21 @@
 #include "minishell_bonus.h"
 
-static int	read_loop(t_vector *cmd_line)
+static int	read_loop(void)
 {
-	int		read_ret;
+	int			read_ret;
+	t_data		*data;
+
 
 	read_ret = 0;
+	data = get_data_struct(GET);
+	if (data == NULL)
+		exit_routine(EXIT_MALLOC);
 	init_prompt();
 	errno = 0;
-	if ((read_ret = vct_readline(get_data(GET)->cmd_line, 0)) == FAILURE)
+	if ((read_ret = vct_readline(data->cmd_line, 0)) == FAILURE)
 	{
 		print_set_errno(errno, NULL, NULL, NULL);
-		exit_routine(NORMAL_EXIT);
+		exit_routine(EXIT_NORMAL);
 	}
 	return (read_ret);
 }
@@ -64,7 +69,7 @@ static t_data	*init_data_struct(void)
 	new_data = (t_data*)ft_calloc(1, sizeof(t_data));
 	if (new_data == NULL)
 	 	exit (FAILURE);
-	get_data(new_data);
+	get_data_struct(new_data);
 	return (new_data);
 }
 
@@ -101,7 +106,7 @@ int			main(int ac, char **av)
 	ret_read = 1;
 	cmd_line = vct_new();
 	if (cmd_line == NULL)
-		exit_routine(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	data->cmd_line = cmd_line;
 
 	if (DEBUG_MODE != TRUE)
@@ -117,11 +122,12 @@ int			main(int ac, char **av)
 		{
 			data->current_jobs = jobs;
 			if (hub_cleaner(jobs) == FAILURE)
-				exit_routine(ERR_MALLOC);
+				exit_routine(EXIT_MALLOC);
 			free_list_job(&jobs);
 			data->current_jobs = NULL;
 			vct_clear(cmd_line);
+		}
 	}
-	exit_routine(NORMAL_EXIT);
+	exit_routine(EXIT_NORMAL);
 	return (EXIT_SUCCESS);
 }

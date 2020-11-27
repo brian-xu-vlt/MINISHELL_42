@@ -1,4 +1,4 @@
-#include "line_editor_bonus.h"
+#include "minishell_bonus.h"
 
 static t_vector	*browse_history(long key)
 {
@@ -34,7 +34,7 @@ static void		backup_cmdline(t_le *le)
 	{
 		le->cmd_line_backup = vct_strdup(le->cmd_line);
 		if (le->cmd_line_backup == NULL)
-			exit_routine_le(ERR_MALLOC);
+			exit_routine(EXIT_MALLOC);
 	}
 }
 
@@ -55,7 +55,7 @@ void			call_history(long key)
 		{
 			vct_clear(le->cmd_line);
 			if (vct_pushstr(le->cmd_line, le->cmd_line_backup) == FAILURE)
-				exit_routine_le(ERR_MALLOC);
+				exit_routine(EXIT_MALLOC);
 			free(le->cmd_line_backup);
 			le->cmd_line_backup = NULL;
 		}
@@ -74,7 +74,7 @@ void			save_history(void)
 	{
 		new_history_element = ft_lstnew(vct_dup(le->cmd_line));
 		if (new_history_element == NULL)
-			exit_routine_le(ERR_MALLOC);
+			exit_routine(EXIT_MALLOC);
 		if (le->history_cache == NULL)
 			le->history_cache = new_history_element;
 		else

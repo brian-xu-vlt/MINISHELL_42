@@ -19,7 +19,7 @@ void		free_clean_command(t_clean_cmd *clean_cmd, int flag)		//call in exit_routi
 	}
 	free(clean_cmd);
 	if ((flag == MALLOC || flag == NOT_ALL_FREE) && flag != FREE_ONLY_CMD)
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 }
 
 t_clean_cmd	*init_clean_command(void)

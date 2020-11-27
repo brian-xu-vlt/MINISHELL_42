@@ -9,7 +9,7 @@ static void	child_process(t_cmd *cmd, int p_in[2], int p_out[2])
 	if (get_struct(GET)->stderr_stat != SUCCESS)
 		close(STDOUT_FILENO);
 	if ((cmd->redirection & F_REDIRECT_FAILURE) == TRUE)
-		exit_routine_le(ERR_NO_MESSAGE);
+		exit_routine(EXIT_NORMAL);
 	signal_manager(SIG_MODE_DEFAULT);
 	dup_pipes(cmd, p_in, p_out);
 	ret = 1;

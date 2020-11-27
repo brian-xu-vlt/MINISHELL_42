@@ -7,17 +7,17 @@ static t_env	*store_new_env(t_list *env_lst, const char *env_name,
 
 	new_env = (t_env *)ft_calloc(1, sizeof(t_env));
 	if (new_env == NULL)
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	new_env->env_name = ft_strdup(env_name);
 	if (new_env->env_name == NULL)
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	if (env_value != NULL)
 	{
 		new_env->env_value = vct_new();
 		if (new_env->env_value == NULL)
-			exit_routine_le(ERR_MALLOC);
+			exit_routine(EXIT_MALLOC);
 		if (vct_addstr(new_env->env_value, (char *)env_value) == FAILURE)
-			exit_routine_le(ERR_MALLOC);
+			exit_routine(EXIT_MALLOC);
 	}
 	if (env_lst->content == NULL)
 		env_lst->content = new_env;
@@ -34,11 +34,11 @@ static void		update_existing_env(t_env *env_struct,
 		if (env_struct->env_value == NULL)
 			env_struct->env_value = vct_new();
 		if (env_struct->env_value == NULL)
-			exit_routine_le(ERR_MALLOC);
+			exit_routine(EXIT_MALLOC);
 		if (flags &= F_OVERWRITE)
 			vct_clear(env_struct->env_value);
 		if (vct_addstr(env_struct->env_value, (char *)new_env_value) == FAILURE)
-			exit_routine_le(ERR_MALLOC);
+			exit_routine(EXIT_MALLOC);
 	}
 }
 

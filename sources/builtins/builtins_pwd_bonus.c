@@ -37,7 +37,7 @@ int			pwd_builtin(int ac, char **av, char **envp)
 	if (buff == NULL)
 	{
 		free(buff);
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	}
 	pwd = getcwd(buff, PATH_MAX);
 	if (pwd == NULL)

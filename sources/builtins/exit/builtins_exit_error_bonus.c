@@ -12,5 +12,5 @@ void	exit_error(t_vector *vct_av, char *av, char c, int flag)
 	if (flag == RETLONG_TRUE)
 		ms_setenv_int(get_env_list(GET), "?", print_error(vct_av, av, c, NUM),
 						F_OVERWRITE);
-	exit_routine_le(NORMAL_EXIT);
+	exit_routine(EXIT_NORMAL);
 }

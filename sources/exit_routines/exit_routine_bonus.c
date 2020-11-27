@@ -1,28 +1,12 @@
-#include "line_editor_bonus.h"
-
-# define	NORMAL_EXIT					0
-# define	ERR_ENV			 			-2
-# define	ERR_NEW_VCT		 			-3
-# define	ERR_VCT			 			-4
-# define	ERR_ENVP		 			-5
-# define	ERR_SCREEN_SIZE	 			-6
-# define	ERR_TERM_NAME	 			-7
-# define	ERR_TERMCAP		 			-8
-# define	ERR_MALLOC		 			-9
-# define	ERR_FORK		 			-10
-# define	ERR_HUP			 			-11
-# define	ERR_MS_PUTCHAR	 			-12
-# define	ERR_MS_TPUTS 				-13
-
-# define	NB_ERR_CODES				12
+#include "minishell_bonus.h"
 
 static void	print_exit_error(int error)
 {
-	static const int	err_code[NB_ERR_CODES] = {
-		ERR_ENV ,ERR_NEW_VCT, ERR_VCT, ERR_ENVP, ERR_SCREEN_SIZE,
-		ERR_TERM_NAME, ERR_TERMCAP, ERR_MALLOC, ERR_FORK, ERR_HUP,
-		ERR_MS_PUTCHAR,ERR_MS_TPUTS };
-	static const char	*err_code_str[NB_ERR_CODES] = {
+	static const int	err_code[NB_EXIT_CODES] = {
+		EXIT_ENV ,EXIT_NEW_VCT, EXIT_VCT, EXIT_ENVP, EXIT_SCREEN_SIZE,
+		EXIT_TERM_NAME, EXIT_TERMCAP, EXIT_MALLOC, EXIT_FORK, EXIT_HUP,
+		EXIT_MS_PUTCHAR,EXIT_MS_TPUTS };
+	static const char	*err_code_str[NB_EXIT_CODES] = {
 		"Could not load environement variables.", "Could not malloc vector.",
 		"Vector function failed.", "Envp is null.", "Screen size is too small.",
 		"TERM environment variable not set.",
@@ -33,13 +17,12 @@ static void	print_exit_error(int error)
 	int					i;
 
 	i = 0;
-	while (i < NB_ERR_CODES)
+	while (i < NB_EXIT_CODES)
 	{
 		if (err_code[i] == error)
 			ft_dprintf(STDERR_FILENO, "Minishell: %s\n", err_code_str[i]);
 		i++;
 	}
-	return (NOT_FOUND);
 }
 
 void		exit_routine(int err_code)
@@ -48,7 +31,7 @@ void		exit_routine(int err_code)
 	t_data		*data;
 
 	last_exit_status = get_env_value_int(get_env_list(GET), S_QUESTION_MARK);
-	data = get_data(GET);
+	data = get_data_struct(GET);
 	if (data != NULL)
 	{
 		if (data->cmd_line != NULL)
@@ -59,7 +42,7 @@ void		exit_routine(int err_code)
 			free_list_job(&data->current_jobs);
 		free(data);
 	}
-	if (err_code != NORMAL_EXIT)
+	if (err_code != EXIT_NORMAL)
 	{
 		print_exit_error(err_code);
 		exit (err_code);

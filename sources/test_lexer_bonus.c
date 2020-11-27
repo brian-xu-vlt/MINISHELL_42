@@ -12,7 +12,7 @@ t_list	*test_lexer(t_vector *input)
 		free_list_token(&lexer_list);
 		return (NULL);
 	}
-	data = get_data(GET);
+	data = get_data_struct(GET);
 	if (data != NULL)
 		data->lexer_list = lexer_list;
 	return (lexer_list);

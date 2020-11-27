@@ -1,4 +1,4 @@
-#include "line_editor_bonus.h"
+#include "minishell_bonus.h"
 
 static int	line_editor_loop(t_le *le)
 {
@@ -11,7 +11,7 @@ static int	line_editor_loop(t_le *le)
 		ms_tputs(le->termcap[HIDE_CURSOR], 1, ms_putchar);
 		le->vct_index_backup = le->vct_index;
 		if (key == K_EOF && vct_getlen(le->cmd_line) == 0)
-			exit_routine_le("exit");									// TODO: check return value of Minishell ?
+			exit_routine(EXIT_NORMAL);									// TODO: check return value of Minishell ?
 		if (ft_isprint(key) == TRUE)
 			handle_print_char(key);
 		else

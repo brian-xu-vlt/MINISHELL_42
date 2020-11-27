@@ -1,4 +1,4 @@
-#include "line_editor_bonus.h"
+#include "minishell_bonus.h"
 
 static void	del_history_elem(void *elem_content)
 {

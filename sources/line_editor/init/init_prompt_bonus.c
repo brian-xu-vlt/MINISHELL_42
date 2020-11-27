@@ -1,4 +1,4 @@
-#include "line_editor_bonus.h"
+#include "minishell_bonus.h"
 
 void	print_prompt(void)
 {
@@ -24,7 +24,7 @@ void	init_prompt(void)
 	{
 		le = get_struct(GET);
 		if (le->prompt_len >= le->scols)
-			exit_routine_le(ERR_SCREEN_SIZE);
+			exit_routine(EXIT_SCREEN_SIZE);
 		le->cx = (int)le->prompt_len;
 		le->cy = 0;
 		le->vct_index = 0;

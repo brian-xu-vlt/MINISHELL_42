@@ -25,7 +25,7 @@ pid_t	fork_process(void)
 	while (pid_ret == FAILURE && errno == EAGAIN)
 		pid_ret = fork();
 	if (pid_ret == FAILURE)
-		exit_routine_le(ERR_FORK);
+		exit_routine(EXIT_FORK);
 	return (pid_ret);
 }
 

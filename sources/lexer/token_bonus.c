@@ -51,7 +51,7 @@ int			extract_token(t_list **token_list, char *str, size_t type)
 	token = (t_token *)malloc(sizeof(t_token));
 	node = NULL;
 	if (token == NULL)
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	token->data = NULL;
 	if (extract_data(type, str, token) == FAILURE)
 	{
@@ -66,7 +66,7 @@ int			extract_token(t_list **token_list, char *str, size_t type)
 	if (node == NULL)
 	{
 		free_token(node, token);
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	}
 	ft_lstadd_back(token_list, node);
 	return (SUCCESS);
