@@ -80,7 +80,7 @@ int		exit_builtin(int ac, char **av, __attribute__((unused)) char **envp)
 		/*si le retour est 3, renvoie Brian doit savoir que 3 veut dire que EXIT
 			a fail car trop d'arguments, donc si il recoit 3 et qu'il s'agit de EXIT,
 			set a 3 comme ca dans le hub cleaner je vois que ca vient de EXIT et si pas de commande,
-			je n'execute pas les autres jobs et donc je resete ensuite la valeur a 2 ?*/
+			je n'execute pas les autres jobs et donc je resesources/builtins/builtins_history_bonus.cte ensuite la valeur a 2 ?*/
 		vct_del(&vct_av);
 		return (EXIT_FAIL);
 	}
