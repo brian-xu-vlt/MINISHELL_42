@@ -129,6 +129,31 @@ int			parse_double_quote(t_vector *input, t_vector *output)
 	return (SUCCESS);
 }
 
+static void	clean_output(t_vector *output)
+{
+	size_t	i;
+	char	c;
+	char	next_c;
+
+	i = vct_getlen(output) - 1;
+	c = vct_getcharat(output, i);
+	next_c = vct_getcharat(output, i - 1);
+	if ((c == C_SPACE || c == C_TAB) && next_c != C_BACKSLASH &&
+			vct_getlen(output) != 1)
+	{
+		while (vct_getlen(output) > 0)
+		{
+			i = vct_getlen(output) - 1;
+			c = vct_getcharat(output, i);
+			next_c = vct_getcharat(output, i - 1);
+			if ((c == C_SPACE || c == C_TAB) && next_c != C_BACKSLASH)
+				vct_popcharat(output, i);
+			else
+				return ;
+		}
+	}
+}
+
 static int	handle_char(char c, t_vector *input, t_vector *output)
 {
 	int flag;
@@ -163,14 +188,15 @@ static int	handle_char(char c, t_vector *input, t_vector *output)
 				is_exp_sep(vct_getcharat(input, 1)) == true &&
 				vct_getcharat(input, 1) != QUESTION_MARK)
 		{
-			//ft_printf("yeeeeah\n");//DEBUG
+			if (vct_getcharat(input, 1) == C_BACKSLASH)
+			{
+				vct_add(output, c);
+				vct_pop(input);
+				return (SUCCESS);
+			}
 			vct_add(output, c);
-		//	ft_printf("output 1 = %s\n", vct_getstr(output));//DEBUG
 			vct_pop(input);
-		//	ft_printf("input 1 = %s\n", vct_getstr(input));//DEBUG
 			pop_input(input, output);
-		//	ft_printf("input after = %s\n", vct_getstr(input));
-		//	ft_printf("output after = %s\n", vct_getstr(output));
 			return (SUCCESS);
 		}
 		parse_expansion(input, output);
@@ -200,6 +226,7 @@ int			process_clean_quote(t_vector *input, t_vector *output)
 		if (flag == FAILURE)
 			return (FAILURE);
 	}
+	clean_output(output);
 	if (flag == 8 && vct_getlen(output) == 0)
 		return (2);
 	if ((flag & F_SQUOTE || flag & F_DQUOTE) && vct_getlen(output) == 0)

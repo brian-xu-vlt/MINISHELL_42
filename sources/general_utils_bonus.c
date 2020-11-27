@@ -8,7 +8,7 @@ int		safe_vct_cpy(t_vector *dest, t_vector *src)
 		return (FAILURE);
 	ret = vct_cpy(dest, src);
 	if (ret == FAILURE)
-		exit_routine(EXIT_MALLOC);
+		exit_routine(EXIT_VCT);
 	return (ret);
 }
 
@@ -18,7 +18,7 @@ int		safe_vct_add(t_vector *vct, char c)
 
 	ret = vct_add(vct, c);
 	if (ret == FAILURE)
-		exit_routine(EXIT_MALLOC);
+		exit_routine(EXIT_VCT);
 	return (ret);
 }
 
@@ -28,7 +28,7 @@ int		safe_vct_addstr(t_vector *vct, char *str)
 
 	ret = vct_addstr(vct, str);
 	if (ret == FAILURE)
-		exit_routine(EXIT_MALLOC);
+		exit_routine(EXIT_VCT);
 	return (ret);
 }
 
@@ -38,7 +38,7 @@ t_vector		*safe_vct_new(void)
 
 	new_vct = vct_new();
 	if (new_vct == NULL)
-		exit_routine(EXIT_MALLOC);
+		exit_routine(EXIT_VCT);
 	return (new_vct);
 }
 
@@ -50,7 +50,7 @@ int		safe_vct_addcharat(t_vector *vct, size_t index, char c)
 		return (FAILURE);
 	ret = vct_addcharat(vct, index, c);
 	if (ret == FAILURE)
-		exit_routine(EXIT_MALLOC);
+		exit_routine(EXIT_VCT);
 	return (ret);
 }
 

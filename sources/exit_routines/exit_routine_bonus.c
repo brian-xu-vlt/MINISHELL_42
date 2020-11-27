@@ -42,6 +42,7 @@ void		exit_routine(int err_code)
 			free_list_job(&data->current_jobs);
 		free(data);
 	}
+	vct_readline(NULL, -42);
 	if (err_code != EXIT_NORMAL)
 	{
 		print_exit_error(err_code);

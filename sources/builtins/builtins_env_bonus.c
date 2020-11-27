@@ -1,15 +1,15 @@
 #include "minishell_bonus.h"
 
-static void print_envp(char **envp)
+static void	print_envp(char **envp)
 {
-	int i;
+	int			i;
 
 	i = 0;
 	while (envp != NULL && envp[i] != NULL)
 		ft_printf("%s\n", envp[i++]);
 }
 
-int env_builtin(int ac, char **av, char **envp)
+int			env_builtin(int ac, char **av, char **envp)
 {
 	const char	*builtin = "env";
 	const char	*usage = "Try 'env --help' for more information.\n";

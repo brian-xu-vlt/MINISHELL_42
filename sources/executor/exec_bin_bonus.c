@@ -22,15 +22,15 @@ int			exec_binary(const t_cmd *command)
 	if (command->ac <= 0)
 		return (0);
 	bin_full_path = locate_binary_file(command->name);
-	if (bin_full_path != NOT_FOUND)
+	if (errno == EISDIR)
+		ret = 126;
+	else if (bin_full_path != NOT_FOUND)
 	{
 		envp = get_envp(get_env_list(GET));
 		ret = call_execve(command, bin_full_path, envp);
-		ret = (errno == EACCES) ? 126 : ret;
+		ret = (errno != 0) ? 126 : ret;
 		free(bin_full_path);
 		free_char_arr(envp);
 	}
-	else if (bin_full_path != NOT_FOUND && errno == EISDIR)
-		ret = 126;
 	return (ret);
 }

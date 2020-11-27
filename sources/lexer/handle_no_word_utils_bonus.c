@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static bool	stop_assign_str(t_vector *input)
+bool	stop_assign_str(t_vector *input)
 {
 	t_vector	*cpy_input;
 	bool		ret;
@@ -17,7 +17,7 @@ static bool	stop_assign_str(t_vector *input)
 	return (ret);
 }
 
-static bool	stop_assign_char(char c)
+bool	stop_assign_char(char c)
 {
 	return (c == '\0' || c == C_SEPARATOR || c == C_PIPE || c == C_LESS_THAN
 				|| c == C_GREATER_THAN || c == C_SPACE || c == C_TAB
