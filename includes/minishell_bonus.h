@@ -257,12 +257,13 @@ int		is_builtin(const t_cmd *command);
 /*******************************_GENERAL_UTILES_*******************************/
 /******************************************************************************/
 
-t_data	*get_data_struct(t_data *mem);
-int		safe_vct_cpy(t_vector *dest, t_vector *src);
-int		safe_vct_add(t_vector *vct, char c);
-int		safe_vct_addstr(t_vector *vct, char *str);
-int		safe_vct_addcharat(t_vector *vct, size_t index, char c);
-void	free_char_arr(char **arr);
+t_data		*get_data_struct(t_data *mem);
+t_vector	*safe_vct_new(void)
+int			safe_vct_cpy(t_vector *dest, t_vector *src);
+int			safe_vct_add(t_vector *vct, char c);
+int			safe_vct_addstr(t_vector *vct, char *str);
+int			safe_vct_addcharat(t_vector *vct, size_t index, char c);
+void		free_char_arr(char **arr);
 
 /******************************************************************************/
 /*******************************_ERROR MANAGER_********************************/

@@ -73,7 +73,7 @@ void			save_history(void)
 	if (le != NULL && le->cmd_line != NULL && vct_getlen(le->cmd_line) > 0)
 	{
 		new_history_element = ft_lstnew(vct_dup(le->cmd_line));
-		if (new_history_element == NULL)
+		if (new_history_element == NULL || new_history_element->content == NULL)
 			exit_routine(EXIT_MALLOC);
 		if (le->history_cache == NULL)
 			le->history_cache = new_history_element;
