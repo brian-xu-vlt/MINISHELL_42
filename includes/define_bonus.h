@@ -225,7 +225,8 @@
 # define	EXIT_HUP			 		-11
 # define	EXIT_MS_PUTCHAR	 			-12
 # define	EXIT_MS_TPUTS 				-13
+# define	EXIT_UNKNOWN 				-14
 
-# define	NB_EXIT_CODES				12
+# define	NB_EXIT_CODES				13
 
 #endif

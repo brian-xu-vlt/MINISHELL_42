@@ -35,13 +35,12 @@ static int	is_valid_option(const char *av_to_test, const char *option)
 	return (TRUE);
 }
 
-int			echo_builtin(int ac, char **av, char **envp)
+int			echo_builtin(int ac, char **av, __attribute__((unused)) char **envp)
 {
 	const char	*builtin = "echo";
 	const char	*option = "-n";
 	int			new_line_flag;
 
-	(void)envp;
 	new_line_flag = TRUE;
 	if (av != NULL && ft_strequ(*av, (char *)builtin) == TRUE && ac >= 2)
 	{

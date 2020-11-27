@@ -100,9 +100,9 @@ int			cd_builtin(int ac, char **av, __attribute__((unused)) char **envp)
 	int		ret;
 	char	*pwd;
 
-	if (check_cd_arg(ac) == CD_FAIL)
+	if (av == NULL || check_cd_arg(ac) == CD_FAIL)
 		return (CD_FAIL);
-	if (ac != 1 && ft_strlen(av[1]) != 0
+	if (ac > 1 && ft_strlen(av[1]) != 0
 			&& ft_strequ(av[1], STR_MINUS) == FALSE)
 	{
 		if ((ret = first_check(av[1])) != CD_CONTINUE)

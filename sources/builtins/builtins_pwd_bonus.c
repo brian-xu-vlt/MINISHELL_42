@@ -23,15 +23,14 @@ static int	first_check_pwd(int ac, char *av)
 	return (SUCCESS);
 }
 
-int			pwd_builtin(int ac, char **av, char **envp)
+int			pwd_builtin(int ac, char **av, __attribute__((unused)) char **envp)
 {
 	char *pwd;
 	char *buff;
 
 	errno = SUCCESS;
 	pwd = NULL;
-	(void)envp;
-	if (first_check_pwd(ac, av[1]) == PWD_FAIL)
+	if (av == NULL || first_check_pwd(ac, av[1]) == PWD_FAIL)
 		return (PWD_FAIL);
 	buff = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
 	if (buff == NULL)
