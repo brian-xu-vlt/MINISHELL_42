@@ -188,6 +188,12 @@ static int	handle_char(char c, t_vector *input, t_vector *output)
 				is_exp_sep(vct_getcharat(input, 1)) == true &&
 				vct_getcharat(input, 1) != QUESTION_MARK)
 		{
+			if (vct_getcharat(input, 1) == C_BACKSLASH)
+			{
+				vct_add(output, c);
+				vct_pop(input);
+				return (SUCCESS);
+			}
 			vct_add(output, c);
 			vct_pop(input);
 			pop_input(input, output);
@@ -204,7 +210,6 @@ static int	handle_char(char c, t_vector *input, t_vector *output)
 		vct_add(output, c);
 		vct_pop(input);
 	}
-	clean_output(output);
 	return (flag);
 }
 
@@ -221,6 +226,7 @@ int			process_clean_quote(t_vector *input, t_vector *output)
 		if (flag == FAILURE)
 			return (FAILURE);
 	}
+	clean_output(output);
 	if (flag == 8 && vct_getlen(output) == 0)
 		return (2);
 	if ((flag & F_SQUOTE || flag & F_DQUOTE) && vct_getlen(output) == 0)
