@@ -8,7 +8,7 @@ int		safe_vct_cpy(t_vector *dest, t_vector *src)
 		return (FAILURE);
 	ret = vct_cpy(dest, src);
 	if (ret == FAILURE)
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	return (ret);
 }
 
@@ -18,7 +18,7 @@ int		safe_vct_add(t_vector *vct, char c)
 
 	ret = vct_add(vct, c);
 	if (ret == FAILURE)
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	return (ret);
 }
 
@@ -28,7 +28,7 @@ int		safe_vct_addstr(t_vector *vct, char *str)
 
 	ret = vct_addstr(vct, str);
 	if (ret == FAILURE)
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	return (ret);
 }
 
@@ -40,7 +40,7 @@ int		safe_vct_addcharat(t_vector *vct, size_t index, char c)
 		return (FAILURE);
 	ret = vct_addcharat(vct, index, c);
 	if (ret == FAILURE)
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	return (ret);
 }
 
@@ -63,11 +63,11 @@ int		is_path(const char *bin_name)
 	return ((ft_strchr((char *)bin_name, '/') == NOT_FOUND) ? FALSE : TRUE);
 }
 
-// t_data		*get_data(t_list *mem)
-// {
-// 	static t_data	*mem_backup = NULL;
+t_data		*get_data_struct(t_data *mem)
+{
+	static t_data	*mem_backup = NULL;
 
-// 	if (mem != NULL)
-// 		mem_backup = mem;
-// 	return (mem_backup);
-// }
+	if (mem != GET)
+		mem_backup = mem;
+	return (mem_backup);
+}

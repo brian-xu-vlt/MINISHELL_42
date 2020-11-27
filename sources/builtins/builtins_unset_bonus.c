@@ -28,9 +28,9 @@ static bool is_valid_identifier(char *av_to_check)
 
     vct = vct_new();
     if (vct == NULL)
-        exit_routine_le(ERR_MALLOC);
+        exit_routine(EXIT_MALLOC);
     if (vct_addstr(vct, av_to_check) == FAILURE)
-        exit_routine_le(ERR_MALLOC);
+        exit_routine(EXIT_MALLOC);
     c_first = vct_getfirstchar(vct);
     c_last = vct_getcharat(vct, vct_getlen(vct) - 1);
     if (c_last == C_EXP || ft_isdigit(c_first) == true)

@@ -1,4 +1,4 @@
-#include "line_editor_bonus.h"
+#include "minishell_bonus.h"
 
 static void		put_newline(t_le *le)
 {
@@ -17,7 +17,7 @@ static ssize_t	safe_write(int fd, const void *buf, size_t nbyte)
 	if (ret == FAILURE)
 	{
 		print_set_errno(errno, NULL, NULL, NULL);
-		exit_routine_le(ERR_NO_MESSAGE);
+		exit_routine(EXIT_NORMAL);
 	}
 	return (ret);
 }

@@ -15,7 +15,7 @@ char		*get_env_value_str(char *var)
 static void	exit_routine_failed_envp(char **envp)
 {
 	free_char_arr(envp);
-	exit_routine_le(ERR_MALLOC);
+	exit_routine(EXIT_MALLOC);
 }
 
 static char	*create_env(const char *env_name, t_vector *env_value)
@@ -29,7 +29,7 @@ static char	*create_env(const char *env_name, t_vector *env_value)
 	env_value_len = vct_getlen(env_value);
 	ret_str = (char *)ft_calloc(sizeof(char), env_name_len + env_value_len + 2);
 	if (ret_str == NULL)
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	ft_memmove(ret_str, env_name, env_name_len);
 	env_value_str = vct_getstr(env_value);
 	if (env_value_str != NULL)
@@ -47,7 +47,7 @@ static char	**allocate_envp(const t_list *env_lst, int *lst_size)
 	*lst_size = ft_lstsize((t_list *)env_lst);
 	envp = (char **)ft_calloc(sizeof(char *), *lst_size + 1);
 	if (envp == NULL)
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	return (envp);
 }
 

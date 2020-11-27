@@ -13,7 +13,7 @@ static char	**get_all_path_directories(void)
 	{
 		dir_list = ft_split(path_env, ':');
 		if (dir_list == NULL)
-			exit_routine_le(ERR_MALLOC);
+			exit_routine(EXIT_MALLOC);
 	}
 	return (dir_list);
 }
@@ -53,7 +53,7 @@ static char	*check_dir_option(const char *bin_name, const char *dir_option)
 	ret_full_path = NOT_FOUND;
 	full_path_vct = vct_new();
 	if (full_path_vct == NULL)
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	concat_path(&full_path_vct, (char *)dir_option, (char *)bin_name);
 	ret = stat_path(vct_getstr(full_path_vct));
 	if (ret == SUCCESS)

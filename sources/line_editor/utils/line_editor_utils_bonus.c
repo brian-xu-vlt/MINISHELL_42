@@ -1,4 +1,4 @@
-#include "line_editor_bonus.h"
+#include "minishell_bonus.h"
 
 int		ms_tputs(const char *str, int affcnt, int (*putc_function)(int))
 {
@@ -11,7 +11,7 @@ int		ms_tputs(const char *str, int affcnt, int (*putc_function)(int))
 		ft_putchar_fd('\n', STDERR_FILENO);
 		ft_putchar_fd('\r', STDERR_FILENO);
 		print_set_errno(errno, NULL, NULL, NULL);
-		exit_routine_le(ERR_MS_TPUTS);
+		exit_routine(EXIT_MS_TPUTS);
 	}
 	return (ret);
 }
@@ -27,7 +27,7 @@ int		ms_putchar(int c)
 		ft_putchar_fd('\n', STDERR_FILENO);
 		ft_putchar_fd('\r', STDERR_FILENO);
 		print_set_errno(errno, NULL, NULL, NULL);
-		exit_routine_le(ERR_MS_PUTCHAR);
+		exit_routine(EXIT_MS_PUTCHAR);
 	}
 	return (ret);
 }

@@ -4,28 +4,25 @@ static void	child_process(t_cmd *cmd, int p_in[2], int p_out[2])
 {
 	int		ret;
 
-	if (get_struct(GET)->stdout_stat != SUCCESS)
-		close(STDOUT_FILENO);
-	if (get_struct(GET)->stderr_stat != SUCCESS)
-		close(STDOUT_FILENO);
-	if ((cmd->redirection & F_REDIRECT_FAILURE) == TRUE)
-		exit_routine_le(ERR_NO_MESSAGE);
-	signal_manager(SIG_MODE_DEFAULT);
-	dup_pipes(cmd, p_in, p_out);
 	ret = 1;
-	if ((cmd->redirection & F_REDIRECT_FAILURE) == FALSE)
+	if ((cmd->redirection & F_REDIRECT_FAILURE) == false)
 	{
-		if (is_builtin(cmd) == TRUE)
-			ret = exec_builtin(cmd);
-		else
+		signal_manager(SIG_MODE_DEFAULT);
+		dup_pipes(cmd, p_in, p_out);
+		ret = 1;
+		if ((cmd->redirection & F_REDIRECT_FAILURE) == false)
 		{
-			export_envp(cmd->envp);
-			ret = exec_binary(cmd);
+			if (is_builtin(cmd) == TRUE)
+				ret = exec_builtin(cmd);
+			else
+			{
+				export_envp(cmd->envp);
+				ret = exec_binary(cmd);
+			}
 		}
 	}
 	ms_setenv_int(get_env_list(GET), "?", ret, F_OVERWRITE);
-	// exit_routine_le(NORMAL_EXIT);										// TODO: exit with exit_routine but make sure it doesn't output any termcaps
-	exit(ret);
+	exit_routine(EXIT_NORMAL);
 }
 
 void		exec_subshell(t_job *job, t_cmd *cmd, int p_in[2], int p_out[2])

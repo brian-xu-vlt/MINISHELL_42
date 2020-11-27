@@ -1,4 +1,4 @@
-#include "line_editor_bonus.h"
+#include "minishell_bonus.h"
 
 
 void	update_window_size(void)
@@ -17,7 +17,7 @@ void	update_window_size(void)
 	{
 		ret = ioctl(STDIN_FILENO, TIOCGWINSZ, &w_size);
 		if (ret == FAILURE || w_size.ws_col == 0)
-			exit_routine_le(ERR_NO_MESSAGE);
+			exit_routine(EXIT_NORMAL);
 		// if (le->srows != 0 && le->scols != 0
 		// 		&& (le->srows > w_size.ws_row || le->scols > w_size.ws_col))
 		// 	le->screen_flag |= RESIZE_REFRESH;

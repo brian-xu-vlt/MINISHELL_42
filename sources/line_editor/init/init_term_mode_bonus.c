@@ -1,4 +1,4 @@
-#include "line_editor_bonus.h"
+#include "minishell_bonus.h"
 
 void	set_termios(const struct termios *termios_mode)
 {
@@ -13,10 +13,10 @@ void	init_term_mode(void)
 	le = get_struct(GET);
 	le->termios_editor = (struct termios *)ft_calloc(sizeof(struct termios), 1);
 	if (le->termios_editor == NULL)
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	le->termios_bkup = (struct termios *)ft_calloc(sizeof(struct termios), 1);
 	if (le->termios_bkup == NULL)
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	tcgetattr(STDIN_FILENO, le->termios_bkup);
 	ft_memmove(le->termios_editor, le->termios_bkup, sizeof(struct termios));
 	le->termios_editor->c_lflag &= ~(ICANON);

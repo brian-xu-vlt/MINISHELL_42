@@ -33,7 +33,7 @@ void		parse_env(const char *env, char **env_name, char **env_value,
 	name_len = get_env_name_len(env);
 	*env_name = (char *)ft_calloc(sizeof(char), name_len + 1);
 	if (*env_name == NULL)
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	ft_memmove(*env_name, env, name_len);
 	*env_value = NULL;
 	if (env[name_len] != '\0')
@@ -45,7 +45,7 @@ void		parse_env(const char *env, char **env_name, char **env_value,
 		{
 			*env_value = (char *)ft_calloc(sizeof(char), value_len + 1);
 			if (*env_value == NULL)
-				exit_routine_le(ERR_MALLOC);
+				exit_routine(EXIT_MALLOC);
 			ft_memmove(*env_value, env + name_len + 1 + sign_offset, value_len);
 		}
 	}

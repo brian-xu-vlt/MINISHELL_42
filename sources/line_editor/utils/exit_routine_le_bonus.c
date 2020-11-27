@@ -1,4 +1,4 @@
-#include "line_editor_bonus.h"
+#include "minishell_bonus.h"
 
 static void	del_history_elem(void *elem_content)
 {
@@ -53,7 +53,7 @@ void		exit_routine_le(char *err_code)
 	}
 	if (ft_strequ(err_code, NORMAL_EXIT) == FALSE)
 	{
-		if (ft_strequ(err_code, ERR_MALLOC) == TRUE)
+		if (ft_strequ(err_code, EXIT_MALLOC) == TRUE)
 			errno = ENOMEM;
 		if (err_code != ERR_NO_MESSAGE)
 		{

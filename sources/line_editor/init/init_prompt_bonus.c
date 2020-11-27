@@ -1,4 +1,4 @@
-#include "line_editor_bonus.h"
+#include "minishell_bonus.h"
 
 void	print_prompt(void)
 {
@@ -14,6 +14,17 @@ void	print_prompt(void)
 		ft_putstr_fd(prompt_str, STDERR_FILENO);
 }
 
+static void	clear_command_line(void)
+{
+	t_data	*data;
+
+	data = get_data_struct(GET);
+	if (data == NULL)
+		exit_routine(EXIT_MALLOC);
+	else
+		vct_clear(data->cmd_line);
+}
+
 void	init_prompt(void)
 {
 	t_le	*le;
@@ -24,10 +35,10 @@ void	init_prompt(void)
 	{
 		le = get_struct(GET);
 		if (le->prompt_len >= le->scols)
-			exit_routine_le(ERR_SCREEN_SIZE);
+			exit_routine(EXIT_SCREEN_SIZE);
 		le->cx = (int)le->prompt_len;
 		le->cy = 0;
 		le->vct_index = 0;
 	}
-	vct_clear(le->cmd_line);
+	clear_command_line();
 }

@@ -48,7 +48,7 @@ static void	print_disambiguate_value(t_vector *env_value)
 	{
 		tmp_env_value = vct_dup(env_value);
 		if (tmp_env_value == NULL)
-			exit_routine_le(ERR_MALLOC);
+			exit_routine(EXIT_MALLOC);
 		append_value_slashs(env_value, tmp_env_value);
 		put_env_value(tmp_env_value);
 		vct_del(&tmp_env_value);

@@ -31,14 +31,6 @@ static void	increment_shlevel(t_list *env_lst)
 		ms_setenv_int(env_lst, "SHLVL", shlvl_int + 1, F_OVERWRITE | F_EXPORT);
 }
 
-static void	exit_routine_init_env(void)
-{
-	errno = ENOMEM;
-	ft_putstr_fd(ERR_MALLOC, STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
-	exit (FAILURE);
-}
-
 static int	is_special_environ(char *environ)
 {
 	char		*env_name;
@@ -60,18 +52,26 @@ static int	is_special_environ(char *environ)
 	return (false);
 }
 
-void		init_env(void)
+static t_list	*init_env_list(void)
+{
+	t_list		*env_lst;
+
+	env_lst = ft_lstnew(NULL);
+	if (env_lst == NULL)
+		exit_routine(EXIT_MALLOC);
+	get_env_list(env_lst);
+	return (env_lst);
+}
+
+void			init_env(void)
 {
 	t_list		*env_lst;
 	int			index;
 	extern char **environ;
 
 	if (environ == NULL)
-		exit_routine_le(ERR_ENV);
-	env_lst = ft_lstnew(NULL);
-	if (env_lst == NULL)
-		exit_routine_init_env();
-	get_env_list(env_lst);
+		exit_routine(EXIT_ENV);
+	env_lst = init_env_list();
 	index = 0;
 	while (environ[index] != NULL)
 	{

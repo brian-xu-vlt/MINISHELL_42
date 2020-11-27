@@ -1,19 +1,10 @@
+#ifndef LINE_EDITOR_BONUS_H
+# define LINE_EDITOR_BONUS_H
+
 #include <termcap.h>
 #include <termios.h>
 #include <term.h>
-#include <unistd.h>
-#include <string.h>
-
-#include "define_bonus.h"
-#include "enum_bonus.h"
-#include "lexer_bonus.h"
-#include "minishell_bonus.h"
-#include "struct_bonus.h"
-
 #include <sys/ioctl.h>
-
-#ifndef LINE_EDITOR_BONUS_H
-# define LINE_EDITOR_BONUS_H
 
 #ifndef DEBUG_MODE
 # define	DEBUG_MODE		FALSE
@@ -32,20 +23,20 @@
 *********  ERRORS FLAGS ***********
 **********************************/
 
-# define	NORMAL_EXIT		"exit_from_NORMAL_EXIT"								//to do : change
-# define	ERR_NO_MESSAGE	NULL
-# define	ERR_ENV			"Could not load environement variables."
-# define	ERR_NEW_VCT		"Could not malloc vector."
-# define	ERR_VCT			"Vector function failed."
-# define	ERR_ENVP		"Envp is null."
-# define	ERR_SCREEN_SIZE	"Screen size is too small."
-# define	ERR_TERM_NAME	"TERM environment variable not set."
-# define	ERR_TERMCAP		"Minishell is not (yet) compatible to this Terminal"
-# define	ERR_MALLOC		"Malloc could not allocate memory."
-# define	ERR_FORK		"Could not fork a chilf process."
-# define	ERR_HUP			"Received a Hang Up signal."
-# define	ERR_MS_PUTCHAR	"Could not write on stdout"
-# define	ERR_MS_TPUTS	"Could not output termcaps"
+// # define	NORMAL_EXIT		"exit_from_NORMAL_EXIT"								//to do : change
+// # define	ERR_NO_MESSAGE	NULL
+// # define	ERR_ENV			"Could not load environement variables."
+// # define	ERR_NEW_VCT		"Could not malloc vector."
+// # define	ERR_VCT			"Vector function failed."
+// # define	ERR_ENVP		"Envp is null."
+// # define	ERR_SCREEN_SIZE	"Screen size is too small."
+// # define	ERR_TERM_NAME	"TERM environment variable not set."
+// # define	ERR_TERMCAP		"Minishell is not (yet) compatible to this Terminal"
+// # define	EXIT_MALLOC		"Malloc could not allocate memory."
+// # define	ERR_FORK		"Could not fork a chilf process."
+// # define	ERR_HUP			"Received a Hang Up signal."
+// # define	ERR_MS_PUTCHAR	"Could not write on stdout"
+// # define	ERR_MS_TPUTS	"Could not output termcaps"
 
 /**********************************
 *********     UTILS     ***********
@@ -154,8 +145,6 @@ typedef struct	s_line_editor
 	int				vct_index_backup;
 	int				select_min;
 	int				select_max;
-	int				stdout_stat;
-	int				stderr_stat;
 }				t_le;
 
 /*************************************************
@@ -176,8 +165,6 @@ int			ms_tputs(const char *str, int affcnt, int (*putc)(int));
 int			is_shift_on(long key);
 int			is_ctrl_on(long key);
 int			is_ctrl_shift_on(long key);
-
-void		exit_routine_le(char *err_code);
 
 /*************************************************
 **				HANDLERS
@@ -239,7 +226,7 @@ void		init_prompt(void);
 void		print_prompt(void);
 void		init_term_mode(void);
 void		set_termios(const struct termios *termios_mode);
-void		init_line_editor(t_vector *cmd_line);
+t_le		*init_line_editor(t_vector *cmd_line);
 void		update_window_size(void);
 
 /*************************************************

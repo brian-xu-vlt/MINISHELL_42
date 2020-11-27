@@ -141,7 +141,7 @@ static int	set_redir_before(t_cmd *cmd, size_t i)
 	start = 0;
 	cmd->tab_redir_before = (char **)malloc(sizeof(char *) * (i + 1));
 	if (cmd->tab_redir_before == NULL)
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	while (start < i)
 	{
 		cmd->tab_redir_before[start] = ft_strdup(cmd->av[start]);

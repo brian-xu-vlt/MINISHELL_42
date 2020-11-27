@@ -1,4 +1,4 @@
-#include "line_editor_bonus.h"
+#include "minishell_bonus.h"
 
 static void	init_library_db(void)
 {
@@ -7,12 +7,12 @@ static void	init_library_db(void)
 
 	term_name = vct_getstr(get_env_value_vct(get_env_list(GET), "TERM"));
 	if (term_name == NULL)
-		exit_routine_le(ERR_TERM_NAME);
+		exit_routine(EXIT_TERM_NAME);
 	if (ft_strequ((char *)term_name, "ansi") == TRUE)
-		exit_routine_le(ERR_TERMCAP);
+		exit_routine(EXIT_TERMCAP);
 	ret = tgetent(NULL, term_name);
 	if (ret != TRUE)
-		exit_routine_le(ERR_TERMCAP);
+		exit_routine(EXIT_TERMCAP);
 }
 
 static void	fill_termcaps(t_le *le)
@@ -38,23 +38,23 @@ static void	fill_termcaps(t_le *le)
 	while (i < NB_ESSENTIAL_TERMCAP)
 	{
 		if (le->termcap[i] == NULL)
-			exit_routine_le(ERR_TERMCAP);
+			exit_routine(EXIT_TERMCAP);
 		i++;
 	}
 }
 
-void		init_line_editor(t_vector *cmd_line)
+t_le		*init_line_editor(t_vector *cmd_line)
 {
 	t_le	*le;
 
 	le = (t_le *)ft_calloc(1, sizeof(t_le));
 	if (le == NULL)
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	get_struct(le);
 	le->prompt_len = ft_strlen(PROMPT_LINE_EDITION);
 	le->clipboard = vct_new();
 	if (le->clipboard == NULL)
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	le->cmd_line = cmd_line;
 	if (DEBUG_MODE == FALSE)
 	{
@@ -63,6 +63,5 @@ void		init_line_editor(t_vector *cmd_line)
 		fill_termcaps(le);
 		update_window_size();
 	}
-	le->stdout_stat = SUCCESS;
-	le->stderr_stat = SUCCESS;
+	return (le);
 }

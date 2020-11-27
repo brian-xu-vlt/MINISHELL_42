@@ -6,7 +6,7 @@ static void	handle_error_malloc(t_list **head, t_job *job)
 	{
 		if (*head == NULL)
 			free(job);
-		exit_routine_le(ERR_MALLOC);
+		exit_routine(EXIT_MALLOC);
 	}
 }
 

@@ -104,5 +104,12 @@ typedef struct					s_job
 	pid_t 					last_pid;
 }								t_job;
 
+typedef struct					s_data
+{
+	t_le					*line_editor_data;
+	t_list					*current_jobs;
+	t_vector				*cmd_line;
+	t_list					*lexer_list;
+}								t_data;
 
 #endif

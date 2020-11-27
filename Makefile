@@ -55,9 +55,11 @@ HEADER += $(INCLUDES)line_editor_bonus.h
 HEADER += $(INCLUDES)parser_bonus.h
 HEADER += $(INCLUDES)struct_bonus.h
 
+SRCS += exit_routine_bonus.c
+SRCS += exit_routine_env_bonus.c
+SRCS += exit_routine_line_editor_bonus.c
+
 #SRCS += test_bonus.c
-SRCS += test_env_bonus.c
-SRCS += test_executor_bonus.c
 SRCS += main_bonus.c
 #SRCS += main_tester_valid_identifier.c
 #SRCS += main_tester_parser.c #TO DELETE
@@ -87,7 +89,6 @@ SRCS += move_bonus.c
 SRCS += init_line_editor_bonus.c
 SRCS += init_prompt_bonus.c
 SRCS += init_term_mode_bonus.c
-SRCS += exit_routine_le_bonus.c
 SRCS += update_screen_data_bonus.c
 SRCS += line_editor_utils_bonus.c
 SRCS += line_editor_is_utils_bonus.c
@@ -167,6 +168,7 @@ OBJ_DIR = ./objs/
 
 vpath %.c sources/
 vpath %.c sources/error_manager
+vpath %.c sources/exit_routines
 vpath %.c sources/lexer
 vpath %.c sources/builtins
 vpath %.c sources/env

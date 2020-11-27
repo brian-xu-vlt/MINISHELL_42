@@ -1,4 +1,4 @@
-#include "line_editor_bonus.h"
+#include "minishell_bonus.h"
 
 static void	del_history_elem(void *elem_content)
 {
@@ -29,17 +29,14 @@ static void	exit_routine_reset_terminal(t_le *le)
 		tcsetattr(STDIN_FILENO, TCSADRAIN, le->termios_bkup);
 }
 
-void		exit_routine_le(void)
+void		exit_routine_line_edition(t_le *le)
 {
-	t_le		*le;
-
-	le = get_struct(GET);
 	if (le != NULL)
 	{
 		exit_routine_reset_terminal(le);
 		if (le->cmd_line_backup != NULL)
 			free(le->cmd_line_backup);
-		vct_del(&le->cmd_line);
+		// vct_del(&le->cmd_line);
 		vct_del(&le->clipboard);
 		free_history_list(le);
 	}
