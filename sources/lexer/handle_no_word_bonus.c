@@ -12,14 +12,8 @@ static bool parse_backslash(t_vector *input, t_vector *word, bool is_quoting)
 	{
 		if (is_quoting == true)
 		{
-		//	ft_printf("IS QUOTING\n");//DEBUG
-		//	ft_printf("word = %s\n", vct_getstr(word));
-		//	ft_printf("c HAUT = %c\n", c);
-		//	ft_printf("input = %s\n", vct_getstr(input));
 			vct_add(word, c);
 			vct_pop(input);
-		//	ft_printf("word AFTER = %s\n", vct_getstr(word));
-			//ft_printf("input AFTER = %s\n", vct_getstr(input));
 		}
 		return (true);
 	}
@@ -33,20 +27,16 @@ int handle_assign_quote(t_vector *input, t_vector *word)
 	bool dquote_state;
 	int	ret_parse;
 
-//	ft_printf("input = %s\n\n\n", vct_getstr(input));//DEBUG)
 	quote_state = false;
 	dquote_state = false;
 	while (vct_getlen(input) > 0)
 	{
-		ret_parse = true;
 		c = vct_getfirstchar(input);
+		ret_parse = true;
 		if (c == C_SIMPLE_QUOTE)
 			quote_state = !quote_state;
 		else if (c == C_QUOTE && quote_state == false)
 			dquote_state = !dquote_state;
-		//ft_printf("c = %c\n", c);//DEBUYG
-		//ft_printf("quote_state = %d\n", quote_state);//DEBUYG
-		//ft_printf("dquote_state = %d\n", dquote_state);//DEBUYG
 		if (quote_state == false)
 		{
 			ret_parse = parse_backslash(input, word, dquote_state);
@@ -56,16 +46,9 @@ int handle_assign_quote(t_vector *input, t_vector *word)
 					break;
 			}
 			else if (ret_parse == true && vct_getlen(input) != 1 && dquote_state == 1 && quote_state == 0)
-			{
-				//ft_printf("coucou1\n");//DEBUG
 				continue ;
-
-			}
 			else if (ret_parse == true && vct_getlen(input) != 1 && dquote_state == 0 && quote_state == 1)
-			{
-				//ft_printf("coucou2\n");//DEBUG
 				continue ;
-			}
 			else if (ret_parse == true && vct_getlen(input) == 1 && dquote_state != 1)
 			{
 				print_set_errno(0, ERR_NEWLINE, NULL, NULL);
@@ -77,6 +60,5 @@ int handle_assign_quote(t_vector *input, t_vector *word)
 		vct_add(word, c);
 		vct_pop(input);
 	}
-	//ft_printf("word = %s\n", vct_getstr(word));//DEBUG)
 	return (SUCCESS);
 }
