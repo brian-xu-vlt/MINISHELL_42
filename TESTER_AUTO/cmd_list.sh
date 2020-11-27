@@ -1028,32 +1028,32 @@ main () {
 	#  test_signal
 	#  test_syntax
 
-	test_correction_arg
-	test_correction_echo
-	test_correction_exit
-	test_correction_exec
-	test_correction_return
-	test_correction_semicolons
-	test_correction_baskslashs
-	test_correction_env
+	#test_correction_arg
+	#test_correction_echo
+	#test_correction_exit
+	#test_correction_exec
+	#test_correction_return
+	#test_correction_semicolons
+	#test_correction_baskslashs
+	#test_correction_env
 
-	test_correction_export_identifier
-	test_correction_export_identifier_mix_valid
-	test_correction_export
-	test_correction_unset_identifier
-	test_correction_unset_identifier_mix_valid
-	test_correction_unset
+	#test_correction_export_identifier
+	#test_correction_export_identifier_mix_valid
+	#test_correction_export
+	#test_correction_unset_identifier
+	#test_correction_unset_identifier_mix_valid
+	#test_correction_unset
 
-	test_correction_exp
-	test_correction_cd
-	test_correction_pwd
-	test_correction_PATH
-	test_correction_simple_quotes
-	test_correction_redirect
-	test_correction_pipes
-	test_correction_AND_OR
+	#test_correction_exp
+	#test_correction_cd
+	#test_correction_pwd
+	#test_correction_PATH
+	#test_correction_simple_quotes
+	#test_correction_redirect
+	#test_correction_pipes
+	#test_correction_AND_OR
 
-	test_env_starter
+	#test_env_starter
 
 	# test "rm -rf haha hello hehe ;echo toto < haha > hello >> hehe ; echo \$? ; cat haha ; cat hello ; cat hehe"
 	# test "rm -rf hello ; titi > hello ; echo \$? ; cat hello"
@@ -1070,17 +1070,17 @@ main () {
 	# test "rm -rf testgauche testdroitefail ; echo haha > testdroitfail hello < testgauche; echo $? ; cat testdroitfail ; cat testgauche ; ls -l"
 	# test "rm -rf testgauche testdroitefail ; echo haha < testgauche hello > testdroitfail; echo $? ; cat testdroitfail ; cat testgauche ; ls -l"
 
-	# test "echo \$ ; echo \"\$\" ; echo '\$'"
-	# test "echo \$\"\" ; echo \"\$\"\"\" ; echo '\$'''"
-	# test "echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
-	# test "echo \$toto\"\" ; echo \"\$toto\"\"\" ; echo '\$toto'''"
-	# test "toto= 42 ; echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
-	# test "toto=42 ; echo \$toto\"\" ; echo \"\$toto\"\"\" ; echo '\$toto'''"
+	 #test "echo \$ ; echo \"\$\" ; echo '\$'"
+	 test "echo \$\"\" ; echo \"\$\"\"\" ; echo '\$'''"
+	 test "echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
+	 test "echo \$toto\"\" ; echo \"\$toto\"\"\" ; echo '\$toto'''"
+	 test "toto= 42 ; echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
+	 test "toto=42 ; echo \$toto\"\" ; echo \"\$toto\"\"\" ; echo '\$toto'''"
 
-	# test "toto=hello titi=toto unset toto ; echo \$titi ; echo \$toto"
-	# test "toto=hello titi=toto unset titi ; echo \$titi ; echo \$toto"
-	# test "toto=hello ; titi=toto ; unset titi ; echo \$titi ; echo \$toto"
-	# test "toto=hello ; titi=toto ; unset toto ; echo \$titi ; echo \$toto"
+	 test "toto=hello titi=toto unset toto ; echo \$titi ; echo \$toto"
+	 test "toto=hello titi=toto unset titi ; echo \$titi ; echo \$toto"
+	 test "toto=hello ; titi=toto ; unset titi ; echo \$titi ; echo \$toto"
+	 test "toto=hello ; titi=toto ; unset toto ; echo \$titi ; echo \$toto"
 
 	#test "rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; cd /tmp/aaa ; rm -rf /tmp/aaa ; cd .. ; echo \$? ; /bin/ls"
 	#test "rm -rf /tmp/aaa ; mkdir -p /tmp/aaa/bbb ; cd /tmp/aaa/bbb ; rm -rf /tmp/aaa ; pwd"
@@ -1120,28 +1120,28 @@ main () {
 	# test "export toto=\"\"\"dd\"\"\" ; env | grep toto ; export | grep toto ; echo \$toto"
 	# test "export toto=\"dd\" ; env | grep toto ; echo \$toto"
 	# test "export toto=\"dd\" ; env | grep toto ; echo \"dd\" ; env | grep toto"
-	# test "echo \$ ; echo \"\$\" ; echo '\$'"
-	# test "echo \$\"\" ; echo \"\$\"\"\" ; echo '\$'''"
-	# test "echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
-	# test "echo \$toto\"\" ; echo \"\$toto\"\"\" ; echo '\$toto'''"
-	# test "toto= 42 ; echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
-	# test "toto=42 ; echo \$toto\"\" ; echo \"\$toto\"\"\" ; echo '\$toto'''"
-	# test "echo $ ; echo "$" ; echo '$'"
-	# test "echo $"" ; echo "$""" ; echo '$'''"
-	# test "echo \$toto ; echo "\$toto" ; echo '\$toto'"
-	# test "echo \$toto"" ; echo "\$toto""" ; echo '\$toto'''"
-	# test "toto= 42 ; echo \$toto ; echo "\$toto" ; echo '\$toto'"
-	# test "toto=42 ; echo \$toto"" ; echo "\$toto""" ; echo '\$toto'''"
-	# test "export toto='\"\"'\"dd\"'\"\"' ; env | grep toto ; export | grep toto ; echo \$toto"
-	# test "export toto='\"\"'\"dd\"'\"\"' ; env | grep toto ; export | grep toto ; echo \$toto"
-	# test "echo \"'\"'\"'\"'toto'\"'\"'\"'\""
-	# test "echo \"'haha\"'\"'\"'toto'\"'\"'\"'\""
-	# test "echo '\"'\"'\"'\"'toto'\"'\"'\"'\"'"
-	# test "echo \"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
-	# test "echo ''\"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
-	# test "echo 'tutu'\"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
-	# test "echo \"tutu\"\"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
-	# test "echo \"tu'i     'tu\"\"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
+	 test "echo \$ ; echo \"\$\" ; echo '\$'"
+	 test "echo \$\"\" ; echo \"\$\"\"\" ; echo '\$'''"
+	 test "echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
+	 test "echo \$toto\"\" ; echo \"\$toto\"\"\" ; echo '\$toto'''"
+	 test "toto= 42 ; echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
+	 test "toto=42 ; echo \$toto\"\" ; echo \"\$toto\"\"\" ; echo '\$toto'''"
+	 test "echo $ ; echo "$" ; echo '$'"
+	 test "echo $"" ; echo "$""" ; echo '$'''"
+	 test "echo \$toto ; echo "\$toto" ; echo '\$toto'"
+	 test "echo \$toto"" ; echo "\$toto""" ; echo '\$toto'''"
+	 test "toto= 42 ; echo \$toto ; echo "\$toto" ; echo '\$toto'"
+	 test "toto=42 ; echo \$toto"" ; echo "\$toto""" ; echo '\$toto'''"
+	 test "export toto='\"\"'\"dd\"'\"\"' ; env | grep toto ; export | grep toto ; echo \$toto"
+	 test "export toto='\"\"'\"dd\"'\"\"' ; env | grep toto ; export | grep toto ; echo \$toto"
+	 test "echo \"'\"'\"'\"'toto'\"'\"'\"'\""
+	 test "echo \"'haha\"'\"'\"'toto'\"'\"'\"'\""
+	 test "echo '\"'\"'\"'\"'toto'\"'\"'\"'\"'"
+	 test "echo \"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
+	 test "echo ''\"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
+	 test "echo 'tutu'\"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
+	 test "echo \"tutu\"\"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
+	 test "echo \"tu'i     'tu\"\"\"'haha\"'\"'\"'toto'\"'\"'\"'\""\"""
 
 
 	#test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; > TEST_FD/hello > TEST_FD/hello1 < ls > TEST_FD/hello2 -l ; cd TEST_FD ; cat hello hello1 hello2 ; ls "
@@ -1153,24 +1153,27 @@ main () {
 	#test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; \$ddroite echo haha"
 	#test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; echo haha > TEST_FD/SALUT \$droite TEST_FD/cava ; cd TEST_FD ; cat SALUT cava ; ls"
 	#test "rm -rf TEST_FD ; mkdir TEST_FD ; export droite='>' ddroite='>>' gauche='<' ; > titi=toto > toto=tata echo haha > TEST_FD/SALUT \$droite TEST_FD/cava ; cd TEST_FD ; cat SALUT cava ; ls"
-	# test "echo 'ma\' aaa \ bbb \ "
-	# test "echo 'ma\' aaa \ bbb \\      "
-	# test "echo 'ma\' aaa \ bbb \\\\      "
-	# test "echo 'ma\' aaa \        bbb      "
-	# test " echo poep\\\" "
-	# test "echo /$\"123\$PWD\""
-	# #test "echo $/"
-	# #test "export ; export a=\"\\\" ; export b='\' ; export c=\b\ ; export"
-	# #test " echo \"hallo\\\"\poep\" "
-	# test " echo /$\"123\$PWD\" "
-	# test " echo \$%%%%aaaaaaaaa "
-	# #test "echo \"\$222\""
-	# test "echo 00\\'pp ; echo 00\\\'pp"
-	# test "echo aa'bb ;echo cc'dd"
-	# test "echo aa\"bb ; echo cc\"dd"
-	# test "echo \"hallo\\\\\"\poep\""
-	# test "export toto=tata ;  echo \$%%%%aaaaaaaaa\$toto "
-	# test ""
+	 test "echo 'ma\' aaa \ bbb \ "
+	 test "echo 'ma\' aaa \ bbb \\      "
+	 test "echo 'ma\' aaa \ bbb \\\\      "
+	 test "echo 'ma\' aaa \        bbb      "
+	 test " echo poep\\\" "
+	 test "echo /$\"123\$PWD\""
+	 test "echo $/"
+	 #test "export ; export a=\"\\\" ; export b='\' ; export c=\b\ ; export"
+	 test " echo \"hallo\\\"\poep\" "
+	 test " echo /$\"123\$PWD\" "
+	 test " echo \$%%%%aaaaaaaaa "
+	 #test "echo \"\$222\""
+	 #test "echo 00\\'pp ; echo 00\\\'pp"
+	 test "echo aa'bb ;echo cc'dd"
+	 test "echo aa\"bb ; echo cc\"dd"
+	 #test "echo \"hallo\\\\\"\poep\""
+	 test "export toto=tata ;  echo \$%%%%aaaaaaaaa\$toto "
+	 #test "\\"
+	 test "\\\\"
+	 #test "\\\\\\"
+	 test "\\\\\\\\"
 
 	fi
 
