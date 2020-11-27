@@ -57,13 +57,12 @@ bool	parse_vct(t_vector *vct_av)
 	return (true);
 }
 
-int		exit_builtin(int ac, char **av, char **envp)
+int		exit_builtin(int ac, char **av, __attribute__((unused)) char **envp)
 {
 	t_vector	*vct_av;
 	char		c;
 	int			ret;
 
-	(void)envp;
 	if (ac == 1)
 	{
 		ft_printf("%s\n", EXIT);

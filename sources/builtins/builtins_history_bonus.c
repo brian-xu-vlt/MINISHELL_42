@@ -38,11 +38,11 @@ static void	print_history(void)
 	}
 }
 
-int			history_builtin(int ac, char **av, char **envp)
+int			history_builtin(int ac, char **av,
+											__attribute__((unused)) char **envp)
 {
 	static const char	*builtin = "history";
 
-	(void)envp;
     if (ac != 1 || ft_strequ(av[0], (char *)builtin) == FALSE)
 		return (0);
 	else if (DEBUG_MODE != TRUE)

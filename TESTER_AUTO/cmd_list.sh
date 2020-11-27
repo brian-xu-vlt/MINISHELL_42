@@ -40,8 +40,8 @@ print_diff_simple (){
 		((TEST_FAILED_NB+=1))
 		echo "🔴 [$TEST_NB] $TEST" >> /tmp/test_ko
 		echo -e "\e[34m $(diff $EXTRA_FLAGS -s /tmp/ba.log /tmp/minishell.log)\e[0m" >> /tmp/test_ko
-		echo -e "\t ⏫ [$TEST_NB][$TEST]" >> /tmp/bash_sumup
-		echo -e "\t ⏫ [$TEST_NB][$TEST]" >> /tmp/minishell_sumup
+		echo -e "\t ⏫  ❌ [$TEST_NB][$TEST]" >> /tmp/bash_sumup
+		echo -e "\t ⏫  ❌ [$TEST_NB][$TEST]" >> /tmp/minishell_sumup
 		print_separator '▔'
 	else
 		echo -e "\e[32m \e[1m✅  [$TEST_NB][OK] \e[0m\t\t["$TEST"]"
@@ -775,6 +775,11 @@ test_correction_cd() {
 	print_separator '█'
 	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
+	EXTRA_ENV="HOME=$HOME"
+	test "cd"
+	unset EXTRA_ENV
+
+	test "cd"
 	test "cd ../ ; /bin/ls"
 	test "cd ../././../// ; /bin/ls"
 	test "cd / ; /bin/ls"
@@ -795,6 +800,10 @@ test_correction_cd() {
 test_correction_pwd() {
 	print_separator '█'
 	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
+
+	EXTRA_ENV="HOME=$HOME"
+	test "pwd"
+	unset EXTRA_ENVtest "pwd"
 
 	test "pwd"
 	test "pwd -X"
@@ -1045,7 +1054,9 @@ main () {
 	test_correction_unset
 
 	test_correction_exp
+
 	test_correction_cd
+
 	test_correction_pwd
 	test_correction_PATH
 	test_correction_simple_quotes

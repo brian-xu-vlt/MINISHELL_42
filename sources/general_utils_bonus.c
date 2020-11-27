@@ -32,6 +32,16 @@ int		safe_vct_addstr(t_vector *vct, char *str)
 	return (ret);
 }
 
+t_vector		*safe_vct_new(void)
+{
+	t_vector	*new_vct;
+
+	new_vct = vct_new();
+	if (new_vct == NULL)
+		exit_routine(EXIT_MALLOC);
+	return (new_vct);
+}
+
 int		safe_vct_addcharat(t_vector *vct, size_t index, char c)
 {
 	int		ret;
