@@ -109,10 +109,10 @@ int			main(int ac, char **av)
 		exit_routine(EXIT_MALLOC);
 	data->cmd_line = cmd_line;
 
+	init_env();
+
 	if (DEBUG_MODE != TRUE)
 		data->line_editor_data = init_line_editor(cmd_line);
-
-	init_env();
 
 	while (ret_read > 0)
 	{

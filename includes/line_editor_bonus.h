@@ -145,8 +145,6 @@ typedef struct	s_line_editor
 	int				vct_index_backup;
 	int				select_min;
 	int				select_max;
-	int				stdout_stat;
-	int				stderr_stat;
 }				t_le;
 
 /*************************************************

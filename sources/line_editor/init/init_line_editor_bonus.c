@@ -63,7 +63,5 @@ t_le		*init_line_editor(t_vector *cmd_line)
 		fill_termcaps(le);
 		update_window_size();
 	}
-	le->stdout_stat = SUCCESS;
-	le->stderr_stat = SUCCESS;
 	return (le);
 }

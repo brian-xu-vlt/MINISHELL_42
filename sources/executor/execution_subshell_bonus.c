@@ -4,10 +4,10 @@ static void	child_process(t_cmd *cmd, int p_in[2], int p_out[2])
 {
 	int		ret;
 
-	if (get_struct(GET)->stdout_stat != SUCCESS)
-		close(STDOUT_FILENO);
-	if (get_struct(GET)->stderr_stat != SUCCESS)
-		close(STDOUT_FILENO);
+	// if (get_data_struct(GET)->stdout_stat != SUCCESS)
+	// 	close(STDOUT_FILENO);
+	// if (get_data_struct(GET)->stderr_stat != SUCCESS)
+	// 	close(STDOUT_FILENO);
 	if ((cmd->redirection & F_REDIRECT_FAILURE) == TRUE)
 		exit_routine(EXIT_NORMAL);
 	signal_manager(SIG_MODE_DEFAULT);
