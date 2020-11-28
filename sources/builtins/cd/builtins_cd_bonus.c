@@ -87,6 +87,8 @@ static int	process_cd(char *dir)
 
 	vct_home = get_env_value_vct(get_env_list(GET), ENV_HOME);
 	vct_old_pwd = get_env_value_vct(get_env_list(GET), ENV_OLD_PWD);
+	if (dir == NULL && vct_home != NULL)
+		dir = vct_getstr(vct_home);
 	if (process_error(vct_home, dir, vct_old_pwd) == CD_FAIL)
 		return (CD_FAIL);
 	ret_process_chdir = hub_process_chdir(dir, vct_home);
