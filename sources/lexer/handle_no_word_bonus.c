@@ -26,69 +26,41 @@ int handle_assign_quote(t_vector *input, t_vector *word)
 	bool quote_state;
 	bool dquote_state;
 	int	ret_parse;
-	bool	is_backsl;
 	char	next_c;
-	t_vector	*cpy_input;
 
 	quote_state = false;
 	dquote_state = false;
-	is_backsl = false;
-	cpy_input = vct_new();
 	while (vct_getlen(input) > 0)
 	{
 		c = vct_getfirstchar(input);
 		next_c = vct_getcharat(input, 1);
-		if (c == C_BACKSLASH)
+		ret_parse = true;
+		if (c == C_BACKSLASH && quote_state == false)
 		{
-			if (next_c == C_BACKSLASH)
-			{
-				vct_add(word, c);
-				vct_pop(input);
-				vct_add(input, vct_getfirstchar(input));
-				vct_pop(input);
-				vct_pop(input);
-				is_backsl = false;
-				continue ;
-			}
-			vct_addstr(cpy_input, vct_getstr(input));
-			vct_pop(cpy_input);
-			if (is_end(cpy_input) == TRUE)
+			vct_add(word, c);
+			vct_pop(input);
+			if (next_c == '\0')
 			{
 				print_set_errno(0, ERR_NEWLINE, NULL, NULL);
 				ms_setenv_int(get_env_list(GET), "?", 2, F_OVERWRITE);
-				vct_del(&cpy_input);
 				return (FAILURE);
 			}
-			vct_clear(cpy_input);
-			is_backsl = true;
-			vct_add(word, c);
+			vct_add(word, next_c);
 			vct_pop(input);
-			continue ;
+			continue ; 
 		}
-		ret_parse = true;
-		if (is_backsl == true && (c == C_QUOTE || c == C_SIMPLE_QUOTE))
-		{
-			vct_addstr(cpy_input, vct_getstr(input));
-			vct_pop(cpy_input);
-			if (is_end(cpy_input) == TRUE)
-			{
-				vct_add(word, c);
-				vct_pop(input);
-				vct_del(&cpy_input);
-				return (SUCCESS);
-			}
-			vct_clear(cpy_input);
-		}
-		if (c == C_SIMPLE_QUOTE && is_backsl == false)
+		if (c == C_SIMPLE_QUOTE && dquote_state == false)
 			quote_state = !quote_state;
-		else if (c == C_QUOTE && quote_state == false && is_backsl == false) 
+		else if (c == C_QUOTE && quote_state == false) 
 			dquote_state = !dquote_state;
-		is_backsl = false;
-		if (dquote_state == false && quote_state == false && is_end(input) == true) 
+		if (quote_state == false && dquote_state == false && (c == C_SPACE
+				|| c == C_TAB))
 		{
-			vct_del(&cpy_input);
+			vct_pop(input);
 			return (SUCCESS);
 		}
+		if (dquote_state == false && quote_state == false && is_end(input) == true) 
+			return (SUCCESS);
 		if (quote_state == false)
 		{
 			if (c == C_BACKSLASH)
@@ -99,7 +71,6 @@ int handle_assign_quote(t_vector *input, t_vector *word)
 				{
 					print_set_errno(0, ERR_NEWLINE, NULL, NULL);
 					ms_setenv_int(get_env_list(GET), "?", 2, F_OVERWRITE);
-					vct_del(&cpy_input);
 					return (FAILURE);
 				}
 			}
@@ -107,6 +78,14 @@ int handle_assign_quote(t_vector *input, t_vector *word)
 		vct_add(word, c);
 		vct_pop(input);
 	}
-	vct_del(&cpy_input);
+	//ft_printf("coucou\n");//DEBUG
+	//ft_printf("quote_state = %d\n", quote_state);
+	//ft_printf("dquote_state = %d\n", dquote_state);
+	if (quote_state == true || dquote_state == true)
+	{
+		print_set_errno(0, ERR_SYNTAX, NULL, NULL);
+		ms_setenv_int(get_env_list(GET), "?", 2, F_OVERWRITE);
+		return (FAILURE);
+	}
 	return (SUCCESS);
 }

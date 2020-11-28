@@ -4,6 +4,7 @@ static bool	verif_expect(t_vector *vct, t_vector *vct_cpy)
 {
 	size_t		id_equal;
 
+	//ft_printf("vct = %s\n", vct_getstr(vct));//DEBUG
 	id_equal = vct_clen(vct, ASSIGN);
 	vct_cutfrom(vct, vct_getlen(vct) - id_equal);
 	if (ft_isdigit(vct_getfirstchar(vct)) == true ||
@@ -27,12 +28,14 @@ bool		verif_assign_cmd(char *str)
 	vct_addstr(vct, str);
 	vct_addstr(vct_cpy, vct_getstr(vct));
 	nb_assign = vct_nbchar(vct_cpy, S_ASSIGN);
+	/*ft_printf("HELLO\n");//DEBUG
+	ft_printf("vct_cpy = %s\n", vct_getstr(vct_cpy));//DEBUG
 	if (nb_assign > 1)
 	{
 		vct_del(&vct);
 		vct_del(&vct_cpy);
 		return (true);
-	}
+	}*/
 	if (verif_expect(vct, vct_cpy) == true)
 		return (true);
 	vct_del(&vct);

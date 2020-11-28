@@ -23,7 +23,7 @@ static int	process_lexer_word_assign(ssize_t type, t_list **token_list,
 	type = E_WORD;
 	if (vct_getlen(word) != 0)
 	{
-		if (vct_chr(word, ASSIGN) > 0)
+		if (vct_chr(word, ASSIGN) > 0 && vct_getfirstchar(word) != C_BACKSLASH)
 			type = E_ASSIGN;
 		else if (vct_getfirstchar(word) == EXP)
 			type = E_EXP;
@@ -40,13 +40,14 @@ static int	process_lexer(t_vector *input, t_list **token_list, t_vector *word)
 	char			c;
 
 	ret = 0;
-	//ft_printf("\n\ninput = [%s]\n", vct_getstr(input));//DEBUG
+//	ft_printf("\n\ninput = [%s]\n", vct_getstr(input));//DEBUG
 	while (vct_getfirstchar(input) == C_SPACE
 			|| vct_getfirstchar(input) == C_TAB)
 		vct_pop(input);
 	c = vct_getfirstchar(input);
 	if (vct_getlen(input) == 0)
 		return (ret);
+	//ft_printf("c = %c\n", c);//DEBUG
 	if (c == C_BACKSLASH && (vct_getcharat(input, 1) == C_SPACE
 			|| vct_getcharat(input, 1) == C_TAB))
 	{
@@ -56,6 +57,13 @@ static int	process_lexer(t_vector *input, t_list **token_list, t_vector *word)
 		vct_pop(input);
 		//vct_add(word, vct_getcharat(input, 1));
 		//return (SUCCESS);
+	}
+	if (c == C_BACKSLASH)
+	{
+		//ft_printf("COUCOU\n");//DEBUG
+		type = E_WORD;
+		ret = process_lexer_word_assign(type, token_list, word, input);
+		return (ret);
 	}
 	if (vct_getfirstchar(input) == C_TAB || vct_getfirstchar(input) == C_SPACE)
 	{
