@@ -42,7 +42,6 @@ static int	process_chdir(t_vector *vct_home, char *dir, char *old_dir,
 		ret_chdir = handle_pwd(dir);
 		if (old_dir != NULL && ft_strequ(old_dir, STR_MINUS) == TRUE)
 			ft_printf("%s\n", dir_old_pwd);
-		free(dir_old_pwd);
 	}
 	if (ret_chdir == FAILURE && ft_strnequ(real_dir, DOTDOT, 2) == TRUE)
 	{
@@ -53,6 +52,7 @@ static int	process_chdir(t_vector *vct_home, char *dir, char *old_dir,
 	if (ret_chdir == FAILURE)
 		ft_dprintf(STDERR_FILENO, "Minishell: cd: %s: %s\n",
 					dir, strerror(errno));
+	free(dir_old_pwd);
 	return (ret_chdir);
 }
 
