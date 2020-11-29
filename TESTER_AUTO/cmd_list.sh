@@ -1245,6 +1245,12 @@ main () {
 	 test "export toto='>' ; \$toto test2"
 	 test "export toto='>' ; > toto test3 echo haha"
 	 test "export toto='>' ; > toto test3 echo haha < salut"
+	 test "export toto=tata ; echo \"hello\$totohello\""
+	 test "export toto=tata ; echo 'hello\$totohello'"
+	 test "export toto=tata ; echo 'hello\"'"
+	 test "export toto=tata ; echo 'he\\llo\""
+	 test "export toto=tata ; echo \"he\'llo\""
+	 test "export toto=tata ; echo 'he\\llo\"haha\""
 	fi
 
 	print_separator '█'

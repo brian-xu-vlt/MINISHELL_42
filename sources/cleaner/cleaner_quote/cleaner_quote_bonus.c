@@ -68,15 +68,93 @@ void		parse_simple_quote(t_vector *input, t_vector *output)
 	vct_pop(input);
 }
 
+static int	backsl_export(t_vector *input, t_vector *output, size_t *index)
+{
+	size_t	i;
+
+	i = 0;
+	vct_pop(input);
+	vct_add(output, vct_getfirstchar(input));
+	vct_pop(input);
+	*index = vct_clen(input, C_EXP);
+	if (*index == 0 && vct_getfirstchar(input) == C_EXP)
+	{
+		vct_add(output, C_EXP);
+		vct_pop(input);
+		return (SUCCESS);
+	}
+	while (i < *index)
+	{
+		vct_add(output, vct_getfirstchar(input));
+		vct_pop(input);
+		i++;
+	}
+	*index = 2;
+	return (FAILURE);
+}
+
+static void	handle_pop(size_t index, t_vector *output)
+{
+	if (index != 0)
+	{
+		index = vct_clen(output, C_QUOTE);
+		while (index < vct_getlen(output))
+		{
+			if (vct_getcharat(output, index) != C_QUOTE)
+				break;
+			if (vct_getcharat(output, index) == C_QUOTE)
+				vct_popcharat(output, index);
+		}
+	}
+}
+
+static int	process_parse_double_quote(char c, char next_c, t_vector *input,
+											t_vector *output)
+{
+	if (c == C_BACKSLASH && next_c == C_QUOTE)
+	{
+		vct_pop(input);
+		vct_add(output, next_c);
+		return (SUCCESS);
+	}
+	if (is_backslash(c, next_c, input) == FAILURE)
+		return (FAILURE);
+	else if (c == C_EXPORT)
+	{
+		parse_expansion(input, output);
+		return (CONTINUE);
+	}
+	else if (c == C_QUOTE)
+		return (BREAK);
+	return (DO_NOTHING);
+}
+
+static void	pop_output_input(int ret, char c, t_vector *input, t_vector *output)
+{
+	if (ret != CONTINUE)
+	{
+		vct_add(output, c);
+		vct_pop(input);
+	}
+}
+
+static int	process_pop(size_t index, t_vector *input, t_vector *output)
+{
+	if (vct_getfirstchar(input) == C_EXPORT && index == 2)
+		parse_expansion(input, output);
+	handle_pop(index, output);
+	vct_pop(input);
+	return (SUCCESS);
+}
+
 int			parse_double_quote(t_vector *input, t_vector *output)
 {
 	char c;
 	char next_c;
 	size_t	index;
-	size_t	i;
+	int		ret;
 
 	vct_pop(input);
-	i = 0;
 	index = 0;
 	while (vct_getlen(input) > 0)
 	{
@@ -84,58 +162,74 @@ int			parse_double_quote(t_vector *input, t_vector *output)
 		next_c = vct_getcharat(input, 1);
 		if (c == C_BACKSLASH && next_c == C_EXP)
 		{
-			vct_pop(input);
-			vct_add(output, vct_getfirstchar(input));
-			vct_pop(input);
-			index = vct_clen(input, C_EXP);
-			if (index == 0 && vct_getfirstchar(input) == C_EXP)
-			{
-				vct_add(output, C_EXP);
-				vct_pop(input);
+			if (backsl_export(input, output, &index) == SUCCESS)
 				return (SUCCESS);
-			}
-			while (i < index)
-			{
-				vct_add(output, vct_getfirstchar(input));
-				vct_pop(input);
-				i++;
-			}
-			index = 2;
 			break ;
 		}
-		if (c == C_BACKSLASH && next_c == C_QUOTE)
+		ret = process_parse_double_quote(c, next_c, input, output);
+		if (ret == SUCCESS || ret == FAILURE)
+			return (ret);
+		if (ret == BREAK)
+			break ;
+		pop_output_input(ret, c, input, output);
+	}
+	return (process_pop(index, input, output));
+}
+
+static int	handle_export(char c, t_vector *input, t_vector *output)
+{
+	if (c == C_EXPORT && vct_getlen(input) != 1 &&
+		(vct_getcharat(input, 1) == C_SIMPLE_QUOTE ||
+		 vct_getcharat(input, 1) == C_QUOTE))
+	{
+		vct_pop(input);
+		return (SUCCESS);
+	}
+	if (c == C_EXPORT && vct_getlen(input) != 1 &&
+		is_exp_sep(vct_getcharat(input, 1)) == true &&
+		vct_getcharat(input, 1) != QUESTION_MARK)
+	{
+		if (vct_getcharat(input, 1) == C_BACKSLASH)
 		{
+			vct_add(output, c);
 			vct_pop(input);
-			vct_add(output, next_c);
 			return (SUCCESS);
 		}
-		if (is_backslash(c, next_c, input) == FAILURE)
-			return (FAILURE);
-		else if (c == C_EXPORT)
-		{
-			parse_expansion(input, output);
-			continue;
-		}
-		else if (c == C_QUOTE)
-			break ;
 		vct_add(output, c);
 		vct_pop(input);
+		pop_input(input, output);
+		return (SUCCESS);
 	}
-	if (vct_getfirstchar(input) == C_EXPORT && index == 2)
-		parse_expansion(input, output);
-	if (index != 0)
-	{
-		index = vct_clen(output, C_QUOTE);
-		while (index < vct_getlen(output))
-		{
-			if (vct_getcharat(output, index) != C_QUOTE)
-				break ;
-			if (vct_getcharat(output, index) == C_QUOTE)
-				vct_popcharat(output, index);
-		}
-	}
+	return (FAILURE);
+}
+
+static int	handle_backslash(char c, t_vector *input, t_vector *output)
+{
+	vct_pop(input);
+	c = vct_getfirstchar(input);
+	vct_add(output, c);
 	vct_pop(input);
 	return (SUCCESS);
+}
+
+static int	is_export(char c, t_vector *input, t_vector *output)
+{
+	int flag;
+
+	flag = 0;
+	if (handle_export(c, input, output) == SUCCESS)
+		return (SUCCESS);
+	parse_expansion(input, output);
+	if (vct_getfirstchar(output) == C_EXP && vct_getlen(input) != 0 &&
+			vct_getfirstchar(input) != C_BACKSLASH)
+		vct_pop(output);
+	return (flag = flag | F_EXP);
+}
+
+static void pop_input_output(char c, t_vector *input, t_vector *output)
+{
+	vct_add(output, c);
+	vct_pop(input);
 }
 
 static int	handle_char(char c, t_vector *input, t_vector *output)
@@ -144,13 +238,7 @@ static int	handle_char(char c, t_vector *input, t_vector *output)
 
 	flag = 0;
 	if (c == C_BACKSLASH)
-	{
-		vct_pop(input);
-		c = vct_getfirstchar(input);
-		vct_add(output, c);
-		vct_pop(input);
-		return (SUCCESS);
-	}
+		return (handle_backslash(c, input, output));
 	else if (c == C_SIMPLE_QUOTE)
 	{
 		flag = flag | F_SQUOTE;
@@ -162,43 +250,12 @@ static int	handle_char(char c, t_vector *input, t_vector *output)
 	{
 		if (parse_double_quote(input, output) == FAILURE)
 			return (FAILURE);
-		flag = flag | F_DQUOTE;
+		return (flag = flag | F_DQUOTE);
 	}
 	else if (c == C_EXPORT)
-	{
-		if (c == C_EXPORT && vct_getlen(input) != 1 &&
-				(vct_getcharat(input, 1) == C_SIMPLE_QUOTE ||
-				vct_getcharat(input, 1) == C_QUOTE))
-		{
-			vct_pop(input);
-			return (SUCCESS);
-		}
-		if (c == C_EXPORT && vct_getlen(input) != 1 &&
-				is_exp_sep(vct_getcharat(input, 1)) == true &&
-				vct_getcharat(input, 1) != QUESTION_MARK)
-		{
-			if (vct_getcharat(input, 1) == C_BACKSLASH)
-			{
-				vct_add(output, c);
-				vct_pop(input);
-				return (SUCCESS);
-			}
-			vct_add(output, c);
-			vct_pop(input);
-			pop_input(input, output);
-			return (SUCCESS);
-		}
-		parse_expansion(input, output);
-		if (vct_getfirstchar(output) == C_EXP && vct_getlen(input) != 0
-				&& vct_getfirstchar(input) != C_BACKSLASH)
-			vct_pop(output);
-		flag = flag | F_EXP;
-	}
+		return (is_export(c, input, output));
 	else
-	{
-		vct_add(output, c);
-		vct_pop(input);
-	}
+		pop_input_output(c, input, output);
 	return (flag);
 }
 
