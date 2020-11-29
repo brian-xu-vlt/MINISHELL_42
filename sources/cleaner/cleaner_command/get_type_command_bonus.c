@@ -4,7 +4,6 @@ static bool	verif_expect(t_vector *vct, t_vector *vct_cpy)
 {
 	size_t		id_equal;
 
-	//ft_printf("vct = %s\n", vct_getstr(vct));//DEBUG
 	id_equal = vct_clen(vct, ASSIGN);
 	vct_cutfrom(vct, vct_getlen(vct) - id_equal);
 	if (ft_isdigit(vct_getfirstchar(vct)) == true ||
@@ -28,14 +27,6 @@ bool		verif_assign_cmd(char *str)
 	vct_addstr(vct, str);
 	vct_addstr(vct_cpy, vct_getstr(vct));
 	nb_assign = vct_nbchar(vct_cpy, S_ASSIGN);
-	/*ft_printf("HELLO\n");//DEBUG
-	ft_printf("vct_cpy = %s\n", vct_getstr(vct_cpy));//DEBUG
-	if (nb_assign > 1)
-	{
-		vct_del(&vct);
-		vct_del(&vct_cpy);
-		return (true);
-	}*/
 	if (verif_expect(vct, vct_cpy) == true)
 		return (true);
 	vct_del(&vct);
@@ -83,36 +74,9 @@ static int	process_get_cmd(size_t i_assign, size_t i_exp, size_t i, t_cmd *cmd)
 	return (TRUE_CMD);
 }
 
-/*static void	debug_tab_assign(t_cmd *cmd)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < cmd->count_assign)
-	{
-		ft_printf("cmd->tab_assign[%d] = %d\n", i, cmd->tab_assign[i]);
-		i++;
-	}
-	ft_printf("\n\n");//DEBUG
-}
-
-static void	debug_tab_exp(t_cmd *cmd)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < cmd->count_exp)
-	{
-		ft_printf("cmd->tab_exp[%d] = %d\n", i, cmd->tab_exp[i]);
-		i++;
-	}
-	ft_printf("\n\n");//DEBUG
-}*/
-
 static void	how_increment(t_cmd *cmd, size_t *i, size_t *i_assign, size_t *i_exp)
 {
 	size_t	tmp_i;
-	// size_t	i_tab_exp;
 
 	tmp_i = 0;
 	while (*i < (size_t)cmd->ac)
@@ -121,14 +85,15 @@ static void	how_increment(t_cmd *cmd, size_t *i, size_t *i_assign, size_t *i_exp
 				ft_strequ(GREATER_THAN, cmd->av[*i]) == TRUE ||
 				ft_strequ(DOUBLE_GREATER, cmd->av[*i]) == TRUE)
 		{
-			if ((size_t)cmd->count_exp != 0 && *i_exp != (size_t)cmd->count_exp &&
-					*i == cmd->tab_exp[*i_exp])
+			if ((size_t)cmd->count_exp != 0 && *i_exp != (size_t)cmd->count_exp
+							&& *i == cmd->tab_exp[*i_exp])
 				return ;
-			if ((size_t)cmd->count_assign != 0 && *i_assign != (size_t)cmd->count_assign &&
+			if ((size_t)cmd->count_assign != 0 && *i_assign !=
+					(size_t)cmd->count_assign &&
 					*i + 1 == cmd->tab_assign[*i_assign])
 				*i_assign = *i_assign + 1;
-			else if ((size_t)cmd->count_exp != 0 && *i_exp != (size_t)cmd->count_exp &&
-					*i + 1 == cmd->tab_exp[*i_exp])
+			else if ((size_t)cmd->count_exp != 0 && *i_exp !=
+						(size_t)cmd->count_exp && *i + 1 == cmd->tab_exp[*i_exp])
 				*i_exp = *i_exp + 1;
 			*i = *i + 2;
 		}
