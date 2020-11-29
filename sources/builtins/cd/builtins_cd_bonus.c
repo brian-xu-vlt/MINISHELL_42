@@ -1,34 +1,43 @@
 #include "minishell_bonus.h"
 
-int handle_pwd(char *dir)
+static void	set_old_pwd(char *dir, char *pwd, int flag)
 {
-	char *pwd;
-
-	errno = 0;
-	if ((pwd = getcwd(NULL, PATH_MAX)) == NULL)
+	if (flag == PWD_HOME)
 	{
-		if (dir == NULL || (ft_strlen(dir) != 0 && dir[0] == C_PATH))
-		{
-			ms_setenv(get_env_list(GET), ENV_PWD, dir == NULL ?
-						get_env_value_str(ENV_HOME) : dir, F_EXPORT
-						| F_OVERWRITE);
-			ms_setenv(get_env_list(GET), ENV_OLD_PWD,
-					  get_env_value_str(ENV_PWD), F_EXPORT | F_OVERWRITE);
-		}
-		else
-			return (errno == 2 ? 2 : FAILURE);
+		ms_setenv(get_env_list(GET), ENV_PWD, dir == NULL ?
+					get_env_value_str(ENV_HOME) : dir, F_EXPORT | F_OVERWRITE);
+		ms_setenv(get_env_list(GET), ENV_OLD_PWD,
+				  get_env_value_str(ENV_PWD), F_EXPORT | F_OVERWRITE);
 	}
-	else if (errno == 0)
+	else if (flag == PWD_OLDPWD)
 	{
 		ms_setenv(get_env_list(GET), ENV_OLD_PWD, pwd, F_EXPORT | F_OVERWRITE);
 		ms_setenv(get_env_list(GET), ENV_PWD,
 				  get_env_value_str(ENV_OLD_PWD), F_EXPORT | F_OVERWRITE);
 	}
-	else if (dir && ft_strlen(dir) != 0 && dir[0] != DOT && dir[0] != C_PATH)
-		ft_dprintf(2, "%s %s: %s\n", CD_BUILT, dir, strerror(errno));
+}
+
+int handle_pwd(char *dir)
+{
+	char *pwd;
+
+	if ((pwd = getcwd(NULL, PATH_MAX)) == NULL)
+	{
+		if (dir && ft_strlen(dir) != 0 && dir[0] != DOT && dir[0] != C_PATH)
+		{
+			ft_dprintf(2, "%s %s: %s\n", CD_BUILT, dir, strerror(errno));
+			return (FAILURE);
+		}
+		else if (dir == NULL || (ft_strlen(dir) != 0 && dir[0] == C_PATH))
+		{
+			set_old_pwd(dir, pwd, PWD_HOME);
+			return (SUCCESS);
+		}
+		return (errno == 2 ? 2 : FAILURE);
+	}
+	set_old_pwd(dir, pwd, PWD_OLDPWD);
 	free(pwd);
-	return ((errno != 0 && dir != NULL && ft_strlen(dir) != 0 &&
-				dir[0] != DOT && dir[0] != C_PATH) ? 3 : SUCCESS);
+	return (SUCCESS);
 }
 
 static int process_chdir(t_vector *vct_home, char *dir, char *old_dir,
@@ -115,7 +124,7 @@ int cd_builtin(int ac, char **av, __attribute__((unused)) char **envp)
 	pwd = get_env_value_str(ENV_PWD);
 	pwd = pwd != NULL ? ft_strdup(pwd) : getcwd(NULL, PATH_MAX);
 	ret = process_cd(av[1]);
-	if (ret == 2 && (ac > 1 && ft_strlen(av[1]) != 0 && av[1][0] != '/'))
+	if (ret == 2 && (ac > 1 && ft_strlen(av[1]) != 0 && av[1][0] != C_PATH))
 	{
 		ret = 1;
 		print_set_errno(0, ERR_NO_FILE, STR_CD, av[1]);

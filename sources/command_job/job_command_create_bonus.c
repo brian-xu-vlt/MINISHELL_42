@@ -79,6 +79,8 @@ void		init_cmd_var(t_cmd *cmd, t_list **list)
 	cmd->tab_redir_before = NULL;
 	cmd->count_redir_before = 0;
 	cmd->count_token = 0;
+	cmd->i_assign = 0;
+	cmd->i_exp = 0;
 	if (*list != NULL)
 	{
 		token = (*list)->content;

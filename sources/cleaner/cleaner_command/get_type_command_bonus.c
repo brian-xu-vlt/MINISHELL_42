@@ -51,10 +51,10 @@ static bool	verif_exp_cmd(char *str)
 	return (false);
 }
 
-static int	process_get_cmd(size_t i_assign, size_t i_exp, size_t i, t_cmd *cmd)
+static int	process_get_cmd(size_t i, t_cmd *cmd)
 {
-	if (i_assign < (size_t)cmd->count_assign && cmd->count_assign != 0
-			&& i == (size_t)cmd->tab_assign[i_assign])
+	if (cmd->i_assign < (size_t)cmd->count_assign && cmd->count_assign != 0
+			&& i == (size_t)cmd->tab_assign[cmd->i_assign])
 	{
 		if (ft_strchr(cmd->av[i], ASSIGN) == NULL)
 			return (TRUE_CMD);
@@ -62,8 +62,8 @@ static int	process_get_cmd(size_t i_assign, size_t i_exp, size_t i, t_cmd *cmd)
 			return (TRUE_ASSIGN);
 		return (FALSE_ASSIGN);
 	}
-	else if (i_exp < (size_t)cmd->count_exp && cmd->count_exp != 0
-				&& i == (size_t)cmd->tab_exp[i_exp])
+	else if (cmd->i_exp < (size_t)cmd->count_exp && cmd->count_exp != 0
+				&& i == (size_t)cmd->tab_exp[cmd->i_exp])
 	{
 		if (ft_strchr(cmd->av[i], EXP) == NULL)
 			return (TRUE_CMD);
@@ -74,7 +74,7 @@ static int	process_get_cmd(size_t i_assign, size_t i_exp, size_t i, t_cmd *cmd)
 	return (TRUE_CMD);
 }
 
-static void	how_increment(t_cmd *cmd, size_t *i, size_t *i_assign, size_t *i_exp)
+static void	how_increment(t_cmd *cmd, size_t *i)
 {
 	size_t	tmp_i;
 
@@ -85,16 +85,17 @@ static void	how_increment(t_cmd *cmd, size_t *i, size_t *i_assign, size_t *i_exp
 				ft_strequ(GREATER_THAN, cmd->av[*i]) == TRUE ||
 				ft_strequ(DOUBLE_GREATER, cmd->av[*i]) == TRUE)
 		{
-			if ((size_t)cmd->count_exp != 0 && *i_exp != (size_t)cmd->count_exp
-							&& *i == cmd->tab_exp[*i_exp])
+			if ((size_t)cmd->count_exp != 0 && cmd->i_exp !=
+					(size_t)cmd->count_exp && *i == cmd->tab_exp[cmd->i_exp])
 				return ;
-			if ((size_t)cmd->count_assign != 0 && *i_assign !=
+			if ((size_t)cmd->count_assign != 0 && cmd->i_assign !=
 					(size_t)cmd->count_assign &&
-					*i + 1 == cmd->tab_assign[*i_assign])
-				*i_assign = *i_assign + 1;
-			else if ((size_t)cmd->count_exp != 0 && *i_exp !=
-						(size_t)cmd->count_exp && *i + 1 == cmd->tab_exp[*i_exp])
-				*i_exp = *i_exp + 1;
+					*i + 1 == cmd->tab_assign[cmd->i_assign])
+				cmd->i_assign++;
+			else if ((size_t)cmd->count_exp != 0 && cmd->i_exp !=
+						(size_t)cmd->count_exp &&
+						*i + 1 == cmd->tab_exp[cmd->i_exp])
+				cmd->i_exp++;
 			*i = *i + 2;
 		}
 		else
@@ -129,52 +130,61 @@ static int	set_redir_before(t_cmd *cmd, size_t i)
 	return (SUCCESS);
 }
 
+static void	increment(int ret, t_cmd *cmd)
+{
+	if (ret == TRUE_ASSIGN)
+		cmd->i_assign++;
+	else if (ret == TRUE_EXP)
+		cmd->i_exp++;
+}
+
+static bool check_av(t_cmd *cmd, size_t *i)
+{
+	if (cmd->av[*i] == NULL)
+	{
+		*i = *i + 1;
+		return (true);
+	}
+	if (ft_strlen(cmd->av[*i]) == 0 && *i + 1 != (size_t)cmd->ac)
+	{
+		*i = *i + 1;
+		return (true);
+	}
+	return (false);
+}
+
+static bool	is_redir_before(t_cmd *cmd, size_t i)
+{
+	return (i == 0 && (ft_strequ(LESS_THAN, cmd->av[i]) == TRUE ||
+				   ft_strequ(GREATER_THAN, cmd->av[i]) == TRUE ||
+				   ft_strequ(DOUBLE_GREATER, cmd->av[i]) == TRUE) ?
+				   true : false);
+}
+
 int			get_cmd(t_cmd *cmd)
 {
 	size_t	i;
-	size_t	i_assign;
-	size_t	i_exp;
 	int		ret;
-	int		flag_exp_before;
 
 	i = 0;
-	i_assign = 0;
-	i_exp = 0;
-	flag_exp_before = false;
 	while (i < (size_t)cmd->ac)
 	{
-		if (cmd->av[i] == NULL)
+		if (check_av(cmd, &i) == true)
+			continue ; 
+		if (is_redir_before(cmd, i) == true)
 		{
-			i++;
-			continue ;
-		}
-		if (ft_strlen(cmd->av[i]) == 0 && i + 1 != (size_t)cmd->ac)
-		{
-			i++;
-			continue ;
-		}
-		if (i == 0 && (ft_strequ(LESS_THAN, cmd->av[i]) == TRUE ||
-				ft_strequ(GREATER_THAN, cmd->av[i]) == TRUE ||
-				ft_strequ(DOUBLE_GREATER, cmd->av[i]) == TRUE))
-		{
-			flag_exp_before = true;
 			if ((i == 0 && cmd->ac == 1) ||
 					(cmd->count_exp != 0 && i == cmd->tab_exp[0]))
 				return (0);
-			how_increment(cmd, &i, &i_assign, &i_exp);
+			how_increment(cmd, &i);
 			if (set_redir_before(cmd, i) == ONLY_REDIR_BEFORE)
 				return (ONLY_REDIR_BEFORE);
 			continue ;
 		}
-		ret = process_get_cmd(i_assign, i_exp, i, cmd);
+		ret = process_get_cmd(i, cmd);
 		if (ret == FALSE_ASSIGN || ret == FALSE_EXP || ret == TRUE_CMD)
-		{
 			return (i);
-		}
-		if (ret == TRUE_ASSIGN)
-			i_assign++;
-		else if (ret == TRUE_EXP)
-			i_exp++;
+		increment(ret, cmd);
 		i++;
 	}
 	return (FAILURE);

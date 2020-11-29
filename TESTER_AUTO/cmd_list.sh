@@ -1241,6 +1241,10 @@ main () {
 	 test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; cd libft ; cd -'
 	 test 'rm -rf TEST_MINISHELL/TEST ; mkdir TEST_MINISHELL/ ; cd /TEST_MINISHELL/TEST ; cd libft ; echo $PWD'
 	 test "rm -rf /tmp/aaa;mkdir -p /tmp/aaa/bbb; cd /tmp/aaa/bbb; rm -rf /tmp/aaa; pwd"
+	 test "> test1"
+	 test "export toto='>' ; \$toto test2"
+	 test "export toto='>' ; > toto test3 echo haha"
+	 test "export toto='>' ; > toto test3 echo haha < salut"
 	fi
 
 	print_separator '█'

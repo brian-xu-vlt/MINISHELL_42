@@ -73,6 +73,8 @@ typedef struct				s_cmd
 	char					**tab_redir;
 	char					**tab_redir_before;
 	int						count_token;
+	size_t					i_assign;
+	size_t					i_exp;
 
 
 }
