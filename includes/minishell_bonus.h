@@ -55,7 +55,7 @@ int 					extract_token(t_list **token_list, char *str,
 										size_t type);
 void					exit_routine_lexer(t_vector *word, t_vector *vct,
 											t_vector *tmp, t_token *token);
-int						handle_assign_quote(t_vector *input, t_vector *word);
+int						handle_assign_quote(t_vector *in, t_vector *word);
 int						quote_checker(char *str);
 bool					is_simplequote(t_vector *input);
 typedef	enum e_state	(*t_state)(t_vector *);
