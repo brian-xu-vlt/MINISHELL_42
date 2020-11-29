@@ -40,27 +40,21 @@ static int	process_lexer(t_vector *input, t_list **token_list, t_vector *word)
 	char			c;
 
 	ret = 0;
-//	ft_printf("\n\ninput = [%s]\n", vct_getstr(input));//DEBUG
 	while (vct_getfirstchar(input) == C_SPACE
 			|| vct_getfirstchar(input) == C_TAB)
 		vct_pop(input);
 	c = vct_getfirstchar(input);
 	if (vct_getlen(input) == 0)
 		return (ret);
-	//ft_printf("c = %c\n", c);//DEBUG
 	if (c == C_BACKSLASH && (vct_getcharat(input, 1) == C_SPACE
 			|| vct_getcharat(input, 1) == C_TAB))
 	{
-		//ft_printf("C == C_BACKSL\n");//DEBUG
 		vct_pop(input);
 		vct_add(word, vct_getfirstchar(input));
 		vct_pop(input);
-		//vct_add(word, vct_getcharat(input, 1));
-		//return (SUCCESS);
 	}
 	if (c == C_BACKSLASH)
 	{
-		//ft_printf("COUCOU\n");//DEBUG
 		type = E_WORD;
 		ret = process_lexer_word_assign(type, token_list, word, input);
 		return (ret);
