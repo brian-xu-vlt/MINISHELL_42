@@ -33,12 +33,6 @@ static int	process_lexer_word_assign(ssize_t type, t_list **token_list,
 	return (ret);
 }
 
-static void	pop_input_word(t_vector *input, t_vector *word)
-{
-	vct_pop(input);
-	vct_add(word, vct_getfirstchar(input));
-	vct_pop(input);
-}
 
 static int	process_normal_token(t_list **token_list, t_vector *word,
 									t_vector *in, char c)

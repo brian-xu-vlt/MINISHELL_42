@@ -75,6 +75,17 @@ int						no_word(t_list **token_list, t_vector *word,
 									size_t type);
 bool					stop_assign_char(char c);
 bool					stop_assign_str(t_vector *input);
+int						is_newline_error(bool dquote_state, bool quote_state,
+											t_vector *input);
+int 					backsl_quote(bool quote_state, bool dquote_state,
+										t_vector *input, t_vector *word);
+int 					handle_quote(char c, bool quote_state, bool dquote_state,
+										t_vector *input);
+int 					backslash(char c, t_vector *word, t_vector *input,
+									char next_c);
+bool 					parse_backslash(t_vector *input, t_vector *word, bool
+									is_quoting);
+void					pop_input_word(t_vector *input, t_vector *word);
 
 /******************************************************************************/
 /*******************************_PARSER_***************************************/
@@ -133,6 +144,7 @@ int		resize_cmd(t_cmd *cmd, int count);
 int		fill_data_cmd(t_token *token, t_cmd *cmd, int count);
 void	debug_jobs(t_list *job_list);
 void	process_between_both(char *str, t_vector *vct_good);
+void	init_all(t_cmd *cmd);
 
 /******************************************************************************/
 /*******************************_CLEANER_**************************************/
@@ -224,6 +236,20 @@ bool 								check_av(t_cmd *cmd, size_t *i);
 void 								increment(int ret, t_cmd *cmd);
 int 								set_redir_before(t_cmd *cmd, size_t i);
 void 								how_increment(t_cmd *cmd, size_t *i);
+int 								parse_double_quote(t_vector *input,
+										t_vector *output);
+int 								is_export(char c, t_vector *input,
+										t_vector *output);
+void 								pop_output_input(int ret, char c,
+										t_vector *input, t_vector *output);
+void 								handle_pop(size_t index, t_vector *output);
+void 								pop_input(t_vector *input, t_vector *output);
+void 								pop_input_output(char c, t_vector *input,
+										t_vector *output);
+void 								parse_expansion(t_vector *input,
+										t_vector *output);
+int 								process_pop(size_t index, t_vector *input,
+										t_vector *output);
 
 /******************************************************************************/
 /*******************************_EXECUTION_************************************/

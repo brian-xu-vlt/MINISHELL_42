@@ -1,7 +1,15 @@
 #include "minishell_bonus.h"
 
-static int	is_redirection(int ret_cmd, t_cmd *cmd, t_clean_cmd *clean_cmd)
+static int	repartition(t_cmd *cmd, t_clean_cmd *clean_cmd, int index_cmd)
 {
+	int	ret_cmd;
+
+	ret_cmd = get_envp_av(cmd, clean_cmd, index_cmd);
+	if (ret_cmd == FAILURE)
+	{
+		free_clean_command(clean_cmd, MALLOC);
+		return (FAILURE);
+	}
 	if (ret_cmd != NO_COMMAND)
 	{
 		if (process_redirection(cmd, clean_cmd) == FAILURE)
@@ -17,7 +25,6 @@ static int	process_clean_command(t_cmd *cmd)
 {
 	t_clean_cmd	*clean_cmd;
 	int			index_cmd;
-	int			ret_cmd;
 
 	clean_cmd = init_clean_command();
 	if (clean_cmd == NULL)
@@ -31,13 +38,7 @@ static int	process_clean_command(t_cmd *cmd)
 		free_clean_command(clean_cmd, FREE_ONLY_CMD);
 		return (SUCCESS);
 	}
-	ret_cmd = get_envp_av(cmd, clean_cmd, index_cmd);
-	if (ret_cmd == FAILURE)
-	{
-		free_clean_command(clean_cmd, MALLOC);
-		return (FAILURE);
-	}
-	if (is_redirection(ret_cmd, cmd, clean_cmd) == FAILURE)
+	if (repartition(cmd, clean_cmd, index_cmd) == FAILURE)
 		return (FAILURE);
 	cmd->name = (cmd->ac != 0 ? cmd->av[0] : NULL);
 	free_clean_command(clean_cmd, ALL_FREE);
@@ -58,19 +59,14 @@ char		*clean_quote(char *arg, int *ret)
 	transform_arg = NULL;
 	ret_clean = process_clean_quote(input, output);
 	if (ret_clean == FAILURE)
-	{
 		*ret = 0;
-		vct_del(&input);
-		vct_del(&output);
-		return (NULL);
-	}
 	free(arg);
-	if (ret_clean == 2)
+	if (ret_clean == 2 && ret_clean != FAILURE)
 	{
 		transform_arg = NULL;
 		*ret = 2;
 	}
-	if (output != NULL && ret_clean != 2)
+	if (output != NULL && ret_clean != 2 && ret_clean != FAILURE)
 		transform_arg = vct_strdup(output);
 	vct_del(&input);
 	vct_del(&output);
