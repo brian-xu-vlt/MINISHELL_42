@@ -33,48 +33,55 @@ static int	process_lexer_word_assign(ssize_t type, t_list **token_list,
 	return (ret);
 }
 
-static int	process_lexer(t_vector *input, t_list **token_list, t_vector *word)
+static void	pop_input_word(t_vector *input, t_vector *word)
+{
+	vct_pop(input);
+	vct_add(word, vct_getfirstchar(input));
+	vct_pop(input);
+}
+
+static int	process_normal_token(t_list **token_list, t_vector *word,
+									t_vector *in, char c)
 {
 	static ssize_t	type;
 	int				ret;
-	char			c;
 
-	ret = 0;
-	while (vct_getfirstchar(input) == C_SPACE
-			|| vct_getfirstchar(input) == C_TAB)
-		vct_pop(input);
-	c = vct_getfirstchar(input);
-	if (vct_getlen(input) == 0)
-		return (ret);
-	if (c == C_BACKSLASH && (vct_getcharat(input, 1) == C_SPACE
-			|| vct_getcharat(input, 1) == C_TAB))
-	{
-		vct_pop(input);
-		vct_add(word, vct_getfirstchar(input));
-		vct_pop(input);
-	}
-	if (c == C_BACKSLASH)
-	{
-		type = E_WORD;
-		ret = process_lexer_word_assign(type, token_list, word, input);
-		return (ret);
-	}
-	if (vct_getfirstchar(input) == C_TAB || vct_getfirstchar(input) == C_SPACE)
-	{
-		ret = extract_token(token_list, vct_getstr(word), E_WORD);
-		vct_clear(word);
-		return (ret);
-	}
-	type = get_double_token(input);
+	type = get_double_token(in);
 	if (type == NO_TYPE)
 		type = get_token(c);
 	if (c == C_SIMPLE_QUOTE || c == C_QUOTE)
 		type = E_WORD;
 	if (type < E_WORD)
-		ret = process_lexer_no_word(type, token_list, word, input);
+		ret = process_lexer_no_word(type, token_list, word, in);
 	else
-		ret = process_lexer_word_assign(type, token_list, word, input);
+		ret = process_lexer_word_assign(type, token_list, word, in);
 	return (ret);
+}
+
+static int	process_lexer(t_vector *in, t_list **token_list, t_vector *word)
+{
+	int				ret;
+	char			c;
+
+	ret = 0;
+	while (vct_getfirstchar(in) == C_SPACE || vct_getfirstchar(in) == C_TAB)
+		vct_pop(in);
+	c = vct_getfirstchar(in);
+	if (vct_getlen(in) == 0)
+		return (ret);
+	if (c == C_BACKSLASH && (vct_getcharat(in, 1) == C_SPACE
+			|| vct_getcharat(in, 1) == C_TAB))
+		pop_input_word(in, word);
+	if (c == C_BACKSLASH)
+		return (process_lexer_word_assign(E_WORD, token_list, word, in));
+	if (vct_getfirstchar(in) == C_TAB || vct_getfirstchar(in) == C_SPACE)
+	{
+		ret = extract_token(token_list, vct_getstr(word), E_WORD);
+		vct_clear(word);
+		return (ret);
+	}
+	return (process_normal_token(token_list, word, in, c));
+	
 }
 
 t_list		*lexer(t_vector *input)
