@@ -162,6 +162,8 @@ SRCS += create_tab_redir_bonus.c
 SRCS += lexer_utils_bonus.c
 SRCS += test_cleaner.c
 SRCS += builtins_exit_error_bonus.c
+SRCS += builtins_cd_utils_bonus.c
+SRCS += get_redir_before_bonus.c
 
 
 OBJ_DIR = ./objs/

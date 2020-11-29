@@ -219,6 +219,11 @@ bool								verif_assign_cmd(char *str);
 void								exit_routine_cleaner(t_cmd *cmd,
 														t_clean_cmd *clean_cmd);
 char								*clean_quote(char *arg, int *ret);
+bool 								is_redir_before(t_cmd *cmd, size_t i);
+bool 								check_av(t_cmd *cmd, size_t *i);
+void 								increment(int ret, t_cmd *cmd);
+int 								set_redir_before(t_cmd *cmd, size_t i);
+void 								how_increment(t_cmd *cmd, size_t *i);
 
 /******************************************************************************/
 /*******************************_EXECUTION_************************************/
@@ -313,6 +318,7 @@ void 	get_value(t_vector **vct_pwd, t_vector **vct_old, t_vector **vct_home);
 void 	free_clean_command(t_clean_cmd *clean_cmd, int flag);
 void	set_env(t_vector *vct_pwd, t_vector *vct_old);
 void	exit_error(t_vector *vct_av, char *av, char c, int flag);
+void 	set_old_pwd(char *dir, char *pwd, int flag);
 
 /******************************************************************************/
 /*******************************_ENV_MANAGER_**********************************/
