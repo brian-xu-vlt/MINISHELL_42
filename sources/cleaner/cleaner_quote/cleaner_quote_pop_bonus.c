@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-void pop_input(t_vector *input, t_vector *output)
+void	pop_input(t_vector *input, t_vector *output)
 {
 	char c;
 
@@ -8,13 +8,13 @@ void pop_input(t_vector *input, t_vector *output)
 	{
 		c = vct_getfirstchar(input);
 		if (c == C_EXP)
-			return;
+			return ;
 		safe_vct_add(output, c);
 		vct_pop(input);
 	}
 }
 
-void handle_pop(size_t index, t_vector *output)
+void	handle_pop(size_t index, t_vector *output)
 {
 	if (index != 0)
 	{
@@ -22,14 +22,14 @@ void handle_pop(size_t index, t_vector *output)
 		while (index < vct_getlen(output))
 		{
 			if (vct_getcharat(output, index) != C_QUOTE)
-				break;
+				break ;
 			if (vct_getcharat(output, index) == C_QUOTE)
 				vct_popcharat(output, index);
 		}
 	}
 }
 
-void pop_output_input(int ret, char c, t_vector *input, t_vector *output)
+void	pop_output_input(int ret, char c, t_vector *input, t_vector *output)
 {
 	if (ret != CONTINUE)
 	{
@@ -38,7 +38,7 @@ void pop_output_input(int ret, char c, t_vector *input, t_vector *output)
 	}
 }
 
-void pop_input_output(char c, t_vector *input, t_vector *output)
+void	pop_input_output(char c, t_vector *input, t_vector *output)
 {
 	safe_vct_add(output, c);
 	vct_pop(input);

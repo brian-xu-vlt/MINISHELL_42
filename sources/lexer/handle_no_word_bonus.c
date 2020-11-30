@@ -11,7 +11,7 @@ static int	is_syntax_error(bool quote_state, bool dquote_state)
 	return (SUCCESS);
 }
 
-int	is_newline_error(bool dquote_state, bool quote_state,
+int			is_newline_error(bool dquote_state, bool quote_state,
 								t_vector *input)
 {
 	if (dquote_state == false && quote_state == false &&
@@ -26,11 +26,11 @@ int	is_newline_error(bool dquote_state, bool quote_state,
 
 static void	pop_word_input(char c, t_vector *word, t_vector *input)
 {
-		safe_vct_add(word, c);
-		vct_pop(input);
+	safe_vct_add(word, c);
+	vct_pop(input);
 }
 
-int handle_assign_quote(t_vector *in, t_vector *word)
+int			handle_assign_quote(t_vector *in, t_vector *word)
 {
 	bool q_st;
 	bool dq_st;

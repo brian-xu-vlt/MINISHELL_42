@@ -33,7 +33,6 @@ static int	process_lexer_word_assign(ssize_t type, t_list **token_list,
 	return (ret);
 }
 
-
 static int	process_normal_token(t_list **token_list, t_vector *word,
 									t_vector *in, char c)
 {
@@ -75,7 +74,6 @@ static int	process_lexer(t_vector *in, t_list **token_list, t_vector *word)
 		return (ret);
 	}
 	return (process_normal_token(token_list, word, in, c));
-
 }
 
 t_list		*lexer(t_vector *input)

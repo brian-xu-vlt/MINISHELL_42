@@ -1,7 +1,7 @@
 #include "minishell_bonus.h"
 
-static int process_parse_double_quote(char c, char next_c, t_vector *input,
-									  t_vector *output)
+static int	process_parse_double_quote(char c, char next_c, t_vector *input,
+										t_vector *output)
 {
 	if (c == C_BACKSLASH && next_c == C_QUOTE)
 	{
@@ -21,7 +21,7 @@ static int process_parse_double_quote(char c, char next_c, t_vector *input,
 	return (DO_NOTHING);
 }
 
-static int backsl_export(t_vector *input, t_vector *output, size_t *index)
+static int	backsl_export(t_vector *input, t_vector *output, size_t *index)
 {
 	size_t i;
 
@@ -46,12 +46,12 @@ static int backsl_export(t_vector *input, t_vector *output, size_t *index)
 	return (FAILURE);
 }
 
-int parse_double_quote(t_vector *input, t_vector *output)
+int			parse_double_quote(t_vector *input, t_vector *output)
 {
-	char c;
-	char next_c;
-	size_t index;
-	int ret;
+	char	c;
+	char	next_c;
+	size_t	index;
+	int		ret;
 
 	vct_pop(input);
 	index = 0;
@@ -63,19 +63,19 @@ int parse_double_quote(t_vector *input, t_vector *output)
 		{
 			if (backsl_export(input, output, &index) == SUCCESS)
 				return (SUCCESS);
-			break;
+			break ;
 		}
 		ret = process_parse_double_quote(c, next_c, input, output);
 		if (ret == SUCCESS || ret == FAILURE)
 			return (ret);
 		if (ret == BREAK)
-			break;
+			break ;
 		pop_output_input(ret, c, input, output);
 	}
 	return (process_pop(index, input, output));
 }
 
-int process_pop(size_t index, t_vector *input, t_vector *output)
+int			process_pop(size_t index, t_vector *input, t_vector *output)
 {
 	if (vct_getfirstchar(input) == C_EXPORT && index == 2)
 		parse_expansion(input, output);

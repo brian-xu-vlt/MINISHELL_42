@@ -1,11 +1,11 @@
 #include "minishell_bonus.h"
 
-void parse_expansion(t_vector *input, t_vector *output)
+void		parse_expansion(t_vector *input, t_vector *output)
 {
-	t_vector *expansion;
-	char *expansion_value;
-	char c;
-	size_t i;
+	t_vector	*expansion;
+	char		*expansion_value;
+	char		c;
+	size_t		i;
 
 	expansion = safe_vct_new();
 	vct_pop(input);
@@ -14,7 +14,7 @@ void parse_expansion(t_vector *input, t_vector *output)
 	{
 		c = vct_getfirstchar(input);
 		if (is_exp_sep(c) && c != QUESTION_MARK)
-			break;
+			break ;
 		safe_vct_add(expansion, c);
 		vct_pop(input);
 		i++;
@@ -29,11 +29,11 @@ void parse_expansion(t_vector *input, t_vector *output)
 	vct_del(&expansion);
 }
 
-static int handle_export(char c, t_vector *input, t_vector *output)
+static int	handle_export(char c, t_vector *input, t_vector *output)
 {
 	if (c == C_EXPORT && vct_getlen(input) != 1 &&
 		(vct_getcharat(input, 1) == C_SIMPLE_QUOTE ||
-		 vct_getcharat(input, 1) == C_QUOTE))
+		vct_getcharat(input, 1) == C_QUOTE))
 	{
 		vct_pop(input);
 		return (SUCCESS);
@@ -56,7 +56,7 @@ static int handle_export(char c, t_vector *input, t_vector *output)
 	return (FAILURE);
 }
 
-int is_export(char c, t_vector *input, t_vector *output)
+int			is_export(char c, t_vector *input, t_vector *output)
 {
 	int flag;
 

@@ -63,8 +63,8 @@ static int	handle_char(char c, t_vector *input, t_vector *output)
 
 int			process_clean_quote(t_vector *input, t_vector *output)
 {
-	char c;
-	int	flag;
+	char	c;
+	int		flag;
 
 	flag = 0;
 	while (vct_getlen(input) > 0)

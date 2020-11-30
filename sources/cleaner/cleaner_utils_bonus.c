@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-void		free_clean_command(t_clean_cmd *clean_cmd, int flag)		//call in exit_routine
+void		free_clean_command(t_clean_cmd *clean_cmd, int flag)
 {
 	if ((flag == ALL_FREE || flag == MALLOC) && flag != FREE_ONLY_CMD)
 	{

@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-void	pop_input_word(t_vector *input, t_vector *word)
+void		pop_input_word(t_vector *input, t_vector *word)
 {
 	vct_pop(input);
 	safe_vct_add(word, vct_getfirstchar(input));

@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-void how_increment(t_cmd *cmd, size_t *i)
+void	how_increment(t_cmd *cmd, size_t *i)
 {
 	size_t tmp_i;
 
@@ -11,22 +11,25 @@ void how_increment(t_cmd *cmd, size_t *i)
 			ft_strequ(GREATER_THAN, cmd->av[*i]) == TRUE ||
 			ft_strequ(DOUBLE_GREATER, cmd->av[*i]) == TRUE)
 		{
-			if ((size_t)cmd->count_exp != 0 && cmd->i_exp != (size_t)cmd->count_exp && *i == cmd->tab_exp[cmd->i_exp])
-				return;
-			if ((size_t)cmd->count_assign != 0 && cmd->i_assign != (size_t)cmd->count_assign &&
+			if ((size_t)cmd->count_exp != 0 && cmd->i_exp !=
+					(size_t)cmd->count_exp && *i == cmd->tab_exp[cmd->i_exp])
+				return ;
+			if ((size_t)cmd->count_assign != 0 && cmd->i_assign !=
+					(size_t)cmd->count_assign &&
 				*i + 1 == cmd->tab_assign[cmd->i_assign])
 				cmd->i_assign++;
-			else if ((size_t)cmd->count_exp != 0 && cmd->i_exp != (size_t)cmd->count_exp &&
-					 *i + 1 == cmd->tab_exp[cmd->i_exp])
+			else if ((size_t)cmd->count_exp != 0 && cmd->i_exp !=
+					(size_t)cmd->count_exp &&
+						*i + 1 == cmd->tab_exp[cmd->i_exp])
 				cmd->i_exp++;
 			*i = *i + 2;
 		}
 		else
-			return;
+			return ;
 	}
 }
 
-int set_redir_before(t_cmd *cmd, size_t i)
+int		set_redir_before(t_cmd *cmd, size_t i)
 {
 	size_t start;
 
@@ -53,7 +56,7 @@ int set_redir_before(t_cmd *cmd, size_t i)
 	return (SUCCESS);
 }
 
-void increment(int ret, t_cmd *cmd)
+void	increment(int ret, t_cmd *cmd)
 {
 	if (ret == TRUE_ASSIGN)
 		cmd->i_assign++;
@@ -61,7 +64,7 @@ void increment(int ret, t_cmd *cmd)
 		cmd->i_exp++;
 }
 
-bool check_av(t_cmd *cmd, size_t *i)
+bool	check_av(t_cmd *cmd, size_t *i)
 {
 	if (cmd->av[*i] == NULL)
 	{
@@ -76,10 +79,10 @@ bool check_av(t_cmd *cmd, size_t *i)
 	return (false);
 }
 
-bool is_redir_before(t_cmd *cmd, size_t i)
+bool	is_redir_before(t_cmd *cmd, size_t i)
 {
 	return (i == 0 && (ft_strequ(LESS_THAN, cmd->av[i]) == TRUE ||
-					   ft_strequ(GREATER_THAN, cmd->av[i]) == TRUE ||
-					   ft_strequ(DOUBLE_GREATER, cmd->av[i]) == TRUE)
-				? true : false);
+				ft_strequ(GREATER_THAN, cmd->av[i]) == TRUE ||
+				ft_strequ(DOUBLE_GREATER, cmd->av[i]) == TRUE) ?
+				true : false);
 }

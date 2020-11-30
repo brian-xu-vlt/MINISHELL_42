@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-bool parse_backslash(t_vector *input, t_vector *word, bool is_quoting)
+bool	parse_backslash(t_vector *input, t_vector *word, bool is_quoting)
 {
 	const char c = vct_getfirstchar(input);
 	const char c_next = vct_getcharat(input, 1);
@@ -21,7 +21,7 @@ bool parse_backslash(t_vector *input, t_vector *word, bool is_quoting)
 	return (false);
 }
 
-int backslash(char c, t_vector *word, t_vector *input, char next_c)
+int		backslash(char c, t_vector *word, t_vector *input, char next_c)
 {
 	safe_vct_add(word, c);
 	vct_pop(input);
@@ -36,10 +36,11 @@ int backslash(char c, t_vector *word, t_vector *input, char next_c)
 	return (TRUE);
 }
 
-int handle_quote(char c, bool quote_state, bool dquote_state,
+int		handle_quote(char c, bool quote_state, bool dquote_state,
 						t_vector *input)
 {
-	if (quote_state == false && dquote_state == false && (c == C_SPACE || c == C_TAB))
+	if (quote_state == false && dquote_state == false && (c == C_SPACE ||
+			c == C_TAB))
 	{
 		vct_pop(input);
 		return (SUCCESS);
@@ -49,7 +50,7 @@ int handle_quote(char c, bool quote_state, bool dquote_state,
 	return (FAILURE);
 }
 
-int backsl_quote(bool quote_state, bool dquote_state, t_vector *input,
+int		backsl_quote(bool quote_state, bool dquote_state, t_vector *input,
 						t_vector *word)
 {
 	int ret_parse;
