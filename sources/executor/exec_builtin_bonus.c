@@ -6,10 +6,10 @@ int	exec_builtin(t_cmd *cmd)
 	int					ret_value;
 	static const char	*builtin_names[NB_BUILTIN] = {
 		"cd", "echo", "pwd", "exit", "env",
-		"export", "unset", "history" };
+		"export", "unset", "history", "set" };
 	static int			(*builtin[NB_BUILTIN])(int, char **, char **) = {
 		cd_builtin, echo_builtin, pwd_builtin, exit_builtin, env_builtin,
-		export_builtin, unset_builtin, history_builtin };
+		export_builtin, unset_builtin, history_builtin, set_builtin };
 
 	i = 0;
 	ret_value = 0;

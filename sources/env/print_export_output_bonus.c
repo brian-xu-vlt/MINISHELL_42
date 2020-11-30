@@ -1,6 +1,12 @@
 #include "minishell_bonus.h"
 
-static void	put_env_name(char *env_name)
+static void	put_env_name_setmode(char *env_name)
+{
+	if (env_name != NULL)
+		ft_putstr_fd(env_name, STDOUT_FILENO);
+}
+
+static void	put_env_name_exportmode(char *env_name)
 {
 	if (env_name != NULL)
 	{
@@ -55,19 +61,31 @@ static void	print_disambiguate_value(t_vector *env_value)
 	}
 }
 
-static void	print_btree_node(t_btree *node)
+static void	print_btree_node_setmode(t_btree *node)
 {
 	t_env		*env;
 
 	if (node != NULL && (env = ((t_env*)node->item)) != NULL)
 	{
-		put_env_name(env->env_name);
+		put_env_name_setmode(env->env_name);
 		print_disambiguate_value(env->env_value);
 		ft_putstr_fd("\n", STDOUT_FILENO);
 	}
 }
 
-void		print_export_output(t_list *env_lst)
+static void	print_btree_node_exportmode(t_btree *node)
+{
+	t_env		*env;
+
+	if (node != NULL && (env = ((t_env*)node->item)) != NULL)
+	{
+		put_env_name_exportmode(env->env_name);
+		print_disambiguate_value(env->env_value);
+		ft_putstr_fd("\n", STDOUT_FILENO);
+	}
+}
+
+void		print_export_output(t_list *env_lst, int flag)
 {
 	t_list		*cursor;
 	t_env		*content;
@@ -80,13 +98,17 @@ void		print_export_output(t_list *env_lst)
 	while (cursor != NULL && cursor->content != NULL)
 	{
 		content = ((t_env *)cursor->content);
-		if (content->export_flag == TRUE)
+		if ((flag == F_EXPORT_OUTPUT && content->export_flag == TRUE)
+		|| (flag == F_SET_OUTPUT && content->env_value != NULL))
 			add_to_btree(&sorted_tree, content);
 		cursor = cursor->next;
 	}
 	if (sorted_tree != NULL)
 	{
-		btree_apply_node_infix(sorted_tree, print_btree_node);
+		if (flag == F_EXPORT_OUTPUT)
+			btree_apply_node_infix(sorted_tree, print_btree_node_exportmode);
+		else if (flag == F_SET_OUTPUT)
+			btree_apply_node_infix(sorted_tree, print_btree_node_setmode);
 		btree_apply_node_suffix(sorted_tree, free_btree_node);
 	}
 }

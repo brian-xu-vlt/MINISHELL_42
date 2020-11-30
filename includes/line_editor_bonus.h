@@ -20,25 +20,6 @@
 
 
 /**********************************
-*********  ERRORS FLAGS ***********
-**********************************/
-
-// # define	NORMAL_EXIT		"exit_from_NORMAL_EXIT"								//to do : change
-// # define	ERR_NO_MESSAGE	NULL
-// # define	ERR_ENV			"Could not load environement variables."
-// # define	ERR_NEW_VCT		"Could not malloc vector."
-// # define	ERR_VCT			"Vector function failed."
-// # define	ERR_ENVP		"Envp is null."
-// # define	ERR_SCREEN_SIZE	"Screen size is too small."
-// # define	ERR_TERM_NAME	"TERM environment variable not set."
-// # define	ERR_TERMCAP		"Minishell is not (yet) compatible to this Terminal"
-// # define	EXIT_MALLOC		"Malloc could not allocate memory."
-// # define	ERR_FORK		"Could not fork a chilf process."
-// # define	ERR_HUP			"Received a Hang Up signal."
-// # define	ERR_MS_PUTCHAR	"Could not write on stdout"
-// # define	ERR_MS_TPUTS	"Could not output termcaps"
-
-/**********************************
 *********     UTILS     ***********
 **********************************/
 

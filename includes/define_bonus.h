@@ -184,11 +184,22 @@
 #define PARSER_FALSE					1
 #define RETLONG_TRUE					2
 
+#define F_EXPORT_OUTPUT				1
+#define F_SET_OUTPUT				2
+
+/******************************************************************************/
+/*********************************_ENV_****************************************/
+/******************************************************************************/
+
+#define SHLVL_MIN					0
+#define SHLVL_MAX					1000
+#define SHLVL_MAX_MESSAGE			"Minishell: warning: shell level (limited to 1000) too high, resetting to 1\n"
+
 /******************************************************************************/
 /*******************************_EXECUTOR_*************************************/
 /******************************************************************************/
 #define	NB_FD					3
-#define	NB_BUILTIN				8
+#define	NB_BUILTIN				9
 #define	NB_SIG					5
 #define	NB_SIG_STR				15
 
@@ -231,8 +242,9 @@
 # define	EXIT_HUP			 		-11
 # define	EXIT_MS_PUTCHAR	 			-12
 # define	EXIT_MS_TPUTS 				-13
-# define	EXIT_UNKNOWN 				-14
+# define	EXIT_SHLVL_MAX 				-14
+# define	EXIT_UNKNOWN 				-15
 
-# define	NB_EXIT_CODES				13
+# define	NB_EXIT_CODES				14
 
 #endif

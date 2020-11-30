@@ -8,10 +8,10 @@ static void	init_library_db(void)
 	term_name = vct_getstr(get_env_value_vct(get_env_list(GET), "TERM"));
 	if (term_name == NULL)
 		exit_routine(EXIT_TERM_NAME);
-	if (ft_strequ((char *)term_name, "ansi") == TRUE)
+	if (ft_strequ((char *)term_name, "xterm-256color") == false)
 		exit_routine(EXIT_TERMCAP);
 	ret = tgetent(NULL, term_name);
-	if (ret != TRUE)
+	if (ret != true)
 		exit_routine(EXIT_TERMCAP);
 }
 

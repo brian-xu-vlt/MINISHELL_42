@@ -3,7 +3,7 @@
 static void	print_exit_error(int error)
 {
 	static const int	err_code[NB_EXIT_CODES] = {
-		EXIT_ENV ,EXIT_NEW_VCT, EXIT_VCT, EXIT_ENVP, EXIT_SCREEN_SIZE,
+		EXIT_ENV, EXIT_NEW_VCT, EXIT_VCT, EXIT_ENVP, EXIT_SCREEN_SIZE,
 		EXIT_TERM_NAME, EXIT_TERMCAP, EXIT_MALLOC, EXIT_FORK, EXIT_HUP,
 		EXIT_MS_PUTCHAR,EXIT_MS_TPUTS, EXIT_UNKNOWN };
 	static const char	*err_code_str[NB_EXIT_CODES] = {

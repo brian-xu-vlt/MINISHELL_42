@@ -20,15 +20,21 @@ static void	set_default_env(t_list *env_lst)
 		ms_putenv(env_lst, DEFAULT_TERM);
 }
 
-static void	increment_shlevel(t_list *env_lst)
+static void	manage_shlevel(t_list *env_lst)
 {
 	int			shlvl_int;
 
 	shlvl_int = get_env_value_int(env_lst, "SHLVL");
-	if (errno == FAILURE)
-		export_env(env_lst, "SHLVL=1");
+	if (shlvl_int < SHLVL_MIN)
+		shlvl_int = 0;
 	else
-		ms_setenv_int(env_lst, "SHLVL", shlvl_int + 1, F_OVERWRITE | F_EXPORT);
+		shlvl_int++;
+	if (shlvl_int >= SHLVL_MAX)
+	{
+		ft_putstr_fd(SHLVL_MAX_MESSAGE, STDERR_FILENO);
+		shlvl_int = 1;
+	}
+	ms_setenv_int(env_lst, "SHLVL", shlvl_int, F_OVERWRITE | F_EXPORT);
 }
 
 static int	is_special_environ(char *environ)
@@ -82,5 +88,5 @@ void			init_env(void)
 		index++;
 	}
 	set_default_env(env_lst);
-	increment_shlevel(env_lst);
+	manage_shlevel(env_lst);
 }

@@ -94,6 +94,7 @@ SRCS += line_editor_utils_bonus.c
 SRCS += line_editor_is_utils_bonus.c
 SRCS += utils_cursor_bonus.c
 
+SRCS += builtins_set_bonus.c
 SRCS += builtins_echo_bonus.c
 SRCS += builtins_env_bonus.c
 SRCS += builtins_export_bonus.c

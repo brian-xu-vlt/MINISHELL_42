@@ -8,22 +8,12 @@ void	update_window_size(void)
 	t_le			*le;
 
 	le = get_struct(GET);
-	if (DEBUG_MODE == TRUE)
-	{
-		le->srows = 1042;
-		le->scols = 1042;
-	}
-	else if (le != NULL)
+	if (DEBUG_MODE != TRUE && le != NULL)
 	{
 		ret = ioctl(STDIN_FILENO, TIOCGWINSZ, &w_size);
-		if (ret == FAILURE || w_size.ws_col == 0)
+		if (ret == FAILURE)
 			exit_routine(EXIT_NORMAL);
-		// if (le->srows != 0 && le->scols != 0
-		// 		&& (le->srows > w_size.ws_row || le->scols > w_size.ws_col))
-		// 	le->screen_flag |= RESIZE_REFRESH;
 		le->srows = w_size.ws_row;
 		le->scols = w_size.ws_col;
-		// if (le->screen_flag != 0)
-			// refresh_command_line();
 	}
 }
