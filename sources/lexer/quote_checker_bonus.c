@@ -48,9 +48,9 @@ int					quote_checker(char *str)
 	enum e_state	state;
 	t_vector		*input;
 
-	input = vct_new();
+	input = safe_vct_new();
 	state = E_STATE_STRING;
-	vct_addstr(input, str);
+	safe_vct_addstr(input, str);
 	while (state != E_STATE_END)
 	{
 		if (process_quote_checker(state, input) == CONTINUE)

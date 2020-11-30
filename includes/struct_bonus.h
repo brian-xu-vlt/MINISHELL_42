@@ -59,7 +59,6 @@ typedef struct				s_cmd
 	enum e_condition_type	condition;
 	int						redirection;
 	int						redirection_before;
-	int						ret;
 	int						count_assign;
 	int						count_exp;
 	size_t					*tab_assign;
@@ -72,7 +71,8 @@ typedef struct				s_cmd
 	int						tmp_fd_append;
 	char					**tab_redir;
 	char					**tab_redir_before;
-	int						count_token;
+	size_t					i_assign;
+	size_t					i_exp;
 
 
 }

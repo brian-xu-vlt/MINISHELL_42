@@ -70,7 +70,7 @@ int		is_path(const char *bin_name)
 {
 	if (bin_name == NULL)
 		return (false);
-	return ((ft_strchr((char *)bin_name, '/') == NOT_FOUND) ? FALSE : TRUE);
+	return ((ft_strchr((char *)bin_name, C_PATH) == NOT_FOUND) ? FALSE : TRUE);
 }
 
 t_data		*get_data_struct(t_data *mem)

@@ -90,15 +90,15 @@ int			check_arg(t_vector *vct_av, char c, char *av, int ac)
 	bool		ret_parser;
 	bool		ret_long;
 
-	vct_av_cpy = vct_new();
-	vct_cpy(vct_av_cpy, vct_av);
+	vct_av_cpy = safe_vct_new();
+	safe_vct_cpy(vct_av_cpy, vct_av);
 	num_arg = is_numeric(vct_av_cpy);
 	if (num_arg == false || vct_getlen(vct_av) == 0)
 		exit_error(vct_av, av, c, NUMFALSE_LENZERO);
 	ret_parser = parse_vct(vct_av);
 	if (ret_parser == false)
 		exit_error(vct_av, av, c, PARSER_FALSE);
-	vct_cpy(vct_av_cpy, vct_av);
+	safe_vct_cpy(vct_av_cpy, vct_av);
 	ret_long = is_long(vct_av, c);
 	if (ret_long == true)
 		exit_error(vct_av, av, c, RETLONG_TRUE);

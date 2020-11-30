@@ -4,8 +4,8 @@ bool	is_wrong_ass(t_vector *vct)
 {
 	t_vector	*vct_cpy;
 
-	vct_cpy = vct_new();
-	vct_addstr(vct_cpy, vct_getstr(vct));
+	vct_cpy = safe_vct_new();
+	safe_vct_addstr(vct_cpy, vct_getstr(vct));
 	if (vct_getfirstchar(vct_cpy) == LOW_LINE)
 		vct_pop(vct_cpy);
 	if (vct_getcharat(vct_cpy, vct_getlen(vct_cpy) - 1) == C_PLUS)
@@ -28,8 +28,8 @@ size_t	verif_assign(t_vector *vct_av, size_t id_equal)
 {
 	t_vector *vct;
 
-	vct = vct_new();
-	vct_cpy(vct, vct_av);
+	vct = safe_vct_new();
+	safe_vct_cpy(vct, vct_av);
 	vct_cutfrom(vct, vct_getlen(vct) - id_equal);
 	if (vct_getlen(vct) == 0)
 	{

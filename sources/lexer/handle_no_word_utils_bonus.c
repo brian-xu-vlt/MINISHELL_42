@@ -5,8 +5,8 @@ bool	stop_assign_str(t_vector *input)
 	t_vector	*cpy_input;
 	bool		ret;
 
-	cpy_input = vct_new();
-	vct_cpy(cpy_input, input);
+	cpy_input = safe_vct_new();
+	safe_vct_cpy(cpy_input, input);
 	vct_cutfrom(cpy_input, vct_getlen(cpy_input) - 2);
 	ret = false;
 	if (ft_strequ(vct_getstr(cpy_input), OR) == TRUE

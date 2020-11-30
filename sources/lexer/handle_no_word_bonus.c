@@ -1,112 +1,60 @@
 #include "minishell_bonus.h"
 
-static bool parse_backslash(t_vector *input, t_vector *word, bool is_quoting)
+static int	is_syntax_error(bool quote_state, bool dquote_state)
 {
-	const char c = vct_getfirstchar(input);
-	const char c_next = vct_getcharat(input, 1);
-
-	if (c != '\\')
-		return (false);
-	if ((is_quoting == true && (c_next == '$' || c_next == '\\' || c_next == '\"'))
-			|| is_quoting == false)
+	if (quote_state == true || dquote_state == true)
 	{
-		if (is_quoting == true)
-		{
-			vct_add(word, c);
-			vct_pop(input);
-		}
-		return (true);
+		print_set_errno(0, ERR_SYNTAX, NULL, NULL);
+		ms_setenv_int(get_env_list(GET), S_QUESTION_MARK, 2, F_OVERWRITE);
+		return (FAILURE);
 	}
-	return (false);
+	return (SUCCESS);
 }
 
-int handle_assign_quote(t_vector *input, t_vector *word)
+int	is_newline_error(bool dquote_state, bool quote_state,
+								t_vector *input)
 {
-	char c;
-	bool quote_state;
-	bool dquote_state;
-	int	ret_parse;
-	bool	is_backsl;
-	char	next_c;
-	t_vector	*cpy_input;
-
-	quote_state = false;
-	dquote_state = false;
-	is_backsl = false;
-	cpy_input = vct_new();
-	while (vct_getlen(input) > 0)
+	if (dquote_state == false && quote_state == false &&
+		is_end(input) == true)
 	{
-		c = vct_getfirstchar(input);
-		next_c = vct_getcharat(input, 1);
-		if (c == C_BACKSLASH)
+		print_set_errno(0, ERR_NEWLINE, NULL, NULL);
+		ms_setenv_int(get_env_list(GET), S_QUESTION_MARK, 2, F_OVERWRITE);
+		return (FAILURE);
+	}
+	return (SUCCESS);
+}
+
+static void	pop_word_input(char c, t_vector *word, t_vector *input)
+{
+		safe_vct_add(word, c);
+		vct_pop(input);
+}
+
+int handle_assign_quote(t_vector *in, t_vector *word)
+{
+	bool q_st;
+	bool dq_st;
+
+	q_st = false;
+	dq_st = false;
+	while (vct_getlen(in) > 0)
+	{
+		if (vct_getfirstchar(in) == C_BACKSLASH && q_st == false)
 		{
-			if (next_c == C_BACKSLASH)
-			{
-				vct_add(word, c);
-				vct_pop(input);
-				vct_add(input, vct_getfirstchar(input));
-				vct_pop(input);
-				vct_pop(input);
-				is_backsl = false;
-				continue ;
-			}
-			vct_addstr(cpy_input, vct_getstr(input));
-			vct_pop(cpy_input);
-			if (is_end(cpy_input) == TRUE)
-			{
-				print_set_errno(0, ERR_NEWLINE, NULL, NULL);
-				ms_setenv_int(get_env_list(GET), "?", 2, F_OVERWRITE);
-				vct_del(&cpy_input);
+			if (backslash(vct_getfirstchar(in), word, in,
+					vct_getcharat(in, 1)) == FAILURE)
 				return (FAILURE);
-			}
-			vct_clear(cpy_input);
-			is_backsl = true;
-			vct_add(word, c);
-			vct_pop(input);
 			continue ;
 		}
-		ret_parse = true;
-		if (is_backsl == true && (c == C_QUOTE || c == C_SIMPLE_QUOTE))
-		{
-			vct_addstr(cpy_input, vct_getstr(input));
-			vct_pop(cpy_input);
-			if (is_end(cpy_input) == TRUE)
-			{
-				vct_add(word, c);
-				vct_pop(input);
-				vct_del(&cpy_input);
-				return (SUCCESS);
-			}
-			vct_clear(cpy_input);
-		}
-		if (c == C_SIMPLE_QUOTE && is_backsl == false)
-			quote_state = !quote_state;
-		else if (c == C_QUOTE && quote_state == false && is_backsl == false) 
-			dquote_state = !dquote_state;
-		is_backsl = false;
-		if (dquote_state == false && quote_state == false && is_end(input) == true) 
-		{
-			vct_del(&cpy_input);
+		if (vct_getfirstchar(in) == C_SIMPLE_QUOTE && dq_st == false)
+			q_st = !q_st;
+		else if (vct_getfirstchar(in) == C_QUOTE && q_st == false)
+			dq_st = !dq_st;
+		if (handle_quote(vct_getfirstchar(in), q_st, dq_st, in) == SUCCESS)
 			return (SUCCESS);
-		}
-		if (quote_state == false)
-		{
-			if (c == C_BACKSLASH)
-				ret_parse = parse_backslash(input, word, dquote_state);
-			if (ret_parse == false)
-			{
-				if (dquote_state == false && quote_state == false && is_end(input) == true)
-				{
-					print_set_errno(0, ERR_NEWLINE, NULL, NULL);
-					ms_setenv_int(get_env_list(GET), "?", 2, F_OVERWRITE);
-					vct_del(&cpy_input);
-					return (FAILURE);
-				}
-			}
-		}
-		vct_add(word, c);
-		vct_pop(input);
+		if (backsl_quote(q_st, dq_st, in, word) == FAILURE)
+			return (FAILURE);
+		pop_word_input(vct_getfirstchar(in), word, in);
 	}
-	vct_del(&cpy_input);
-	return (SUCCESS);
+	return (is_syntax_error(q_st, dq_st));
 }
