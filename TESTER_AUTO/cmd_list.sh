@@ -230,6 +230,10 @@ test_correction_echo () {
 	test "echo a \$NOVAR b| wc"
 	test "echo a \\n b| wc"
 	test "echo -n a \\n b| wc"
+	test "echo aaaaaaaaa > /tmp/a ; cat -e /tmp/a ; echo "
+	test "echo -n aaaaaaaaa > /tmp/a ; cat -e /tmp/a ; echo "
+	test "echo -n -n -n  aaaaaaaaa > /tmp/a ; cat -e /tmp/a ; echo"
+	test "echo -nnn  aaaaaaaaa > /tmp/a | cat -e /tmp/a ; echo"
 	test "echo \$ ; echo \"\$\" ; echo '\$'"
     test "echo \$\"\" ; echo \"\$\"\"\" ; echo '\$'''"
     test "echo \$toto ; echo \"\$toto\" ; echo '\$toto'"
@@ -1053,15 +1057,15 @@ main () {
 		print_diff_full
 	else
 
-	  test_random
-	  test_bonus
-	  test_executor
-	  test_failed
-	  test_signal
-	  test_syntax
+	#   test_random
+	#   test_bonus
+	#   test_executor
+	#   test_failed
+	#   test_signal
+	#   test_syntax
 
 	# test_correction_arg
-	# test_correction_echo
+	test_correction_echo
 	# test_correction_exit
 	# test_correction_exec
 	# test_correction_return
@@ -1078,10 +1082,10 @@ main () {
 
 	# test_correction_exp
 
-	test_correction_cd
+	# test_correction_cd
 
-	test_correction_pwd
-	test_correction_PATH
+	# test_correction_pwd
+	# test_correction_PATH
 	# test_correction_simple_quotes
 	# test_correction_redirect
 	# test_correction_pipes

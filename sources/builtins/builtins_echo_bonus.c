@@ -10,7 +10,6 @@ static void	echo_loop(char **av)
 		if (av_len > 0)
 			ft_putstr_fd(*av, STDOUT_FILENO);
 		av++;
-		// if (*av != NULL && av_len > 0)
 		if (*av != NULL)
 			ft_putchar_fd(' ', STDOUT_FILENO);
 	}
@@ -40,12 +39,13 @@ static void	put_no_newline(void)
 	t_le		*le;
 
 	le = get_struct(GET);
-	if (le != NULL)
+	if (le != NULL && isatty(STDOUT_FILENO) == true)										/// BONUS FUNCTION : 2 files !!!
+	{
 		ms_tputs(le->termcap[SELECT], 1, ms_putchar);
-	ft_putchar_fd('%', STDERR_FILENO);
-	if (le != NULL)
+		ft_putchar_fd('%', STDOUT_FILENO);
 		ms_tputs(le->termcap[UNSELECT], 1, ms_putchar);
-	ft_putchar_fd('\n', STDERR_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
+	}
 }
 
 int			echo_builtin(int ac, char **av, __attribute__((unused)) char **envp)
@@ -65,9 +65,9 @@ int			echo_builtin(int ac, char **av, __attribute__((unused)) char **envp)
 		}
 		echo_loop(av);
 	}
-	if (new_line_flag == TRUE)
-		ft_putchar_fd('\n', STDERR_FILENO);
-	else if (ac > 2)
+	if (new_line_flag == true)
+		ft_putchar_fd('\n', STDOUT_FILENO);
+	else if (new_line_flag == false && ac > 2)
 		put_no_newline();
 	return (0);
 }
