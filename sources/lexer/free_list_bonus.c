@@ -43,7 +43,6 @@ int			handle_ret_lexer(int ret_process_lexer, t_list *token_list,
 		if (ret_process_lexer == FAILURE)
 		{
 			ms_setenv_int(get_env_list(GET), S_QUESTION_MARK, 2, F_OVERWRITE);
-			//bien comme ca qu'il faut faire pour mettre la valeur de retour a deux dans le cas d'une erreur de syntax?? (lila)
 			print_set_errno(0, ERR_SYNTAX, NULL, NULL);
 		}
 		free_list_token(&token_list);

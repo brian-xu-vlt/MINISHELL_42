@@ -9,8 +9,8 @@ void	handle_exit_value(t_vector *vct_av, t_vector *vct_av_cpy, char c)
 		vct_addcharat(vct_av, 0, c);
 	exit_value = ft_atoi(vct_getstr(vct_av));
 	vct_del(&vct_av);
-	// ft_printf("%s\n", EXIT);
-	ms_setenv_int(get_env_list(GET), "?", exit_value, F_OVERWRITE);
+	// ft_printf("%s\n", EXIT); //pourquoi c'est en commentaire ?
+	ms_setenv_int(get_env_list(GET), S_QUESTION_MARK, exit_value, F_OVERWRITE);
 	exit_routine(EXIT_NORMAL);
 }
 

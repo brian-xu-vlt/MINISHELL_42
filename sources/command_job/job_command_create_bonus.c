@@ -11,7 +11,6 @@ static void	create_cmd_second(t_cmd *cmd, t_cmd *cmd_model)
 	cmd->tmp_fd_append = 1;
 	cmd->tab_redir = NULL;
 	cmd->count_redir = 0;
-	cmd->ret = FAILURE;
 }
 
 t_cmd		*create_cmd(t_cmd *cmd_model)
@@ -64,21 +63,7 @@ void		init_cmd_var(t_cmd *cmd, t_list **list)
 	t_token	*token;
 
 	ft_bzero(cmd, sizeof(t_cmd));
-	cmd->name = NULL;
-	cmd->av = NULL;
-	cmd->type = NULL;
-	cmd->fd_string[0] = NULL;
-	cmd->fd_string[1] = NULL;
-	cmd->fd_string[2] = NULL;
-	cmd->condition = E_NONE;
-	cmd->condition = E_NONE;
-	cmd->redirection = FALSE;
-	cmd->redirection_before = FALSE;
-	cmd->envp = NULL;
-	cmd->tab_redir = NULL;
-	cmd->tab_redir_before = NULL;
-	cmd->count_redir_before = 0;
-	cmd->count_token = 0;
+	init_all(cmd);
 	if (*list != NULL)
 	{
 		token = (*list)->content;

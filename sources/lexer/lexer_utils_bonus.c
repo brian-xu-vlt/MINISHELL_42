@@ -1,5 +1,12 @@
 #include "minishell_bonus.h"
 
+void	pop_input_word(t_vector *input, t_vector *word)
+{
+	vct_pop(input);
+	vct_add(word, vct_getfirstchar(input));
+	vct_pop(input);
+}
+
 const char	*get_token_str(const int type)
 {
 	static const char *tokens[] = {SEPARATOR, PIPE, SIMPLE_QUOTE, QUOTE,

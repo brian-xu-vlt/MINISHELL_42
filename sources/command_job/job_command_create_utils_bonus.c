@@ -1,5 +1,26 @@
 #include "minishell_bonus.h"
 
+void	init_all(t_cmd *cmd)
+{
+	cmd->name = NULL;
+	cmd->av = NULL;
+	cmd->type = NULL;
+	cmd->fd_string[0] = NULL;
+	cmd->fd_string[1] = NULL;
+	cmd->fd_string[2] = NULL;
+	cmd->condition = E_NONE;
+	cmd->condition = E_NONE;
+	cmd->redirection = FALSE;
+	cmd->redirection_before = FALSE;
+	cmd->envp = NULL;
+	cmd->tab_redir = NULL;
+	cmd->tab_redir_before = NULL;
+	cmd->count_redir_before = 0;
+	cmd->i_assign = 0;
+	cmd->i_exp = 0;
+	cmd->ac = 0;
+}
+
 void	create_cmd_fd_string(t_cmd *cmd, t_cmd *cmd_model)
 {
 	if (cmd_model->fd_string[0] != NULL)

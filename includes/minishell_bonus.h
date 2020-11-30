@@ -55,7 +55,7 @@ int 					extract_token(t_list **token_list, char *str,
 										size_t type);
 void					exit_routine_lexer(t_vector *word, t_vector *vct,
 											t_vector *tmp, t_token *token);
-int						handle_assign_quote(t_vector *input, t_vector *word);
+int						handle_assign_quote(t_vector *in, t_vector *word);
 int						quote_checker(char *str);
 bool					is_simplequote(t_vector *input);
 typedef	enum e_state	(*t_state)(t_vector *);
@@ -75,6 +75,17 @@ int						no_word(t_list **token_list, t_vector *word,
 									size_t type);
 bool					stop_assign_char(char c);
 bool					stop_assign_str(t_vector *input);
+int						is_newline_error(bool dquote_state, bool quote_state,
+											t_vector *input);
+int 					backsl_quote(bool quote_state, bool dquote_state,
+										t_vector *input, t_vector *word);
+int 					handle_quote(char c, bool quote_state, bool dquote_state,
+										t_vector *input);
+int 					backslash(char c, t_vector *word, t_vector *input,
+									char next_c);
+bool 					parse_backslash(t_vector *input, t_vector *word, bool
+									is_quoting);
+void					pop_input_word(t_vector *input, t_vector *word);
 
 /******************************************************************************/
 /*******************************_PARSER_***************************************/
@@ -133,6 +144,7 @@ int		resize_cmd(t_cmd *cmd, int count);
 int		fill_data_cmd(t_token *token, t_cmd *cmd, int count);
 void	debug_jobs(t_list *job_list);
 void	process_between_both(char *str, t_vector *vct_good);
+void	init_all(t_cmd *cmd);
 
 /******************************************************************************/
 /*******************************_CLEANER_**************************************/
@@ -219,6 +231,25 @@ bool								verif_assign_cmd(char *str);
 void								exit_routine_cleaner(t_cmd *cmd,
 														t_clean_cmd *clean_cmd);
 char								*clean_quote(char *arg, int *ret);
+bool 								is_redir_before(t_cmd *cmd, size_t i);
+bool 								check_av(t_cmd *cmd, size_t *i);
+void 								increment(int ret, t_cmd *cmd);
+int 								set_redir_before(t_cmd *cmd, size_t i);
+void 								how_increment(t_cmd *cmd, size_t *i);
+int 								parse_double_quote(t_vector *input,
+										t_vector *output);
+int 								is_export(char c, t_vector *input,
+										t_vector *output);
+void 								pop_output_input(int ret, char c,
+										t_vector *input, t_vector *output);
+void 								handle_pop(size_t index, t_vector *output);
+void 								pop_input(t_vector *input, t_vector *output);
+void 								pop_input_output(char c, t_vector *input,
+										t_vector *output);
+void 								parse_expansion(t_vector *input,
+										t_vector *output);
+int 								process_pop(size_t index, t_vector *input,
+										t_vector *output);
 
 /******************************************************************************/
 /*******************************_EXECUTION_************************************/
@@ -313,6 +344,7 @@ void 	get_value(t_vector **vct_pwd, t_vector **vct_old, t_vector **vct_home);
 void 	free_clean_command(t_clean_cmd *clean_cmd, int flag);
 void	set_env(t_vector *vct_pwd, t_vector *vct_old);
 void	exit_error(t_vector *vct_av, char *av, char c, int flag);
+void 	set_old_pwd(char *dir, char *pwd, int flag);
 
 /******************************************************************************/
 /*******************************_ENV_MANAGER_**********************************/

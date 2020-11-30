@@ -110,6 +110,12 @@
 #define BEFORE						0
 #define AFTER						1
 
+#define ERROR_TOKEN	"Minishell: syntax error near unexpected token `"
+
+#define CONTINUE	1
+#define BREAK		2
+#define DO_NOTHING		3
+
 /******************************************************************************/
 /*******************************_BUILTIN_**************************************/
 /******************************************************************************/
