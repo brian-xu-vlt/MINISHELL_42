@@ -52,10 +52,10 @@ char		*clean_quote(char *arg, int *ret)
 	char		*transform_arg;
 	int			ret_clean;
 
-	input = vct_new();
-	output = vct_new();
+	input = safe_vct_new();
+	output = safe_vct_new();
 	*ret = 0;
-	vct_addstr(input, arg);
+	safe_vct_addstr(input, arg);
 	transform_arg = NULL;
 	ret_clean = process_clean_quote(input, output);
 	if (ret_clean == FAILURE)

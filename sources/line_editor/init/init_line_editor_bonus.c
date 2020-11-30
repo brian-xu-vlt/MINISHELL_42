@@ -52,7 +52,7 @@ t_le		*init_line_editor(t_vector *cmd_line)
 		exit_routine(EXIT_MALLOC);
 	get_struct(le);
 	le->prompt_len = ft_strlen(PROMPT_LINE_EDITION);
-	le->clipboard = vct_new();
+	le->clipboard = safe_vct_new();
 	if (le->clipboard == NULL)
 		exit_routine(EXIT_MALLOC);
 	le->cmd_line = cmd_line;

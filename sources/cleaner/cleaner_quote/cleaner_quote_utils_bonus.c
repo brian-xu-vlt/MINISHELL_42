@@ -35,7 +35,7 @@ int		handle_backslash_nothing(t_vector *input, t_vector *output, char c)
 		print_set_errno(0, ERR_NEWLINE, NULL, NULL);
 		return (FAILURE);
 	}
-	vct_add(output, vct_getfirstchar(input));
+	safe_vct_add(output, vct_getfirstchar(input));
 	vct_pop(input);
 	return (SUCCESS);
 }

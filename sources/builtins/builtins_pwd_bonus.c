@@ -4,9 +4,9 @@ static int	pwd_error_option(char *str)
 {
 	t_vector *option;
 
-	option = vct_new();
-	vct_add(option, str[0]);
-	vct_add(option, str[1]);
+	option = safe_vct_new();
+	safe_vct_add(option, str[0]);
+	safe_vct_add(option, str[1]);
 	print_set_errno(0, ERR_PWD_OPT, STR_PWD, vct_getstr(option));
 	ft_putstr_fd(ERR_PWD_US, STDERR_FILENO);
 	vct_del(&option);

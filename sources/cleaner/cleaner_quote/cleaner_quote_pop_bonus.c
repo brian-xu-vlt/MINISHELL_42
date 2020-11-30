@@ -9,7 +9,7 @@ void pop_input(t_vector *input, t_vector *output)
 		c = vct_getfirstchar(input);
 		if (c == C_EXP)
 			return;
-		vct_add(output, c);
+		safe_vct_add(output, c);
 		vct_pop(input);
 	}
 }
@@ -33,13 +33,13 @@ void pop_output_input(int ret, char c, t_vector *input, t_vector *output)
 {
 	if (ret != CONTINUE)
 	{
-		vct_add(output, c);
+		safe_vct_add(output, c);
 		vct_pop(input);
 	}
 }
 
 void pop_input_output(char c, t_vector *input, t_vector *output)
 {
-	vct_add(output, c);
+	safe_vct_add(output, c);
 	vct_pop(input);
 }

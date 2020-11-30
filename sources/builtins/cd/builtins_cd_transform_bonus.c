@@ -66,20 +66,20 @@ void		transform_new_dir(t_vector *new_dir, char *pwd, char *dir_denied)
 	t_vector	*vct_denied;
 	t_vector	*real_vct_denied;
 
-	vct_denied = vct_new();
-	real_vct_denied = vct_new();
-	vct_addstr(vct_denied, dir_denied);
+	vct_denied = safe_vct_new();
+	real_vct_denied = safe_vct_new();
+	safe_vct_addstr(vct_denied, dir_denied);
 	while (vct_getlen(vct_denied) > 0)
 	{
 		while (vct_getfirstchar(vct_denied) == C_ROOT &&
 				vct_getcharat(vct_denied, 1) == C_ROOT)
 			vct_pop(vct_denied);
-		vct_add(real_vct_denied, vct_getfirstchar(vct_denied));
+		safe_vct_add(real_vct_denied, vct_getfirstchar(vct_denied));
 		vct_pop(vct_denied);
 	}
-	vct_addstr(new_dir, pwd);
-	vct_add(new_dir, C_ROOT);
-	vct_addstr(new_dir, vct_getstr(real_vct_denied));
+	safe_vct_addstr(new_dir, pwd);
+	safe_vct_add(new_dir, C_ROOT);
+	safe_vct_addstr(new_dir, vct_getstr(real_vct_denied));
 	vct_del(&real_vct_denied);
 	vct_del(&vct_denied);
 	count_root = find_last_root_dot(vct_getstr(new_dir));

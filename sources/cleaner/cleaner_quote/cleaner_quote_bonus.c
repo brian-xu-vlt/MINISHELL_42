@@ -10,16 +10,16 @@ void		parse_simple_quote(t_vector *input, t_vector *output)
 		c = vct_getfirstchar(input);
 		if (c == C_BACKSLASH && vct_getcharat(input, 1) == C_QUOTE)
 		{
-			vct_add(output, c);
+			safe_vct_add(output, c);
 			vct_pop(input);
 			c = vct_getfirstchar(input);
-			vct_add(output, c);
+			safe_vct_add(output, c);
 			vct_pop(input);
 			continue ;
 		}
 		if (c == C_SIMPLE_QUOTE)
 			break ;
-		vct_add(output, c);
+		safe_vct_add(output, c);
 		vct_pop(input);
 	}
 	vct_pop(input);
@@ -29,7 +29,7 @@ static int	handle_backslash(char c, t_vector *input, t_vector *output)
 {
 	vct_pop(input);
 	c = vct_getfirstchar(input);
-	vct_add(output, c);
+	safe_vct_add(output, c);
 	vct_pop(input);
 	return (SUCCESS);
 }
@@ -79,7 +79,7 @@ int			process_clean_quote(t_vector *input, t_vector *output)
 	if ((flag & F_SQUOTE || flag & F_DQUOTE) && vct_getlen(output) == 0)
 	{
 		vct_clear(output);
-		vct_add(output, '\0');
+		safe_vct_add(output, '\0');
 	}
 	return (SUCCESS);
 }

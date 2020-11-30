@@ -13,7 +13,7 @@ bool parse_backslash(t_vector *input, t_vector *word, bool is_quoting)
 	{
 		if (is_quoting == true)
 		{
-			vct_add(word, c);
+			safe_vct_add(word, c);
 			vct_pop(input);
 		}
 		return (true);
@@ -23,7 +23,7 @@ bool parse_backslash(t_vector *input, t_vector *word, bool is_quoting)
 
 int backslash(char c, t_vector *word, t_vector *input, char next_c)
 {
-	vct_add(word, c);
+	safe_vct_add(word, c);
 	vct_pop(input);
 	if (next_c == '\0')
 	{
@@ -31,7 +31,7 @@ int backslash(char c, t_vector *word, t_vector *input, char next_c)
 		ms_setenv_int(get_env_list(GET), S_QUESTION_MARK, 2, F_OVERWRITE);
 		return (FAILURE);
 	}
-	vct_add(word, next_c);
+	safe_vct_add(word, next_c);
 	vct_pop(input);
 	return (TRUE);
 }
@@ -54,6 +54,7 @@ int backsl_quote(bool quote_state, bool dquote_state, t_vector *input,
 {
 	int ret_parse;
 
+	ret_parse = 0;
 	if (quote_state == false)
 	{
 		if (vct_getfirstchar(input) == C_BACKSLASH)

@@ -19,6 +19,8 @@ t_vector	*vct_dup(t_vector *vct)
 	if (vct == NULL || vct->str == NULL)
 		return (NULL);
 	new_vct = vct_new();
+	if (new_vct == NULL)
+		return (NULL);
 	if (vct->len >= new_vct->size)
 	{
 		if (vct_resize(new_vct, vct->len) == FAILURE)

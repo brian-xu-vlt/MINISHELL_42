@@ -104,7 +104,7 @@ int			main(int ac, char **av)
 
 	jobs = NULL;
 	ret_read = 1;
-	cmd_line = vct_new();
+	cmd_line = safe_vct_new();
 	if (cmd_line == NULL)
 		exit_routine(EXIT_MALLOC);
 	data->cmd_line = cmd_line;

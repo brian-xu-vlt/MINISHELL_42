@@ -75,7 +75,7 @@ static int	process_lexer(t_vector *in, t_list **token_list, t_vector *word)
 		return (ret);
 	}
 	return (process_normal_token(token_list, word, in, c));
-	
+
 }
 
 t_list		*lexer(t_vector *input)
@@ -84,7 +84,7 @@ t_list		*lexer(t_vector *input)
 	t_vector	*word;
 	int			ret_process_lexer;
 
-	word = vct_new();
+	word = safe_vct_new();
 	token_list = NULL;
 	if (extract_token(&token_list, NULL, E_START) == FAILURE)
 		return (NULL);

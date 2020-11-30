@@ -22,10 +22,10 @@ bool		verif_assign_cmd(char *str)
 	ssize_t		nb_assign;
 	t_vector	*vct_cpy;
 
-	vct = vct_new();
-	vct_cpy = vct_new();
-	vct_addstr(vct, str);
-	vct_addstr(vct_cpy, vct_getstr(vct));
+	vct = safe_vct_new();
+	vct_cpy = safe_vct_new();
+	safe_vct_addstr(vct, str);
+	safe_vct_addstr(vct_cpy, vct_getstr(vct));
 	nb_assign = vct_nbchar(vct_cpy, S_ASSIGN);
 	if (verif_expect(vct, vct_cpy) == true)
 		return (true);
@@ -38,8 +38,8 @@ static bool	verif_exp_cmd(char *str)
 {
 	t_vector	*vct;
 
-	vct = vct_new();
-	vct_addstr(vct, str);
+	vct = safe_vct_new();
+	safe_vct_addstr(vct, str);
 	if (vct_getfirstchar(vct) == C_EXPORT)
 		vct_pop(vct);
 	if (is_wrong_ass(vct) == false)
@@ -83,7 +83,7 @@ int			get_cmd(t_cmd *cmd)
 	while (i < (size_t)cmd->ac)
 	{
 		if (check_av(cmd, &i) == true)
-			continue ; 
+			continue ;
 		if (is_redir_before(cmd, i) == true)
 		{
 			if ((i == 0 && cmd->ac == 1) ||

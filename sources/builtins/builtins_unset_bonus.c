@@ -26,10 +26,10 @@ static bool	is_valid_identifier(char *av_to_check)
 	char				c_first;
 	char				c_last;
 
-	vct = vct_new();
+	vct = safe_vct_new();
 	if (vct == NULL)
 		exit_routine(EXIT_MALLOC);
-	if (vct_addstr(vct, av_to_check) == FAILURE)
+	if (safe_vct_addstr(vct, av_to_check) == FAILURE)
 		exit_routine(EXIT_MALLOC);
 	c_first = vct_getfirstchar(vct);
 	c_last = vct_getcharat(vct, vct_getlen(vct) - 1);

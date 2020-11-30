@@ -51,7 +51,7 @@ static char	*check_dir_option(const char *bin_name, const char *dir_option)
 
 	errno = 0;
 	ret_full_path = NOT_FOUND;
-	full_path_vct = vct_new();
+	full_path_vct = safe_vct_new();
 	if (full_path_vct == NULL)
 		exit_routine(EXIT_MALLOC);
 	concat_path(&full_path_vct, (char *)dir_option, (char *)bin_name);

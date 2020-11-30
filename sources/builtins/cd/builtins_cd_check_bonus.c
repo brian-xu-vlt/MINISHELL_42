@@ -98,7 +98,7 @@ char		*handle_permission_denied(char *dir_denied)
 	pwd = getcwd(buff, PATH_MAX);
 	if (pwd == NULL)
 		exit_routine(EXIT_MALLOC);
-	new_dir = vct_new();
+	new_dir = safe_vct_new();
 	transform_new_dir(new_dir, pwd, dir_denied);
 	if (vct_getlen(new_dir) == 0)
 		dir = ft_strdup(STR_ROOT);

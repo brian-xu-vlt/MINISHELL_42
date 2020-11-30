@@ -7,7 +7,7 @@ void parse_expansion(t_vector *input, t_vector *output)
 	char c;
 	size_t i;
 
-	expansion = vct_new();
+	expansion = safe_vct_new();
 	vct_pop(input);
 	i = 0;
 	while (vct_getlen(input) > 0)
@@ -15,16 +15,16 @@ void parse_expansion(t_vector *input, t_vector *output)
 		c = vct_getfirstchar(input);
 		if (is_exp_sep(c) && c != QUESTION_MARK)
 			break;
-		vct_add(expansion, c);
+		safe_vct_add(expansion, c);
 		vct_pop(input);
 		i++;
 	}
 	if (vct_getlen(expansion) == 0)
-		vct_add(output, C_EXPORT);
+		safe_vct_add(output, C_EXPORT);
 	else
 	{
 		expansion_value = exp_value(vct_getstr(expansion));
-		vct_addstr(output, expansion_value);
+		safe_vct_addstr(output, expansion_value);
 	}
 	vct_del(&expansion);
 }
@@ -44,11 +44,11 @@ static int handle_export(char c, t_vector *input, t_vector *output)
 	{
 		if (vct_getcharat(input, 1) == C_BACKSLASH)
 		{
-			vct_add(output, c);
+			safe_vct_add(output, c);
 			vct_pop(input);
 			return (SUCCESS);
 		}
-		vct_add(output, c);
+		safe_vct_add(output, c);
 		vct_pop(input);
 		pop_input(input, output);
 		return (SUCCESS);

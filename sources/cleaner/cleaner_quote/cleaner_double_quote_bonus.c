@@ -6,7 +6,7 @@ static int process_parse_double_quote(char c, char next_c, t_vector *input,
 	if (c == C_BACKSLASH && next_c == C_QUOTE)
 	{
 		vct_pop(input);
-		vct_add(output, next_c);
+		safe_vct_add(output, next_c);
 		return (SUCCESS);
 	}
 	if (is_backslash(c, next_c, input) == FAILURE)
@@ -27,18 +27,18 @@ static int backsl_export(t_vector *input, t_vector *output, size_t *index)
 
 	i = 0;
 	vct_pop(input);
-	vct_add(output, vct_getfirstchar(input));
+	safe_vct_add(output, vct_getfirstchar(input));
 	vct_pop(input);
 	*index = vct_clen(input, C_EXP);
 	if (*index == 0 && vct_getfirstchar(input) == C_EXP)
 	{
-		vct_add(output, C_EXP);
+		safe_vct_add(output, C_EXP);
 		vct_pop(input);
 		return (SUCCESS);
 	}
 	while (i < *index)
 	{
-		vct_add(output, vct_getfirstchar(input));
+		safe_vct_add(output, vct_getfirstchar(input));
 		vct_pop(input);
 		i++;
 	}

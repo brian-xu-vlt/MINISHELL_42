@@ -13,7 +13,7 @@ void		print_invalid_option(const char *function_name,
 	static const char	*error_str = "invalid option";
 	t_vector			*tmp_err_src;
 
-	tmp_err_src = vct_new();
+	tmp_err_src = safe_vct_new();
 	if (tmp_err_src == NULL)
 		exit_routine(EXIT_MALLOC);
 	if (error_source != NULL && ft_strlen(error_source) >= 2)
@@ -35,7 +35,7 @@ void		print_invalid_identifier(const char *function_name,
 	static const char	*error_str = "not a valid identifier";
 	t_vector			*tmp_err_src;
 
-	tmp_err_src = vct_new();
+	tmp_err_src = safe_vct_new();
 	if (tmp_err_src == NULL)
 		exit_routine(EXIT_MALLOC);
 	safe_vct_add(tmp_err_src, '`');

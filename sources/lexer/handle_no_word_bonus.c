@@ -26,7 +26,7 @@ int	is_newline_error(bool dquote_state, bool quote_state,
 
 static void	pop_word_input(char c, t_vector *word, t_vector *input)
 {
-		vct_add(word, c);
+		safe_vct_add(word, c);
 		vct_pop(input);
 }
 

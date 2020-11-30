@@ -4,9 +4,9 @@ void	handle_exit_value(t_vector *vct_av, t_vector *vct_av_cpy, char c)
 {
 	uint8_t	exit_value;
 
-	vct_cpy(vct_av, vct_av_cpy);
+	safe_vct_cpy(vct_av, vct_av_cpy);
 	if (c == C_MINUS || c == C_PLUS)
-		vct_addcharat(vct_av, 0, c);
+		safe_vct_addcharat(vct_av, 0, c);
 	exit_value = ft_atoi(vct_getstr(vct_av));
 	vct_del(&vct_av);
 	// ft_printf("%s\n", EXIT); //pourquoi c'est en commentaire ?
@@ -37,10 +37,10 @@ bool	parse_vct(t_vector *vct_av)
 	size_t		count_num;
 	size_t		len_before;
 
-	av = vct_new();
-	vct_cpy(av, vct_av);
+	av = safe_vct_new();
+	safe_vct_cpy(av, vct_av);
 	pop_arg(av, POP_SPACE_TAB);
-	vct_cpy(vct_av, av);
+	safe_vct_cpy(vct_av, av);
 	len_before = vct_getlen(vct_av);
 	count_num = pop_arg(av, COUNT_NUM);
 	cut_arg(vct_av, len_before, count_num, av);
@@ -68,8 +68,8 @@ int		exit_builtin(int ac, char **av, __attribute__((unused)) char **envp)
 		ft_printf("%s\n", EXIT);
 		exit_routine(EXIT_NORMAL);
 	}
-	vct_av = vct_new();
-	vct_addstr(vct_av, av[1]);
+	vct_av = safe_vct_new();
+	safe_vct_addstr(vct_av, av[1]);
 	pop_arg(vct_av, POP_SPACE_TAB);
 	c = vct_getfirstchar(vct_av);
 	if (c == C_PLUS || c == C_MINUS)

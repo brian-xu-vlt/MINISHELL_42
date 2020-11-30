@@ -3,7 +3,7 @@
 void	pop_input_word(t_vector *input, t_vector *word)
 {
 	vct_pop(input);
-	vct_add(word, vct_getfirstchar(input));
+	safe_vct_add(word, vct_getfirstchar(input));
 	vct_pop(input);
 }
 
