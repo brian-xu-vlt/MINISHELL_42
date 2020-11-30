@@ -1,7 +1,5 @@
 #include "minishell_bonus.h"
 
-
-
 int handle_pwd(char *dir)
 {
 	char *pwd;
@@ -45,8 +43,10 @@ static int process_chdir(t_vector *vct_home, char *dir, char *old_dir,
 		free(real_dir);
 	}
 	if (ret_chdir == FAILURE)
+	{
 		ft_dprintf(STDERR_FILENO, "Minishell: cd: %s: %s\n",
 				   dir, strerror(errno));
+	}
 	free(dir_old_pwd);
 	return (ret_chdir);
 }
@@ -102,7 +102,7 @@ int cd_builtin(int ac, char **av, __attribute__((unused)) char **envp)
 	if (ac > 1 && ft_strlen(av[1]) != 0 && ft_strequ(av[1], STR_MINUS) == FALSE)
 	{
 		if ((ret = first_check(av[1])) != CD_CONTINUE)
-			return (ret == CD_FAIL ? 1 : FAILURE);
+			return (ret == CD_FAIL ? 1 : 2);
 	}
 	if (ac != 1 && ft_strlen(av[1]) == 0)
 		return (SUCCESS);

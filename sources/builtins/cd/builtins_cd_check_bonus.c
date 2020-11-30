@@ -67,7 +67,7 @@ int			first_check(char *directory)
 	{
 		print_set_errno(0, ERR_OPT, STR_CD, directory);
 		ft_putendl_fd(ERR_USAGE, STDERR_FILENO);
-		return (CD_FAIL);
+		return (ERROR_OPT);
 	}
 	dir = opendir(directory);
 	ret_directory = check_directory(directory);

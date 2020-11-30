@@ -43,7 +43,7 @@ int			pwd_builtin(int ac, char **av, __attribute__((unused)) char **envp)
 	{
 		ft_putendl_fd(ERR_GET_PWD, STDERR_FILENO);
 		free(buff);
-		return (PWD_FAIL);
+		return (errno == 2 ? 1 : PWD_FAIL);
 	}
 	ft_printf("%s\n", pwd);
 	free(buff);
