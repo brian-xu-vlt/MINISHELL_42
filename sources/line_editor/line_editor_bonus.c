@@ -6,12 +6,13 @@ static int	line_editor_loop(t_le *le)
 	int		ret_read;
 
 	ret_read = SUCCESS;
+	key = K_ENTER;
 	while ((ret_read = read(STDIN_FILENO, &key, 1)) > 0 && key != K_ENTER)
 	{
-		ms_tputs(le->termcap[HIDE_CURSOR], 1, ms_putchar);
 		le->vct_index_backup = le->vct_index;
-		if (key == K_EOF && vct_getlen(le->cmd_line) == 0)
-			exit_routine(EXIT_NORMAL);									// TODO: check return value of Minishell ?
+		if (key == K_EOF)
+			exit_routine(EXIT_NORMAL);
+		ms_tputs(le->termcap[HIDE_CURSOR], 1, ms_putchar);
 		if (ft_isprint(key) == TRUE)
 			handle_print_char(key);
 		else

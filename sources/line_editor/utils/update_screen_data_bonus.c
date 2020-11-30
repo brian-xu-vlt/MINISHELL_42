@@ -14,7 +14,7 @@ void	update_window_size(void)
 	{
 		ret = ioctl(STDIN_FILENO, TIOCGWINSZ, &w_size);
 		if (ret == FAILURE)
-			exit_routine(EXIT_NORMAL);
+			exit_routine(EXIT_NO_TTY);
 		le->srows = w_size.ws_row;
 		le->scols = w_size.ws_col;
 	}

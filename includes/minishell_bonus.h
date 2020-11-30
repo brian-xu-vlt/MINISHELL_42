@@ -396,7 +396,7 @@ void		parser_debug(t_token *token);
 
 
 void		exit_routine(int err_code);
-void		exit_routine_line_edition(t_le *le);
+void		exit_routine_line_edition(t_le *le, int err_code);
 void		exit_routine_env(void);
 
 #endif

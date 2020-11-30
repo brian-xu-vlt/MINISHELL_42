@@ -39,7 +39,7 @@ void		exit_routine(int err_code)
 	{
 		if (data->cmd_line != NULL)
 			vct_del(&data->cmd_line);
-		exit_routine_line_edition(data->line_editor_data);
+		exit_routine_line_edition(data->line_editor_data, err_code);
 		exit_routine_env();
 		if (data->current_jobs != NULL)
 			free_list_job(&data->current_jobs);
@@ -51,5 +51,7 @@ void		exit_routine(int err_code)
 		print_exit_error(err_code);
 		exit (err_code);
 	}
+	else
+		ft_printf("exit\n");
 	exit(last_exit_status);
 }
