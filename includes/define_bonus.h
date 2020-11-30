@@ -200,8 +200,8 @@
 /******************************************************************************/
 #define	NB_FD					3
 #define	NB_BUILTIN				9
-#define	NB_SIG					5
-#define	NB_SIG_STR				15
+#define	NB_SIG					6
+#define	NB_SIG_STR				11
 
 #define	F_NO_REDIRECT			0
 #define	F_REDIRECT_FAILURE		1<<0

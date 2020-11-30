@@ -35,6 +35,19 @@ static int	is_valid_option(const char *av_to_test, const char *option)
 	return (TRUE);
 }
 
+static void	put_no_newline(void)
+{
+	t_le		*le;
+
+	le = get_struct(GET);
+	if (le != NULL)
+		ms_tputs(le->termcap[SELECT], 1, ms_putchar);
+	ft_putchar_fd('%', STDERR_FILENO);
+	if (le != NULL)
+		ms_tputs(le->termcap[UNSELECT], 1, ms_putchar);
+	ft_putchar_fd('\n', STDERR_FILENO);
+}
+
 int			echo_builtin(int ac, char **av, __attribute__((unused)) char **envp)
 {
 	const char	*builtin = "echo";
@@ -53,6 +66,8 @@ int			echo_builtin(int ac, char **av, __attribute__((unused)) char **envp)
 		echo_loop(av);
 	}
 	if (new_line_flag == TRUE)
-		ft_putchar_fd('\n', STDOUT_FILENO);
+		ft_putchar_fd('\n', STDERR_FILENO);
+	else if (ac > 2)
+		put_no_newline();
 	return (0);
 }
