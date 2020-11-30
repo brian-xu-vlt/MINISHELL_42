@@ -17,7 +17,6 @@ static int	line_editor_loop(t_le *le)
 		else
 			handle_esc_seq(key);
 		ms_tputs(le->termcap[VISIBLE_CURSOR], 1, ms_putchar);
-		// debug_print_infos();
 	}
 	return (ret_read);
 }

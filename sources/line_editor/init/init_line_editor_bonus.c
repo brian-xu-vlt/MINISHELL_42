@@ -15,32 +15,34 @@ static void	init_library_db(void)
 		exit_routine(EXIT_TERMCAP);
 }
 
+static char *get_termcap_str(const char *capability)
+{
+	char		*ret;
+
+	ret = tgetstr(capability, NULL);
+	if (ret == NULL)
+		exit_routine(EXIT_TERMLIB);
+	return (ret);
+}
+
 static void	fill_termcaps(t_le *le)
 {
-	int		i;
-
-	le->termcap[CLEAR_LINE] = tgetstr("ce", NULL);
-	le->termcap[CLEAR_ALL_AFTER_CURS] = tgetstr("cd", NULL);
-	le->termcap[SELECT] = tgetstr("so", NULL);
-	le->termcap[UNSELECT] = tgetstr("se", NULL);
-	le->termcap[MOVE_CURSOR_HOME] = tgetstr("ho", NULL);
-	le->termcap[ONE_COL_LEFT] = tgetstr("le", NULL);
-	le->termcap[ONE_COL_RIGHT] = tgetstr("nd", NULL);
-	le->termcap[ONE_ROW_DOWN] = tgetstr("do", NULL);
-	le->termcap[ONE_ROW_UP] = tgetstr("up", NULL);
-	le->termcap[MOVE_X_ROWS_UP] = tgetstr("UP", NULL);
-	le->termcap[RETURN_CARRIAGE] = tgetstr("cr", NULL);
+	le->termcap[CLEAR_LINE] = get_termcap_str("ce");
+	le->termcap[CLEAR_ALL_AFTER_CURS] = get_termcap_str("cd");
+	le->termcap[SELECT] = get_termcap_str("so");
+	le->termcap[UNSELECT] = get_termcap_str("se");
+	le->termcap[MOVE_CURSOR_HOME] = get_termcap_str("ho");
+	le->termcap[ONE_COL_LEFT] = get_termcap_str("le");
+	le->termcap[ONE_COL_RIGHT] = get_termcap_str("nd");
+	le->termcap[ONE_ROW_DOWN] = get_termcap_str("do");
+	le->termcap[ONE_ROW_UP] = get_termcap_str("up");
+	le->termcap[MOVE_X_ROWS_UP] = get_termcap_str("UP");
+	le->termcap[CURSOR_POSITION_REQUEST] = get_termcap_str("u7");
+	le->termcap[RETURN_CARRIAGE] = get_termcap_str("cr");
 	le->termcap[MOVE_AT_COL_X] = tgetstr("ch", NULL);
 	le->termcap[VISIBLE_CURSOR] = tgetstr("ve", NULL);
 	le->termcap[HIDE_CURSOR] = tgetstr("vi", NULL);
 	le->termcap[SCROLLING_CAPABILITY] = tgetstr("sf", NULL);
-	i = 0;
-	while (i < NB_ESSENTIAL_TERMCAP)
-	{
-		if (le->termcap[i] == NULL)
-			exit_routine(EXIT_TERMCAP);
-		i++;
-	}
 }
 
 t_le		*init_line_editor(t_vector *cmd_line)

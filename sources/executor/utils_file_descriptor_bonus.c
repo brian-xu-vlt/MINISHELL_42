@@ -22,8 +22,6 @@ void	close_pipe_end(int pipe_to_close)
 	if (pipe_to_close != UNSET)
 	{
 		close_ret = close(pipe_to_close);
-		// if (DEBUG_MODE == TRUE && close_ret == FAILURE)
-			// print_set_errno(errno, NULL, "close pipe: ", NULL);
 		pipe_to_close = UNSET;
 	}
 }
@@ -36,7 +34,7 @@ int		ms_pipe(int pipe_fd[2])
 	if (ret == FAILURE)
 	{
 		print_set_errno(errno, NULL, NULL, NULL);
-		exit_routine(EXIT_NORMAL);
+		exit_routine(EXIT_UNKNOWN);
 	}
 	return (ret);
 }
@@ -50,7 +48,7 @@ int		ms_dup2(int old_fd, int new_fd)
 	if (ret == FAILURE || ret != new_fd)
 	{
 		print_set_errno(errno, NULL, NULL, NULL);
-		exit_routine(EXIT_NORMAL);
+		exit_routine(EXIT_UNKNOWN);
 	}
 	return (ret);
 }
@@ -64,7 +62,7 @@ int		ms_dup(int old_fd)
 	if (ret == FAILURE)
 	{
 		print_set_errno(errno, NULL, NULL, NULL);
-		exit_routine(EXIT_NORMAL);
+		exit_routine(EXIT_UNKNOWN);
 	}
 	return (ret);
 }

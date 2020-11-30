@@ -4,16 +4,19 @@ static void	print_exit_error(int error)
 {
 	static const int	err_code[NB_EXIT_CODES] = {
 		EXIT_ENV, EXIT_NEW_VCT, EXIT_VCT, EXIT_ENVP, EXIT_SCREEN_SIZE,
-		EXIT_TERM_NAME, EXIT_TERMCAP, EXIT_MALLOC, EXIT_FORK, EXIT_HUP,
-		EXIT_MS_PUTCHAR,EXIT_MS_TPUTS, EXIT_UNKNOWN };
+		EXIT_TERM_NAME, EXIT_TERMCAP, EXIT_TERMLIB, EXIT_MALLOC, EXIT_FORK,
+		EXIT_HUP, EXIT_MS_PUTCHAR,EXIT_MS_TPUTS, EXIT_NO_TTY, EXIT_UNKNOWN };
 	static const char	*err_code_str[NB_EXIT_CODES] = {
 		"Could not load environement variables.", "Could not malloc vector.",
 		"Vector function failed.", "Envp is null.", "Screen size is too small.",
 		"TERM environment variable not set.",
 		"Minishell is not (yet) compatible to this Terminal",
+		"Could not retrieve terminal capabilities",
 		"Malloc could not allocate memory.", "Could not fork a child process.",
 		"Received a Hang Up signal.", "Could not write on stdout",
-		"Could not output termcaps", "Minishell encountered and error." };
+		"Could not output termcaps",
+		"No tty: please use Minishell without line edition",
+		"Minishell encountered and error." };
 	int					i;
 
 	i = 0;

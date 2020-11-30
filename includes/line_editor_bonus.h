@@ -77,7 +77,7 @@
 *****  LINE EDITOR TERNCAPS ******
 **********************************/
 
-# define	NB_ESSENTIAL_TERMCAP	11
+# define	NB_ESSENTIAL_TERMCAP	12
 # define	NB_OPTIONAL_TERMCAP		4
 
 enum	e_essential_termcap
@@ -92,6 +92,7 @@ enum	e_essential_termcap
 	ONE_ROW_DOWN,
 	ONE_ROW_UP,
 	MOVE_X_ROWS_UP,
+	CURSOR_POSITION_REQUEST,
 	RETURN_CARRIAGE
 };
 

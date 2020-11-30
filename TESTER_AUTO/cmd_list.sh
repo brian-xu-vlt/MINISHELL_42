@@ -179,6 +179,7 @@ test_correction_exec () {
 	test ""
 	test " "
 
+
 	tmp_extra_env=$EXTRA_ENV
 	EXTRA_ENV='PATH=":"'
 	test "echo \$PATH ; ls"
@@ -930,6 +931,7 @@ test_correction_pipes() {
 	test "echo aaa | cat"
 	test "ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls"
 	test "ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |aaaaaaaaaaaa |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls |ls"
+	test "fake1|fake2|fake3|fake4|fake5|fake6fake1|fake2|fake3|fake4|fake5|fake6fake1|fake2|fake3|fake4|fake5|fake6fake1|fake2|fake3|fake4|fake5|fake6fake1|fake2|fake3|fake4|fake5|fake6"
 	test "true | false | true"
 	test "false | false | true"
 	test "cat | cat | cat | grep 42"
