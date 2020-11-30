@@ -56,7 +56,7 @@ int	export_builtin(int ac, char **av, char **envp)
 			export_loop(av);
 	}
 	if (ac == 1)
-		print_export_output(get_env_list(GET));
+		print_export_output(get_env_list(GET), F_EXPORT_OUTPUT);
 	export_envp(envp);
 	if (errno == EINVAL)
 		return (1);

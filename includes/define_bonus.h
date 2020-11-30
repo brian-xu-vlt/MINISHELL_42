@@ -184,11 +184,14 @@
 #define PARSER_FALSE					1
 #define RETLONG_TRUE					2
 
+#define F_EXPORT_OUTPUT				1
+#define F_SET_OUTPUT				2
+
 /******************************************************************************/
 /*******************************_EXECUTOR_*************************************/
 /******************************************************************************/
 #define	NB_FD					3
-#define	NB_BUILTIN				8
+#define	NB_BUILTIN				9
 #define	NB_SIG					5
 #define	NB_SIG_STR				15
 

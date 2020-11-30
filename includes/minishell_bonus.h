@@ -313,6 +313,7 @@ void	print_invalid_option(const char *function_name,
 /*******************************_BUILTINS_*************************************/
 /******************************************************************************/
 
+int		set_builtin(int ac, char **av, char **envp);
 int		history_builtin(int ac, char **av, char **envp);
 int		exit_builtin(int ac, char **av, char **envp);
 int		env_builtin(int argc, char **argv, char **envp);
@@ -376,7 +377,7 @@ void		init_env(void);
 
 void		print_env(t_list *env_lst);
 void		add_to_btree(t_btree **tree, t_env *env);
-void		print_export_output(t_list *env_lst);
+void		print_export_output(t_list *env_lst, int flag);
 
 t_list		*get_env_list(t_list *mem);
 t_env		*get_env_struct(t_list *env_lst, const char *env_name);
