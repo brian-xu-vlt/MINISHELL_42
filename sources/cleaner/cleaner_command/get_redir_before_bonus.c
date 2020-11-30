@@ -2,9 +2,6 @@
 
 void	how_increment(t_cmd *cmd, size_t *i)
 {
-	size_t tmp_i;
-
-	tmp_i = 0;
 	while (*i < (size_t)cmd->ac)
 	{
 		if (ft_strequ(LESS_THAN, cmd->av[*i]) == TRUE ||
