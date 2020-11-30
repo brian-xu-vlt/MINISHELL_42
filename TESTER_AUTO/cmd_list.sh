@@ -790,9 +790,9 @@ test_correction_cd() {
 	print_separator '█'
 	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
-	EXTRA_ENV="HOME=$HOME"
+	tmp_extra_env=$EXTRA_ENV
+	EXTRA_ENV+="HOME=$HOME OLDPWD=$OLDPWD PWD=$PWD"
 	test "cd"
-	unset EXTRA_ENV
 
 	test "cd"
 	test "cd ../ ; /bin/ls"
@@ -810,15 +810,20 @@ test_correction_cd() {
 	test "cd /tmp ; cd - ; /bin/ls"
 	test "cd Makefile"
 	test "cd -x"
+	test "cd /tmp ; cd - >file; ls -l /tmp/file ; rm -rf /tmp/file"
+	unset EXTRA_ENV
+	EXTRA_ENV=$tmp_extra_env
+	test "cd"
+
 }
 
 test_correction_pwd() {
 	print_separator '█'
 	echo -e "\n\n\e[34m \e[1m 🌈 [$FUNCNAME]\n \e[0m"
 
-	EXTRA_ENV="HOME=$HOME"
+	tmp_extra_env=$EXTRA_ENV
+	EXTRA_ENV+="HOME=$HOME OLDPWD=$OLDPWD PWD=$PWD"
 	test "pwd"
-	unset EXTRA_ENVtest "pwd"
 
 	test "pwd"
 	test "pwd -X"
@@ -836,6 +841,9 @@ test_correction_pwd() {
 	test "rm -rf /tmp/aaa ; mkdir -p /tmp/aaa ; cd /tmp/aaa ; chmod 000 /tmp/aaa ; pwd"
 	test "rm -rf /tmp/aaa ; mkdir -p /tmp/aaa/bbb ; cd /tmp/aaa/bbb ; rm -rf /tmp/aaa ; pwd"
 	test "cd /tmp ; cd - ; pwd"
+	unset EXTRA_ENV
+	EXTRA_ENV=$tmp_extra_env
+	test "pwd"
 }
 
 test_correction_PATH() {
@@ -1055,7 +1063,7 @@ main () {
 	# test_correction_arg
 	# test_correction_echo
 	# test_correction_exit
-	test_correction_exec
+	# test_correction_exec
 	# test_correction_return
 	# test_correction_semicolons
 	# test_correction_baskslashs
@@ -1070,10 +1078,10 @@ main () {
 
 	# test_correction_exp
 
-	# test_correction_cd
+	test_correction_cd
 
-	# test_correction_pwd
-	# test_correction_PATH
+	test_correction_pwd
+	test_correction_PATH
 	# test_correction_simple_quotes
 	# test_correction_redirect
 	# test_correction_pipes

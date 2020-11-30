@@ -65,7 +65,7 @@ int		exit_builtin(int ac, char **av, __attribute__((unused)) char **envp)
 
 	if (ac == 1)
 	{
-		ft_printf("%s\n", EXIT);
+		ft_dprintf(STDERR_FILENO, "%s\n", EXIT);
 		exit_routine(EXIT_NORMAL);
 	}
 	vct_av = safe_vct_new();
