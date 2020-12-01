@@ -10,12 +10,6 @@
 /******************************************************************************/
 
 # include "libft.h"
-# include "define_bonus.h"
-# include "enum_bonus.h"
-# include "lexer_bonus.h"
-# include "line_editor_bonus.h"
-# include "struct_bonus.h"
-# include "parser_bonus.h"
 # include <stdio.h> //A ENLEVER POUR PRINTF
 # include <string.h>
 # include <errno.h>
@@ -29,6 +23,12 @@
 # include <limits.h>
 # include <signal.h>
 # include <dirent.h>
+# include "define_bonus.h"
+# include "enum_bonus.h"
+# include "lexer_bonus.h"
+# include "line_editor_bonus.h"
+# include "struct_bonus.h"
+# include "parser_bonus.h"
 
 /******************************************************************************/
 /*******************************_FUNCTION_*************************************/

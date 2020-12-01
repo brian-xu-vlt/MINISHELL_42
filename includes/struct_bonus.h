@@ -73,8 +73,7 @@ typedef struct				s_cmd
 	char					**tab_redir_before;
 	size_t					i_assign;
 	size_t					i_exp;
-
-
+	bool					err_exit;
 }
 							t_cmd;
 

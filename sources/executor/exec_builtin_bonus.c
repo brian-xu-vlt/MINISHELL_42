@@ -20,6 +20,8 @@ int	exec_builtin(t_cmd *cmd)
 		if (ft_strequ((char *)cmd->name, (char *)builtin_names[i]) == TRUE)
 		{
 			ret_value = (builtin[i])(cmd->ac, cmd->av, cmd->envp);
+			if (ft_strequ(cmd->name, "exit") == true && ret_value == EXIT_FAIL)
+				cmd->err_exit = true;
 			return (ret_value);
 		}
 		i++;
