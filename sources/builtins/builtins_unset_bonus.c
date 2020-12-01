@@ -27,10 +27,7 @@ static bool	is_valid_identifier(char *av_to_check)
 	char				c_last;
 
 	vct = safe_vct_new();
-	if (vct == NULL)
-		exit_routine(EXIT_MALLOC);
-	if (safe_vct_addstr(vct, av_to_check) == FAILURE)
-		exit_routine(EXIT_MALLOC);
+	safe_vct_addstr(vct, av_to_check);
 	c_first = vct_getfirstchar(vct);
 	c_last = vct_getcharat(vct, vct_getlen(vct) - 1);
 	if (c_last == C_EXP || ft_isdigit(c_first) == true)
