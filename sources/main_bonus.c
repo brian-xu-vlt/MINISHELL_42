@@ -56,10 +56,10 @@ static void	check_std_fd(void)
 {
 	struct stat	wstat;
 
-	if (isatty(STDOUT_FILENO) == false)										// BONUS ONLY
+	/*if (isatty(STDOUT_FILENO) == false)										// BONUS ONLY
 		exit_routine(EXIT_NO_TTY);
 	if (isatty(STDIN_FILENO) == false)										// BONUS ONLY
-		exit_routine(EXIT_NO_TTY);
+		exit_routine(EXIT_NO_TTY);*/
 
 	if ((write(STDOUT_FILENO, "", 0) == FAILURE)
 	|| (write(STDERR_FILENO, "", 0) == FAILURE)
@@ -110,8 +110,6 @@ int			main(int ac, char **av)
 	jobs = NULL;
 	ret_read = 1;
 	cmd_line = safe_vct_new();
-	if (cmd_line == NULL)
-		exit_routine(EXIT_MALLOC);
 	data->cmd_line = cmd_line;
 
 	init_env();

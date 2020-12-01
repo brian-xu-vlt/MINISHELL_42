@@ -16,8 +16,7 @@ static t_env	*store_new_env(t_list *env_lst, const char *env_name,
 		new_env->env_value = safe_vct_new();
 		if (new_env->env_value == NULL)
 			exit_routine(EXIT_MALLOC);
-		if (safe_vct_addstr(new_env->env_value, (char *)env_value) == FAILURE)
-			exit_routine(EXIT_MALLOC);
+		safe_vct_addstr(new_env->env_value, (char *)env_value);
 	}
 	if (env_lst->content == NULL)
 		env_lst->content = new_env;
@@ -33,12 +32,9 @@ static void		update_existing_env(t_env *env_struct,
 	{
 		if (env_struct->env_value == NULL)
 			env_struct->env_value = safe_vct_new();
-		if (env_struct->env_value == NULL)
-			exit_routine(EXIT_MALLOC);
 		if (flags &= F_OVERWRITE)
 			vct_clear(env_struct->env_value);
-		if (safe_vct_addstr(env_struct->env_value, (char *)new_env_value) == FAILURE)
-			exit_routine(EXIT_MALLOC);
+		safe_vct_addstr(env_struct->env_value, (char *)new_env_value);
 	}
 }
 

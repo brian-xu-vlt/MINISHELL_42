@@ -36,8 +36,6 @@ void		print_invalid_identifier(const char *function_name,
 	t_vector			*tmp_err_src;
 
 	tmp_err_src = safe_vct_new();
-	if (tmp_err_src == NULL)
-		exit_routine(EXIT_MALLOC);
 	safe_vct_add(tmp_err_src, '`');
 	safe_vct_addstr(tmp_err_src, (char *)error_source);
 	safe_vct_add(tmp_err_src, '\'');
