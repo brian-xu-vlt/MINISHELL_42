@@ -85,6 +85,7 @@ static int	reader(void)
 {
 	int			ret_read;
 
+	ret_read = 0;
 	if (DEBUG_MODE != TRUE)
 	{
 		signal_manager(SIG_MODE_CMD_LINE);
@@ -116,7 +117,6 @@ static int exit_main()
 		free(data);
 	}
 	vct_readline(NULL, -42);
-	// ft_printf("exit\n");
 	return (last_exit_status);
 }
 
@@ -145,16 +145,21 @@ int			main(int ac, char **av)
 	while (ret_read > 0)
 	{
 		ret_read = reader();
-		jobs = process_minishell(cmd_line);
-		if (jobs != NULL)
+		if (vct_getlen(cmd_line) > 0)
 		{
-			data->current_jobs = jobs;
-			if (hub_cleaner(jobs) == FAILURE)
-				exit_routine(EXIT_MALLOC);
-			free_list_job(&jobs);
-			data->current_jobs = NULL;
-			vct_clear(cmd_line);
+			jobs = process_minishell(cmd_line);
+			if (jobs != NULL)
+			{
+				data->current_jobs = jobs;
+				if (hub_cleaner(jobs) == FAILURE)
+					exit_routine(EXIT_MALLOC);
+				free_list_job(&jobs);
+				data->current_jobs = NULL;
+				vct_clear(cmd_line);
+			}
 		}
 	}
+	if (DEBUG_MODE != true)
+		ft_dprintf(STDERR_FILENO, "%s\n", EXIT);
 	return (exit_main());
 }

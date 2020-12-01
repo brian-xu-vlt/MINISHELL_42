@@ -37,7 +37,6 @@ int		is_solo_builtin(const size_t nb_cmd, t_cmd *command)
 		return (true);
 	}
 	return (false);
-	// return (nb_cmd == 1 && is_builtin(command) == TRUE);
 }
 
 int		is_last_cmd(const int cmd_index, const int nb_cmd)
