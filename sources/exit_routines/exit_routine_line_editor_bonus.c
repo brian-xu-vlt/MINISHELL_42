@@ -38,5 +38,8 @@ void		exit_routine_line_edition(t_le *le, int err_code)
 			free(le->cmd_line_backup);
 		vct_del(&le->clipboard);
 		free_history_list(le);
+		free(le->termios_editor);
+		free(le->termios_bkup);
+		free(le);
 	}
 }
