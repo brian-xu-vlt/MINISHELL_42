@@ -245,8 +245,9 @@
 # define	EXIT_MS_TPUTS 				-14
 # define	EXIT_SHLVL_MAX 				-15
 # define	EXIT_NO_TTY 				-16
-# define	EXIT_UNKNOWN 				-17
+# define	EXIT_ERRNO	 				-17
+# define	EXIT_UNKNOWN 				-18
 
-# define	NB_EXIT_CODES				17
+# define	NB_EXIT_CODES				18
 
 #endif

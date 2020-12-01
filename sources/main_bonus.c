@@ -15,7 +15,7 @@ static int	read_loop(void)
 	if ((read_ret = vct_readline(data->cmd_line, 0)) == FAILURE)
 	{
 		print_set_errno(errno, NULL, NULL, NULL);
-		exit_routine(EXIT_NORMAL);
+		exit_routine(EXIT_ERRNO);
 	}
 	return (read_ret);
 }
@@ -56,10 +56,15 @@ static void	check_std_fd(void)
 {
 	struct stat	wstat;
 
+	if (isatty(STDOUT_FILENO) == false)										// BONUS ONLY
+		exit_routine(EXIT_NO_TTY);
+	if (isatty(STDIN_FILENO) == false)										// BONUS ONLY
+		exit_routine(EXIT_NO_TTY);
+
 	if ((write(STDOUT_FILENO, "", 0) == FAILURE)
 	|| (write(STDERR_FILENO, "", 0) == FAILURE)
 	|| (fstat(STDIN_FILENO, &wstat) != 0))
-	  	exit(0);
+		exit_routine(EXIT_NO_TTY);
 }
 
 static t_data	*init_data_struct(void)

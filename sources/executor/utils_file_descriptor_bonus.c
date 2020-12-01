@@ -34,7 +34,7 @@ int		ms_pipe(int pipe_fd[2])
 	if (ret == FAILURE)
 	{
 		print_set_errno(errno, NULL, NULL, NULL);
-		exit_routine(EXIT_UNKNOWN);
+		exit_routine(EXIT_ERRNO);
 	}
 	return (ret);
 }
@@ -48,7 +48,7 @@ int		ms_dup2(int old_fd, int new_fd)
 	if (ret == FAILURE || ret != new_fd)
 	{
 		print_set_errno(errno, NULL, NULL, NULL);
-		exit_routine(EXIT_UNKNOWN);
+		exit_routine(EXIT_ERRNO);
 	}
 	return (ret);
 }
@@ -62,7 +62,7 @@ int		ms_dup(int old_fd)
 	if (ret == FAILURE)
 	{
 		print_set_errno(errno, NULL, NULL, NULL);
-		exit_routine(EXIT_UNKNOWN);
+		exit_routine(EXIT_ERRNO);
 	}
 	return (ret);
 }
