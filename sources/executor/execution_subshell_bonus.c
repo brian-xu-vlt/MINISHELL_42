@@ -5,6 +5,8 @@ static void	child_process(t_cmd *cmd, int p_in[2], int p_out[2])
 	int		ret;
 
 	ret = 1;
+	if (cmd->ac == 0 && cmd->count_assign != 0)
+		assign_envp_content(cmd);
 	if ((cmd->redirection & F_REDIRECT_FAILURE) == false)
 	{
 		signal_manager(SIG_MODE_DEFAULT);

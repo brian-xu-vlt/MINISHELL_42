@@ -36,8 +36,6 @@ void		print_invalid_identifier(const char *function_name,
 	t_vector			*tmp_err_src;
 
 	tmp_err_src = safe_vct_new();
-	if (tmp_err_src == NULL)
-		exit_routine(EXIT_MALLOC);
 	safe_vct_add(tmp_err_src, '`');
 	safe_vct_addstr(tmp_err_src, (char *)error_source);
 	safe_vct_add(tmp_err_src, '\'');
@@ -49,7 +47,7 @@ void		print_set_errno(int errno_value, const char *err_str,
 						const char *function_name, const char *error_source)
 {
 	errno = errno_value;
-	dup2(STDERR_FILENO, STDOUT_FILENO);  // WTF ??!!
+	dup2(STDERR_FILENO, STDOUT_FILENO);
 	put_error("Minishell", TRUE);
 	if (function_name != NULL)
 		put_error(function_name, TRUE);
