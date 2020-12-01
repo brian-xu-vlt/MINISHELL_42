@@ -65,6 +65,6 @@ void		exit_routine(int err_code)
 		exit (absolute_err_code(err_code));
 	}
 	// else
-		// ft_printf("exit\n");
+	// 	ft_printf("exit\n");
 	exit (last_exit_status);
 }

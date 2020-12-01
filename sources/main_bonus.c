@@ -98,6 +98,28 @@ static int	reader(void)
 	return (ret_read);
 }
 
+static int exit_main()
+{
+	int			last_exit_status;
+	t_data		*data;
+
+	last_exit_status = get_env_value_int(get_env_list(GET), S_QUESTION_MARK);
+	data = get_data_struct(GET);
+	if (data != NULL)
+	{
+		if (data->cmd_line != NULL)
+			vct_del(&data->cmd_line);
+		exit_routine_line_edition(data->line_editor_data, EXIT_NORMAL);
+		exit_routine_env();
+		if (data->current_jobs != NULL)
+			free_list_job(&data->current_jobs);
+		free(data);
+	}
+	vct_readline(NULL, -42);
+	ft_printf("exit\n");
+	return (last_exit_status);
+}
+
 int			main(int ac, char **av)
 {
 	t_vector	*cmd_line;
@@ -134,6 +156,5 @@ int			main(int ac, char **av)
 			vct_clear(cmd_line);
 		}
 	}
-	exit_routine(EXIT_NORMAL);
-	return (EXIT_SUCCESS);
+	return (exit_main());
 }
