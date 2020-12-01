@@ -19,7 +19,7 @@ int			exec_binary(const t_cmd *command)
 
 	errno = 0;
 	ret = 127;
-	if (command->ac <= 0)
+	if (command->ac < 1)
 		return (0);
 	bin_full_path = locate_binary_file(command->name);
 	if (errno == EISDIR)
