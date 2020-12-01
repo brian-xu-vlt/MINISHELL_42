@@ -15,7 +15,7 @@ void	handle_exit_value(t_vector *vct_av, t_vector *vct_av_cpy, char c)
 
 int		print_error(t_vector *vct_av, char *av, char c, int flag)
 {
-	ft_printf("%s\n", EXIT);
+	// ft_printf("%s\n", EXIT);
 	if (vct_getlen(vct_av) == 0 && (flag == (NUM | MINUS_PLUS)))
 		print_set_errno(0, ERR_NUM, EXIT, c == C_PLUS ? S_PLUS : S_MINUS);
 	else if (flag == NUM || (vct_getlen(vct_av) != 0 &&
@@ -64,7 +64,7 @@ int		exit_builtin(int ac, char **av, __attribute__((unused)) char **envp)
 
 	if (ac == 1)
 	{
-		ft_dprintf(STDERR_FILENO, "%s\n", EXIT);
+		// ft_dprintf(STDERR_FILENO, "%s\n", EXIT);
 		exit_routine(EXIT_NORMAL);
 	}
 	vct_av = safe_vct_new();
@@ -76,10 +76,6 @@ int		exit_builtin(int ac, char **av, __attribute__((unused)) char **envp)
 	ret = check_arg(vct_av, c, av[1], ac);
 	if (ret > 2)
 	{
-		/*si le retour est 3, renvoie Brian doit savoir que 3 veut dire que EXIT
-			a fail car trop d'arguments, donc si il recoit 3 et qu'il s'agit de EXIT,
-			set a 3 comme ca dans le hub cleaner je vois que ca vient de EXIT et si pas de commande,
-			je n'execute pas les autres jobs et donc je resesources/builtins/builtins_history_bonus.cte ensuite la valeur a 2 ?*/
 		vct_del(&vct_av);
 		return (EXIT_FAIL);
 	}

@@ -276,7 +276,7 @@ int		is_path(const char *bin_name);
 
 int		is_valid_job(const t_job *job);
 int		is_last_cmd(const int cmd_index, const int nb_cmd);
-int		is_solo_builtin(const size_t nb_cmd, const t_cmd *command);
+int		is_solo_builtin(const size_t nb_cmd, t_cmd *command);
 int		manage_subshell_exit_status(const int wstatus);
 int		ms_dup(int old_fd);
 int		ms_dup2(int old_fd, int new_fd);

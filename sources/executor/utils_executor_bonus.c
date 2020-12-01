@@ -29,9 +29,15 @@ pid_t	fork_process(void)
 	return (pid_ret);
 }
 
-int		is_solo_builtin(const size_t nb_cmd, const t_cmd *command)
+int		is_solo_builtin(const size_t nb_cmd, t_cmd *command)
 {
-	return (nb_cmd == 1 && is_builtin(command) == TRUE);
+	if (nb_cmd == 1 && is_builtin(command) == TRUE)
+	{
+		command->solo_builtin = true;
+		return (true);
+	}
+	return (false);
+	// return (nb_cmd == 1 && is_builtin(command) == TRUE);
 }
 
 int		is_last_cmd(const int cmd_index, const int nb_cmd)
