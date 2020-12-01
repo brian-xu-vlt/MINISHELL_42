@@ -64,7 +64,6 @@ void		exit_routine(int err_code)
 		print_exit_error(err_code);
 		exit (absolute_err_code(err_code));
 	}
-	// else
-	// 	ft_printf("exit\n");
+	// ft_dprintf(STDERR_FILENO, "exit_from_exit_routine\n");
 	exit (last_exit_status);
 }

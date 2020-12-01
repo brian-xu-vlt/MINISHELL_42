@@ -11,6 +11,7 @@ static void	create_cmd_second(t_cmd *cmd, t_cmd *cmd_model)
 	cmd->tmp_fd_append = 1;
 	cmd->tab_redir = NULL;
 	cmd->count_redir = 0;
+	cmd->err_exit = false;
 }
 
 t_cmd		*create_cmd(t_cmd *cmd_model)

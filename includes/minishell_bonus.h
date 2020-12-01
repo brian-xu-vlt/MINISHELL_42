@@ -10,12 +10,6 @@
 /******************************************************************************/
 
 # include "libft.h"
-# include "define_bonus.h"
-# include "enum_bonus.h"
-# include "lexer_bonus.h"
-# include "line_editor_bonus.h"
-# include "struct_bonus.h"
-# include "parser_bonus.h"
 # include <stdio.h> //A ENLEVER POUR PRINTF
 # include <string.h>
 # include <errno.h>
@@ -29,6 +23,12 @@
 # include <limits.h>
 # include <signal.h>
 # include <dirent.h>
+# include "define_bonus.h"
+# include "enum_bonus.h"
+# include "lexer_bonus.h"
+# include "line_editor_bonus.h"
+# include "struct_bonus.h"
+# include "parser_bonus.h"
 
 /******************************************************************************/
 /*******************************_FUNCTION_*************************************/
@@ -276,7 +276,7 @@ int		is_path(const char *bin_name);
 
 int		is_valid_job(const t_job *job);
 int		is_last_cmd(const int cmd_index, const int nb_cmd);
-int		is_solo_builtin(const size_t nb_cmd, const t_cmd *command);
+int		is_solo_builtin(const size_t nb_cmd, t_cmd *command);
 int		manage_subshell_exit_status(const int wstatus);
 int		ms_dup(int old_fd);
 int		ms_dup2(int old_fd, int new_fd);

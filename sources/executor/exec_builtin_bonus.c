@@ -1,6 +1,13 @@
 #include "minishell_bonus.h"
 
-int	exec_builtin(t_cmd *cmd)
+static void	print_exit(t_cmd *cmd)
+{
+	if (ft_strequ(cmd->name, "exit") == true
+								&& cmd->ac >= 1 && cmd->solo_builtin == true)
+		ft_dprintf(STDERR_FILENO, "%s\n", EXIT);
+}
+
+int			exec_builtin(t_cmd *cmd)
 {
 	int					i;
 	int					ret_value;
@@ -19,7 +26,10 @@ int	exec_builtin(t_cmd *cmd)
 	{
 		if (ft_strequ((char *)cmd->name, (char *)builtin_names[i]) == TRUE)
 		{
+			print_exit(cmd);
 			ret_value = (builtin[i])(cmd->ac, cmd->av, cmd->envp);
+			if (ft_strequ(cmd->name, "exit") == true && ret_value == EXIT_FAIL)
+				cmd->err_exit = true;
 			return (ret_value);
 		}
 		i++;

@@ -19,6 +19,8 @@ void	init_all(t_cmd *cmd)
 	cmd->i_assign = 0;
 	cmd->i_exp = 0;
 	cmd->ac = 0;
+	cmd->err_exit = false;
+	cmd->solo_builtin = false;
 }
 
 void	create_cmd_fd_string(t_cmd *cmd, t_cmd *cmd_model)
