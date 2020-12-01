@@ -8,11 +8,13 @@ void	update_window_size(void)
 	t_le			*le;
 
 	le = get_struct(GET);
-	if (DEBUG_MODE != TRUE && le != NULL)
+	if (le != NULL && isatty(STDIN_FILENO) == false)
+		exit_routine(EXIT_NO_TTY);
+	else if (le != NULL)
 	{
 		ret = ioctl(STDIN_FILENO, TIOCGWINSZ, &w_size);
 		if (ret == FAILURE)
-			exit_routine(EXIT_NORMAL);
+			exit_routine(EXIT_NO_TTY);
 		le->srows = w_size.ws_row;
 		le->scols = w_size.ws_col;
 	}

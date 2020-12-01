@@ -31,7 +31,7 @@ static enum e_state_redir	in_redir(char *str, enum e_token_type type)
 	return (E_IN_FILE);
 }
 
-int							create_tab_redir(t_cmd *cmd, t_clean_cmd *clean_cmd)
+int							create_tab_redir(t_cmd *cmd, t_clean_cmd *cl)
 {
 	static t_state_redir	function_state[] = {in_redir, in_file, in_out};
 	enum e_state_redir		state;
@@ -39,24 +39,21 @@ int							create_tab_redir(t_cmd *cmd, t_clean_cmd *clean_cmd)
 
 	state = E_IN_OUT;
 	i = 0;
-	clean_cmd->tmp_tab_redir = (char **)malloc(sizeof(char *) * cmd->ac);
-	if (clean_cmd->tmp_tab_redir == NULL)
+	cl->tmp_tab_redir = (char **)malloc(sizeof(char *) * cmd->ac);
+	if (cl->tmp_tab_redir == NULL)
 		return (FAILURE);
 	while (i < (size_t)cmd->ac)
 	{
-		clean_cmd->tmp_tab_redir[i] = NULL;
-		state = function_state[state](cmd->av[i],
-					cmd->type[clean_cmd->index_cmd]);
+		cl->tmp_tab_redir[i] = NULL;
+		state = function_state[state](cmd->av[i], cmd->type[cl->index_cmd]);
 		if (state == E_IN_REDIR || state == E_IN_FILE)
 		{
 			if (cmd->av[i] != NULL)
-				clean_cmd->tmp_tab_redir[i] = ft_strdup(cmd->av[i]);
-			if (cmd->av[i] == NULL)
-				clean_cmd->tmp_tab_redir[i] = NULL;
+				cl->tmp_tab_redir[i] = ft_strdup(cmd->av[i]);
 			free(cmd->av[i]);
 			cmd->av[i] = NULL;
 		}
-		clean_cmd->index_cmd++;
+		cl->index_cmd++;
 		i++;
 	}
 	return (SUCCESS);

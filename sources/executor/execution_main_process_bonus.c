@@ -42,7 +42,7 @@ int			execution_main_process(t_job *job, t_cmd *cmd,
 {
 	int			ret;
 
-	if (cmd->ac == 0)
+	if (cmd->ac < 1)
 		return (0);
 	backup_std_fd(STDFD_STORE);
 	dup_redirection(cmd);

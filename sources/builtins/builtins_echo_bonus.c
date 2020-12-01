@@ -10,7 +10,6 @@ static void	echo_loop(char **av)
 		if (av_len > 0)
 			ft_putstr_fd(*av, STDOUT_FILENO);
 		av++;
-		// if (*av != NULL && av_len > 0)
 		if (*av != NULL)
 			ft_putchar_fd(' ', STDOUT_FILENO);
 	}
@@ -52,7 +51,7 @@ int			echo_builtin(int ac, char **av, __attribute__((unused)) char **envp)
 		}
 		echo_loop(av);
 	}
-	if (new_line_flag == TRUE)
+	if (new_line_flag == true)
 		ft_putchar_fd('\n', STDOUT_FILENO);
 	return (0);
 }

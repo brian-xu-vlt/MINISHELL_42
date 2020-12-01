@@ -286,6 +286,7 @@ pid_t	fork_process(void);
 void	dup_pipes(t_cmd *command, int p_in[2], int p_out[2]);
 int		is_builtin(const t_cmd *command);
 
+void	display_signal_str(int sig);
 /******************************************************************************/
 /*******************************_GENERAL_UTILES_*******************************/
 /******************************************************************************/
@@ -393,8 +394,9 @@ void		parser_debug(t_token *token);
 /*******************************_ENV_MANAGER_**********************************/
 /******************************************************************************/
 
+
 void		exit_routine(int err_code);
-void		exit_routine_line_edition(t_le *le);
+void		exit_routine_line_edition(t_le *le, int err_code);
 void		exit_routine_env(void);
 
 #endif

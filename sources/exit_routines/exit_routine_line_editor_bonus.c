@@ -23,20 +23,19 @@ static int	ft_putchar(int c)
 
 static void	exit_routine_reset_terminal(t_le *le)
 {
-	if (le->termcap[VISIBLE_CURSOR] != NULL)
-		tputs(le->termcap[VISIBLE_CURSOR], 1, ft_putchar);
-	if (le->termios_bkup != NULL)
-		tcsetattr(STDIN_FILENO, TCSADRAIN, le->termios_bkup);
+	tputs(le->termcap[VISIBLE_CURSOR], 1, ft_putchar);
+	if (le != NULL && le->termios_bkup != NULL)
+		tcsetattr(STDIN_FILENO, TCSAFLUSH, le->termios_bkup);
 }
 
-void		exit_routine_line_edition(t_le *le)
+void		exit_routine_line_edition(t_le *le, int err_code)
 {
 	if (le != NULL)
 	{
-		exit_routine_reset_terminal(le);
+		if (err_code != EXIT_NORMAL)
+			exit_routine_reset_terminal(le);
 		if (le->cmd_line_backup != NULL)
 			free(le->cmd_line_backup);
-		// vct_del(&le->cmd_line);
 		vct_del(&le->clipboard);
 		free_history_list(le);
 	}

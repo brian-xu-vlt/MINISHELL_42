@@ -35,6 +35,7 @@ static int	process_clean_command(t_cmd *cmd)
 	index_cmd = get_cmd(cmd);
 	if (index_cmd == ONLY_REDIR_BEFORE)
 	{
+		cmd->ac = 0;
 		free_clean_command(clean_cmd, FREE_ONLY_CMD);
 		return (SUCCESS);
 	}

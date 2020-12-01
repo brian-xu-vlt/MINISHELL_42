@@ -6,12 +6,11 @@ static const char	*ms_strsignal(int sig)
 	static const int	sig_list[NB_SIG_STR] = {
 		SIGABRT, SIGBUS, SIGSEGV, SIGHUP, SIGQUIT,
 		SIGILL, SIGKILL, SIGSTOP, SIGCONT,
-		SIGTSTP, SIGTERM, SIGPOLL };
+		SIGTSTP, SIGTERM };
 	static const char	*sig_str[NB_SIG_STR] = {
 		"Abort", "Bus Error", "Segmentation Fault", "Hangup", "Quit",
-		"Alarm clock", "Virtual Alarm clock", "Profiling timer expired",
 		"Illegal instruction", "Killed", "Stop process", "Continue Process",
-		"Stop typed at terminal", "Termination signal", "I/O possible" };
+		"Stop typed at terminal", "Termination signal" };
 
 	i = 0;
 	while (i < NB_SIG_STR)
@@ -23,7 +22,7 @@ static const char	*ms_strsignal(int sig)
 	return (NOT_FOUND);
 }
 
-static void			display_signal_str(int sig)
+void				display_signal_str(int sig)
 {
 	const char			*sig_str;
 

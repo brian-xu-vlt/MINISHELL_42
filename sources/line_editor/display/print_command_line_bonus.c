@@ -17,7 +17,7 @@ static ssize_t	safe_write(int fd, const void *buf, size_t nbyte)
 	if (ret == FAILURE)
 	{
 		print_set_errno(errno, NULL, NULL, NULL);
-		exit_routine(EXIT_NORMAL);
+		exit_routine(EXIT_ERRNO);
 	}
 	return (ret);
 }

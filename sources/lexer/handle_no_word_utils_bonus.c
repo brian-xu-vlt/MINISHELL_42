@@ -24,21 +24,21 @@ bool	stop_assign_char(char c)
 				? true : false);
 }
 
-bool		is_end(t_vector *input)
+bool	is_end(t_vector *input)
 {
 	const char	c = vct_getfirstchar(input);
 
 	return (stop_assign_char(c) == true || stop_assign_str(input) == true);
 }
 
-bool		is_simplequote(t_vector *input)
+bool	is_simplequote(t_vector *input)
 {
 	const char	c = vct_getfirstchar(input);
 
 	return (c == C_SIMPLE_QUOTE);
 }
 
-bool		is_doublequote(t_vector *input)
+bool	is_doublequote(t_vector *input)
 {
 	const char	c = vct_getfirstchar(input);
 

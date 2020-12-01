@@ -1,8 +1,7 @@
 #include "minishell_bonus.h"
 
-static void	newprompt_at_signal(int sig)
+static void	newprompt_at_signal(__attribute__((unused)) int sig)
 {
-	(void)sig;
 	if (DEBUG_MODE != TRUE)
 		ft_putstr_fd("^C\n", STDOUT_FILENO);
 	else
@@ -11,10 +10,8 @@ static void	newprompt_at_signal(int sig)
 	ms_setenv_int(get_env_list(GET), "?", 130, F_OVERWRITE);
 }
 
-static void	no_bonus_quit_handler(int sig)
+static void	quiet_signal(__attribute__((unused))  int sig)
 {
-	(void)sig;
-//	return ;												// TODO: pick one solution
 	ft_putchar_fd('\b', STDOUT_FILENO);
 	ft_putchar_fd('\b', STDOUT_FILENO);
 	ft_putchar_fd(127, STDOUT_FILENO);
@@ -25,9 +22,8 @@ static void	no_bonus_quit_handler(int sig)
 
 static void	exit_at_signal(int sig)
 {
-	(void)sig;
+	display_signal_str(sig);
 	exit_routine(EXIT_NORMAL);
-	//exit_routine_le("exit");
 }
 
 static void	update_cursor_infos(void)
@@ -43,9 +39,8 @@ static void	update_cursor_infos(void)
 	}
 }
 
-static void	window_at_signal(int sig)
+static void	window_at_signal(__attribute__((unused))int sig)
 {
-	(void)sig;
 	update_window_size();
 	update_cursor_infos();
 }
@@ -55,13 +50,13 @@ void		signal_manager(int set_mode)
 	int					i;
 	static const int	sig_list[NB_SIG] = {
 		SIGHUP, SIGINT, SIGQUIT,
-		SIGTERM, SIGWINCH	};
+		SIGTERM, SIGWINCH, SIGTSTP };
 	static void			(*handlers_mode_cmd_line[NB_SIG])(int) = {
 		exit_at_signal, newprompt_at_signal, SIG_IGN,
-		exit_at_signal, window_at_signal };
+		exit_at_signal, window_at_signal, quiet_signal};
 	static void			(*handlers_mode_cmd_line_no_bonus[NB_SIG])(int) = {
-		exit_at_signal, newprompt_at_signal, no_bonus_quit_handler,
-		exit_at_signal, window_at_signal };
+		exit_at_signal, newprompt_at_signal, quiet_signal,
+		exit_at_signal, window_at_signal, quiet_signal};
 
 	i = 0;
 	while (i < NB_SIG)

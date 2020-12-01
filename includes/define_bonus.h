@@ -187,6 +187,8 @@
 #define F_EXPORT_OUTPUT				1
 #define F_SET_OUTPUT				2
 
+#define ERROR_OPT					3
+
 /******************************************************************************/
 /*********************************_ENV_****************************************/
 /******************************************************************************/
@@ -200,8 +202,8 @@
 /******************************************************************************/
 #define	NB_FD					3
 #define	NB_BUILTIN				9
-#define	NB_SIG					5
-#define	NB_SIG_STR				15
+#define	NB_SIG					6
+#define	NB_SIG_STR				11
 
 #define	F_NO_REDIRECT			0
 #define	F_REDIRECT_FAILURE		1<<0
@@ -237,14 +239,17 @@
 # define	EXIT_SCREEN_SIZE	 		-6
 # define	EXIT_TERM_NAME	 			-7
 # define	EXIT_TERMCAP		 		-8
-# define	EXIT_MALLOC		 			-9
-# define	EXIT_FORK		 			-10
-# define	EXIT_HUP			 		-11
-# define	EXIT_MS_PUTCHAR	 			-12
-# define	EXIT_MS_TPUTS 				-13
-# define	EXIT_SHLVL_MAX 				-14
-# define	EXIT_UNKNOWN 				-15
+# define	EXIT_TERMLIB				-9
+# define	EXIT_MALLOC		 			-10
+# define	EXIT_FORK		 			-11
+# define	EXIT_HUP			 		-12
+# define	EXIT_MS_PUTCHAR	 			-13
+# define	EXIT_MS_TPUTS 				-14
+# define	EXIT_SHLVL_MAX 				-15
+# define	EXIT_NO_TTY 				-16
+# define	EXIT_ERRNO	 				-17
+# define	EXIT_UNKNOWN 				-18
 
-# define	NB_EXIT_CODES				14
+# define	NB_EXIT_CODES				18
 
 #endif

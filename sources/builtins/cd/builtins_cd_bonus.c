@@ -1,8 +1,6 @@
 #include "minishell_bonus.h"
 
-
-
-int handle_pwd(char *dir)
+int			handle_pwd(char *dir)
 {
 	char *pwd;
 
@@ -25,11 +23,11 @@ int handle_pwd(char *dir)
 	return (SUCCESS);
 }
 
-static int process_chdir(t_vector *vct_home, char *dir, char *old_dir,
-						 char *dir_old_pwd)
+static int	process_chdir(t_vector *vct_home, char *dir, char *old_dir,
+							char *dir_old_pwd)
 {
-	char *real_dir;
-	int ret_chdir;
+	char	*real_dir;
+	int		ret_chdir;
 
 	real_dir = !dir && vct_getlen(vct_home) ? vct_getstr(vct_home) : dir;
 	if ((ret_chdir = chdir(real_dir)) == SUCCESS)
@@ -45,25 +43,27 @@ static int process_chdir(t_vector *vct_home, char *dir, char *old_dir,
 		free(real_dir);
 	}
 	if (ret_chdir == FAILURE)
+	{
 		ft_dprintf(STDERR_FILENO, "Minishell: cd: %s: %s\n",
-				   dir, strerror(errno));
+					dir, strerror(errno));
+	}
 	free(dir_old_pwd);
 	return (ret_chdir);
 }
 
-static int hub_process_chdir(char *dir, t_vector *vct_home)
+static int	hub_process_chdir(char *dir, t_vector *vct_home)
 {
-	int ret_chdir;
-	int ret_pwd;
-	t_vector *pwd;
-	char *old_dir;
+	int			ret_chdir;
+	int			ret_pwd;
+	t_vector	*pwd;
+	char		*old_dir;
 
 	if (ft_strequ(dir, STR_MINUS) == TRUE)
 	{
 		old_dir = (dir == NULL) ? NULL : ft_strdup(dir);
 		pwd = get_env_value_vct(get_env_list(GET), ENV_OLD_PWD);
 		ret_chdir = process_chdir(vct_home, vct_getstr(pwd),
-								  old_dir, vct_strdup(pwd));
+									old_dir, vct_strdup(pwd));
 		free(old_dir);
 		return (ret_chdir == FAILURE ? CD_FAIL : SUCCESS);
 	}
@@ -74,11 +74,11 @@ static int hub_process_chdir(char *dir, t_vector *vct_home)
 	return (ret_chdir);
 }
 
-static int process_cd(char *dir)
+static int	process_cd(char *dir)
 {
-	t_vector *vct_home;
-	t_vector *vct_old_pwd;
-	int ret_process_chdir;
+	t_vector	*vct_home;
+	t_vector	*vct_old_pwd;
+	int			ret_process_chdir;
 
 	vct_home = get_env_value_vct(get_env_list(GET), ENV_HOME);
 	vct_old_pwd = get_env_value_vct(get_env_list(GET), ENV_OLD_PWD);
@@ -92,17 +92,17 @@ static int process_cd(char *dir)
 	return (ret_process_chdir);
 }
 
-int cd_builtin(int ac, char **av, __attribute__((unused)) char **envp)
+int			cd_builtin(int ac, char **av, __attribute__((unused)) char **envp)
 {
-	int ret;
-	char *pwd;
+	int		ret;
+	char	*pwd;
 
 	if (av == NULL || check_cd_arg(ac) == CD_FAIL)
 		return (CD_FAIL);
 	if (ac > 1 && ft_strlen(av[1]) != 0 && ft_strequ(av[1], STR_MINUS) == FALSE)
 	{
 		if ((ret = first_check(av[1])) != CD_CONTINUE)
-			return (ret == CD_FAIL ? 1 : FAILURE);
+			return (ret == CD_FAIL ? 1 : 2);
 	}
 	if (ac != 1 && ft_strlen(av[1]) == 0)
 		return (SUCCESS);

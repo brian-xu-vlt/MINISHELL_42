@@ -100,7 +100,6 @@ int		fill_cmd(t_cmd *cmd, t_clean_cmd *clean_cmd)
 	while (i < (size_t)cmd->ac)
 	{
 		if (clean_cmd->av[i] != NULL)
-		if (clean_cmd->av[i] != NULL)
 			cmd->av[i] = ft_strdup(clean_cmd->av[i]);
 		if (clean_cmd->av[i] == NULL)
 			cmd->av[i] = NULL;
