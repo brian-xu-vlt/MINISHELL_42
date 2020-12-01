@@ -19,14 +19,14 @@ static void	waiter(const t_job *job)
 	}
 }
 
-static void	open_files_and_export_env(t_cmd *command)
+static void	open_files_and_export_env(t_job* job, t_cmd *command)
 {
 	if (command->tab_redir_before != NULL)
 		process_open_file(command, BEFORE);
 	if (command->tab_redir != NULL && command->redirection != F_REDIRECT_FAILURE)
 		process_open_file(command, AFTER);
-	if (command->ac == 0 && command->count_assign != 0)
-		assign_envp_content(command);
+	if (job->nb_cmd == 1 && command->ac == 0)
+		 assign_envp_content(command);
 }
 
 static void	execute_and_wait(t_job *job, t_cmd *cmd,
@@ -50,7 +50,7 @@ static void	execution_loop(t_job *job, int p_in[2], int p_out[2])
 	cmd_cursor = job->cmd_lst;
 	while (cmd_cursor != NULL && cmd_cursor->content != NULL)
 	{
-		open_files_and_export_env(cmd_cursor->content);
+		open_files_and_export_env(job, cmd_cursor->content);
 		if (is_last_cmd(cmd_index, job->nb_cmd) == FALSE)
 		{
 			ms_pipe(p_out);
