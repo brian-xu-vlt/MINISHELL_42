@@ -19,14 +19,12 @@ static bool	verif_expect(t_vector *vct, t_vector *vct_cpy)
 bool		verif_assign_cmd(char *str)
 {
 	t_vector	*vct;
-	ssize_t		nb_assign;
 	t_vector	*vct_cpy;
 
 	vct = safe_vct_new();
 	vct_cpy = safe_vct_new();
 	safe_vct_addstr(vct, str);
 	safe_vct_addstr(vct_cpy, vct_getstr(vct));
-	nb_assign = vct_nbchar(vct_cpy, S_ASSIGN);
 	if (verif_expect(vct, vct_cpy) == true)
 		return (true);
 	vct_del(&vct);
