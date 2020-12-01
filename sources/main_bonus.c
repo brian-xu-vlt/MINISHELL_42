@@ -56,13 +56,13 @@ static void	check_std_fd(void)
 {
 	struct stat	wstat;
 
-	if (DEBUG_MODE != true)
-	{
-	if (isatty(STDOUT_FILENO) == false)										// BONUS ONLY
-		exit_routine(EXIT_NO_TTY);
-	if (isatty(STDIN_FILENO) == false)										// BONUS ONLY
-		exit_routine(EXIT_NO_TTY);
-	}
+	// if (DEBUG_MODE != true)
+	// {
+	// if (isatty(STDOUT_FILENO) == false)										// BONUS ONLY
+	// 	exit_routine(EXIT_NO_TTY);
+	// if (isatty(STDIN_FILENO) == false)										// BONUS ONLY
+	// 	exit_routine(EXIT_NO_TTY);
+	// }
 
 	if ((write(STDOUT_FILENO, "", 0) == FAILURE)
 	|| (write(STDERR_FILENO, "", 0) == FAILURE)
@@ -116,7 +116,7 @@ static int exit_main()
 		free(data);
 	}
 	vct_readline(NULL, -42);
-	ft_printf("exit\n");
+	// ft_printf("exit\n");
 	return (last_exit_status);
 }
 

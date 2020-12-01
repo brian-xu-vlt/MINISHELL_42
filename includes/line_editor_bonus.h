@@ -110,13 +110,6 @@ enum	e_optional_termcap
 
 typedef struct	s_line_editor
 {
-	struct termios	*termios_editor;
-	struct termios	*termios_bkup;
-	char			*termcap[NB_ESSENTIAL_TERMCAP + NB_OPTIONAL_TERMCAP];
-	char			*cmd_line_backup;
-	t_vector		*cmd_line;
-	t_vector		*clipboard;
-	t_list			*history_cache;
 	int				screen_flag;
 	int				srows;
 	int				scols;
@@ -125,6 +118,13 @@ typedef struct	s_line_editor
 	int				cy;
 	int				vct_index;
 	int				vct_index_backup;
+	struct termios	*termios_editor;
+	struct termios	*termios_bkup;
+	char			*termcap[NB_ESSENTIAL_TERMCAP + NB_OPTIONAL_TERMCAP];
+	char			*cmd_line_backup;
+	t_vector		*cmd_line;
+	t_vector		*clipboard;
+	t_list			*history_cache;
 	int				select_min;
 	int				select_max;
 }				t_le;
