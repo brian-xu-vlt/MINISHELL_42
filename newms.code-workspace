@@ -22,7 +22,12 @@
             "__functional_03": "c",
             "cstdlib": "c",
             "functional": "c",
-            "line_editor_bonus.h": "c"
+            "line_editor_bonus.h": "c",
+            "__config": "cpp",
+            "atomic": "cpp",
+            "bitset": "cpp",
+            "locale": "cpp",
+            "algorithm": "cpp"
         }
     },
     "launch": {

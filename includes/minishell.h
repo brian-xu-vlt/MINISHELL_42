@@ -31,7 +31,11 @@
 *******************************_FUNCTION_*************************************
 */
 
-int			test(t_vector *input);
+void		usage(int ac, char **av);
+void		check_std_fd(void);
+t_data		*init_data_struct(void);
+int			exit_main(void);
+
 int			test_env(t_vector *input);
 int			test_executor(t_list *jobs);
 

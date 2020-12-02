@@ -30,13 +30,12 @@ static int	is_next_job(int ret_executor, t_job *job)
 
 int			hub_cleaner(t_list *job_list)
 {
-	t_job	*job;
-	t_list	*tmp_cmd_lst;
-	t_cmd	*cmd;
-	int		ret;
+	t_job		*job;
+	t_list		*tmp_cmd_lst;
+	t_cmd		*cmd;
+	static int	ret;
 
 	cmd = NULL;
-	ret = SUCCESS;
 	while (job_list != NULL)
 	{
 		job = job_list->content;

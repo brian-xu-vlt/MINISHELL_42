@@ -107,7 +107,6 @@ typedef struct		s_line_editor
 	int		coucou;
 }					t_le;
 
-
 /*
 **				MAIN FUNCTIONS
 */

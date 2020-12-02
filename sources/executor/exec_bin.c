@@ -5,7 +5,7 @@ static int	call_execve(const t_cmd *command, char *bin_full_path, char **envp)
 	int		ret;
 
 	errno = 0;
-	ret = execve(bin_full_path, command->av, envp); /////// see p82 for failure!
+	ret = execve(bin_full_path, command->av, envp);
 	if (ret == FAILURE)
 		print_set_errno(errno, NULL, bin_full_path, NULL);
 	return (ret);

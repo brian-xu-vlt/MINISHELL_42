@@ -65,6 +65,7 @@ HEADER_BONUS += $(INCLUDES_BONUS)cleaner.h
 HEADER_BONUS += $(INCLUDES_BONUS)struct.h
 
 SRCS_BONUS += main_bonus.c
+SRCS_BONUS += main_utils_bonus.c
 SRCS_BONUS += line_editor_bonus.c
 SRCS_BONUS += debug_tools.c
 SRCS_BONUS += print_command_line_bonus.c
@@ -179,6 +180,7 @@ SRCS += exit_routine.c
 SRCS += exit_routine_env.c
 
 SRCS += main.c
+SRCS += main_utils.c
 SRCS += test_lexer.c
 SRCS += test_parser.c
 SRCS += test_jobs.c
