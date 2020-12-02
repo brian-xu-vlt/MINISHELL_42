@@ -13,10 +13,6 @@ static void	del_cmd(void *data)
 	cmd = (t_cmd *)data;
 	if (cmd == NULL)
 		exit_routine(EXIT_MALLOC);
-	// {
-	// 	print_set_errno(0, EXIT_MALLOC, NULL, NULL);
-	// 	exit(FAILURE);
-	// }
 	if (cmd->av != NULL)
 		free_cmd(cmd->ac, cmd->av);
 	if (cmd->envp != NULL)
@@ -38,10 +34,6 @@ static void	del_jobs(void *data)
 	job = (t_job *)data;
 	if (job == NULL)
 		exit_routine(EXIT_MALLOC);
-	// {
-	// 	print_set_errno(0, EXIT_MALLOC, NULL, NULL);
-	// 	exit(FAILURE);
-	// }
 	ft_lstdel(&job->cmd_lst, del_cmd);
 	free(job);
 }

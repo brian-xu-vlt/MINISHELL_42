@@ -213,7 +213,7 @@ $(OBJS): $(OBJ_DIR)%.o: %.c $(HEADER)
 
 $(NAME): $(OBJ_DIR) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -I$(INCLUDES) -I$(INCLUDES_LIB) $(LIB_TERMCAP) -L./libft -lft -o $@
-	echo "\033[32m$@ is ready !\033[0m"
+	@echo "\033[32m$@ is ready !\033[0m"
 
 $(OBJ_DIR):
 	mkdir $@

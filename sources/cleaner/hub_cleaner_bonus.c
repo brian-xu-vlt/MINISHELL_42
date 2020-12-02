@@ -35,6 +35,8 @@ int			hub_cleaner(t_list *job_list)
 	t_cmd	*cmd;
 	int		ret;
 
+	cmd = NULL;
+	ret = SUCCESS;
 	while (job_list != NULL)
 	{
 		job = job_list->content;

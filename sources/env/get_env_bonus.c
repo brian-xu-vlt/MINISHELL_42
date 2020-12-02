@@ -2,7 +2,6 @@
 
 t_list		*get_env_node(t_list *env_lst, const char *target_env_name)
 {
-	size_t			target_name_len;
 	char			*env_name;
 	t_list			*cursor;
 
@@ -11,7 +10,6 @@ t_list		*get_env_node(t_list *env_lst, const char *target_env_name)
 	else
 	{
 		cursor = env_lst;
-		target_name_len = ft_strlen(target_env_name);
 		while (cursor != NULL && cursor->content != NULL)
 		{
 			env_name = ((t_env *)cursor->content)->env_name;

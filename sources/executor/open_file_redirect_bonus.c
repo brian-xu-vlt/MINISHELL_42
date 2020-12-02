@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static void init_cmd_redirection(t_cmd *cmd)
+static void	init_cmd_redirection(t_cmd *cmd)
 {
 	if (cmd != NULL)
 	{
@@ -9,7 +9,8 @@ static void init_cmd_redirection(t_cmd *cmd)
 		if (cmd->fd[1] != STDOUT_FILENO && cmd->fd[1] == cmd->tmp_fd_out)
 			cmd->redirection = cmd->redirection | F_REDIRECT_OUT;
 		if (cmd->fd[1] != STDOUT_FILENO && cmd->fd[1] == cmd->tmp_fd_append)
-			cmd->redirection = cmd->redirection | F_REDIRECT_OUT | F_REDIRECT_OUT_APPEND;
+			cmd->redirection = cmd->redirection | F_REDIRECT_OUT
+												| F_REDIRECT_OUT_APPEND;
 	}
 }
 

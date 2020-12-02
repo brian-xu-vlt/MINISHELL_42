@@ -45,14 +45,15 @@ static void	init_cursor(t_le *le)
 	int		x;
 	int		y;
 	char	buff[64];
+	int		ret;
 
 	ft_bzero(buff, 64);
 	if (le->termcap[CURSOR_POSITION_REQUEST] != NULL)
 	{
 		ms_tputs(le->termcap[CURSOR_POSITION_REQUEST], 1, ms_putchar);
-		read(STDIN_FILENO, buff, 64);
+		ret = read(STDIN_FILENO, buff, 64);
 		parse_buff(buff, &x, &y);
-		if (y > 1)
+		if (ret != FAILURE && y > 1)
 		{
 			tputs(le->termcap[SELECT], 1, ms_putchar);
 			ft_putchar_fd('%', STDOUT_FILENO);

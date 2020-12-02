@@ -1,9 +1,9 @@
 #include "minishell_bonus.h"
 
-int process_less(char *str, t_cmd *cmd)
+int	process_less(char *str, t_cmd *cmd)
 {
-	int fd;
-	static size_t i = 0;
+	int				fd;
+	static size_t	i = 0;
 
 	if (str == NULL || ft_strequ(LESS_THAN, str) == TRUE)
 		return (NO_FILE);
@@ -25,10 +25,10 @@ int process_less(char *str, t_cmd *cmd)
 	return (SUCCESS);
 }
 
-int process_greater(char *str, t_cmd *cmd)
+int	process_greater(char *str, t_cmd *cmd)
 {
-	int fd;
-	static size_t i = 0;
+	int				fd;
+	static size_t	i = 0;
 
 	if (str == NULL || ft_strequ(GREATER_THAN, str) == TRUE)
 		return (NO_FILE);
@@ -50,10 +50,10 @@ int process_greater(char *str, t_cmd *cmd)
 	return (SUCCESS);
 }
 
-int process_double_greater(char *str, t_cmd *cmd)
+int	process_double_greater(char *str, t_cmd *cmd)
 {
-	int fd;
-	static size_t i = 0;
+	int				fd;
+	static size_t	i = 0;
 
 	if (str == NULL || ft_strequ(DOUBLE_GREATER, str) == TRUE)
 		return (NO_FILE);

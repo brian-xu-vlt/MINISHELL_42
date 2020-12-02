@@ -16,12 +16,9 @@ void	dup_pipes(t_cmd *command, int p_in[2], int p_out[2])
 
 void	close_pipe_end(int pipe_to_close)
 {
-	int		close_ret;
-
-	close_ret = 0;
 	if (pipe_to_close != UNSET)
 	{
-		close_ret = close(pipe_to_close);
+		close(pipe_to_close);
 		pipe_to_close = UNSET;
 	}
 }

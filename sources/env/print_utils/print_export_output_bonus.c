@@ -1,13 +1,10 @@
 #include "minishell_bonus.h"
 
-
 static void	append_value_slashs(t_vector *env_value, t_vector *tmp_env_value)
 {
 	int			i;
-	int			ret;
 	char		char_at_index;
 
-	ret = SUCCESS;
 	i = vct_getlen(env_value);
 	while (i >= 0)
 	{

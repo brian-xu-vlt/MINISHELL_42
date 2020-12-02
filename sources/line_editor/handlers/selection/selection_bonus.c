@@ -13,13 +13,11 @@ static void	set_selection(void)
 
 void		update_selection(long buff)
 {
-	int		vct_len;
 	t_le	*le;
 
 	le = get_struct(GET);
 	if (le == NULL)
 		return ;
-	vct_len = (int)vct_getlen(le->cmd_line);
 	if (le->vct_index_backup == le->vct_index)
 		return ;
 	if (le->select_min == UNSET)
