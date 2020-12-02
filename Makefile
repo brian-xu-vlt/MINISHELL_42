@@ -264,9 +264,7 @@ SRCS += cleaner_double_quote.c
 SRCS += cleaner_expansion.c
 SRCS += handle_no_word_parse.c
 
-
 OBJ_DIR = ./objs/
-OBJ_BONUS_DIR = ./objs_bonus/
 
 vpath %.c sources/
 vpath %.c sources/general_utils
@@ -296,16 +294,20 @@ vpath %.c sources/builtins/cd
 vpath %.c sources/builtins/exit
 
 OBJS = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
-OBJS_BONUS = $(patsubst %.c, $(OBJ_BONUS_DIR)%.o, $(SRCS_BONUS))
+OBJS_BONUS = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS_BONUS))
 
 all : $(LIB)
 	$(MAKE) $(NAME)
 
+bonus : $(LIB)
+	$(MAKE) bonus_comp
+
 $(OBJS): $(OBJ_DIR)%.o: %.c $(HEADER)
 	$(CC) -D DEBUG_MODE=$(DEBUG_MODE) -D BONUS_FLAG=1 $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
 
-$(OBJS_BONUS): $(OBJ_BONUS_DIR)%.o: %.c $(HEADER_BONUS)
-	$(CC) $(CFLAGS) -c $<  -I $(INCLUDES_BONUS) -I $(INCLUDES_LIB) -o $@
+$(OBJS_BONUS): $(OBJ_DIR)%.o: %.c $(HEADER_BONUS)
+	$(CC) -D DEBUG_MODE=$(DEBUG_MODE) -D BONUS_FLAG=1 $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
+	# $(CC) $(CFLAGS) -c $<  -I $(INCLUDES_BONUS) -I $(INCLUDES_LIB) -o $@
 
 $(NAME): $(OBJ_DIR) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -I$(INCLUDES) -I$(INCLUDES_LIB) $(LIB_TERMCAP) -L./libft -lft -o $@
@@ -321,10 +323,10 @@ FORCE :
 
 clean :
 	$(MAKE) clean -C $(LIBDIR)
-	$(RM) -R $(OBJ_DIR) $(OBJ_BONUS_DIR)
+	$(RM) -R $(OBJ_DIR)
 
 minishellclean :
-	$(RM) -R $(OBJ_DIR) $(OBJ_BONUS_DIR)
+	$(RM) -R $(OBJ_DIR)
 
 fclean : clean
 	$(MAKE) fclean -C $(LIBDIR)
@@ -333,10 +335,9 @@ fclean : clean
 mclean : minishellclean
 	$(RM) $(NAME)
 
-bonus_comp : $(OBJ_DIR) $(OBJ_BONUS)
-
-bonus : $(LIB)
-	$(MAKE) bonus_comp
+bonus_comp : $(OBJ_DIR) $(OBJS_BONUS)
+	$(CC) DEBUG_MODE=$(DEBUG_MODE) $(CFLAGS) $(OBJS_BONUS) -I$(INCLUDES) -I$(INCLUDES_LIB) -L./libft -lft -o $(NAME)
+	@echo "\033[32m$@ is ready ! With Bonus !! \033[0m"
 
 re : fclean
 	$(MAKE)
