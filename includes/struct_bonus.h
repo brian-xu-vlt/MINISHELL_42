@@ -1,5 +1,5 @@
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef STRUCT_BONUS_H
+# define STRUCT_BONUS_H
 
 typedef struct				s_env
 {
@@ -83,7 +83,7 @@ typedef struct				s_job
 {
 	t_list					*cmd_lst;
 	size_t					nb_cmd;
-	pid_t 					last_pid;
+	pid_t					last_pid;
 }							t_job;
 
 typedef struct				s_data
