@@ -333,9 +333,11 @@ $(LIB) : FORCE
 clean :
 	$(MAKE) clean -C $(LIBDIR)
 	$(RM) -R $(OBJ_DIR)
+	$(RM) -R $(OBJ_DIR_BONUS)
 
 minishellclean :
 	$(RM) -R $(OBJ_DIR)
+	$(RM) -R $(OBJ_DIR_BONUS)
 
 fclean : clean
 	$(MAKE) fclean -C $(LIBDIR)
