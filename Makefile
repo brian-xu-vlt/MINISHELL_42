@@ -66,7 +66,7 @@ HEADER_BONUS += $(INCLUDES_BONUS)struct.h
 
 SRCS_BONUS += main_bonus.c
 SRCS_BONUS += line_editor_bonus.c
-# SRCS_BONUS += debug_tools.c
+SRCS_BONUS += debug_tools.c
 SRCS_BONUS += print_command_line_bonus.c
 SRCS_BONUS += refresh_command_line_bonus.c
 SRCS_BONUS += handle_esc_seq_bonus.c
@@ -265,6 +265,7 @@ SRCS += cleaner_expansion.c
 SRCS += handle_no_word_parse.c
 
 OBJ_DIR = ./objs/
+OBJ_DIR_BONUS = ./objs_bonus/
 
 vpath %.c sources/
 vpath %.c sources/general_utils
@@ -277,7 +278,7 @@ vpath %.c sources/env/print_utils
 vpath %.c sources/executor
 vpath %.c sources/parser
 vpath %.c sources/line_editor
-# vpath %.c sources/line_editor/debug
+vpath %.c sources/line_editor/debug
 vpath %.c sources/line_editor/display
 vpath %.c sources/line_editor/handlers
 vpath %.c sources/line_editor/init
@@ -294,7 +295,7 @@ vpath %.c sources/builtins/cd
 vpath %.c sources/builtins/exit
 
 OBJS = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
-OBJS_BONUS = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS_BONUS))
+OBJS_BONUS = $(patsubst %.c, $(OBJ_DIR_BONUS)%.o, $(SRCS_BONUS))
 
 all : $(LIB)
 	$(MAKE) $(NAME)
@@ -302,21 +303,24 @@ all : $(LIB)
 bonus : $(LIB)
 	$(MAKE) bonus_comp
 
-# $(OBJS): $(OBJ_DIR)%.o: %.c $(HEADER)
-# 	$(CC) -D DEBUG_MODE=$(DEBUG_MODE) $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
+$(OBJS): $(OBJ_DIR)%.o: %.c $(HEADER)
+	$(CC) -D DEBUG_MODE=$(DEBUG_MODE) $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
 
-$(OBJS_BONUS): $(OBJ_DIR)%.o: %.c $(HEADER_BONUS)
+$(OBJS_BONUS): $(OBJ_DIR_BONUS)%.o: %.c $(HEADER_BONUS)
 	$(CC) $(CFLAGS) -c $<  -I $(INCLUDES_BONUS) -I $(INCLUDES_LIB) -o $@
 
 $(NAME): $(OBJ_DIR) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -I$(INCLUDES) -I$(INCLUDES_LIB) $(LIB_TERMCAP) -L./libft -lft -o $@
 	@echo "\033[32m$@ is ready !\033[0m"
 
-bonus_comp : $(OBJ_DIR) $(OBJS_BONUS)
+bonus_comp : $(OBJ_DIR_BONUS) $(OBJS_BONUS)
 	$(CC) $(CFLAGS) $(OBJS_BONUS) -I$(INCLUDES_BONUS) -I$(INCLUDES_LIB)	$(LIB_TERMCAP) -L./libft -lft -o $(NAME)
 	@echo "\033[32m$@ is ready ! With Bonus !! \033[0m"
 
 $(OBJ_DIR):
+	mkdir $@
+
+$(OBJ_DIR_BONUS):
 	mkdir $@
 
 $(LIB) : FORCE
