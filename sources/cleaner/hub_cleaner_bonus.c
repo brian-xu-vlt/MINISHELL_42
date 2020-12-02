@@ -49,7 +49,7 @@ int			hub_cleaner(t_list *job_list)
 			tmp_cmd_lst = tmp_cmd_lst->next;
 		}
 		ret = is_next_job(ret, job);
-		if (tmp_cmd_lst != NULL && cmd->err_exit == true)
+		if (job->cmd_lst != NULL && cmd->err_exit == true)
 			break ;
 		job_list = job_list->next;
 	}
