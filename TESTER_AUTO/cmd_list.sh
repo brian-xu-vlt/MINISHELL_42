@@ -74,7 +74,7 @@ test () {
 		sleep 0.1 ;
 	fi
 
-	echo "$TEST" | env -i $EXTRA_ENV ./Minishell &>/tmp/minishell.log
+	echo "$TEST" | env -i $EXTRA_ENV ./minishell &>/tmp/minishell.log
 	echo "EXITED WITH : $?" >> /tmp/minishell.log
 
 	# pour ENV

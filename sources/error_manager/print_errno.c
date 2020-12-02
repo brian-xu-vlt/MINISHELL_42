@@ -1,8 +1,11 @@
-#include "minishell_bonus.h"
+#include "minishell.h"
 
 static void	put_error(const char *err_str, int colon_flag)
 {
-	ft_putstr_fd((char *)err_str, STDERR_FILENO);
+	if (ft_strchr((char *)err_str, K_ESCAPE) != NOT_FOUND)
+		ft_putstr_fd("", STDERR_FILENO);
+	else
+		ft_putstr_fd((char *)err_str, STDERR_FILENO);
 	if (colon_flag != FALSE)
 		ft_putstr_fd(": ", STDERR_FILENO);
 }

@@ -1,4 +1,4 @@
-NAME = Minishell
+NAME = minishell
 LIBDIR = ./libft
 LIB = $(LIBDIR)libft.a
 
@@ -47,127 +47,226 @@ LIB_TERMCAP = -lncurses -ltermcap
 INCLUDES = ./includes/
 INCLUDES_LIB = ./libft/includes/
 
-HEADER += $(INCLUDES)minishell_bonus.h
-HEADER += $(INCLUDES)define_bonus.h
-HEADER += $(INCLUDES)enum_bonus.h
-HEADER += $(INCLUDES)lexer_bonus.h
-HEADER += $(INCLUDES)cleaner_bonus.h
-HEADER += $(INCLUDES)line_editor_bonus.h
-HEADER += $(INCLUDES)struct_bonus.h
+HEADER += $(INCLUDES)minishell.h
+HEADER += $(INCLUDES)define.h
+HEADER += $(INCLUDES)enum.h
+HEADER += $(INCLUDES)lexer.h
+HEADER += $(INCLUDES)cleaner.h
+HEADER += $(INCLUDES)line_editor.h
+HEADER += $(INCLUDES)struct.h
 
-SRCS += exit_routine_bonus.c
-SRCS += exit_routine_env_bonus.c
-SRCS += exit_routine_line_editor_bonus.c
+HEADER_BONUS += $(INCLUDES)minishell_bonus.h
+HEADER_BONUS += $(INCLUDES)define.h
+HEADER_BONUS += $(INCLUDES)enum.h
+HEADER_BONUS += $(INCLUDES)lexer.h
+HEADER_BONUS += $(INCLUDES)cleaner.h
+HEADER_BONUS += $(INCLUDES)line_editor_bonus.h
+HEADER_BONUS += $(INCLUDES)struct.h
 
-SRCS += main_bonus.c
-SRCS += test_lexer_bonus.c
-SRCS += test_parser_bonus.c
-SRCS += test_jobs_bonus.c
-SRCS += lexer_bonus.c
-SRCS += token_bonus.c
-SRCS += free_list_bonus.c
-SRCS += parser_bonus.c
-SRCS += parser_process_bonus.c
+SRCS_BONUS += line_editor_bonus.c
+SRCS_BONUS += debug_tools.c
+SRCS_BONUS += print_command_line_bonus.c
+SRCS_BONUS += refresh_command_line_bonus.c
+SRCS_BONUS += handle_esc_seq_bonus.c
+SRCS_BONUS += handle_print_char_bonus.c
+SRCS_BONUS += copy_bonus.c
+SRCS_BONUS += cut_bonus.c
+SRCS_BONUS += paste_bonus.c
+SRCS_BONUS += selection_bonus.c
+SRCS_BONUS += delete_bonus.c
+SRCS_BONUS += history_bonus.c
+SRCS_BONUS += move_bonus.c
+SRCS_BONUS += init_line_editor_bonus.c
+SRCS_BONUS += init_prompt_bonus.c
+SRCS_BONUS += init_term_mode_bonus.c
+SRCS_BONUS += update_screen_data_bonus.c
+SRCS_BONUS += line_editor_utils_bonus.c
+SRCS_BONUS += line_editor_is_utils_bonus.c
+SRCS_BONUS += utils_cursor_bonus.c
+SRCS_BONUS += main_bonus.c
 
-SRCS += debug_tools.c
-SRCS += print_command_line_bonus.c
-SRCS += refresh_command_line_bonus.c
-SRCS += handle_esc_seq_bonus.c
-SRCS += handle_print_char_bonus.c
-SRCS += copy_bonus.c
-SRCS += cut_bonus.c
-SRCS += paste_bonus.c
-SRCS += selection_bonus.c
-SRCS += delete_bonus.c
-SRCS += history_bonus.c
-SRCS += move_bonus.c
-SRCS += init_line_editor_bonus.c
-SRCS += init_prompt_bonus.c
-SRCS += init_term_mode_bonus.c
-SRCS += update_screen_data_bonus.c
-SRCS += line_editor_utils_bonus.c
-SRCS += line_editor_is_utils_bonus.c
-SRCS += utils_cursor_bonus.c
+SRCS_BONUS += exit_routine_bonus.c
+SRCS_BONUS += exit_routine_env.c
+SRCS_BONUS += exit_routine_line_editor_bonus.c
 
-SRCS += builtins_set_bonus.c
-SRCS += builtins_echo_bonus.c
-SRCS += builtins_env_bonus.c
-SRCS += builtins_export_bonus.c
-SRCS += builtins_unset_bonus.c
-SRCS += builtins_exit_bonus.c
-SRCS += unset_env_bonus.c
-SRCS += get_env_bonus.c
-SRCS += get_envp_bonus.c
-SRCS += init_env_bonus.c
-SRCS += init_env_utils_bonus.c
-SRCS += print_env_bonus.c
-SRCS += store_env_bonus.c
-SRCS += parse_env_bonus.c
-SRCS += utils_env_bonus.c
-SRCS += print_export_output_utils_bonus.c
-SRCS += print_export_output_bonus.c
-SRCS += line_editor_bonus.c
+SRCS_BONUS += main.c
+SRCS_BONUS += test_lexer.c
+SRCS_BONUS += test_parser.c
+SRCS_BONUS += test_jobs.c
+SRCS_BONUS += lexer.c
+SRCS_BONUS += token.c
+SRCS_BONUS += free_list.c
+SRCS_BONUS += parser.c
+SRCS_BONUS += parser_process.c
+
+SRCS_BONUS += builtins_set.c
+SRCS_BONUS += builtins_echo.c
+SRCS_BONUS += builtins_env.c
+SRCS_BONUS += builtins_export.c
+SRCS_BONUS += builtins_unset.c
+SRCS_BONUS += builtins_exit.c
+SRCS_BONUS += unset_env.c
+SRCS_BONUS += get_env.c
+SRCS_BONUS += get_envp.c
+SRCS_BONUS += init_env.c
+SRCS_BONUS += init_env_utils.c
+SRCS_BONUS += print_env.c
+SRCS_BONUS += store_env.c
+SRCS_BONUS += parse_env.c
+SRCS_BONUS += utils_env.c
+SRCS_BONUS += print_export_output_utils.c
+SRCS_BONUS += print_export_output.c
+SRCS_BONUS += print_errno.c
+SRCS_BONUS += general_utils.c
+SRCS_BONUS += safe_functions.c
+
+SRCS_BONUS += open_file_redirect.c
+SRCS_BONUS += open_file_utils.c
+SRCS_BONUS += signal_manager_bonus.c
+SRCS_BONUS += exit_status_manager.c
+SRCS_BONUS += utils_file_descriptor.c
+SRCS_BONUS += utils_executor.c
+SRCS_BONUS += export_exec_context.c
+SRCS_BONUS += execution_main_process.c
+SRCS_BONUS += execution_subshell.c
+SRCS_BONUS += executor.c
+SRCS_BONUS += exec_builtin.c
+SRCS_BONUS += hub_open_file_redirect.c
+SRCS_BONUS += locate_bin.c
+SRCS_BONUS += exec_bin.c
+SRCS_BONUS += job_command.c
+SRCS_BONUS += handle_no_word.c
+SRCS_BONUS += handle_no_word_utils.c
+SRCS_BONUS += job_command_utils.c
+SRCS_BONUS += job_command_create.c
+SRCS_BONUS += job_command_fill.c
+SRCS_BONUS += job_command_free.c
+SRCS_BONUS += command_process.c
+SRCS_BONUS += job_init.c
+SRCS_BONUS += job_command_is_something.c
+SRCS_BONUS += job_command_count.c
+SRCS_BONUS += job_command_create_utils.c
+SRCS_BONUS += cleaner.c
+SRCS_BONUS += hub_cleaner.c
+SRCS_BONUS += verif.c
+SRCS_BONUS += process_redirection.c
+SRCS_BONUS += clean_redirection.c
+SRCS_BONUS += clean_redirection_utils.c
+SRCS_BONUS += get_type_command.c
+SRCS_BONUS += get_envp_av.c
+SRCS_BONUS += get_envp_av_utils.c
+SRCS_BONUS += cleaner_utils.c
+SRCS_BONUS += builtins_pwd.c
+SRCS_BONUS += builtins_cd.c
+SRCS_BONUS += cleaner_quote.c
+SRCS_BONUS += cleaner_quote_utils.c
+SRCS_BONUS += quote_checker.c
+SRCS_BONUS += builtins_cd_transform.c
+SRCS_BONUS += builtins_cd_check.c
+SRCS_BONUS += builtins_exit_utils.c
+SRCS_BONUS += builtins_history_bonus.c
+SRCS_BONUS += create_tab_redir.c
+SRCS_BONUS += lexer_utils.c
+SRCS_BONUS += builtins_exit_error.c
+SRCS_BONUS += builtins_cd_utils.c
+SRCS_BONUS += get_redir_before.c
+SRCS_BONUS += cleaner_quote_pop.c
+SRCS_BONUS += cleaner_double_quote.c
+SRCS_BONUS += cleaner_expansion.c
+SRCS_BONUS += handle_no_word_parse.c
+
+SRCS += exit_routine.c
+SRCS += exit_routine_env.c
+
+SRCS += main.c
+SRCS += test_lexer.c
+SRCS += test_parser.c
+SRCS += test_jobs.c
+SRCS += lexer.c
+SRCS += token.c
+SRCS += free_list.c
+SRCS += parser.c
+SRCS += parser_process.c
+
+SRCS += builtins_set.c
+SRCS += builtins_echo.c
+SRCS += builtins_env.c
+SRCS += builtins_export.c
+SRCS += builtins_unset.c
+SRCS += builtins_exit.c
+SRCS += unset_env.c
+SRCS += get_env.c
+SRCS += get_envp.c
+SRCS += init_env.c
+SRCS += init_env_utils.c
+SRCS += print_env.c
+SRCS += store_env.c
+SRCS += parse_env.c
+SRCS += utils_env.c
+SRCS += print_export_output_utils.c
+SRCS += print_export_output.c
 SRCS += print_errno.c
-SRCS += general_utils_bonus.c
-SRCS += safe_functions_bonus.c
+SRCS += general_utils.c
+SRCS += safe_functions.c
 
-SRCS += open_file_redirect_bonus.c
-SRCS += open_file_utils_bonus.c
-SRCS += signal_manager_bonus.c
-SRCS += exit_status_manager_bonus.c
-SRCS += utils_file_descriptor_bonus.c
-SRCS += utils_executor_bonus.c
-SRCS += export_exec_context_bonus.c
-SRCS += execution_main_process_bonus.c
-SRCS += execution_subshell_bonus.c
-SRCS += executor_bonus.c
-SRCS += exec_builtin_bonus.c
-SRCS += hub_open_file_redirect_bonus.c
-SRCS += locate_bin_bonus.c
-SRCS += exec_bin_bonus.c
-SRCS += job_command_bonus.c
-SRCS += handle_no_word_bonus.c
-SRCS += handle_no_word_utils_bonus.c
-SRCS += job_command_utils_bonus.c
-SRCS += job_command_create_bonus.c
-SRCS += job_command_fill_bonus.c
-SRCS += job_command_free_bonus.c
-SRCS += command_process_bonus.c
-SRCS += job_init_bonus.c
-SRCS += job_command_is_something_bonus.c
-SRCS += job_command_count_bonus.c
-SRCS += job_command_create_utils_bonus.c
-SRCS += cleaner_bonus.c
-SRCS += hub_cleaner_bonus.c
-SRCS += verif_bonus.c
-SRCS += process_redirection_bonus.c
-SRCS += clean_redirection_bonus.c
-SRCS += clean_redirection_utils_bonus.c
-SRCS += get_type_command_bonus.c
-SRCS += get_envp_av_bonus.c
-SRCS += get_envp_av_utils_bonus.c
-SRCS += cleaner_utils_bonus.c
-SRCS += builtins_pwd_bonus.c
-SRCS += builtins_cd_bonus.c
-SRCS += cleaner_quote_bonus.c
-SRCS += cleaner_quote_utils_bonus.c
-SRCS += quote_checker_bonus.c
-SRCS += builtins_cd_transform_bonus.c
-SRCS += builtins_cd_check_bonus.c
-SRCS += builtins_exit_utils_bonus.c
-SRCS += builtins_history_bonus.c
-SRCS += create_tab_redir_bonus.c
-SRCS += lexer_utils_bonus.c
-SRCS += builtins_exit_error_bonus.c
-SRCS += builtins_cd_utils_bonus.c
-SRCS += get_redir_before_bonus.c
-SRCS += cleaner_quote_pop_bonus.c
-SRCS += cleaner_double_quote_bonus.c
-SRCS += cleaner_expansion_bonus.c
-SRCS += handle_no_word_parse_bonus.c
+SRCS += open_file_redirect.c
+SRCS += open_file_utils.c
+SRCS += signal_manager.c
+SRCS += exit_status_manager.c
+SRCS += utils_file_descriptor.c
+SRCS += utils_executor.c
+SRCS += export_exec_context.c
+SRCS += execution_main_process.c
+SRCS += execution_subshell.c
+SRCS += executor.c
+SRCS += exec_builtin.c
+SRCS += hub_open_file_redirect.c
+SRCS += locate_bin.c
+SRCS += exec_bin.c
+SRCS += job_command.c
+SRCS += handle_no_word.c
+SRCS += handle_no_word_utils.c
+SRCS += job_command_utils.c
+SRCS += job_command_create.c
+SRCS += job_command_fill.c
+SRCS += job_command_free.c
+SRCS += command_process.c
+SRCS += job_init.c
+SRCS += job_command_is_something.c
+SRCS += job_command_count.c
+SRCS += job_command_create_utils.c
+SRCS += cleaner.c
+SRCS += hub_cleaner.c
+SRCS += verif.c
+SRCS += process_redirection.c
+SRCS += clean_redirection.c
+SRCS += clean_redirection_utils.c
+SRCS += get_type_command.c
+SRCS += get_envp_av.c
+SRCS += get_envp_av_utils.c
+SRCS += cleaner_utils.c
+SRCS += builtins_pwd.c
+SRCS += builtins_cd.c
+SRCS += cleaner_quote.c
+SRCS += cleaner_quote_utils.c
+SRCS += quote_checker.c
+SRCS += builtins_cd_transform.c
+SRCS += builtins_cd_check.c
+SRCS += builtins_exit_utils.c
+SRCS += builtins_history.c
+SRCS += create_tab_redir.c
+SRCS += lexer_utils.c
+SRCS += builtins_exit_error.c
+SRCS += builtins_cd_utils.c
+SRCS += get_redir_before.c
+SRCS += cleaner_quote_pop.c
+SRCS += cleaner_double_quote.c
+SRCS += cleaner_expansion.c
+SRCS += handle_no_word_parse.c
 
 
 OBJ_DIR = ./objs/
+OBJ_BONUS_DIR = ./objs_bonus/
 
 vpath %.c sources/
 vpath %.c sources/general_utils
@@ -197,12 +296,16 @@ vpath %.c sources/builtins/cd
 vpath %.c sources/builtins/exit
 
 OBJS = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
+OBJS_BONUS = $(patsubst %.c, $(OBJ_BONUS_DIR)%.o, $(SRCS_BONUS))
 
 all : $(LIB)
 	$(MAKE) $(NAME)
 
 $(OBJS): $(OBJ_DIR)%.o: %.c $(HEADER)
 	$(CC) -D DEBUG_MODE=$(DEBUG_MODE) -D BONUS_FLAG=1 $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
+
+$(OBJS_BONUS): $(OBJ_BONUS_DIR)%.o: %.c $(HEADER_BONUS)
+	$(CC) $(CFLAGS) -c $<  -I $(INCLUDES_BONUS) -I $(INCLUDES_LIB) -o $@
 
 $(NAME): $(OBJ_DIR) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -I$(INCLUDES) -I$(INCLUDES_LIB) $(LIB_TERMCAP) -L./libft -lft -o $@
@@ -218,10 +321,10 @@ FORCE :
 
 clean :
 	$(MAKE) clean -C $(LIBDIR)
-	$(RM) -R $(OBJ_DIR)
+	$(RM) -R $(OBJ_DIR) $(OBJ_BONUS_DIR)
 
 minishellclean :
-	$(RM) -R $(OBJ_DIR)
+	$(RM) -R $(OBJ_DIR) $(OBJ_BONUS_DIR)
 
 fclean : clean
 	$(MAKE) fclean -C $(LIBDIR)
@@ -229,6 +332,11 @@ fclean : clean
 
 mclean : minishellclean
 	$(RM) $(NAME)
+
+bonus_comp : $(OBJ_DIR) $(OBJ_BONUS)
+
+bonus : $(LIB)
+	$(MAKE) bonus_comp
 
 re : fclean
 	$(MAKE)

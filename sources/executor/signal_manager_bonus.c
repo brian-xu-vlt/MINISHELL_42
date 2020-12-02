@@ -1,4 +1,4 @@
-#include "minishell_bonus.h"
+#include "minishell.h"
 
 static void	newprompt_at_signal(int sig)
 {

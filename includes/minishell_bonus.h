@@ -1,5 +1,5 @@
-#ifndef MINISHELL_BONUS_H
-# define MINISHELL_BONUS_H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 # ifndef BONUS_FLAG
 #  define BONUS_FLAG	FALSE
@@ -25,11 +25,11 @@
 # include <dirent.h>
 
 # include "line_editor_bonus.h"
-# include "define_bonus.h"
-# include "enum_bonus.h"
-# include "struct_bonus.h"
-# include "cleaner_bonus.h"
-# include "lexer_bonus.h"
+# include "define.h"
+# include "enum.h"
+# include "struct.h"
+# include "cleaner.h"
+# include "lexer.h"
 
 /*
 *******************************_FUNCTION_*************************************

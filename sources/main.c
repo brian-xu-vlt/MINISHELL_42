@@ -1,19 +1,27 @@
-#include "minishell_bonus.h"
+#include "minishell.h"
 
-static void	print_prompt(void)
+static int	read_loop(void)
 {
-	ft_printf("SHELL > ");
-}
+	int			read_ret;
+	t_data		*data;
 
-static void	read_loop(t_vector *cmd_line)
-{
-	print_prompt();
-	vct_readline(cmd_line, 0);
+
+	read_ret = 0;
+	data = get_data_struct(GET);
+	if (data == NULL)
+		exit_routine(EXIT_MALLOC);
+	ft_dprintf(STDERR_FILENO, "%s", PROMPT_SIMPLE);
+	errno = 0;
+	if ((read_ret = vct_readline(data->cmd_line, 0)) == FAILURE)
+	{
+		print_set_errno(errno, NULL, NULL, NULL);
+		exit_routine(EXIT_ERRNO);
+	}
+	return (read_ret);
 }
 
 static void	usage(int ac, char **av)
 {
-	(void)ac;
 	(void)av;
 	if (ac != 1)
 	{
@@ -44,35 +52,94 @@ static t_list	*process_minishell(t_vector *cmd_line)
 	return (jobs);
 }
 
+static void	check_std_fd(void)
+{
+	struct stat	wstat;
+
+	if ((write(STDOUT_FILENO, "", 0) == FAILURE)
+	|| (write(STDERR_FILENO, "", 0) == FAILURE)
+	|| (fstat(STDIN_FILENO, &wstat) != 0))
+		exit_routine(EXIT_NO_TTY);
+}
+
+static t_data	*init_data_struct(void)
+{
+	t_data		*new_data;
+
+	new_data = (t_data*)ft_calloc(1, sizeof(t_data));
+	if (new_data == NULL)
+	 	exit (FAILURE);
+	get_data_struct(new_data);
+	return (new_data);
+}
+
+static int	reader(void)
+{
+	int			ret_read;
+
+	ret_read = 0;
+	signal_manager(SIG_MODE_CMD_LINE_NO_BONUS);
+	ret_read = read_loop();
+	return (ret_read);
+}
+
+static int exit_main()
+{
+	int			last_exit_status;
+	t_data		*data;
+
+	last_exit_status = get_env_value_int(get_env_list(GET), S_QUESTION_MARK);
+	data = get_data_struct(GET);
+	if (data != NULL)
+	{
+		if (data->cmd_line != NULL)
+			vct_del(&data->cmd_line);
+		exit_routine_env();
+		if (data->current_jobs != NULL)
+			free_list_job(&data->current_jobs);
+		free(data);
+	}
+	vct_readline(NULL, -42);
+	return (last_exit_status);
+}
+
 int			main(int ac, char **av)
 {
 	t_vector	*cmd_line;
 	t_list		*jobs;
+	t_data		*data;
+	int			ret_read;
 
+	check_std_fd();
 	usage(ac, av);
-	init_env();
-	cmd_line = safe_vct_new();
-	init_line_editor(cmd_line);
+
+	data = init_data_struct();
+
 	jobs = NULL;
-	while (1)
+	ret_read = 1;
+	cmd_line = safe_vct_new();
+	data->cmd_line = cmd_line;
+
+	init_env();
+
+	while (ret_read > 0)
 	{
-		signal_manager(SIG_MODE_CMD_LINE);
-		read_loop(cmd_line);
-		jobs = process_minishell(cmd_line);
-		if (jobs != NULL)
+		ret_read = reader();
+		if (vct_getlen(cmd_line) > 0)
 		{
-			if (hub_cleaner(jobs) == FAILURE)
+			jobs = process_minishell(cmd_line);
+			if (jobs != NULL)
 			{
-				vct_clear(cmd_line);
+				data->current_jobs = jobs;
+				if (hub_cleaner(jobs) == FAILURE)
+					exit_routine(EXIT_MALLOC);
 				free_list_job(&jobs);
-				exit_routine(EXIT_NORMAL);
-				return (EXIT_FAILURE);
+				data->current_jobs = NULL;
+				vct_clear(cmd_line);
 			}
 		}
-		vct_clear(cmd_line);
-		free_list_job(&jobs);
 	}
-	exit_routine(EXIT_NORMAL);
-	free_list_job(&jobs);
-	return (EXIT_SUCCESS);
+	if (DEBUG_MODE != true)
+		ft_dprintf(STDERR_FILENO, "%s\n", EXIT);
+	return (exit_main());
 }
