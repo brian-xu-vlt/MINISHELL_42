@@ -41,7 +41,8 @@ int			pwd_builtin(int ac, char **av, __attribute__((unused)) char **envp)
 	pwd = getcwd(buff, PATH_MAX);
 	if (pwd == NULL)
 	{
-		ft_putendl_fd(ERR_GET_PWD, STDERR_FILENO);
+		ft_putstr_fd(ERR_GET_PWD1, STDERR_FILENO);
+		ft_putendl_fd(ERR_GET_PWD2, STDERR_FILENO);
 		free(buff);
 		return (errno == 2 ? 1 : PWD_FAIL);
 	}
