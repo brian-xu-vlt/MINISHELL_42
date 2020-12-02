@@ -51,8 +51,8 @@ HEADER += $(INCLUDES)minishell_bonus.h
 HEADER += $(INCLUDES)define_bonus.h
 HEADER += $(INCLUDES)enum_bonus.h
 HEADER += $(INCLUDES)lexer_bonus.h
+HEADER += $(INCLUDES)cleaner_bonus.h
 HEADER += $(INCLUDES)line_editor_bonus.h
-HEADER += $(INCLUDES)parser_bonus.h
 HEADER += $(INCLUDES)struct_bonus.h
 
 SRCS += exit_routine_bonus.c
@@ -127,6 +127,7 @@ SRCS += execution_main_process_bonus.c
 SRCS += execution_subshell_bonus.c
 SRCS += executor_bonus.c
 SRCS += exec_builtin_bonus.c
+SRCS += hub_open_file_redirect_bonus.c
 SRCS += locate_bin_bonus.c
 SRCS += exec_bin_bonus.c
 SRCS += job_command_bonus.c

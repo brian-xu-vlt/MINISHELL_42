@@ -17,6 +17,7 @@ static int	hub_redirection(int flag, t_cmd *cmd, size_t i)
 {
 	int	ret_file;
 
+	ret_file = SUCCESS;
 	if (ft_strequ(flag == AFTER ? cmd->tab_redir[i] : cmd->tab_redir_before[i],
 			DOUBLE_GREATER) == TRUE)
 		ret_file = process_double_greater(flag == AFTER ?
@@ -39,7 +40,6 @@ void		process_open_file(t_cmd *cmd, int flag)
 	size_t			size;
 
 	i = 0;
-	size = 0;
 	ret_file = SUCCESS;
 	size = set_size(cmd, flag);
 	while (i < size)

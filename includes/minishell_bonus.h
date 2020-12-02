@@ -24,10 +24,12 @@
 # include <signal.h>
 # include <dirent.h>
 
+# include "line_editor_bonus.h"
 # include "define_bonus.h"
 # include "enum_bonus.h"
-# include "line_editor_bonus.h"
 # include "struct_bonus.h"
+# include "cleaner_bonus.h"
+# include "lexer_bonus.h"
 
 /*
 *******************************_FUNCTION_*************************************

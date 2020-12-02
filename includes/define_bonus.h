@@ -124,6 +124,8 @@
 /*******************************************************************************
 *******************************_BUILTIN_****************************************
 *******************************************************************************/
+# define ERR_GET_PWD1 "pwd: error retrieving current directory: getcwd: cannot"
+# define ERR_GET_PWD2 " access parent directories: No such file or directory"
 
 # define STR_PWD "pwd"
 # define PWD_FAIL 2
@@ -144,9 +146,39 @@
 # define DOT					'.'
 # define C_PLUS				'+'
 # define C_MINUS				'-'
-# define ERR_GET_PWD1 "pwd: error retrieving current directory: getcwd: cannot"
-# define ERR_GET_PWD2 " access parent directories: No such file or directory"
-
+# define EXIT				"exit"
+# define EXIT_FAIL			1
+# define S_PLUS				"+"
+# define S_MINUS				"-"
+# define LEN_MIN_LONG		20
+# define LEN_PLUS_LONG		19
+# define POP_SPACE_TAB		0
+# define COUNT_NUM			1
+# define STR_UNSET				"unset"
+# define PWD_HOME			0
+# define PWD_DIR				1
+# define NOTHING				2
+# define PWD_OLDPWD			3
+# define INVALID_OPTION		0
+# define DIR_NULL			1
+# define ERR_PERMISSION		"Permission denied"
+# define ERR_NOT_DIR			"Not a directory"
+# define CD_BUILT			"Minishell: cd:"
+# define ERR_PERMISSION_SPACE	": Permission denied"
+# define ERR_NOT_DIR_SPACE		": Not a directory"
+# define HOME_SET			"HOME not set"
+# define OLDPWD_SET			"OLDPWD not set"
+# define OLDPWD_VALUE		"OLDPWD has no value"
+# define HOME_VALUE			"HOME has no value"
+# define ERR_ARG				"too many arguments"
+# define ERR_OPT				"invalid option"
+# define ERR_USAGE 			"cd: usage: cd [-L|[-P [-e]] [-@]] [dir]"
+# define ERR_CLOSE 			"closedir"
+# define ERR_NUM 			"numeric argument required"
+# define ERR_MANY 			"too many arguments"
+# define ERR_PWD_OPT			"invalid option"
+# define STR_PWD				"pwd"
+# define ERR_PWD_US 			"pwd: usage: pwd [-LP]\n"
 # define BUILTIN_ENV_FAILURE			125
 
 # define BUILTIN_INVALID_IDENTIFIER	2
@@ -168,7 +200,7 @@
 
 # define SHLVL_MIN					0
 # define SHLVL_MAX					1000
-# define SHLVL_MAX_MESSAGE			"Minishell: warning: shell level (limited to 1000) too high, resetting to 1\n"
+# define SHLVL_MAX_MESSAGE "Minishell: warning: shell level (limited to 1000) too high, resetting to 1\n"
 
 # define ALL NULL
 # define NOT_FOUND NULL
@@ -215,6 +247,8 @@
 /*******************************************************************************
 ***************************_EXIT ROUTINE_**************************************
 *******************************************************************************/
+
+# define EXIT						"exit"
 
 # define EXIT_NORMAL				0
 # define EXIT_ENV		 			-2
