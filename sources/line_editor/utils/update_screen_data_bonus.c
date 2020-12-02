@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "minishell_bonus.h"
 
 void	update_cursor_infos(void)
 {

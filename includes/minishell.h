@@ -1,10 +1,6 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# ifndef BONUS_FLAG
-#  define BONUS_FLAG	FALSE
-# endif
-
 /*
 *******************************_INCLUDE_**************************************
 */

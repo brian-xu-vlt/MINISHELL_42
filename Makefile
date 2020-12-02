@@ -302,11 +302,11 @@ all : $(LIB)
 bonus : $(LIB)
 	$(MAKE) bonus_comp
 
-$(OBJS): $(OBJ_DIR)%.o: %.c $(HEADER)
-	$(CC) -D DEBUG_MODE=$(DEBUG_MODE) -D BONUS_FLAG=1 $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
+# $(OBJS): $(OBJ_DIR)%.o: %.c $(HEADER)
+# 	$(CC) -D DEBUG_MODE=$(DEBUG_MODE) -D $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
 
 $(OBJS_BONUS): $(OBJ_DIR)%.o: %.c $(HEADER_BONUS)
-	$(CC) -D DEBUG_MODE=$(DEBUG_MODE) -D BONUS_FLAG=1 $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
+	$(CC) -D DEBUG_MODE=$(DEBUG_MODE) -D $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
 	# $(CC) $(CFLAGS) -c $<  -I $(INCLUDES_BONUS) -I $(INCLUDES_LIB) -o $@
 
 $(NAME): $(OBJ_DIR) $(OBJS)

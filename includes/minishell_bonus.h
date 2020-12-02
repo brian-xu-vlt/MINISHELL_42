@@ -1,9 +1,5 @@
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-# ifndef BONUS_FLAG
-#  define BONUS_FLAG	FALSE
-# endif
+#ifndef MINISHELL_BONUS_H
+# define MINISHELL_BONUS_H
 
 /*
 *******************************_INCLUDE_**************************************
