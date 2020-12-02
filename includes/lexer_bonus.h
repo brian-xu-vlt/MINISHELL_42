@@ -7,7 +7,6 @@
 /*******************************_LEXER_****************************************/
 /******************************************************************************/
 
-<<<<<<< HEAD
 t_list					*lexer(t_vector *input);
 size_t					get_token(char c);
 ssize_t					get_double_token(t_vector *input);
@@ -47,13 +46,5 @@ int 					backslash(char c, t_vector *word, t_vector *input,
 bool 					parse_backslash(t_vector *input, t_vector *word, bool
 									is_quoting);
 void					pop_input_word(t_vector *input, t_vector *word);
-||||||| merged common ancestors
-#define START				-1
-#define END					-2
-
-=======
-
-
->>>>>>> 49d353eabd1081e824cb456f7c6d054cf7230de6
 
 #endif
