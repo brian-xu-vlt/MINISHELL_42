@@ -45,26 +45,28 @@ CC = gcc
 LIB_TERMCAP = -lncurses -ltermcap
 
 INCLUDES = ./includes/
+INCLUDES_BONUS = ./includes_bonus/
 INCLUDES_LIB = ./libft/includes/
 
+HEADER += $(INCLUDES)line_editor.h
 HEADER += $(INCLUDES)minishell.h
 HEADER += $(INCLUDES)define.h
 HEADER += $(INCLUDES)enum.h
 HEADER += $(INCLUDES)lexer.h
 HEADER += $(INCLUDES)cleaner.h
-HEADER += $(INCLUDES)line_editor.h
 HEADER += $(INCLUDES)struct.h
 
-HEADER_BONUS += $(INCLUDES)minishell_bonus.h
-HEADER_BONUS += $(INCLUDES)define.h
-HEADER_BONUS += $(INCLUDES)enum.h
-HEADER_BONUS += $(INCLUDES)lexer.h
-HEADER_BONUS += $(INCLUDES)cleaner.h
-HEADER_BONUS += $(INCLUDES)line_editor_bonus.h
-HEADER_BONUS += $(INCLUDES)struct.h
+HEADER_BONUS += $(INCLUDES_BONUS)line_editor.h
+HEADER_BONUS += $(INCLUDES_BONUS)minishell.h
+HEADER_BONUS += $(INCLUDES_BONUS)define.h
+HEADER_BONUS += $(INCLUDES_BONUS)enum.h
+HEADER_BONUS += $(INCLUDES_BONUS)lexer.h
+HEADER_BONUS += $(INCLUDES_BONUS)cleaner.h
+HEADER_BONUS += $(INCLUDES_BONUS)struct.h
 
+SRCS_BONUS += main_bonus.c
 SRCS_BONUS += line_editor_bonus.c
-SRCS_BONUS += debug_tools.c
+# SRCS_BONUS += debug_tools.c
 SRCS_BONUS += print_command_line_bonus.c
 SRCS_BONUS += refresh_command_line_bonus.c
 SRCS_BONUS += handle_esc_seq_bonus.c
@@ -83,13 +85,11 @@ SRCS_BONUS += update_screen_data_bonus.c
 SRCS_BONUS += line_editor_utils_bonus.c
 SRCS_BONUS += line_editor_is_utils_bonus.c
 SRCS_BONUS += utils_cursor_bonus.c
-SRCS_BONUS += main_bonus.c
 
 SRCS_BONUS += exit_routine_bonus.c
 SRCS_BONUS += exit_routine_env.c
 SRCS_BONUS += exit_routine_line_editor_bonus.c
 
-SRCS_BONUS += main.c
 SRCS_BONUS += test_lexer.c
 SRCS_BONUS += test_parser.c
 SRCS_BONUS += test_jobs.c
@@ -277,7 +277,7 @@ vpath %.c sources/env/print_utils
 vpath %.c sources/executor
 vpath %.c sources/parser
 vpath %.c sources/line_editor
-vpath %.c sources/line_editor/debug
+# vpath %.c sources/line_editor/debug
 vpath %.c sources/line_editor/display
 vpath %.c sources/line_editor/handlers
 vpath %.c sources/line_editor/init
@@ -303,15 +303,18 @@ bonus : $(LIB)
 	$(MAKE) bonus_comp
 
 # $(OBJS): $(OBJ_DIR)%.o: %.c $(HEADER)
-# 	$(CC) -D DEBUG_MODE=$(DEBUG_MODE) -D $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
+# 	$(CC) -D DEBUG_MODE=$(DEBUG_MODE) $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
 
 $(OBJS_BONUS): $(OBJ_DIR)%.o: %.c $(HEADER_BONUS)
-	$(CC) -D DEBUG_MODE=$(DEBUG_MODE) -D $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
-	# $(CC) $(CFLAGS) -c $<  -I $(INCLUDES_BONUS) -I $(INCLUDES_LIB) -o $@
+	$(CC) $(CFLAGS) -c $<  -I $(INCLUDES_BONUS) -I $(INCLUDES_LIB) -o $@
 
 $(NAME): $(OBJ_DIR) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -I$(INCLUDES) -I$(INCLUDES_LIB) $(LIB_TERMCAP) -L./libft -lft -o $@
 	@echo "\033[32m$@ is ready !\033[0m"
+
+bonus_comp : $(OBJ_DIR) $(OBJS_BONUS)
+	$(CC) $(CFLAGS) $(OBJS_BONUS) -I$(INCLUDES_BONUS) -I$(INCLUDES_LIB)	$(LIB_TERMCAP) -L./libft -lft -o $(NAME)
+	@echo "\033[32m$@ is ready ! With Bonus !! \033[0m"
 
 $(OBJ_DIR):
 	mkdir $@
@@ -319,7 +322,7 @@ $(OBJ_DIR):
 $(LIB) : FORCE
 	$(MAKE) -C $(LIBDIR)
 
-FORCE :
+# FORCE :
 
 clean :
 	$(MAKE) clean -C $(LIBDIR)
@@ -334,10 +337,6 @@ fclean : clean
 
 mclean : minishellclean
 	$(RM) $(NAME)
-
-bonus_comp : $(OBJ_DIR) $(OBJS_BONUS)
-	$(CC) DEBUG_MODE=$(DEBUG_MODE) $(CFLAGS) $(OBJS_BONUS) -I$(INCLUDES) -I$(INCLUDES_LIB) -L./libft -lft -o $(NAME)
-	@echo "\033[32m$@ is ready ! With Bonus !! \033[0m"
 
 re : fclean
 	$(MAKE)

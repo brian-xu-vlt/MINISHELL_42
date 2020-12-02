@@ -1,5 +1,5 @@
-#ifndef LINE_EDITOR_BONUS_H
-# define LINE_EDITOR_BONUS_H
+#ifndef LINE_EDITOR_H
+# define LINE_EDITOR_H
 
 # ifndef DEBUG_MODE
 #  define DEBUG_MODE FALSE

@@ -1,4 +1,4 @@
-#include "minishell_bonus.h"
+#include "minishell.h"
 
 int		ms_tputs(const char *str, int affcnt, int (*putc_function)(int))
 {

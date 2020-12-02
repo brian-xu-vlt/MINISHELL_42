@@ -1,12 +1,10 @@
-#ifndef MINISHELL_BONUS_H
-# define MINISHELL_BONUS_H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 /*
 *******************************_INCLUDE_**************************************
 */
-
 # include "libft.h"
-
 # include <string.h>
 # include <errno.h>
 # include <sys/types.h>
@@ -20,7 +18,7 @@
 # include <signal.h>
 # include <dirent.h>
 
-# include "line_editor_bonus.h"
+# include "line_editor.h"
 # include "define.h"
 # include "enum.h"
 # include "struct.h"
