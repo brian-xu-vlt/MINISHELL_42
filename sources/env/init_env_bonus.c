@@ -15,7 +15,8 @@ static void		set_default_env(t_list *env_lst)
 	export_env(env_lst, "OLDPWD");
 	ms_putenv(env_lst, DEFAULT_EXIT_STATUS);
 	if (vct_getstr(get_env_value_vct(env_lst, "PATH")) == NOT_FOUND)
-		ms_putenv(env_lst, DEFAULT_PATH_ENV);
+		ms_putenv(env_lst,
+	"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
 	if (vct_getstr(get_env_value_vct(env_lst, "TERM")) == NOT_FOUND)
 		ms_putenv(env_lst, DEFAULT_TERM);
 }
@@ -31,7 +32,8 @@ static void		manage_shlevel(t_list *env_lst)
 		shlvl_int++;
 	if (shlvl_int >= SHLVL_MAX)
 	{
-		ft_putstr_fd(SHLVL_MAX_MESSAGE, STDERR_FILENO);
+		ft_dprintf(STDERR_FILENO, "Minishell: warning: shell level"
+	"(%d) too high, resetting to 1\n", shlvl_int);
 		shlvl_int = 1;
 	}
 	ms_setenv_int(env_lst, "SHLVL", shlvl_int, F_OVERWRITE | F_EXPORT);

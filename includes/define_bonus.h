@@ -200,7 +200,6 @@
 
 # define SHLVL_MIN					0
 # define SHLVL_MAX					1000
-# define SHLVL_MAX_MESSAGE "Minishell: warning: shell level (limited to 1000) too high, resetting to 1\n"
 
 # define ALL NULL
 # define NOT_FOUND NULL
@@ -236,7 +235,6 @@
 # define ERR_NO_COMMAND			"command not found"
 # define ERR_NO_FILE				"No such file or directory"
 
-# define DEFAULT_PATH_ENV "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 # define DEFAULT_TERM			"TERM=dumb"
 # define DEFAULT_EXIT_STATUS		"?=0"
 

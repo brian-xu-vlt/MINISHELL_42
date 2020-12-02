@@ -11,7 +11,7 @@ t_list					*lexer(t_vector *input);
 size_t					get_token(char c);
 ssize_t					get_double_token(t_vector *input);
 void					free_list_token(t_list **token);
-int 					extract_token(t_list **token_list, char *str,
+int						extract_token(t_list **token_list, char *str,
 										size_t type);
 void					exit_routine_lexer(t_vector *word, t_vector *vct,
 											t_vector *tmp, t_token *token);
@@ -27,7 +27,7 @@ void					free_list_token(t_list **token);
 const char				*get_token_str(const int type);
 char					*get_data(int type);
 void					free_token(t_list *node, t_token *token);
-int 					handle_ret_lexer(int ret_process_lexer,
+int						handle_ret_lexer(int ret_process_lexer,
 											t_list *token_list, t_vector *word,
 											int flag);
 t_list					*get_job(t_list *job);
@@ -37,13 +37,13 @@ bool					stop_assign_char(char c);
 bool					stop_assign_str(t_vector *input);
 int						is_newline_error(bool dquote_state, bool quote_state,
 											t_vector *input);
-int 					backsl_quote(bool quote_state, bool dquote_state,
+int						backsl_quote(bool quote_state, bool dquote_state,
 										t_vector *input, t_vector *word);
-int 					handle_quote(char c, bool quote_state, bool dquote_state,
-										t_vector *input);
-int 					backslash(char c, t_vector *word, t_vector *input,
+int						handle_quote(char c, bool quote_state,
+										bool dquote_state, t_vector *input);
+int						backslash(char c, t_vector *word, t_vector *input,
 									char next_c);
-bool 					parse_backslash(t_vector *input, t_vector *word, bool
+bool					parse_backslash(t_vector *input, t_vector *word, bool
 									is_quoting);
 void					pop_input_word(t_vector *input, t_vector *word);
 

@@ -2,7 +2,7 @@
 # define MINISHELL_BONUS_H
 
 # ifndef BONUS_FLAG
-#  define	BONUS_FLAG		FALSE
+#  define BONUS_FLAG	FALSE
 # endif
 
 /*
@@ -39,7 +39,6 @@ int			test(t_vector *input);
 int			test_env(t_vector *input);
 int			test_executor(t_list *jobs);
 
-
 t_list		*test_lexer(t_vector *input);
 int			test_parser(t_list *lexer_list);
 t_list		*test_jobs(t_list *lexer_list);
@@ -50,7 +49,7 @@ t_list		*test_jobs(t_list *lexer_list);
 
 int			parser_token(t_list *token_list);
 int			process_parser(t_list *list, t_valid_token *valid_token);
-void			debug(const int type);
+void		debug(const int type);
 
 /*
 *******************************_JOB/COMMAND_**********************************
@@ -64,8 +63,7 @@ int			next_is_end(t_list **token_list);
 bool		is_cmd_sep(t_token *token);
 bool		is_job_sep(t_token *token);
 int			get_tablen(char **av);
-t_cmd		*create_cmd(t_cmd *cmd_model);
-int 		add_cmd_to_job(t_job *job, t_cmd *cmd_model);
+int			add_cmd_to_job(t_job *job, t_cmd *cmd_model);
 void		init_cmd_var(t_cmd *cmd, t_list **list);
 int			fill_cmd_model(t_cmd *cmd, t_token *token, int type);
 char		*debug_get_type(int type);
@@ -109,9 +107,9 @@ void		init_all(t_cmd *cmd);
 */
 
 void		process_open_file(t_cmd *cmd, int flag);
-int 		process_double_greater(char *str, t_cmd *cmd);
-int 		process_greater(char *str, t_cmd *cmd);
-int 		process_less(char *str, t_cmd *cmd);
+int			process_double_greater(char *str, t_cmd *cmd);
+int			process_greater(char *str, t_cmd *cmd);
+int			process_less(char *str, t_cmd *cmd);
 void		print_file_error(char **str, size_t i, size_t size);
 int			set_size(t_cmd *cmd, int flag);
 void		export_envp(char **envp);
@@ -126,7 +124,6 @@ void		exec_subshell(t_job *job, t_cmd *cmd, int p_in[2], int p_out[2]);
 void		executor(t_job *job);
 char		*locate_binary_file(const char *bin_name);
 int			is_path(const char *bin_name);
-
 
 int			is_valid_job(const t_job *job);
 int			is_last_cmd(const int cmd_index, const int nb_cmd);
@@ -158,9 +155,9 @@ void		free_char_arr(char **arr);
 */
 
 void		print_set_errno(int errno_value, const char *err_str,
-							const char *function_name, const char *error_source);
+						const char *function_name, const char *error_source);
 void		print_invalid_identifier(const char *function_name,
-														const char *error_source);
+													const char *error_source);
 void		print_invalid_option(const char *function_name,
 								const char *error_source, const char *usage);
 
@@ -178,11 +175,11 @@ int			unset_builtin(int argc, char **argv, char **envp);
 int			pwd_builtin(int ac, char **av, char **envp);
 int			echo_builtin(int ac, char **av, char **envp);
 int			handle_pwd(char *dir);
-int 		cd_builtin(int ac, char **av, char **envp);
-char 		*handle_permission_denied(char *dir_denied);
-int 		check_cd_arg(int ac);
-int 		first_check(char *directory);
-void 		transform_new_dir(t_vector *new_dir, char *pwd, char *dir_denied);
+int			cd_builtin(int ac, char **av, char **envp);
+char		*handle_permission_denied(char *dir_denied);
+int			check_cd_arg(int ac);
+int			first_check(char *directory);
+void		transform_new_dir(t_vector *new_dir, char *pwd, char *dir_denied);
 int			check_arg(t_vector *vct_av, char c, char *av, int ac);
 bool		is_long(t_vector *av, char c);
 bool		parse_vct(t_vector *vct_av);
@@ -193,14 +190,15 @@ bool		is_numeric(t_vector *av);
 int			process_error(t_vector *vct_home, char *dir, t_vector *vct_old_pwd);
 int			print_error(t_vector *vct_av, char *av, char c, int flag);
 void		handle_exit_value(t_vector *vct_av, t_vector *vct_av_cpy, char c);
-int 		handle_old_pwd(char *old_dir);
-int 		handle_permission_not(char *dir, char *pwd, char *old_dir);
-void 		swap_pwd(int flag, char *dir);
-void 		get_value(t_vector **vct_pwd, t_vector **vct_old, t_vector **vct_home);
-void 		free_clean_command(t_clean_cmd *clean_cmd, int flag);
+int			handle_old_pwd(char *old_dir);
+int			handle_permission_not(char *dir, char *pwd, char *old_dir);
+void		swap_pwd(int flag, char *dir);
+void		get_value(t_vector **vct_pwd, t_vector **vct_old,
+														t_vector **vct_home);
+void		free_clean_command(t_clean_cmd *clean_cmd, int flag);
 void		set_env(t_vector *vct_pwd, t_vector *vct_old);
 void		exit_error(t_vector *vct_av, char *av, char c, int flag);
-void 		set_old_pwd(char *dir, char *pwd, int flag);
+void		set_old_pwd(char *dir, char *pwd, int flag);
 
 /*
 *******************************_ENV_MANAGER_**********************************
@@ -214,7 +212,7 @@ void		unset_env(t_list *env_lst, const char *env_name);
 
 void		store_env(t_list *env_lst, const char *env, int flags);
 void		ms_setenv(t_list *env_lst, const char *env_name,
-												const char *env_value, int flags);
+											const char *env_value, int flags);
 void		ms_setenv_int(t_list *env_lst, const char *env_name, int value,
 													int flags);
 void		ms_putenv(t_list *env_lst, const char *env);
@@ -238,13 +236,12 @@ t_vector	*get_env_value_vct(t_list *env_lst, const char *env_name);
 int			get_env_value_int(t_list *env_lst, const char *env_name);
 
 void		parse_env(const char *env, char **env_name, char **env_value,
-																	int *overwrite);
+																int *overwrite);
 void		parser_debug(t_token *token);
 
 /*
 *******************************_ENV_MANAGER_**********************************
 */
-
 
 void		exit_routine(int err_code);
 void		exit_routine_line_edition(t_le *le, int err_code);
