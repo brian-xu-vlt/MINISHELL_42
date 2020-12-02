@@ -255,14 +255,10 @@ int 								process_pop(size_t index, t_vector *input,
 /*******************************_EXECUTION_************************************/
 /******************************************************************************/
 
-#define BUILTIN_FAILURE		1
-#define R_END				0
-#define W_END				1
-
 void	process_open_file(t_cmd *cmd, int flag);
 int 	process_double_greater(char *str, t_cmd *cmd);
 int 	process_greater(char *str, t_cmd *cmd);
-int 	process_less(char *str, t_cmd *cmd);
+int 	process_less(char *str, t_cmd *cmd)
 void	print_file_error(char **str, size_t i, size_t size);
 int		set_size(t_cmd *cmd, int flag);
 void	export_envp(char **envp);
@@ -357,13 +353,7 @@ void 	set_old_pwd(char *dir, char *pwd, int flag);
 /*******************************_ENV_MANAGER_**********************************/
 /******************************************************************************/
 
-# define	ALL				NULL
-# define	NOT_FOUND		NULL
 
-# define	F_NOFLAG		0
-# define	F_EXPORT		(1 << 0)
-# define	F_OVERWRITE		(1 << 1)
-# define	F_SPECIAL		(1 << 2)
 
 void		free_env_list(t_list *env_lst);
 
