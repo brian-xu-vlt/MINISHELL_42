@@ -1,43 +1,42 @@
 #ifndef LINE_EDITOR_BONUS_H
 # define LINE_EDITOR_BONUS_H
 
-#include <termcap.h>
-#include <termios.h>
-#include <term.h>
-#include <sys/ioctl.h>
+# include <termcap.h>
+# include <termios.h>
+# include <term.h>
+# include <sys/ioctl.h>
 
-#ifndef DEBUG_MODE
-# define	DEBUG_MODE		FALSE
-#endif
+# ifndef DEBUG_MODE
+#  define DEBUG_MODE FALSE
+# endif
 
-#ifndef DEBUG_LLDB
-# define	DEBUG_LLDB		FALSE
-#endif
+# ifndef DEBUG_LLDB
+#  define DEBUG_LLDB FALSE
+# endif
 
-#ifndef LLDB
-# define	DEBUG_SIGNAL	FALSE
-#endif
-
+# ifndef LLDB
+#  define DEBUG_SIGNAL FALSE
+# endif
 
 /**********************************
-*********     UTILS     ***********
-**********************************/
+/*********     UTILS     ***********
+/**********************************/
 
 # define	GET						NULL
 # define	UNSET					-1
 # define	RESET					-1
 
 /**********************************
-*********  SCREEN  FLAG ***********
-**********************************/
+/*********  SCREEN  FLAG ***********
+/**********************************/
 
 # define	FULL_REFRESH			(1 << 0)
 # define	HISTORY_REFRESH			(1 << 1)
 # define	RESIZE_REFRESH			(1 << 2)
 
 /**********************************
-*********  USER KEYS  *************
-**********************************/
+/*********  USER KEYS  *************
+/**********************************/
 
 # define	K_EOF					4
 # define	K_TAB					9
@@ -65,8 +64,8 @@
 # define	PROMPT_LINE_EDITION		"LINE_EDITION~$>"
 
 /**********************************
-*********  DEBUG TERMCAPS *********
-**********************************/
+/*********  DEBUG TERMCAPS *********
+/**********************************/
 
 # define	HIGHLIGHT				"md"
 # define	NO_HIGHLIGHT			"me"
@@ -74,8 +73,8 @@
 # define	RESTORE_CURSOR_POS		"rc"
 
 /**********************************
-*****  LINE EDITOR TERNCAPS ******
-**********************************/
+/*****  LINE EDITOR TERNCAPS ******
+/**********************************/
 
 # define	NB_ESSENTIAL_TERMCAP	12
 # define	NB_OPTIONAL_TERMCAP		4
@@ -105,8 +104,8 @@ enum	e_optional_termcap
 };
 
 /*************************************************
-**				TYPEDEF
-************************************************/
+/**				TYPEDEF
+/************************************************/
 
 typedef struct	s_line_editor
 {
@@ -130,15 +129,15 @@ typedef struct	s_line_editor
 }				t_le;
 
 /*************************************************
-**				DEBUG
-************************************************/
+/**				DEBUG
+/************************************************/
 
 void		debug_print_infos(void);
 void		debug_print_flag(char *flag);
 
 /*************************************************
-**				UTILS
-************************************************/
+/**				UTILS
+/************************************************/
 
 t_le		*get_struct(t_le *env);
 int         ms_putchar(int c);
@@ -149,8 +148,8 @@ int			is_ctrl_on(long key);
 int			is_ctrl_shift_on(long key);
 
 /*************************************************
-**				HANDLERS
-************************************************/
+/**				HANDLERS
+/************************************************/
 
 void		handle_esc_seq(char key);
 void		handle_print_char(char key);
@@ -168,31 +167,31 @@ void		past_clipboard(void);
 void		cut_selection(void);
 
 /*************************************************
-**				HISTORY
-************************************************/
+/**				HISTORY
+/************************************************/
 
 void		save_history(void);
 void		call_history(long key);
 void		free_history(void);
 
 /*************************************************
-**				SELECTION
-************************************************/
+/**				SELECTION
+/************************************************/
 
 void		init_selection(void);
 void		unselect_all();
 void		update_selection(long key);
 
 /*************************************************
-**				COMMAND_LINE PRINT
-************************************************/
+/**				COMMAND_LINE PRINT
+/************************************************/
 
 void		refresh_command_line(void);
 void		print_cmd_line(void);
 
 /*************************************************
-**				CURSOR
-************************************************/
+/**				CURSOR
+/************************************************/
 
 int			move_cursor_right(void);
 int			move_cursor_left(void);
@@ -202,8 +201,8 @@ void		move_cursor_at_index(int index_to);
 void		update_cursor_infos(void);
 
 /*************************************************
-**				INIT FUNCTIONS
-************************************************/
+/**				INIT FUNCTIONS
+/************************************************/
 
 void		init_prompt(void);
 void		print_prompt(void);
@@ -213,8 +212,8 @@ t_le		*init_line_editor(t_vector *cmd_line);
 void		update_window_size(void);
 
 /*************************************************
-**				MAIN FUNCTIONS
-************************************************/
+/**				MAIN FUNCTIONS
+/************************************************/
 int			line_editor(void);
 
 #endif
