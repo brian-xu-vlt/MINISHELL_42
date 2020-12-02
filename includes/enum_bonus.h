@@ -1,51 +1,44 @@
 #ifndef ENUM_BONUS_H
 # define ENUM_BONUS_H
 
-/******************************************************************************/
-/*******************************_TOKEN_****************************************/
-/******************************************************************************/
-enum e_state
+enum	e_state
 {
-	E_STATE_STRING, //0
-	E_STATE_SQUOTE, //1
-	E_STATE_DQUOTE, //2
-	E_STATE_END,    //3
-	E_STATE_ERROR   //4
+	E_STATE_STRING,
+	E_STATE_SQUOTE,
+	E_STATE_DQUOTE,
+	E_STATE_END,
+	E_STATE_ERROR
 };
 
-enum e_token_type
+enum	e_token_type
 {
-	E_SEPARATOR,//0
-	E_PIPE,//1
-	E_SIMPLE_QUOTE,//2
-	E_QUOTE,//3
-	E_LESS_THAN,//4
-	E_GREATER_THAN,//5
-	E_SPACE,//6
-	E_TAB,//7
-	E_DOUBLE_GREATER,//8
-	E_OR,//9
-	E_AND,//10
-	E_WORD,//11
-	E_EXP,//12
-	E_ASSIGN,//13
-	E_START,//14
-	E_END,//15
-	NO_TYPE//16
+	E_SEPARATOR,
+	E_PIPE,
+	E_SIMPLE_QUOTE,
+	E_QUOTE,
+	E_LESS_THAN,
+	E_GREATER_THAN,
+	E_SPACE,
+	E_TAB,
+	E_DOUBLE_GREATER,
+	E_OR,
+	E_AND,
+	E_WORD,
+	E_EXP,
+	E_ASSIGN,
+	E_START,
+	E_END,
+	NO_TYPE
 };
 
-/******************************************************************************/
-/*******************************_JOBS_COMMAND_*********************************/
-/******************************************************************************/
-
-enum e_condition_type
+enum	e_condition_type
 {
 	E_NONE,
 	E_NOT_OR,
 	E_YES_AND
 };
 
-enum e_cmd_type
+enum	e_cmd_type
 {
 	E_CMD_ASSIGN,
 	E_CMD_S_REDIRECTION,
@@ -53,40 +46,36 @@ enum e_cmd_type
 	E_CMD_AV
 };
 
-#define RESIZE	4
+# define RESIZE	4
 
-/******************************************************************************/
-/**********************************_CLEANER_***********************************/
-/******************************************************************************/
-
-enum e_state_quote_no_exp
+enum	e_state_quote_no_exp
 {
-	E_IN_SIMPLE_QUOTE, //0
-	E_IN_DOUBLE_QUOTE, //1
-	E_OUT				//2
+	E_IN_SIMPLE_QUOTE,
+	E_IN_DOUBLE_QUOTE,
+	E_OUT
 };
 
-enum e_between
+enum	e_between
 {
-	E_NOTHING,//0
-	E_SIMPLE,//1
-	E_DOUBLE,//2
-	E_BOTH //3
+	E_NOTHING,
+	E_SIMPLE,
+	E_DOUBLE,
+	E_BOTH
 };
 
-enum e_cmd
+enum	e_cmd
 {
-	E_ANY,//0
-	E_EXPORT_EXEC,//1
-	E_EXPORT_NO_EXEC,//2
-	E_COMMAND//3
+	E_ANY,
+	E_EXPORT_EXEC,
+	E_EXPORT_NO_EXEC,
+	E_COMMAND
 };
 
-enum e_state_redir
+enum	e_state_redir
 {
-	E_IN_REDIR, //0
-	E_IN_FILE, //1
-	E_IN_OUT		//2
+	E_IN_REDIR,
+	E_IN_FILE,
+	E_IN_OUT
 };
 
 #endif
