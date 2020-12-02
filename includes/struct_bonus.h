@@ -1,46 +1,30 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-/******************************************************************************/
-/**********************************_ENV_***************************************/
-/******************************************************************************/
-
-typedef struct					s_env
+typedef struct				s_env
 {
-	char						*env_name;
-	t_vector					*env_value;
-	int							export_flag;
-}								t_env;
+	char					*env_name;
+	t_vector				*env_value;
+	int						export_flag;
+}							t_env;
 
-/******************************************************************************/
-/*******************************_LEXER_****************************************/
-/******************************************************************************/
-
-typedef struct s_lexer
+typedef struct				s_lexer
 {
-	t_list		*token_list;
-	ssize_t		type;
-	t_vector	*word;
-}				t_lexer;
+	t_list					*token_list;
+	ssize_t					type;
+	t_vector				*word;
+}							t_lexer;
 
-typedef struct s_token
+typedef struct				s_token
 {
-	char				*data;
-	enum e_token_type	type;
-}				t_token;
+	char					*data;
+	enum e_token_type		type;
+}							t_token;
 
-/******************************************************************************/
-/*******************************_PARSER_***************************************/
-/******************************************************************************/
-
-typedef struct					s_valid_token
+typedef struct				s_valid_token
 {
-	enum e_token_type			*next_token;
-}								t_valid_token;
-
-/******************************************************************************/
-/*******************************_JOB/COMMAND_**********************************/
-/******************************************************************************/
+	enum e_token_type		*next_token;
+}							t_valid_token;
 
 typedef struct				s_draft
 {
@@ -51,7 +35,7 @@ typedef struct				s_cmd
 {
 	char					*name;
 	char					**av;
-	enum e_token_type			*type;
+	enum e_token_type		*type;
 	int						ac;
 	int						fd[NB_FD];
 	int						fd_before[NB_FD];
@@ -75,41 +59,39 @@ typedef struct				s_cmd
 	size_t					i_exp;
 	bool					err_exit;
 	bool					solo_builtin;
-}
-							t_cmd;
+}							t_cmd;
 
 typedef struct				s_clean_cmd
 {
-	size_t	count_assign;
-	size_t	ac;
-	size_t	index_export;
-	size_t	index_redir;
-	size_t	count_redir;
-	size_t	count_other;
-	char	**tmp_tab_redir;
-	char	**tab_redir;
-	char	**tmp_av;
-	char	**av;
-	int		tmp_fd_in;
-	int		tmp_fd_out;
-	int		tmp_fd_append;
+	size_t					count_assign;
+	size_t					ac;
+	size_t					index_export;
+	size_t					index_redir;
+	size_t					count_redir;
+	size_t					count_other;
+	char					**tmp_tab_redir;
+	char					**tab_redir;
+	char					**tmp_av;
+	char					**av;
+	int						tmp_fd_in;
+	int						tmp_fd_out;
+	int						tmp_fd_append;
 	int						index_cmd;
-}
-							t_clean_cmd;
+}							t_clean_cmd;
 
-typedef struct					s_job
+typedef struct				s_job
 {
 	t_list					*cmd_lst;
 	size_t					nb_cmd;
 	pid_t 					last_pid;
-}								t_job;
+}							t_job;
 
-typedef struct					s_data
+typedef struct				s_data
 {
 	t_le					*line_editor_data;
 	t_list					*current_jobs;
 	t_vector				*cmd_line;
 	t_list					*lexer_list;
-}								t_data;
+}							t_data;
 
 #endif

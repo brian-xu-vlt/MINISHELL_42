@@ -19,7 +19,7 @@
 # endif
 
 /*
-** UTILS
+*********     UTILS     ***********
 */
 
 # define GET					NULL
@@ -27,7 +27,7 @@
 # define RESET					-1
 
 /*
-** SCREEN FLAG
+*********  SCREEN  FLAG ***********
 */
 
 # define FULL_REFRESH			0x000001
@@ -35,7 +35,7 @@
 # define RESIZE_REFRESH			0x000004
 
 /*
-** USER KEYS
+*********  USER KEYS  *************
 */
 
 # define K_EOF					4
@@ -64,7 +64,7 @@
 # define PROMPT_LINE_EDITION	"LINE_EDITION~$>"
 
 /*
-** DEBUG TERMCAPS
+*********  DEBUG TERMCAPS *********
 */
 
 # define HIGHLIGHT				"md"
@@ -73,7 +73,7 @@
 # define RESTORE_CURSOR_POS		"rc"
 
 /*
-** LINE EDITOR TERMCAPS
+*****  LINE EDITOR TERNCAPS ******
 */
 
 # define NB_ESSENTIAL_TERMCAP	12
@@ -103,6 +103,10 @@ enum	e_optional_termcap
 	SCROLLING_CAPABILITY
 };
 
+/*
+**				TYPEDEF
+*/
+
 typedef struct		s_line_editor
 {
 	int				screen_flag;
@@ -125,26 +129,26 @@ typedef struct		s_line_editor
 }					t_le;
 
 /*
-** DEBUG
+**				DEBUG
 */
 
 void				debug_print_infos(void);
 void				debug_print_flag(char *flag);
 
 /*
-** UTILS
+**				UTILS
 */
 
 t_le				*get_struct(t_le *env);
 int					ms_putchar(int c);
-void				ms_tputs(const char *str, int affcnt, int (*putc)(int));
+int					ms_tputs(const char *str, int affcnt, int (*putc)(int));
 
-void				is_shift_on(long key);
-void				is_ctrl_on(long key);
-void				is_ctrl_shift_on(long key);
+int					is_shift_on(long key);
+int					is_ctrl_on(long key);
+int					is_ctrl_shift_on(long key);
 
 /*
-** HANDLERS
+**				HANDLERS
 */
 
 void				handle_esc_seq(char key);
@@ -163,7 +167,7 @@ void				past_clipboard(void);
 void				cut_selection(void);
 
 /*
-** HISTORY
+**				HISTORY
 */
 
 void				save_history(void);
@@ -171,7 +175,7 @@ void				call_history(long key);
 void				free_history(void);
 
 /*
-** SELECTION
+**				SELECTION
 */
 
 void				init_selection(void);
@@ -179,25 +183,25 @@ void				unselect_all();
 void				update_selection(long key);
 
 /*
-** COMMAND_LINE PRINT
+**				COMMAND_LINE PRINT
 */
 
 void				refresh_command_line(void);
 void				print_cmd_line(void);
 
 /*
-** CURSOR
+**				CURSOR
 */
 
-void				move_cursor_right(void);
-void				move_cursor_left(void);
+int					move_cursor_right(void);
+int					move_cursor_left(void);
 void				move_previous_line_head();
 void				move_at_col_x(int target_col);
 void				move_cursor_at_index(int index_to);
 void				update_cursor_infos(void);
 
 /*
-** INIT FUNCTIONS
+**				INIT FUNCTIONS
 */
 
 void				init_prompt(void);
@@ -208,9 +212,8 @@ t_le				*init_line_editor(t_vector *cmd_line);
 void				update_window_size(void);
 
 /*
-** MAIN FUNCTION
+**				MAIN FUNCTIONS
 */
-
-void				line_editor(void);
+int					line_editor(void);
 
 #endif
