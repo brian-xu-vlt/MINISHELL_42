@@ -46,11 +46,7 @@ int			execution_main_process(t_job *job, t_cmd *cmd,
 	dup_redirection(cmd);
 	ret = 0;
 	if (is_solo_builtin(job->nb_cmd, cmd) == TRUE)
-	{
-		ft_printf("solo builtin\n\n");
 		ret = exec_builtin(cmd);
-		ft_printf("solo builtin ret = %d\n\n", ret);
-	}
 	else
 		exec_subshell(job, cmd, p_in, p_out);
 	backup_std_fd(STDFD_RESTORE);
