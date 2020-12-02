@@ -28,7 +28,10 @@ int			exec_builtin(t_cmd *cmd)
 			print_exit(cmd);
 			ret_value = (builtin[i])(cmd->ac, cmd->av, cmd->envp);
 			if (ft_strequ(cmd->name, "exit") == true && ret_value == EXIT_FAIL)
+			{
 				cmd->err_exit = true;
+				ft_printf("cmd = %s, ret value %d\n\n\n", cmd->name, ret_value);
+			}
 			return (ret_value);
 		}
 		i++;

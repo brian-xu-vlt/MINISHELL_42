@@ -33,28 +33,23 @@ int			hub_cleaner(t_list *job_list)
 	t_job	*job;
 	t_list	*tmp_cmd_lst;
 	t_cmd	*cmd;
-	int		err_exit;
 	int		ret;
 
-	ret = SUCCESS;
 	while (job_list != NULL)
 	{
 		job = job_list->content;
 		tmp_cmd_lst = job->cmd_lst;
-		while (tmp_cmd_lst != NULL && tmp_cmd_lst != NULL)
+		while (tmp_cmd_lst != NULL && tmp_cmd_lst->content != NULL)
 		{
 			cmd = tmp_cmd_lst->content;
-			err_exit = cmd->err_exit;
-			ret = handle_condition(cmd, ret);
-			if (ret == FAILURE)
+			if ((ret = handle_condition(cmd, ret)) == FAILURE)
 				break ;
-			ret = process_cleaner(cmd);
-			if (ret != SUCCESS)
+			if ((ret = process_cleaner(cmd)) != SUCCESS)
 				return (ret);
 			tmp_cmd_lst = tmp_cmd_lst->next;
 		}
 		ret = is_next_job(ret, job);
-		if (err_exit == true)
+		if (tmp_cmd_lst != NULL && cmd->err_exit == true)
 			break ;
 		job_list = job_list->next;
 	}

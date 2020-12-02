@@ -1,15 +1,9 @@
 {
     "folders": [
-        {
-            "name": "libft",
-            "path": "./libft"
-        },
+
         {
             "name": "minishell",
             "path": "."
-        },
-        {
-            "path": "../tmp"
         }
     ],
     "settings": {
