@@ -104,6 +104,7 @@ SRCS += unset_env_bonus.c
 SRCS += get_env_bonus.c
 SRCS += get_envp_bonus.c
 SRCS += init_env_bonus.c
+SRCS += init_env_utils_bonus.c
 SRCS += print_env_bonus.c
 SRCS += store_env_bonus.c
 SRCS += parse_env_bonus.c
@@ -178,6 +179,7 @@ vpath %.c sources/exit_routines
 vpath %.c sources/lexer
 vpath %.c sources/builtins
 vpath %.c sources/env
+vpath %.c sources/env/print_utils
 vpath %.c sources/executor
 vpath %.c sources/parser
 vpath %.c sources/line_editor

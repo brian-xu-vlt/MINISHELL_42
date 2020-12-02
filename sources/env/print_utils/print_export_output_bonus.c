@@ -1,29 +1,5 @@
 #include "minishell_bonus.h"
 
-static void	put_env_name_setmode(char *env_name)
-{
-	if (env_name != NULL)
-		ft_putstr_fd(env_name, STDOUT_FILENO);
-}
-
-static void	put_env_name_exportmode(char *env_name)
-{
-	if (env_name != NULL)
-	{
-		ft_putstr_fd("export ", STDOUT_FILENO);
-		ft_putstr_fd(env_name, STDOUT_FILENO);
-	}
-}
-
-static void	put_env_value(t_vector *env_value)
-{
-	if (env_value != NULL)
-	{
-		ft_putstr_fd("=\"", STDOUT_FILENO);
-		ft_putstr_fd(vct_getstr(env_value), STDOUT_FILENO);
-		ft_putstr_fd("\"", STDOUT_FILENO);
-	}
-}
 
 static void	append_value_slashs(t_vector *env_value, t_vector *tmp_env_value)
 {

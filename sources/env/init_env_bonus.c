@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static void	handle_only_pwd(void)
+static void		handle_only_pwd(void)
 {
 	char *pwd;
 
@@ -9,7 +9,7 @@ static void	handle_only_pwd(void)
 	free(pwd);
 }
 
-static void	set_default_env(t_list *env_lst)
+static void		set_default_env(t_list *env_lst)
 {
 	handle_only_pwd();
 	export_env(env_lst, "OLDPWD");
@@ -20,7 +20,7 @@ static void	set_default_env(t_list *env_lst)
 		ms_putenv(env_lst, DEFAULT_TERM);
 }
 
-static void	manage_shlevel(t_list *env_lst)
+static void		manage_shlevel(t_list *env_lst)
 {
 	int			shlvl_int;
 
@@ -35,27 +35,6 @@ static void	manage_shlevel(t_list *env_lst)
 		shlvl_int = 1;
 	}
 	ms_setenv_int(env_lst, "SHLVL", shlvl_int, F_OVERWRITE | F_EXPORT);
-}
-
-static int	is_special_environ(char *environ)
-{
-	char		*env_name;
-	char		*env_value;
-	int			overwrite;
-	int			ret;
-
-	if (ft_strnstr(environ, "+=", ft_strlen(environ)) != NOT_FOUND)
-		return (true);
-	parse_env(environ, &env_name, &env_value, &overwrite);
-	ret = is_valid_export_identifier(env_name);
-	free(env_name);
-	if (env_value != NULL)
-		free(env_value);
-	if (ret == false)
-		return (true);
-	else if (ft_isalpha(*environ) == false)
-		return (true);
-	return (false);
 }
 
 static t_list	*init_env_list(void)

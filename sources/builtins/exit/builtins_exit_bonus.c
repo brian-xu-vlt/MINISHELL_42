@@ -15,7 +15,6 @@ void	handle_exit_value(t_vector *vct_av, t_vector *vct_av_cpy, char c)
 
 int		print_error(t_vector *vct_av, char *av, char c, int flag)
 {
-	// ft_printf("%s\n", EXIT);
 	if (vct_getlen(vct_av) == 0 && (flag == (NUM | MINUS_PLUS)))
 		print_set_errno(0, ERR_NUM, EXIT, c == C_PLUS ? S_PLUS : S_MINUS);
 	else if (flag == NUM || (vct_getlen(vct_av) != 0 &&
@@ -63,10 +62,7 @@ int		exit_builtin(int ac, char **av, __attribute__((unused)) char **envp)
 	int			ret;
 
 	if (ac == 1)
-	{
-		// ft_dprintf(STDERR_FILENO, "%s\n", EXIT);
 		exit_routine(EXIT_NORMAL);
-	}
 	vct_av = safe_vct_new();
 	safe_vct_addstr(vct_av, av[1]);
 	pop_arg(vct_av, POP_SPACE_TAB);

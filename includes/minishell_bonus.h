@@ -374,11 +374,16 @@ void		ms_setenv_int(t_list *env_lst, const char *env_name, int value,
 void		ms_putenv(t_list *env_lst, const char *env);
 char		**get_envp(t_list *env_lst);
 void		export_env(t_list *env_lst, const char *env);
+int			is_special_environ(char *environ);
 void		init_env(void);
 
 void		print_env(t_list *env_lst);
 void		add_to_btree(t_btree **tree, t_env *env);
 void		print_export_output(t_list *env_lst, int flag);
+
+void		put_env_name_setmode(char *env_name);
+void		put_env_name_exportmode(char *env_name);
+void		put_env_value(t_vector *env_value);
 
 t_list		*get_env_list(t_list *mem);
 t_env		*get_env_struct(t_list *env_lst, const char *env_name);

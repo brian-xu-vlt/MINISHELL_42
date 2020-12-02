@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static void print_loop(t_le *le, t_list *cursor,int lst_size, int end_cursor)
+static void	print_loop(t_le *le, t_list *cursor, int lst_size, int end_cursor)
 {
 	int				i;
 
@@ -38,14 +38,14 @@ static void	print_history(void)
 	}
 }
 
-int			history_builtin(int ac, char **av,
-											__attribute__((unused)) char **envp)
+int			history_builtin(int ac, char **av, char **envp)
 {
 	static const char	*builtin = "history";
 
-    if (ac != 1 || ft_strequ(av[0], (char *)builtin) == FALSE)
+	(void)envp;
+	if (ac != 1 || ft_strequ(av[0], (char *)builtin) == FALSE)
 		return (0);
 	else if (DEBUG_MODE != TRUE)
-        print_history();
+		print_history();
 	return (BUILTIN_SUCCESS);
 }

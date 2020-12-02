@@ -1,13 +1,13 @@
 #include "minishell_bonus.h"
 
-bool	is_valid_export_identifier(char *id_to_test)
+bool		is_valid_export_identifier(char *id_to_test)
 {
 	if (id_to_test == NULL)
 		return (FAILURE);
 	if (ft_strchr(id_to_test, '+') != NOT_FOUND
 			&& ft_strnstr(id_to_test, "+=", ft_strlen(id_to_test)) == NOT_FOUND)
 		return (false);
- 	else if (verif_assign_cmd(id_to_test) == false
+	else if (verif_assign_cmd(id_to_test) == false
 					&& (ft_isalpha(*id_to_test) == true || *id_to_test == '_'))
 		return (true);
 	else
@@ -26,7 +26,7 @@ static void	export_loop(char **av)
 	}
 }
 
-void	export_envp(char **envp)
+void		export_envp(char **envp)
 {
 	int					i;
 
@@ -37,7 +37,7 @@ void	export_envp(char **envp)
 		export_env(get_env_list(GET), envp[i++]);
 }
 
-int	export_builtin(int ac, char **av, char **envp)
+int			export_builtin(int ac, char **av, char **envp)
 {
 	static const char	*builtin = "export";
 	static const char	*usage = "export: usage: export [name[=value] ...]\n";
