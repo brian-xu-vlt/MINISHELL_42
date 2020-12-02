@@ -116,6 +116,7 @@ SRCS += print_errno.c
 SRCS += general_utils_bonus.c
 
 SRCS += open_file_redirect_bonus.c
+SRCS += open_file_utils_bonus.c
 SRCS += signal_manager_bonus.c
 SRCS += exit_status_manager_bonus.c
 SRCS += utils_file_descriptor_bonus.c

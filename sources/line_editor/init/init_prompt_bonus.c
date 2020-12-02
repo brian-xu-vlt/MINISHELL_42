@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-void	print_prompt(void)
+void		print_prompt(void)
 {
 	char	*prompt_str;
 
@@ -64,7 +64,7 @@ static void	init_cursor(t_le *le)
 	}
 }
 
-void	init_prompt(void)
+void		init_prompt(void)
 {
 	t_le	*le;
 

@@ -77,27 +77,16 @@ static int	process_double_greater(char *str, t_cmd *cmd)
 
 static void	init_cmd_redirection(t_cmd *cmd)
 {
-	if (cmd->fd[0] != STDIN_FILENO && cmd->fd[0] == cmd->tmp_fd_in)
+	if (cmd != NULL)
+	{
+		if (cmd->fd[0] != STDIN_FILENO && cmd->fd[0] == cmd->tmp_fd_in)
 			cmd->redirection = cmd->redirection | F_REDIRECT_IN;
-	if (cmd->fd[1] != STDOUT_FILENO && cmd->fd[1] == cmd->tmp_fd_out)
+		if (cmd->fd[1] != STDOUT_FILENO && cmd->fd[1] == cmd->tmp_fd_out)
 			cmd->redirection = cmd->redirection | F_REDIRECT_OUT;
-	if (cmd->fd[1] != STDOUT_FILENO && cmd->fd[1] == cmd->tmp_fd_append)
+		if (cmd->fd[1] != STDOUT_FILENO && cmd->fd[1] == cmd->tmp_fd_append)
 			cmd->redirection = cmd->redirection | F_REDIRECT_OUT
 												| F_REDIRECT_OUT_APPEND;
-}
-
-static void	print_file_error(char **str, size_t i, size_t size)
-{
-	ft_dprintf(STDERR_FILENO, "Minishell: ");
-	while (i < size)
-	{
-		if (i + 1 < size)
-			ft_dprintf(STDERR_FILENO, "%s ", str[i]);
-		else if (i + 1 == size)
-			ft_dprintf(STDERR_FILENO, "%s", str[i]);
-		i++;
 	}
-	ft_dprintf(STDERR_FILENO, ": no file mentioned\n");
 }
 
 void		process_open_file(t_cmd *cmd, int flag)
@@ -109,10 +98,7 @@ void		process_open_file(t_cmd *cmd, int flag)
 	i = 0;
 	size = 0;
 	ret_file = SUCCESS;
-	if (flag == BEFORE)
-		size = cmd->count_redir_before;
-	else if (flag == AFTER)
-		size = cmd->count_redir;
+	size = set_size(cmd, flag);
 	while (i < size)
 	{
 		if (ft_strequ(flag == AFTER ? cmd->tab_redir[i] :

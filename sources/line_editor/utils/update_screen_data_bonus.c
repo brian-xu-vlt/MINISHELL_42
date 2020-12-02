@@ -1,5 +1,17 @@
 #include "minishell_bonus.h"
 
+void	update_cursor_infos(void)
+{
+	t_le				*le;
+
+	le = get_struct(GET);
+	if (le != NULL && le->prompt_len + le->vct_index != 0)
+	{
+		le->cy = (le->prompt_len + le->vct_index - 1) / (le->scols);
+		if (le->cy > 0)
+			le->cx = (le->prompt_len + le->vct_index) - (le->scols / le->cy);
+	}
+}
 
 void	update_window_size(void)
 {

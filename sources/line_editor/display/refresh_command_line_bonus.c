@@ -15,7 +15,6 @@ static void	move_cursor_at_refresh_startingpoint(t_le *le, int head_of_block)
 	if (head_of_block == 0)
 	{
 		ms_tputs(tparm(le->termcap[MOVE_AT_COL_X], 0), 2, ms_putchar);
-		// ms_tputs(tparm(le->termcap[MOVE_AT_COL_X], le->prompt_len), 2, ms_putchar);
 		ms_tputs(le->termcap[CLEAR_LINE], 1, ms_putchar);
 		print_prompt();
 	}

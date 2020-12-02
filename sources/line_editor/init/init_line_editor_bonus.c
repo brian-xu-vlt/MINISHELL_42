@@ -15,7 +15,7 @@ static void	init_library_db(void)
 		exit_routine(EXIT_TERMCAP);
 }
 
-static char *get_termcap_str(const char *capability)
+static char	*get_termcap_str(const char *capability)
 {
 	char		*ret;
 

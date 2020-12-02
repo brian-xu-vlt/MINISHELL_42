@@ -1,7 +1,8 @@
 #include "minishell_bonus.h"
 
-static void	newprompt_at_signal(__attribute__((unused)) int sig)
+static void	newprompt_at_signal(int sig)
 {
+	(void)sig;
 	if (DEBUG_MODE != TRUE)
 		ft_putstr_fd("^C\n", STDOUT_FILENO);
 	else
@@ -10,8 +11,9 @@ static void	newprompt_at_signal(__attribute__((unused)) int sig)
 	ms_setenv_int(get_env_list(GET), "?", 130, F_OVERWRITE);
 }
 
-static void	quiet_signal(__attribute__((unused))  int sig)
+static void	quiet_signal(int sig)
 {
+	(void)sig;
 	ft_putchar_fd('\b', STDOUT_FILENO);
 	ft_putchar_fd('\b', STDOUT_FILENO);
 	ft_putchar_fd(127, STDOUT_FILENO);
@@ -26,21 +28,9 @@ static void	exit_at_signal(int sig)
 	exit_routine(EXIT_NORMAL);
 }
 
-static void	update_cursor_infos(void)
+static void	window_at_signal(int sig)
 {
-	t_le				*le;
-
-	le = get_struct(GET);
-	if (le != NULL && le->prompt_len + le->vct_index != 0)
-	{
-		le->cy = (le->prompt_len + le->vct_index - 1) / (le->scols);
-		if (le->cy > 0)
-			le->cx = (le->prompt_len + le->vct_index) - (le->scols / le->cy);
-	}
-}
-
-static void	window_at_signal(__attribute__((unused))int sig)
-{
+	(void)sig;
 	update_window_size();
 	update_cursor_infos();
 }

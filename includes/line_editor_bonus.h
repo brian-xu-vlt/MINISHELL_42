@@ -199,6 +199,7 @@ int			move_cursor_left(void);
 void		move_previous_line_head();
 void		move_at_col_x(int target_col);
 void		move_cursor_at_index(int index_to);
+void		update_cursor_infos(void);
 
 /*************************************************
 **				INIT FUNCTIONS

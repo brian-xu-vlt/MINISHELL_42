@@ -260,6 +260,8 @@ int 								process_pop(size_t index, t_vector *input,
 #define W_END				1
 
 void	process_open_file(t_cmd *cmd, int flag);
+void	print_file_error(char **str, size_t i, size_t size);
+int		set_size(t_cmd *cmd, int flag);
 void	export_envp(char **envp);
 void	assign_envp_content(const t_cmd *command);
 int		exec_builtin(t_cmd *command);

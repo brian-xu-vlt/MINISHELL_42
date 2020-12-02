@@ -1,6 +1,6 @@
 #include "minishell_bonus.h"
 
-static void put_err(const char *err_code_str)
+static void	put_err(const char *err_code_str)
 {
 	if (write(STDERR_FILENO, "", 0) == FAILURE)
 		ft_dprintf(STDOUT_FILENO, "Minishell: %s\n", err_code_str);
@@ -12,8 +12,8 @@ static void	print_exit_error(const int error)
 {
 	static const int	err_code[NB_EXIT_CODES] = {
 EXIT_ENV, EXIT_NEW_VCT, EXIT_VCT, EXIT_ENVP, EXIT_SCREEN_SIZE,
-EXIT_TERM_NAME, EXIT_TERMCAP, EXIT_TERMLIB, EXIT_MALLOC, EXIT_FORK,
-EXIT_HUP, EXIT_MS_PUTCHAR,EXIT_MS_TPUTS, EXIT_NO_TTY, EXIT_ERRNO, EXIT_UNKNOWN};
+EXIT_TERM_NAME, EXIT_TERMCAP, EXIT_TERMLIB, EXIT_MALLOC, EXIT_FORK, EXIT_HUP,
+EXIT_MS_PUTCHAR, EXIT_MS_TPUTS, EXIT_NO_TTY, EXIT_ERRNO, EXIT_UNKNOWN};
 	static const char	*err_code_str[NB_EXIT_CODES] = {
 		"Could not load environement variables.", "Could not malloc vector.",
 		"Vector function failed.", "Envp is null.", "Screen size is too small.",
@@ -62,8 +62,7 @@ void		exit_routine(int err_code)
 	if (err_code != EXIT_NORMAL)
 	{
 		print_exit_error(err_code);
-		exit (absolute_err_code(err_code));
+		exit(absolute_err_code(err_code));
 	}
-	// ft_dprintf(STDERR_FILENO, "exit_from_exit_routine\n");
-	exit (last_exit_status);
+	exit(last_exit_status);
 }
