@@ -114,6 +114,7 @@ SRCS += print_export_output_bonus.c
 SRCS += line_editor_bonus.c
 SRCS += print_errno.c
 SRCS += general_utils_bonus.c
+SRCS += safe_functions_bonus.c
 
 SRCS += open_file_redirect_bonus.c
 SRCS += open_file_utils_bonus.c
@@ -175,6 +176,7 @@ SRCS += handle_no_word_parse_bonus.c
 OBJ_DIR = ./objs/
 
 vpath %.c sources/
+vpath %.c sources/general_utils
 vpath %.c sources/error_manager
 vpath %.c sources/exit_routines
 vpath %.c sources/lexer

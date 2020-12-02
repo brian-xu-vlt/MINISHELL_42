@@ -1,8 +1,8 @@
 #include "minishell_bonus.h"
 
-int		safe_vct_cpy(t_vector *dest, t_vector *src)
+int			safe_vct_cpy(t_vector *dest, t_vector *src)
 {
-	int		ret;
+	int			ret;
 
 	if (dest == NULL || src == NULL || dest->str == NULL || src->str == NULL)
 		return (FAILURE);
@@ -12,9 +12,9 @@ int		safe_vct_cpy(t_vector *dest, t_vector *src)
 	return (ret);
 }
 
-int		safe_vct_add(t_vector *vct, char c)
+int			safe_vct_add(t_vector *vct, char c)
 {
-	int		ret;
+	int			ret;
 
 	ret = vct_add(vct, c);
 	if (ret == FAILURE)
@@ -22,9 +22,9 @@ int		safe_vct_add(t_vector *vct, char c)
 	return (ret);
 }
 
-int		safe_vct_addstr(t_vector *vct, char *str)
+int			safe_vct_addstr(t_vector *vct, char *str)
 {
-	int		ret;
+	int			ret;
 
 	ret = vct_addstr(vct, str);
 	if (ret == FAILURE)
@@ -32,7 +32,7 @@ int		safe_vct_addstr(t_vector *vct, char *str)
 	return (ret);
 }
 
-t_vector		*safe_vct_new(void)
+t_vector	*safe_vct_new(void)
 {
 	t_vector	*new_vct;
 
@@ -42,9 +42,9 @@ t_vector		*safe_vct_new(void)
 	return (new_vct);
 }
 
-int		safe_vct_addcharat(t_vector *vct, size_t index, char c)
+int			safe_vct_addcharat(t_vector *vct, size_t index, char c)
 {
-	int		ret;
+	int			ret;
 
 	if (vct == NULL || index > vct_getlen(vct) || c == '\0')
 		return (FAILURE);
@@ -52,32 +52,4 @@ int		safe_vct_addcharat(t_vector *vct, size_t index, char c)
 	if (ret == FAILURE)
 		exit_routine(EXIT_VCT);
 	return (ret);
-}
-
-void		free_char_arr(char **arr)
-{
-	int		i;
-
-	i = 0;
-	if (arr == NULL)
-		return ;
-	while (arr[i] != NULL)
-		free(arr[i++]);
-	free(arr);
-}
-
-int		is_path(const char *bin_name)
-{
-	if (bin_name == NULL)
-		return (false);
-	return ((ft_strchr((char *)bin_name, C_PATH) == NOT_FOUND) ? FALSE : TRUE);
-}
-
-t_data		*get_data_struct(t_data *mem)
-{
-	static t_data	*mem_backup = NULL;
-
-	if (mem != GET)
-		mem_backup = mem;
-	return (mem_backup);
 }
