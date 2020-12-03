@@ -201,6 +201,9 @@ OBJS = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 all : $(LIB)
 	$(MAKE) $(NAME)
 
+debug : $(LIB)
+	$(MAKE) debug_mode=1 $(NAME)
+
 $(OBJS): $(OBJ_DIR)%.o: %.c $(HEADER)
 	$(CC) -D DEBUG_MODE=$(DEBUG_MODE) $(CFLAGS) -c $<  -I $(INCLUDES) -I $(INCLUDES_LIB) -o $@
 
@@ -232,6 +235,9 @@ mclean : minishellclean
 
 re : fclean
 	$(MAKE)
+
+tester: debug
+	./tester_bvalette/minishell_tester_bvalette.sh
 
 f : all
 	./$(NAME)
