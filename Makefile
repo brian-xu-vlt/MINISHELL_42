@@ -236,7 +236,7 @@ mclean : minishellclean
 re : fclean
 	$(MAKE)
 
-tester: debug
+tester: fclean debug
 	./tester_bvalette/minishell_tester_bvalette.sh
 
 f : all
