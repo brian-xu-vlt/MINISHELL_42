@@ -23,8 +23,7 @@ To run tester:
 ``$> make tester``
 
 
-|Includes a tester Tester   |
-|:---------:|
+Includes a tester:
 ![](images/screenshot.gif)
 
 ## Features
