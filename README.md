@@ -23,7 +23,8 @@ To run tester:
 ``$> make tester``
 
 
-Includes a tester:
+Includes a home made minishell tester:
+
 ![](images/screenshot.gif)
 
 ## Features
