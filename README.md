@@ -8,7 +8,7 @@
 
 ## Project
 
-We recreated a shell from scratch using only our own library (libft) and a limited range of standard functions for linux.
+We recreated a shell from scratch, with a minishell tester included, using only our own library (libft) and a limited range of external functions.
 
 ## Building
 
