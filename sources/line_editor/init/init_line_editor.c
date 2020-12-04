@@ -31,7 +31,7 @@ static char	*get_termcap_str(const char *capability)
 {
 	char		*ret;
 
-	ret = tgetstr(capability, NULL);
+	ret = tgetstr((char *)capability, NULL);
 	if (ret == NULL)
 		exit_routine(EXIT_TERMLIB);
 	return (ret);

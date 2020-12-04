@@ -13,12 +13,14 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
+#include <sys/uio.h>
+#include <sys/types.h>
+#include <unistd.h>
 # include <stdlib.h>
 # include "get_next_line.h"
 # include "vector.h"
 # include <stdarg.h>
 # include <stdint.h>
-
 # define TRUE	1
 # define FALSE	0
 # ifndef BUFFER_SIZE

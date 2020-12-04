@@ -12,18 +12,6 @@
 
 #include "libft.h"
 
-size_t	get_size_of_nb(char *s)
-{
-	size_t		i;
-
-	i = 0;
-	if (*s == '*')
-		return (1);
-	while (ft_isdigit(s[i]) == TRUE)
-		i++;
-	return (i);
-}
-
 int		is_number(char *str)
 {
 	return (ft_isdigit(str[0]) || str[0] == '*');
