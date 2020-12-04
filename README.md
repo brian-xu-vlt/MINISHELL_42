@@ -10,6 +10,9 @@
 
 We recreated a shell from scratch, with a minishell tester included, using only our own library (libft) and a limited range of external functions.
 
+Minishell is compatible with macos and linux.
+Tester is compatible with linux only, teste on 42's virtual machine.
+
 ## Building
 
 ``$> git clone https://github.com/42f/MINISHELL_42.git ``
