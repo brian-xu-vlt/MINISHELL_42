@@ -8,10 +8,10 @@
 
 ## Project
 
-We recreated a shell from scratch, with a minishell tester included, using only our own library (libft) and a limited range of external functions.
+We have recreated a shell from scratch, with a minishell tester included, using only our own library (libft) and a limited range of external functions.
 
 Minishell is compatible with macos and linux.
-Tester is compatible with linux only, teste on 42's virtual machine.
+Tester is compatible with linux only, tested on 42's virtual machine.
 
 ## Building
 
@@ -51,14 +51,14 @@ Includes a home made minishell tester:
 |Builtins   |
 |:---------|
 |echo: with -n option|
-|cd with relative and absolute path: with `-` option|
-|pwd: no options|
-|export: no options|
-|env: no options|
-|unset: no options|
-|set: no options|
+|cd with relative and absolute path: with `-` options|
+|pwd: no option|
+|export: no option|
+|env: no option|
+|unset: no option|
+|set: no option|
 |exit: with arguments|
-|history: no options|
+|history: no option|
 
 ## Line Edition
 
@@ -75,4 +75,4 @@ Includes a home made minishell tester:
 `ctrl + →`	|Move one word right
 `ctrl + ←`	|Move one word left
 `shift + home/end`	|Select up to the beginning/end of the command line
-`shift + ctrl +  →/←`	|Select one word at the time
+`shift + ctrl +  →/←`	|Select one word at a time
